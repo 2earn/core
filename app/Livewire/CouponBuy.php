@@ -30,6 +30,7 @@ class CouponBuy extends Component
     public $preSumulationResult;
     public $result;
     public $pre;
+    public $maxAmount = 0;
 
 
     public $listeners = [
@@ -46,6 +47,11 @@ class CouponBuy extends Component
         $this->idPlatform = Route::current()->parameter('id');;
         $this->amount = 0;
         $this->displayedAmount = 0;
+
+
+        $this->maxAmount = Coupon::where('status', CouponStatusEnum::available->value)
+            ->where('platform_id', $this->idPlatform)
+            ->sum('value');
     }
 
 
@@ -83,24 +89,27 @@ class CouponBuy extends Component
     {
         $this->amount = $this->displayedAmount;
         $this->preSumulationResult = $this->getCouponsForAmount($this->amount);
-
-        if ($this->preSumulationResult['amount'] == $this->displayedAmount) {
-            $this->equal = true;
+        if ($this->amount) {
+            if ($this->preSumulationResult['amount'] == $this->displayedAmount) {
+                $this->equal = true;
+            } else {
+                $this->equal = false;
+            }
+            if (is_null($this->preSumulationResult)) {
+                return redirect()->route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform])->with('danger', trans('Amount simulation failed'));
+            }
+            $this->result = $this->getCouponsForAmount($this->preSumulationResult['lastValue'] + $this->amount);
+            if ($this->equal) {
+                $this->lastValue = $this->preSumulationResult['lastValue'];
+                $this->amount = $this->preSumulationResult['amount'];
+                $this->coupons = $this->preSumulationResult['coupons'];
+            } else {
+                $this->lastValue = $this->preSumulationResult['lastValue'];
+                $this->amount = $this->preSumulationResult['amount'];
+                $this->coupons = $this->result['coupons'];
+            }
         } else {
-            $this->equal = false;
-        }
-        if (is_null($this->preSumulationResult)) {
-            return redirect()->route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform])->with('danger', trans('Amount simulation failed'));
-        }
-        $this->result = $this->getCouponsForAmount($this->preSumulationResult['lastValue'] + $this->amount);
-        if ($this->equal) {
-            $this->lastValue = $this->preSumulationResult['lastValue'];
-            $this->amount = $this->preSumulationResult['amount'];
-            $this->coupons = $this->preSumulationResult['coupons'];
-        } else {
-            $this->lastValue = $this->preSumulationResult['lastValue'];
-            $this->amount = $this->preSumulationResult['amount'];
-            $this->coupons = $this->result['coupons'];
+            $this->coupons = [];
         }
 
         $this->simulated = true;

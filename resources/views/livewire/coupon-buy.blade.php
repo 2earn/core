@@ -28,13 +28,25 @@
                             <div class="flex-shrink-0">
                                 @if ($platform?->logoImage)
                                     <img src="{{ asset('uploads/' . $platform->logoImage->url) }}"
-                                         class="img-fluid d-block" style="height: 150px">
+                                         class="img-fluid d-block" style="height: 90px">
                                 @else
                                     <img src="{{Vite::asset(\Core\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO)}}"
-                                         class="img-fluid d-block" style="height: 150px">
+                                         class="img-fluid d-block" style="height: 90px">
                                 @endif
                             </div>
                         </a>
+                    </div>
+                    <div class="col-lg-12">
+                        <h4 class="card-title">
+                            {{__('$amount')}} : {{$amount}}
+                            <hr>
+                            {{__('$displayedAmount')}} : {{$displayedAmount}}
+                            <hr>
+                            {{__('$equal')}} : {{$equal}}
+                            <hr>
+                            {{__('$simulated')}} : {{$simulated}}
+                            <hr>
+                        </h4>
                     </div>
                     <div class="col-lg-12">
                         <div class="card">
@@ -87,12 +99,12 @@
                                      role="alert">
 
                                     {{__('Depending on coupon availability, you can choose to purchase for')}}
-                                    @if($amount>0)
+                                    @if($amount>0 && ($lastValue+$amount<=$maxAmount))
                                         {{$amount}}
                                     @endif
 
                                     @if(!$equal)
-                                        @if($amount>0)
+                                        @if($amount>0 && ($lastValue+$amount<=$maxAmount))
                                             {{__('or')}}
                                         @endif
 
@@ -116,7 +128,7 @@
                     @endif
                 </div>
                 <div class="row mt-2">
-                    @if(!$buyed && $preSumulationResult && $amount>0)
+                    @if(!$buyed && $preSumulationResult && $amount>0   && ($lastValue+$amount<=$maxAmount))
                         <div class="col-lg-6">
                             <div class="card card-light">
                                 <div class="card-header">
@@ -144,31 +156,31 @@
                                                         <span class="fw-medium link-primary">#{{$key}}</span>
                                                     </td>
                                                     <td>
-                                <span
-                                    class="badge bg-info-subtle text-info fs-14 my-1 fw-normal">
-                                    @if(!is_array($coupon))
-                                        {{$coupon->sn}}
-                                    @endif
-                                </span>
+<span
+    class="badge bg-info-subtle text-info fs-14 my-1 fw-normal">
+@if(!is_array($coupon))
+        {{$coupon->sn}}
+    @endif
+</span>
                                                     </td>
                                                     <td>
-                                <span
-                                    class="badge bg-info-subtle text-info fs-14 my-1 fw-normal">
-                                    @if(!is_array($coupon))
-                                        @if(!$buyed)
-                                            {{substr_replace($coupon->pin, str_repeat('*', strlen($coupon->pin)), 0 )}}
-                                        @else
-                                            {{$coupon->pin}}
-                                        @endif
-                                    @endif
-                                </span>
+<span
+    class="badge bg-info-subtle text-info fs-14 my-1 fw-normal">
+@if(!is_array($coupon))
+        @if(!$buyed)
+            {{substr_replace($coupon->pin, str_repeat('*', strlen($coupon->pin)), 0 )}}
+        @else
+            {{$coupon->pin}}
+        @endif
+    @endif
+</span>
                                                     </td>
                                                     <td>
-                                                <span class="text-muted fs-16 my-1">
-                                                                                @if(!is_array($coupon))
-                                                        <strong>       {{$coupon->value}}  {{config('app.currency')}}</strong>
-                                                    @endif
-      </span>
+            <span class="text-muted fs-16 my-1">
+                                            @if(!is_array($coupon))
+                    <strong>       {{$coupon->value}}  {{config('app.currency')}}</strong>
+                @endif
+</span>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -179,8 +191,8 @@
                                                     <strong>{{__('Total')}}</strong>
                                                 </td>
                                                 <td>
-                                                    <span
-                                                        class="badge bg-success-subtle fs-14 text-success">{{$amount}} {{config('app.currency')}}</span>
+                <span
+                    class="badge bg-success-subtle fs-14 text-success">{{$amount}} {{config('app.currency')}}</span>
                                                 </td>
 
                                             </tr>
@@ -192,7 +204,7 @@
 
                         </div>
                     @endif
-                    @if(!$buyed && $result  && $lastValue+$amount>0)
+                    @if(!$buyed && $result  && $lastValue+$amount>0 && !$equal)
                         <div class="col-lg-6">
                             <div class="card card-light">
                                 <div class="card-header">
@@ -218,31 +230,31 @@
                                                         <span class="fw-medium link-primary">#{{$key}}</span>
                                                     </td>
                                                     <td>
-                                <span
-                                    class="badge bg-success-subtle text-info fs-14 my-1 fw-normal">
-                                    @if(!is_array($coupon))
-                                        {{$coupon->sn}}
-                                    @endif
-                                </span>
+<span
+    class="badge bg-success-subtle text-info fs-14 my-1 fw-normal">
+@if(!is_array($coupon))
+        {{$coupon->sn}}
+    @endif
+</span>
                                                     </td>
                                                     <td>
-                                <span
-                                    class="badge bg-success-subtle text-info fs-14 my-1 fw-normal">
-                                    @if(!is_array($coupon))
-                                        @if(!$buyed)
-                                            {{substr_replace($coupon->pin, str_repeat('*', strlen($coupon->pin)), 0 )}}
-                                        @else
-                                            {{$coupon->pin}}
-                                        @endif
-                                    @endif
-                                </span>
+<span
+    class="badge bg-success-subtle text-info fs-14 my-1 fw-normal">
+@if(!is_array($coupon))
+        @if(!$buyed)
+            {{substr_replace($coupon->pin, str_repeat('*', strlen($coupon->pin)), 0 )}}
+        @else
+            {{$coupon->pin}}
+        @endif
+    @endif
+</span>
                                                     </td>
                                                     <td>
-                                                <span class="text-muted fs-16 my-1">
-                                                                                @if(!is_array($coupon))
-                                                        <strong>       {{$coupon->value}}  {{config('app.currency')}}</strong>
-                                                    @endif
-      </span>
+            <span class="text-muted fs-16 my-1">
+                                            @if(!is_array($coupon))
+                    <strong>       {{$coupon->value}}  {{config('app.currency')}}</strong>
+                @endif
+</span>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -254,8 +266,8 @@
                                                         <strong>{{__('Total')}}</strong>
                                                     </td>
                                                     <td>
-                                                        <span
-                                                            class="badge bg-success-subtle fs-14 text-success"> {{$lastValue+$amount}} {{config('app.currency')}}</span>
+                    <span
+                        class="badge bg-success-subtle fs-14 text-success"> {{$lastValue+$amount}} {{config('app.currency')}}</span>
                                                     </td>
                                                 </tr>
                                                 </tfoot>
@@ -292,31 +304,31 @@
                                                         <span class="fw-medium link-primary">#{{$key}}</span>
                                                     </td>
                                                     <td>
-                                <span
-                                    class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
-                                    @if(!is_array($coupon))
-                                        {{$coupon->sn}}
-                                    @endif
-                                </span>
+<span
+    class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
+@if(!is_array($coupon))
+        {{$coupon->sn}}
+    @endif
+</span>
                                                     </td>
                                                     <td>
-                                <span
-                                    class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
-                                    @if(!is_array($coupon))
-                                        @if(!$buyed)
-                                            {{substr_replace($coupon->pin, str_repeat('*', strlen($coupon->pin)), 0 )}}
-                                        @else
-                                            {{$coupon->pin}}
-                                        @endif
-                                    @endif
-                                </span>
+<span
+    class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
+@if(!is_array($coupon))
+        @if(!$buyed)
+            {{substr_replace($coupon->pin, str_repeat('*', strlen($coupon->pin)), 0 )}}
+        @else
+            {{$coupon->pin}}
+        @endif
+    @endif
+</span>
                                                     </td>
                                                     <td>
-                                                <span class="text-muted fs-16 my-1">
-                                                                                @if(!is_array($coupon))
-                                                        <strong>       {{$coupon->value}}  {{config('app.currency')}}</strong>
-                                                    @endif
-      </span>
+            <span class="text-muted fs-16 my-1">
+                                            @if(!is_array($coupon))
+                    <strong>       {{$coupon->value}}  {{config('app.currency')}}</strong>
+                @endif
+</span>
                                                     </td>
                                                     @if($buyed)
                                                         <td>
