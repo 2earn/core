@@ -239,6 +239,7 @@
                     }
                 });
                 $("#buy-action-submit").on("click", function () {
+                    console.log('click');
                     this.disabled = true;
                     $('.buy-action-submit-spinner').show();
                     let ammount = parseFloat($('#amount_val').text()).toFixed(3);
