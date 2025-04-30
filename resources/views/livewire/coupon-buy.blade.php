@@ -46,8 +46,7 @@
                                                 <div class="input-group">
                                                     <input type="number" class="form-control"
                                                            wire:model.live="displayedAmount"
-                                                           aria-label="Recipient's username"
-                                                           aria-describedby="button-addon2"
+                                                           autocomplete="off"
                                                            @if($buyed)
                                                                disabled
                                                         @endif

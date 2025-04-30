@@ -18,8 +18,8 @@ use Livewire\Component;
 
 class CouponBuy extends Component
 {
-    public $amount;
-    public $displayedAmount;
+    public $amount = 0;
+    public $displayedAmount = 0;
     public $coupons;
     public $equal = false;
     public $simulated = false;
@@ -40,21 +40,14 @@ class CouponBuy extends Component
         'consumeCoupon' => 'consumeCoupon'
     ];
 
+
     public function mount()
     {
         $this->idPlatform = Route::current()->parameter('id');;
         $this->amount = 0;
         $this->displayedAmount = 0;
-        $this->simulated = false;
-        $this->buyed = false;
     }
 
-
-    public function updatedAmount($value)
-    {
-        $this->coupons = [];
-        $this->simulated = false;
-    }
 
     public function consumeCoupon($id)
     {
@@ -153,7 +146,7 @@ class CouponBuy extends Component
                     ]);
                 }
             }
-            $this->displayedAmount=$total_amount;
+            $this->displayedAmount = $total_amount;
             $this->coupons = $cpns;
             $this->buyed = true;
             $this->linkOrder = route('orders_detail', ['locale' => app()->getLocale(), 'id' => $order->id]);
