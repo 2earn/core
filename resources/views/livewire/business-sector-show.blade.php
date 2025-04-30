@@ -90,11 +90,13 @@
                                 <div class="col-md-4">
                                     @if ($platform?->logoImage)
                                         <img src="{{ asset('uploads/' . $platform->logoImage->url) }}"
-                                             class="avatar-xl">
+                                             class="img-fluid d-block" style="height: 150px">
                                     @else
                                         <img src="{{Vite::asset(\Core\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO)}}"
-                                             class="avatar-xl">
+                                             class="img-fluid d-block" style="height: 150px">
                                     @endif
+                                    <a href="{{$platform->link}}"
+                                       class="btn btn-link m-2">{{__('Go to the platform')}}</a>
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-header">
