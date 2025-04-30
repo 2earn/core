@@ -119,7 +119,7 @@
                                             @endif
                                         </p>
                                         <div class="text-end">
-                                            @if($platform->deals()->count())
+                                            @if($platform->deals()->where('start_date', '<=', now())->where('end_date', '>=', now())->count())
                                                 <a href="{{route('coupon_buy',['locale'=>app()->getLocale(),'id'=>$platform->id])}}"
                                                    class="btn btn-primary">{{__('Top up your balance')}}</a>
                                             @endif
@@ -127,7 +127,7 @@
                                                class="btn btn-primary">{{__('Coupon History')}}</a>
                                         </div>
                                         <p class="card-text"><small
-                                                class="text-muted">    {{$platform->created_at}}</small>
+                                                    class="text-muted">    {{$platform->created_at}}</small>
                                         </p>
                                     </div>
                                 </div>
