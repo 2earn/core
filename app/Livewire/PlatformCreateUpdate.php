@@ -6,6 +6,7 @@ use App\Models\BusinessSector;
 use App\Models\Item;
 use App\Models\TranslaleModel;
 use Core\Enum\DealStatus;
+use Core\Enum\DealTypeEnum;
 use Core\Enum\PlatformType;
 use Core\Models\Platform;
 use Illuminate\Http\Request;
@@ -28,9 +29,9 @@ class PlatformCreateUpdate extends Component
         $type,
         $link;
     public $logoImage;
-
     public $enabled = false;
     public $show_profile = false;
+    public $useCoupons = true;
 
     protected $rules = [
         'name' => 'required',
@@ -46,6 +47,7 @@ class PlatformCreateUpdate extends Component
     public function mount(Request $request)
     {
         $this->idPlatform = $request->query('idPlatform');
+        $this->type = PlatformType::Full->value;
         $this->types = [
             ['name' => PlatformType::Full->name, 'value' => PlatformType::Full->value,],
             ['name' => PlatformType::Hybrid->name, 'value' => PlatformType::Hybrid->value,],
@@ -53,6 +55,7 @@ class PlatformCreateUpdate extends Component
         ];
         $sectors = BusinessSector::all();
         foreach ($sectors as $sector) {
+            $this->sector = $sector->id;
             $this->sectors[] = ['name' => $sector->name, 'value' => $sector->id];
         }
         if (!is_null($this->idPlatform)) {
@@ -92,17 +95,19 @@ class PlatformCreateUpdate extends Component
     public function createProduct($platform)
     {
         $initialCommission = 10;
+
         $deal = $platform->deals()->create([
             'name' => $platform->name . ' Deal',
             'description' => $platform->name . ' Deal',
             'validated' => TRUE,
             'status' => DealStatus::Opened->value,
+            'type' => DealTypeEnum::coupons->value,
             'current_turnover' => 0,
             'target_turnover' => 10000,
             'is_turnover' => true,
             'discount' => rand(1, $initialCommission / 2),
             'start_date' => now(),
-            'end_date' => now()->addDays(30),
+            'end_date' => now()->addDays(365),
             'initial_commission' => $initialCommission,
             'final_commission' => rand(20, 30),
             'earn_profit' => $this->getDealParam('DEALS_EARN_PROFIT_PERCENTAGE'),
@@ -199,9 +204,9 @@ class PlatformCreateUpdate extends Component
                         'valueDe' => $this->{$translation} . ' De',
                     ]);
             }
-
-            $this->createProduct($platform);
-
+            if ($this->useCoupons) {
+                $this->createProduct($platform);
+            }
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('platform_create_update', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while creating Platform!!') . ' ' . $exception->getMessage());

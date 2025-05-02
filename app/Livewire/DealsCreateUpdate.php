@@ -36,10 +36,10 @@ class DealsCreateUpdate extends Component
         $proactive_consumption_margin_percentage,
         $shareholder_benefits_margin_percentage,
         $tree_margin_percentage,
-        $discount,
-        $item_price,
-        $created_by;
+        $discount;
+
     public $update = false;
+
     public $statusList;
 
 

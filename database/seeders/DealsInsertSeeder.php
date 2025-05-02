@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Core\Enum\DealStatus;
+use Core\Enum\DealTypeEnum;
 use Core\Models\Platform;
 use Faker\Generator;
 use Illuminate\Database\Seeder;
@@ -34,12 +35,13 @@ class DealsInsertSeeder extends Seeder
                         'description' => $faker->text() . ' RANDOM',
                         'validated' => TRUE,
                         'status' => DealStatus::Opened->value,
+                        'type' => $i == 1 ? DealTypeEnum::coupons->value : DealTypeEnum::public->value,
                         'current_turnover' => 0,
                         'target_turnover' => 10000,
                         'is_turnover' => true,
                         'discount' => rand(1, $initialCommission / 2),
                         'start_date' => $faker->dateTimeBetween('-2 week', '-1 week'),
-                        'end_date' => $faker->dateTimeBetween('+1 week', '+3 week'),
+                        'end_date' => $i == 1 ? now()->addDays(365) : $faker->dateTimeBetween('+1 week', '+3 week'),
                         'initial_commission' => $initialCommission,
                         'final_commission' => rand(20, 30),
                         'earn_profit' => $this->getDealParam('DEALS_EARN_PROFIT_PERCENTAGE'),

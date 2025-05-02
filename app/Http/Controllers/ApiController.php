@@ -796,7 +796,7 @@ class ApiController extends BaseController
             })
             ->addColumn('status', function ($user) {
                 return view('parts.datatable.user-status', ['status' => $user->status]);
-            })    ->addColumn('name', function ($user) {
+            })->addColumn('name', function ($user) {
                 return view('parts.datatable.user-name', ['name' => $user->name]);
             })
             ->addColumn('soldes', function ($user) {
@@ -1321,11 +1321,14 @@ class ApiController extends BaseController
             ->addColumn('action', function ($deal) {
                 return view('parts.datatable.deals-action', ['deal' => $deal, 'currentRouteName' => Route::currentRouteName()]);
             })
-            ->addColumn('status', function ($deal) {
-                return view('parts.datatable.deals-status', ['status' => $deal->status]);
-            })
-            ->addColumn('validated', function ($deal) {
-                return view('parts.datatable.deals-validated', ['validated' => $deal->validated]);
+            ->addColumn('details', function ($deal) {
+                return view('parts.datatable.deals-details',
+                    [
+                        'status' => $deal->status,
+                        'type' => $deal->type,
+                        'validated' => $deal->validated
+                    ]
+                );
             })
             ->addColumn('platform_id', function ($deal) {
                 if ($deal->platform()->first()) {
