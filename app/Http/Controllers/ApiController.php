@@ -217,7 +217,9 @@ class ApiController extends BaseController
             Log::error($exception->getMessage());
             return response()->json(['type' => ['error'], 'message' => [trans('Actions purchase transaction failed')]]);
         }
-        return response()->json(['type' => ['success'], 'message' => [trans('Actions purchase transaction completed successfully')]]);
+
+
+        return response()->json(['type' => ['success'], 'title' => [trans('Actions purchase transaction completed successfully')], 'text' => [trans('This page will reload for update')]]);
     }
 
 

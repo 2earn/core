@@ -155,7 +155,8 @@
                                     </strong>
                                     <label class="col-form-label">{{__('Actions')}}</label>
                                     @if($gift&&$profit && $profit>0)
-                                        <table class="table table-success table-striped align-middle table-nowrap mb-0 table-sm">
+                                        <table
+                                            class="table table-success table-striped align-middle table-nowrap mb-0 table-sm">
                                             <thead>
                                             <tr>
                                                 @if($gift)
@@ -282,15 +283,17 @@
                             Swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                title: data.message,
-                                text: data.message,
-                                showConfirmButton: false,
-                                timer: 2000,
-                                showCloseButton: true
+                                title: data.title,
+                                text: data.text,
+                                showConfirmButton: true,
+                                showCloseButton: false,
+                                confirmButtonText: '{{__('Confirm')}}',
+                            }).then(() => {
+                                $('.buy-action-submit-spinner').hide();
+                                location.reload();
+                            }).catch((error) => {
+                                console.error('SweetAlert Error:', error);
                             });
-
-                            $('.buy-action-submit-spinner').hide();
-                            location.reload();
                         },
                         error: function (data) {
                             console.log('error')
@@ -308,7 +311,7 @@
                     setTimeout(() => {
                         this.disabled = false;
                         $('.buy-action-submit-spinner').hide();
-                    }, 2000);
+                    }, 5000);
                     console.log('fine')
                 })
             }
