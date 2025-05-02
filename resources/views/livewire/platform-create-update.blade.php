@@ -77,7 +77,7 @@
                                 @error('sector') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
                             </div>
-                            <div class="form-group  col-sm-4 col-md-2">
+                            <div class="form-group  col-sm-4 col-md-4">
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" role="switch" wire:model.live="enabled"
                                            type="checkbox"
@@ -85,12 +85,20 @@
                                     <label class="form-check-label" for="Enabled">{{__('Enabled')}}</label>
                                 </div>
                             </div>
-                            <div class="form-group  col-sm-4 col-md-2">
+                            <div class="form-group  col-sm-4 col-md-4">
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" role="switch" wire:model.live="show_profile"
                                            type="checkbox"
                                            id="show_profile" placeholder="{{__('show_profile')}}" checked>
                                     <label class="form-check-label" for="show_profile">{{__('Show profile')}}</label>
+                                </div>
+                            </div>
+                            <div class="form-group  col-sm-4 col-md-4">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" role="switch" wire:model.live="useCoupons"
+                                           type="checkbox"
+                                           id="useCoupons" placeholder="{{__('useCoupons')}}" checked>
+                                    <label class="form-check-label" for="useCoupons">{{__('use coupons')}}</label>
                                 </div>
                             </div>
                             <div class="form-group mb-3">

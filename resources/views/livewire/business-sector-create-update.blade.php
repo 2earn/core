@@ -27,11 +27,19 @@
             <form>
                 <input type="hidden" wire:model.live="id">
                 <div class="row">
-                    <div class="form-group col-sm-12 col-md-12 mb-3">
+                    <div class="form-group col-sm-12 col-md-6 mb-3">
                         <label for="name">{{__('name')}}</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror"
                                id="name"
                                placeholder="{{__('Enter name')}}" wire:model.live="name">
+                        @error('name') <span class="text-danger">{{ $message }}</span>@enderror
+                        <div class="form-text">{{__('Required field')}}</div>
+                    </div>
+                    <div class="form-group col-sm-12 col-md-6 mb-3">
+                        <label for="color">{{__('Color')}}</label>
+                        <input type="color" class="form-control form-control-color w-100 @error('name') is-invalid @enderror"
+                               id="color"
+                               placeholder="{{__('Enter color')}}" wire:model.live="color">
                         @error('name') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>

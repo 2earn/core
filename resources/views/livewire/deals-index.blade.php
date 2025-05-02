@@ -37,8 +37,7 @@
                                     <th>{{__('Details')}}</th>
                                     <th>{{__('id')}}</th>
                                     <th>{{__('name')}}</th>
-                                    <th>{{__('Status')}}</th>
-                                    <th>{{__('Validated')}}</th>
+                                    <th>{{__('Details')}}</th>
                                     <th>{{__('Platform')}}</th>
                                     <th>{{__('Action')}}</th>
                                 </tr>
@@ -80,8 +79,7 @@
                         datatableControlBtn,
                         {data: 'id'},
                         {data: 'name'},
-                        {data: 'status'},
-                        {data: 'validated'},
+                        {data: 'details'},
                         {data: 'platform_id'},
                         {data: 'action'},
                     ],

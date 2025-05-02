@@ -16,9 +16,9 @@ class BusinessSectorShow extends Component
 
     public function mount($id)
     {
-//        if (is_null(auth()->user())) {
-//            $this->redirect(route('login', ['locale' => app()->getLocale()]));
-//        }
+        if (!auth()->user()->id==384) {
+            $this->redirect(route('home', ['locale' => app()->getLocale()]));
+        }
         $this->idBusinessSector = $id;
     }
 

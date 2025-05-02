@@ -37,16 +37,11 @@
                         </a>
                     </div>
                     <div class="col-lg-12">
-                        <h4 class="card-title">
-                            {{__('$amount')}} : {{$amount}}
-                            <hr>
-                            {{__('$displayedAmount')}} : {{$displayedAmount}}
-                            <hr>
-                            {{__('$equal')}} : {{$equal}}
-                            <hr>
-                            {{__('$simulated')}} : {{$simulated}}
-                            <hr>
-                        </h4>
+                        <div class="card-body">
+                            <h4 class="card-title mb-2">{{__('Notes')}}</h4>
+                            <p class="card-text">{{__('This simulation is available only for')}} {{$time}} {{__('minutes')}} </p>
+
+                        </div>
                     </div>
                     <div class="col-lg-12">
                         <div class="card">
