@@ -243,8 +243,9 @@ class User extends Authenticatable
 
     public static function isSuperAdmin()
     {
-        if (!strtoupper(auth()?->user()?->getRoleNames()->first()) == self::SUPER_ADMIN_ROLE_NAME)
-            dd(strtoupper(auth()?->user()?->getRoleNames()->first()) == self::SUPER_ADMIN_ROLE_NAME);
+        if (!strtoupper(auth()?->user()?->getRoleNames()->first()) == self::SUPER_ADMIN_ROLE_NAME) {
+            redirect(route('login', ['locale' => app()->getLocale()]));
+        }
         return strtoupper(auth()?->user()?->getRoleNames()->first()) == self::SUPER_ADMIN_ROLE_NAME;
     }
 }

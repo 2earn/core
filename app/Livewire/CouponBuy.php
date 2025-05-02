@@ -18,8 +18,8 @@ use Livewire\Component;
 
 class CouponBuy extends Component
 {
-    public $amount;
-    public $displayedAmount;
+    public $amount = 0;
+    public $displayedAmount = 0;
     public $coupons;
     public $equal = false;
     public $simulated = false;
@@ -30,6 +30,7 @@ class CouponBuy extends Component
     public $preSumulationResult;
     public $result;
     public $pre;
+    public $maxAmount = 0;
 
 
     public $listeners = [
@@ -40,21 +41,19 @@ class CouponBuy extends Component
         'consumeCoupon' => 'consumeCoupon'
     ];
 
+
     public function mount()
     {
         $this->idPlatform = Route::current()->parameter('id');;
         $this->amount = 0;
         $this->displayedAmount = 0;
-        $this->simulated = false;
-        $this->buyed = false;
-    }
 
 
-    public function updatedAmount($value)
-    {
-        $this->coupons = [];
-        $this->simulated = false;
+        $this->maxAmount = Coupon::where('status', CouponStatusEnum::available->value)
+            ->where('platform_id', $this->idPlatform)
+            ->sum('value');
     }
+
 
     public function consumeCoupon($id)
     {
@@ -90,24 +89,27 @@ class CouponBuy extends Component
     {
         $this->amount = $this->displayedAmount;
         $this->preSumulationResult = $this->getCouponsForAmount($this->amount);
-
-        if ($this->preSumulationResult['amount'] == $this->displayedAmount) {
-            $this->equal = true;
+        if ($this->amount) {
+            if ($this->preSumulationResult['amount'] == $this->displayedAmount) {
+                $this->equal = true;
+            } else {
+                $this->equal = false;
+            }
+            if (is_null($this->preSumulationResult)) {
+                return redirect()->route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform])->with('danger', trans('Amount simulation failed'));
+            }
+            $this->result = $this->getCouponsForAmount($this->preSumulationResult['lastValue'] + $this->amount);
+            if ($this->equal) {
+                $this->lastValue = $this->preSumulationResult['lastValue'];
+                $this->amount = $this->preSumulationResult['amount'];
+                $this->coupons = $this->preSumulationResult['coupons'];
+            } else {
+                $this->lastValue = $this->preSumulationResult['lastValue'];
+                $this->amount = $this->preSumulationResult['amount'];
+                $this->coupons = $this->result['coupons'];
+            }
         } else {
-            $this->equal = false;
-        }
-        if (is_null($this->preSumulationResult)) {
-            return redirect()->route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform])->with('danger', trans('Amount simulation failed'));
-        }
-        $this->result = $this->getCouponsForAmount($this->preSumulationResult['lastValue'] + $this->amount);
-        if ($this->equal) {
-            $this->lastValue = $this->preSumulationResult['lastValue'];
-            $this->amount = $this->preSumulationResult['amount'];
-            $this->coupons = $this->preSumulationResult['coupons'];
-        } else {
-            $this->lastValue = $this->preSumulationResult['lastValue'];
-            $this->amount = $this->preSumulationResult['amount'];
-            $this->coupons = $this->result['coupons'];
+            $this->coupons = [];
         }
 
         $this->simulated = true;
@@ -149,11 +151,11 @@ class CouponBuy extends Component
                     $coupon->update([
                         'user_id' => auth()->user()->id,
                         'purchase_date' => now(),
-                        'status' => CouponStatusEnum::sold->value
+                        'status' => CouponStatusEnum::consumed->value
                     ]);
                 }
             }
-            $this->displayedAmount=$total_amount;
+            $this->displayedAmount = $total_amount;
             $this->coupons = $cpns;
             $this->buyed = true;
             $this->linkOrder = route('orders_detail', ['locale' => app()->getLocale(), 'id' => $order->id]);
