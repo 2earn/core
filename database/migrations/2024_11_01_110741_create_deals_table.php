@@ -4,6 +4,7 @@ use Core\Enum\DealStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Core\Enum\DealTypeEnum;
 
 return new class extends Migration {
 
@@ -17,6 +18,7 @@ return new class extends Migration {
             $table->string('name')->nullable();
             $table->string('description',512)->nullable();
             $table->boolean('validated')->nullable();
+            $table->enum('type', [DealTypeEnum::public->value, DealTypeEnum::coupons->value])->default(DealTypeEnum::public->value);
             $table->enum('status', $status);
             $table->float('current_turnover')->nullable();
             $table->float('target_turnover')->nullable();

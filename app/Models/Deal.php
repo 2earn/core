@@ -19,6 +19,7 @@ class Deal extends Model
         'name',
         'description',
         'validated',
+        'type',
         'status',
         'current_turnover',
         'target_turnover',
