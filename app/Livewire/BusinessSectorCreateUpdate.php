@@ -18,7 +18,7 @@ class BusinessSectorCreateUpdate extends Component
     use WithFileUploads;
 
     public $idBusinessSector;
-    public $name, $description;
+    public $name, $description, $color;
     public $thumbnailsImage;
     public $logoImage;
     public $update = false;
@@ -41,6 +41,7 @@ class BusinessSectorCreateUpdate extends Component
         $businessSector = BusinessSector::findOrFail($idBusinessSector);
         $this->idBusinessSector = $idBusinessSector;
         $this->name = $businessSector->name;
+        $this->color = $businessSector->color;
         $this->description = $businessSector->description;
         $this->update = true;
     }
@@ -56,7 +57,7 @@ class BusinessSectorCreateUpdate extends Component
 
         try {
             $businessSector = BusinessSector::where('id', $this->idBusinessSector)->first();
-            $businessSector->update(['name' => $this->name, 'description' => $this->description]);
+            $businessSector->update(['name' => $this->name, 'color' => $this->color, 'description' => $this->description]);
             if ($this->thumbnailsImage) {
                 if ($businessSector->thumbnailsImage) {
                     Storage::disk('public2')->delete($businessSector->thumbnailsImage->url);

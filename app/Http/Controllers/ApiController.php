@@ -1303,7 +1303,7 @@ class ApiController extends BaseController
     public function getDeals()
     {
         if (User::isSuperAdmin()) {
-            $deals = Deal::whereNot('status', DealStatus::Archived->value)->orderBy('validated', 'ASC')->get();
+            $deals = Deal::whereNot('status', DealStatus::Archived->value)->orderBy('validated', 'ASC')->orderBy('platform_id', 'ASC')->get();
         } else {
             $platforms = Platform::where(function ($query) {
                 $query
@@ -1314,7 +1314,7 @@ class ApiController extends BaseController
             foreach ($platforms as $platform) {
                 $platformsIds[] = $platform->id;
             }
-            $deals = Deal::whereIn('platform_id', $platformsIds)->orderBy('validated', 'ASC')->get();
+            $deals = Deal::whereIn('platform_id', $platformsIds)->orderBy('validated', 'ASC')->orderBy('platform_id', 'ASC')->get();
         }
 
         return datatables($deals)

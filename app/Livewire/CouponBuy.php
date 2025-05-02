@@ -18,6 +18,7 @@ use Livewire\Component;
 
 class CouponBuy extends Component
 {
+    const DELAY_FOR_COUPONS_SIMULATION = 5;
     public $amount = 0;
     public $displayedAmount = 0;
     public $coupons;
@@ -31,6 +32,7 @@ class CouponBuy extends Component
     public $result;
     public $pre;
     public $maxAmount = 0;
+    public $time;
 
 
     public $listeners = [
@@ -47,11 +49,10 @@ class CouponBuy extends Component
         $this->idPlatform = Route::current()->parameter('id');;
         $this->amount = 0;
         $this->displayedAmount = 0;
-
-
         $this->maxAmount = Coupon::where('status', CouponStatusEnum::available->value)
             ->where('platform_id', $this->idPlatform)
             ->sum('value');
+        $this->time = getSettingIntegerParam('DELAY_FOR_COUPONS_SIMULATION', self::DELAY_FOR_COUPONS_SIMULATION);
     }
 
 

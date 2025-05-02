@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 
 use App\Models\Coupon;
+use Core\Enum\DealTypeEnum;
 use Livewire\Component;
 use Core\Models\Platform;
 use Illuminate\Support\Facades\Lang;
@@ -28,7 +29,10 @@ class CouponCreate extends Component
 
     public function mount()
     {
-        $platforms = Platform::all();
+        $platforms = Platform::whereHas('deals', function ($query) {
+            $query->where('type', DealTypeEnum::coupons->value);
+        })->get();
+
         $selectPlatforms = [];
         foreach ($platforms as $platform) {
             $selectPlatforms[] = ['name' => $platform->name, 'value' => $platform->id];
