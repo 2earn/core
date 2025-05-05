@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->dateTime('attachment_date')->nullable();
             $table->dateTime('purchase_date')->nullable();
             $table->dateTime('consumption_date')->nullable();
+            $table->dateTime('reserved_until')->nullable();
             $table->float('value')->nullable();
             $table->boolean('consumed')->default(false);
             $table->enum('status', [CouponStatusEnum::available->value, CouponStatusEnum::reserved->value, CouponStatusEnum::sold->value, CouponStatusEnum::consumed->value])->default(CouponStatusEnum::available->value);

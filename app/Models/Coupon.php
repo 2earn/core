@@ -19,6 +19,7 @@ class Coupon extends Model
         'value',
         'consumed',
         'status',
+        'reserved_until',
         'platform_id',
         'user_id',
     ];
