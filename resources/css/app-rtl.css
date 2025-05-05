@@ -13417,15 +13417,14 @@ span.flatpickr-weekday {
     top: 0;
     bottom: 0;
     opacity: .9;
-    background: #5ea3cb;
-    background: linear-gradient(0deg, #296080, #5ea3cb)
 }
 
 .profile-wid-bg .profile-wid-img {
     width: 100%;
     height: 100%;
     -o-object-fit: cover;
-    object-fit: cover
+    object-fit: cover;
+    opacity: 0.5;
 }
 
 .profile-nav.nav-pills .nav-link {
