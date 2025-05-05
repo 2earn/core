@@ -18,6 +18,7 @@ class Version4Seeder extends Seeder
         Artisan::call('db:seed', ['--class' => 'Database\Seeders\BalancesSeeder']);
         Artisan::call('db:seed', ['--class' => 'Database\Seeders\BalancesSQLSeeder']);
         Artisan::call('db:seed', ['--class' => 'Database\Seeders\DeleteTriggers']);
+        Artisan::call('db:seed', ['--class' => 'Database\Seeders\CouponSettingSeeder']);
 
         if (App::environment('local')) {
             Log::notice('Starting Seeder Sprint008Seeder local');

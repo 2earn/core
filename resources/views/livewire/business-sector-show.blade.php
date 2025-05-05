@@ -1,17 +1,17 @@
 <div class="container-fluid">
     @section('title')
-        {{ __('Busines Sector') }} :     {{$businessSector->name}}
+        {{ __('Business Sector') }} :     {{$businessSector->name}}
     @endsection
     @component('components.breadcrumb')
         @slot('title')
-            {{ __('Busines Sector') }} :     {{$businessSector->name}}
-        @endslot
+                {{ __('Business Sector') }} :     {{$businessSector->name}}
+            @endslot
     @endcomponent
     <div class="card mt-4 mb-2">
         <div class="col-12">
             <div class="profile-foreground position-relative mx-n4 mt-n4">
                 <div class="profile-wid-bg">
-                    @if ($businessSector?->logoImage)
+                    @if ($businessSector?->thumbnailsImage)
                         <img src="{{ asset('uploads/' . $businessSector->thumbnailsImage->url) }}" alt=""
                              class="profile-wid-img">
                     @else
@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="pt-4 mb-4 mb-lg-3 pb-lg-4 profile-wrapper">
-                <div class="row g-4">
+                <div class="row g-4 p-2">
                     <div class="col-auto">
                         <div class="avatar-lg">
                             @if ($businessSector?->logoImage)
@@ -37,23 +37,23 @@
                     </div>
                     <div class="col">
                         <div class="p-2">
-                            <h3 class="mb-1" style="color: {{$businessSector->color}}">
+                            <h2 class="mb-1" style="color: {{$businessSector->color}}">
                                 {{\App\Models\TranslaleModel::getTranslation($businessSector,'name',$businessSector->name)}}
-                            </h3>
+                            </h2>
                             @if(\App\Models\User::isSuperAdmin())
-                                <p class="text-light">
-                                    <a class="link-light float-end"
+                                <p class="text-dark">
+                                    <a class="link-dark float-end"
                                        href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($businessSector,'name')])}}">{{__('See or update Translation')}}</a>
                                 </p>
                             @endif
                         </div>
                         <h5 class="text-dark mt-2">{{__('Description')}}:</h5>
-                        <blockquote class="text-light">
+                        <blockquote class="text-dark">
                             {{\App\Models\TranslaleModel::getTranslation($businessSector,'description',$businessSector->description)}}
                             @if(\App\Models\User::isSuperAdmin())
                                 <br>
                                 <small class="m-2">
-                                    <a class="link-light float-end"
+                                    <a class="link-dark float-end"
                                        href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($businessSector,'description')])}}">{{__('See or update Translation')}}</a>
                                 </small>
                             @endif
@@ -62,9 +62,10 @@
                 </div>
             </div>
             <div class="row mt-4">
-                <div class="col-lg-12">
-                    <div>
-                        <div class="d-flex profile-wrapper">
+                <div class="col-lg-9">
+                </div>
+                <div class="col-lg-3">
+                        <div class="d-flex profile-wrapper pb-2">
                             @if(\App\Models\User::isSuperAdmin())
                                 <div class="flex-shrink-0">
                                     <a wire:click="deletebusinessSector('{{$businessSector->id}}')"
@@ -83,8 +84,6 @@
                                 </div>
                             @endif
                         </div>
-
-                    </div>
                 </div>
             </div>
         </div>
