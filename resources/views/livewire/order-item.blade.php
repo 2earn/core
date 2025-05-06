@@ -25,7 +25,7 @@
             <h4 class="card-title mb-0 flex-grow-1">{{$order->created_at}}</h4>
             <div>
                 @if($order->total_order_quantity && $currentRouteName=="orders_detail")
-                    <button type="button" class="btn btn-soft-secondary material-shadow-none btn-sm">
+                    <button type="button" class="btn btn-soft-primary material-shadow-none btn-sm">
                         {{__('Total order quantity')}} <span
                             class="badge bg-info ms-1">{{$order->total_order_quantity}}</span>
                     </button>
@@ -35,13 +35,12 @@
                         {{__($order->status->name)}}
                     </button>
                 @endif
-                <button type="button" class="btn btn-soft-primary material-shadow-none btn-sm"
+                <button type="button" class="btn btn-soft-warning material-shadow-none btn-sm"
                         title="{{__('Platform')}}">
                     {{__($order->OrderDetails()->first()->item()->first()?->platform()->first()->name)}}
                 </button>
             </div>
         </div>
-
         <div class="card-body">
             <div class="card">
                 <div class="card-header">
