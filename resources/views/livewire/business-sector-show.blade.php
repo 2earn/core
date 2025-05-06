@@ -20,13 +20,13 @@
                     @endif
                 </div>
             </div>
-            <div class="pt-4 mb-4 mb-lg-3 pb-lg-4 profile-wrapper">
-                <div class="row g-4 p-2">
+            <div class="pt-3 mb-2 mb-lg-2 pb-lg-3 profile-wrapper">
+                <div class="row g-4 px-3 mt-2">
                     <div class="col-auto">
                         <div class="avatar-lg">
                             @if ($businessSector?->logoImage)
                                 <img src="{{ asset('uploads/' . $businessSector->logoImage->url) }}"
-                                     style="background-color: {{$businessSector->color}}; border: 3px;"
+                                     style="background-color: {{$businessSector->color}}; border: 5px;"
                                      alt="Business Sector logoImage" class="img-thumbnail rounded-circle">
                             @else
                                 <img src="{{Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_LOGO)}}"
@@ -59,30 +59,29 @@
                             @endif
                         </blockquote>
                     </div>
-                </div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-lg-9">
-                </div>
-                <div class="col-lg-3">
-                    <div class="d-flex profile-wrapper pb-2">
-                        @if(\App\Models\User::isSuperAdmin())
-                            <div class="flex-shrink-0">
-                                <a wire:click="deletebusinessSector('{{$businessSector->id}}')"
-                                   title="{{__('Delete business_sector')}}"
-                                   class="btn btn-danger">
-                                    {{__('Delete')}}
-                                    <div wire:loading wire:target="deletebusinessSector('{{$businessSector->id}}')">
+                    <div class="col-lg-12 ml-2"
+                         style="background-color: {{$businessSector->color}};height: 7px;">
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="d-flex profile-wrapper">
+                            @if(\App\Models\User::isSuperAdmin())
+                                <div class="flex-shrink-0">
+                                    <a wire:click="deletebusinessSector('{{$businessSector->id}}')"
+                                       title="{{__('Delete business_sector')}}"
+                                       class="btn btn-danger">
+                                        {{__('Delete')}}
+                                        <div wire:loading wire:target="deletebusinessSector('{{$businessSector->id}}')">
                                                 <span class="spinner-border spinner-border-sm" role="status"
                                                       aria-hidden="true"></span>
-                                        <span class="sr-only">{{__('Loading')}}...</span>
-                                    </div>
-                                </a>
-                                <a href="{{route('business_sector_create_update',['locale'=> app()->getLocale(),'id'=>$businessSector->id])}}"
-                                   title="{{__('Edit business sector')}}"
-                                   class="btn btn-info mx-2">{{__('Edit')}}</a>
-                            </div>
-                        @endif
+                                            <span class="sr-only">{{__('Loading')}}...</span>
+                                        </div>
+                                    </a>
+                                    <a href="{{route('business_sector_create_update',['locale'=> app()->getLocale(),'id'=>$businessSector->id])}}"
+                                       title="{{__('Edit business sector')}}"
+                                       class="btn btn-info mx-2">{{__('Edit')}}</a>
+                                </div>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -143,7 +142,7 @@
                                                class="btn btn-primary m-1">{{__('Coupon History')}}</a>
                                         </div>
                                         <p class="card-text"><small
-                                                    class="text-muted">    {{$platform->created_at}}</small>
+                                                class="text-muted">    {{$platform->created_at}}</small>
                                         </p>
                                     </div>
                                 </div>
