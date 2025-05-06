@@ -13398,12 +13398,12 @@ span.flatpickr-weekday {
     left: 0;
     right: 0;
     top: 0;
-    height: 340px
+    height: 170px
 }
 
 @media (max-width: 575.98px) {
     .profile-wid-bg {
-        height: 445px
+        height: 170px
     }
 }
 

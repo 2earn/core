@@ -13403,12 +13403,12 @@ span.flatpickr-weekday {
     left: 0;
     right: 0;
     top: 0;
-    height: 340px
+    height: 170px
 }
 
 @media (max-width: 575.98px) {
     .profile-wid-bg {
-        height: 445px
+        height: 170px
     }
 }
 
@@ -13419,7 +13419,7 @@ span.flatpickr-weekday {
     right: 0;
     top: 0;
     bottom: 0;
-    opacity: .6;
+    opacity: .9;
 }
 
 .profile-wid-bg .profile-wid-img {
@@ -13427,7 +13427,7 @@ span.flatpickr-weekday {
     height: 100%;
     -o-object-fit: cover;
     object-fit: cover;
-    opacity: 0.5;
+    opacity: 0.9;
 }
 
 .profile-nav.nav-pills .nav-link {

@@ -9,7 +9,7 @@
     @endcomponent
     <div class="card mt-4 mb-2">
         <div class="col-12">
-            <div class="profile-foreground position-relative mx-n4 mt-n4">
+            <div class="profile-foreground position-relative">
                 <div class="profile-wid-bg">
                     @if ($businessSector?->thumbnailsImage)
                         <img src="{{ asset('uploads/' . $businessSector->thumbnailsImage->url) }}" alt=""
@@ -47,41 +47,44 @@
                                 </p>
                             @endif
                         </div>
-                        <h5 class="text-dark mt-2">{{__('Description')}}:</h5>
-                        <blockquote class="text-dark">
-                            {{\App\Models\TranslaleModel::getTranslation($businessSector,'description',$businessSector->description)}}
-                            @if(\App\Models\User::isSuperAdmin())
-                                <br>
-                                <small class="m-2">
-                                    <a class="link-dark float-end"
-                                       href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($businessSector,'description')])}}">{{__('See or update Translation')}}</a>
-                                </small>
-                            @endif
-                        </blockquote>
                     </div>
-                    <div class="col-lg-12 ml-2"
-                         style="background-color: {{$businessSector->color}};height: 7px;">
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="d-flex profile-wrapper">
-                            @if(\App\Models\User::isSuperAdmin())
-                                <div class="flex-shrink-0">
-                                    <a wire:click="deletebusinessSector('{{$businessSector->id}}')"
-                                       title="{{__('Delete business_sector')}}"
-                                       class="btn btn-danger">
-                                        {{__('Delete')}}
-                                        <div wire:loading wire:target="deletebusinessSector('{{$businessSector->id}}')">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card mt-2">
+            <div class="card-body">
+                <div class="col-lg-3">
+                    <h5 class="text-dark mt-2">{{__('Description')}}:</h5>
+                    <blockquote class="text-dark">
+                        {{\App\Models\TranslaleModel::getTranslation($businessSector,'description',$businessSector->description)}}
+                        @if(\App\Models\User::isSuperAdmin())
+                            <br>
+                            <small class="m-2">
+                                <a class="link-dark float-end"
+                                   href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($businessSector,'description')])}}">{{__('See or update Translation')}}</a>
+                            </small>
+                        @endif
+                    </blockquote>
+                    <div class="d-flex profile-wrapper">
+                        @if(\App\Models\User::isSuperAdmin())
+                            <div class="flex-shrink-0">
+                                <a wire:click="deletebusinessSector('{{$businessSector->id}}')"
+                                   title="{{__('Delete business_sector')}}"
+                                   class="btn btn-danger">
+                                    {{__('Delete')}}
+                                    <div wire:loading wire:target="deletebusinessSector('{{$businessSector->id}}')">
                                                 <span class="spinner-border spinner-border-sm" role="status"
                                                       aria-hidden="true"></span>
-                                            <span class="sr-only">{{__('Loading')}}...</span>
-                                        </div>
-                                    </a>
-                                    <a href="{{route('business_sector_create_update',['locale'=> app()->getLocale(),'id'=>$businessSector->id])}}"
-                                       title="{{__('Edit business sector')}}"
-                                       class="btn btn-info mx-2">{{__('Edit')}}</a>
-                                </div>
-                            @endif
-                        </div>
+                                        <span class="sr-only">{{__('Loading')}}...</span>
+                                    </div>
+                                </a>
+                                <a href="{{route('business_sector_create_update',['locale'=> app()->getLocale(),'id'=>$businessSector->id])}}"
+                                   title="{{__('Edit business sector')}}"
+                                   class="btn btn-info mx-2">{{__('Edit')}}</a>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
