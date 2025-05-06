@@ -4,8 +4,8 @@
     @endsection
     @component('components.breadcrumb')
         @slot('title')
-                {{ __('Business Sector') }} :     {{$businessSector->name}}
-            @endslot
+            {{ __('Business Sector') }} :     {{$businessSector->name}}
+        @endslot
     @endcomponent
     <div class="card mt-4 mb-2">
         <div class="col-12">
@@ -65,25 +65,25 @@
                 <div class="col-lg-9">
                 </div>
                 <div class="col-lg-3">
-                        <div class="d-flex profile-wrapper pb-2">
-                            @if(\App\Models\User::isSuperAdmin())
-                                <div class="flex-shrink-0">
-                                    <a wire:click="deletebusinessSector('{{$businessSector->id}}')"
-                                       title="{{__('Delete business_sector')}}"
-                                       class="btn btn-danger">
-                                        {{__('Delete')}}
-                                        <div wire:loading wire:target="deletebusinessSector('{{$businessSector->id}}')">
+                    <div class="d-flex profile-wrapper pb-2">
+                        @if(\App\Models\User::isSuperAdmin())
+                            <div class="flex-shrink-0">
+                                <a wire:click="deletebusinessSector('{{$businessSector->id}}')"
+                                   title="{{__('Delete business_sector')}}"
+                                   class="btn btn-danger">
+                                    {{__('Delete')}}
+                                    <div wire:loading wire:target="deletebusinessSector('{{$businessSector->id}}')">
                                                 <span class="spinner-border spinner-border-sm" role="status"
                                                       aria-hidden="true"></span>
-                                            <span class="sr-only">{{__('Loading')}}...</span>
-                                        </div>
-                                    </a>
-                                    <a href="{{route('business_sector_create_update',['locale'=> app()->getLocale(),'id'=>$businessSector->id])}}"
-                                       title="{{__('Edit business sector')}}"
-                                       class="btn btn-info mx-2">{{__('Edit')}}</a>
-                                </div>
-                            @endif
-                        </div>
+                                        <span class="sr-only">{{__('Loading')}}...</span>
+                                    </div>
+                                </a>
+                                <a href="{{route('business_sector_create_update',['locale'=> app()->getLocale(),'id'=>$businessSector->id])}}"
+                                   title="{{__('Edit business sector')}}"
+                                   class="btn btn-info mx-2">{{__('Edit')}}</a>
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -106,8 +106,11 @@
                                         <img src="{{Vite::asset(\Core\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO)}}"
                                              class="img-fluid d-block" style="height: 150px">
                                     @endif
-                                    <a href="{{$platform->link}}"
-                                       class="btn btn-link m-2">{{__('Go to the platform')}}</a>
+
+                                    @if ($platform?->link)
+                                        <a href="{{$platform->link}}"
+                                           class="btn btn-link m-2">{{__('Go to the platform')}}</a>
+                                    @endif
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-header">
@@ -134,13 +137,13 @@
                                         <div class="text-end">
                                             @if($platform->deals()->where('type', \Core\Enum\DealTypeEnum::coupons->value)->where('start_date', '<=', now())->where('end_date', '>=', now())->count())
                                                 <a href="{{route('coupon_buy',['locale'=>app()->getLocale(),'id'=>$platform->id])}}"
-                                                   class="btn btn-primary">{{__('Top up your balance')}}</a>
+                                                   class="btn btn-primary m-1">{{__('Top up your balance')}}</a>
                                             @endif
                                             <a href="{{route('coupon_history',['locale'=>app()->getLocale()])}}"
-                                               class="btn btn-primary">{{__('Coupon History')}}</a>
+                                               class="btn btn-primary m-1">{{__('Coupon History')}}</a>
                                         </div>
                                         <p class="card-text"><small
-                                                class="text-muted">    {{$platform->created_at}}</small>
+                                                    class="text-muted">    {{$platform->created_at}}</small>
                                         </p>
                                     </div>
                                 </div>

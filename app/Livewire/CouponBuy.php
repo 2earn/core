@@ -61,7 +61,7 @@ class CouponBuy extends Component
             $couponToUpdate->update([
                 'user_id' => auth()->user()->id,
                 'consumption_date' => now(),
-                'status' => CouponStatusEnum::used->value,
+                'status' => CouponStatusEnum::consumed->value,
                 'consumed' => true
             ]);
         }
