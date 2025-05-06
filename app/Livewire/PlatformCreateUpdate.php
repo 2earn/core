@@ -13,9 +13,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
 
 class PlatformCreateUpdate extends Component
 {
@@ -77,8 +77,8 @@ class PlatformCreateUpdate extends Component
         $this->idPlatform = $platform->id;
         $this->sector = $platform->business_sector_id;
         $this->type = $platform->type;
-        $this->enabled = $platform->enabled;
-        $this->show_profile = $platform->show_profile;
+        $this->enabled = $platform->enabled == 1 ? true : false;;
+        $this->show_profile = $platform->show_profile == 1 ? true : false;;
         $this->link = $platform->link;
         $this->update = true;
     }

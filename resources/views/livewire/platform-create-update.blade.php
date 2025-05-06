@@ -93,14 +93,19 @@
                                     <label class="form-check-label" for="show_profile">{{__('Show profile')}}</label>
                                 </div>
                             </div>
+
                             <div class="form-group  col-sm-4 col-md-4">
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" role="switch" wire:model.live="useCoupons"
                                            type="checkbox"
+                                           @if($update)
+                                               disabled
+                                           @endif
                                            id="useCoupons" placeholder="{{__('useCoupons')}}" checked>
                                     <label class="form-check-label" for="useCoupons">{{__('use coupons')}}</label>
                                 </div>
                             </div>
+
                             <div class="form-group mb-3">
                                 <label for="Description">{{__('Description')}}</label>
                                 <textarea class="form-control @error('description') is-invalid @enderror"
