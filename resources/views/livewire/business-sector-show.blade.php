@@ -55,7 +55,7 @@
     <div class="col-12">
         <div class="card mt-2">
             <div class="card-body">
-                <div class="col-lg-3">
+                <div class="col-lg-12">
                     <h5 class="text-dark mt-2">{{__('Description')}}:</h5>
                     <blockquote class="text-dark">
                         {{\App\Models\TranslaleModel::getTranslation($businessSector,'description',$businessSector->description)}}
