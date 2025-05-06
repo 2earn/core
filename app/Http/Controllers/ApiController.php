@@ -1333,8 +1333,12 @@ class ApiController extends BaseController
                 );
             })
             ->addColumn('platform_id', function ($deal) {
+
+
                 if ($deal->platform()->first()) {
-                    return $deal->platform()->first()->id . ' - ' . $deal->platform()->first()->name;
+
+                    return view('parts.datatable.deals-platform', ['platform' => $deal, 'currentRouteName' => Route::currentRouteName()]);
+
                 }
                 return '**';
             })

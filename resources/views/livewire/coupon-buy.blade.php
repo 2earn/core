@@ -153,7 +153,7 @@
                                                         <span
                                                             class="badge bg-info-subtle text-info fs-14 my-1 fw-normal"
                                                             @if(\App\Models\User::isSuperAdmin())
-                                                                title="{{$coupon->reserved_until}} _ {{__(\Core\Enum\CouponStatusEnum::tryFrom($coupon->status)->name)}}"
+                                                                title="{{$coupon->reserved_until}} - {{__(\Core\Enum\CouponStatusEnum::tryFrom($coupon->status)->name)}}"
                                                             @endif
                                                         >
                                                         @if(!is_array($coupon))
@@ -177,7 +177,9 @@
                                                         <h5 class="fs-14 my-1 fw-normal"><span
                                                                 class="badge bg-danger-subtle text-danger">{{__(\Core\Enum\CouponStatusEnum::tryFrom($coupon->status)->name)}}</span>
                                                         </h5>
-                                                        <span class="text-muted">{{$coupon->reserved_until}}</span>
+                                                        @if($coupon->status==\Core\Enum\CouponStatusEnum::reserved->value)
+                                                            <span class="text-muted">{{$coupon->reserved_until}}</span>
+                                                        @endif
                                                     </td>
                                                     <td>
                                                         <span class="text-muted fs-16 my-1">
@@ -262,7 +264,9 @@
                                                         <h5 class="fs-14 my-1 fw-normal"><span
                                                                 class="badge bg-danger-subtle text-danger">{{__(\Core\Enum\CouponStatusEnum::tryFrom($coupon->status)->name)}}</span>
                                                         </h5>
-                                                        <span class="text-muted">{{$coupon->reserved_until}}</span>
+                                                        @if($coupon->status==\Core\Enum\CouponStatusEnum::reserved->value)
+                                                            <span class="text-muted">{{$coupon->reserved_until}}</span>
+                                                        @endif
                                                     </td>
                                                     <td>
                                                                 <span class="text-muted fs-16 my-1">

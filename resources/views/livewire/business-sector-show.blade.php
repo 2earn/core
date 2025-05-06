@@ -4,8 +4,8 @@
     @endsection
     @component('components.breadcrumb')
         @slot('title')
-                {{ __('Business Sector') }} :     {{$businessSector->name}}
-            @endslot
+            {{ __('Business Sector') }} :     {{$businessSector->name}}
+        @endslot
     @endcomponent
     <div class="card mt-4 mb-2">
         <div class="col-12">
@@ -20,13 +20,13 @@
                     @endif
                 </div>
             </div>
-            <div class="pt-4 mb-4 mb-lg-3 pb-lg-4 profile-wrapper">
-                <div class="row g-4 p-2">
+            <div class="pt-3 mb-2 mb-lg-2 pb-lg-3 profile-wrapper">
+                <div class="row g-4 px-3 mt-2">
                     <div class="col-auto">
                         <div class="avatar-lg">
                             @if ($businessSector?->logoImage)
                                 <img src="{{ asset('uploads/' . $businessSector->logoImage->url) }}"
-                                     style="background-color: {{$businessSector->color}}; border: 3px;"
+                                     style="background-color: {{$businessSector->color}}; border: 5px;"
                                      alt="Business Sector logoImage" class="img-thumbnail rounded-circle">
                             @else
                                 <img src="{{Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_LOGO)}}"
@@ -59,13 +59,11 @@
                             @endif
                         </blockquote>
                     </div>
-                </div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-lg-9">
-                </div>
-                <div class="col-lg-3">
-                        <div class="d-flex profile-wrapper pb-2">
+                    <div class="col-lg-12 ml-2"
+                         style="background-color: {{$businessSector->color}};height: 7px;">
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="d-flex profile-wrapper">
                             @if(\App\Models\User::isSuperAdmin())
                                 <div class="flex-shrink-0">
                                     <a wire:click="deletebusinessSector('{{$businessSector->id}}')"
@@ -84,6 +82,7 @@
                                 </div>
                             @endif
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -106,8 +105,11 @@
                                         <img src="{{Vite::asset(\Core\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO)}}"
                                              class="img-fluid d-block" style="height: 150px">
                                     @endif
-                                    <a href="{{$platform->link}}"
-                                       class="btn btn-link m-2">{{__('Go to the platform')}}</a>
+
+                                    @if ($platform?->link)
+                                        <a href="{{$platform->link}}"
+                                           class="btn btn-link m-2">{{__('Go to the platform')}}</a>
+                                    @endif
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-header">
@@ -134,10 +136,10 @@
                                         <div class="text-end">
                                             @if($platform->deals()->where('type', \Core\Enum\DealTypeEnum::coupons->value)->where('start_date', '<=', now())->where('end_date', '>=', now())->count())
                                                 <a href="{{route('coupon_buy',['locale'=>app()->getLocale(),'id'=>$platform->id])}}"
-                                                   class="btn btn-primary">{{__('Top up your balance')}}</a>
+                                                   class="btn btn-primary m-1">{{__('Top up your balance')}}</a>
                                             @endif
                                             <a href="{{route('coupon_history',['locale'=>app()->getLocale()])}}"
-                                               class="btn btn-primary">{{__('Coupon History')}}</a>
+                                               class="btn btn-primary m-1">{{__('Coupon History')}}</a>
                                         </div>
                                         <p class="card-text"><small
                                                 class="text-muted">    {{$platform->created_at}}</small>
