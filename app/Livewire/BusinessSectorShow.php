@@ -16,7 +16,7 @@ class BusinessSectorShow extends Component
 
     public function mount($id)
     {
-        if (!auth()->user()?->id==384) {
+        if (!auth()->user()?->id == 384) {
             $this->redirect(route('home', ['locale' => app()->getLocale()]));
         }
         $this->idBusinessSector = $id;
@@ -53,7 +53,7 @@ class BusinessSectorShow extends Component
 
         $params = [
             'businessSector' => $businessSector,
-            'platforms' => Platform::where('business_sector_id', $this->idBusinessSector)->get(),
+            'platforms' => Platform::where('enabled', true)->where('business_sector_id', $this->idBusinessSector)->orderBy('created_at')->get(),
         ];
 
         $this->items = $this->loadItems();

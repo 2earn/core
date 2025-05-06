@@ -110,14 +110,14 @@
                                     @endif
 
                                     @if ($platform?->link)
-                                        <a href="{{$platform->link}}"
+                                        <a href="{{$platform->link}}" target="_blank"
                                            class="btn btn-link m-2">{{__('Go to the platform')}}</a>
                                     @endif
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-header">
                                         <h3 class="card-title mb-0">
-                                            {{\App\Models\TranslaleModel::getTranslation($platform,'name',$platform->name)}}
+                                 {{$platform->id}})           {{\App\Models\TranslaleModel::getTranslation($platform,'name',$platform->name)}}
                                             @if(\App\Models\User::isSuperAdmin())
                                                 <small class="mx-2">
                                                     <a class="link-info"

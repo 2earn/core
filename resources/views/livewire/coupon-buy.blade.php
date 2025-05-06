@@ -87,7 +87,7 @@
                 </div>
                 <div class="row">
                     @if($lastValue)
-                        @if(!$buyed)
+                        @if(!$buyed && !$equal)
                             <div class="col-lg-12 mb-2">
                                 <div title="{{__('Simulated At')}} : {{now()}}"
                                      class="alert alert-info alert-dismissible fade show material-shadow"
@@ -97,14 +97,10 @@
                                     @if($amount>0 && ($lastValue+$amount<=$maxAmount))
                                         {{$amount}}
                                     @endif
-
-                                    @if(!$equal)
-                                        @if($amount>0 && ($lastValue+$amount<=$maxAmount))
-                                            {{__('or')}}
-                                        @endif
-
-                                        {{$lastValue+$amount}}
+                                    @if($amount>0 && ($lastValue+$amount<=$maxAmount))
+                                        {{__('or')}}
                                     @endif
+                                    {{$lastValue+$amount}}
                                     {{__('as a coupon with the exact requested value is not available')}}
                                     <button type="button" class="btn-close"
                                             data-bs-dismiss="alert"
