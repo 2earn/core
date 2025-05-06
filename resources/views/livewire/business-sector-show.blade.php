@@ -26,25 +26,12 @@
                         <div class="avatar-lg">
                             @if ($businessSector?->logoImage)
                                 <img src="{{ asset('uploads/' . $businessSector->logoImage->url) }}"
-                                     style="background-color: {{$businessSector->color}}; border: 5px;"
+                                     style="background-color: #FFFFFF; border: 5px;"
                                      alt="Business Sector logoImage" class="img-thumbnail rounded-circle">
                             @else
                                 <img src="{{Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_LOGO)}}"
-                                     style="background-color: {{$businessSector->color}}; border: 3px;"
+                                     style="background-color: #FFFFFF; border: 5px;"
                                      class="img-thumbnail rounded-circle">
-                            @endif
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="p-2">
-                            <h2 class="mb-1" style="color: {{$businessSector->color}}">
-                                {{\App\Models\TranslaleModel::getTranslation($businessSector,'name',$businessSector->name)}}
-                            </h2>
-                            @if(\App\Models\User::isSuperAdmin())
-                                <p class="text-dark">
-                                    <a class="link-dark float-end"
-                                       href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($businessSector,'name')])}}">{{__('See or update Translation')}}</a>
-                                </p>
                             @endif
                         </div>
                     </div>
