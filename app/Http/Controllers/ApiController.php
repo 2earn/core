@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\DAL\UserRepository;
-use App\Livewire\BusinessSectorIndex;
 use App\Models\BFSsBalances;
 use App\Models\BusinessSector;
 use App\Models\CashBalances;
 use App\Models\Coupon;
 use App\Models\Deal;
-use App\Models\News;
 use App\Models\SharesBalances;
 use App\Models\User;
 use App\Models\vip;
@@ -38,7 +36,6 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator as Val;
 use Illuminate\Support\Facades\Vite;
@@ -290,7 +287,7 @@ class ApiController extends BaseController
                 'value' => $request->input('amount'),
                 'current_balance' => $balancesManager->getBalances($request->input('reciver'), -1)->soldeCB + $request->input('amount')
             ]);
-            $message = $request->amount . ' $ ' . Lang::get('for') . getUserDisplayedName($request->input('reciver'));
+            $message = $request->amount . ' $ ' . Lang::get('for') . ' ' . getUserDisplayedName($request->input('reciver'));
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
