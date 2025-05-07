@@ -702,7 +702,7 @@
     left: 0;
     color: var(--vz-footer-color);
     right: 250px;
-    height: 60px;
+    height: 100px;
     background-color: var(--vz-footer-bg)
 }
 
