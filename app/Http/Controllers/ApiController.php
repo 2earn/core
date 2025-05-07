@@ -290,7 +290,7 @@ class ApiController extends BaseController
                 'value' => $request->input('amount'),
                 'current_balance' => $balancesManager->getBalances($request->input('reciver'), -1)->soldeCB + $request->input('amount')
             ]);
-            $message = $request->amount . ' $ ' . Lang::get('for ') . getUserDisplayedName($request->input('reciver'));
+            $message = $request->amount . ' $ ' . Lang::get('for') . getUserDisplayedName($request->input('reciver'));
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
