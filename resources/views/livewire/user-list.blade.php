@@ -431,7 +431,7 @@
                 title: titleSwal,
                 html: textSwal,
                 showConfirmButton: true,
-                confirmButtonText: {{__('ok')}},
+                confirmButtonText: '{{__('ok')}}',
                 showCloseButton: true
             });
         }
