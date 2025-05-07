@@ -31,6 +31,7 @@
                         <label for="name">{{__('name')}}</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror"
                                id="name"
+                               @if($update) disabled @endif
                                placeholder="{{__('Enter name')}}" wire:model.live="name">
                         @error('name') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
@@ -47,6 +48,7 @@
                         <label for="description">{{__('description')}}</label>
                         <textarea class="form-control @error('name') is-invalid @enderror"
                                   id="description"
+                                  @if($update) disabled @endif
                                   placeholder="{{__('Enter description')}}" wire:model.live="description"></textarea>
                         @error('description') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>

@@ -19,7 +19,7 @@ class OrderingSimulation
     {
         $dealsIds = Deal::where('platform_id', $platformId)->pluck('id')->toArray();
         $dealsId = $dealsIds[array_rand($dealsIds)];
-        $itemsIds = Item::where('deal_id', $dealsId)->pluck('id')->toArray();
+        $itemsIds = Item::where('deal_id', $dealsId)->where('ref' ,'!=' , '#0001')->pluck('id')->toArray();
         $getFromItems = (bool)rand(0, 1);
         if ($getFromItems && !empty($itemsIds)) {
             return Item::find($itemsIds[array_rand($itemsIds)]);
