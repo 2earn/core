@@ -98,6 +98,7 @@ class CouponBuy extends Component
 
     public function simulateCoupon()
     {
+        $this->equal = false;
         $this->amount = $this->displayedAmount;
         $this->preSumulationResult = $this->getCouponsForAmount($this->amount);
         if ($this->amount) {

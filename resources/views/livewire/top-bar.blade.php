@@ -120,7 +120,7 @@
                                     <a href="{{str_replace('/'.app()->getLocale().'/', '/'.$value['name'].'/', Request::url())}}"
                                        class="dropdown-item notify-item language py-2  @if($locale==app()->getLocale()) active @endif"
                                        data-lang="{{$locale}}"
-                                       title="{{ __('lang'.$locale)  }}" >
+                                       title="{{ __('lang'.$locale)  }}">
                                         <img src="{{ Vite::asset('resources/images/flags/'.$value['flag'].'.svg') }}"
                                              alt="user-image" class="me-2 rounded" height="20">
                                         <span class="align-middle">{{ __('lang'.$locale)  }}</span>
@@ -129,7 +129,7 @@
                                     <a href="{{str_replace('/'.app()->getLocale(), '/'.$value['name'].'/', Request::url())}}"
                                        class="dropdown-item notify-item language py-2  @if($locale==app()->getLocale()) active @endif"
                                        data-lang="{{$locale}}"
-                                       title="{{ __('lang'.$locale)  }}" >
+                                       title="{{ __('lang'.$locale)  }}">
                                         <img src="{{ Vite::asset('resources/images/flags/'.$value['flag'].'.svg') }}"
                                              alt="user-image" class="me-2 rounded" height="20">
                                         <span class="align-middle">{{ __('lang'.$locale)  }}</span>
@@ -173,7 +173,9 @@
                                                     <img src="{{ asset('uploads/' . $sector->logoImage->url) }}"
                                                          alt="Move2earn">
                                                 @endif
-                                                <span>{{$sector->name}}</span>
+                                                <span>
+                                                    {{\App\Models\TranslaleModel::getTranslation($sector,'name',$sector->name)}}
+                                                </span>
                                             </a>
                                         </div>
                                     @endforeach
@@ -360,7 +362,7 @@
                                 <span class=""> {{ __('Frequently asked questions') }}</span>
                             </a>
                             <a class="dropdown-item"
-                                    href="{{route('coupon_history',['locale'=>app()->getLocale()])}}">
+                               href="{{route('coupon_history',['locale'=>app()->getLocale()])}}">
                                 <span class=""> {{ __('Coupons History') }}</span>
                             </a>
                             <div class="dropdown-divider">

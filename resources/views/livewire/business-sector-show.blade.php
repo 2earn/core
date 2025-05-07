@@ -96,7 +96,7 @@
                                              class="img-fluid d-block" style="height: 150px">
                                     @endif
 
-                                    @if ($platform?->link)
+                                    @if ($platform?->show_profile && $platform?->link)
                                         <a href="{{$platform->link}}" target="_blank"
                                            class="btn btn-link m-2">{{__('Go to the platform')}}</a>
                                     @endif
@@ -104,7 +104,8 @@
                                 <div class="col-md-8">
                                     <div class="card-header">
                                         <h3 class="card-title mb-0">
-                                 {{$platform->id}})           {{\App\Models\TranslaleModel::getTranslation($platform,'name',$platform->name)}}
+                                            {{$platform->id}}
+                                            ) {{\App\Models\TranslaleModel::getTranslation($platform,'name',$platform->name)}}
                                             @if(\App\Models\User::isSuperAdmin())
                                                 <small class="mx-2">
                                                     <a class="link-info"
@@ -132,7 +133,7 @@
                                                class="btn btn-primary m-1">{{__('Coupon History')}}</a>
                                         </div>
                                         <p class="card-text"><small
-                                                class="text-muted">    {{$platform->created_at}}</small>
+                                                    class="text-muted">    {{$platform->created_at}}</small>
                                         </p>
                                     </div>
                                 </div>

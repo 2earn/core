@@ -22,6 +22,7 @@ class Platform extends Model
         'enabled',
         'type',
         'link',
+        'show_profile',
         'image_link',
         'administrative_manager_id',
         'financial_manager_id',
