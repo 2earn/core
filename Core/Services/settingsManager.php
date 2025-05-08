@@ -41,6 +41,7 @@ use Core\Models\UserNotificationSettings;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 
 
 class settingsManager
@@ -357,7 +358,7 @@ class settingsManager
      * @param $userId
      * @param TypeEventNotificationEnum $typeEventNotification
      * @param array|null $params
-     * @return void
+     * @return string
      * "NotifyUser" function to notify user with any type notification either by only explicit type or all type
      * 1 - only type :
      * if parameter type exist in table params : send a notification according to the type
@@ -384,16 +385,12 @@ class settingsManager
         $user = $this->getUserById($userId);
 
         if (isset($params['isoP'])) {
-
             $country = $this->getCountryByIso($params['isoP']);
             $fullNumber = $user->fullphone_number;
-
         } else {
-
             $userContactActif = $this->getidCountryForSms($userId);
             $country = $this->getCountrieById($userContactActif->codeP);
             $fullNumber = $userContactActif->fullNumber;
-
         }
         $idCountry = $country->phonecode;
         $this->earnDebugSms("User id - " . $user->idUser);
@@ -401,113 +398,108 @@ class settingsManager
         if (isset($params['lang'])) {
             $withChangeTransLang = true;
         }
-        if ($withChangeTransLang)
-            $msss = $this->getMessageFinalByLang($params['msg'], $typeEventNotification, $params['lang']);
-        else
-            $msss = $this->getMessageFinal($params['msg'], $typeEventNotification);
 
+        $msss = $withChangeTransLang ? $this->getMessageFinalByLang($params['msg'], $typeEventNotification, $params['lang']) : $this->getMessageFinal($params['msg'], $typeEventNotification);
         $this->earnDebugSms("Message - " . $msss);
         $user_notif = $this->getUserNotificationSetting($user->idUser);
-
         if (isset($params['fullNumber'])) {
             $fullNumber = $params['fullNumber'];
         }
-
         $this->earnDebugSms("Full number - " . $fullNumber);
         $param = ['msg' => $msss, 'fullNumber' => $fullNumber];
-        if (isset($params['type'])) {
-            $this->earnDebugSms("Param type existe - " . $params['type']->value);
-            switch ($params['type']) {
-                case TypeNotificationEnum::SMS :
-                    $this->earnDebugSms("Case Sms :");
-                    $this->earnDebugSms("Country is - " . $user->idCountry);
-                    switch ($idCountry) {
-                        case 216 :
-                            $result = $this->notifyHelper->notifyuser(TypeNotificationEnum::SMS, OperateurSmsEnum::Tunisie, $typeEventNotification, $param);
-                            break;
-                        default :
-                            $result = $this->notifyHelper->notifyuser(TypeNotificationEnum::SMS, OperateurSmsEnum::international, $typeEventNotification, $param);
-                            break;
-                    }
-                    break;
+        try {
+            if (isset($params['type'])) {
+                $this->earnDebugSms("Param type existe - " . $params['type']->value);
+                switch ($params['type']) {
+                    case TypeNotificationEnum::SMS :
+                        $this->earnDebugSms("Case Sms :");
+                        $this->earnDebugSms("Country is - " . $user->idCountry);
+                        switch ($idCountry) {
+                            case 216 :
+                                $result = $this->notifyHelper->notifyuser(TypeNotificationEnum::SMS, OperateurSmsEnum::Tunisie, $typeEventNotification, $param);
+                                break;
+                            default :
+                                $result = $this->notifyHelper->notifyuser(TypeNotificationEnum::SMS, OperateurSmsEnum::international, $typeEventNotification, $param);
+                                break;
+                        }
+                        break;
+                }
+                $this->earnDebugSms("End notify - result send SMS for user : full number- " . $fullNumber . "; message fournisseur sms- " . $result);
+                return $result;
             }
-            $this->earnDebugSms("End notify - result send SMS for user : full number- " . $fullNumber . "; message fournisseur sms- " . $result);
-            return $result;
-        }
-
-
-        $this->earnDebugSms("Param type n'existe pas.");
-        $notifSMS = $user_notif->where('idNotification', '=', $typeEventNotification->getSettingSms()->value)->first();
-        if ($notifSMS &&
-            $user_notif->where('idNotification', '=', $typeEventNotification->getSettingSms()->value)->first()->value == 1) {
-            $canSendNotificationSms = true;
-        }
-        if (isset($params['canSendSMS'])) {
-            if ($params['canSendSMS'] == 1) {
+            $this->earnDebugSms("Param type n'existe pas.");
+            $notifSMS = $user_notif->where('idNotification', '=', $typeEventNotification->getSettingSms()->value)->first();
+            if ($notifSMS &&
+                $user_notif->where('idNotification', '=', $typeEventNotification->getSettingSms()->value)->first()->value == 1) {
                 $canSendNotificationSms = true;
-            } else
-                $canSendNotificationSms = false;
-        }
-        $notifMAIL = $user_notif->where('idNotification', '=', $typeEventNotification->getSettingMail()->value)->first();
-        if ($notifMAIL && $user_notif->where('idNotification', '=', $typeEventNotification->getSettingMail()->value)->first()->value == 1) {
-            // ToDo if $params["toMail"] not exist get mail from table metta_users
-            if (isset($params["toMail"]) && isset($params["emailTitle"]))
-                $canSendNotificationMail = true;
-        }
-        if (isset($params['canSendMail'])) {
-            if ($params['canSendMail'] == 1) {
-                $canSendNotificationMail = true;
             }
-        }
-        $this->earnDebugSms("CanSendSms - " . $canSendNotificationSms . " CanSendMail - " . $canSendNotificationMail);
-        $AllTypeNotification = TypeNotificationEnum::array();
-        foreach ($AllTypeNotification as $notification => $number) {
-            switch ($notification) {
-                case TypeNotificationEnum::SMS->value :
-                    if ($canSendNotificationSms) {
-                        $notifSetting = $this->notificationRepository->getAllNotification()
-                            ->where('id', '=', $typeEventNotification->getSettingSms()->value)
-                            ->first();
-                        $soldeSuf = true;
-                        $this->earnDebugSms("Case Can send Sms: ");
-                        $sooldeSms = $this->getSoldeByAmount($user->idUser, BalanceEnum::SMS);
-                        $this->earnDebugSms("Solde Sms -: " . $sooldeSms);
-                        if ($notifSetting->payer && $sooldeSms <= 0) {
-                            $soldeSuf = false;
-                        }
-                        if ($soldeSuf) {
-                            $this->earnDebugSms("Country is  -: " . $user->idCountry);
-                            switch ($idCountry) {
-                                case 216 :
-                                    $result = $this->notifyHelper->notifyuser(TypeNotificationEnum::SMS, OperateurSmsEnum::Tunisie, $typeEventNotification, $param);
-                                    break;
-                                default:
-                                    $result = $this->notifyHelper->notifyuser(TypeNotificationEnum::SMS, OperateurSmsEnum::international, $typeEventNotification, $param);
-                                    break;
+            if (isset($params['canSendSMS'])) {
+                $canSendNotificationSms = $params['canSendSMS'] == 1 ? true : false;
+            }
+            $notifMAIL = $user_notif->where('idNotification', '=', $typeEventNotification->getSettingMail()->value)->first();
+            if ($notifMAIL && $user_notif->where('idNotification', '=', $typeEventNotification->getSettingMail()->value)->first()->value == 1) {
+                // ToDo if $params["toMail"] not exist get mail from table metta_users
+                if (isset($params["toMail"]) && isset($params["emailTitle"]))
+                    $canSendNotificationMail = true;
+            }
+            if (isset($params['canSendMail'])) {
+                if ($params['canSendMail'] == 1) {
+                    $canSendNotificationMail = true;
+                }
+            }
+            $this->earnDebugSms("CanSendSms - " . $canSendNotificationSms . " CanSendMail - " . $canSendNotificationMail);
+            $AllTypeNotification = TypeNotificationEnum::array();
+            foreach ($AllTypeNotification as $notification => $number) {
+                switch ($notification) {
+                    case TypeNotificationEnum::SMS->value :
+                        if ($canSendNotificationSms) {
+                            $notifSetting = $this->notificationRepository->getAllNotification()
+                                ->where('id', '=', $typeEventNotification->getSettingSms()->value)
+                                ->first();
+                            $soldeSuf = true;
+                            $this->earnDebugSms("Case Can send Sms: ");
+                            $sooldeSms = $this->getSoldeByAmount($user->idUser, BalanceEnum::SMS);
+                            $this->earnDebugSms("Solde Sms -: " . $sooldeSms);
+                            if ($notifSetting->payer && $sooldeSms <= 0) {
+                                $soldeSuf = false;
                             }
-                            if ($notifSetting && $notifSetting->payer) {
-                                $this->userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::SendSMS, $user->idUser);
+                            if ($soldeSuf) {
+                                $this->earnDebugSms("Country is  -: " . $user->idCountry);
+                                switch ($idCountry) {
+                                    case 216 :
+                                        $result = $this->notifyHelper->notifyuser(TypeNotificationEnum::SMS, OperateurSmsEnum::Tunisie, $typeEventNotification, $param);
+                                        break;
+                                    default:
+                                        $result = $this->notifyHelper->notifyuser(TypeNotificationEnum::SMS, OperateurSmsEnum::international, $typeEventNotification, $param);
+                                        break;
+                                }
+                                if ($notifSetting && $notifSetting->payer) {
+                                    $this->userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::SendSMS, $user->idUser);
+                                }
                             }
                         }
-                    }
-                    break;
-                case TypeNotificationEnum::MAIL->value :
-                    if ($canSendNotificationMail) {
-                        $this->earnDebugSms("Case Can send Mail: ");
-                        if ($withChangeTransLang)
-                            $mstest = $this->getMessageFinalByLang($params['msg'], $typeEventNotification, $params['lang']);
-                        else
-                            $mstest = $this->getMessageFinal($params['msg'], $typeEventNotification);
-                        $params['msg'] = $mstest;
+                        break;
+                    case TypeNotificationEnum::MAIL->value :
+                        if ($canSendNotificationMail) {
+                            $this->earnDebugSms("Case Can send Mail: ");
+                            if ($withChangeTransLang)
+                                $mstest = $this->getMessageFinalByLang($params['msg'], $typeEventNotification, $params['lang']);
+                            else
+                                $mstest = $this->getMessageFinal($params['msg'], $typeEventNotification);
+                            $params['msg'] = $mstest;
 
-                        $this->notifyHelper->notifyuser(
-                            TypeNotificationEnum::MAIL, null, $typeEventNotification, $params);
-                    }
-                    break;
+                            $this->notifyHelper->notifyuser(
+                                TypeNotificationEnum::MAIL, null, $typeEventNotification, $params);
+                        }
+                        break;
+                }
             }
+            $this->earnDebugSms("result send SMS for user : full number-" . $fullNumber . "; message fournisseur sms-" . $result);
+            return $result;
+        } catch (\Exception $e) {
+            Log::error($userId . ' ' . json_encode($params) . ' ' . $e->getMessage());
+            return null;
         }
-        $this->earnDebugSms("result send SMS for user : full number-" . $fullNumber . "; message fournisseur sms-" . $result);
-        return $result;
     }
 
     public function getUserById($id)
