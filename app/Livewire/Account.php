@@ -294,14 +294,9 @@ class Account extends Component
     {
         $check_exchange = $settingManager->randomNewCodeOpt();
         User::where('id', $userAuth->id)->update(['activationCodeValue' => $check_exchange]);
-
-        $settingManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::OPTVerification, [
-            'msg' => $check_exchange,
-            'type' => TypeNotificationEnum::SMS
-        ]);
+        $settingManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::OPTVerification, ['msg' => $check_exchange, 'type' => TypeNotificationEnum::SMS]);
         $userContactActif = $settingManager->getidCountryForSms($userAuth->id);
         $fullNumberSend = $userContactActif->fullNumber;
-
         $this->dispatch('OptChangePass', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'mail' => $fullNumberSend]);
     }
 

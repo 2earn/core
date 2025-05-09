@@ -6,7 +6,6 @@ use App\Http\Traits\earnTrait;
 use App\Models\User;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
-use Core\Models\user_earn;
 use Core\Models\UserContactNumber;
 use Core\Services\settingsManager;
 use Illuminate\Support\Facades\DB;
@@ -113,14 +112,12 @@ class ContactNumber extends Component
             ->selectRaw('usercontactnumber.id,usercontactnumber.idUser,usercontactnumber.mobile,usercontactnumber.codeP,usercontactnumber.active,
             usercontactnumber.isoP,usercontactnumber.fullNumber,usercontactnumber.isID')
             ->where('idUser', '=', $userAuth->idUser)
-            ->where(
-                function ($query) {
-                    return $query
-                        ->where('mobile', 'like', '%' . $this->search . '%')
-                        ->orWhere('id', 'like', '%' . $this->search . '%');
-                })
+            ->where(function ($query) {
+                return $query
+                    ->where('mobile', 'like', '%' . $this->search . '%')
+                    ->orWhere('id', 'like', '%' . $this->search . '%');
+            })
             ->get();
-
         return view('livewire.contact-number', ['userContactNumber' => $userContactNumber])->extends('layouts.master')->section('content');
     }
 }

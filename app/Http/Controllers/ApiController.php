@@ -499,17 +499,16 @@ class ApiController extends BaseController
             $msg = $msg . " transfert de " . $data->tran_total . $data->cart_currency . "(" . number_format($data->tran_total / $k, 2) . "$)";
         }
         $idUser = $settingsManager->getUserByIdUser($user)->id;
-        $settingsManager->NotifyUser(2, TypeEventNotificationEnum::none, ['msg' => $msg, 'type' => TypeNotificationEnum::SMS]);
-        $settingsManager->NotifyUser(126, TypeEventNotificationEnum::none, ['msg' => $msg, 'type' => TypeNotificationEnum::SMS]);
+        $notifParams = ['msg' => $msg, 'type' => TypeNotificationEnum::SMS];
+        foreach ([2, 126] as $userId) {
+            $settingsManager->NotifyUser($userId, TypeEventNotificationEnum::none, $notifParams);
+        }
+
         if ($data->success) {
             $chaine = $data->cart_id;
             $user = explode('-', $chaine)[0];
-
-
             $old_value = Balances::getStoredUserBalances($user, Balances::CASH_BALANCE);
-
             $value = BalancesFacade::getCash($user);
-
             CashBalances::addLine([
                 'balance_operation_id' => BalanceOperationsEnum::CASH_TOP_UP_WITH_CARD->value,
                 'operator_id' => $user,
@@ -519,9 +518,7 @@ class ApiController extends BaseController
                 'value' => $data->tran_total / $k,
                 'current_balance' => $value + $data->tran_total / $k
             ]);
-
         }
-
         DB::table('user_transactions')->updateOrInsert(
             ['idUser' => $user],
             ['autorised' => $data->success, 'cause' => $data->payment_result->response_message, 'mnt' => $mnt]
@@ -534,26 +531,21 @@ class ApiController extends BaseController
         try {
             $id = $request->input('id');
             $status = $request->input('status');
-
+            $successArray = ['success' => true];
             if ($status == "true") {
                 $st = 1;
                 $dt = now();
                 DB::table('user_contacts')->where('id', $id)->update(['availablity' => $st, 'reserved_at' => $dt]);
-
-                return response()->json(['success' => true]);
+                return response()->json($successArray);
             } else {
                 $st = 0;
                 DB::table('user_contacts')->where('id', $id)->update(['availablity' => $st]);
-
-                return response()->json(['success' => true]);
-
+                return response()->json($successArray);
             }
-
             DB::table('user_contacts')
                 ->where('id', $id)
                 ->update(['availablity' => $st, 'reserved_at' => $dt]);
-
-            return response()->json(['success' => true]);
+            return response()->json($successArray);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return response()->json(['error' => 'Internal Server Error'], 500);
@@ -565,9 +557,7 @@ class ApiController extends BaseController
         try {
             $id = $request->input('id');
             $st = 0;
-
             DB::table('shares_balances')->where('id', $id)->update(['payed' => $st]);
-
             return response()->json(['success' => true]);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -655,7 +645,6 @@ class ApiController extends BaseController
         return response()->json($query);
     }
 
-
     public function getSharePriceEvolutionDateQuery()
     {
         return DB::table('shares_balances')
@@ -726,7 +715,6 @@ class ApiController extends BaseController
     {
         $query = $this->getSharePriceEvolutionDayQuery();
         foreach ($query as $record) {
-
             $record->y = (float)$record->y;
         }
         return response()->json($query);
@@ -739,7 +727,6 @@ class ApiController extends BaseController
             if ($record->y) $record->y = (float)$record->y;
             $record->x = (float)$record->x;
         }
-
         return response()->json($query);
     }
 

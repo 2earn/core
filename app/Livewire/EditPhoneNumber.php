@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Models\UserEarn;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
-use Core\Models\user_earn;
 use Core\Models\UserContactNumber;
 use Core\Services\settingsManager;
 use Illuminate\Support\Facades\DB;
@@ -77,9 +76,9 @@ class EditPhoneNumber extends Component
         } elseif ($methodeVerification == 'phone') {
             $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::OPTVerification, ['fullNumber' => $fullNumber, 'msg' => $check_exchange, 'type' => TypeNotificationEnum::SMS]);
             $sendin = $fullNumber;
-        } else
+        } else {
             return;
-
+        }
         $this->dispatch('PreChPhone', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'FullNumber' => $sendin, 'methodeVerification' => $methodeVerification]);
     }
 }
