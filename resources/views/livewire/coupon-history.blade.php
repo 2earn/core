@@ -109,37 +109,53 @@
                         showCancelButton: true,
                         cancelButtonText: '{{trans('canceled !')}}',
                         confirmButtonText: '{{trans('ok')}}',
-                        footer: '<i></i><div class="footerOpt"></div>',
-                        didOpen: () => {
-                            const b = Swal.getFooter().querySelector('i');
-                            const p22 = Swal.getFooter().querySelector('div');
-                            p22.innerHTML = '<br>' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>';
-                        },
                         input: 'text',
                         inputAttributes: {autocapitalize: 'off'},
                     }).then((resultat) => {
                         if (resultat.isConfirmed) {
-                            window.Livewire.dispatch('verifPassword', [resultat.value]);
+                            window.Livewire.dispatch('verifPassword', [resultat.value, $(event.target).attr('data-name')]);
                         }
                     }).catch((error) => {
                         console.error('SweetAlert Error:', error);
                     });
                 });
+
                 window.addEventListener('showPin', event => {
                     Swal.fire({
                         title: event.detail[0].title,
-                        text: event.detail[0].text,
-                        icon: 'error',
-                        confirmButtonText: "{{__('ok')}}"
-                    })
+                        html: event.detail[0].html,
+                        icon: 'success',
+                        allowOutsideClick: false,
+                        confirmButtonText: "{{__('ok')}}",
+                        backdrop: `
+                            rgba(0,0,0,0.7)
+                            left top
+                            no-repeat
+                          `
+                    }).then(() => {
+                        location.reload();
+                    }).catch((error) => {
+                        console.error('SweetAlert Error:', error);
+                    });
                 });
+
                 window.addEventListener('cancelPin', event => {
                     Swal.fire({
                         title: event.detail[0].title,
                         text: event.detail[0].text,
                         icon: 'error',
-                        confirmButtonText: "{{__('ok')}}"
-                    })
+                        allowOutsideClick: false,
+                        confirmButtonText: "{{__('Back to coupons history')}}",
+                        backdrop: `
+                            rgba(0,0,0,0.7)
+                            left top
+                            no-repeat
+                          `
+                    }).then(() => {
+                        location.reload();
+                    }).catch((error) => {
+                        console.error('SweetAlert Error:', error);
+                    });
                 });
             });
         </script>

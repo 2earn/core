@@ -27,10 +27,11 @@ class CouponHistory extends Component
         }
     }
 
-    public function verifPassword($password)
+    public function verifPassword($password,$sn)
     {
         if (Hash::check($password, auth()->user()->password)) {
-            $this->dispatch('showPin', ['title' => trans('Valid code'), 'text' => trans('Valid code')]);
+            $coupon= Coupon::where('sn',$sn)->first();
+            $this->dispatch('showPin', ['title' => trans('This is the pin code'), 'html' => '<input class="form-control input-sm" value="'.$coupon->pin.'">']);
         } else {
             $this->dispatch('cancelPin', ['title' => trans('Valid code'), 'text' => trans('Invalid code')]);
         }
