@@ -108,7 +108,6 @@ class CheckOptCode extends Component
             }
             $userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::Signup, $user->idUser);
         }
-        return redirect()->route('login', app()->getLocale())->with('success', Lang::get('User registred successfully, you can login now'));
+        return redirect()->route('login', app()->getLocale())->with('success', Lang::get('User registered successfully, you can login now'));
     }
-
 }

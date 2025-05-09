@@ -488,8 +488,7 @@ class settingsManager
                                 $mstest = $this->getMessageFinal($params['msg'], $typeEventNotification);
                             $params['msg'] = $mstest;
 
-                            $this->notifyHelper->notifyuser(
-                                TypeNotificationEnum::MAIL, null, $typeEventNotification, $params);
+                            $this->notifyHelper->notifyuser(TypeNotificationEnum::MAIL, null, $typeEventNotification, $params);
                         }
                         break;
                 }
@@ -613,12 +612,8 @@ class settingsManager
                 $language = language::where('name', $uMetta->idLanguage)->first();
                 $lang = $language?->PrefixLanguage;
             }
-            $this->NotifyUser($user->id, TypeEventNotificationEnum::RequestDenied, [
-                'msg' => $note,
-                'type' => TypeNotificationEnum::SMS,
-                'canSendSMS' => 1,
-                'lang' => $lang
-            ]);
+            $params = ['msg' => $note, 'type' => TypeNotificationEnum::SMS, 'canSendSMS' => 1, 'lang' => $lang];
+            $this->NotifyUser($user->id, TypeEventNotificationEnum::RequestDenied, $params);
         }
     }
 

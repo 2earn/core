@@ -40,21 +40,17 @@ class ForgotPassword extends Component
 
         $act_code = rand(1000, 9999);
         User::where('id', $user->id)->update(['activationCodeValue' => $act_code]);
-        $settingsManager->NotifyUser($user->id, TypeEventNotificationEnum::ForgetPassword, [
-            'msg' => $act_code,
-            'type' => TypeNotificationEnum::SMS
-        ]);
-        $this->earnDebug('Forget password sms sended : fullNumber- ' . $fullNumber . ' code pays- ' . $ccode . 'OPT-' . $act_code);
-
+        $settingsManager->NotifyUser($user->id, TypeEventNotificationEnum::ForgetPassword, ['msg' => $act_code, 'type' => TypeNotificationEnum::SMS]);
+        $this->earnDebug('Forget password sms sent : fullNumber- ' . $fullNumber . ' code pays- ' . $ccode . 'OPT-' . $act_code);
         $userContactActif = $settingsManager->getidCountryForSms($user->id);
         $fullNumberSend = $userContactActif->fullNumber;
-
-        $this->dispatch('OptForgetPass', [
+        $params = [
             'type' => 'warning',
             'title' => "Opt",
             'text' => '',
             'FullNumber' => $fullNumberSend,
-        ]);
+        ];
+        $this->dispatch('OptForgetPass', $params);
     }
 
     public function sendSms($codeOPT, $phoneNumber, settingsManager $settingsManager)
@@ -66,9 +62,8 @@ class ForgotPassword extends Component
         }
         if ($codeOPT != $user->activationCodeValue) {
             $this->earnDebug('Forget password input opt code OPT invalide  : fullNumber- ' . $phoneNumber . ' codeOPT- ' . $codeOPT);
-            return redirect()->route("forget_password", app()->getLocale())->with('danger', Lang::get('Invalid_OPT_code'));
+            return redirect()->route("forget_password", app()->getLocale())->with('danger', Lang::get('Invalid OPT code'));
         }
-
         return redirect()->route("reset_password", ["locale" => app()->getLocale(), "idUser" => Crypt::encryptString($user->idUser)]);
     }
 
