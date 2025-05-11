@@ -47,9 +47,24 @@ class CouponBuy extends Component
         $this->idPlatform = Route::current()->parameter('id');;
         $this->amount = 0;
         $this->displayedAmount = 0;
-        $this->maxAmount = Coupon::where('status', CouponStatusEnum::available->value)
+
+        $this->maxAmount = Coupon::where(function ($query) {
+
+            $query
+                ->orWhere('status', CouponStatusEnum::available->value)
+                ->orWhere(function ($subQueryReservedForOther) {
+                    $subQueryReservedForOther->where('status', CouponStatusEnum::reserved->value)
+                        ->where('reserved_until', '<', now());
+                })
+                ->orWhere(function ($subQueryReservedForUser) {
+                    $subQueryReservedForUser->where('status', CouponStatusEnum::reserved->value)
+                        ->where('reserved_until', '>=', now())
+                        ->where('user_id', auth()->user()->id);
+                });
+        })
             ->where('platform_id', $this->idPlatform)
             ->sum('value');
+
         $this->time = getSettingIntegerParam('DELAY_FOR_COUPONS_SIMULATION', self::DELAY_FOR_COUPONS_SIMULATION);
     }
 
