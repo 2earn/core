@@ -424,6 +424,9 @@ class settingsManager
                         }
                         break;
                 }
+
+                Log::notice(json_encode($result));
+
                 $this->earnDebugSms("End notify - result send SMS for user : full number- " . $fullNumber . "; message fournisseur sms- " . $result);
                 return $result;
             }
@@ -473,6 +476,8 @@ class settingsManager
                                         $result = $this->notifyHelper->notifyuser(TypeNotificationEnum::SMS, OperateurSmsEnum::international, $typeEventNotification, $param);
                                         break;
                                 }
+                                Log::notice(json_encode($result));
+
                                 if ($notifSetting && $notifSetting->payer) {
                                     $this->userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::SendSMS, $user->idUser);
                                 }

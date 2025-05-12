@@ -24,6 +24,11 @@ class NotifyHelper
     {
     }
 
+    public function removeLeadingZeros($phoneNumber)
+    {
+        return preg_replace('/^00/', '', $phoneNumber);
+    }
+
     /**
      * Returns void
      *
@@ -56,7 +61,8 @@ class NotifyHelper
                     default => new  DefaultNotification(),
                 };
                 break;
-            case TypeNotificationEnum::MAIL:
+            case
+            TypeNotificationEnum::MAIL:
                 $this->notifiable = new MailNotification(
                     new  StandardMailOperator($params["toMail"], $params["emailTitle"], $params["msg"], $typeEvent)
                 );
