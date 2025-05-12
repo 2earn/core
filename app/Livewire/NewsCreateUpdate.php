@@ -24,6 +24,7 @@ class NewsCreateUpdate extends Component
     protected $rules = [
         'title' => 'required',
         'content' => 'required',
+        'mainImage' => 'nullable|image|mimes:jpeg,png,jpg',
     ];
 
     public function mount(Request $request)

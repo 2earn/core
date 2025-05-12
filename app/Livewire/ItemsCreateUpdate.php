@@ -31,6 +31,7 @@ class ItemsCreateUpdate extends Component
         'price' => 'required',
         'discount' => 'required',
         'discount_2earn' => 'required',
+        'thumbnailsImage' => 'nullable|image|mimes:jpeg,png,jpg',
     ];
 
     public function mount(Request $request)
