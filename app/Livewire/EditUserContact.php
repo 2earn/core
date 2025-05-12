@@ -16,8 +16,7 @@ use Propaganistas\LaravelPhone\PhoneNumber;
 
 class EditUserContact extends Component
 {
-    public $idd;
-    public $locc;
+
     public $idContact;
     public $userCOntact;
     public $nameUserContact;
@@ -39,7 +38,10 @@ class EditUserContact extends Component
     {
         $type = $request->input('UserContact');
         if ($type) {
-            $this->userCOntact = $this->userCOntact = ContactUser::find($type);
+            $this->userCOntact = $this->userCOntact = ContactUser::where('id', $type)->where('idUser', auth()->user()->idUser)->first();
+            if(is_null($this->userCOntact)){
+                return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('You are not allowed to edit this user contact'));
+            }
             $this->nameUserContact = $this->userCOntact->name;
             $this->lastNameUserContact = $this->userCOntact->lastName;
             $this->phoneNumber = $this->userCOntact->mobile;
