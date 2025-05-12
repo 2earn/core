@@ -1234,6 +1234,9 @@ class ApiController extends BaseController
             ->addColumn('value', function ($coupon) {
                 return view('parts.datatable.coupon-value', ['coupon' => $coupon]);
             })
+            ->addColumn('pin', function ($coupon) {
+                return view('parts.datatable.coupon-pin', ['coupon' => $coupon]);
+            })
             ->addColumn('consumed', function ($coupon) {
                 return view('parts.datatable.coupon-consumed', ['coupon' => $coupon]);
             })
