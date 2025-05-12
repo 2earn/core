@@ -24,6 +24,11 @@ class NotifyHelper
     {
     }
 
+    public function removeLeadingZeros($phoneNumber)
+    {
+        return preg_replace('/^00/', '', $phoneNumber);
+    }
+
     /**
      * Returns void
      *
@@ -47,16 +52,17 @@ class NotifyHelper
                 if ($operateurSms == null) return;
                 $this->notifiable = match ($operateurSms) {
                     OperateurSmsEnum::Tunisie => new SmsNotification(
-                        new TunisieOperatorSms($params["fullNumber"], $params["msg"], $typeEvent)
+                        new TunisieOperatorSms($this->removeLeadingZeros($params["fullNumber"]), $params["msg"], $typeEvent)
                     ),
                     OperateurSmsEnum::sa => new SmsNotification(
                         new SaSmsOperator()
                     ),
-                    OperateurSmsEnum::international => new SmsNotification(new InternationalOperatorSms($params["fullNumber"], $params["msg"], $typeEvent)),
+                    OperateurSmsEnum::international => new SmsNotification(new InternationalOperatorSms($this->removeLeadingZeros($params["fullNumber"]), $params["msg"], $typeEvent)),
                     default => new  DefaultNotification(),
                 };
                 break;
-            case TypeNotificationEnum::MAIL:
+            case
+            TypeNotificationEnum::MAIL:
                 $this->notifiable = new MailNotification(
                     new  StandardMailOperator($params["toMail"], $params["emailTitle"], $params["msg"], $typeEvent)
                 );

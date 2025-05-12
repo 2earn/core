@@ -48,12 +48,12 @@ class ContactNumber extends Component
         if (!$userAuth) return;
         $user = $settingsManager->getUserById($userAuth->id);
         if (!$user) return;
-        $countrie = $settingsManager->getCountryByIso($iso);
-        if (!$countrie) return;
+        $country = $settingsManager->getCountryByIso($iso);
+        if (!$country) return;
         if ($code != $user->OptActivation) {
             return redirect()->route("contact_number", app()->getLocale())->with('danger', Lang::get('Invalid OPT code'));
         }
-        $newC = $settingsManager->createUserContactNumberByProp($userAuth->idUser, $mobile, $countrie->id, $iso, $fullNumber);
+        $newC = $settingsManager->createUserContactNumberByProp($userAuth->idUser, $mobile, $country->id, $iso, $fullNumber);
         return redirect()->route('contact_number', app()->getLocale())->with('success', trans('Adding contact number completed successfully'));
     }
 
@@ -79,7 +79,6 @@ class ContactNumber extends Component
         User::where('id', $userAuth->id)->update(['OptActivation' => $check_exchange]);
         $numberID = $settingsManager->getNumberCOntactID($userAuth->idUser)->fullNumber;
         $userMail = $settingsManager->getUserById($userAuth->id)->email;
-
         $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::OPTVerification, ['fullNumber' => $numberID, 'msg' => $check_exchange, 'type' => TypeNotificationEnum::SMS, 'isoP' => $isoP]);
         $userMailSend = "";
         if ($userMail != null) {
