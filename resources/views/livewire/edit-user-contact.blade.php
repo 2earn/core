@@ -57,7 +57,7 @@
                                 <input type="text" name="idUser" hidden>
                                 <div class="col-md-12">
                                     <button type="button" class="btn btn-outline-secondary float-end  mx-1"
-                                            wire:click="close">{{ __('Close') }}
+                                            wire:click="close">{{ __('Cancel') }}
                                     </button>
                                     <button type="button" id="SubmitAd3dContact" onclick="editContactEvent()"
                                             class="btn btn-outline-info float-end mx-1">
