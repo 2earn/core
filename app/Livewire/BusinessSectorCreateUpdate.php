@@ -26,6 +26,8 @@ class BusinessSectorCreateUpdate extends Component
     protected $rules = [
         'name' => 'required',
         'description' => 'required',
+        'thumbnailsImage' => 'nullable|image|mimes:jpeg,png,jpg',
+        'logoImage' => 'nullable|image|mimes:jpeg,png,jpg',
     ];
 
     public function mount(Request $request)
