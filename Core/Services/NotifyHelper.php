@@ -52,12 +52,12 @@ class NotifyHelper
                 if ($operateurSms == null) return;
                 $this->notifiable = match ($operateurSms) {
                     OperateurSmsEnum::Tunisie => new SmsNotification(
-                        new TunisieOperatorSms($this->removeLeadingZeros($params["fullNumber"]), $params["msg"], $typeEvent)
+                        new TunisieOperatorSms($params["fullNumber"], $params["msg"], $typeEvent)
                     ),
                     OperateurSmsEnum::sa => new SmsNotification(
                         new SaSmsOperator()
                     ),
-                    OperateurSmsEnum::international => new SmsNotification(new InternationalOperatorSms($this->removeLeadingZeros($params["fullNumber"]), $params["msg"], $typeEvent)),
+                    OperateurSmsEnum::international => new SmsNotification(new InternationalOperatorSms($params["fullNumber"], $params["msg"], $typeEvent)),
                     default => new  DefaultNotification(),
                 };
                 break;
