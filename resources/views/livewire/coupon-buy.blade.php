@@ -95,12 +95,12 @@
 
                                     {{__('Depending on coupon availability, you can choose to purchase for')}}
                                     @if($amount>0 && ($lastValue+$amount<=$maxAmount))
-                                        {{$amount}}
+                                        {{$amount}} {{config('app.currency')}}
                                     @endif
                                     @if($amount>0 && ($lastValue+$amount<=$maxAmount))
                                         {{__('or')}}
                                     @endif
-                                    {{$lastValue+$amount}}
+                                    {{$lastValue+$amount}} {{config('app.currency')}}
                                     {{__('as a coupon with the exact requested value is not available')}}
                                     <button type="button" class="btn-close"
                                             data-bs-dismiss="alert"
