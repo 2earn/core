@@ -29,14 +29,17 @@ class ForgotPassword extends Component
     public function PresendSms($ccode, $fullNumber, settingsManager $settingsManager)
     {
         $user = $settingsManager->getUserByFullNumber($fullNumber);
-        if ($user->status == StatusRequest::Registred->value) {
-            $this->earnDebug('Forget password user with not valid status : fullNumber- ' . $fullNumber . ' code pays- ' . $ccode);
-            return redirect()->route("registre", app()->getLocale())->with('danger', Lang::get('Registration operation not completed for this user'));
-        }
+
         if (!$user) {
             $this->earnDebug('Forget password user not found : fullNumber- ' . $fullNumber . ' code pays- ' . $ccode);
             return redirect()->route("forget_password", app()->getLocale())->with('danger', Lang::get('User not found !'));
         }
+
+        if ($user?->status == StatusRequest::Registred->value) {
+            $this->earnDebug('Forget password user with not valid status : fullNumber- ' . $fullNumber . ' code pays- ' . $ccode);
+            return redirect()->route("registre", app()->getLocale())->with('danger', Lang::get('Registration operation not completed for this user'));
+        }
+
         $act_code = rand(1000, 9999);
         User::where('id', $user->id)->update(['activationCodeValue' => $act_code]);
         $settingsManager->NotifyUser($user->id, TypeEventNotificationEnum::ForgetPassword, [
