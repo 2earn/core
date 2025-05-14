@@ -170,7 +170,12 @@ class CouponBuy extends Component
             $order->updateStatus(OrderEnum::Ready);
             $simulation = Ordering::simulate($order);
             if ($simulation) {
-                Ordering::run($simulation);
+                $status = Ordering::run($simulation);
+                if ($status->value == OrderEnum::Failed->value) {
+                    return redirect()->route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform])->with('danger', trans('Coupons order failed'));
+                }
+            } else {
+                return redirect()->route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform])->with('danger', trans('Coupons order failed'));
             }
             $this->coupons = [];
             foreach ($note as $sn) {
