@@ -16,9 +16,9 @@ use Core\Enum\BalanceOperationsEnum;
 use Core\Enum\CommissionTypeEnum;
 use Core\Enum\OrderEnum;
 use Core\Models\BalanceOperation;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Exception;
 
 class Ordering
 {
@@ -61,12 +61,15 @@ class Ordering
             $shippingSum = $shippingSum + $orderDetail->shipping;
             $totalOrderQuantity = $totalOrderQuantity + $orderDetail->qty;
             if ($orderDetail?->item?->deal()->exists()) {
-                $deal_amount_before_discount = $deal_amount_before_discount + ($orderDetail->unit_price * $orderDetail->qty);
+                if (str_contains($order->note, 'Coupons buy from')) {
+                    $deal_amount_before_discount = $deal_amount_before_discount + $orderDetail->unit_price;
+                } else {
+                    $deal_amount_before_discount = $deal_amount_before_discount + ($orderDetail->unit_price * $orderDetail->qty);
+                }
             } else {
                 $price_of_products_out_of_deal = $price_of_products_out_of_deal + ($orderDetail->unit_price * $orderDetail->qty);
             }
         }
-
         $out_of_deal_amount = $shippingSum + $price_of_products_out_of_deal;
 
         $order->update([
@@ -292,7 +295,7 @@ class Ordering
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
                     'beneficiary_id' => $order->user()->first()->idUser,
                     'reference' => BalancesFacade::getReference(BalanceOperationsEnum::ORDER_DISCOUNT->value),
-                    'description' => $countedDiscount . ' From ordering (id) ' . $order->id ,
+                    'description' => $countedDiscount . ' From ordering (id) ' . $order->id,
                     'value' => $countedDiscount,
                     'current_balance' => $currentBalance
                 ];
@@ -312,7 +315,7 @@ class Ordering
                     'beneficiary_id' => $order->user()->first()->idUser,
                     'reference' => BalancesFacade::getReference(BalanceOperationsEnum::ORDER_BFS->value),
                     'percentage' => $key,
-                    'description' => $bfs['toSubstruct'] . ' From ordering (id) ' . $order->id ,
+                    'description' => $bfs['toSubstruct'] . ' From ordering (id) ' . $order->id,
                     'value' => $bfs['toSubstruct'],
                     'current_balance' => $currentBalance
                 ];

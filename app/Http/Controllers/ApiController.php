@@ -17,6 +17,7 @@ use App\Services\Sponsorship\SponsorshipFacade;
 use carbon;
 use Core\Enum\BalanceEnum;
 use Core\Enum\BalanceOperationsEnum;
+use Core\Enum\CouponStatusEnum;
 use Core\Enum\DealStatus;
 use Core\Enum\PlatformType;
 use Core\Enum\StatusRequest;
@@ -1221,7 +1222,7 @@ class ApiController extends BaseController
 
     public function getUserCoupons()
     {
-        return datatables(Coupon::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->get())
+        return datatables(Coupon::where('user_id', auth()->user()->id)->where('status', CouponStatusEnum::sold->value)->orderBy('id', 'desc')->get())
             ->addColumn('action', function ($coupon) {
                 return view('parts.datatable.coupon-consume', ['coupon' => $coupon]);
             })
