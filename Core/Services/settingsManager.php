@@ -415,7 +415,7 @@ class settingsManager
                         $this->earnDebugSms("Case Sms :");
                         $this->earnDebugSms("Country is - " . $user->idCountry);
                         switch ($idCountry) {
-                            case 216 :
+                            case 2160 :
                                 $result = $this->notifyHelper->notifyuser(TypeNotificationEnum::SMS, OperateurSmsEnum::Tunisie, $typeEventNotification, $param);
                                 break;
                             default :
