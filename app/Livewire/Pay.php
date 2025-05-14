@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request as Req;
 use Paytabscom\Laravel_paytabs\Facades\paypage;
 
-class pay
+class Pay
 {
     public function test(Req $request)
     {
