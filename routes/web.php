@@ -128,7 +128,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/user/edit-contact', EditUserContact::class)->name('user_contact_edit');
         Route::get('/balances/exchange/funding/RequestPulicUser', RequestPublicUser::class)->name('user_request_public');
         Route::get('/balances/exchange/funding/strip', stripView::class)->name('payment_strip');
-        Route::get('/paytabs', 'App\Livewire\pay@test')->name('paytabs');
+        Route::get('/paytabs', '\App\Livewire\pay@test')->name('paytabs');
         Route::get('/hobbies', Hobbies::class)->name('hobbies');
 
         Route::prefix('/orders')->name('orders_')->group(function () {
