@@ -175,6 +175,7 @@ class CouponBuy extends Component
                     return redirect()->route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform])->with('danger', trans('Coupons order failed'));
                 }
             } else {
+                $order->updateStatus(OrderEnum::Failed);
                 return redirect()->route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform])->with('danger', trans('Coupons order failed'));
             }
             $this->coupons = [];

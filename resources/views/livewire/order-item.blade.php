@@ -30,11 +30,9 @@
                             class="badge bg-info ms-1">{{$order->total_order_quantity}}</span>
                     </button>
                 @endif
-                @if(\App\Models\User::isSuperAdmin())
-                    <button type="button" class="btn btn-soft-secondary material-shadow-none btn-sm">
-                        {{__($order->status->name)}}
-                    </button>
-                @endif
+                <button type="button" class="btn btn-soft-secondary material-shadow-none btn-sm">
+                    {{__($order->status->name)}}
+                </button>
                 <button type="button" class="btn btn-soft-warning material-shadow-none btn-sm"
                         title="{{__('Platform')}}">
                     {{__($order->OrderDetails()->first()->item()->first()?->platform()->first()->name)}}
