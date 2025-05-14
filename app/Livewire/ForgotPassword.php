@@ -47,7 +47,7 @@ class ForgotPassword extends Component
         $user = $settingsManager->getUserByFullNumber($fullNumber);
         if (!$user) {
             $this->earnDebug('Forget password user not found : fullNumber- ' . $fullNumber . ' code pays- ' . $ccode);
-            return redirect()->route("forget_password", app()->getLocale())->with('danger', Lang::get('User not found'));
+            return redirect()->route("forget_password", app()->getLocale())->with('danger', Lang::get('Bad credentials'));
         }
         if ($user?->status == StatusRequest::Registred->value) {
             $this->earnDebug('Forget password user with not valid status : fullNumber- ' . $fullNumber . ' code pays- ' . $ccode);
@@ -74,7 +74,7 @@ class ForgotPassword extends Component
         $user = $settingsManager->getUserByFullNumber($phoneNumber);
         if (!$user) {
             $this->earnDebug('Forget password input opt user not found  : fullNumber- ' . $phoneNumber);
-            return redirect()->route("forget_password", app()->getLocale())->with('danger', Lang::get('User not found'));
+            return redirect()->route("forget_password", app()->getLocale())->with('danger', Lang::get('Bad credentials'));
         }
         if ($codeOPT != $user->activationCodeValue) {
             $this->earnDebug('Forget password input opt code OPT invalide  : fullNumber- ' . $phoneNumber . ' codeOPT- ' . $codeOPT);

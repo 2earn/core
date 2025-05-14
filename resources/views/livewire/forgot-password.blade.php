@@ -31,17 +31,12 @@
                         <div class="col-md-8 col-lg-6 col-xl-5">
                             <div class="card mt-4">
                                 <div class="card-body">
-                                    <div class="text-center mt-2">
+                                    <div class="text-center mt-2 mb-4">
                                         <h5 class="text-primary">{{__('Forgot Password?')}}</h5>
                                         <p class="text-muted">{{__('Reset password with 2earn')}}</p>
                                         <lord-icon src="https://cdn.lordicon.com/rhvddzym.json" trigger="loop"
                                                    colors="primary:#0ab39c" class="avatar-xl">
                                         </lord-icon>
-                                    </div>
-                                    <div
-                                        class="alert alert-borderless alert-warning  material-shadow text-center mb-2 mx-2"
-                                        role="alert">
-                                        {{__('Enter your mobile  will be sent to you!')}}
                                     </div>
                                     @include('layouts.flash-messages')
                                     <form id="forget-password-form">
