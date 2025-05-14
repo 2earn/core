@@ -7,6 +7,11 @@
             {{ __('Order Summary') }}
         @endslot
     @endcomponent
+    <div class="row">
+        <div class="col-12">
+            @include('layouts.flash-messages')
+        </div>
+    </div>
     <div class="card">
         @if($cart->total_cart>0)
             <div class="card-header">
@@ -35,9 +40,10 @@
                                              src="{{$item->item()->first()->photo_link}}"
                                              class="img-fluid d-block"/>
                                     @elseif($item->item()->first()->thumbnailsImage)
-                                        <img src="{{ asset('uploads/' . $item->item()->first()->thumbnailsImage->url) }}"
-                                                alt="{{__('Item Image')}}"
-                                                class="img-fluid d-block"
+                                        <img
+                                            src="{{ asset('uploads/' . $item->item()->first()->thumbnailsImage->url) }}"
+                                            alt="{{__('Item Image')}}"
+                                            class="img-fluid d-block"
                                         >
                                     @else
                                         <img src="{{Vite::asset(\App\Models\Item::DEFAULT_IMAGE_TYPE_THUMB)}}"

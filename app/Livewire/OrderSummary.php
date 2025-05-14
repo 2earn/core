@@ -3,13 +3,12 @@
 namespace App\Livewire;
 
 use App\Models\Cart;
-
 use App\Models\Order;
 use App\Services\Carts\Carts;
 use App\Services\Orders\Ordering;
 use Core\Enum\OrderEnum;
-use Livewire\Component;
 use Illuminate\Support\Facades\Route;
+use Livewire\Component;
 
 class OrderSummary extends Component
 {
@@ -21,10 +20,12 @@ class OrderSummary extends Component
         'validateCart' => 'validateCart',
         'clearCart' => 'clearCart'
     ];
+
     public function mount()
     {
         $this->currentRouteName = Route::currentRouteName();
     }
+
     public function validateCart()
     {
         $cart = Cart::where('user_id', auth()->user()->id)->first();
@@ -49,8 +50,15 @@ class OrderSummary extends Component
             }
             $order->updateStatus(OrderEnum::Ready);
             $simulation = Ordering::simulate($order);
+
             if ($simulation) {
-                Ordering::run($simulation);
+                $status = Ordering::run($simulation);
+                if ($status->value == OrderEnum::Failed->value) {
+                    return redirect()->route('orders_summary', ['locale' => app()->getLocale()])->with('danger', trans('order failed'));
+                }
+            } else {
+                $order->updateStatus(OrderEnum::Failed);
+                return redirect()->route('orders_summary', ['locale' => app()->getLocale()])->with('danger', trans('order failed'));
             }
             $this->orders[] = $order;
         }

@@ -31,6 +31,7 @@ class Order extends Model
         'status',
     ];
     protected $casts = ['status' => OrderEnum::class];
+
     public function OrderDetails(): HasMany
     {
         return $this->hasMany(OrderDetail::class, 'order_id', 'id');
@@ -47,7 +48,9 @@ class Order extends Model
             throw new InvalidArgumentException("Invalid status provided.");
         }
         $this->status = $newStatus;
-        return $this->save();
+        $this->save();
+        return $this->status;
+
     }
 
 }

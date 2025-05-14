@@ -86,6 +86,13 @@
                     </div>
                 </div>
                 <div class="row">
+                    @if($buyed)
+                        <div class="col-lg-12 mb-2">
+                            <div class="alert alert-success material-shadow" role="alert">
+                                <strong> {{__('Coupoun Order secceded')}}</strong>
+                            </div>
+                        </div>
+                    @endif
                     @if($lastValue)
                         @if(!$buyed && !$equal)
                             <div class="col-lg-12 mb-2">

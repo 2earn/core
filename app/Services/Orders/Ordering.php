@@ -300,6 +300,8 @@ class Ordering
                     'current_balance' => $currentBalance
                 ];
                 DiscountBalances::addLine($discountData, null, null, $order->id, null, null);
+            } else {
+                throw new Exception('No discount solde');
             }
         }
     }
@@ -320,6 +322,8 @@ class Ordering
                     'current_balance' => $currentBalance
                 ];
                 BFSsBalances::addLine($bfsData, null, null, $order->id, null, null);
+            } else {
+                throw new Exception('No BFS sold');
             }
         }
     }
@@ -327,17 +331,21 @@ class Ordering
     public static function runCASH(Order $order, $balances)
     {
         if ($order->paid_cash) {
-            $currentBalance = $balances->cash_balance + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_CASH->value) * $order->paid_cash);
-            $cashData = [
-                'balance_operation_id' => BalanceOperationsEnum::ORDER_CASH->value,
-                'operator_id' => Balances::SYSTEM_SOURCE_ID,
-                'beneficiary_id' => $order->user()->first()->idUser,
-                'reference' => BalancesFacade::getReference(BalanceOperationsEnum::ORDER_CASH->value),
-                'description' => $order->paid_cash . ' From ordering (id) ' . $order->id,
-                'value' => $order->paid_cash,
-                'current_balance' => $currentBalance
-            ];
-            CashBalances::addLine($cashData, null, null, $order->id, null, null);
+            if ($order->paid_cash <= $balances->cash_balance) {
+                $currentBalance = $balances->cash_balance + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_CASH->value) * $order->paid_cash);
+                $cashData = [
+                    'balance_operation_id' => BalanceOperationsEnum::ORDER_CASH->value,
+                    'operator_id' => Balances::SYSTEM_SOURCE_ID,
+                    'beneficiary_id' => $order->user()->first()->idUser,
+                    'reference' => BalancesFacade::getReference(BalanceOperationsEnum::ORDER_CASH->value),
+                    'description' => $order->paid_cash . ' From ordering (id) ' . $order->id,
+                    'value' => $order->paid_cash,
+                    'current_balance' => $currentBalance
+                ];
+                CashBalances::addLine($cashData, null, null, $order->id, null, null);
+            } else {
+                throw new Exception('No Cash sold');
+            }
         }
     }
 
@@ -409,8 +417,8 @@ class Ordering
             return $simulation['order']->updateStatus(OrderEnum::Dispatched);
         } catch (Exception $exception) {
             DB::rollBack();
-            $simulation['order']->updateStatus(OrderEnum::Failed);
             Log::error($exception->getMessage());
+            return    $simulation['order']->updateStatus(OrderEnum::Failed);
         }
     }
 
