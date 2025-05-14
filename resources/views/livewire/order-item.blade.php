@@ -74,207 +74,209 @@
                         @if($order->orderDetails()->count())
                             <div class="card mt-2">
                                 <div class="card-body">
-                                    <table class="table table-striped table-bordered table-nowrap">
-                                        <thead>
-                                        <tr>
-                                            <th scope="col" class="text-end">#</th>
-                                            <th scope="col" class="text-end">{{__('Order details')}}</th>
-                                            <th scope="col" class="text-end">{{__('Prices')}}</th>
-                                            <th scope="col" class="text-end">{{__('Shipping')}}</th>
-                                            @if($order->status->value >= \Core\Enum\OrderEnum::Simulated->value && $currentRouteName=="orders_detail")
-                                                <th scope="col" class="text-end">{{__('Partner Discount')}}</th>
-                                                <th scope="col" class="text-end">{{__('2earn Discount')}}</th>
-                                                <th scope="col" class="text-end">{{__('Deal Discount')}}</th>
-                                                <th scope="col" class="text-end">{{__('Total discount')}}</th>
-                                            @endif
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($order->orderDetails()->get() as $key => $orderDetail)
-                                            <tr @if($orderDetail->item()->first()->deal()->exists()) class="table-primary"
-                                                @else class="table-warning" @endif
-                                            >
-                                                <th scope="row">{{$key + 1}}</th>
-                                                <td>
-                                                    @if($currentRouteName=="orders_detail")
-                                                        <ul class="list-group">
-                                                            <li class="list-group-item"><strong>{{__('REF')}}
-                                                                    - {{__('Name')}} </strong>
-                                                                <span class="float-end">#{{$orderDetail->item()->first()->ref}} - {{$orderDetail->item()->first()->name}}</span>
-                                                            </li>
-                                                            <li class="list-group-item">
-                                                                <strong>{{__('Price')}}</strong><span
-                                                                    class="float-end">{{$orderDetail->item()->first()->price}}  {{config('app.currency')}}</span>
-                                                            </li>
-
-                                                            <li class="list-group-item">
-                                                                <strong>{{__('Platform')}}</strong><span
-                                                                    class="float-end">  {{__($orderDetail->item()->first()?->platform()->first()->name)}}</span>
-                                                            </li>
-
-                                                            @if($orderDetail->item()->first()->deal()->exists())
-                                                                <li class="list-group-item list-group-item-success">
-                                                                    <strong>{{__('Deal')}}</strong>
-                                                                    @if(\App\Models\User::isSuperAdmin())
-                                                                        <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->deal()->first()->id])}}"><span
-                                                                                class="float-end"> {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}</span>
-                                                                        </a>
-                                                                    @else
-                                                                        <span
-                                                                            class="float-end"> {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}</span>
-                                                                    @endif
-
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-nowrap">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col" class="text-end">#</th>
+                                                <th scope="col" class="text-end">{{__('Order details')}}</th>
+                                                <th scope="col" class="text-end">{{__('Prices')}}</th>
+                                                <th scope="col" class="text-end">{{__('Shipping')}}</th>
+                                                @if($order->status->value >= \Core\Enum\OrderEnum::Simulated->value && $currentRouteName=="orders_detail")
+                                                    <th scope="col" class="text-end">{{__('Partner Discount')}}</th>
+                                                    <th scope="col" class="text-end">{{__('2earn Discount')}}</th>
+                                                    <th scope="col" class="text-end">{{__('Deal Discount')}}</th>
+                                                    <th scope="col" class="text-end">{{__('Total discount')}}</th>
+                                                @endif
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($order->orderDetails()->get() as $key => $orderDetail)
+                                                <tr @if($orderDetail->item()->first()->deal()->exists()) class="table-primary"
+                                                    @else class="table-warning" @endif
+                                                >
+                                                    <th scope="row">{{$key + 1}}</th>
+                                                    <td>
+                                                        @if($currentRouteName=="orders_detail")
+                                                            <ul class="list-group">
+                                                                <li class="list-group-item"><strong>{{__('REF')}}
+                                                                        - {{__('Name')}} </strong>
+                                                                    <span class="float-end">#{{$orderDetail->item()->first()->ref}} - {{$orderDetail->item()->first()->name}}</span>
                                                                 </li>
-                                                            @endif
-                                                        </ul>
-                                                    @else
-                                                        <strong>
-                                                            <strong>{{__('Item')}}:</strong>
-                                                            <span class="text-info float-end">
+                                                                <li class="list-group-item">
+                                                                    <strong>{{__('Price')}}</strong><span
+                                                                        class="float-end">{{$orderDetail->item()->first()->price}}  {{config('app.currency')}}</span>
+                                                                </li>
+
+                                                                <li class="list-group-item">
+                                                                    <strong>{{__('Platform')}}</strong><span
+                                                                        class="float-end">  {{__($orderDetail->item()->first()?->platform()->first()->name)}}</span>
+                                                                </li>
+
+                                                                @if($orderDetail->item()->first()->deal()->exists())
+                                                                    <li class="list-group-item list-group-item-success">
+                                                                        <strong>{{__('Deal')}}</strong>
+                                                                        @if(\App\Models\User::isSuperAdmin())
+                                                                            <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->deal()->first()->id])}}"><span
+                                                                                    class="float-end"> {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}</span>
+                                                                            </a>
+                                                                        @else
+                                                                            <span
+                                                                                class="float-end"> {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}</span>
+                                                                        @endif
+
+                                                                    </li>
+                                                                @endif
+                                                            </ul>
+                                                        @else
+                                                            <strong>
+                                                                <strong>{{__('Item')}}:</strong>
+                                                                <span class="text-info float-end">
                                                         @if(\App\Models\User::isSuperAdmin())
-                                                                    <a href="{{route('items_detail',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->id])}}">
+                                                                        <a href="{{route('items_detail',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->id])}}">
                                                                 {{$orderDetail->item()->first()->ref}}
                                                                 - {{$orderDetail->item()->first()->name}}
                                                             </a>
-                                                                @else
-                                                                    {{$orderDetail->item()->first()->ref}}
-                                                                    - {{$orderDetail->item()->first()->name}}
-                                                                @endif
+                                                                    @else
+                                                                        {{$orderDetail->item()->first()->ref}}
+                                                                        - {{$orderDetail->item()->first()->name}}
+                                                                    @endif
                                             </span>
-                                                        </strong>
-                                                        @if($orderDetail->item()->first()->deal()->exists())
-                                                            <hr>
-                                                            @if(\App\Models\User::isSuperAdmin())
-                                                                <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->deal()->first()->id])}}">
-                                                                    <strong>{{__('Deal')}}:</strong>
-                                                                    <span class="text-info float-end">
+                                                            </strong>
+                                                            @if($orderDetail->item()->first()->deal()->exists())
+                                                                <hr>
+                                                                @if(\App\Models\User::isSuperAdmin())
+                                                                    <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->deal()->first()->id])}}">
+                                                                        <strong>{{__('Deal')}}:</strong>
+                                                                        <span class="text-info float-end">
                                                                 {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}
                                                             </span>
-                                                                </a>
-                                                            @else
-                                                                <span class="text-info float-end">
+                                                                    </a>
+                                                                @else
+                                                                    <span class="text-info float-end">
                                                             {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}
                                                         </span>
+                                                                @endif
                                                             @endif
                                                         @endif
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    <span class="float-end"> {{$orderDetail->qty}}</span>
-                                                    <br>
-                                                    *
-                                                    <br>
-                                                    <span
-                                                        class="float-end">   {{$orderDetail->unit_price}}  {{config('app.currency')}}</span>
-                                                    <br>
-                                                    <hr>
-                                                    = <span
-                                                        class="badge bg-soft-primary text-dark text-end fs-14 float-end"> {{$orderDetail->total_amount}}  {{config('app.currency')}}</span>
-                                                </td>
-                                                <td>
-
-                                                    @if($orderDetail->shipping)
+                                                    </td>
+                                                    <td>
+                                                        <span class="float-end"> {{$orderDetail->qty}}</span>
+                                                        <br>
+                                                        *
+                                                        <br>
                                                         <span
-                                                            class="badge bg-soft-warning text-dark text-end fs-13 float-end">
+                                                            class="float-end">   {{$orderDetail->unit_price}}  {{config('app.currency')}}</span>
+                                                        <br>
+                                                        <hr>
+                                                        = <span
+                                                            class="badge bg-soft-primary text-dark text-end fs-14 float-end"> {{$orderDetail->total_amount}}  {{config('app.currency')}}</span>
+                                                    </td>
+                                                    <td>
+
+                                                        @if($orderDetail->shipping)
+                                                            <span
+                                                                class="badge bg-soft-warning text-dark text-end fs-13 float-end">
                                                             {{$orderDetail->shipping}}  {{config('app.currency')}}
                                                         </span>
-                                                    @else
-                                                        <span
-                                                            class="text-muted float-end"> {{__('No shipping')}} </span>
-                                                    @endif
-                                                </td>
-                                                @if($order->status->value >= \Core\Enum\OrderEnum::Simulated->value && $currentRouteName=="orders_detail")
-                                                    @if($orderDetail->item->deal()->exists())
-                                                        <td>
-                                                            <ul class="list-group">
-                                                                <li class="list-group-item text-muted"
-                                                                    title="{{__('Percentage')}}">
-                                                                    <i class="ri-percent-fill"></i>
-                                                                    <span class="float-end">
+                                                        @else
+                                                            <span
+                                                                class="text-muted float-end"> {{__('No shipping')}} </span>
+                                                        @endif
+                                                    </td>
+                                                    @if($order->status->value >= \Core\Enum\OrderEnum::Simulated->value && $currentRouteName=="orders_detail")
+                                                        @if($orderDetail->item->deal()->exists())
+                                                            <td>
+                                                                <ul class="list-group">
+                                                                    <li class="list-group-item text-muted"
+                                                                        title="{{__('Percentage')}}">
+                                                                        <i class="ri-percent-fill"></i>
+                                                                        <span class="float-end">
                                                 {{$orderDetail->partner_discount_percentage}}
                                             </span>
-                                                                </li>
-                                                                <li class="list-group-item text-muted"
-                                                                    title="{{__('value')}}">
-                                                                    <i class="ri-increase-decrease-fill"></i>
-                                                                    <span class="float-end">
+                                                                    </li>
+                                                                    <li class="list-group-item text-muted"
+                                                                        title="{{__('value')}}">
+                                                                        <i class="ri-increase-decrease-fill"></i>
+                                                                        <span class="float-end">
                                                 {{$orderDetail->partner_discount}}
                                             </span>
-                                                                </li>
-                                                                <li class="list-group-item text-muted"
-                                                                    title="{{__('Amount')}}">
-                                                                    <i class="ri-money-dollar-box-fill"></i>
-                                                                    <span class="float-end">
+                                                                    </li>
+                                                                    <li class="list-group-item text-muted"
+                                                                        title="{{__('Amount')}}">
+                                                                        <i class="ri-money-dollar-box-fill"></i>
+                                                                        <span class="float-end">
                                                 {{$orderDetail->amount_after_partner_discount}}
                                             </span>
-                                                                </li>
-                                                            </ul>
-                                                        </td>
-                                                        <td>
-                                                            <ul class="list-group">
-                                                                <li class="list-group-item text-muted"
-                                                                    title="{{__('Percentage')}}">
-                                                                    <i class="ri-percent-fill"></i>
-                                                                    <span class="float-end">
+                                                                    </li>
+                                                                </ul>
+                                                            </td>
+                                                            <td>
+                                                                <ul class="list-group">
+                                                                    <li class="list-group-item text-muted"
+                                                                        title="{{__('Percentage')}}">
+                                                                        <i class="ri-percent-fill"></i>
+                                                                        <span class="float-end">
                                                 {{$orderDetail->earn_discount_percentage}}
                                             </span>
-                                                                </li>
-                                                                <li class="list-group-item text-muted"
-                                                                    title="{{__('value')}}">
-                                                                    <i class="ri-increase-decrease-fill"></i>
-                                                                    <span class="float-end">
+                                                                    </li>
+                                                                    <li class="list-group-item text-muted"
+                                                                        title="{{__('value')}}">
+                                                                        <i class="ri-increase-decrease-fill"></i>
+                                                                        <span class="float-end">
                                                 {{$orderDetail->earn_discount}}
                                             </span>
-                                                                </li>
-                                                                <li class="list-group-item text-muted"
-                                                                    title="{{__('Amount')}}">
-                                                                    <i class="ri-money-dollar-box-fill"></i>
-                                                                    <span class="float-end">
+                                                                    </li>
+                                                                    <li class="list-group-item text-muted"
+                                                                        title="{{__('Amount')}}">
+                                                                        <i class="ri-money-dollar-box-fill"></i>
+                                                                        <span class="float-end">
                                                 {{$orderDetail->amount_after_earn_discount}}
                                             </span>
-                                                                </li>
-                                                            </ul>
-                                                        </td>
-                                                        <td>
-                                                            <ul class="list-group">
-                                                                <li class="list-group-item text-muted"
-                                                                    title="{{__('Percentage')}}">
-                                                                    <i class="ri-percent-fill"></i>
-                                                                    <span class="float-end">
+                                                                    </li>
+                                                                </ul>
+                                                            </td>
+                                                            <td>
+                                                                <ul class="list-group">
+                                                                    <li class="list-group-item text-muted"
+                                                                        title="{{__('Percentage')}}">
+                                                                        <i class="ri-percent-fill"></i>
+                                                                        <span class="float-end">
                                                 {{$orderDetail->deal_discount_percentage}}
                                             </span>
-                                                                </li>
-                                                                <li class="list-group-item text-muted"
-                                                                    title="{{__('value')}}">
-                                                                    <i class="ri-increase-decrease-fill"></i>
-                                                                    <span
-                                                                        class="float-end"> {{$orderDetail->deal_discount}}</span>
-                                                                </li>
-                                                                <li class="list-group-item text-muted"
-                                                                    title="{{__('Amount')}}">
-                                                                    <i class="ri-money-dollar-box-fill"></i>
-                                                                    <span class="float-end">
+                                                                    </li>
+                                                                    <li class="list-group-item text-muted"
+                                                                        title="{{__('value')}}">
+                                                                        <i class="ri-increase-decrease-fill"></i>
+                                                                        <span
+                                                                            class="float-end"> {{$orderDetail->deal_discount}}</span>
+                                                                    </li>
+                                                                    <li class="list-group-item text-muted"
+                                                                        title="{{__('Amount')}}">
+                                                                        <i class="ri-money-dollar-box-fill"></i>
+                                                                        <span class="float-end">
                                                 {{$orderDetail->amount_after_deal_discount}}
                                             </span>
-                                                                </li>
-                                                            </ul>
-                                                        </td>
-                                                        <td>
+                                                                    </li>
+                                                                </ul>
+                                                            </td>
+                                                            <td>
                                                     <span
                                                         class="badge bg-success text-end fs-14 float-end">{{$orderDetail->total_discount}} {{config('app.currency')}}</span>
-                                                        </td>
-                                                    @else
-                                                        <td colspan="6" class="text-center">
-                                                            <br>
-                                                            <span
-                                                                class="alert alert-light mt-2">{{__('No deal in this order details')}}</span>
-                                                        </td>
+                                                            </td>
+                                                        @else
+                                                            <td colspan="6" class="text-center">
+                                                                <br>
+                                                                <span
+                                                                    class="alert alert-light mt-2">{{__('No deal in this order details')}}</span>
+                                                            </td>
+                                                        @endif
                                                     @endif
-                                                @endif
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         @endif
@@ -406,120 +408,126 @@
                                         @if(isset($discount))
                                             <li class="list-group-item">
                                                 <strong>{{__('Discount')}}</strong>
-                                                <table class="table table-striped border">
-                                                    <thead>
-                                                    <th scope="col">{{__('Reference')}}</th>
-                                                    <th scope="col" class="text-end">{{__('Value')}}</th>
-                                                    <th scope="col" class="text-end">{{__('Current balance')}}</th>
-                                                    <th scope="col">{{__('Description')}}</th>
-                                                    <th scope="col">{{__('Created at')}}</th>
-                                                    </thead>
-                                                    <tr>
-                                                        <td>
-                                                            {{$discount->reference}}
-                                                        </td>
-                                                        <td>
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped border">
+                                                        <thead>
+                                                        <th scope="col">{{__('Reference')}}</th>
+                                                        <th scope="col" class="text-end">{{__('Value')}}</th>
+                                                        <th scope="col" class="text-end">{{__('Current balance')}}</th>
+                                                        <th scope="col">{{__('Description')}}</th>
+                                                        <th scope="col">{{__('Created at')}}</th>
+                                                        </thead>
+                                                        <tr>
+                                                            <td>
+                                                                {{$discount->reference}}
+                                                            </td>
+                                                            <td>
                                                     <span
                                                         class="badge bg-success text-end fs-14 float-end"> {{$discount->value}}  {{config('app.currency')}}</span>
-                                                        </td>
-                                                        <td>
+                                                            </td>
+                                                            <td>
                                                     <span
                                                         class="badge bg-info text-end fs-14 float-end"> {{$discount->current_balance}} {{config('app.currency')}}</span>
-                                                        </td>
-                                                        <td>
-                                                            <p>  {{$discount->description}}
-                                                                / {{__('Discount')}}  {{$discount->current_balance+$discount->value}}
-                                                                - {{$discount->value}}
-                                                                = {{$discount->current_balance}}</p>
-                                                        </td>
-                                                        <td>
-                                                            {{$discount->created_at}}
-                                                        </td>
-                                                    </tr>
-                                                </table>
+                                                            </td>
+                                                            <td>
+                                                                <p>  {{$discount->description}}
+                                                                    / {{__('Discount')}}  {{$discount->current_balance+$discount->value}}
+                                                                    - {{$discount->value}}
+                                                                    = {{$discount->current_balance}}</p>
+                                                            </td>
+                                                            <td>
+                                                                {{$discount->created_at}}
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
                                             </li>
                                         @endif
                                         @if(isset($bfss) && $bfss->isNotEmpty())
                                             <li class="list-group-item">
                                                 <strong>{{__('BFSs')}}</strong>
-                                                <table class="table table-striped border">
-                                                    <thead>
-                                                    <th scope="col">{{__('Reference')}}</th>
-                                                    <th scope="col" class="text-end">{{__('Value')}}</th>
-                                                    <th scope="col" class="text-end">{{__('Current balance')}}</th>
-                                                    <th scope="col">{{__('Description')}}</th>
-                                                    <th scope="col" class="text-end">{{__('Percentage')}}</th>
-                                                    <th scope="col">{{__('Created at')}}</th>
-                                                    </thead>
-                                                    @foreach($bfss as $bfs)
-                                                        <tr>
-                                                            <td>
-                                                                {{$bfs->reference}}
-                                                            </td>
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped border">
+                                                        <thead>
+                                                        <th scope="col">{{__('Reference')}}</th>
+                                                        <th scope="col" class="text-end">{{__('Value')}}</th>
+                                                        <th scope="col" class="text-end">{{__('Current balance')}}</th>
+                                                        <th scope="col">{{__('Description')}}</th>
+                                                        <th scope="col" class="text-end">{{__('Percentage')}}</th>
+                                                        <th scope="col">{{__('Created at')}}</th>
+                                                        </thead>
+                                                        @foreach($bfss as $bfs)
+                                                            <tr>
+                                                                <td>
+                                                                    {{$bfs->reference}}
+                                                                </td>
 
-                                                            <td>
+                                                                <td>
                                                         <span
                                                             class="badge bg-success text-end fs-14 float-end"> {{$bfs->value}}  {{config('app.currency')}}</span>
-                                                            </td>
-                                                            <td>
+                                                                </td>
+                                                                <td>
                                                         <span
                                                             class="badge bg-info text-end fs-14 float-end"> {{$bfs->current_balance}}  {{config('app.currency')}}</span>
-                                                            </td>
-                                                            <td>
-                                                                <p>{{$bfs->description}}
-                                                                    / {{__('BFS')}}  {{$bfs->current_balance+$bfs->value}}
-                                                                    - {{$bfs->value}}
-                                                                    = {{$bfs->current_balance}}</p>
-                                                            </td>
-                                                            <td>
+                                                                </td>
+                                                                <td>
+                                                                    <p>{{$bfs->description}}
+                                                                        / {{__('BFS')}}  {{$bfs->current_balance+$bfs->value}}
+                                                                        - {{$bfs->value}}
+                                                                        = {{$bfs->current_balance}}</p>
+                                                                </td>
+                                                                <td>
                                                         <span
                                                             class="badge bg-warning text-end fs-14 float-end">   {{$bfs->percentage}} {{config('app.percentage')}}</span>
-                                                            </td>
-                                                            <td>
-                                                                {{$bfs->created_at}}
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
+                                                                </td>
+                                                                <td>
+                                                                    {{$bfs->created_at}}
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
 
-                                                </table>
+                                                    </table>
+                                                </div>
                                             </li>
                                         @endif
                                         @if(isset($cash))
                                             <li class="list-group-item">
                                                 <strong>{{__('Cash')}}</strong>
-                                                <table class="table table-striped border">
-                                                    <thead>
-                                                    <th scope="col">{{__('Reference')}}</th>
-                                                    <th scope="col" class="text-end">{{__('Value')}}</th>
-                                                    <th scope="col" class="text-end">{{__('Current balance')}}</th>
-                                                    <th scope="col">{{__('Description')}}</th>
-                                                    <th scope="col">{{__('Created at')}}</th>
-                                                    </thead>
-                                                    <tr>
-                                                        <td>
-                                                            {{$cash->reference}}
-                                                        </td>
-                                                        <td>
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped border">
+                                                        <thead>
+                                                        <th scope="col">{{__('Reference')}}</th>
+                                                        <th scope="col" class="text-end">{{__('Value')}}</th>
+                                                        <th scope="col" class="text-end">{{__('Current balance')}}</th>
+                                                        <th scope="col">{{__('Description')}}</th>
+                                                        <th scope="col">{{__('Created at')}}</th>
+                                                        </thead>
+                                                        <tr>
+                                                            <td>
+                                                                {{$cash->reference}}
+                                                            </td>
+                                                            <td>
                                                     <span
                                                         class="badge bg-success text-end fs-14 float-end"> {{$cash->value}}  {{config('app.currency')}}</span>
-                                                        </td>
-                                                        <td>
+                                                            </td>
+                                                            <td>
                                                     <span
                                                         class="badge bg-info text-end fs-14 float-end">     {{$cash->current_balance}}  {{config('app.currency')}}</span>
-                                                        </td>
-                                                        <td>
-                                                            <p>
-                                                                {{$cash->description}}
-                                                                / {{__('CASH')}}  {{$cash->current_balance+$cash->value}}
-                                                                - {{$cash->value}}
-                                                                = {{$cash->current_balance}}
-                                                            </p>
-                                                        </td>
-                                                        <td>
-                                                            {{$cash->created_at}}
-                                                        </td>
-                                                    </tr>
-                                                </table>
+                                                            </td>
+                                                            <td>
+                                                                <p>
+                                                                    {{$cash->description}}
+                                                                    / {{__('CASH')}}  {{$cash->current_balance+$cash->value}}
+                                                                    - {{$cash->value}}
+                                                                    = {{$cash->current_balance}}
+                                                                </p>
+                                                            </td>
+                                                            <td>
+                                                                {{$cash->created_at}}
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
                                             </li>
                                         @endif
                                     </ul>
