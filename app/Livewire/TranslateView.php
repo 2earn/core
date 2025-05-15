@@ -4,12 +4,8 @@ namespace App\Livewire;
 
 use App\Jobs\TranslationDatabaseToFiles;
 use App\Jobs\TranslationFilesToDatabase;
-use Carbon\Carbon;
-use Core\Models\translatearabes;
-use Core\Models\translateenglishs;
 use Core\Models\translatetabs;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -162,41 +158,17 @@ class TranslateView extends Component
 
     public function saveTranslate()
     {
-        $params = [
-            'value' => $this->arabicValue,
-            'valueFr' => $this->frenchValue,
-            'valueEn' => $this->englishValue,
-            'valueEs' => $this->spanishValue,
-            'valueTr' => $this->turkishValue,
-            'valueRu' => $this->russianValue,
-            'valueDe' => $this->germanValue,
-        ];
-        translatetabs::where('id', $this->idTranslate)->update($params);
-        $all = translatetabs::all();
-        foreach ($all as $key => $value) {
-            $this->tabfin[$value->name] = $value->value;
-            $this->tabfinFr[$value->name] = $value->valueFr;
-            $this->tabfinEn[$value->name] = $value->valueEn;
-            $this->tabfinEs[$value->name] = $value->valueEs;
-            $this->tabfinTr[$value->name] = $value->valueTr;
-            $this->tabfinRu[$value->name] = $value->valueRu;
-            $this->tabfinDe[$value->name] = $value->valueDe;
-        }
         try {
-            $pathFile = resource_path() . '/lang/ar.json';
-            $pathFileFr = resource_path() . '/lang/fr.json';
-            $pathFileEn = resource_path() . '/lang/en.json';
-            $pathFileTr = resource_path() . '/lang/tr.json';
-            $pathFileEs = resource_path() . '/lang/es.json';
-            $pathFileRu = resource_path() . '/lang/ru.json';
-            $pathFileDe = resource_path() . '/lang/de.json';
-            File::put($pathFile, json_encode($this->tabfin, JSON_UNESCAPED_UNICODE));
-            File::put($pathFileFr, json_encode($this->tabfinFr, JSON_UNESCAPED_UNICODE));
-            File::put($pathFileEn, json_encode($this->tabfinEn, JSON_UNESCAPED_UNICODE));
-            File::put($pathFileTr, json_encode($this->tabfinTr, JSON_UNESCAPED_UNICODE));
-            File::put($pathFileEs, json_encode($this->tabfinEs, JSON_UNESCAPED_UNICODE));
-            File::put($pathFileRu, json_encode($this->tabfinRu, JSON_UNESCAPED_UNICODE));
-            File::put($pathFileDe, json_encode($this->tabfinDe, JSON_UNESCAPED_UNICODE));
+            $params = [
+                'value' => $this->arabicValue,
+                'valueFr' => $this->frenchValue,
+                'valueEn' => $this->englishValue,
+                'valueEs' => $this->spanishValue,
+                'valueTr' => $this->turkishValue,
+                'valueRu' => $this->russianValue,
+                'valueDe' => $this->germanValue,
+            ];
+            translatetabs::where('id', $this->idTranslate)->update($params);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('translate', ['locale' => app()->getLocale(), 'page' => $this->page])->with('danger', trans('Edit translation failed') . " " . Lang::get($exception->getMessage()));
