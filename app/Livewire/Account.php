@@ -36,6 +36,7 @@ class Account extends Component
     public $photoFront;
     public $photoBack;
     public $user;
+    public $newMail;
     public $usermetta_info;
     public $numberActif;
     public $countryUser;
@@ -349,8 +350,8 @@ class Account extends Component
         $us->save();
         $numberActif = $settingsManager->getNumberCOntactActif($userAuth->idUser)->fullNumber;
         $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::VerifMail, ['msg' => $opt, 'type' => TypeNotificationEnum::SMS]);
-        $this->dispatch('confirmOPTVerifMail', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'numberActif' => $numberActif]);
         $this->newMail = $mail;
+        $this->dispatch('confirmOPTVerifMail', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'numberActif' => $numberActif]);
     }
 
     public function cancelProcess($message)
