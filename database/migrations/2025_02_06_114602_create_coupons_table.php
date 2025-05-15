@@ -23,7 +23,7 @@ return new class extends Migration {
             $table->dateTime('reserved_until')->nullable();
             $table->float('value')->nullable();
             $table->boolean('consumed')->default(false);
-            $table->enum('status', [CouponStatusEnum::available->value, CouponStatusEnum::reserved->value, CouponStatusEnum::sold->value, CouponStatusEnum::consumed->value])->default(CouponStatusEnum::available->value);
+            $table->enum('status', [CouponStatusEnum::available->value, CouponStatusEnum::reserved->value, CouponStatusEnum::purchased->value, CouponStatusEnum::consumed->value])->default(CouponStatusEnum::available->value);
             $table->timestamps();
             $table->unsignedBigInteger('platform_id')->nullable()->foreign('platform_id')->default(1)->nullable()->references('id')->on('platforms')->onDelete('cascade');
             $table->unsignedBigInteger('user_id')->foreign('user_id')->references('id')->on('user')->onDelete('cascade');

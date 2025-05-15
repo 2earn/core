@@ -149,17 +149,16 @@ class CouponBuy extends Component
         $order = Order::create(['user_id' => auth()->user()->id, 'note' => 'Coupons buy from' . ' :' . $this->idPlatform . '-' . $platform->name]);
         $coupon = Item::where('ref', '#0001')->where('platform_id', $this->idPlatform)->first();
 
-        $total_amount = $unit_price = $qty = 0;
+        $total_amount = $unit_price = 0;
         $note = [];
         foreach ($cpns as $couponItem) {
-            $qty++;
             $unit_price += $couponItem['value'];
             $total_amount += $couponItem['value'];
             $note[] = $couponItem['sn'];
         }
 
         $order->orderDetails()->create([
-            'qty' => $qty,
+            'qty' => 1,
             'unit_price' => $unit_price,
             'total_amount' => $total_amount,
             'note' => implode(",", $note),
@@ -187,7 +186,7 @@ class CouponBuy extends Component
                     $coupon->update([
                         'user_id' => auth()->user()->id,
                         'purchase_date' => now(),
-                        'status' => CouponStatusEnum::sold->value
+                        'status' => CouponStatusEnum::purchased->value
                     ]);
                 }
                 $this->coupons[] = $coupon;

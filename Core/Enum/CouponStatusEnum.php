@@ -6,7 +6,6 @@ enum  CouponStatusEnum: string
 {
     case available = "0";
     case reserved = "1";
-    case sold = "2";
+    case purchased = "2";
     case consumed = "3";
-
 }
