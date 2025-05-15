@@ -288,7 +288,7 @@ class Ordering
     {
         foreach ($order_deal as $order_deal_item) {
             $countedDiscount = $order_deal_item['final_discount'];
-            if ($countedDiscount > 0) {
+            if ($countedDiscount <= $balances->discount_balance) {
                 $currentBalance = $balances->discount_balance + BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_BFS->value) * $countedDiscount;
                 $discountData = [
                     'balance_operation_id' => BalanceOperationsEnum::ORDER_DISCOUNT->value,
@@ -310,7 +310,7 @@ class Ordering
     {
         foreach ($bfssTables as $key => $bfs) {
             $currentBalance = $balances->getBfssBalance($key) + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_BFS->value) * $bfs['toSubstruct']);
-            if ($bfs['toSubstruct'] > 0) {
+            if ($bfs['toSubstruct'] <= $balances->getBfssBalance($key)) {
                 $bfsData = [
                     'balance_operation_id' => BalanceOperationsEnum::ORDER_BFS->value,
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
@@ -418,7 +418,7 @@ class Ordering
         } catch (Exception $exception) {
             DB::rollBack();
             Log::error($exception->getMessage());
-            return    $simulation['order']->updateStatus(OrderEnum::Failed);
+            return $simulation['order']->updateStatus(OrderEnum::Failed);
         }
     }
 
