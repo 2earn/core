@@ -70,6 +70,9 @@ class Ordering
                 $price_of_products_out_of_deal = $price_of_products_out_of_deal + ($orderDetail->unit_price * $orderDetail->qty);
             }
         }
+        if (str_contains($order->note, 'Coupons buy from')) {
+            $totalOrderQuantity = 1;
+        }
         $out_of_deal_amount = $shippingSum + $price_of_products_out_of_deal;
 
         $order->update([
