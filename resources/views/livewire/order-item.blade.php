@@ -332,34 +332,36 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="card mt-2">
-                                    <div class="card-header">
-                                        <h6 class="card-title mb-0">{{__('Order discounts')}}</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <ul class="list-group">
-
-                                            @if($order->total_final_discount)
-                                                <li class="list-group-item"
-                                                    title="{{$order->total_final_discount_percentage}}   {{config('app.percentage')}}">
-                                                    <strong>{{__('Total final discount')}}</strong>
-                                                    <span
-                                                        class="float-end text-muted">
-                            {{$order->total_final_discount}}  {{config('app.currency')}}</span>
-                                                </li>
-                                            @endif
-                                            @if($order->total_lost_discount)
-                                                <li class="list-group-item"
-                                                    title="{{$order->total_lost_discount_percentage}}   {{config('app.percentage')}}">
-                                                    <strong>{{__('Total lost discount')}}</strong><span
-                                                        class="float-end text-muted">{{$order->total_lost_discount}}  {{config('app.currency')}}</span>
-                                                </li>
-                                            @endif
-                                        </ul>
+                            @if($order->total_final_discount)
+                                <div class="col-md-4">
+                                    <div class="card mt-2">
+                                        <div class="card-header">
+                                            <h6 class="card-title mb-0">{{__('Order discounts')}}</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <ul class="list-group">
+                                                @if($order->total_final_discount)
+                                                    <li class="list-group-item"
+                                                        title="{{$order->total_final_discount_percentage}}   {{config('app.percentage')}}">
+                                                        <strong>{{__('Total final discount')}}</strong>
+                                                        <span
+                                                            class="float-end text-muted">
+                                                 {{$order->total_final_discount}}  {{config('app.currency')}}</span>
+                                                    </li>
+                                                @endif
+                                                @if($order->total_lost_discount)
+                                                    <li class="list-group-item"
+                                                        title="{{$order->total_lost_discount_percentage}}   {{config('app.percentage')}}">
+                                                        <strong>{{__('Total lost discount')}}</strong><span
+                                                            class="float-end text-muted">{{$order->total_lost_discount}}  {{config('app.currency')}}</span>
+                                                    </li>
+                                                @endif
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
+
                             @if($order->amount_after_discount)
                                 <div class="col-md-4">
                                     <div class="card mt-2">
