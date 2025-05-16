@@ -546,6 +546,7 @@ if (!function_exists('formatSqlWithEnv')) {
             'dev.2earn.cash' => $viewSqlCode = str_replace('database_earn', 'dev_2earn', $viewSqlCode),
             'demo.2earn.cash' => $viewSqlCode = str_replace('database_earn', 'demo_2earn', $viewSqlCode),
             '2Earn.cash' => $viewSqlCode = str_replace('database_earn', 'prod_2earn', $viewSqlCode),
+            'preprod.2earn.cash' => $viewSqlCode = str_replace('database_earn', 'preprod_2earn', $viewSqlCode),
         };
 
         match (config('app.name')) {
@@ -553,15 +554,16 @@ if (!function_exists('formatSqlWithEnv')) {
             'dev.2earn.cash' => $viewSqlCode = str_replace('database_name', 'dev_2earn', $viewSqlCode),
             'demo.2earn.cash' => $viewSqlCode = str_replace('database_name', 'demo_2earn', $viewSqlCode),
             '2Earn.cash' => $viewSqlCode = str_replace('database_name', 'prod_2earn', $viewSqlCode),
+            'preprod.2earn.cash' => $viewSqlCode = str_replace('database_name', 'preprod_2earn', $viewSqlCode),
         };
         match (config('app.name')) {
             '2Earn.test' => $viewSqlCode = str_replace('database_learn', 'learn', $viewSqlCode),
             'dev.2earn.cash' => $viewSqlCode = str_replace('database_learn', 'dev_learn', $viewSqlCode),
             'demo.2earn.cash' => $viewSqlCode = str_replace('database_learn', 'demo_learn', $viewSqlCode),
             '2Earn.cash' => $viewSqlCode = str_replace('database_learn', 'prod_learn', $viewSqlCode),
+            'preprod.2earn.cash' => $viewSqlCode = str_replace('database_learn', 'prod_learn', $viewSqlCode),
         };
         return $viewSqlCode;
-
     }
 }
 
