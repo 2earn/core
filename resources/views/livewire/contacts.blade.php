@@ -78,12 +78,12 @@
                                         </div>
                                     </td>
                                     <td title="{{$value->status}}">
-                                        @if($value->status<\Core\Enum\StatusRequest::InProgressNational)
+                                        @if($value->status<\Core\Enum\StatusRequest::InProgressNational->value)
                                             <span
                                                 class="text-warning btn btn-soft-warning">{{__(\Core\Enum\StatusRequest::tryFrom($value->status)->name)}}</span>
                                         @else
                                             <span
-                                                class="text-info btn btn-soft-primary">{{__(\Core\Enum\StatusRequest::OptValidated->name)}}</span>
+                                                class="text-info btn btn-soft-primary">{{__('Active user')}}</span>
                                         @endif
                                     </td>
                                     @php
