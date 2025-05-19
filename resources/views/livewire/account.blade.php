@@ -954,8 +954,8 @@
                             timer: '{{ env('timeOPT',180000) }}',
                             timerProgressBar: true,
                             showCancelButton: true,
-                            cancelButtonText: '{{trans('canceled !')}}',
-                            confirmButtonText: '{{trans('ok')}}',
+                            cancelButtonText: '{{trans('cancel')}}',
+                            confirmButtonText: '{{trans('Confirm changes')}}',
                             footer: '<i></i><div class="footerOpt"></div>',
                             didOpen: () => {
                                 const b = Swal.getFooter().querySelector('i');
@@ -992,8 +992,8 @@
                             timer: '{{ env('timeOPT',180000) }}',
                             timerProgressBar: true,
                             showCancelButton: true,
-                            cancelButtonText: '{{trans('canceled !')}}',
-                            confirmButtonText: '{{trans('ok')}}',
+                            cancelButtonText: '{{trans('cancel')}}',
+                            confirmButtonText: '{{trans('confirm OPT')}}',
                             footer: '<i></i><div class="footerOpt"></div>',
                             didOpen: () => {
                                 const b = Swal.getFooter().querySelector('i');
@@ -1065,8 +1065,8 @@
                                 timer: '{{ env('timeOPT',180000) }}',
                                 timerProgressBar: true,
                                 showCancelButton: true,
-                                cancelButtonText: '{{trans('canceled !')}}',
-                                confirmButtonText: '{{trans('ok')}}',
+                                cancelButtonText: '{{trans('Cancel')}}',
+                                confirmButtonText: '{{trans('Confirm OPT')}}',
                                 footer: '<i></i><div class="footerOpt"></div>',
                                 didOpen: () => {
                                     const b = Swal.getFooter().querySelector('i');
@@ -1088,7 +1088,8 @@
                                 inputAttributes: {autocapitalize: 'off'},
                             }).then((resultat) => {
                                 if (resultat.isConfirmed) {
-                                    window.Livewire.dispatch('saveVerifiedMail', resultat.value);
+                                    window.Livewire.dispatch('saveVerifiedMail', [resultat.value]);
+
                                 } else if (resultat.isDismissed && resultat.dismiss == 'cancel') {
                                     window.Livewire.dispatch('cancelProcess', ["{{__('confirm Email Check User canceled')}}"]);
                                 }
@@ -1221,7 +1222,7 @@
                             validMsg.classList.add("invisible");
                             $("#submit_phone").prop("disabled", true);
                             var phone = itiUpPhone.getNumber();
-                             document.createTextNode(phone);
+                            document.createTextNode(phone);
                             phone = phone.replace('+', '00');
                             var mobile = $("#initIntlTelInput").val();
                             var countryData = itiUpPhone.getSelectedCountryData();

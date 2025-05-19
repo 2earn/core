@@ -372,10 +372,10 @@ class Account extends Component
         $this->dispatch('EmailCheckUser', ['emailValidation' => true, 'title' => trans('Opt code from your email'), 'html' => trans('We sent an opt code to your email') . ' : ' . $this->newMail . ' <br> ' . trans('Please fill it')]);
     }
 
-    public function saveVerifiedMail($codeOpt)
+    public function saveVerifiedMail($codeOpt = null)
     {
         $us = User::find($this->user['id']);
-        if ($codeOpt != $us->OptActivation) {
+        if (is_null($codeOpt) || $codeOpt != $us->OptActivation) {
             return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Change user email failed - Code OPT'));
         }
         $us->email_verified = 1;
