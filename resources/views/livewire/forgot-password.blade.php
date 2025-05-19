@@ -164,8 +164,7 @@
             window.addEventListener('OptForgetPass', event => {
                 Swal.fire({
                     title: '{{ __('Your verification code') }}',
-                    html: '{{ __('We_will_send') }}<br> ',
-                    html: '{{ __('We_will_send') }}<br>' + event.detail[0].FullNumber + '<br>' + '{{ __('Your OTP Code') }}',
+                    html: '{{ __('We will send') }} <br>' + event.detail[0].FullNumber + '<br>' + '{{ __('Your OTP Code') }}',
                     input: 'text',
                     inputAttributes: {
                         autocapitalize: 'off'
@@ -173,7 +172,7 @@
                     showCancelButton: true,
                     timer: '{{ env('timeOPT',180000) }}',
                     cancelButtonText: '{{__('Cancel')}}',
-                    confirmButtonText: '{{__('Confirm')}}',
+                    confirmButtonText: '{{__('Confirm OPT')}}',
                     footer: ' <i></i><div class="footerOpt"></div>',
                     didOpen: () => {
                         const b = Swal.getFooter().querySelector('i')
@@ -189,7 +188,7 @@
                     },
 
                 }).then((resultat) => {
-                    if (resultat.value) {
+                    if (resultat.isConfirmed) {
                         window.Livewire.dispatch('sendSms', [resultat.value, $("#full_phone_number").val()]);
                     }
                     if (resultat.isDismissed) {

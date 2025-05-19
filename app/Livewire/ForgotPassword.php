@@ -69,8 +69,11 @@ class ForgotPassword extends Component
         $this->dispatch('OptForgetPass', $params);
     }
 
-    public function sendSms($codeOPT, $phoneNumber, settingsManager $settingsManager)
+    public function sendSms($codeOPT = null, $phoneNumber, settingsManager $settingsManager)
     {
+        if (is_null($codeOPT)) {
+            return redirect()->route("forget_password", app()->getLocale())->with('danger', Lang::get('Empty opt code'));
+        }
         $user = $settingsManager->getUserByFullNumber($phoneNumber);
         if (!$user) {
             $this->earnDebug('Forget password input opt user not found  : fullNumber- ' . $phoneNumber);

@@ -36,10 +36,6 @@ class ChangePassword extends Component
         }
     }
 
-    public function render()
-    {
-        return view('livewire.change-password')->extends('layouts.master-without-nav')->section('content');
-    }
 
     public function change(settingsManager $settingsManager)
     {
@@ -56,7 +52,11 @@ class ChangePassword extends Component
             return redirect()->route('login', app()->getLocale())->with('success', Lang::get('Password successfully updated'));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect()->route('login', app()->getLocale())->with('danger', Lang::get('Password  update operation failed'));
+            return redirect()->route('login', app()->getLocale())->with('danger', Lang::get('Password update operation failed'));
         }
+    }
+    public function render()
+    {
+        return view('livewire.change-password')->extends('layouts.master-without-nav')->section('content');
     }
 }
