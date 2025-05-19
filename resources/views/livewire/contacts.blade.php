@@ -79,9 +79,11 @@
                                     </td>
                                     <td title="{{$value->status}}">
                                         @if($value->status<\Core\Enum\StatusRequest::InProgressNational)
-                                        <span class="text-warning btn btn-soft-warning">{{__(\Core\Enum\StatusRequest::tryFrom($value->status)->name)}}</span>
+                                            <span
+                                                class="text-warning btn btn-soft-warning">{{__(\Core\Enum\StatusRequest::tryFrom($value->status)->name)}}</span>
                                         @else
-                                            <span class="text-info btn btn-soft-primary">{{__(\Core\Enum\StatusRequest::OptValidated->name)}}</span>
+                                            <span
+                                                class="text-info btn btn-soft-primary">{{__(\Core\Enum\StatusRequest::OptValidated->name)}}</span>
                                         @endif
                                     </td>
                                     @php
@@ -408,11 +410,11 @@
 
             if (existeUserContact) {
                 Swal.fire({
-                    title: '{{trans('user_existe_déja')}}',
-                    text: '{{trans('changer_contact')}}',
+                    title: '{{trans('user exist')}}',
+                    text: '{{trans('changer contact')}}',
                     icon: "warning",
                     showCancelButton: true,
-                    cancelButtonText: '{{trans('canceled !')}}',
+                    cancelButtonText: '{{trans('cancel')}}',
                     confirmButtonText: '{{trans('Yes')}}',
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -427,7 +429,10 @@
     <script type="module">
         var countryDataLog = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [];
         var ipAdd2Contact = document.querySelector("#intl-tel-input");
-        document.addEventListener("DOMContentLoaded", function () {
+
+
+        document.getElementById('create-btn').onclick = function () {
+
             var inputlog = document.querySelector("#intl-tel-input");
             var itiLog = window.intlTelInput(inputlog, {
                 initialCountry: "auto",
@@ -446,7 +451,7 @@
 
             function initIntlTelInput() {
                 var phone = itiLog.getNumber();
-                 document.createTextNode(phone);
+                document.createTextNode(phone);
                 phone = phone.replace('+', '00');
                 var mobile = $("#intl-tel-input").val();
                 var countryData = itiLog.getSelectedCountryData();
@@ -463,6 +468,6 @@
 
             }
             inputlog.focus();
-        });
+        };
     </script>
 </div>
