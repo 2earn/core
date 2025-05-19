@@ -1014,7 +1014,7 @@
                             input: 'text',
                             inputAttributes: {autocapitalize: 'off'},
                         }).then((resultat) => {
-                            if (resultat.isConfirmed && resultat.value) {
+                            if (resultat.isConfirmed) {
                                 window.Livewire.dispatch('checkUserEmail', [resultat.value]);
                             } else if (resultat.isDismissed && resultat.dismiss == 'cancel') {
                                 window.Livewire.dispatch('cancelProcess', ["{{__('confirm OPT Verif Mail canceled')}}"]);
@@ -1057,6 +1057,7 @@
                     })
 
                     window.addEventListener('EmailCheckUser', event => {
+                        console.log(event.detail[0])
                         if (event.detail[0].emailValidation) {
                             Swal.fire({
                                 title: event.detail[0].title,
