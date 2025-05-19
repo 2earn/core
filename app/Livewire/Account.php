@@ -337,7 +337,7 @@ class Account extends Component
             return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Not valid Email Format'));
         }
         if ($userAuth->email == $mail) {
-            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Same email Adress'));
+            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Same email Address'));
         }
         $userExisteMail = $settingsManager->getConditionalUser('email', $mail);
         if ($userExisteMail && $userExisteMail->idUser != $userAuth->idUser) {
@@ -359,12 +359,11 @@ class Account extends Component
         return redirect()->route('account', app()->getLocale())->with('warning', Lang::get($message));
     }
 
-    public function checkUserEmail($codeOpt, settingsManager $settingsManager)
+    public function checkUserEmail($codeOpt = null, settingsManager $settingsManager)
     {
         $us = User::find($this->user['id']);
-        if ($codeOpt != $us->OptActivation) {
-            $this->dispatch('EmailCheckUser', ['emailValidation' => false, 'title' => trans('Invalid OPT code')]);
-            return;
+        if (is_null($codeOpt) || $codeOpt != $us->OptActivation) {
+            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Invalid OPT code'));
         }
         $check_exchange = $this->randomNewCodeOpt();
         User::where('id', auth()->user()->id)->update(['OptActivation' => $check_exchange]);
@@ -372,10 +371,10 @@ class Account extends Component
         $this->dispatch('EmailCheckUser', ['emailValidation' => true, 'title' => trans('Opt code from your email'), 'html' => trans('We sent an opt code to your email') . ' : ' . $this->newMail . ' <br> ' . trans('Please fill it')]);
     }
 
-    public function saveVerifiedMail($codeOpt)
+    public function saveVerifiedMail($codeOpt = null)
     {
         $us = User::find($this->user['id']);
-        if ($codeOpt != $us->OptActivation) {
+        if (is_null($codeOpt) || $codeOpt != $us->OptActivation) {
             return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Change user email failed - Code OPT'));
         }
         $us->email_verified = 1;
