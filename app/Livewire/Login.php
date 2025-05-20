@@ -70,10 +70,10 @@ class Login extends Component
 
         if (!is_null($this->from)) {
             Log::info('Inscription from Site 2earn :: code:' . $code . ' number: ' . $number);
-            return redirect()->intended(route('home', app()->getLocale()))->with('from', $this->from);
+             redirect()->intended(route('home', app()->getLocale()))->with('from', $this->from);
         }
 
-        return redirect()->intended(route('home', app()->getLocale()));
+         redirect()->intended(route('home', app()->getLocale()));
     }
 
     public function render()
