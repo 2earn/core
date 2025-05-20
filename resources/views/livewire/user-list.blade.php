@@ -300,7 +300,9 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Update Password') }}</h5>
+                    <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Update Password for') }}: <span
+                            class="text-warning mx-2"
+                            id="userIdMark"></span></h5>
                     <button type="button" class="btn-close btn-vip-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                 </div>
@@ -308,11 +310,12 @@
                     <form action="javascript:void(0);">
                         <div class="row g-3">
 
-                            <div class="col-sm-12 col-md-12">
-                                <div class="input-group mt-2">
+                            <div class="input-group mt-2">
+                                <div class="col-sm-12 col-md-12">
                                     <label class="form-label">{{__('New Password')}}<span
                                             class="text-danger">*</span></label>
-                                    <br>
+                                </div>
+                                <div class="col-sm-12 col-md-12">
                                     <input type="text" class="form-control" id="updatePasswordInput">
                                 </div>
                             </div>
@@ -728,7 +731,9 @@
 
         $(document).on("click", "#updatePasswordBtn", function () {
             let id = $(this).data('id');
+            let phone = $(this).data('phone');
             $('#updatePassword').attr('data-id', id);
+            $('#userIdMark').html(phone);
         });
 
         $(document).on("click", "#password-update-submit", function () {
