@@ -106,7 +106,7 @@ class  HistoryNotificationRepository implements IHistoryNotificationRepository
 
     public function getHistoryNotificationUser($receiverId)
     {
-        $results = DB::table('history')->select(
+        return DB::table('history')->select(
             'history.ref as reference',
             DB::raw('IFNULL(usend.name, "System") as send'),
             'users.name as receiver', DB::raw('IFNULL(title, "") as action'),
@@ -117,6 +117,7 @@ class  HistoryNotificationRepository implements IHistoryNotificationRepository
             ->leftJoin('action_history', 'history.id_action', '=', 'action_history.id')
             ->where('history.id_reciver', $receiverId)->get();
     }
+
     public function getHistoryByRole()
     {
         $result = null;
