@@ -264,6 +264,7 @@
                             flashMinShares: {{$flashMinShares}},
                             flash: "{{$flash}}",
                             actions: {{$actions}},
+                            ranNum: Math.random()*100,
                             "_token": "{{ csrf_token() }}"
                         },
                         success: function (data) {
