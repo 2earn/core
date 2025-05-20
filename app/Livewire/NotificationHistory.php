@@ -8,10 +8,6 @@ use Livewire\Component;
 class NotificationHistory extends Component
 {
 
-    public function mount(settingsManager $settingsManager,)
-    {
-        $history = $settingsManager->getHistory();
-    }
 
     public function render()
     {
