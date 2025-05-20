@@ -12,7 +12,7 @@ class Version4Seeder extends Seeder
 
     public function run()
     {
-        Log::notice('Starting Seeder Sprint008Seeder');
+        Log::notice('Starting Seeder version 4');
         Artisan::call('db:seed', ['--class' => 'Database\Seeders\BalanceOperationsSeeder']);
         Artisan::call('db:seed', ['--class' => 'Database\Seeders\RoleSeeder']);
         Artisan::call('db:seed', ['--class' => 'Database\Seeders\BalancesSeeder']);
@@ -42,7 +42,8 @@ class Version4Seeder extends Seeder
            }
 
         Artisan::call('db:seed', ['--class' => 'Database\Seeders\ItemCouponSeeder']);
-        Log::notice('Finish Seeder Sprint008Seeder');
+        Artisan::call('db:seed', ['--class' => 'Database\Seeders\UserRoleSeeder']);
+        Log::notice('Finish Seeder version 4');
 
     }
 }
