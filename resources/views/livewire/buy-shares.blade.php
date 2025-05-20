@@ -200,11 +200,7 @@
                                         <span class="flash-background">{{$flashGain}}$</span>
                                     </button>
                                 @endif
-                                @if(!$flash)
-                                    <button type="button" class="btn btn-light"
-                                            data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                                @endif
-                                <button type="button" id="buy-action-submit"
+                                          <button type="button" id="buy-action-submit"
                                         wire:loading.attr="disabled"
                                         wire:target="simulate"
                                         class="btn @if($flash) btn-flash @else btn-soft-primary  @endif swal2-styled d-inline-flex">
