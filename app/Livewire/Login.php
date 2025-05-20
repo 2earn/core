@@ -68,12 +68,15 @@ class Login extends Component
         Cache::forget(self::BLOCKED_KEY . $number);
         Log::info("Successful login: $number");
 
-        if (!is_null($this->from)) {
-            Log::info('Inscription from Site 2earn :: code:' . $code . ' number: ' . $number);
-             redirect()->intended(route('home', app()->getLocale()))->with('from', $this->from);
+        try {
+            if (!is_null($this->from)) {
+                Log::info('Inscription from Site 2earn :: code:' . $code . ' number: ' . $number);
+                redirect()->intended(route('home', app()->getLocale()))->with('from', $this->from);
+            }
+            $this->redirectRoute('home', app()->getLocale());
+        } catch (\Exception $exception) {
+            dd($exception);
         }
-
-         redirect()->intended(route('home', app()->getLocale()));
     }
 
     public function render()
