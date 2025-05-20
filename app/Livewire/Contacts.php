@@ -3,8 +3,6 @@
 namespace App\Livewire;
 
 use App\Models\ContactUser;
-use App\Models\User;
-use App\Services\Sponsorship\Sponsorship;
 use App\Services\Sponsorship\SponsorshipFacade;
 use Core\Enum\StatusRequest;
 use Core\Models\Setting;
@@ -15,8 +13,6 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Propaganistas\LaravelPhone\PhoneNumber;
-use Livewire\Attributes\Url;
 
 
 class Contacts extends Component
@@ -239,7 +235,7 @@ class Contacts extends Component
 
     public function delete_multiple($ids)
     {
-        $existeuser = ContactUser::whereIn('id', $ids)->delete();
+        ContactUser::whereIn('id', $ids)->delete();
         $this->dispatch('close-modal');
         return redirect()->route('contacts', app()->getLocale());
     }
@@ -262,7 +258,7 @@ class Contacts extends Component
                     ->orWhere('contact_users.mobile', 'like', '%' . $this->search . '%');
             });
         }
-        $contactUserQuery = $contactUserQuery->select('contact_users.id', 'contact_users.name', 'contact_users.lastName', 'contact_users.idUser', 'contact_users.idContact', 'contact_users.updated_at', 'u.reserved_by','u.status', 'u.mobile', 'u.availablity', 'c.apha2', 'u.idUpline', 'u.reserved_at',)
+        $contactUserQuery = $contactUserQuery->select('contact_users.id', 'contact_users.name', 'contact_users.lastName', 'contact_users.idUser', 'contact_users.idContact', 'contact_users.updated_at', 'u.reserved_by', 'u.status', 'u.mobile', 'u.availablity', 'c.apha2', 'u.idUpline', 'u.reserved_at')
             ->orderBy('contact_users.updated_at', 'DESC');
         $contactUsers = $contactUserQuery->paginate($this->pageCount);
         $params = [
