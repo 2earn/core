@@ -8,13 +8,6 @@ use Illuminate\Support\Facades\DB;
 class  AuthenticatedUser
 {
 
-    protected $fillable = [
-        'idUser',
-        'id',
-        'mobile',
-        'email',
-    ];
-
     protected $casts = [
         'iden_notif' => 'boolean',
     ];
