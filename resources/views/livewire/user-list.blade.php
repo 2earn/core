@@ -316,7 +316,7 @@
                                             class="text-danger">*</span></label>
                                 </div>
                                 <div class="col-sm-12 col-md-12">
-                                    <input type="text" class="form-control" id="updatePasswordInput">
+                                    <input type="password" class="form-control" id="updatePasswordInput">
                                 </div>
                             </div>
                         </div>

@@ -16,8 +16,11 @@ class UsersList extends Component
 
     public function changePassword($id = null, $newPassword = null)
     {
-        if (is_null($id) || is_null($newPassword)) {
+        if (is_null($id) || is_null($newPassword) || empty($id) || empty($newPassword)) {
             return redirect()->route('user_list', app()->getLocale())->with('warning', Lang::get('Bad password change credential'));
+        }
+        if (strlen($newPassword) < 8) {
+            return redirect()->route('user_list', app()->getLocale())->with('warning', Lang::get('Short password (8 characters minimum)'));
         }
 
         if ($id == auth()->user()->id) {
