@@ -190,29 +190,16 @@ class settingsManager
 
     public function getAuthUser()
     {
+
         $user = Auth::user();
         $userMetta = $this->getMettaUser()->where('idUser', '=', $user->idUser)->first();
-        $userAuth = new AuthenticatedUser();
-        $userAuth->id = $user->id;
-        $userAuth->idUser = $user->idUser;
-        $userAuth->mobile = $user->mobile;
-        $userAuth->email = $user->email;
-        $userAuth->arFirstName = $userMetta->arFirstName;
-        $userAuth->arLastName = $userMetta->arLastName;
-        $userAuth->enFirstName = $userMetta->enFirstName;
-        $userAuth->enLastName = $userMetta->enLastName;
-        $userAuth->iden_notif = $user->iden_notif;
-        $userAuth->fullNumber = $user->fullphone_number;
-        $userAuth->status = $user->status;
-        $userAuth->idCountry = $user->idCountry;
-        $userAuth->flashCoefficient = $user->flashCoefficient;
-        $userAuth->flashDeadline = $user->flashDeadline;
-        $userAuth->flashNote = $user->flashNote;
-        $userAuth->flashMinAmount = $user->flashMinAmount;
-        $userAuth->dateFNS = $user->dateFNS;
-        $userAuth->internationalID = $user->internationalID;
-        $userAuth->expiryDate = $user->expiryDate;
-        return $userAuth;
+
+        $user->arFirstName = $userMetta->arFirstName;
+        $user->arLastName = $userMetta->arLastName;
+        $user->enFirstName = $userMetta->enFirstName;
+        $user->enLastName = $userMetta->enLastName;
+
+        return $user;
     }
 
     public function getMettaUser()
