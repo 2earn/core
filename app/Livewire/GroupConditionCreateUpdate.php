@@ -50,7 +50,7 @@ class GroupConditionCreateUpdate extends Component
         return redirect()->route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('warning', Lang::get('Condition operation cancelled'));
     }
 
-    public function update()
+    public function updateGroupCondition()
     {
         $this->validate();
         try {

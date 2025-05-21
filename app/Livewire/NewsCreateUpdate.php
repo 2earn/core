@@ -51,7 +51,7 @@ class NewsCreateUpdate extends Component
         $this->update = true;
     }
 
-    public function update()
+    public function updateNews()
     {
         $this->validate();
         try {

@@ -52,7 +52,7 @@ class SurveyQuestionChoiceCreateUpdate extends Component
         $this->update = true;
     }
 
-    public function update()
+    public function updateSurveyQuestionChoice()
     {
         $this->validate();
         try {

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
 
-class RoleCreateUpdate extends Component
+class reateUpdate extends Component
 {
     public
         $idRole,
@@ -40,7 +40,7 @@ class RoleCreateUpdate extends Component
         $this->update = true;
     }
 
-    public function update()
+    public function updateRole()
     {
         $this->validate();
         try {

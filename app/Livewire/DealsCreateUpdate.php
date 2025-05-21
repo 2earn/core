@@ -122,7 +122,7 @@ class DealsCreateUpdate extends Component
         return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale(), 'id' => $this->idDeal])->with('warning', Lang::get('Deal operation cancelled'));
     }
 
-    public function update()
+    public function updateDeal()
     {
         $this->validate();
         $params = [

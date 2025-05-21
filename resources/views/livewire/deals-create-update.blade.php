@@ -207,7 +207,7 @@
                         <div class="row mt-3">
                             <div class="col-12">
                                 @if($update)
-                                    <button wire:click.prevent="update()"
+                                    <button wire:click.prevent="updateDeal()"
                                             class="btn btn-success btn-block mx-2 float-end ">{{__('Update')}}</button>
                                 @else
                                     <button wire:click.prevent="store()"

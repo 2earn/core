@@ -45,7 +45,7 @@
                         <div class="row mt-3">
                             <div class="col-md-2">
                                 @if($update)
-                                    <button wire:click.prevent="update()"
+                                    <button wire:click.prevent="updateTarget()"
                                             class="btn btn-success btn-block">
                                         {{__('Update')}}
                                         <div wire:loading wire:target="update">

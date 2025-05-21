@@ -59,7 +59,7 @@ class ConditionCreateUpdate extends Component
         return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('warning', Lang::get('Condition operation cancelled'));
     }
 
-    public function update()
+    public function updateCondition()
     {
         $this->validate();
 

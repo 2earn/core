@@ -48,7 +48,7 @@ class TargetCreateUpdate extends Component
         $this->update = true;
     }
 
-    public function update()
+    public function updateTarget()
     {
         $this->validate();
         try {
