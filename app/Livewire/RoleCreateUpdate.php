@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
 
-class reateUpdate extends Component
+class RoleCreateUpdate extends Component
 {
     public
         $idRole,
