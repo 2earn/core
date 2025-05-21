@@ -13421,7 +13421,7 @@ span.flatpickr-weekday {
     width: 100%;
     height: 100%;
     -o-object-fit: cover;
-    object-fit: cover;
+    object-fit: fill;
 }
 
 .profile-nav.nav-pills .nav-link {
