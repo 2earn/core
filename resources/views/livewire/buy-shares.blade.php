@@ -204,7 +204,7 @@
                                         wire:loading.attr="disabled"
                                         wire:target="simulate"
                                         class="btn @if($flash) btn-flash @else btn-soft-primary  @endif swal2-styled d-inline-flex">
-                                    {{ __('Submit') }}
+                                    {{ __('Confirm the purchase of shares') }}
                                     <div
                                         class="spinner-border spinner-border-sm mx-2 mt-1 buy-action-submit-spinner"
                                         role="status"></div>
