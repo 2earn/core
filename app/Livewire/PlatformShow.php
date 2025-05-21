@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use Core\Models\Platform;
-use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
@@ -15,15 +14,15 @@ class PlatformShow extends Component
     {
         $this->idPlatform = $id;
         $this->currentRouteName = Route::currentRouteName();
+        $platform = Platform::FindOrFail($this->idPlatform);
+        if (!$platform->enabled) {
+            return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('danger', trans('Platform disabled'));
+        }
     }
 
     public function render()
     {
         $params['platform'] = Platform::FindOrFail($this->idPlatform);
-        if ($params['platform']->show_profile) {
-            return view('livewire.platform-show', $params)->extends('layouts.master')->section('content');
-        }
-        throw new \Exception(Lang::get('Platform show profile disabled'));
-
+        return view('livewire.platform-show', $params)->extends('layouts.master')->section('content');
     }
 }
