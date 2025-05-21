@@ -263,7 +263,7 @@
                         <div class="row mt-3">
                             <div class="col-md-2">
                                 @if($update)
-                                    <button wire:click.prevent="update()"
+                                    <button wire:click.prevent="updateSurvey()"
                                             class="btn btn-success btn-block">{{__('Update')}}</button>
                                 @else
                                     <button wire:click.prevent="store()"

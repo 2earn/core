@@ -45,7 +45,7 @@ class GroupCreateUpdate extends Component
     }
 
 
-    public function update()
+    public function updateGroup()
     {
         $this->validate();
         try {
