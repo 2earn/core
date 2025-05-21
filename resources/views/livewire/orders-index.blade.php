@@ -28,7 +28,7 @@
                         </form>
                     </div>
                     @if(\App\Models\User::isSuperAdmin())
-                        <div class="col-sm-12 col-md-3  col-lg-6">
+                        <div class="col-sm-12 col-md-3 d-none col-lg-6">
                             <a class="btn btn-soft-info material-shadow-none mt-1 float-end"
                                wire:click="simulateOrderCreation">
                                 {{__('Simulate Order creation')}}

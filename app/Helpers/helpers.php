@@ -1,20 +1,20 @@
 <?php
 
+use App\Models\SharesBalances;
 use App\Models\User;
 use App\Services\Balances\BalancesFacade;
 use Carbon\Carbon;
+use Core\Models\countrie;
 use Core\Models\Setting;
+use Core\Models\UserContact;
 use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
-use Core\Models\UserContact;
-use Core\Models\countrie;
-use Illuminate\Support\Facades\Auth;
-use App\Models\SharesBalances;
 
 if (!function_exists('getUserBalanceSoldes')) {
     function getUserBalanceSoldes($idUser, $amount)
@@ -405,6 +405,9 @@ if (!function_exists('checkUserBalancesInReservation')) {
 if (!function_exists('formatSolde')) {
     function formatSolde($solde, $decimals = 2)
     {
+        if (is_null($solde)) {
+            $solde = 0;
+        }
         if ($decimals == -1) {
             return $solde;
         }
@@ -414,6 +417,9 @@ if (!function_exists('formatSolde')) {
 if (!function_exists('getDecimals')) {
     function getDecimals($number, $decimals = 2)
     {
+        if (is_null($number)) {
+            $number = 0;
+        }
         return substr(number_format($number - intval($number), $decimals, '.', ','), 2);
     }
 }

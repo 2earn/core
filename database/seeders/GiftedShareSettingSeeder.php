@@ -14,6 +14,7 @@ class GiftedShareSettingSeeder extends Seeder
      */
     public function run()
     {
+
         if (!DB::table('settings')->where("ParameterName", "=", 'GIFTED_SHARES')->exists()) {
             DB::table('settings')->insert([
                 'ParameterName' => 'GIFTED_SHARES',

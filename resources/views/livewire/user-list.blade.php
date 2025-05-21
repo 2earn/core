@@ -10,6 +10,11 @@
     @endcomponent
     <div class="card">
         <div class="card-body row">
+            <div class="col-12">
+                @include('layouts.flash-messages')
+            </div>
+        </div>
+        <div class="card-body row">
             <div class="col-xl-4 col-md-6">
                 <div class="card border border-muted card-animate">
                     <div class="card-body">
@@ -284,6 +289,43 @@
                                             class="btn btn-primary">{{ __('Transfer du cash') }}
                                     </button>
                                 </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="updatePassword" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Update Password for') }}: <span
+                            class="text-warning mx-2"
+                            id="userIdMark"></span></h5>
+                    <button type="button" class="btn-close btn-vip-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="javascript:void(0);">
+                        <div class="row g-3">
+
+                            <div class="input-group mt-2">
+                                <div class="col-sm-12 col-md-12">
+                                    <label class="form-label">{{__('New Password')}}<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div class="col-sm-12 col-md-12">
+                                    <input type="password" class="form-control" id="updatePasswordInput">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 mt-2">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light"
+                                        data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                                <button type="button" id="password-update-submit"
+                                        class="btn btn-soft-danger">{{ __('Update Password') }}</button>
                             </div>
                         </div>
                     </form>
@@ -686,6 +728,18 @@
             $('#vip-reciver').attr('value', reciver);
             $('#vip-phone').attr('value', phone);
         });
+
+        $(document).on("click", "#updatePasswordBtn", function () {
+            let id = $(this).data('id');
+            let phone = $(this).data('phone');
+            $('#updatePassword').attr('data-id', id);
+            $('#userIdMark').html(phone);
+        });
+
+        $(document).on("click", "#password-update-submit", function () {
+            window.Livewire.dispatch('changePassword', [$('#updatePassword').attr('data-id'), $('#updatePasswordInput').val()]);
+        });
+
         $("#vip-submit").one("click", function () {
             let reciver = $('#vip-reciver').val();
             let minshares = $('#minshares').val();

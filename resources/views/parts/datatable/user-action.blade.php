@@ -24,4 +24,12 @@
            class="btn btn-xs btn-flash btn2earnTable float-end  vip m-1">
             <i class="glyphicon glyphicon-add"></i>{{__('VIP')}}</a>
     </li>
+    <li class="list-group-item list-group-item-action">
+        <button type="button" class="btn btn-xs btn-soft-danger float-end m-1" data-bs-toggle="modal"
+                data-id="{{$userId}}"
+                data-phone="{{$phone}}"
+                id="updatePasswordBtn"
+                data-bs-target="#updatePassword">
+            {{__('Update password')}}</button>
+    </li>
 </ol>

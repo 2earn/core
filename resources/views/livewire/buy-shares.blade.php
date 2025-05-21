@@ -200,15 +200,11 @@
                                         <span class="flash-background">{{$flashGain}}$</span>
                                     </button>
                                 @endif
-                                @if(!$flash)
-                                    <button type="button" class="btn btn-light"
-                                            data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                                @endif
-                                <button type="button" id="buy-action-submit"
+                                          <button type="button" id="buy-action-submit"
                                         wire:loading.attr="disabled"
                                         wire:target="simulate"
                                         class="btn @if($flash) btn-flash @else btn-soft-primary  @endif swal2-styled d-inline-flex">
-                                    {{ __('Submit') }}
+                                    {{ __('Confirm the purchase of shares') }}
                                     <div
                                         class="spinner-border spinner-border-sm mx-2 mt-1 buy-action-submit-spinner"
                                         role="status"></div>
@@ -264,6 +260,7 @@
                             flashMinShares: {{$flashMinShares}},
                             flash: "{{$flash}}",
                             actions: {{$actions}},
+                            ranNum: Math.random()*100,
                             "_token": "{{ csrf_token() }}"
                         },
                         success: function (data) {

@@ -10,12 +10,16 @@
     @endcomponent
     <div class="card">
         <div class="card-body">
-            <div class="avatar-sm mb-3 row">
-                <div class="bg-success-subtle text-success fs-24">
+            <div class="mb-3 row">
+                <div class="bg-success-subtle text-success">
                     <a href="{{route('platform_index',['locale'=>app()->getLocale()])}}">
-                        <div class="flex-shrink-0">
-                            <img src="{{$platform->image_link}}" alt="" class="avatar-xs rounded-circle">
-                        </div>
+                            @if ($platform?->logoImage)
+                                <img src="{{ asset('uploads/' . $platform->logoImage->url) }}"
+                                     class="img-fluid d-block avatar-md rounded-circle" >
+                            @else
+                                <img src="{{Vite::asset(\Core\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO)}}"
+                                     class="img-fluid d-block avatar-md rounded-circle" >
+                            @endif
                     </a>
                 </div>
 
