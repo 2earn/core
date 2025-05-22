@@ -408,8 +408,8 @@
                                 <div class="card-body">
                                     <ul class="list-group">
                                         @if(isset($discount))
-                                            <li class="list-group-item">
-                                                <strong>{{__('Discount')}}</strong>
+                                            <li class="list-group-item logoTopDBLabel">
+                                                <h5>{{__('Discount')}}</h5>
                                                 <div class="table-responsive">
                                                     <table class="table table-striped border">
                                                         <thead>
@@ -423,9 +423,8 @@
                                                             <td>
                                                                 {{$discount->reference}}
                                                             </td>
-                                                            <td>
-                                                    <span
-                                                        class="badge bg-success text-end fs-14 float-end"> {{$discount->value}}  {{config('app.currency')}}</span>
+                                                            <td class="logoTopDBLabel text-end fs-14">
+                                                                <h5> {{$discount->value}}  {{config('app.currency')}}</h5>
                                                             </td>
                                                             <td>
                                                     <span
@@ -446,8 +445,8 @@
                                             </li>
                                         @endif
                                         @if(isset($bfss) && $bfss->isNotEmpty())
-                                            <li class="list-group-item">
-                                                <strong>{{__('BFSs')}}</strong>
+                                            <li class="list-group-item logoTopBFSLabel">
+                                                <h5>{{__('BFS (Balances for Shopping)')}}</h5>
                                                 <div class="table-responsive">
                                                     <table class="table table-striped border">
                                                         <thead>
@@ -464,9 +463,8 @@
                                                                     {{$bfs->reference}}
                                                                 </td>
 
-                                                                <td>
-                                                        <span
-                                                            class="badge bg-success text-end fs-14 float-end"> {{$bfs->value}}  {{config('app.currency')}}</span>
+                                                                <td class="logoTopBFSLabel text-end fs-14">
+                                                                    <h5> {{$bfs->value}}  {{config('app.currency')}}</h5>
                                                                 </td>
                                                                 <td>
                                                         <span
@@ -493,8 +491,8 @@
                                             </li>
                                         @endif
                                         @if(isset($cash))
-                                            <li class="list-group-item">
-                                                <strong>{{__('Cash')}}</strong>
+                                            <li class="list-group-item logoTopCashLabel">
+                                                <h5>{{__('Cash')}}</h5>
                                                 <div class="table-responsive">
                                                     <table class="table table-striped border">
                                                         <thead>
@@ -508,9 +506,8 @@
                                                             <td>
                                                                 {{$cash->reference}}
                                                             </td>
-                                                            <td>
-                                                    <span
-                                                        class="badge bg-success text-end fs-14 float-end"> {{$cash->value}}  {{config('app.currency')}}</span>
+                                                            <td class="logoTopCashLabel text-end fs-14">
+                                                                <h5> {{$cash->value}}  {{config('app.currency')}}</h5>
                                                             </td>
                                                             <td>
                                                     <span
