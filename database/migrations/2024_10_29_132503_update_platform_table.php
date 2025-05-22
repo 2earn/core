@@ -23,7 +23,7 @@ return new class extends Migration {
             $table->string('name')->nullable();
             $table->boolean('show_profile')->default(false);
             $table->boolean('enabled')->default(false);
-            $table->tinyInteger('type')->nullable()->default(\Core\Enum\PlatformType::Hybrid->value);
+            $table->tinyInteger('type')->nullable()->default(\Core\Enum\PlatformType::Flexy->value);
             $table->string('link')->nullable();
             $table->string('image_link')->nullable();
             $table->string('description',512)->nullable();

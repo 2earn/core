@@ -49,11 +49,11 @@ class PlatformCreateUpdate extends Component
     public function mount(Request $request)
     {
         $this->idPlatform = $request->query('idPlatform');
-        $this->type = PlatformType::Full->value;
+        $this->type = PlatformType::Integral->value;
         $this->types = [
-            ['name' => PlatformType::Full->name, 'value' => PlatformType::Full->value,],
-            ['name' => PlatformType::Hybrid->name, 'value' => PlatformType::Hybrid->value,],
-            ['name' => PlatformType::Paiement->name, 'value' => PlatformType::Paiement->value,]
+            ['name' => PlatformType::Integral->name, 'value' => PlatformType::Integral->value,],
+            ['name' => PlatformType::Flexy->name, 'value' => PlatformType::Flexy->value,],
+            ['name' => PlatformType::Gateway->name, 'value' => PlatformType::Gateway->value,]
         ];
         $sectors = BusinessSector::all();
         foreach ($sectors as $sector) {
