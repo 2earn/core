@@ -71,17 +71,26 @@
                                         {{$statsItem['title']}}
                                     </td>
                                     <td>
-                                        {{$statsItem['choosenK']}} {{__('times')}} -   {{formatSolde($statsItem['persontageK'],2)}}%
+                                        {{$statsItem['choosenK']}} {{__('times')}}
+                                        - {{formatSolde($statsItem['persontageK'],2)}}%
                                     </td>
                                 </tr>
                             @endforeach
                             <tr>
-                                <td colspan="2"><h5 class="float-end">{{__('Total')}} {{__('participations / participants')}}</h5></td>
+                                <td colspan="2"><h5
+                                        class="float-end">{{__('Total')}} {{__('participations / participants')}}</h5>
+                                </td>
                                 <td>
-                                    {{ $totalChoosen}} / {{$participation}} {{__('times')}} -
+                                    @if($participation>0)
+                                        {{ $totalChoosen}} / {{$participation}} {{__('times')}} -
 
-                                    {{ formatSolde(($totalChoosen /$participation)*100,2)}} %
-                                    {{__('soit')}} {{ formatSolde($totalChoosen /$participation,2)}} {{__('choix par participant')}}
+                                        {{ formatSolde(($totalChoosen /$participation)*100,2)}} %
+                                        {{__('soit')}} {{ formatSolde($totalChoosen /$participation,2)}} {{__('choix par participant')}}
+                                    @else
+                                        <div class="alert alert-warning material-shadow" role="alert">
+                                            {{__('No participation')}}
+                                        </div>
+                                    @endif
                                 </td>
                             </tr>
                             </tbody>
@@ -99,7 +108,9 @@
                                 </li>
                             @empty
                                 <li class="list-group-item">
-                                    {{__('No responces')}}
+                                    <div class="alert alert-warning material-shadow" role="alert">
+                                        {{__('No participation')}}
+                                    </div>
                                 </li>
                             @endforelse
                         </ul>
