@@ -9,13 +9,17 @@
         <div class="auth-page-wrapper py-5 d-flex justify-content-center align-items-center min-vh-100">
             <div class="auth-page-content overflow-hidden p-0">
                 <div class="container-fluid">
-                    <div class="row justify-content-center">
-                                    <span class="logo-sm">
-                <img src="{{ Vite::asset('resources/images/logo-sm.png') }}" alt="" height="22">
-            </span>
-                        <span class="logo-lg">
-                <img src="{{ Vite::asset('resources/images/logo-dark.png') }}" alt="" height="35px">
-            </span>
+                    <div class="row">
+                        <div class="col-lg-12 mb-2">
+                            <div class="text-center mt-sm-5 mb-4 text-white-50">
+                                <div>
+                                    <a href="{{route('login',app()->getLocale())}}" class="d-inline-block auth-logo">
+                                        <img src="{{ Vite::asset('resources/images/2earn.png') }}" alt="" height="60">
+                                    </a>
+                                </div>
+                                <p class="mt-3 fs-15 fw-medium"></p>
+                            </div>
+                        </div>
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-xl-4 text-center">
