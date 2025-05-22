@@ -79,7 +79,6 @@ class NewsCreateUpdate extends Component
                 ]);
             }
         } catch (\Exception $exception) {
-            dd($exception);
             $this->cancel();
             Log::error($exception->getMessage());
             return redirect()->route('news_index', ['locale' => app()->getLocale(), 'idNews' => $this->idNews])->with('danger', Lang::get('Something goes wrong while updating News'));
