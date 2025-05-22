@@ -21,7 +21,7 @@ class PlatformSeeder extends Seeder
                 'description' => "2earn P",
                 'enabled' => true,
                 'image_link' => $imageLink,
-                'type' => PlatformType::Integral->value,
+                'type' => PlatformType::Full->value,
                 'link' => "2earn.cash",
                 'business_sector_id' => 1
             ],
@@ -30,7 +30,7 @@ class PlatformSeeder extends Seeder
                 'description' => "learn2earn P",
                 'enabled' => true,
                 'image_link' => $imageLink,
-                'type' => PlatformType::Flexy->value,
+                'type' => PlatformType::Hybrid->value,
                 'link' => "learn2earn.cash",
                 'business_sector_id' => 2
             ],
@@ -39,7 +39,7 @@ class PlatformSeeder extends Seeder
                 'description' => "move2earn P",
                 'enabled' => true,
                 'image_link' => $imageLink,
-                'type' => PlatformType::Flexy->value,
+                'type' => PlatformType::Hybrid->value,
                 'link' => "move2earn.cash",
                 'business_sector_id' => 3
             ], [
@@ -47,7 +47,7 @@ class PlatformSeeder extends Seeder
                 'description' => "travel2earn P",
                 'enabled' => true,
                 'image_link' => $imageLink,
-                'type' => PlatformType::Flexy->value,
+                'type' => PlatformType::Hybrid->value,
                 'link' => "travel2earn.cash",
                 'business_sector_id' => 4
             ],
@@ -56,7 +56,7 @@ class PlatformSeeder extends Seeder
                 'description' => "shop2earn P",
                 'enabled' => true,
                 'image_link' => $imageLink,
-                'type' => PlatformType::Flexy->value,
+                'type' => PlatformType::Hybrid->value,
                 'link' => "shop2earn.cash",
                 'business_sector_id' => 5
             ], [
@@ -64,7 +64,7 @@ class PlatformSeeder extends Seeder
                 'description' => "beelegant2earn P",
                 'enabled' => true,
                 'image_link' => $imageLink,
-                'type' => PlatformType::Flexy->value,
+                'type' => PlatformType::Hybrid->value,
                 'link' => "beelegant2earn.cash",
                 'business_sector_id' => 6
             ],
@@ -73,7 +73,7 @@ class PlatformSeeder extends Seeder
                 'description' => "Speakenglish2earn P",
                 'enabled' => true,
                 'image_link' => $imageLink,
-                'type' => PlatformType::Flexy->value,
+                'type' => PlatformType::Hybrid->value,
                 'link' => "Speakenglish2earn.cash",
                 'business_sector_id' => 7
             ],
