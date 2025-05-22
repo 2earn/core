@@ -8,7 +8,6 @@
         <div class="row">
             <div class="col-12">
                 <h5 class="mb-2">
-                    {{$news->title}}
                     {{\App\Models\TranslaleModel::getTranslation($news,'title',$news->title)}}
                 </h5>
                 @if(\App\Models\User::isSuperAdmin())
@@ -27,7 +26,6 @@
             </div>
             <div @if($news->mainImage) class="col-sm-12 col-md-8 col-lg-8"
                  @else class="col-sm-12 col-md-12 col-lg-12" @endif>
-
                 <blockquote>
                     {{\App\Models\TranslaleModel::getTranslation($news,'content',$news->content)}}
                 </blockquote>

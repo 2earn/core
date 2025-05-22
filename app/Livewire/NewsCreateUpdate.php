@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-use App\Models\BusinessSector;
 use App\Models\Faq;
 use App\Models\News;
 use App\Models\TranslaleModel;
@@ -15,9 +14,10 @@ use Livewire\WithFileUploads;
 class NewsCreateUpdate extends Component
 {
     use WithFileUploads;
+
     public $idNews;
     public $update;
-    public $enabled = false;
+    public $enabled;
     public $title, $content, $published_at;
     public $mainImage;
 
@@ -32,6 +32,8 @@ class NewsCreateUpdate extends Component
         $this->idNews = $request->input('id');
         if (!is_null($this->idNews)) {
             $this->edit($this->idNews);
+        } else {
+            $this->enabled = false;
         }
     }
 
@@ -91,7 +93,7 @@ class NewsCreateUpdate extends Component
         $this->validate();
         $news = [
             'title' => $this->title,
-            'enabled' => $this->enabled,
+            'enabled' => $this->enabled == 1 ? true : false,
             'content' => $this->content
         ];
         try {
