@@ -63,6 +63,7 @@ class Home extends Component
     public function mount(settingsManager $settingsManager, BalancesManager $balancesManager)    {
         $this->settingsManager = $settingsManager;
         $this->balancesManager = $balancesManager;
+        $aa=1220/0;
     }
 
     public function getIp()
