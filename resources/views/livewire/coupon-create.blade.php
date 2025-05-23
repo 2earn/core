@@ -5,19 +5,16 @@
         @endslot
     @endcomponent
     <div class="row card">
-        @if(\Illuminate\Support\Facades\App::environment('local'))
-
-            <div class="card-body row ">
-                <p class="text-muted">
-                <h4>Here are the lists separated by commas:</h4>
-                <h5>List of PIN codes:</h5>
-                <code>1234567890, 0987654321, 2345678901, 3456789012, 4567890123, 5678901234, 6789012345, 7890123456,
-                    8901234567, 9012345678</code>
-                <h5>Serial numbers:</h5>
-                <code>SN001, SN002, SN003, SN004, SN005, SN006, SN007, SN008, SN009, SN010</code>
-                </p>
-            </div>
-        @endif
+        <div class="card-body row ">
+            <p class="text-muted">
+            <h4>Here are the lists separated by commas:</h4>
+            <h5>List of PIN codes:</h5>
+            <code>1234567890, 0987654321, 2345678901, 3456789012, 4567890123, 5678901234, 6789012345, 7890123456,
+                8901234567, 9012345678</code>
+            <h5>Serial numbers:</h5>
+            <code>SN001, SN002, SN003, SN004, SN005, SN006, SN007, SN008, SN009, SN010</code>
+            </p>
+        </div>
         <div class="card-body row ">
             <form>
                 <div class="row">
