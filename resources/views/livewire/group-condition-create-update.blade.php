@@ -22,14 +22,14 @@
             <div class="card mb-2 mr-2 ml-2 border border-dashed ">
                 <div class="card-body">
                     <form>
-                        <input type="hidden" wire:model="id">
+                        <input type="hidden" wire:model.live="id">
                         <div class="row">
                             <div class="form-group mb-3">
                                 <label for="operand">{{__('Operand')}}</label>
                                 <select
                                     class="form-select form-control @error('operand') is-invalid @enderror"
                                     placeholder="{{__('Enter operand')}}"
-                                    wire:model="operand"
+                                    wire:model.live="operand"
                                     id="operand"
                                     aria-label="{{__('Enter operand')}}">
                                     @foreach ($operators as $operatorItem)
@@ -45,7 +45,7 @@
                                 <select
                                     class="form-select form-control @error('operator') is-invalid @enderror"
                                     placeholder="{{__('Enter operator')}}"
-                                    wire:model="operator"
+                                    wire:model.live="operator"
                                     id="operator"
                                     aria-label="{{__('Enter operator')}}">
                                     @foreach ($operands as $operandItem)
@@ -60,7 +60,7 @@
                                 <label for="value">{{__('Value')}}</label>
                                 <input type="text" class="form-control @error('value') is-invalid @enderror"
                                        id="value"
-                                       wire:model="value"
+                                       wire:model.live="value"
                                        placeholder="{{__('Enter value')}}"></input>
                                 @error('value') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
@@ -69,7 +69,7 @@
                         <div class="row mt-3">
                             <div class="col-md-2">
                                 @if($update)
-                                    <button wire:click.prevent="update()"
+                                    <button wire:click.prevent="updateGroupCondition()"
                                             class="btn btn-success btn-block">{{__('Update')}}</button>
                                 @else
                                     <button wire:click.prevent="store()"

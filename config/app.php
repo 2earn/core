@@ -125,6 +125,28 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | currency
+    |--------------------------------------------------------------------------
+    |
+    | currency
+    |
+    */
+
+    'currency' => '$',
+
+    /*
+    |--------------------------------------------------------------------------
+    | currency
+    |--------------------------------------------------------------------------
+    |
+    | currency
+    |
+    */
+
+    'percentage' => '%',
+
+    /*
+    |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |
@@ -186,7 +208,6 @@ return [
     */
 
     'aliases' => [
-
         'App' => Illuminate\Support\Facades\App::class,
         'Arr' => Illuminate\Support\Arr::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
@@ -228,11 +249,18 @@ return [
         'LaravelPwa' => \Ladumor\LaravelPwa\LaravelPwa::class,
         'Sponsorship' => \App\Services\Sponsorship\SponsorshipFacade::class,
         'Targeting' => \App\Services\Targeting\TargetingFacade::class,
+        'Ordering' => \App\Services\Orders\OrderingFacade::class,
+        'OrderingSimulation' => \App\Services\Orders\OrderingSimulationFacade::class,
+        'Carts' => \App\Services\Carts\Carts::class,
         'Vite' => \Illuminate\Support\Facades\Vite::class,
     ],
     'available_locales' => [
         'en' => ['name' => 'en', 'direction' => 'ltr', 'flag' => 'gb', 'tabLang' => 'en-GB'],
         'ar' => ['name' => 'ar', 'direction' => 'rtl', 'flag' => 'lib', 'tabLang' => 'ar'],
         'fr' => ['name' => 'fr', 'direction' => 'ltr', 'flag' => 'fr', 'tabLang' => 'fr-FR'],
+        'tr' => ['name' => 'tr', 'direction' => 'ltr', 'flag' => 'tr', 'tabLang' => 'tr'],
+        'es' => ['name' => 'es', 'direction' => 'ltr', 'flag' => 'es', 'tabLang' => 'es-ES'],
+        'ru' => ['name' => 'ru', 'direction' => 'ltr', 'flag' => 'ru', 'tabLang' => 'ru'],
+        'de' => ['name' => 'de', 'direction' => 'ltr', 'flag' => 'de', 'tabLang' => 'de-DE'],
     ]
 ];

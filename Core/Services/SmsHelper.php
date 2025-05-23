@@ -3,7 +3,6 @@
 namespace Core\Services;
 
 use Core\Enum\TypeEventNotificationEnum;
-use Core\Services\settingsManager;
 
 
 class SmsHelper
@@ -156,7 +155,6 @@ class SmsHelper
             return $result;
 
         } else {
-            // dd('ok');
             $country = DB::table('countries')->where('phonecode', $ccode)->first();
             if ($langage == "English") {
                 $text = "Welcome to the 2earn.cash concept. you have just activated your registration, your password is: " . $msg;
@@ -179,6 +177,4 @@ class SmsHelper
 
         }
     }
-
-
 }

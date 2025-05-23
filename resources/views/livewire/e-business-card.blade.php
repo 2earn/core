@@ -1,5 +1,5 @@
-<div>
-    @section('title')
+<div class="container-fluid">
+@section('title')
         {{ __('e-Business Card (EBC)') }}
     @endsection
     @component('components.breadcrumb')
@@ -11,7 +11,7 @@
 
     <div class="card">
         <div class="card-body">
-            @livewire('page-timer', ['deadline' => DB::table('settings')->where('ParameterName', 'ebc_cs')->value('StringValue')])
+            @livewire('page-timer', ['deadline' => 'ebc_cs'])
         </div>
     </div>
 

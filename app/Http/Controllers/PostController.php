@@ -11,6 +11,7 @@ use Core\Services\settingsManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
@@ -31,6 +32,7 @@ class PostController extends Controller
                 return 'no';
             }
         } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
             return 'no';
         }
         return 'ok';

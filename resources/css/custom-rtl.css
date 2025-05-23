@@ -117,66 +117,6 @@
     color: #fff !important
 }
 
-input[type=range] {
-    outline: 0;
-    border: 0;
-    border-radius: 500px;
-    width: 400px;
-    max-width: 100%;
-    margin: 24px 0 0;
-    transition: box-shadow .2s ease-in-out
-}
-
-@media screen and (-webkit-min-device-pixel-ratio: 0) {
-    input[type=range] {
-        overflow: hidden;
-        height: 10px;
-        -webkit-appearance: none;
-        background-color: #ddd
-    }
-
-    input[type=range]::-webkit-slider-runnable-track {
-        color: #444
-    }
-
-    input[type=range]::-webkit-slider-runnable-track, input[type=range]::-webkit-slider-thumb {
-        height: 10px;
-        -webkit-appearance: none;
-        -webkit-transition: box-shadow .2s ease-in-out;
-        transition: box-shadow .2s ease-in-out
-    }
-
-    input[type=range]::-webkit-slider-thumb {
-        width: 10px;
-        cursor: ew-resize;
-        background: #fff;
-        box-shadow: 340px 0 0 335px #009fe3, inset 0 0 0 40px #009fe3;
-        border-radius: 50%;
-        position: relative
-    }
-
-    input[type=range]:active::-webkit-slider-thumb {
-        background: #fff;
-        box-shadow: 340px 0 0 335px #009fe3, inset 0 0 0 3px #009fe3
-    }
-}
-
-input[type=range]::-moz-range-progress {
-    background-color: #43e5f7
-}
-
-input[type=range]::-moz-range-track {
-    background-color: #9a905d
-}
-
-input[type=range]::-ms-fill-lower {
-    background-color: #43e5f7
-}
-
-input[type=range]::-ms-fill-upper {
-    background-color: #9a905d
-}
-
 .footerOpt {
     align-self: flex-start
 }
@@ -444,3 +384,46 @@ div.dt-processing {
     height: 180px;
 }
 
+.text-cash {
+    color: #464fed !important;
+}
+
+.text-bfs {
+    color: #bc34b6 !important;
+}
+
+.text-discount {
+    color: #009fe3 !important;
+}
+
+input[type=range] {
+    outline: 0;
+    border: 0;
+    border-radius: 500px;
+    width: 400px;
+    max-width: 100%;
+    margin: 24px 0 0;
+    transition: box-shadow .2s ease-in-out
+}
+
+#selledActionCursor::-webkit-slider-thumb {
+    background: #f1963b;
+    box-shadow: inset 0 0 0 40px #f1963b;
+    border-radius: 20px;
+
+}
+input[type=range]::-moz-range-progress {
+    background-color: #43e5f7
+}
+
+input[type=range]::-moz-range-track {
+    background-color: #9a905d
+}
+
+input[type=range]::-ms-fill-lower {
+    background-color: #43e5f7
+}
+
+input[type=range]::-ms-fill-upper {
+    background-color: #9a905d
+}

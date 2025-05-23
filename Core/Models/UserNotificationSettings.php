@@ -9,6 +9,4 @@ class UserNotificationSettings extends Model
     protected $table = 'user_notification_setting';
     public $timestamps = false ;
     protected $fillable = ['idNotification','value','idUser'];
-
-
 }

@@ -1,13 +1,13 @@
-<div>
-    @section('title')
-        {{ __('Instructor requests') }}
-    @endsection
-    @component('components.breadcrumb')
-        @slot('title')
+<div class="container-fluid">
+    <div>
+        @section('title')
             {{ __('Instructor requests') }}
-        @endslot
-    @endcomponent
-    <div class="container-fluid">
+        @endsection
+        @component('components.breadcrumb')
+            @slot('title')
+                {{ __('Instructor requests') }}
+            @endslot
+        @endcomponent
         <div class="row">
             @include('layouts.flash-messages')
         </div>
@@ -22,7 +22,7 @@
                             <div class="d-flex mb-4 align-items-center">
                                 <div class="flex-shrink-0">
                                     <img
-                                        src="@if (file_exists('uploads/profiles/profile-image-' . $instructorRequest->user->idUser . '.png')) {{ URL::asset('uploads/profiles/profile-image-'. $instructorRequest->user->idUser.'.png') }}@else{{ URL::asset('uploads/profiles/default.png') }} @endif"
+                                        src="{{\App\Models\User::getUserProfileImage($instructorRequest->user->idUser)}}"
                                         class="avatar-sm rounded-circle"/>
                                 </div>
                                 <div class="flex-grow-1 ms-2">

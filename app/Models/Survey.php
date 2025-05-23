@@ -15,7 +15,6 @@ class Survey extends Model
 {
     use HasFactory;
 
-    const SUPER_ADMIN_ROLE_NAME = "SUPER ADMIN";
     const DELAY_AFTER_CLOSED = 10;
     const DELAY_AFTER_ARCHIVED = 100;
 
@@ -99,7 +98,11 @@ class Survey extends Model
                     'name' => TranslaleModel::getTranslateName(Survey::find($id), 'disabledBtnDescription'),
                     'value' => $note . ' AR',
                     'valueFr' => $note . ' FR',
-                    'valueEn' => $note . ' EN'
+                    'valueEn' => $note . ' EN',
+                    'valueEs' => $note . ' ES',
+                    'valueTr' => $note . ' TR',
+                    'valueRu' => $note . ' RU',
+                    'valueDe' => $note . ' DE'
                 ]);
         }
 
@@ -202,7 +205,7 @@ class Survey extends Model
             return true;
         }
 
-        if ($survey->{$property} == TargetType::ADMINS->value && strtoupper(auth()?->user()?->getRoleNames()->first()) == self::SUPER_ADMIN_ROLE_NAME) {
+        if ($survey->{$property} == TargetType::ADMINS->value && User::isSuperAdmin()) {
             return true;
         }
 
@@ -227,12 +230,8 @@ class Survey extends Model
     {
         $survey = Survey::find($this->id);
         $today = new \DateTime();
-        $param = DB::table('settings')->where("ParameterName", "=", "DELAY_AFTER_CLOSED")->first();
-        if (!is_null($param)) {
-            $delayAfterClosed = $param->IntegerValue;
-        } else {
-            $delayAfterClosed = self::DELAY_AFTER_CLOSED;
-        }
+
+        $delayAfterClosed = getSettingIntegerParam('DELAY_AFTER_CLOSED', self::DELAY_AFTER_CLOSED);
 
         if ($survey->status != StatusSurvey::ARCHIVED->value) {
             if ($survey->status == StatusSurvey::CLOSED->value) {
@@ -312,13 +311,7 @@ class Survey extends Model
         $survey = Survey::find($this->id);
         $today = new \DateTime();
 
-        $param = DB::table('settings')->where("ParameterName", "=", "DELAY_AFTER_ARCHIVED")->first();
-
-        if (!is_null($param)) {
-            $delayAfterArchived = $param->IntegerValue;
-        } else {
-            $delayAfterArchived = self::DELAY_AFTER_ARCHIVED;
-        }
+        $delayAfterArchived = getSettingIntegerParam('DELAY_AFTER_CLOSED', self::DELAY_AFTER_ARCHIVED);
 
         if (!is_null($survey->archivedDate)) {
             $archiveDate = new \DateTime($survey->archivedDate);

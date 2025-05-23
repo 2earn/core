@@ -1,5 +1,5 @@
-<div>
-    @section('title')
+<div class="container-fluid">
+@section('title')
         {{ __('Shares Sold: Recent transaction') }}
     @endsection
     @component('components.breadcrumb')
@@ -11,9 +11,6 @@
     <div class="row">
         <div class="col-xxl-12">
             <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">{{__('Recent Transaction')}}</h5>
-                </div>
                 <div class="card-body table-responsive">
                     <table id="transfert" class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
                         <thead class="table-light">
@@ -31,7 +28,8 @@
         </div>
     </div>
     <script type="module">
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             $('#transfert').DataTable(
                 {
                     "ordering": true,
@@ -47,7 +45,11 @@
                     autoWidth: false,
                     bAutoWidth: false,
                     "ajax": "{{route('api_transfert',['locale'=> app()->getLocale()])}}",
-                    "columns": [{data: 'value'}, {data: 'Description'}, {data: 'formatted_created_at'},],
+                    "columns": [
+                        {data: 'value'},
+                        {data: 'description'},
+                        {data: 'created_at'}
+                    ],
                     "language": {"url": urlLang}
                 }
             );
@@ -91,7 +93,8 @@
             xaxis: {type: 'date',}
         }
 
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             var chartOrigin = document.querySelector('#chart');
             var chart1Origin = document.querySelector('#chart1');
             var chart2Origin = document.querySelector('#chart2');

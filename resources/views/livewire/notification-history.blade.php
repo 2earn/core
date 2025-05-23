@@ -1,24 +1,19 @@
-<div>
-    @section('title')
-        {{ __('history') }}
-    @endsection
-    @component('components.breadcrumb')
-        @slot('li_1')@endslot
-        @slot('title')
-            {{ __('Notification history') }}
-        @endslot
-    @endcomponent
-    <div class="row card">
-        <div class="card-header border-info">
-            <div class="d-flex align-items-center">
-                <h6 class="card-title mb-0 flex-grow-1">{{ __('Notification history') }}</h6>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-body table-responsive">
+<div class="container-fluid">
+    <div>
+        @section('title')
+            {{ __('history') }}
+        @endsection
+        @component('components.breadcrumb')
+            @slot('li_1')@endslot
+            @slot('title')
+                {{ __('Notification history') }}
+            @endslot
+        @endcomponent
+        <div class="row card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive">
                             <table id="HistoryNotificationTable"
                                    class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
                                 <thead class="table-light">
@@ -41,44 +36,45 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <script type="module">
-        $(document).on('turbolinks:load', function () {
-            if (!$.fn.dataTable.isDataTable('#HistoryNotificationTable')) {
-                $('#HistoryNotificationTable').DataTable({
-                    "responsive": true,
-                    "colReorder": true,
-                    "orderCellsTop": true,
-                    "fixedHeader": true,
-                    initComplete: function () {
-                        this.api()
-                            .columns()
-                            .every(function () {
-                                var that = $('#HistoryNotificationTable').DataTable();
-                                $('input', this.footer()).on('keydown', function (ev) {
-                                    if (ev.keyCode == 13) {
-                                        that.search(this.value).draw();
-                                    }
+        <script type="module">
+            document.addEventListener("DOMContentLoaded", function () {
+
+                if (!$.fn.dataTable.isDataTable('#HistoryNotificationTable')) {
+                    $('#HistoryNotificationTable').DataTable({
+                        "responsive": true,
+                        "colReorder": true,
+                        "orderCellsTop": true,
+                        "fixedHeader": true,
+                        initComplete: function () {
+                            this.api()
+                                .columns()
+                                .every(function () {
+                                    var that = $('#HistoryNotificationTable').DataTable();
+                                    $('input', this.footer()).on('keydown', function (ev) {
+                                        if (ev.keyCode == 13) {
+                                            that.search(this.value).draw();
+                                        }
+                                    });
                                 });
-                            });
-                    },
-                    "processing": true,
-                    search: {return: true},
-                    "ajax": "{{route('api_history_notification',app()->getLocale())}}",
-                    "columns": [
-                        datatableControlBtn,
-                        {data: 'reference'},
-                        {data: 'send'},
-                        {data: 'receiver'},
-                        {data: 'action'},
-                        {data: 'date'},
-                        {data: 'type'},
-                        {data: 'responce'},
-                    ],
-                    "language": {"url": urlLang},
-                });
-            }
-        });
-    </script>
+                        },
+                        "processing": true,
+                        search: {return: true},
+                        "ajax": "{{route('api_history_notification',app()->getLocale())}}",
+                        "columns": [
+                            datatableControlBtn,
+                            {data: 'reference'},
+                            {data: 'send'},
+                            {data: 'receiver'},
+                            {data: 'action'},
+                            {data: 'date'},
+                            {data: 'type'},
+                            {data: 'responce'},
+                        ],
+                        "language": {"url": urlLang},
+                    });
+                }
+            });
+        </script>
+    </div>
 </div>

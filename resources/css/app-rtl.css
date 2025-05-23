@@ -647,12 +647,11 @@
 }
 
 .page-title-box {
-    padding: 10px 1.5rem;
     background-color: var(--vz-card-bg-custom);
     box-shadow: 0 1px 2px rgba(56, 65, 74, .15);
     border-bottom: 1px;
     border-top: 1px;
-    margin: -23px -1.5rem 1.5rem
+    margin: -24px -24px 10px;
 }
 
 .page-title-box .breadcrumb {
@@ -703,7 +702,7 @@
     left: 0;
     color: var(--vz-footer-color);
     right: 250px;
-    height: 60px;
+    height: 100px;
     background-color: var(--vz-footer-bg)
 }
 
@@ -795,7 +794,7 @@
 .navbar-menu .navbar-nav .nav-link {
     display: flex;
     align-items: center;
-    padding: .625rem 1.5rem;
+    padding: .5rem 1.2rem;
     font-size: .9375rem;
     color: #7c7f90;
     font-family: "Public Sans", sans-serif;
@@ -13401,12 +13400,12 @@ span.flatpickr-weekday {
     right: 0;
     left: 0;
     top: 0;
-    height: 320px
+    height: 170px
 }
 
 @media (max-width: 575.98px) {
     .profile-wid-bg {
-        height: 445px
+        height: 170px
     }
 }
 
@@ -13418,15 +13417,14 @@ span.flatpickr-weekday {
     top: 0;
     bottom: 0;
     opacity: .9;
-    background: #5ea3cb;
-    background: linear-gradient(0deg, #296080, #5ea3cb)
 }
 
 .profile-wid-bg .profile-wid-img {
     width: 100%;
     height: 100%;
     -o-object-fit: cover;
-    object-fit: cover
+    object-fit: fill;
+    opacity: 0.9;
 }
 
 .profile-nav.nav-pills .nav-link {

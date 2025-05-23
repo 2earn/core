@@ -8,8 +8,6 @@
             {{ __('Commited investors requests') }}
         @endslot
     @endcomponent
-
-    <div class="container-fluid">
         <div class="row">
             @include('layouts.flash-messages')
         </div>
@@ -23,9 +21,8 @@
                         <div class="card-body">
                             <div class="d-flex mb-4 align-items-center">
                                 <div class="flex-shrink-0">
-                                    <img
-                                        src="@if (file_exists('uploads/profiles/profile-image-' . $commitedRequest->user->idUser . '.png')) {{ URL::asset('uploads/profiles/profile-image-'. $commitedRequest->user->idUser.'.png') }}@else{{ URL::asset('uploads/profiles/default.png') }} @endif"
-                                        class="avatar-sm rounded-circle"/>
+                                    <img src="{{\App\Models\User::getUserProfileImage($commitedRequest->user->idUser)}}"
+                                         class="avatar-sm rounded-circle"/>
                                 </div>
                                 <div class="flex-grow-1 ms-2">
                                     <h5 class="card-title mb-1">{{$commitedRequest->fullphone_number}}</h5>
@@ -51,5 +48,4 @@
                 </div>
             @endforelse
         </div>
-    </div>
 </div>

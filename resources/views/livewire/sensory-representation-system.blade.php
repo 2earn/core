@@ -1,5 +1,5 @@
-<div>
-    @section('title')
+<div class="container-fluid">
+@section('title')
         {{ __('Sensory Representation System') }}
     @endsection
     @component('components.breadcrumb')

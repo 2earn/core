@@ -57,12 +57,13 @@ class Condition extends Model
         ['name' => '[vip] declenchedDate', 'value' => 'vip.declenchedDate'],
         ['name' => '[vip] closed', 'value' => 'vip.closed'],
         ['name' => '[vip] closedDate', 'value' => 'vip.closedDate'],
-        ['name' => '[balances] cash', 'value' => 'soldes_view.cash'],
-        ['name' => '[balances] bfs', 'value' => 'soldes_view.bfs'],
-        ['name' => '[balances] db', 'value' => 'soldes_view.db'],
-        ['name' => '[balances] t', 'value' => 'soldes_view.t'],
-        ['name' => '[balances] sms', 'value' => 'soldes_view.sms'],
-        ['name' => '[balances] action', 'value' => 'soldes_view.action'],
+        ['name' => '[user current balance] cash', 'value' => 'user_current_balance_horisontals.cash_balance'],
+        ['name' => '[user current balance] bfs', 'value' => 'user_current_balance_horisontals.bfss_balance'],
+        ['name' => '[user current balance] db', 'value' => 'user_current_balance_horisontals.discount_balance'],
+        ['name' => '[user current balance] tree', 'value' => 'user_current_balance_horisontals.tree_balance'],
+        ['name' => '[user current balance] sms', 'value' => 'user_current_balance_horisontals.sms_balance'],
+        ['name' => '[user current balance] action', 'value' => 'user_current_balance_horisontals.share_balance'],
+        ['name' => '[user current balance] chanse', 'value' => 'user_current_balance_horisontals.chances_balance'],
     ];
 
     protected $fillable = [

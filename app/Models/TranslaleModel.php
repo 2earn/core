@@ -9,7 +9,7 @@ class TranslaleModel extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'value', 'valueFr', 'valueEn'];
+    protected $fillable = ['name', 'value', 'valueFr', 'valueEn', 'valueTr', 'valueEs', 'valueRu', 'valueDe'];
 
     public static function getTranslateName($var, $property)
     {
@@ -25,6 +25,10 @@ class TranslaleModel extends Model
                 'AR' => 'Value',
                 'FR' => 'ValueFR',
                 'EN' => 'ValueEN',
+                'ES' => 'ValueES',
+                'TR' => 'ValueTR',
+                'RU' => 'ValueRU',
+                'DE' => 'ValueDE',
             };
 
             return TranslaleModel::where('name', $name)->pluck($column)->first();
@@ -35,7 +39,6 @@ class TranslaleModel extends Model
     public static function getDataFromName($var)
     {
         return explode('-', $var);
-
     }
 
     public static function getClassNameFromName($var)
@@ -58,8 +61,24 @@ class TranslaleModel extends Model
         $class = self::getClassNameFromName($var);
         $id = self::getIdFromName($var);
 
+        if ($class == 'Faq') {
+            return route('faq_index', ['locale' => app()->getLocale()]);
+        }
+
+        if ($class == 'News') {
+            return route('news_index', ['locale' => app()->getLocale()]);
+        }
+
         if ($class == 'Survey') {
             return route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $id]);
+        }
+
+        if ($class == 'Platform') {
+            return route('platform_show', ['locale' => app()->getLocale(), 'id' => $id]);
+        }
+
+        if ($class == 'BusinessSector') {
+            return route('business_sector_show', ['locale' => app()->getLocale(), 'id' => $id]);
         }
 
         if ($class == 'SurveyQuestion') {
@@ -79,9 +98,7 @@ class TranslaleModel extends Model
                     return route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $surveyQuestion->survey_id]);
                 }
             }
-
         }
-
         return "#";
     }
 

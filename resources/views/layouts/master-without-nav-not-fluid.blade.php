@@ -1,5 +1,5 @@
 <!doctype html>
-<html dir="{{config('app.available_locales')[app()->getLocale()]['direction']}}" data-turbolinks='false'
+<html dir="{{config('app.available_locales')[app()->getLocale()]['direction']}}"
       lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-topbar="light">
 <head>
     <meta charset="utf-8"/>
@@ -14,7 +14,7 @@
     @else
         @vite(['resources/css/bootstrap.min.css','resources/css/icons.css','resources/css/app.css','resources/css/custom.css'])
     @endif
-    @vite([ 'resources/css/intlTelInput.min.css','resources/js/sweetalert2@11.js','resources/js/appWithoutNav.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
+    @vite([ 'resources/css/intlTelInput.min.css','resources/js/sweetalert2@11.js','resources/js/appWithoutNav.js','resources/js/intlTelInput.js'])
 </head>
 <body>
 <div class="container">

@@ -7,12 +7,14 @@ use Core\Models\identificationuserrequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    const SUPER_ADMIN_ROLE_NAME = "Super admin";
+    const SUPER_ADMIN_ROLE_NAME = "SUPER ADMIN";
     const MAX_PHOTO_ALLAWED_SIZE = 2048000;
     const PHOTO_ALLAWED_EXT = ['png', 'jpg', 'jpeg'];
     const IMAGE_TYPE_PROFILE = 'profile';
@@ -79,6 +81,26 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    public function deals()
+    {
+        return $this->hasMany(Deal::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function seller()
+    {
+        return $this->hasMany(Item::class);
+    }
+
+    public function currentBalances()
+    {
+        return $this->hasMany(CashBalances::class);
+    }
+
     public function profileImage()
     {
         return $this->morphOne(Image::class, 'imageable')->where('type', '=', self::IMAGE_TYPE_PROFILE);
@@ -103,8 +125,14 @@ class User extends Authenticatable
     {
         $accountUser = User::where('idUser', $idUser)->first();
         try {
-            return $accountUser->profileImage()->first()->url;
+            if (is_null($accountUser))
+                throw new \Exception(Lang::get('Not a valid user id'));
+
+            if (is_null($accountUser->profileImage()->first()))
+                throw new \Exception(Lang::get('no profile image'));
+            return url($accountUser->profileImage()->first()->url);
         } catch (\Exception $exception) {
+            Log::info($exception->getMessage());
             return self::DEFAULT_PROFILE_URL;
         }
     }
@@ -113,11 +141,15 @@ class User extends Authenticatable
     public static function getNationalFrontImage($idUser)
     {
         $accountUser = User::where('idUser', $idUser)->first();
+
         try {
-            return $accountUser->nationalIdentitieFrontImage()->first()->url;
-
-
+            if (is_null($accountUser))
+                throw new \Exception(Lang::get('Not a valid user id'));
+            if (is_null($accountUser->nationalIdentitieFrontImage()->first()))
+                throw new \Exception(Lang::get('no National front image'));
+            return url($accountUser->nationalIdentitieFrontImage()->first()->url);
         } catch (\Exception $exception) {
+            Log::info($exception->getMessage());
             return self::DEFAULT_NATIONAL_FRONT_URL;
         }
     }
@@ -126,8 +158,13 @@ class User extends Authenticatable
     {
         $accountUser = User::where('idUser', $idUser)->first();
         try {
-            return $accountUser->nationalIdentitieBackImage()->first()->url;
+            if (is_null($accountUser))
+                throw new \Exception(Lang::get('Not a valid user id'));
+            if (is_null($accountUser->nationalIdentitieBackImage()->first()))
+                throw new \Exception(Lang::get('No national back image'));
+            return url($accountUser->nationalIdentitieBackImage()->first()->url);
         } catch (\Exception $exception) {
+            Log::info($exception->getMessage());
             return self::DEFAULT_NATIONAL_BACK_URL;
         }
     }
@@ -136,8 +173,13 @@ class User extends Authenticatable
     {
         $accountUser = User::where('idUser', $idUser)->first();
         try {
-            return $accountUser->internationalIdentitieImage()->first()->url;
+            if (is_null($accountUser))
+                throw new \Exception(Lang::get('Not a valid user id'));
+            if (is_null($accountUser->internationalIdentitieImage()->first()))
+                throw new \Exception(Lang::get('No international image'));
+            return url($accountUser->internationalIdentitieImage()->first()->url);
         } catch (\Exception $exception) {
+            Log::info($exception->getMessage());
             return self::DEFAULT_INTERNATIONAL_URL;
         }
     }
@@ -197,5 +239,13 @@ class User extends Authenticatable
         }
 
         $user->internationalIdentitieImage()->save($image);
+    }
+
+    public static function isSuperAdmin()
+    {
+        if (!strtoupper(auth()?->user()?->getRoleNames()->first()) == self::SUPER_ADMIN_ROLE_NAME) {
+            redirect(route('login', ['locale' => app()->getLocale()]));
+        }
+        return strtoupper(auth()?->user()?->getRoleNames()->first()) == self::SUPER_ADMIN_ROLE_NAME;
     }
 }

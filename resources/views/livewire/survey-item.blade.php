@@ -14,7 +14,7 @@
                     <i class=" ri-home-gear-line"></i>
                 </a>
             @endif
-            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+            @if(\App\Models\User::isSuperAdmin())
                 @if(in_array($currentRouteName,["surveys_show","surveys_participate","surveys_results"]))
                     <a href="{{route('surveys_index', app()->getLocale())}}"
                        class="btn btn-outline-info waves-effect waves-light material-shadow-none mx-1 btn-sm"
@@ -24,11 +24,11 @@
                 @endif
             @endif
 
-            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+            @if(\App\Models\User::isSuperAdmin())
                 {{$survey->id}} -
             @endif
             {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}
-            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+            @if(\App\Models\User::isSuperAdmin())
                 <small class="mx-2">
                     <a class="link-info"
                        href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'name')])}}">{{__('See or update Translation')}}</a>
@@ -46,7 +46,7 @@
         </h5>
 
     </div>
-    @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+    @if(\App\Models\User::isSuperAdmin())
         <div class="card-body row">
             <div class="col-sm-12 col-md-4 col-lg-3  mt-1">
 
@@ -180,14 +180,14 @@
                     @else
                         {{ Str::limit(\App\Models\TranslaleModel::getTranslation($survey,'description',$survey->description),200)}}
                     @endif
-                    @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                    @if(\App\Models\User::isSuperAdmin())
                         <br>  <a class="link-info"
                                  href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'description')])}}">{{__('See or update Translation')}}</a>
                     @endif
                 </p>
             </div>
 
-            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+            @if(\App\Models\User::isSuperAdmin())
                 <div class="col-sm-12 col-md-6 col-lg-6">
                     <h6 class="mt-2 text-info">{{__('Target')}}:</h6>
                     @if($survey->targets->isEmpty())
@@ -208,7 +208,7 @@
         </div>
     </div>
 
-    @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+    @if(\App\Models\User::isSuperAdmin())
         @if(!is_null($survey->disabledResult) or !is_null($survey->disabledComment) or !is_null($survey->disabledLike) or !is_null($survey->disabledBtnDescription))
             <div class="card-body row">
                 <hr class="text-muted">
@@ -222,7 +222,7 @@
                                 {{ Str::limit(\App\Models\TranslaleModel::getTranslation($survey,'disabledBtnDescription',$survey->disabledBtnDescription),200)}}
                             @endif
                         </p>
-                        @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                        @if(\App\Models\User::isSuperAdmin())
                             <br>  <a class="link-info"
                                      href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'disabledBtnDescription')])}}">{{__('See or update Translation')}}</a>
                         @endif
@@ -237,7 +237,7 @@
                             @else
                                 {{ Str::limit(\App\Models\TranslaleModel::getTranslation($survey,'disabledResult',$survey->disabledResult),200)}}
                             @endif
-                            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                            @if(\App\Models\User::isSuperAdmin())
                                 <br>  <a class="link-info"
                                          href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'disabledResult')])}}">{{__('See or update Translation')}}</a>
                             @endif
@@ -253,7 +253,7 @@
                             @else
                                 {{ Str::limit(\App\Models\TranslaleModel::getTranslation($survey,'disabledComment',$survey->disabledComment),200)}}
                             @endif
-                            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                            @if(\App\Models\User::isSuperAdmin())
                                 <br>  <a class="link-info"
                                          href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'disabledComment')])}}">{{__('See or update Translation')}}</a>
                             @endif
@@ -269,7 +269,7 @@
                             @else
                                 {{ Str::limit(\App\Models\TranslaleModel::getTranslation($survey,'disabledLike',$survey->disabledLike),200)}}
                             @endif
-                            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                            @if(\App\Models\User::isSuperAdmin())
                                 <br>  <a class="link-info"
                                          href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'disabledLike')])}}">{{__('See or update Translation')}}</a>
                             @endif
@@ -281,7 +281,7 @@
     @endif
 
     @if($currentRouteName=="surveys_show")
-        @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+        @if(\App\Models\User::isSuperAdmin())
             <div class="card-body">
                 <hr class="text-muted">
                 <h6 class="mt-2 text-info">{{__('Details')}}:</h6>
@@ -292,14 +292,14 @@
                                 @if($survey->enabled)
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <strong class="text-muted">{{__('Enable date')}} :</strong>
-                                        {{\Carbon\Carbon::parse($survey->enableDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                        {{\Carbon\Carbon::parse($survey->enableDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                                     </li>
                                 @endif
                             @else
                                 @if($survey->disableDate != null && !empty($survey->disableDate))
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <strong class="text-muted">{{__('Disable date')}} :</strong>
-                                        {{\Carbon\Carbon::parse($survey->disableDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                        {{\Carbon\Carbon::parse($survey->disableDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                                     </li>
                                 @endif
                             @endif
@@ -308,14 +308,14 @@
                                 @if($survey->publishDate != null && !empty($survey->publishDate))
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <strong class="text-muted">{{__('Publish date')}} : </strong>
-                                        {{\Carbon\Carbon::parse($survey->publishDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                        {{\Carbon\Carbon::parse($survey->publishDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                                     </li>
                                 @endif
                             @else
                                 @if($survey->unpublishDate != null && !empty($survey->unpublishDate))
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <strong class="text-muted">{{__('Un publish date')}} :</strong>
-                                        {{\Carbon\Carbon::parse($survey->unpublishDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                        {{\Carbon\Carbon::parse($survey->unpublishDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                                     </li>
                                 @endif
                             @endif
@@ -326,14 +326,14 @@
                             @if($survey->openDate != null && !empty($survey->openDate))
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <strong class="text-muted">{{__('Open date')}} :</strong>
-                                    {{\Carbon\Carbon::parse($survey->openDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                    {{\Carbon\Carbon::parse($survey->openDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                                 </li>
                             @endif
 
                             @if($survey->closeDate != null && !empty($survey->closeDate))
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <strong class="text-muted">{{__('Close date')}} :</strong>
-                                    {{\Carbon\Carbon::parse($survey->closeDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                    {{\Carbon\Carbon::parse($survey->closeDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                                 </li>
                             @endif
                         </ul>
@@ -343,13 +343,13 @@
                             @if($survey->startDate != null && !empty($survey->startDate))
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <strong class="text-muted">{{__('Start date')}} :</strong>
-                                    {{\Carbon\Carbon::parse($survey->startDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                    {{\Carbon\Carbon::parse($survey->startDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                                 </li>
                             @endif
                             @if($survey->endDate != null && !empty($survey->endDate))
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <strong class="text-muted">{{__('End date')}} :</strong>
-                                    {{\Carbon\Carbon::parse($survey->endDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                    {{\Carbon\Carbon::parse($survey->endDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                                 </li>
                             @endif
                         </ul>
@@ -359,19 +359,19 @@
                             @if($survey->archivedDate != null && !empty($survey->archivedDate))
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <strong class="text-muted">{{__('Archived date')}} :</strong>
-                                    {{\Carbon\Carbon::parse($survey->archivedDate)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                    {{\Carbon\Carbon::parse($survey->archivedDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                                 </li>
                             @endif
                             @if($survey->created_at != null && !empty($survey->created_at))
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <strong class="text-muted">{{__('Creation date')}} :</strong>
-                                    {{\Carbon\Carbon::parse($survey->created_at)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                    {{\Carbon\Carbon::parse($survey->created_at)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                                 </li>
                             @endif
                             @if($survey->updated_at != null && !empty($survey->updated_at))
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <strong class="text-muted">{{__('Update date')}} :</strong>
-                                    {{\Carbon\Carbon::parse($survey->updated_at)->format(\App\Http\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
+                                    {{\Carbon\Carbon::parse($survey->updated_at)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)?? __('Not set')}}
                                 </li>
                             @endif
                         </ul>
@@ -384,12 +384,12 @@
     @if(!in_array( $currentRouteName,['surveys_results','surveys_participate']))
         <div class="card-footer bg-transparent">
             @if($currentRouteName!="survey_show")
-                <a href="{{route('surveys_show', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
+                <a href="{{route('surveys_show', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id] )}}"
                    class="btn btn-soft-info material-shadow-none  mt-1">{{__('Details')}}</a>
             @endif
-            @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+            @if(\App\Models\User::isSuperAdmin())
                 @if(intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
-                    <a href="{{route('surveys_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
+                    <a href="{{route('surveys_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id] )}}"
                        class="btn btn-soft-info material-shadow-none mt-1">
                         {{__('Edit')}}
                     </a>
@@ -412,9 +412,10 @@
                 @if($survey->status==\Core\Enum\StatusSurvey::CLOSED->value)
                     <a wire:click="archive('{{$survey->id}}')"
                        class="btn btn-soft-secondary material-shadow-none mt-1">
-                        {{__('Archive')}}
+                        {{__('Send to archive')}}
                     </a>
                 @endif
+
                 @if($survey->status<\Core\Enum\StatusSurvey::CLOSED->value)
                     @if(!$survey->enabled)
                         <a wire:click="enable('{{$survey->id}}')"
@@ -449,20 +450,20 @@
             @if(intval($survey->status)==\Core\Enum\StatusSurvey::OPEN->value && $survey->enabled)
                 @if(\App\Models\SurveyResponse::isPaticipated(auth()->user()->id, $survey->id))
                     @if($survey->updatable)
-                        <a href="{{route('surveys_participate', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
+                        <a href="{{route('surveys_participate', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id] )}}"
                            class="btn btn-soft-info material-shadow-none mt-1">{{__('Update Participation')}}</a>
                     @endif
                 @endif
                 @if(! \App\Models\SurveyResponse::isPaticipated(auth()->user()->id, $survey->id))
-                    <a href="{{route('surveys_participate', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
+                    <a href="{{route('surveys_participate', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id] )}}"
                        class="btn btn-soft-info material-shadow-none mt-1">{{__('Paticipate')}}</a>
                 @endif
 
             @endif
 
             @if(intval($survey->status)>\Core\Enum\StatusSurvey::NEW->value)
-                @if( ($survey->canShowResult() && $survey->enabled) ||strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
-                    <a href="{{route('surveys_results', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
+                @if( ($survey->canShowResult() && $survey->enabled) ||\App\Models\User::isSuperAdmin())
+                    <a href="{{route('surveys_results', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id] )}}"
                        class="btn btn-soft-info material-shadow-none  mt-1">{{__('Show results')}}</a>
                 @else
                     <btn disabled class="btn btn-soft-info material-shadow-none mt-1">{{__('Show results')}}</btn>
@@ -510,20 +511,20 @@
                                     </blockquote>
                                 </figure>
 
-                                @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                                @if(\App\Models\User::isSuperAdmin())
                                     <a class="link-info"
                                        href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey->question,'content')])}}">{{__('See or update Translation')}}</a>
                                 @endif
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-5">
 
-                                @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME && intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
+                                @if(\App\Models\User::isSuperAdmin() && intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
                                     <div class="btn-group  btn-group-sm" role="group" aria-label="Basic example">
-                                        <a href="{{route('surveys_question_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id,'IdQuestion'=>$survey->question->id] )}}"
+                                        <a href="{{route('surveys_question_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id,'IdQuestion'=>$survey->question->id] )}}"
                                            class="btn btn-soft-info material-shadow-none">
                                             {{__('Edit')}}
                                         </a>
-                                        <a href="{{route('surveys_question_choice_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id,'idQuestion'=>$survey->question->id] )}}"
+                                        <a href="{{route('surveys_question_choice_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id,'idQuestion'=>$survey->question->id] )}}"
                                            class="btn btn-soft-info material-shadow-none">
                                             {{__('Add Choice')}}
                                         </a>
@@ -538,16 +539,16 @@
                                                     {{$loop->index+1}}
                                                     - {{\App\Models\TranslaleModel::getTranslation($choice,'title',$choice->title)}}
                                                     <br>
-                                                    @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                                                    @if(\App\Models\User::isSuperAdmin())
                                                         <a class="link-info"
                                                            href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($choice,'title')])}}">{{__('See or update Translation')}}</a>
                                                     @endif
                                                 </div>
-                                                @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME && intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
+                                                @if(\App\Models\User::isSuperAdmin() && intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
                                                     <div class="col-sm-12 col-md-6 col-lg-5">
                                                         <div class="btn-group  btn-group-sm" role="group"
                                                              aria-label="Basic example">
-                                                            <a href="{{route('surveys_question_choice_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id,'idQuestion'=>$survey->question->id,'idChoice'=>$choice->id] )}}"
+                                                            <a href="{{route('surveys_question_choice_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id,'idQuestion'=>$survey->question->id,'idChoice'=>$choice->id] )}}"
                                                                title="{{__('Update Choice')}}"
                                                                class="btn btn-soft-info material-shadow-none">
                                                                 {{__('Update')}}
@@ -578,9 +579,9 @@
                     </li>
                 @else
                     <li class="list-group-item">{{__('No questions')}}.
-                        @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                        @if(\App\Models\User::isSuperAdmin())
                             <br>
-                            <a href="{{route('surveys_question_create_update', ['locale'=> request()->route("locale"),'idSurvey'=>$survey->id] )}}"
+                            <a href="{{route('surveys_question_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id] )}}"
                                title="{{__('Add Question')}}" class="btn btn-soft-info material-shadow-none mt-2">
                                 {{__('Add Question')}}
                             </a>
@@ -663,7 +664,7 @@
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <ul class="list-group mb-3">
                             @forelse ($survey->comments as $comment)
-                                @if(strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME ||$comment->validated||$comment->user_id ==auth()->user()->id  )
+                                @if(\App\Models\User::isSuperAdmin() ||$comment->validated||$comment->user_id ==auth()->user()->id  )
                                     <li class="list-group-item mt-2">
 
                                         <blockquote class="blockquote ml-2 mt-2">
@@ -677,7 +678,7 @@
                                                 class="badge badge-soft-warning float-end mx-2">{{ __('Waiting for admin approving')}}</span>
                                         @endif
 
-                                        @if(!$comment->validated && strtoupper(auth()?->user()?->getRoleNames()->first())==\App\Models\Survey::SUPER_ADMIN_ROLE_NAME)
+                                        @if(!$comment->validated && \App\Models\User::isSuperAdmin())
                                             <br>
                                             <button wire:click="deleteComment('{{$comment->id}}')"
                                                     class="btn btn-soft-danger mt-3 mx-2 float-end">
@@ -702,7 +703,7 @@
                     <h6>{{__('Add a comment')}}</h6>
                 </div>
                 <div class="col-sm-12 col-md-9 col-lg-9">
-                    <textarea class="form-control" maxlength="190" wire:model="comment" id="comment" rows="3"
+                    <textarea class="form-control" maxlength="190" wire:model.live="comment" id="comment" rows="3"
                               @if(!$survey->isCommentable()) disabled @endif></textarea>
                 </div>
                 <div class="col-sm-12 col-md-3 col-lg-3 ">
@@ -728,7 +729,7 @@
                         <label for="disableNote">{{__('Disable Note')}}</label>
                         <textarea type="text" class="form-control @error('disableNote') is-invalid @enderror"
                                   maxlength="190" id="disableNote"
-                                  wire:model="disableNote"
+                                  wire:model.live="disableNote"
                                   placeholder="{{__('Enter Disable Note')}}"></textarea>
                         @error('disableNote') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>

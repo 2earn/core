@@ -1,4 +1,5 @@
-$(document).on('turbolinks:load', function () {
+document.addEventListener("DOMContentLoaded", function () {
+
 
     function setupCountdown(campaignSelector, startTimeMillis, endTimeMillis) {
         var second = 1000;

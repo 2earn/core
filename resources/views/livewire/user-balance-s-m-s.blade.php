@@ -1,4 +1,5 @@
-<div>
+<div class="container-fluid">
+    <div>
     @section('title')
         {{ __('sms balance') }}
     @endsection
@@ -9,28 +10,18 @@
         @endslot
     @endcomponent
         <div class="row card">
-            <div class="card-header border-info">
-                <div class="d-flex align-items-center">
-                    <h6 class="card-title mb-0 flex-grow-1">{{ __('SMS balance') }}</h6>
-                </div>
-            </div>
-            <div class="card-body">         <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                </div>
-                <div class="card-body table-responsive">
+            <div class="card-body">
+                <div class="table-responsive">
                     <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
                            id="userBalanceSMS_table" style="width: 100%">
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">
-                            <th>{{__('numero')}}</th>
-                            <th>{{ __('ref') }}</th>
-                            <th>{{ __('date') }}</th>
+                            <th>{{__('reference')}}</th>
+                            <th>{{ __('Created at') }}</th>
                             <th>{{ __('Operation Designation') }}</th>
                             <th>{{ __('description') }}</th>
-                            <th>{{__('Prix')}}</th>
                             <th>{{ __('Value') }}</th>
-                            <th>{{ __('Balance') }}</th>
+                            <th>{{ __('Current balance') }}</th>
                         </tr>
                         </thead>
                         <tbody class="body2earn">
@@ -39,10 +30,9 @@
                 </div>
             </div>
         </div>
-        </div>
     </div>
     <script type="module">
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
             $('#userBalanceSMS_table').DataTable(
                 {
                     "ordering": false,
@@ -57,27 +47,27 @@
                     search: {return: true},
                     autoWidth: false,
                     bAutoWidth: false,
-                    "ajax": "<?php echo e(route('api_user_balances', ['locale' => app()->getLocale(), 'idAmounts' => 'SMS-Balance'])); ?>",
+                    "ajax": "<?php echo e(route('api_user_sms', ['locale' => app()->getLocale()])); ?>",
                     "columns": [
-                        {data: 'ranks', "width": "1%"},
-                        {data: 'Ref'},
-                        {data: 'Date'},
-                        {data: 'Designation'},
-                        {data: 'Description'},
-                        {data: 'PrixUnitaire'},
-                        {data: 'value'},
-                        {data: 'balance'},
+                        {data: 'reference'},
+                        {data: 'created_at'},
+                        {data: 'operation'},
+                        {data: 'description'},
+                        {data: 'value', className: classAl},
+                        {data: 'current_balance', className: classAl},
                     ],
                     "columnDefs":
                         [
                             {
-                                "targets": [6],
+                                "targets": [5],
                                 render: function (data, type, row) {
-                                    if (data.indexOf('+') == -1)
-                                        return '<span class="badge bg-danger">' + data + '</span>';
-                                    else
-                                        return '<span class="badge bg-success">' + data + '</span>';
-
+                                    return '<span class="badge bg-danger con fs-14">' + data + '</span>';
+                                }
+                            },
+                            {
+                                "targets": [3],
+                                render: function (data, type, row) {
+                                    return data;
                                 }
                             }],
                     "language": {"url": urlLang}
@@ -85,6 +75,7 @@
             );
         });
     </script>
+</div>
 </div>
 
 

@@ -81,12 +81,13 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.Livewire.emit('deleteUser', idUser);
+                    window.Livewire.dispatch('deleteUser', [idUser]);
                 }
             });
         }
 
-            $(document).on('turbolinks:load', function () {
+            document.addEventListener("DOMContentLoaded", function () {
+
                 $('#userManager_table').DataTable({
                     retrieve: true,
                     "colReorder": true,
@@ -126,7 +127,7 @@
             });
 
     </script>
-    <script data-turbolinks-eval="false">
+    <script >
         var SuccesUpdatePasswordUserAdmin = '{{ Session::has('SuccesUpdatePasswordUserAdmin')}}'
         if (SuccesUpdatePasswordUserAdmin) {
             toastr.success('{{Session::get('SuccesUpdatePasswordUserAdmin')}}');

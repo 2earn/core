@@ -42,10 +42,6 @@
                 }
 
             });
-
-            console.log(msg);
-
-
         });
     </script>
 @endforeach

@@ -17,9 +17,9 @@
             <h6 class="card-title mt-2">{{__('Details')}}</h6>
             <div class="row">
                 <div class="col-sm-6 col-md-6 col-lg-4">
-                    <img
-                            src="@if (file_exists('uploads/profiles/profile-image-' . $commitedInvestorsRequest->user->idUser . '.png')) {{ URL::asset('uploads/profiles/profile-image-'. $commitedInvestorsRequest->user->idUser.'.png') }}@else{{ URL::asset('uploads/profiles/default.png') }} @endif"
-                            class="avatar-sm rounded-circle"/>
+                    <img src="{{ URL::asset($userProfileImage) }}?={{Str::random(16)}}"
+                         class="rounded-circle avatar-xl img-thumbnail user-profile-image"
+                         alt="user-profile-image">
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-8">
                     <ul class="list-group">
@@ -79,7 +79,7 @@
                         <h6>{{__('Add reject raison')}}</h6>
                     </div>
                     <div class="col-sm-12 col-md-9 col-lg-9">
-                    <textarea class="form-control" maxlength="190" wire:model="note" id="note" rows="3">
+                    <textarea class="form-control" maxlength="190" wire:model.live="note" id="note" rows="3">
                     </textarea>
                         @if(!empty($note_message))
                             <div class="alert alert-warning alert-borderless mt-2" role="alert">

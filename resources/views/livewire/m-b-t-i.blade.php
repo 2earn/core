@@ -1,4 +1,4 @@
-<div>
+<div class="container-fluid">
     @section('title')
         {{ __('Myers-Briggs Type Indicator (MBTI)') }}
     @endsection

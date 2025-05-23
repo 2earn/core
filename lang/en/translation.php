@@ -84,7 +84,7 @@ return [
     "badges"=>"Badges",
     "buttons"=>"Buttons",
     "colors"=>"Colors",
-    "cards"=>"Cards",
+    "cards"=>"Carts",
     "carousel"=>"Carousel",
     "dropdowns"=>"Dropdowns",
     "grid"=>"Grid",

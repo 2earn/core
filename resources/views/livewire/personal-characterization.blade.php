@@ -1,4 +1,4 @@
-<div>
+<div class="container-fluid">
     @section('title')
         {{ __('Personal Characterization') }}
     @endsection
@@ -11,7 +11,7 @@
 
     <div class="card">
         <div class="card-body">
-            @livewire('page-timer', ['deadline' => DB::table('settings')->where('ParameterName', 'personal_characterization_cs')->value('StringValue')])
+            @livewire('page-timer', ['deadline' => 'personal_characterization_cs'])
         </div>
     </div>
 

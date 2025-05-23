@@ -1,17 +1,20 @@
-<div>
-    @component('components.breadcrumb')
+<div class="container-fluid">
+@component('components.breadcrumb')
         @slot('title')
             {{ __('Configuration amounts') }}
         @endslot
     @endcomponent
-    <div class="row">
+        <div class="row">
+            @include('layouts.flash-messages')
+        </div>
+        <div class="row">
         <div class="card">
             <div class="card-body">
-                <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap" id="amountsTable"
-                       style="width: 100%">
+                <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                       id="amountsTable">
                     <thead class="table-light">
                     <tr>
-                        <th>{{ __('Name of setting') }}</th>
+                        <th>{{ __('Name') }}</th>
                         <th>{{ __('ShortName') }}</th>
                         <th>{{ __('WithHoldinTax') }}</th>
                         <th>{{ __('transfer') }}</th>
@@ -32,7 +35,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="AmountsModalLabel">{{__('saveAmounts')}}</h5>
+                    <h5 class="modal-title" id="AmountsModalLabel">{{__('Edit amounts')}}</h5>
                     <button type="button" class="btn-close btn-close-amount" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -40,51 +43,51 @@
                         @csrf
                         <div class="row">
 
-                            <div class="mb-3 col-xl-5">
+                            <div class="col-xl-4">
                                 <label class="me-sm-2">{{ __('Amount Name') }}</label>
-                                <input wire:model.defer="amountsnameAm" type="text" class="form-control"
-                                       placeholder="amountsname" name="amountsname">
+                                <input wire:model="amountsnameAm" type="text" class="form-control"
+                                   disabled    placeholder="amountsname" name="amountsname">
                             </div>
-                            <div class="mb-3 col-xl-5">
+                            <div class="col-xl-4">
                                 <label class="me-sm-2">{{ __('Amount Short Name') }}</label>
-                                <input wire:model.defer="amountsshortnameAm" type="text" class="form-control"
+                                <input wire:model="amountsshortnameAm" type="text" class="form-control"
                                        placeholder="amountsshortname" name="amountsshortname">
                             </div>
 
-                            <div class="mb-3 col-xl-3">
+                            <div class="col-xl-4">
                                 <label class="me-sm-2">{{ __('With Holding Tax') }}</label>
-                                <select wire:model.defer="amountswithholding_taxAm" class="form-control"
+                                <select wire:model="amountswithholding_taxAm" class="form-control"
                                         name="amountswithholding_tax">
                                     <option value="0">{{ __('No') }}</option>
                                     <option value="1">{{ __('Yes') }}</option>
                                 </select>
                             </div>
-                            <div class="mb-3 col-xl-2">
+                            <div class="col-xl-4">
                                 <label class="me-sm-2">{{ __('Payment Request') }}</label>
-                                <select wire:model.defer="amountspaymentrequestAm" class="form-control"
+                                <select wire:model="amountspaymentrequestAm" class="form-control"
                                         name="amountspaymentrequest">
                                     <option value="0">{{ __('No') }}</option>
                                     <option value="1">{{ __('Yes') }}</option>
                                 </select>
                             </div>
-                            <div class="mb-3 col-xl-2">
+                            <div class="col-xl-4">
                                 <label class="me-sm-2">{{ __('Transfer') }}</label>
-                                <select wire:model.defer="amountstransferAm" class="form-control"
+                                <select wire:model="amountstransferAm" class="form-control"
                                         name="amountstransfer">
                                     <option value="0">{{ __('No') }}</option>
                                     <option value="1">{{ __('Yes') }}</option>
                                 </select>
                             </div>
-                            <div class="mb-3 col-xl-2">
+                            <div class="col-xl-4">
                                 <label class="me-sm-2">{{ __('Cash') }}</label>
-                                <select wire:model.defer="amountscashAm" class="form-control" name="amountscash">
+                                <select wire:model="amountscashAm" class="form-control" name="amountscash">
                                     <option value="0">{{ __('No') }}</option>
                                     <option value="1">{{ __('Yes') }}</option>
                                 </select>
                             </div>
-                            <div class="mb-3 col-xl-2">
+                            <div class="col-xl-4">
                                 <label class="me-sm-2">{{ __('Active') }}</label>
-                                <select wire:model.defer="amountsactiveAm" class="form-control" name="amountsactive">
+                                <select wire:model="amountsactiveAm" class="form-control" name="amountsactive">
                                     <option value="0">{{ __('No') }}</option>
                                     <option value="1">{{ __('Yes') }}</option>
                                 </select>
@@ -93,8 +96,10 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" wire:click="saveAmounts" class="btn btn-primary">Save changes</button>
+                    <button type="button" wire:click="saveAmounts"
+                            class="btn btn-primary">{{__('Save changes')}}</button>
+                    <button type="button" class="btn btn-secondary btn-close-amount"
+                            data-bs-dismiss="modal">{{__('Close')}}</button>
                 </div>
             </div>
         </div>
@@ -102,12 +107,16 @@
     <script type="module">
         function emitAmount(idAmount) {
             if (idAmount) {
-                window.Livewire.emit('initAmountsFunction', idAmount);
+                window.Livewire.dispatch('initAmountsFunction', [idAmount]);
             }
         }
 
-        $(document).on('turbolinks:load', function () {
+        window.addEventListener('closeModalAmounts', event => {
+            $('#AmountsModal').modal('hide');
+            $('#amountsTable').DataTable().ajax.reload();
+        });
 
+        document.addEventListener("DOMContentLoaded", function () {
             $('#amountsTable').DataTable(
                 {
                     retrieve: true,
@@ -152,9 +161,8 @@
                 }
             );
 
-            window.addEventListener('closeModalAmounts', event => {
-                $('.btn-close-amount').trigger('click');
-                $('#amountsTable').DataTable().ajax.reload();
+            $(".btn-close-amount").click(function () {
+                location.reload();
             });
         });
     </script>

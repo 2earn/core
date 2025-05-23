@@ -243,7 +243,152 @@
                         </div>
                     </div>
                 @endif
+                @if(app()->getLocale()=='tr')
+                    <p class="text-muted">
+                        Bu öncü konseptten yola çıkarak, <b>2EARN.CASH</b>, birkaç uzmanlaşmış platformdan oluşan
+                        entegre bir dijital ekosistem geliştirmiştir: <b>Learn2earn.cash</b>, <b>Move2earn.cash</b>,
+                        <b>Belegant2earn.cash</b>, <b>Takecare2earn.cash</b>, <b>Shop2earn.cash</b>,
+                        <b>Eat2earn.cash</b>,
+                        ve <b>Travel2earn.cash</b>. Her bir platform kendi sektöründe bağımsız olarak faaliyet
+                        gösterirken, hepsi merkezi bir teknoloji platformu ve ortak bir vizyonla birleşmiştir. Bu
+                        birleşim, bütün ekosisteme benzersiz bir tutarlılık ve sinerji sağlayarak kullanıcılarına
+                        sorunsuz, entegre ve optimize edilmiş bir deneyim sunmaktadır. Bu unsurlar bir araya gelerek,
+                        genel büyümeye önemli ölçüde katkıda bulunmakta ve kullanıcıları tüm hizmet yelpazesini heyecan
+                        ve merakla keşfetmeye teşvik eden dinamik bir ağ oluşturulmaktadır.
+                    </p>
+                    <p class="text-muted">
+                        Bu sinerji, olumlu bir dinamik ve karşılıklı fayda sağlayan etkileşim oluşturarak
+                        kullanıcılarımızın rekabetçilerimizin teklifleri yerine kendi hizmetlerimizi keşfetmesini ve
+                        önceliklendirmesini sağlamaktadır. Ayrıca bu benzersiz ekosistem tarafından oluşturulan çeşitli
+                        fırsatları keşfetmelerine olanak tanımaktadır.
+                    </p>
+                    <p class="text-muted">
+                        <b>2EARN.CASH</b>'in ticari markaları ve ticaret isimleri, uluslararası düzeyde kayıt altına
+                        alınmış ve korunmuştur. Bu koruma, <b>Nice Sınıflandırması</b> tarafından belirlenen standartlar
+                        doğrultusunda gerçekleştirilmiş olup, dünya çapında yasal güvenlik sağlamaktadır.
+                    </p>
+                    <p class="text-muted">
+                        Şubat 2024'te, <b>2EARN.CASH</b>, kendisini basit bir anonim şirket yapısı olan <b>Basitleşmiş
+                            Hisse Senedi Şirketi (Simplified Joint Stock Company - S.J.S.C)</b> statüsü benimseyerek
+                        önemli bir adım atmıştır. Bu yasal yapı, ticarete konu olabilecek hisselerin ihraç edilmesi
+                        yoluyla fon toplamaya olanak tanımaktadır. Bu stratejik değişim, hızlandırılmış büyüme
+                        hedeflerini desteklemek ve küresel genişleme yolunda sermaye mobilizasyonunu
+                        kolaylaştırmaktadır.
+                    </p>
+                @endif
+                @if(app()->getLocale()=='es')
+                    <p class="text-muted">
+                        Basándose en este concepto pionero, <b>2EARN.CASH</b> ha desarrollado un ecosistema digital
+                        integrado
+                        compuesto por varias plataformas especializadas: <b>Learn2earn.cash</b>, <b>Move2earn.cash</b>,
+                        <b>Belegant2earn.cash</b>, <b>Takecare2earn.cash</b>, <b>Shop2earn.cash</b>,
+                        <b>Eat2earn.cash</b>,
+                        y <b>Travel2earn.cash</b>. Aunque cada plataforma opera de manera independiente en su sector
+                        respectivo,
+                        todas están unidas por una plataforma tecnológica centralizada y una visión compartida,
+                        proporcionando al
+                        sistema una coherencia y sinergia sin igual. Juntas, estas entidades forman una red dinámica
+                        donde cada
+                        componente contribuye significativamente al crecimiento general mientras ofrece a los usuarios
+                        una
+                        experiencia integrada, fluida y optimizada.
+                    </p>
+                    <p class="text-muted">
+                        Esta sinergia crea una dinámica positiva e interacción mutuamente beneficiosa, alentando a
+                        nuestros usuarios
+                        a explorar con entusiasmo y curiosidad toda nuestra gama de servicios. Como resultado,
+                        consistentemente
+                        priorizan nuestras ofertas sobre las de nuestros competidores mientras descubren las diversas
+                        oportunidades
+                        generadas por este ecosistema único.
+                    </p>
+                    <p class="text-muted">
+                        Las marcas registradas y nombres comerciales de <b>2EARN.CASH</b> han sido debidamente
+                        registrados y
+                        protegidos a nivel internacional, de acuerdo con los estándares establecidos por la <b>Clasificación
+                            de
+                            Niza</b>, garantizando así su seguridad legal en todo el mundo.
+                    </p>
+                    <p class="text-muted">
+                        En febrero de 2024, <b>2EARN.CASH</b> dio un paso significativo hacia adelante en su desarrollo
+                        al adoptar
+                        el estatus de una <b>Sociedad por Acciones Simplificada (S.J.S.C)</b>, una estructura legal que
+                        le permite
+                        recaudar fondos mediante la emisión de acciones negociables. Este cambio estratégico facilita la
+                        movilización de capital para apoyar sus ambiciones de crecimiento acelerado y expansión global.
+                    </p>
+
+                @endif
+                @if(app()->getLocale()=='de')
+                    <p class="text-muted">
+                        Aufbauend auf diesem wegweisenden Konzept hat <b>2EARN.CASH</b> ein integriertes digitales
+                        Ökosystem entwickelt, das aus mehreren spezialisierten Plattformen besteht:
+                        <b>Learn2earn.cash</b>, <b>Move2earn.cash</b>,
+                        <b>Belegant2earn.cash</b>, <b>Takecare2earn.cash</b>, <b>Shop2earn.cash</b>,
+                        <b>Eat2earn.cash</b>
+                        und <b>Travel2earn.cash</b>. Während jede Plattform in ihrem jeweiligen Bereich unabhängig
+                        arbeitet, sind sie alle durch eine zentrale Technologieplattform und eine gemeinsame Vision
+                        verbunden, die dem gesamten System eine beispiellose Kohärenz und Synergie verleiht. Gemeinsam
+                        bilden diese Entitäten ein dynamisches Netzwerk, in dem jede Komponente wesentlich zum
+                        Gesamtwachstum beiträgt und den Nutzern eine nahtlose, integrierte und optimierte Erfahrung
+                        bietet.
+                    </p>
+                    <p class="text-muted">
+                        Diese Synergie schafft eine positive Dynamik und eine für beide Seiten vorteilhafte Interaktion,
+                        die unsere Nutzer ermutigt, mit Begeisterung und Neugier unser gesamtes Dienstleistungsangebot
+                        zu erkunden. Dadurch priorisieren sie konsequent unsere Angebote gegenüber denen unserer
+                        Wettbewerber und entdecken die verschiedenen Möglichkeiten, die dieses einzigartige Ökosystem
+                        bietet.
+                    </p>
+                    <p class="text-muted">
+                        Die Marken und Handelsnamen von <b>2EARN.CASH</b> wurden gemäß den von der <b>Nizza-Klassifikation</b>
+                        festgelegten Standards auf internationaler Ebene ordnungsgemäß registriert und geschützt,
+                        wodurch ihre rechtliche Sicherheit weltweit gewährleistet wird.
+                    </p>
+                    <p class="text-muted">
+                        Im Februar 2024 hat <b>2EARN.CASH</b> einen bedeutenden Schritt in seiner Entwicklung gemacht,
+                        indem es den Status einer <b>Vereinfachten Aktiengesellschaft (S.J.S.C)</b> angenommen hat,
+                        einer Rechtsstruktur, die es ermöglicht, Mittel durch die Ausgabe von handelbaren Aktien zu
+                        beschaffen. Dieser strategische Wandel erleichtert die Kapitalmobilisierung, um die
+                        beschleunigten Wachstumsambitionen und die globale Expansion zu unterstützen.
+                    </p>
+                @endif
+                @if(app()->getLocale()=='ru')
+                    <p class="text-muted">
+                        Aufbauend auf diesem wegweisenden Konzept hat <b>2EARN.CASH</b> ein integriertes digitales
+                        Ökosystem entwickelt, das aus mehreren spezialisierten Plattformen besteht:
+                        <b>Learn2earn.cash</b>, <b>Move2earn.cash</b>,
+                        <b>Belegant2earn.cash</b>, <b>Takecare2earn.cash</b>, <b>Shop2earn.cash</b>,
+                        <b>Eat2earn.cash</b>
+                        und <b>Travel2earn.cash</b>. Während jede Plattform in ihrem jeweiligen Bereich unabhängig
+                        arbeitet, sind sie alle durch eine zentrale Technologieplattform und eine gemeinsame Vision
+                        verbunden, die dem gesamten System eine beispiellose Kohärenz und Synergie verleiht. Gemeinsam
+                        bilden diese Entitäten ein dynamisches Netzwerk, in dem jede Komponente wesentlich zum
+                        Gesamtwachstum beiträgt und den Nutzern eine nahtlose, integrierte und optimierte Erfahrung
+                        bietet.
+                    </p>
+                    <p class="text-muted">
+                        Diese Synergie schafft eine positive Dynamik und eine für beide Seiten vorteilhafte Interaktion,
+                        die unsere Nutzer ermutigt, mit Begeisterung und Neugier unser gesamtes Dienstleistungsangebot
+                        zu erkunden. Dadurch priorisieren sie konsequent unsere Angebote gegenüber denen unserer
+                        Wettbewerber und entdecken die verschiedenen Möglichkeiten, die dieses einzigartige Ökosystem
+                        bietet.
+                    </p>
+                    <p class="text-muted">
+                        Die Marken und Handelsnamen von <b>2EARN.CASH</b> wurden gemäß den von der <b>Nizza-Klassifikation</b>
+                        festgelegten Standards auf internationaler Ebene ordnungsgemäß registriert und geschützt,
+                        wodurch ihre rechtliche Sicherheit weltweit gewährleistet wird.
+                    </p>
+                    <p class="text-muted">
+                        Im Februar 2024 hat <b>2EARN.CASH</b> einen bedeutenden Schritt in seiner Entwicklung gemacht,
+                        indem es den Status einer <b>Vereinfachten Aktiengesellschaft (S.J.S.C)</b> angenommen hat,
+                        einer Rechtsstruktur, die es ermöglicht, Mittel durch die Ausgabe von handelbaren Aktien zu
+                        beschaffen. Dieser strategische Wandel erleichtert die Kapitalmobilisierung, um die
+                        beschleunigten Wachstumsambitionen und die globale Expansion zu unterstützen.
+                    </p>
+                @endif
             </div>
         </div>
     </div>
 </div>
+

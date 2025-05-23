@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use Faker\Factory;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Faker\Generator;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class addContactUserSeeder extends Seeder
 {
@@ -17,14 +17,13 @@ class addContactUserSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Factory::create();
-
+        $faker = app(Generator::class);
         for ($i = 1; $i <= 2; $i++) {
             {
                 try {
                     $this->insertContactUser($faker);
-                } catch (\Exception $e) {
-                    echo 'Caught exception: ', $e->getMessage(), "\n";
+                } catch (\Exception $exception) {
+                    Log::error($exception->getMessage());
                 }
             }
         }
@@ -32,7 +31,7 @@ class addContactUserSeeder extends Seeder
 
     public function insertContactUser($faker)
     {
-        $name = $faker->name();
+        $name = $faker->word();
         $names = explode(" ", $name);
         $num = $faker->randomNumber(5, true);
         $phone = 22900000 + $num;

@@ -1,270 +1,248 @@
-<div>
+<div class="container-fluid">
     @section('title')
-        {{ __('history') }}
+        {{ __('Users List') }}
     @endsection
     @component('components.breadcrumb')
         @slot('li_1')@endslot
         @slot('title')
-            {{ __('UsersList') }}
+            {{ __('Users List') }}
         @endslot
     @endcomponent
-    <div class="row">
-        <div class="col-xl-12">
-            <div class="crm-widget">
-                <div class="row card">
-                    <div class="card-header border-info">
+    <div class="card">
+        <div class="card-body row">
+            <div class="col-12">
+                @include('layouts.flash-messages')
+            </div>
+        </div>
+        <div class="card-body row">
+            <div class="col-xl-4 col-md-6">
+                <div class="card border border-muted card-animate">
+                    <div class="card-body">
                         <div class="d-flex align-items-center">
-                            <h6 class="card-title mb-0 flex-grow-1">{{__('User statistics')}}</h6>
-                        </div>
-                    </div>
-                    <div class="card-body row p-0">
-                        <div class="row mx-2 mt-3">
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card border border-muted card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1 overflow-hidden">
-                                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
-                                                    {{__('Cash Balance')}}
-                                                </p>
-                                            </div>
-                                            <p class=" text-info mb-0">
+                            <div class="flex-grow-1 overflow-hidden">
+                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
+                                    {{__('Cash Balance')}}
+                                </p>
+                            </div>
+                            <p class=" text-info mb-0">
                                                 <span class="ms-2">
                                                     <i
                                                         class="ri-building-line align-bottom"></i>
                                                     {{number_format(getAdminCash()[0],2)}}</span>
-                                                <span class="ms-2"><i class="ri-map-pin-2-line align-bottom"></i>
-                                                {{number_format(getUserListCards()[0]-getAdminCash()[0],2)}}
+                                <span class="ms-2"><i class="ri-map-pin-2-line align-bottom"></i>
+                                                {{number_format(\App\Services\Balances\Balances::sommeSold('cash_balances')-floatval(getAdminCash()[0]),2)}}
                                             </span>
-                                            </p>
-                                        </div>
-                                        <div class="d-flex align-items-end justify-content-between mt-4">
-                                            <div>
-                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                                    {{ $currency }}
-                                                    <span>
-                                                    {{formatSolde(getUserListCards()[0])}}</span>
-                                                </h4>
+                            </p>
+                        </div>
+                        <div class="d-flex align-items-end justify-content-between mt-4">
+                            <div>
+                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                    {{config('app.currency')}}
+                                    <span>
+                                                    {{formatSolde(\App\Services\Balances\Balances::sommeSold('cash_balances'))}}</span>
+                                </h4>
 
-                                            </div>
-                                            <div class="avatar-sm flex-shrink-0">
+                            </div>
+                            <div class="avatar-sm flex-shrink-0">
                                                         <span class=" bg-info-subtle rounded fs-3">
                                                           <i class="ri-exchange-dollar-line display-6 bx-dollar-circle   text-info"></i>
                                                         </span>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card border border-muted card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1 overflow-hidden">
-                                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
-                                                    {{__('BFS')}}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-end justify-content-between mt-4">
-                                            <div>
-                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                                    {{ $currency }}
-                                                    <span class="counter-value" data-target="{{getUserListCards()[1]}}">
-                                                      {{getUserListCards()[1]}}</span>
-                                                </h4>
-                                            </div>
-                                            <div class="avatar-sm flex-shrink-0">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+                <div class="card border border-muted card-animate">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1 overflow-hidden">
+                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
+                                    {{__('BFS')}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-end justify-content-between mt-4">
+                            <div>
+                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                    {{config('app.currency')}}
+                                    <span class="counter-value"
+                                          data-target="{{\App\Services\Balances\Balances::sommeSold('bfss_balances')}}">
+                                                      {{\App\Services\Balances\Balances::sommeSold('bfss_balances')}}</span>
+                                </h4>
+                            </div>
+                            <div class="avatar-sm flex-shrink-0">
                                                         <span class=" bg-info-subtle rounded fs-3">
                                                            <i class="ri-shopping-cart-2-line display-6  text-info"></i>
                                                         </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card border border-muted card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1 overflow-hidden">
-                                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
-                                                    {{__('Discount Balance')}}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-end justify-content-between mt-4">
-                                            <div>
-                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                                    {{ $currency }}
-                                                    <span class="counter-value" data-target="{{getUserListCards()[2]}}">
-                                                 {{getUserListCards()[2]}}</span>
-                                                </h4>
-                                            </div>
-                                            <div class="avatar-sm flex-shrink-0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+                <div class="card border border-muted card-animate">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1 overflow-hidden">
+                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
+                                    {{__('Discount Balance')}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-end justify-content-between mt-4">
+                            <div>
+                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                    {{config('app.currency')}}
+                                    <span class="counter-value"
+                                          data-target="{{\App\Services\Balances\Balances::sommeSold('discount_balances')}}">
+                                                 {{\App\Services\Balances\Balances::sommeSold('discount_balances')}}</span>
+                                </h4>
+                            </div>
+                            <div class="avatar-sm flex-shrink-0">
                                                         <span class=" bg-info-subtle rounded fs-3">
                                                           <i class=" ri-percent-line display-6  text-info"></i>
                                                         </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card border border-muted card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1 overflow-hidden">
-                                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
-                                                    {{__('sms balance')}}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-end justify-content-between mt-4">
-                                            <div>
-                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                                <span class="counter-value" data-target="{{getUserListCards()[3]}}">
-                                                   {{getUserListCards()[3]}}</span>
-                                                </h4>
-                                            </div>
-                                            <div class="avatar-sm flex-shrink-0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card border border-muted card-animate">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1 overflow-hidden">
+                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
+                                    {{__('sms balance')}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-end justify-content-between mt-4">
+                            <div>
+                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                                <span class="counter-value"
+                                                      data-target="{{\App\Services\Balances\Balances::sommeSold('sms_balances')}}">
+                                                   {{\App\Services\Balances\Balances::sommeSold('sms_balances')}}</span>
+                                </h4>
+                            </div>
+                            <div class="avatar-sm flex-shrink-0">
                                                         <span class=" bg-info-subtle rounded fs-3">
                                                            <i class="ri-message-line display-6  text-info"></i>
                                                         </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card border border-muted card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1 overflow-hidden">
-                                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
-                                                    {{__('Shares Sold')}}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-end justify-content-between mt-4">
-                                            <div>
-                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                                    {{ $currency }}
-                                                    <span class="counter-value"
-                                                          data-target="   {{getUserListCards()[4]}}">
-                                                       {{getUserListCards()[4]}}</span>
-                                                </h4>
-                                            </div>
-                                            <div class="avatar-sm flex-shrink-0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card border border-muted card-animate">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1 overflow-hidden">
+                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
+                                    {{__('Shares Sold')}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-end justify-content-between mt-4">
+                            <div>
+                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                    {{config('app.currency')}}
+                                    <span class="counter-value"
+                                          data-target="   {{\App\Services\Balances\Balances::sommeSold('shares_balances')}}">
+                                                       {{\App\Services\Balances\Balances::sommeSold('shares_balances')}}</span>
+                                </h4>
+                            </div>
+                            <div class="avatar-sm flex-shrink-0">
                                                         <span class=" bg-info-subtle rounded fs-3">
                                                             <i class="ri-stackshare-line display-6  text-info"></i>
                                                         </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card border border-muted card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1 overflow-hidden">
-                                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
-                                                    {{__('Shares Revenue')}}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-end justify-content-between mt-4">
-                                            <div>
-                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                                    {{ $currency }}
-                                                    <span class="counter-value"
-                                                          data-target=" {{getUserListCards()[5]}}">
-                                                    {{getUserListCards()[5]}}</span>
-                                                </h4>
-                                            </div>
-                                            <div class="avatar-sm flex-shrink-0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card border border-muted card-animate">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1 overflow-hidden">
+                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
+                                    {{__('Shares Revenue')}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-end justify-content-between mt-4">
+                            <div>
+                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                    {{config('app.currency')}}
+                                    <span class="counter-value"
+                                          data-target=" {{\App\Services\Balances\Balances::sommeSold('shares_balances','amount')}}">
+                                                    {{\App\Services\Balances\Balances::sommeSold('shares_balances','amount')}}</span>
+                                </h4>
+                            </div>
+                            <div class="avatar-sm flex-shrink-0">
                                                         <span class=" bg-info-subtle rounded fs-3">
                                                         <i class="ri-swap-line display-6  text-info"></i>
                                                         </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card border border-muted card-animate">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1 overflow-hidden">
-                                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
-                                                    {{__('Cash Flow')}}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-end justify-content-between mt-4">
-                                            <div>
-                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                                    {{ $currency }}
-                                                    <span class="counter-value"
-                                                          data-target="{{getUserListCards()[5]+getUserListCards()[0]}}">
-                                                    {{getUserListCards()[5]+getUserListCards()[0]}}</span>
-                                                </h4>
-                                            </div>
-                                            <div class="avatar-sm flex-shrink-0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card border border-muted card-animate">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1 overflow-hidden">
+                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
+                                    {{__('Cash Flow')}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-end justify-content-between mt-4">
+                            <div>
+                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                    {{config('app.currency')}}
+                                    <span class="counter-value"
+                                          data-target="{{\App\Services\Balances\Balances::sommeSold('shares_balances','amount')+\App\Services\Balances\Balances::sommeSold('cash_balances')}}">
+                                                    {{\App\Services\Balances\Balances::sommeSold('shares_balances','amount')+\App\Services\Balances\Balances::sommeSold('cash_balances')}}</span>
+                                </h4>
+                            </div>
+                            <div class="avatar-sm flex-shrink-0">
                                                         <span class=" rounded fs-3">
 <i class="ri-exchange-funds-line display-6  text-info"></i>
                                                         </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="card">
-            <div class="card-header border-info">
-                <div class="d-flex align-items-center">
-                    <h6 class="card-title mb-0 flex-grow-1">{{__('User List')}}</h6>
-                </div>
-            </div>
-            <div class="card-body table-responsive">
-                <table id="users-list"
-                       class="table table-striped table-bordered  display nowrap">
-                    <thead class="table-light">
-                    <tr class="head2earn  tabHeader2earn">
-                        <th>{{__('Details')}}</th>
-                        <th>{{__('created at')}}</th>
-                        <th>{{__('pays')}}</th>
-                        <th>{{__('Phone')}}</th>
-                        <th>{{__('Name')}}</th>
-                        <th>{{__('SoldeCB')}}</th>
-                        <th>{{__('SoldeBFS')}}</th>
-                        <th>{{__('SoldeDB')}}</th>
-                        <th>{{__('SoldeSMS')}}</th>
-                        <th>{{__('SoldeSHARES')}}</th>
-                        <th>{{__('Action')}}</th>
-                        <th>{{__('VIP')}}</th>
-                        <th>{{__('otp')}}</th>
-                        <th>{{__('Password')}}</th>
-                        <th>{{__('register_upline')}}</th>
-                        <th>{{__('MinShare')}}</th>
-                        <th>{{__('Periode')}}</th>
-                        <th>{{__('date')}}</th>
-                        <th>{{__('COeff')}}</th>
-                        <th>{{__('Note')}}</th>
-                    </tr>
-                    </thead>
-                    <tbody class="body2earn">
-                    </tbody>
-                </table>
-            </div>
+        <div class="card-body table-responsive">
+            <table id="users-list"
+                   class="table table-striped table-bordered  display nowrap">
+                <thead class="table-light">
+                <tr class="head2earn  tabHeader2earn">
+                    <th>{{__('Details')}}</th>
+                    <th>{{__('created at')}}</th>
+                    <th>{{__('pays')}}</th>
+                    <th>{{__('Name')}}</th>
+                    <th>{{__('Mobile')}}</th>
+                    <th>{{__('Status')}}</th>
+                    <th>{{__('Soldes')}}</th>
+                    <th>{{__('Action')}}</th>
+                    <th>{{__('More details')}}</th>
+                    <th>{{__('VIP history')}}</th>
+                    <th>{{__('Password')}}</th>
+                    <th>{{__('Uplines')}}</th>
+                </tr>
+                </thead>
+                <tbody class="body2earn">
+                </tbody>
+            </table>
         </div>
     </div>
     <div class="modal fade" id="AddCash" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
@@ -298,7 +276,7 @@
                                     </label>
                                     <div class="input-group">
                                         <input type="number" class="form-control" id="ammount">
-                                        <span class="input-group-text">{{ $currency }}</span>
+                                        <span class="input-group-text"> {{config('app.currency')}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -318,6 +296,43 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="updatePassword" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Update Password for') }}: <span
+                            class="text-warning mx-2"
+                            id="userIdMark"></span></h5>
+                    <button type="button" class="btn-close btn-vip-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="javascript:void(0);">
+                        <div class="row g-3">
+
+                            <div class="input-group mt-2">
+                                <div class="col-sm-12 col-md-12">
+                                    <label class="form-label">{{__('New Password')}}<span
+                                            class="text-danger">*</span></label>
+                                </div>
+                                <div class="col-sm-12 col-md-12">
+                                    <input type="password" class="form-control" id="updatePasswordInput">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 mt-2">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light"
+                                        data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                                <button type="button" id="password-update-submit"
+                                        class="btn btn-soft-danger">{{ __('Update Password') }}</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="vip" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -329,7 +344,7 @@
                 <div class="modal-body">
                     <form action="javascript:void(0);">
                         <div class="row g-3">
-                            <div class="col-xxl-12">
+                            <div class="col-sm-12 col-md-12">
                                 <div class="input-group">
                                         <span class="input-group-text">
                                             <img id="vip-country" class="avatar-xxs me-2"/></span>
@@ -337,9 +352,7 @@
                                            aria-describedby="basic-addon1">
                                 </div>
                             </div>
-                        </div>
-                        <div class="row g-3">
-                            <div class="col-xxl-12">
+                            <div class="col-sm-12 col-md-6">
                                 <div class="input-group mt-2">
                                     <input id="vip-reciver" type="hidden">
                                     <input type="hidden" id="created_at">
@@ -347,19 +360,25 @@
                                             class="text-danger">*</span></label>
                                     <input type="number" class="form-control-flash" id="minshares">
                                 </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
                                 <div class="input-group mt-2">
                                     <label class="form-label">{{__('Periode')}}<span
                                             class="text-danger">*</span></label>
                                     <input type="number" class="form-control-flash" id="periode">
                                 </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12">
                                 <div class="input-group mt-2">
                                     <label class="form-label">{{__('Coefficient')}}<span
                                             class="text-danger">*</span></label>
                                     <input type="number" class="form-control-flash" id="coefficient">
                                 </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12">
                                 <div class="input-group mt-2">
                                     <label class="form-label">{{__('Note')}}</label>
-                                    <input type="text" class="form-control-flash" id="note">
+                                    <textarea type="text" class="form-control-flash" id="note"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -381,33 +400,29 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Transfert Cash') }}</h5>
+                    <h4 class="modal-title text-info" id="modalTitle">{{ __('Transfert Cash') }}</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="card">
-                        <div class="card-header">
-                        </div>
-                        <div class="card-body table-responsive">
-                            <input id="balances-reciver" type="hidden">
-                            <input id="balances-amount" type="hidden">
-                            <table
-                                class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                                id="ub_table_list" style="width: 100%">
-                                <thead class="table-light">
-                                <tr class="head2earn  tabHeader2earn">
-                                    <th>{{ __('ref') }}</th>
-                                    <th>{{ __('date') }}</th>
-                                    <th>{{ __('Operation Designation') }}</th>
-                                    <th>{{ __('description') }}</th>
-                                    <th>{{ __('Value') }}</th>
-                                    <th>{{ __('Balance') }}</th>
-                                </tr>
-                                </thead>
-                                <tbody class="body2earn">
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class=" table-responsive">
+                        <input id="balances-reciver" type="hidden">
+                        <input id="balances-amount" type="hidden">
+                        <table
+                            class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                            id="ub_table_list" style="width: 100%">
+                            <thead class="table-light">
+                            <tr class="head2earn  tabHeader2earn">
+                                <th>{{ __('ref') }}</th>
+                                <th>{{ __('date') }}</th>
+                                <th>{{ __('Operation Designation') }}</th>
+                                <th>{{ __('description') }}</th>
+                                <th>{{ __('Value') }}</th>
+                                <th>{{ __('Balance') }}</th>
+                            </tr>
+                            </thead>
+                            <tbody class="body2earn">
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -418,34 +433,31 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalgridLabelsh">{{ __('Transfert Cash') }}</h5>
+                    <h5 class="modal-title" id="exampleModalgridLabelsh">{{ __('Shares balances') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="card">
-                        <div class="card-header">
-                        </div>
-                        <div class="card-body table-responsive">
-                            <input id="balances-reciversh" type="hidden">
-                            <input id="balances-amountsh" type="hidden">
-                            <table
-                                class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                                id="ub_table_listsh" style="width: 100%">
-                                <thead class="table-light">
-                                <tr class="head2earn  tabHeader2earn">
-                                    <th>{{__('date_purchase')}}</th>
-                                    <th>{{__('number_of_shares')}}</th>
-                                    <th>{{__('gifted_shares')}}</th>
-                                    <th>{{__('total_shares')}}</th>
-                                    <th>{{__('total_price')}}</th>
-                                    <th>{{__('present_value')}}</th>
-                                    <th>{{__('current_earnings')}}</th>
-                                </tr>
-                                </thead>
-                                <tbody class="body2earn">
-                                </tbody>
-                            </table>
-                        </div>
+
+                    <div class="card-body table-responsive">
+                        <input id="balances-reciversh" type="hidden">
+                        <input id="balances-amountsh" type="hidden">
+                        <table
+                            class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                            id="ub_table_listsh" style="width: 100%">
+                            <thead class="table-light">
+                            <tr class="head2earn  tabHeader2earn">
+                                <th>{{__('Reference')}}</th>
+                                <th>{{__('Created_at')}}</th>
+                                <th>{{__('Value')}}</th>
+                                <th>{{__('Real amount')}}</th>
+                                <th>{{__('Current balance')}}</th>
+                                <th>{{__('Unit price')}}</th>
+                                <th>{{__('Total amount')}}</th>
+                            </tr>
+                            </thead>
+                            <tbody class="body2earn">
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -461,6 +473,7 @@
                 title: titleSwal,
                 html: textSwal,
                 showConfirmButton: true,
+                confirmButtonText: '{{__('ok')}}',
                 showCloseButton: true
             });
         }
@@ -512,25 +525,24 @@
                 searching: false,
                 "orderCellsTop": true,
                 "fixedHeader": true,
-                "order": [[1, 'asc']],
                 "processing": true,
                 "data": data,
                 "columns": [
-                    {data: 'ref'},
-                    {data: 'Date'},
-                    {data: 'Designation'},
-                    {data: 'Description'},
+                    {data: 'reference'},
+                    {data: 'created_at'},
+                    {data: 'operation'},
+                    {data: 'description'},
                     {data: 'value', className: window.classAl},
-                    {data: 'balance', className: window.classAl},
+                    {data: 'current_balance', className: window.classAl},
                 ],
                 "columnDefs": [
                     {
                         "targets": [4],
                         render: function (data, type, row) {
                             if (row.value < 0) {
-                                return '<span class="badge bg-danger text-end">' + data + '</span>';
+                                return '<span class="badge bg-danger text-end fs-14">' + data + '</span>';
                             } else {
-                                return '<span class="badge bg-success text-end">' + data + '</span>';
+                                return '<span class="badge bg-success text-end fs-14">' + data + '</span>';
                             }
                         },
                         className: window.classAl,
@@ -540,65 +552,71 @@
             });
         }
 
-        $(document).on("click", ".cb", function () {
-            let reciver = $(this).data('reciver');
-            let amount = $(this).data('amount');
-            $('#balances-amount').attr('value', amount);
-            $('#balances-reciver').attr('value', reciver);
+        document.addEventListener("DOMContentLoaded", function () {
 
-            window.url = "{{ route('api_user_balances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
-            window.url = window.url.replace('idUser1', reciver);
-            window.url = window.url.replace('idamount1', amount);
+            $(document).on("click", ".cb", function () {
+                let reciver = $(this).data('reciver');
+                let amount = $(this).data('amount');
+                $('#balances-amount').attr('value', amount);
+                $('#balances-reciver').attr('value', reciver);
 
-            $(document).ready(function () {
-                $.getJSON(window.url, function (data) {
-                    createOrUpdateDataTable(data);
+                window.url = "{{ route('api_user_balances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
+                window.url = window.url.replace('idUser1', reciver);
+                window.url = window.url.replace('idamount1', amount);
+
+                $(document).ready(function () {
+                    $.getJSON(window.url, function (data) {
+                        $('#modalTitle').html('{{__('Cash balance')}}');
+                        createOrUpdateDataTable(data);
+                    });
                 });
             });
-        });
 
-        $(document).on("click", ".bfs", function () {
-            let reciver = $(this).data('reciver');
-            let amount = $(this).data('amount');
-            $('#balances-amount').attr('value', amount);
-            $('#balances-reciver').attr('value', reciver);
-            window.url = "{{ route('api_user_balances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
-            window.url = window.url.replace('idUser1', reciver);
-            window.url = window.url.replace('idamount1', amount);
-
-            $(document).ready(function () {
-                $.getJSON(window.url, function (data) {
-                    createOrUpdateDataTable(data);
+            $(document).on("click", ".bfs", function () {
+                let reciver = $(this).data('reciver');
+                let amount = $(this).data('amount');
+                $('#balances-amount').attr('value', amount);
+                $('#balances-reciver').attr('value', reciver);
+                window.url = "{{ route('api_user_balances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
+                window.url = window.url.replace('idUser1', reciver);
+                window.url = window.url.replace('idamount1', amount);
+                $(document).ready(function () {
+                    $.getJSON(window.url, function (data) {
+                        $('#modalTitle').html('{{__('BFSs balance')}}');
+                        createOrUpdateDataTable(data);
+                    });
                 });
             });
-        });
-        $(document).on("click", ".db", function () {
-            let reciver = $(this).data('reciver');
-            let amount = $(this).data('amount');
-            $('#balances-amount').attr('value', amount);
-            $('#balances-reciver').attr('value', reciver);
-            window.url = "{{ route('api_user_balances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
-            window.url = window.url.replace('idUser1', reciver);
-            window.url = window.url.replace('idamount1', amount);
-            $(document).ready(function () {
-                $.getJSON(window.url, function (data) {
-                    createOrUpdateDataTable(data);
+            $(document).on("click", ".db", function () {
+                let reciver = $(this).data('reciver');
+                let amount = $(this).data('amount');
+                $('#balances-amount').attr('value', amount);
+                $('#balances-reciver').attr('value', reciver);
+                window.url = "{{ route('api_user_balances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
+                window.url = window.url.replace('idUser1', reciver);
+                window.url = window.url.replace('idamount1', amount);
+                $(document).ready(function () {
+                    $.getJSON(window.url, function (data) {
+                        $('#modalTitle').html('{{__('Discount balance')}}');
+                        createOrUpdateDataTable(data);
+                    });
                 });
             });
-        });
-        $(document).on("click", ".smsb", function () {
-            let reciver = $(this).data('reciver');
-            let amount = $(this).data('amount');
-            $('#balances-amount').attr('value', amount);
-            $('#balances-reciver').attr('value', reciver);
+            $(document).on("click", ".smsb", function () {
+                let reciver = $(this).data('reciver');
+                let amount = $(this).data('amount');
+                $('#balances-amount').attr('value', amount);
+                $('#balances-reciver').attr('value', reciver);
 
-            window.url = "{{ route('api_user_balances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
-            window.url = window.url.replace('idUser1', reciver);
-            window.url = window.url.replace('idamount1', amount);
+                window.url = "{{ route('api_user_balances_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1', 'idAmounts' => 'idamount1']) }}";
+                window.url = window.url.replace('idUser1', reciver);
+                window.url = window.url.replace('idamount1', amount);
 
-            $(document).ready(function () {
-                $.getJSON(window.url, function (data) {
-                    createOrUpdateDataTable(data);
+                $(document).ready(function () {
+                    $.getJSON(window.url, function (data) {
+                        $('#modalTitle').html('{{__('Sms balance')}}');
+                        createOrUpdateDataTable(data);
+                    });
                 });
             });
         });
@@ -618,32 +636,38 @@
                 "processing": true,
                 "data": data,
                 "columns": [
-                    {data: 'Date'},
+                    {data: 'reference'},
+                    {data: 'created_at'},
                     {data: 'value'},
-                    {data: 'gifted_shares'},
-                    {data: 'total_shares'},
-                    {data: 'total_price'},
-                    {data: 'present_value'},
-                    {data: 'current_earnings'},
+                    {data: 'real_amount'},
+                    {data: 'current_balance'},
+                    {data: 'unit_price'},
+                    {data: 'total_amount'},
                 ],
                 "columnDefs": [],
             });
         }
 
-        $(document).on("click", ".sh", function () {
-            let reciver = $(this).data('reciver');
-            let amount = $(this).data('amount');
-            $('#balances-amountsh').attr('value', amount);
-            $('#balances-reciversh').attr('value', reciver);
-            window.url = "{{ route('api_shares_solde_list', ['locale'=> app()->getLocale(),'idUser' => 'idUser1']) }}";
-            window.url = window.url.replace('idUser1', reciver);
-            $(document).ready(function () {
-                $.getJSON(window.url, function (data) {
-                    createOrUpdateDataTablesh(data);
+        document.addEventListener("DOMContentLoaded", function () {
+
+            $(document).on("click", ".sh", function () {
+                let reciver = $(this).data('reciver');
+                let amount = $(this).data('amount');
+                $('#balances-amountsh').attr('value', amount);
+                $('#balances-reciversh').attr('value', reciver);
+                window.url = "{{ route('api_shares_solde_list', ['locale'=> app()->getLocale(),'amount' => 'amount1','idUser' => 'idUser1']) }}";
+                window.url = window.url.replace('idUser1', reciver);
+                window.url = window.url.replace('amount1', amount);
+
+                $(document).ready(function () {
+                    $.getJSON(window.url, function (data) {
+                        createOrUpdateDataTablesh(data);
+                    });
                 });
             });
         });
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             $('#users-list').DataTable({
                 "responsive": true,
                 "ordering": true,
@@ -653,8 +677,8 @@
                 "fixedHeader": true,
                 "order": [[0, 'desc']],
                 "processing": true,
-                "serverSide": false,
-                "aLengthMenu": [[100, 500, 1000], [100, 500, 1000]],
+                "serverSide": true,
+                "aLengthMenu": [[20, 100, 500, 1000], [20, 100, 500, 1000]],
                 search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
@@ -663,26 +687,17 @@
                     datatableControlBtn,
                     {data: 'formatted_created_at'},
                     {data: 'flag'},
-                    {data: 'formatted_mobile'},
                     {data: 'name'},
-                    {data: 'SoldeCB'},
-                    {data: 'SoldeBFS'},
-                    {data: 'SoldeDB'},
-                    {data: 'SoldeSMS'},
-                    {data: 'SoldeSH'},
-                    {data: 'action', name: 'action', orderable: false, searchable: false},
-                    {data: 'VIP', name: 'action', orderable: false, searchable: false},
-                    {data: 'OptActivation'},
-                    {data: 'pass'},
-                    {data: 'register_upline'},
-                    {data: 'minshares'},
-                    {data: 'periode'},
-                    {data: 'date'},
-                    {data: 'coeff'},
-                    {data: 'note'},
                     {data: 'mobile'},
+                    {data: 'status'},
+                    {data: 'soldes', name: 'action', orderable: false, searchable: false},
+                    {data: 'action', name: 'action', orderable: false, searchable: false},
+                    {data: 'more_details', name: 'action', orderable: false, searchable: false},
+                    {data: 'vip_history', name: 'action', orderable: false, searchable: false},
+                    {data: 'pass'},
+                    {data: 'uplines'},
                 ],
-                "columnDefs": [{"targets": [19], searchable: true, visible: false},],
+                "columnDefs": [{"targets": [10], searchable: true, visible: false},],
                 "language": {"url": urlLang}
             });
         });
@@ -713,6 +728,18 @@
             $('#vip-reciver').attr('value', reciver);
             $('#vip-phone').attr('value', phone);
         });
+
+        $(document).on("click", "#updatePasswordBtn", function () {
+            let id = $(this).data('id');
+            let phone = $(this).data('phone');
+            $('#updatePassword').attr('data-id', id);
+            $('#userIdMark').html(phone);
+        });
+
+        $(document).on("click", "#password-update-submit", function () {
+            window.Livewire.dispatch('changePassword', [$('#updatePassword').attr('data-id'), $('#updatePasswordInput').val()]);
+        });
+
         $("#vip-submit").one("click", function () {
             let reciver = $('#vip-reciver').val();
             let minshares = $('#minshares').val();

@@ -1,4 +1,4 @@
-<div>
+<div class="container-fluid">
     @section('title')
         {{ __('Additional income') }}
     @endsection
@@ -9,7 +9,7 @@
         @endslot
     @endcomponent
     <div class="row">
-        <div class="col-12 mt-2 mb-2">
+        <div class="col-12">
             @include('layouts.flash-messages')
         </div>
     </div>
@@ -22,8 +22,8 @@
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6 my-2">
                     <div
-                            class="form-check form-switch form-switch-lg  form-switch-success d-block img-fluid text-center mx-auto">
-                        <input type="checkbox" class="form-check-input" wire:model="isCommitedInvestor"
+                        class="form-check form-switch form-switch-lg  form-switch-success d-block img-fluid text-center mx-auto">
+                        <input type="checkbox" class="form-check-input" wire:model.live="isCommitedInvestor"
                                wire:click="sendCommitedInvestorRequest()" id="be_commited_investor"
                                @if($isCommitedInvestorDisabled) disabled @endif>
                         <label class="form-check-label"
@@ -59,7 +59,7 @@
                         @else
                             <div class="alert alert-danger material-shadow text-center" role="alert">
                                 {{__('You must hold a minimum of')}} {{formatSolde($beCommitedInvestorMinActions,0)}} {{__('shares to be considered a committed investor')}}
-                                <a href="{{route('home',app()->getLocale() )}}">{{__('Go to home, To buy more actions')}}</a>
+                                <a href="{{route('business_hub_trading',app()->getLocale() )}}">{{__('Go to trading page, To buy more actions')}}</a>
                             </div>
                         @endif
                     @endif
@@ -73,7 +73,6 @@
             </div>
         </div>
     </div>
-
     <div class="card">
         <div class="card-body">
             <div class="row mt-2">
@@ -83,9 +82,10 @@
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6 my-2">
                     <div
-                            class="form-check form-switch form-switch-lg form-switch-success d-block img-fluid  text-center mx-auto">
+                        class="form-check form-switch form-switch-lg form-switch-success d-block img-fluid  text-center mx-auto">
 
-                        <input type="checkbox" class="form-check-input" id="be_instructor" wire:model="isInstructor"
+                        <input type="checkbox" class="form-check-input" id="be_instructor"
+                               wire:model.live="isInstructor"
                                wire:click="sendInstructorRequest()" @if($isInstructorDisabled) disabled @endif>
                         <label class="form-check-label"
                                for="be_instructor">{{__('Be Instructor')}}</label>
@@ -151,7 +151,7 @@
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6 my-2">
                     <div
-                            class="form-check form-switch  form-switch-lg form-switch-success d-block img-fluid  text-center mx-auto">
+                        class="form-check form-switch  form-switch-lg form-switch-success d-block img-fluid  text-center mx-auto">
 
                         <input type="checkbox" class="form-check-input" id="be_PHV_driver" disabled>
                         <label class="form-check-label"
@@ -170,21 +170,16 @@
             </div>
         </div>
     </div>
-
     <div class="card">
         <div class="card-body">
             <div class="row mt-2">
                 <div class="col-sm-12 col-md-3 col-lg-3 align-items-center justify-content-center">
                     <img src="{{ Vite::asset('resources/images/logos/belegant.png') }}" alt="logo belegant"
                          class="d-block img-fluid img-business mx-auto rounded float-left my-1">
-                    <img src="{{ Vite::asset('resources/images/logos/shop.png') }}" alt="logo shop"
-                         class="d-block img-fluid img-business mx-auto rounded float-left my-1">
-                    <img src="{{ Vite::asset('resources/images/logos/takecare.png') }}" alt="logo takecare"
-                         class="d-block img-fluid img-business mx-auto rounded float-left my-1">
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6 my-2">
                     <div
-                            class="form-check form-switch  form-switch-lg form-switch-success d-block img-fluid  text-center mx-auto">
+                        class="form-check form-switch  form-switch-lg form-switch-success d-block img-fluid  text-center mx-auto">
                         <input type="checkbox" class="form-check-input" id="be_seller" disabled>
                         <label class="form-check-label"
                                for="be_seller">{{__('Be Seller')}}</label>
@@ -195,7 +190,59 @@
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-3 col-lg-3 d-flex align-items-center justify-content-center">
-                    <img src="{{ Vite::asset('resources/images/business-hub/be-seller.png') }}" alt="be-seller"
+                    <img src="{{ Vite::asset('resources/images/business-hub/be-seller-be.png') }}" alt="be-seller"
+                         class="d-block img-fluid img-business-square mx-auto rounded float-left">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row mt-2">
+                <div class="col-sm-12 col-md-3 col-lg-3 align-items-center justify-content-center">
+                    <img src="{{ Vite::asset('resources/images/logos/shop.png') }}" alt="logo shop"
+                         class="d-block img-fluid img-business mx-auto rounded float-left my-1">
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6 my-2">
+                    <div
+                        class="form-check form-switch  form-switch-lg form-switch-success d-block img-fluid  text-center mx-auto">
+                        <input type="checkbox" class="form-check-input" id="be_seller" disabled>
+                        <label class="form-check-label"
+                               for="be_seller">{{__('Be Seller')}}</label>
+                    </div>
+                    <br>
+                    <div class="alert alert-info material-shadow  text-center" role="alert">
+                        {{__('Comming soon')}}
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-3 col-lg-3 d-flex align-items-center justify-content-center">
+                    <img src="{{ Vite::asset('resources/images/business-hub/be-seller-s.png') }}" alt="be-seller"
+                         class="d-block img-fluid img-business-square mx-auto rounded float-left">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row mt-2">
+                <div class="col-sm-12 col-md-3 col-lg-3 align-items-center justify-content-center">
+                    <img src="{{ Vite::asset('resources/images/logos/takecare.png') }}" alt="logo takecare"
+                         class="d-block img-fluid img-business mx-auto rounded float-left my-1">
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6 my-2">
+                    <div
+                        class="form-check form-switch  form-switch-lg form-switch-success d-block img-fluid  text-center mx-auto">
+                        <input type="checkbox" class="form-check-input" id="be_seller" disabled>
+                        <label class="form-check-label"
+                               for="be_seller">{{__('Be Seller')}}</label>
+                    </div>
+                    <br>
+                    <div class="alert alert-info material-shadow  text-center" role="alert">
+                        {{__('Comming soon')}}
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-3 col-lg-3 d-flex align-items-center justify-content-center">
+                    <img src="{{ Vite::asset('resources/images/business-hub/be-seller-tc.png') }}" alt="be-seller"
                          class="d-block img-fluid img-business-square mx-auto rounded float-left">
                 </div>
             </div>

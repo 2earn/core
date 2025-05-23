@@ -1,5 +1,5 @@
-<div>
-    @section('title')
+<div class="container-fluid">
+@section('title')
         {{ __('Shares Sold :  Dashboard') }}
     @endsection
     @component('components.breadcrumb')
@@ -370,7 +370,8 @@
         </div>
     </div>
     <script type="module">
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             $('#transfert').DataTable(
                 {
                     "ordering": true,
@@ -386,7 +387,11 @@
                     autoWidth: false,
                     bAutoWidth: false,
                     "ajax": "{{route('api_transfert',['locale'=> app()->getLocale()])}}",
-                    "columns": [{data: 'value'}, {data: 'Description'}, {data: 'formatted_created_at'},],
+                    "columns": [
+                        {data: 'value'},
+                        {data: 'description'},
+                        {data: 'created_at'}
+                    ],
                     "language": {"url": urlLang}
                 }
             );
@@ -426,7 +431,6 @@
                         {data: 'Balance', "className": 'editable'},
                         {data: 'total_price'},
                         {data: 'value'},
-                        {data: 'gifted_shares'},
                         {data: 'PU'},
                         {data: 'share_price'},
                         {data: 'formatted_created_at'},
@@ -437,14 +441,14 @@
                                 "targets": [7],
                                 render: function (data, type, row) {
                                     if (Number(row.WinPurchaseAmount) === 1)
-                                        return '<span class="badge bg-success" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                        return '<span class="badge bg-success fs-14" data-id="' + row.id + '" data-phone="' + row.mobile +
                                             '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >{{__('Transfert Made')}}</span>';
                                     if (Number(row.WinPurchaseAmount) === 0)
-                                        return '<span class="badge bg-danger" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                        return '<span class="badge bg-danger fs-14" data-id="' + row.id + '" data-phone="' + row.mobile +
                                             '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >{{__('Free')}}</span>';
 
                                     if (Number(row.WinPurchaseAmount) === 2)
-                                        return '<span class="badge bg-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                        return '<span class="badge bg-warning fs-14" data-id="' + row.id + '" data-phone="' + row.mobile +
                                             '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >{{__('Mixed')}}</span>';
                                 },
                             },
@@ -492,7 +496,8 @@
             xaxis: {type: 'date',}
         }
 
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             var chartOrigin = document.querySelector('#chart');
             var chart1Origin = document.querySelector('#chart1');
             var chart2Origin = document.querySelector('#chart2');

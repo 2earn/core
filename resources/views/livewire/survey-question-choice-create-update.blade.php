@@ -22,13 +22,13 @@
             <div class="card mb-2 ml-4 border border-dashed ">
                 <div class="card-body">
                     <form>
-                        <input type="hidden" wire:model="id">
+                        <input type="hidden" wire:model.live="id">
                         <div class="row">
                             <div class="form-group mb-3">
                                 <label for="title">{{__('Choice')}}</label>
                                 <textarea class="form-control @error('title') is-invalid @enderror"
                                           maxlength="80" id="title"
-                                          wire:model="title"
+                                          wire:model.live="title"
                                           placeholder="{{__('Enter title')}}"></textarea>
                                 @error('title') <span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="form-text">{{__('Required field')}}</div>
@@ -37,7 +37,7 @@
                         <div class="row mt-3">
                             <div class="col-md-2">
                                 @if($update)
-                                    <button wire:click.prevent="update()"
+                                    <button wire:click.prevent="updateSurveyQuestionChoice()"
                                             class="btn btn-success btn-block">{{__('Update')}}</button>
                                 @else
                                     <button wire:click.prevent="store()"

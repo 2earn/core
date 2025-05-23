@@ -2,21 +2,25 @@
 
 namespace Core\Models\SmsOperators;
 
-use Core\Enum\OperateurSmsEnum;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Interfaces\IOperateurSms;
+use Illuminate\Support\Facades\Log;
 
 class TunisieOperatorSms implements IOperateurSms
 {
+    CONST URL = "https://41.226.33.133/wbmonitor/send/webapi/v2/send_ack.php";
+    CONST USERPWD = "hypermedia:Tbmvkc8J";
     public TypeEventNotificationEnum $typeOperation;
     public $msg;
     public $destination;
+
     public function __construct($destNum, $msg, TypeEventNotificationEnum $typeOperation)
     {
         $this->typeOperation = $typeOperation;
         $this->msg = $msg;
         $this->destination = $destNum;
     }
+
     public function send()
     {
 
@@ -36,19 +40,20 @@ class TunisieOperatorSms implements IOperateurSms
             "hr" => "00",
             "mn" => "00",
         ];
-        $postParams["msg"] = $this->msg ;
+        $postParams["msg"] = $this->msg;
         $ch = $this->getCurl($postParams);
         $result = curl_exec($ch);
-
+        Log::notice('TunisieOperatorSms : ' . json_encode($result));
         return $result;
     }
+
     private function getCurl($postParams)
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://41.226.33.133/wbmonitor/send/webapi/v2/send_ack.php");
+        curl_setopt($ch, CURLOPT_URL, self::URL);;
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-        curl_setopt($ch, CURLOPT_USERPWD, "hypermedia:Tbmvkc8J");
+        curl_setopt($ch, CURLOPT_USERPWD, self::USERPWD);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postParams);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);

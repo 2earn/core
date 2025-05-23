@@ -26,14 +26,14 @@
             <div class="card mb-2 mr-2 ml-2 border border-dashed ">
                 <div class="card-body">
                     <form>
-                        <input type="hidden" wire:model="id">
+                        <input type="hidden" wire:model.live="id">
                         <div class="row">
                             <div class="form-group mb-3">
                                 <label for="value">{{__('operator')}}</label>
                                 <select
                                     class="form-select form-control @error('operator') is-invalid @enderror"
                                     placeholder="{{__('Enter operator')}}"
-                                    wire:model="operator"
+                                    wire:model.live="operator"
                                     id="operator"
                                     aria-label="{{__('Enter operator')}}">
                                     @foreach ($operands as $operandItem)
@@ -48,7 +48,7 @@
                         <div class="row mt-3">
                             <div class="col-md-2">
                                 @if($update)
-                                    <button wire:click.prevent="update()"
+                                    <button wire:click.prevent="updateGroup()"
                                             class="btn btn-success btn-block">{{__('Update')}}</button>
                                 @else
                                     <button wire:click.prevent="store()"

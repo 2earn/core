@@ -27,8 +27,6 @@ Route::middleware('auth:api')->get('/logmeout', function (Request $request) {
     ->where('access_token_id', $accessToken->id)
     ->delete();
     $user->token()->delete();
-
-
     return response()->json([
         'message' => 'Successfully logged out',
         'session' => session()->all()

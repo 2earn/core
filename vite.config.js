@@ -80,10 +80,10 @@ export default defineConfig({
                 'resources/anychart/world.js',
                 'resources/css/bootstrap-rtl.css',
                 'resources/anychart/anychart-table.min.js',
-                'resources/js/livewire-turbolinks.js',
                 'resources/js/pages/form-validation.init.js',
                 'resources/js/pages/crypto-kyc.init.js',
                 'resources/js/surveys.js',
+                'resources/js/pages/passowrd-create.init.js',
             ],
             refresh: true,
             server: {
@@ -98,23 +98,41 @@ export default defineConfig({
                 {
                     src: 'resources/js/utils.js',
                     dest: 'utils.js'
-                }, {
+                },
+                {
                     src: 'resources/icons/wired-gradient-751-share.json',
                     dest: 'icons'
-                }, {
+                },
+                {
                     src: 'resources/icons/146-basket-trolley-shopping-card-gradient-edited.json',
                     dest: 'icons'
-                }, {
+                },
+                {
                     src: 'resources/icons/981-consultation-gradient-edited.json',
                     dest: 'icons'
-                }, {
+                },
+                {
                     src: 'resources/icons/501-free-0-morph-gradient-edited.json',
                     dest: 'icons'
-                }, {
+                },
+                {
                     src: 'resources/icons/298-coins-gradient-edited.json',
                     dest: 'icons'
-                }, {
-                    src: 'resources/icons/coin.json',
+                },
+                {
+                    src: 'resources/icons/qrbokoyz.json',
+                    dest: 'icons'
+                },
+                {
+                    src: 'resources/icons/nlmjynuq.json',
+                    dest: 'icons'
+                },
+                {
+                    src: 'resources/icons/1855-palmtree.json',
+                    dest: 'icons'
+                },
+                {
+                    src: 'resources/icons/1471-dice-cube.json',
                     dest: 'icons'
                 }
             ]

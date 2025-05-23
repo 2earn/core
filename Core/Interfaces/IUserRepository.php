@@ -4,7 +4,7 @@ namespace Core\Interfaces;
 
 
 use App\Models\User;
-use Core\Enum\AmoutEnum;
+use Core\Enum\BalanceEnum;
 use Core\Models\metta_user;
 use Core\Models\user_earn;
 use Core\Models\UserContact;
@@ -21,11 +21,10 @@ interface IUserRepository
     public function getUserById($id);
     public function getUserEarnByIdUser($iduser);
     public function getUserByMobile($mobile, $idContry,$pass);
-    public function getAuthenticatedUser();
     public function loginUser($user, $remenber);
     public function logoutUser();
     public function getUserByFullnumber($number);
-    public function  getSoldeUserByAmount($idUser,AmoutEnum $amount);
+    public function  getSoldeUserByAmount($idUser,BalanceEnum $amount);
     public function createmettaUser(metta_user $mettaUser);
     public function createUserEarn(user_earn $userEarn) ;
     public function getUserByMobileContry($mobile, $idContry);

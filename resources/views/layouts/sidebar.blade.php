@@ -32,8 +32,9 @@
                     $sidebarBusinessArray=['business_hub_trading','business_hub_additional_income','business_hub_be_influencer','business_hub_job_opportunities'];
                     $sidebarSavingsArray=['savings_user_purchase','savings_recuperation_history'];
                     $sidebarBiographyArray=['biography_academic_background','biography_career_experience','biography_hard_skills','biography_soft_skills','biography_personal_characterization','biography_NCDPersonality','biography_sensory_representation_system','biography_MBTI','biography_e_business_card','biography_generating_pdf_report'];
-                    $sidebarArchiveArray=['surveys_archive'];
-                    $sidebarDashboardsArray=['configuration_setting','configuration_bo','configuration_amounts','configuration_ha'];
+                    $sidebarArchiveArray=['surveys_archive','deals_archive'];
+                    $sidebarRoleArray=['role_index','role_assign'];
+                    $sidebarDashboardsArray=['configuration_setting','configuration_amounts','configuration_ha'];
                     $sidebarShareSoldArray=['shares_sold_dashboard','shares_sold_market_status','shares_sold_recent_transaction'];
                     $sidebarTranslateArray=['translate','translate_model_data'];
                     $sidebarRequestsArray=['requests_commited_investors','requests_instructor','requests_identification'];
@@ -63,7 +64,6 @@
                             <span>{{ __('Contact') }}</span>
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarBusinessArray)? 'collapsed' : 'active'}}"
                            href="#sidebarBusiness" data-bs-toggle="collapse"
@@ -103,7 +103,6 @@
                             </ul>
                         </div>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link menu-link {{!in_array($currentRouteName,$sidebarSavingsArray)? 'collapsed' : 'active'}}"
                            href="#sidebarSavings" data-bs-toggle="collapse"
@@ -132,7 +131,6 @@
                             </ul>
                         </div>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarBiographyArray)? 'collapsed' : 'active'}}"
                            href="#sidebarBiography" data-bs-toggle="collapse"
@@ -212,7 +210,6 @@
                             </ul>
                         </div>
                     </li>
-
                     <li class="nav-item cool-link {{$currentRouteName=='financial_transaction'? 'active' : ''}}">
                         <a href="{{route('financial_transaction',app()->getLocale(),false)}}"
                            class="nav-link menu-link {{$currentRouteName=='financial_transaction'? 'active' : ''}}"
@@ -232,7 +229,24 @@
                             <span>{{__('Hobbies')}}</span>
                         </a>
                     </li>
-
+                    <li class="nav-item cool-link {{$currentRouteName=='news_index'? 'active' : ''}}">
+                        <a href="{{route('news_index',app()->getLocale(),false )}}"
+                           class="nav-link menu-link {{$currentRouteName=='news_index'? 'active' : ''}}"
+                           role="button">
+                            <i class="ri-newspaper-fill"></i>
+                            <span>{{__('News')}}</span>
+                        </a>
+                    </li>
+                    @if(\Core\Models\Platform::canCheckDeals(auth()->user()->id))
+                        <li class="nav-item cool-link {{$currentRouteName=='deals_index'? 'active' : ''}}">
+                            <a href="{{route('deals_index',app()->getLocale(),false )}}"
+                               class="nav-link menu-link {{$currentRouteName=='deals_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-honour-line"></i>
+                                <span>{{__('Deals')}}</span>
+                            </a>
+                        </li>
+                    @endIf
                     <li class="nav-item">
                         <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarArchiveArray)? 'collapsed' : 'active'}}"
                            href="#sidebarArchive" data-bs-toggle="collapse"
@@ -240,8 +254,7 @@
                            aria-expanded="{{in_array($currentRouteName, $sidebarArchiveArray)? 'true' : 'false'}}"
                            aria-controls="sidebarArchive">
                             <i class="ri-archive-fill"></i>
-                            <span
-                            >{{ __('Archives') }}</span>
+                            <span>{{ __('Archives') }}</span>
                         </a>
                         <div
                             class="menu-dropdown collapse {{in_array($currentRouteName,$sidebarArchiveArray)? 'show' : ''}}"
@@ -250,41 +263,116 @@
                                 <li class="nav-item cool-link {{$currentRouteName==$sidebarArchiveArray[0]? 'active' : ''}}">
                                     <a href="{{route($sidebarArchiveArray[0], app()->getLocale(),false)}}"
                                        class="nav-link"
-                                    >{{ __('Archive') }}</a>
+                                    >{{ __('Survey Archive') }}</a>
+                                </li>
+                                <li class="nav-item cool-link {{$currentRouteName==$sidebarArchiveArray[1]? 'active' : ''}}">
+                                    <a href="{{route($sidebarArchiveArray[1], app()->getLocale(),false)}}"
+                                       class="nav-link"
+                                    >{{ __('Deal Archive') }}</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
-
-                    @if(auth()->user()->getRoleNames()->first() ==User::SUPER_ADMIN_ROLE_NAME)
+                    @if(User::isSuperAdmin())
                         <li class="menu-title">
                             <span data-key="t-menu">{{ __('SUPER ADMIN MENU') }}</span>
                         </li>
-                        @if(auth()->user()->getRoleNames()->first() ==User::SUPER_ADMIN_ROLE_NAME)
-                            <li class="nav-item cool-link {{$currentRouteName=='target_index'? 'active' : ''}}">
-                                <a href="{{route('target_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
-                                   class="nav-link menu-link {{$currentRouteName=='target_index'? 'active' : ''}}"
-                                   role="button">
-                                    <i class="ri-pushpin-fill"></i>
-                                    <span>{{__('Targets')}}</span>
-                                </a>
-                            </li>
-                            <li class="nav-item cool-link {{$currentRouteName=='surveys_index'? 'active' : ''}}">
-                                <a href="{{route('surveys_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
-                                   class="nav-link menu-link {{$currentRouteName=='target_index'? 'active' : ''}}"
-                                   role="button">
-                                    <i class="ri-bookmark-fill"></i>
-                                    <span>{{__('Surveys')}}</span>
-                                </a>
-                            </li>
-                        @endif
+                        <li class="nav-item cool-link {{$currentRouteName=='business_sector_index'? 'active' : ''}}">
+                            <a href="{{route('business_sector_index',app()->getLocale(),false )}}"
+                               class="nav-link menu-link {{$currentRouteName=='business_sector_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="bx bx-category-alt"></i>
+                                <span>{{__('Business sector')}}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item cool-link {{$currentRouteName=='platform_index'? 'active' : ''}}">
+                            <a href="{{route('platform_index',['locale'=>request()->route("locale")],false )}}"
+                               class="nav-link menu-link {{$currentRouteName=='platform_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-git-repository-private-fill"></i>
+                                <span>{{__('Platform')}}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item cool-link {{$currentRouteName=='coupon_index'? 'active' : ''}}">
+                            <a href="{{route('coupon_index',app()->getLocale(),false )}}"
+                               class="nav-link menu-link {{$currentRouteName=='coupon_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-coupon-3-fill"></i>
+                                <span>{{__('Coupon')}}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item cool-link {{$currentRouteName=='orders_index'? 'active' : ''}}">
+                            <a href="{{route('orders_index',['locale'=>request()->route("locale")],false )}}"
+                               class="nav-link menu-link {{$currentRouteName=='orders_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-shopping-cart-fill"></i>
+                                <span>{{__('Orders')}}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item cool-link {{$currentRouteName=='items_index'? 'active' : ''}}">
+                            <a href="{{route('items_index',['locale'=>request()->route("locale")],false )}}"
+                               class="nav-link menu-link {{$currentRouteName=='items_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-shopping-bag-fill"></i>
+                                <span>{{__('Items')}}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item cool-link {{$currentRouteName=='target_index'? 'active' : ''}}">
+                            <a href="{{route('target_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
+                               class="nav-link menu-link {{$currentRouteName=='target_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-pushpin-fill"></i>
+                                <span>{{__('Targets')}}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item cool-link {{$currentRouteName=='balances_index'? 'active' : ''}}">
+                            <a href="{{route('balances_index',['locale'=>request()->route("locale")],false )}}"
+                               class="nav-link menu-link {{$currentRouteName=='balances_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-wallet-fill"></i>
+                                <span>{{__('Balance operations')}}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarRoleArray)? 'collapsed' : 'active'}}"
+                               href="#sidebarRole" data-bs-toggle="collapse"
+                               role="button"
+                               aria-expanded="{{in_array($currentRouteName, $sidebarRoleArray)? 'true' : 'false'}}"
+                               aria-controls="sidebarRole">
+                                <i class="ri-user-settings-fill"></i>
+                                <span>{{ __('Role') }}</span>
+                            </a>
+                            <div
+                                class="menu-dropdown collapse {{in_array($currentRouteName,$sidebarRoleArray)? 'show' : ''}}"
+                                id="sidebarRole">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item cool-link {{$currentRouteName==$sidebarRoleArray[0]? 'active' : ''}}">
+                                        <a href="{{route($sidebarRoleArray[0], app()->getLocale(),false)}}"
+                                           class="nav-link"
+                                        >{{ __('Role') }}</a>
+                                    </li>
+                                    <li class="nav-item cool-link {{$currentRouteName==$sidebarRoleArray[1]? 'active' : ''}}">
+                                        <a href="{{route($sidebarRoleArray[1], app()->getLocale(),false)}}"
+                                           class="nav-link"
+                                        >{{ __('Assign') }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item cool-link {{$currentRouteName=='surveys_index'? 'active' : ''}}">
+                            <a href="{{route('surveys_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
+                               class="nav-link menu-link {{$currentRouteName=='target_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-bookmark-fill"></i>
+                                <span>{{__('Surveys')}}</span>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarDashboardsArray)? 'collapsed' : 'active'}}"
                                href="#sidebarDashboards"
                                data-bs-toggle="collapse"
                                role="button"
                                aria-expanded="{{in_array($currentRouteName, $sidebarDashboardsArray)? 'true' : 'false'}}"
-
                                aria-controls="sidebarDashboards">
                                 <i class="ri-settings-fill"></i> <span
                                 >{{ __('Settings') }}</span>
@@ -300,26 +388,14 @@
                                     <li class="nav-item cool-link {{$currentRouteName==$sidebarDashboardsArray[1]? 'active' : ''}}">
                                         <a href="{{route($sidebarDashboardsArray[1], app()->getLocale(),false)}}"
                                            class="nav-link"
-                                        >{{ __('BO Settings') }}</a>
+                                        >{{ __('Amounts Settings') }}</a>
                                     </li>
                                     <li class="nav-item cool-link {{$currentRouteName==$sidebarDashboardsArray[2]? 'active' : ''}}">
                                         <a href="{{route($sidebarDashboardsArray[2], app()->getLocale(),false)}}"
-                                           class="nav-link">{{ __('Amounts Settings') }}</a>
-                                    </li>
-                                    <li class="nav-item cool-link {{$currentRouteName==$sidebarDashboardsArray[3]? 'active' : ''}}">
-                                        <a href="{{route($sidebarDashboardsArray[3], app()->getLocale(),false)}}"
-                                           class="nav-link">{{ __('HA Settings') }}</a>
+                                           class="nav-link">{{ __('HA amount Settings') }}</a>
                                     </li>
                                 </ul>
                             </div>
-                        </li>
-                        <li class="nav-item cool-link {{$currentRouteName=='edit_admin'? 'active' : ''}}">
-                            <a href="{{route('edit_admin', app()->getLocale(),false)}}"
-                               class="nav-link menu-link {{$currentRouteName=='edit_admin'? 'active' : ''}}"
-                               role="button">
-                                <i class="ri-admin-fill"></i>
-                                <span>{{ __('Administrators Management') }}</span>
-                            </a>
                         </li>
                         <li class="nav-item cool-link {{$currentRouteName=='user_list'? 'active' : ''}}">
                             <a href="{{route('user_list', app()->getLocale(),false)}}"
@@ -359,7 +435,6 @@
                                 </ul>
                             </div>
                         </li>
-
                         <li class="nav-item cool-link {{$currentRouteName=='stat_countrie'? 'active' : ''}}">
                             <a href="{{route('stat_countrie', app()->getLocale(),false)}}"
                                class="nav-link menu-link {{$currentRouteName=='stat_countrie'? 'active' : ''}}"
@@ -376,7 +451,6 @@
                                 <span>{{ __('representatives Management') }}</span>
                             </a>
                         </li>
-
                         <li class="nav-item">
                             <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarRequestsArray)? 'collapsed' : 'active'}}"
                                href="#sidebarRequests" data-bs-toggle="collapse"
@@ -409,7 +483,6 @@
                                 </ul>
                             </div>
                         </li>
-
                         <li class="nav-item cool-link {{$currentRouteName=='countries_management'? 'active' : ''}}">
                             <a href="{{route('countries_management', app()->getLocale(),false)}}"
                                class="nav-link menu-link {{$currentRouteName=='countries_management'? 'active' : ''}}"
@@ -419,7 +492,7 @@
                             </a>
                         </li>
                     @endif
-                    @if(auth()->user()->getRoleNames()->first() ==User::SUPER_ADMIN_ROLE_NAME)
+                    @if(User::isSuperAdmin())
                         <li class="nav-item">
                             <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarTranslateArray)? 'collapsed' : 'active'}}"
                                href="#sidebarTranslate" data-bs-toggle="collapse"
@@ -445,7 +518,6 @@
                                 </ul>
                             </div>
                         </li>
-
                     @endif
                 </ul>
             </div>
@@ -454,11 +526,12 @@
     </div>
     <div class="vertical-overlay">
     </div>
-    <script data-turbolinks-eval="false" type="module">
+    <script type="module">
         var sidebarBusinessArray = {!! json_encode($sidebarBusinessArray) !!};
         var sidebarSavingsArray = {!! json_encode($sidebarSavingsArray) !!};
         var sidebarBiographyArray = {!! json_encode($sidebarBiographyArray) !!};
         var sidebarArchiveArray = {!! json_encode($sidebarArchiveArray) !!};
+        var sidebarRoleArray = {!! json_encode($sidebarRoleArray) !!};
         var sidebarDashboardsArray = {!! json_encode($sidebarDashboardsArray) !!};
         var sidebarShareSoldArray = {!! json_encode($sidebarShareSoldArray) !!};
         var sidebarTranslateArray = {!! json_encode($sidebarTranslateArray) !!};
@@ -493,6 +566,9 @@
             if (sidebarArchiveArray.includes(currentRouteName)) {
                 showDropDownMenu('sidebarArchive')
             }
+            if (sidebarRoleArray.includes(currentRouteName)) {
+                showDropDownMenu('sidebarRole')
+            }
 
             if (sidebarDashboardsArray.includes(currentRouteName)) {
                 showDropDownMenu('sidebarDashboards')
@@ -523,7 +599,7 @@
             }
         }
 
-        $(document).on('ready turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
             init(['sidebarArchive', 'sidebarDashboards', 'sidebarShareSold', 'sidebarTranslate', 'sidebarBusiness', 'sidebarSavings', 'sidebarBiography', 'sidebarRequests'])
         });
     </script>

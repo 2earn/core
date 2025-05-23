@@ -70,14 +70,13 @@
                 'resources/anychart/anychart-table.min.js',
     ])
     <link rel="shortcut icon" href="{{ Vite::asset('resources/images/favicon.ico')}}">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.all.min.js"></script>
     @include('layouts.vendor-scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         @font-face {
             font-family: 'iconearn';
@@ -103,8 +102,7 @@
             font-display: block;
         }
     </style>
-    @livewireStyles
-    <meta name="turbolinks-cache-control" content="no-cache">
+    <livewire:styles/>
     <meta name="theme-color" content="#6777ef"/>
     <link rel="apple-touch-icon" href="{{ asset('logo.PNG') }}">
     <link rel="manifest" href="{{ asset('/manifest.json') }}">
@@ -117,8 +115,9 @@
 </head>
 <body>
 @section('body')
+    @livewireScripts
     @vite(['resources/css/select2.min.css','resources/css/dataTables.bootstrap.css','resources/css/material-components-web.min.css','resources/js/layout.js'])
-    @vite(['resources/css/intlTelInput.min.css','resources/fontawesome/all.min.css','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/livewire-turbolinks.js','resources/js/intlTelInput.js'])
+    @vite(['resources/css/intlTelInput.min.css','resources/fontawesome/all.min.css','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/intlTelInput.js'])
     <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PMK39HQQ"
                 height="0" width="0" style="display:none;visibility:hidden"></iframe>
@@ -130,14 +129,11 @@
     @include('layouts.sidebar',['currentRoute'=>Route::currentRouteName()])
     <div class="main-content">
         <div class="page-content">
-            <div class="container-fluid">
-                @yield('content')
-            </div>
+            @yield('content')
         </div>
     </div>
 </div>
 @include('layouts.footer', ['pageName' => 'master'])
-@livewireScripts
 @vite('resources/js/pages/crypto-kyc.init.js')
 <script type="module">
     window.addEventListener('load', () => {
@@ -148,7 +144,8 @@
 </script>
 @stack('scripts')
 <script type="module">
-    $(document).on('turbolinks:load', function () {
+    document.addEventListener("DOMContentLoaded", function () {
+
         var select2_array = [];
         var classAl = "text-end";
         var tts = '{{config('app.available_locales')[app()->getLocale()]['direction']}}';
@@ -157,329 +154,7 @@
         }
         var url = '';
     });
-
-    window.addEventListener('closeModalOp', event => {
-        $('#BoModal').modal('hide');
-        $('#BalanceOperationsTable').DataTable().ajax.reload();
-    });
-    window.addEventListener('closeModalAmounts', event => {
-        $('#AmountsModal').modal('hide');
-        $('#amountsTable').DataTable().ajax.reload();
-    });
-
-    $(document).on('turbolinks:load', function () {
-        var ipPhone = document.getElementById("inputPhoneUpdate");
-        const myParams = window.location.pathname.split("/");
-        const pathPage = myParams[2];
-        const pathPageSeg3 = myParams[3];
-        var countryData = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
-            input = document.querySelector("#phonereg");
-        var countryDataLog = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
-            inputlog = document.querySelector("#phone");
-
-        var errorMap = ['{{trans('Invalid number')}}', '{{trans('Invalid country code')}}', '{{trans('Too shortsss')}}', '{{trans('Too long')}}', '{{trans('Invalid number')}}'];
-        var ipAddContact = document.querySelector("#ipAddContact");
-        var ipAdd2Contact = document.querySelector("#ipAdd2Contact");
-        var ipUpdatePhoneAd = document.querySelector("#inputPhoneUpdateAd");
-        var ipNumberContact = document.querySelector("#inputNumberContact");
-        if (pathPage == 'account') {
-
-            ipPhone.innerHTML =
-                "<input type='tel'  placeholder= '{{ __("PH_EditPhone") }}'    data-turbolinks-permanent name='mobileUpPhone' id='phoneUpPhone' class='form-control' onpaste='handlePaste(event)'>" +
-                "  <span id='valid-msg'   class='invisible'>✓ Valid</span><span id='error-msg' class='hide'></span>" +
-                " <input type='hidden' name='fullnumberUpPhone' id='outputUpPhone' value='hidden' class='form-control'> " +
-                " <input type='hidden' name='ccodeUpPhone' id='ccodeUpPhone'  ><input type='hidden' name='isoUpPhone' id='isoUpPhone'  >";
-            var countryDataUpPhone = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
-                inputUpPhone = document.querySelector("#phoneUpPhone");
-            try {
-                itiUpPhone.destroy();
-            } catch (e) {
-            }
-            var itiUpPhone = window.intlTelInput(inputUpPhone, {
-                initialCountry: "auto",
-                useFullscreenPopup: false,
-                geoIpLookup: function (callback) {
-                    $.get('https://ipinfo.io', function () {
-                    }, "jsonp").always(function (resp) {
-                        var countryCode = (resp && resp.country) ? resp.country : "TN";
-                        callback(countryCode);
-                    });
-                },
-                utilsScript: " {{asset('/build/utils.js/utils.js')}}"
-            });
-            inputUpPhone.addEventListener('keyup', resetUpPhone);
-            inputUpPhone.addEventListener('countrychange', resetUpPhone);
-            for (var i = 0; i < countryDataUpPhone.length; i++) {
-                var country = countryDataUpPhone[i];
-                var optionNode = document.createElement("option");
-                optionNode.value = country.iso2;
-            }
-            document.querySelector("#phoneUpPhone").addEventListener("keypress", function (evt) {
-                if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57) {
-                    evt.preventDefault();
-                }
-            });
-            var validMsg = document.querySelector("#valid-msg");
-            var errorMsg = document.querySelector("#error-msg")
-            inputUpPhone.addEventListener('blur', function () {
-                if (inputUpPhone.value.trim()) {
-                    if (itiUpPhone.isValidNumber()) {
-                        $("#submit_phone").prop("disabled", false);
-                    } else {
-                        $("#submit_phone").prop("disabled", true);
-                        inputUpPhone.classList.add("error");
-                        var errorCode = itiUpPhone.getValidationError();
-                        errorMsg.innerHTML = errorMap[errorCode];
-                        errorMsg.classList.remove("invisible");
-                    }
-                }
-            });
-            resetUpPhone();
-        }
-        if (pathPage == 'contacts') {
-            inputlog = document.querySelector("#ipAdd2Contact");
-            var itiLog = window.intlTelInput(inputlog, {
-                initialCountry: "auto",
-                // showSelectedDialCode: true,
-                useFullscreenPopup: false,
-                geoIpLookup: function (callback) {
-                    $.get('https://ipinfo.io', function () {
-                    }, "jsonp").always(function (resp) {
-                        var countryCodelog = (resp && resp.country) ? resp.country : "TN";
-                        callback(countryCodelog);
-                    });
-                },
-                utilsScript: " {{asset('/build/utils.js/utils.js')}}"
-            });
-
-            inputlog.addEventListener('keyup', resetContacts);
-            inputlog.addEventListener('countrychange', resetContacts);
-            for (var i = 0; i < countryDataLog.length; i++) {
-                var country12 = countryDataLog[i];
-                var optionNode12 = document.createElement("option");
-                optionNode12.value = country12.iso2;
-
-            }
-            inputlog.focus();
-        }
-        if (pathPage == 'user' && document.getElementById("ipAddContact")) {
-
-            ipAddContact.innerHTML = "<div class='input-group-prepend'> " +
-                "</div><input wire:model.defer='phoneNumber' type='tel' name='phoneAddContact' id='phoneAddContact' class='form-control' onpaste='handlePaste(event)'" +
-                "placeholder='Mobile Number'><span id='valid-msgAddContact' class='invisible'>✓ Valid</span><span id='error-msgAddContact' class='hide'></span>" +
-                "<input type='hidden' name='fullnumber' id='outputAddContact' class='form-control'><input type='hidden' name='ccodeAddContact' id='ccodeAddContact'>";
-
-            var countryDataAddContact = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
-                inputAddContact = document.querySelector("#phoneAddContact");
-            try {
-                itiAddContact.destroy();
-            } catch (e) {
-            }
-
-            var nameInput = document.querySelector('#inputNameContact');
-            var lastNameInput = document.querySelector('#inputlLastNameContact');
-            inputAddContact.addEventListener('keyup', resetAddContact);
-            inputAddContact.addEventListener('countrychange', resetAddContact);
-            nameInput.addEventListener('keyup', resetAddContact);
-            lastNameInput.addEventListener('keyup', resetAddContact);
-            var bbol = true;
-            var autoInit = "auto";
-            if (bbol) autoInit = codePays;
-            var itiAddContact = window.intlTelInput(inputAddContact, {
-                initialCountry: autoInit,
-                showSelectedDialCode: true,
-                useFullscreenPopup: false,
-                geoIpLookup: function (callback) {
-                    $.get('https://ipinfo.io', function () {
-                    }, "jsonp").always(function (resp) {
-                        var countryCode = (resp && resp.country) ? resp.country : "TN";
-                        callback(countryCode);
-                    });
-                },
-                utilsScript: " {{asset('/build/utils.js/utils.js')}}"
-            });
-            for (var i = 0; i < countryDataAddContact.length; i++) {
-                var country = countryDataAddContact[i];
-                var optionNode = document.createElement("option");
-                optionNode.value = country.iso2;
-            }
-            ;
-            document.querySelector("#phoneAddContact").addEventListener("keypress", function (evt) {
-                if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57) {
-                    evt.preventDefault();
-                }
-            });
-            var validMsg = document.querySelector("#valid-msgAddContact");
-            var errorMsg = document.querySelector("#error-msgAddContact");
-            inputAddContact.addEventListener('blur', function () {
-                if (inputAddContact.value.trim()) {
-                    if (itiAddContact.isValidNumber()) {
-                        errorMsg.classList.add("invisible");
-                        $("#SubmitAddContact").prop("disabled", false);
-
-                    } else {
-                        $("#SubmitAddContact").prop("disabled", true);
-                        inputAddContact.classList.add("error");
-                        var errorCode = itiAddContact.getValidationError();
-                        errorMsg.innerHTML = errorMap[errorCode];
-                        errorMsg.classList.remove("invisible");
-                    }
-                } else {
-                    $("#SubmitAddContact").prop("disabled", true);
-                    inputAddContact.classList.add("error");
-                    var errorCode = itiAddContact.getValidationError();
-                    errorMsg.innerHTML = errorMap[errorCode];
-                    errorMsg.classList.remove("invisible");
-                }
-            });
-            resetAddContact();
-            $("#phoneAddContact").val($("#pho").val());
-        }
-        if (pathPage == 'contact-number') {
-
-            ipNumberContact.innerHTML = "<div class='input-group-prepend'> " +
-                "</div><input wire:model.defer='' type='tel' name='phoneContactNumber' id='phoneContactNumber' class='form-control' onpaste='handlePaste(event)'" +
-                "placeholder='{{ __("Mobile Number") }}'><span id='valid-msgphoneContactNumber' class='invisible'>✓ Valid</span><span id='error-msgphoneContactNumber' class='hide'></span>" +
-                " <input type='hidden' name='fullnumber' id='outputphoneContactNumber' class='form-control'><input type='hidden' name='ccodephoneContactNumber' id='ccodephoneContactNumber'>" +
-                "<input type='hidden' name='isoContactNumber' id='isoContactNumber'>";
-            var countryDataNumberContact = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
-                inputAddContactNumber = document.querySelector("#phoneContactNumber");
-            try {
-                itiAddContactNumber.destroy();
-            } catch (e) {
-
-            }
-            var itiAddContactNumber = window.intlTelInput(inputAddContactNumber, {
-                initialCountry: "auto",
-                useFullscreenPopup: false,
-                geoIpLookup: function (callback) {
-                    $.get('https://ipinfo.io', function () {
-                    }, "jsonp").always(function (resp) {
-                        var countryCode13 = (resp && resp.country) ? resp.country : "TN";
-                        callback(countryCode13);
-                    });
-                },
-                utilsScript: " {{asset('/build/utils.js/utils.js')}}"
-            });
-            inputAddContactNumber.addEventListener('keyup', resetAddNumberContact);
-            inputAddContactNumber.addEventListener('countrychange', resetAddNumberContact);
-
-            for (var i = 0; i < countryDataNumberContact.length; i++) {
-                var country = countryDataNumberContact[i];
-                var optionNode = document.createElement("option");
-                optionNode.value = country.iso2;
-            }
-            resetAddNumberContact();
-        }
-
-        function resetAddContact() {
-            var phone = itiAddContact.getNumber();
-            if (phone == "") {
-                phone = $("#pho").val();
-            }
-            var textNode = document.createTextNode(phone);
-            phone = phone.replace('+', '00');
-
-            var mobile = $("#phoneAddContact").val();
-            var countryData = itiAddContact.getSelectedCountryData();
-            if (!phone.startsWith('00' + countryData.dialCode)) {
-                phone = '00' + countryData.dialCode + phone;
-            }
-            $("#outputAddContact").val(phone);
-
-            $("#ccodeAddContact").val(countryData.dialCode);
-            if (inputAddContact.value.trim()) {
-                if (itiAddContact.isValidNumber()) {
-                    errorMsg.classList.add("invisible");
-                    $("#SubmitAddContact").prop("disabled", false);
-
-                } else {
-                    $("#SubmitAddContact").prop("disabled", true);
-                    inputAddContact.classList.add("error");
-                    var errorCode = itiAddContact.getValidationError();
-                    errorMsg.innerHTML = errorMap[errorCode];
-                    errorMsg.classList.remove("invisible");
-                }
-            } else {
-                $("#SubmitAddContact").prop("disabled", true);
-                inputAddContact.classList.remove("error");
-                var errorCode = itiAddContact.getValidationError();
-                errorMsg.innerHTML = errorMap[errorCode];
-                errorMsg.classList.add("invisible");
-            }
-        };
-
-        function resetContacts() {
-            var phone = itiLog.getNumber();
-            var textNode = document.createTextNode(phone);
-            phone = phone.replace('+', '00');
-            var mobile = $("#ipAdd2Contact").val();
-            var countryData = itiLog.getSelectedCountryData();
-            phone = '00' + countryData.dialCode + phone;
-            $("#ccodeAdd2Contact").val(countryData.dialCode);
-            $("#outputAdd2Contact").val(phone);
-        };
-
-        function resetAddNumberContact() {
-            var phoneCN = itiAddContactNumber.getNumber();
-            phoneCN = phoneCN.replace('+', '00');
-            var mobileCN = $("#phoneContactNumber").val();
-            var countryDataCN = itiAddContactNumber.getSelectedCountryData();
-            if (!phoneCN.startsWith('00' + countryDataCN.dialCode)) {
-                phoneCN = '00' + countryDataCN.dialCode + phoneCN;
-            }
-            $("#outputphoneContactNumber").val(phoneCN);
-            $("#ccodephoneContactNumber").val(countryDataCN.dialCode);
-            $("#isoContactNumber").val(countryDataCN.iso2);
-            if (itiAddContactNumber.isValidNumber()) {
-                $('#saveAddContactNumber').prop("disabled", false)
-            } else {
-                $('#saveAddContactNumber').prop("disabled", true)
-            }
-        }
-
-        function resetUpPhone() {
-            inputUpPhone.classList.remove("error");
-            errorMsg.innerHTML = "";
-            errorMsg.classList.add("invisible");
-            validMsg.classList.add("invisible");
-            $("#submit_phone").prop("disabled", true);
-            var phone = itiUpPhone.getNumber();
-            var textNode = document.createTextNode(phone);
-            phone = phone.replace('+', '00');
-            var mobile = $("#phoneUpPhone").val();
-            var countryData = itiUpPhone.getSelectedCountryData();
-            phone = '00' + countryData.dialCode + phone;
-            $("#outputUpPhone").val(phone);
-            $("#ccodeUpPhone").val(countryData.dialCode);
-            $("#isoUpPhone").val(countryData.iso2);
-
-            var fullphone = $("#outputUpPhone").val();
-            if (inputUpPhone.value.trim()) {
-                if (itiUpPhone.isValidNumber()) {
-                    errorMsg.classList.add("invisible");
-                    $("#submit_phone").prop("disabled", false);
-                } else {
-                    $("#submit_phone").prop("disabled", true);
-                    inputUpPhone.classList.add("error");
-                    var errorCode = itiUpPhone.getValidationError();
-                    errorMsg.classList.remove("invisible");
-                    if (errorCode == '-99') {
-                        errorMsg.innerHTML = errorMap[2];
-                    } else {
-                        errorMsg.innerHTML = errorMap[errorCode];
-                    }
-                }
-            } else {
-                $("#submit_phone").prop("disabled", true);
-                inputUpPhone.classList.remove("error");
-                var errorCode = itiUpPhone.getValidationError();
-                errorMsg.innerHTML = errorMap[errorCode];
-                errorMsg.classList.add("invisible");
-            }
-        };
-
-
+    document.addEventListener("DOMContentLoaded", function () {
         $.ajax({
             url: "{{ route('get_request_ajax') }}",
             type: 'GET',
@@ -523,17 +198,18 @@
                         element.appendChild(tag);
                     }
                 } catch (e) {
+                    console.error(e)
                 }
                 try {
-                    document.getElementById('SReqIn').innerHTML = "";
-                    document.getElementById('SReqIn').innerHTML = "";
-                    document.getElementById('SReqIn').innerHTML = "";
+                    var element = document.getElementById('SReqIn');
+                    if (typeof (element) != 'undefined' && element != null) {
+                        element.innerHTML = "";
+                    }
                 } catch (e) {
+                    console.error(e)
                 }
             }
         });
-
-
     });
 </script>
 </body>

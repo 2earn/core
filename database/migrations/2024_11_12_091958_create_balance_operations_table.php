@@ -1,0 +1,42 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration {
+    const OLD_TABLE_NAME = 'balanceoperations';
+    const TABLE_NAME = 'balance_operations';
+
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::dropIfExists(self::OLD_TABLE_NAME);
+        Schema::create(self::TABLE_NAME, function (Blueprint $table) {
+            $table->id();
+            $table->string('operation', 90)->nullable();
+            $table->string('io', 2)->nullable();
+            $table->string('source', 45)->nullable();
+            $table->string('mode', 45)->nullable();
+            $table->integer('amounts_id');
+            $table->unsignedBigInteger('parent_id')->foreign('parent_id')->nullable()->references('id')->on(self::TABLE_NAME)->onDelete('cascade');
+            $table->string('note', 45)->nullable();
+            $table->boolean('modify_amount')->nullable()->default(true);
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists(self::TABLE_NAME);
+    }
+};

@@ -1,4 +1,4 @@
-<div data-turbolinks='false'>
+<div>
     <div class="auth-page-wrapper auth-bg-cover mt-5 py-2 justify-content-center align-items-center min-vh-75">
         <img src="{{ Vite::asset('resources/images/2earn.png') }}" class="mx-auto d-block d-lg-none">
         <div class="bg-overlay"></div>
@@ -13,7 +13,7 @@
                                         <div class="bg-overlay opacity-75"></div>
                                         <div class="position-relative h-100 d-flex flex-column">
                                             <div class="mb-4">
-                                                <a href="index" class="d-block">
+                                                <a   href="{{route('home',app()->getLocale(),false)}}" class="d-block">
                                                     <img src="{{ Vite::asset('resources/images/2earn.png') }}"
                                                          alt="2earn.cash">
                                                 </a>
@@ -69,19 +69,19 @@
                                             <p class="text-primary"> {{__('continueTo2earn')}} </p>
                                         </div>
                                         <div class="mt-4">
-                                                @include('layouts.flash-messages')
+                                            @include('layouts.flash-messages')
                                         </div>
-                                        <div class="mt-4">
+                                        <div class="mt-4" wire:ignore>
                                             <form id="login-form">
                                                 @csrf
                                                 <div dir="ltr w-100" class="mb-3">
                                                     <label for="username"
                                                            class="float-start form-label">{{ __('Mobile Number') }}</label>
                                                     <br>
-                                                    <input type="tel" name="mobile" id="phone"
+                                                    <input type="tel" name="mobile" id="intl-tel-input"
                                                            class="form-control @error('email') is-invalid @enderror"
                                                            value=""
-                                                           placeholder="{{ __('PH_MobileNumber') }}">
+                                                           placeholder="{{ __('Mobile number') }}">
                                                     @error('email')
                                                     <span class="invalid-feedback" role="alert">
                                                                                             <strong>{{ $message }}</strong>
@@ -89,8 +89,8 @@
                                                     @enderror
                                                     <span id="valid-msg" class="d-none">✓ Valid</span>
                                                     <span id="error-msg" class="d-none"></span>
-                                                    <input type="hidden" name="ccodelog" id="ccodelog">
-                                                    <input type="hidden" name="isoCountryLog" id="isoCountryLog">
+                                                    <input type="hidden" name="country_code" id="country_code">
+                                                    <input type="hidden" name="iso_country_code" id="iso_country_code">
                                                 </div>
                                                 <div class="mb-3">
                                                     <label
@@ -102,13 +102,11 @@
                                                     <label class="form-label"
                                                            for="password-input">{{ __('Password') }}</label>
                                                     <div class="position-relative auth-pass-inputgroup mb-3">
-                                                        <input type="password"
-                                                               class="form-control pe-5 @error('password') is-invalid @enderror"
-                                                               name="password" placeholder="{{ __('PH_Password') }}"
-                                                               id="password-input">
+                                                        <input type="password" class="form-control pe-5 password-input"
+                                                               placeholder="{{ __('Password') }}" id="password-input">
                                                         <button
-                                                            class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
-                                                            type="button" id="togglePassword"><i
+                                                            class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon material-shadow-none"
+                                                            type="button" id="password-addon"><i
                                                                 class="ri-eye-fill align-middle"></i></button>
                                                         @error('password')
                                                         <span class="invalid-feedback" role="alert">
@@ -157,7 +155,7 @@
                                                                    class="dropdown-item notify-item language py-2"
                                                                    data-lang="en"
                                                                    title="{{ __('lang'.$locale)  }}"
-                                                                   data-turbolinks="false">
+                                                                >
                                                                     <img
                                                                         src="{{ Vite::asset('resources/images/flags/'.$value['flag'].'.svg') }}"
                                                                         alt="user-image" class="me-2 rounded"
@@ -189,48 +187,80 @@
         @include('layouts.footer', ['pageName' => 'login'])
     </div>
     <script>
-        window.addEventListener('load', () => {
-            var existmessageLogin = '{{Session::has('message')}}';
-            if (existmessageLogin) {
-                var msgMsgLogin = '{{Session::get('message')}}';
-                var local = '{{Session::has('locale')}}';
-                if (local == 'ar') {
-                    msg = "هاتفك أو كلمة المرور الخاصة بك غير صحيحة !";
-                }
-                Swal.fire({
-                    title: ' ',
-                    text: msgMsgLogin,
-                    icon: 'error',
-                    cancelButtonText: '{{__('Cancel')}}',
-                    confirmButtonText: '{{__('Confirm')}}',
-                }).then(okay => {
-                    if (okay) {
-                        window.location.reload();
-                    }
-                });
-            }
-        });
+        function functionLogin() {
+            window.Livewire.dispatch('login', [$("#intl-tel-input").val(), $("#country_code").val(), $("#password-input").val(), $("#iso_country_code").val()]);
+        }
     </script>
-    <script>
-        document.querySelector("#phone").addEventListener("keypress", function (evt) {
+    <script type="module">
+        document.querySelector("#intl-tel-input").addEventListener("keypress", function (evt) {
             if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57) {
                 evt.preventDefault();
             }
         });
-        var togglePasswordLogin = document.querySelector("#togglePassword");
-        var passwordLogin = document.querySelector("#password-input");
-        togglePasswordLogin.addEventListener("click", function () {
-            var type = passwordLogin.getAttribute("type") === "password" ? "text" : "password";
-            passwordLogin.setAttribute("type", type);
-            this.classList.toggle("bi-eye");
+        $(function () {
+            var countryDataLog = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
+                inputlog = document.querySelector("#intl-tel-input");
+            var itiLog = window.intlTelInput(inputlog, {
+                initialCountry: "auto",
+                autoFormat: true,
+                separateDialCode: true,
+                useFullscreenPopup: false,
+                geoIpLookup: function (callback) {
+                    $.get('https://ipinfo.io', function () {
+                    }, "jsonp").always(function (resp) {
+                        callback((resp && resp.country) ? resp.country : "TN");
+                    });
+                },
+                utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/utils.js"
+            });
+
+            function initIntlTelInput() {
+                $("#signin").prop("disabled", false);
+                var phone = itiLog.getNumber();
+                document.createTextNode(phone);
+                phone = phone.replace('+', '00');
+                var countryData = itiLog.getSelectedCountryData();
+                phone = '00' + countryData.dialCode + phone;
+                $("#country_code").val(countryData.dialCode);
+                $("#iso_country_code").val(countryData.iso2);
+                if (inputlog.value.trim()) {
+                    if (itiLog.isValidNumber()) {
+                        $("#signin").prop("disabled", false);
+                    } else {
+                        $("#signin").prop("disabled", true);
+                        inputlog.classList.add("error");
+                    }
+                } else {
+                    $("#signin").prop("disabled", true);
+                    inputlog.classList.remove("error");
+                }
+            }
+
+            inputlog.addEventListener('keyup', initIntlTelInput);
+            inputlog.addEventListener('countrychange', initIntlTelInput);
+            for (var i = 0; i < countryDataLog.length; i++) {
+                var country12 = countryDataLog[i];
+                var optionNode12 = document.createElement("option");
+                optionNode12.value = country12.iso2;
+            }
+            inputlog.focus();
+            $("#password").focus();
+
+            inputlog.addEventListener('blur', function () {
+                if (inputlog.value.trim()) {
+                    if (itiLog.isValidNumber()) {
+                        $("#signin").prop("disabled", false);
+                    } else {
+                        $("#signin").prop("disabled", true);
+                        inputlog.classList.add("error");
+                    }
+                } else {
+                    $("#signin").prop("disabled", true);
+                    inputlog.classList.add("error");
+                    var errorCode = itiLog.getValidationError();
+                }
+            });
+            initIntlTelInput();
         });
-
-        function changeLanguage() {
-            const ss = '{{ Session::put('changeL', 'false' )}}';
-        }
-
-        function functionLogin(dd) {
-            window.Livewire.emit('login', $("#phone").val(), $("#ccodelog").val(), $("#password-input").val(), $("#isoCountryLog").val());
-        }
     </script>
 </div>

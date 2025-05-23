@@ -1,4 +1,4 @@
-<div>
+<div class="container-fluid">
     @section('title')
         {{ __('history') }}
     @endsection
@@ -24,21 +24,19 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header">
-                </div>
                 <div class="card-body table-responsive">
                     <table id="shares-solde"
                            class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
                            style="width:100%">
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">
-                            <th style=" border: none ;text-align: center;">{{__('date_purchase')}}</th>
-                            <th style=" border: none;">{{__('number_of_shares')}}</th>
-                            <th style=" border: none;">{{__('gifted_shares')}}</th>
-                            <th style=" border: none ;text-align: center; ">{{__('total_shares')}}</th>
-                            <th style=" border: none;text-align: center; ">{{__('total_price')}}</th>
-                            <th style=" border: none;text-align: center; ">{{__('present_value')}}</th>
-                            <th style=" border: none;text-align: center; ">{{__('current_earnings')}}</th>
+                            <th>{{__('id')}}</th>
+                            <th>{{__('formatted_created_at')}}</th>
+                            <th>{{__('value_format')}}</th>
+                            <th>{{__('total_shares')}}</th>
+                            <th>{{__('total_price')}}</th>
+                            <th>{{__('present_value')}}</th>
+                            <th>{{__('current_earnings')}}</th>
                         </tr>
                         </thead>
                         <tbody class="body2earn">
@@ -50,7 +48,8 @@
     </div>
     <script src="{{ URL::asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
     <script id="rendered-js" type="module">
-        $(document).on('turbolinks:load', function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
             var chart1Origin = document.querySelector('#chart1');
             if (chart1Origin) {
                 var options1 = {
@@ -113,9 +112,9 @@
                 bAutoWidth: false,
                 "ajax": "{{route('api_shares_solde',['locale'=> app()->getLocale()])}}",
                 "columns": [
+                    {data: 'id'},
                     {data: 'formatted_created_at'},
                     {data: 'value_format'},
-                    {data: 'gifted_shares'},
                     {data: 'total_shares'},
                     {data: 'total_price'},
                     {data: 'present_value'},

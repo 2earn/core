@@ -1,55 +1,55 @@
-<div>
+<div class="container-fluid">
     @section('title')
         {{ __('history') }}
     @endsection
-        @component('components.breadcrumb')
-            @slot('li_1')@endslot
-            @slot('title')
-                {{ __('Stat By Countries') }}
-            @endslot
-        @endcomponent
-        <div class="row">
-            <div class="col">
-                <div class="h-100">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card card-height-100">
-                                <div class="card-header align-items-center d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1">{{ __('Countries Statistics') }}</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div id="any1"></div>
-                                </div>
+    @component('components.breadcrumb')
+        @slot('li_1')@endslot
+        @slot('title')
+            {{ __('Stat By Countries') }}
+        @endslot
+    @endcomponent
+    <div class="row">
+        <div class="col">
+            <div class="h-100">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-height-100">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">{{ __('Countries Statistics') }}</h4>
+                            </div>
+                            <div class="card-body">
+                                <div id="any1"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card card-height-100">
-                                <div class="card-header align-items-center d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1">{{ __('Countries Statistics') }}</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div id="any2"></div>
-                                </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-height-100">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">{{ __('Countries Statistics') }}</h4>
+                            </div>
+                            <div class="card-body">
+                                <div id="any2"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card card-height-100">
-                                <div class="card-header align-items-center d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1">{{ __('Countries Statistics') }}</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div id="any3"></div>
-                                </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-height-100">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">{{ __('Countries Statistics') }}</h4>
+                            </div>
+                            <div class="card-body">
+                                <div id="any3"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </div>
 <script type="module">
     var series;
@@ -93,19 +93,19 @@
                                     ['Selected States Data'],
                                     [
                                         null,
-                                        'Name',
-                                        'Cash Balance',
-                                        'Bfs',
-                                        'Discount Balance',
-                                        'Sms Balance',
-                                        'Total Shares',
-                                        'Sold Shares',
-                                        'Gifted Shares',
-                                        'Shares Revenue',
-                                        'Transfert Made',
-                                        'Users',
-                                        'Traiders',
-                                        'Real Traders',
+                                        '{{__('Name')}}',
+                                        '{{__('Cash Balance')}}',
+                                        '{{__('Bfs')}}',
+                                        '{{__('Discount Balance')}}',
+                                        '{{__('Sms Balance')}}',
+                                        '{{__('Total Shares')}}',
+                                        '{{__('Sold Shares')}}',
+                                        '{{__('Gifted Shares')}}',
+                                        '{{__('Shares Revenue')}}',
+                                        '{{__('Transfert Made')}}',
+                                        '{{__('Users')}}',
+                                        '{{__('Traiders')}}',
+                                        '{{__('Real Traders')}}',
                                     ],
                                     [null]
                                 ]);
@@ -151,8 +151,8 @@
                             areaChart = solidChart(0);
                             houseSeatsChart = solidChart(0);
                             table.contents([
-                                ['Percentage of Total'],
-                                ['Cash Balance', 'BFS', 'Discount Balance'],
+                                ['{{__('Percentage of Total')}}'],
+                                ['{{__('Cash Balance')}}', '{{__('BFS')}}', '{{__('Discount Balance')}}'],
                                 [populationChart, areaChart, houseSeatsChart]
                             ]);
                             return table;
@@ -164,19 +164,19 @@
                                 ['List of Selected States'],
                                 [
                                     null,
-                                    'Name',
-                                    'Cash Balance',
-                                    'Bfs',
-                                    'Discount Balance',
-                                    'Sms Balance',
-                                    'Total Shares',
-                                    'Sold Shares',
-                                    'Gifted Shares',
-                                    'Shares Revenue',
-                                    'Transfert Made',
-                                    'Users',
-                                    'Traiders',
-                                    'Real Traders',
+                                    '{{__('Name')}}',
+                                    '{{__('Cash Balance')}}',
+                                    '{{__('Bfs')}}',
+                                    '{{__('Discount Balance')}}',
+                                    '{{__('Sms Balance')}}',
+                                    '{{__('Total Shares')}}',
+                                    '{{__('Sold Shares')}}',
+                                    '{{__('Gifted Shares')}}',
+                                    '{{__('Shares Revenue')}}',
+                                    '{{__('Transfert Made')}}',
+                                    '{{__('Users')}}',
+                                    '{{__('Traiders')}}',
+                                    '{{__('Real Traders')}}',
                                 ]
                             ];
 
@@ -255,7 +255,6 @@
                                 var selected = [];
                                 var selectedPoints = e.seriesStatus[0].points;
                                 for (var i = 0; i < selectedPoints.length; i++) {
-                                    console.log(selectedPoints[i].id);
                                     selected.push(selectedPoints[i].id);
                                 }
                                 changeContent(selected);
@@ -422,7 +421,7 @@
                         var mapping = dataSet.mapAs({x: "name", value: "COUNT_USERS", category: "continant"});
                         var colors = anychart.scales.ordinalColor().colors(['#26959f', '#f18126', '#3b8ad8', '#60727b', '#e24b26']);
                         var chart = anychart.tagCloud();
-                        chart.title('Distribution of users by country').data(mapping).colorScale(colors).angles([-90, 0, 90]);
+                        chart.title('{{__('Distribution of users by country')}}').data(mapping).colorScale(colors).angles([-90, 0, 90]);
                         var colorRange = chart.colorRange();
                         colorRange.enabled(true).colorLineSize(15);
                         chart.container('any1');
@@ -455,7 +454,7 @@
                     "{{route('API_sankey',app()->getLocale())}}",
                     function (data) {
                         var chart = anychart.sankey();
-                        chart.title('Cash Flows');
+                        chart.title('{{__('Cash Flows')}}');
                         chart.data(data);
                         chart.padding(20, 80, 20, 40);
                         chart.curveFactor(0.2);
@@ -483,7 +482,6 @@
                                         ':' +
                                         this.income[i].value +
                                         '</li>';
-                                    console.log(this.income[i]);
                                     income += this.income[i].value;
                                 }
                                 ul += '</ul>';
@@ -511,13 +509,13 @@
                                 if (income > outcome + this.dropoff) {
                                     conflict = income - (outcome + this.dropoff);
                                     tooltip +=
-                                        '<h5>Conflict:</h5><ul><li> income is greater than outcome by ' +
+                                        '<h5>{{__('Conflict')}}:</h5><ul><li> {{__('income is greater than outcome by')}} ' +
                                         conflict +
                                         '</li></ul>';
                                 } else {
                                     conflict = outcome + this.dropoff - income;
                                     tooltip +=
-                                        '<h5>Conflict:</h5><ul><li>outcome is greater than income by ' +
+                                        '<h5>{{__('Conflict')}}:</h5><ul><li>{{__('outcome is greater than income by')}} ' +
                                         conflict +
                                         '</li></ul>';
                                 }

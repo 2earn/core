@@ -2,52 +2,47 @@
 
 namespace Core\Services;
 
+use App\Models\BFSsBalances;
+use App\Models\CashBalances;
+use App\Models\ChanceBalances;
+use App\Models\DiscountBalances;
+use App\Models\SMSBalances;
+use App\Models\TreeBalances;
+use App\Services\Balances\Balances;
+use App\Services\Balances\BalancesFacade;
 use Core\Enum\ActionEnum;
-use Core\Enum\AmoutEnum;
 use Core\Enum\BalanceOperationsEnum;
 use Core\Enum\EventBalanceOperationEnum;
 use Core\Enum\SettingsEnum;
 use Core\Interfaces\IUserBalancesRepository;
-use Core\Models\Amount;
-use Core\Models\user_balance;
+use Core\Models\BalanceOperation;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class  UserBalancesHelper
 {
-    private IUserBalancesRepository $userBalancesRepository;
-    private BalancesManager $balanceOperationmanager;
 
-    public function __construct(IUserBalancesRepository $userBalancesRepository, BalancesManager $balanceOperationmanager,)
+    public function __construct(private IUserBalancesRepository $userBalancesRepository, private BalancesManager $balanceOperationmanager)
     {
-        $this->userBalancesRepository = $userBalancesRepository;
-        $this->balanceOperationmanager = $balanceOperationmanager;
-
     }
 
     public function RegistreUserbalances(ActionEnum $actionType, $idUserUpline, $value)
     {
         switch ($actionType) {
             case ActionEnum::Signup :
-                $operationSMS = $this->balanceOperationmanager->getBalanceOperation(BalanceOperationsEnum::Achat_SMS_SMS);
-                $Count = DB::table('user_balances')->count();
-                $ref = $operationSMS->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-                $date = date('Y-m-d H:i:s');
-                $id_balance = $this->userBalancesRepository->inserUserBalancestGetId(
-                    $ref,
-                    BalanceOperationsEnum::Achat_SMS_SMS,
-                    $date,
-                    '11111111',
-                    $idUserUpline,
-                    $operationSMS->idamounts,
-                    $value
+                $soldesLine = DB::table('user_current_balance_horisentals')->where('user_id', $idUserUpline)->first();
+                SMSBalances::addLine(
+                    [
+                        'balance_operation_id' => BalanceOperationsEnum::Achat_SMS_SMS->value,
+                        'operator_id' => Balances::SYSTEM_SOURCE_ID,
+                        'beneficiary_id' => $idUserUpline,
+                        'reference' => Balances::getReference(BalanceOperationsEnum::Achat_SMS_SMS->value),
+                        'description' => BalanceOperationsEnum::Achat_SMS_SMS->name,
+                        'value' => $value,
+                        'sms_price' => null,
+                        'current_balance' => $soldesLine->sms_balance
+                    ]
                 );
-                $soldes = DB::table('calculated_userbalances')
-                    ->where('idUser', $idUserUpline)
-                    ->where('idamounts', $operationSMS->idamounts)
-                    ->first();
-
-                DB::table('user_balances')->where('id', $id_balance)
-                    ->update(['Balance' => $soldes->solde]);
                 break;
         }
     }
@@ -57,11 +52,11 @@ class  UserBalancesHelper
      * @param $idUser
      * @param array|null $params
      * @return void
-     * add balance operation in table user_balances according to the type event
+     * add balance operation in table user _balances according to the type event
      * 1 - type event Signup :
      * 11 - insert when balance operation designation id SI
-     * 12 - insert when  balance operation is By_registering_TREE
-     * 13 - insert when  balance operation isBy_registering_DB
+     * 12 - insert when  balance operation is BY_REGISTERING_TREE
+     * 13 - insert when  balance operation isBY_REGISTERING_DB
      * 14 - insert in table "usercurrentbalances" from all amounts
      * 2- type event exchangeCachToBFS
      * 21- .....
@@ -74,249 +69,210 @@ class  UserBalancesHelper
     {
         switch ($event) {
             case EventBalanceOperationEnum::Signup :
-                $SIOperation = $this->balanceOperationmanager->getAllBalanceOperation()->where("Designation", "SI");
-                $date = date('Y-m-d H:i:s');
-                foreach ($SIOperation as $SI) {
-                    $Count = DB::table('user_balances')->count();
-                    $ref = $SI->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-                    if ($SI->idamounts == AmoutEnum::CASH_BALANCE->value) {
-
-                        $user_balance = new user_balance([
-                            'ref' => $ref,
-                            'idBalancesOperation' => $SI->idBalanceOperations,
-                            'Date' => $date,
-                            'idSource' => '11111111',
-                            'idUser' => $idUser,
-                            'idamount' => $SI->idamounts,
-                            'value' => 0000.000,
-                            'WinPurchaseAmount' => "0.000",
-                            'Balance' => 0000.000
-                        ]);
-
-                        $user_balance->save();
-                    } else {
-
-                        $user_balance = new user_balance(['ref' => $ref, 'idBalancesOperation' => $SI->idBalanceOperations, 'Date' => $date,
-                            'idSource' => '11111111', 'idUser' => $idUser, 'idamount' => $SI->idamounts, 'value' => 0.000, 'WinPurchaseAmount' => "0.000", 'Balance' => 0.000]);
-
-                        $user_balance->save();
-                    }
-                }
-                $BalancesOperation = DB::table('balanceoperations')->where("idBalanceOperations", "=", BalanceOperationsEnum::By_registering_TREE)->first();
-                $seting = DB::table('settings')->where("idSETTINGS", "=", SettingsEnum::discount_By_registering->value)->first();
-                $Count = DB::table('user_balances')->count();
-                $ref = $BalancesOperation->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-
-                $user_balance = new user_balance(
-                    [
-                        'ref' => $ref,
-                        'idBalancesOperation' => BalanceOperationsEnum::By_registering_TREE,
-                        'Date' => $date,
-                        'idSource' => '11111111',
-                        'idUser' => $idUser,
-                        'idamount' => $BalancesOperation->idamounts,
-                        'value' => $seting->IntegerValue,
-                        'WinPurchaseAmount' => "0.000"
-                    ]
-                );
-                $user_balance->save();
-                $BalancesOperation = DB::table('balanceoperations')->where("idBalanceOperations", "=", BalanceOperationsEnum::By_registering_DB)->first();
-                $seting = DB::table('settings')->where("idSETTINGS", "=", SettingsEnum::token_By_registering->value)->first();
-                $Count = DB::table('user_balances')->count();
-                $ref = $BalancesOperation->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-                $user_balance = new user_balance(
-                    [
-                        'ref' => $ref,
-                        'idBalancesOperation' => BalanceOperationsEnum::By_registering_DB,
-                        'Date' => $date, 'idSource' => '11111111',
-                        'idUser' => $idUser,
-                        'idamount' => $BalancesOperation->idamounts,
-                        'value' => $seting->IntegerValue,
-                        'WinPurchaseAmount' => "0.000"
-                    ]
-                );
-                $user_balance->save();
-                //insert in table "usercurrentbalances"
-                $amounts = Amount::all();
-                foreach ($amounts as $amount) {
-                    if ($amount->idamounts == AmoutEnum::CASH_BALANCE->value) {
-                        DB::table('usercurrentbalances')->insert([
-                            'idUser' => $idUser,
-                            'idamounts' => $amount->idamounts,
-                            'value' => 0.000,
-                        ]);
-                    } else {
-                        DB::table('usercurrentbalances')->insert([
-                            'idUser' => $idUser,
-                            'idamounts' => $amount->idamounts,
-                            'value' => 0.000,
-                        ]);
-                    }
+                $initialDiscount = getSettingIntegerParam('INITIAL_DISCOUNT', 0);
+                $initialTree = getSettingIntegerParam('INITIAL_TREE', 0);
+                $initialChance = getSettingIntegerParam('INITIAL_CHANCE', 0);
+                DB::beginTransaction();
+                try {
+                    DiscountBalances::addLine([
+                        'balance_operation_id' => BalanceOperationsEnum::BY_REGISTERING_DB->value,
+                        'operator_id' => Balances::SYSTEM_SOURCE_ID,
+                        'beneficiary_id' => $idUser,
+                        'reference' => BalancesFacade::getReference(BalanceOperationsEnum::BY_REGISTERING_DB->value),
+                        'description' => $initialDiscount . ' $ as welcome gift',
+                        'value' => $initialDiscount,
+                        'current_balance' => $initialDiscount
+                    ]);
+                    TreeBalances::addLine([
+                        'balance_operation_id' => BalanceOperationsEnum::BY_REGISTERING_TREE->value,
+                        'operator_id' => Balances::SYSTEM_SOURCE_ID,
+                        'beneficiary_id' => $idUser,
+                        'reference' => BalancesFacade::getReference(BalanceOperationsEnum::BY_REGISTERING_TREE->value),
+                        'description' => BalanceOperationsEnum::BY_REGISTERING_TREE->name,
+                        'value' => $initialTree . ' $ as welcome gift',
+                        'current_balance' => $initialTree
+                    ]);
+                    ChanceBalances::addLine([
+                        'balance_operation_id' => BalanceOperationsEnum::INITIAL_CHANE->value,
+                        'operator_id' => Balances::SYSTEM_SOURCE_ID,
+                        'beneficiary_id' => $idUser,
+                        'reference' => BalancesFacade::getReference(BalanceOperationsEnum::INITIAL_CHANE->value),
+                        'description' => BalanceOperationsEnum::INITIAL_CHANE->name,
+                        'value' => $initialChance . ' $ as welcome gift',
+                        'current_balance' => $initialChance
+                    ]);
+                    DB::commit();
+                } catch (\Exception $exception) {
+                    DB::rollBack();
+                    Log::error($exception->getMessage());
                 }
                 break;
             case EventBalanceOperationEnum::ExchangeCashToBFS :
                 if (($params) == null) dd('throw exception');
-                $BalancesOperation = DB::table('balanceoperations')->where("idBalanceOperations",
-                    BalanceOperationsEnum::CASH_TO_BFS_CB)->first();
-
-                $date = date('Y-m-d H:i:s');
-                $Count = DB::table('user_balances')->count();
-                $ref = $BalancesOperation->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-                $user_balance = new user_balance(
-                    ['ref' => $ref,
-                        'idBalancesOperation' => BalanceOperationsEnum::CASH_TO_BFS_CB,
-                        'Date' => $date,
-                        'idSource' => $idUser,
-                        'idUser' => $idUser,
-                        'idamount' => $BalancesOperation->idamounts,
+                $ref = BalancesFacade::getReference(BalanceOperationsEnum::CASH_TO_BFS_CB->value);
+                DB::beginTransaction();
+                try {
+                    CashBalances::addLine([
+                        'balance_operation_id' => BalanceOperationsEnum::CASH_TO_BFS_CB->value,
+                        'operator_id' => $idUser,
+                        'beneficiary_id' => $idUser,
+                        'reference' => $ref,
+                        'description' => $params["montant"] . ' Transfered to my BFS',
                         'value' => $params["montant"],
-                        'WinPurchaseAmount' => "0.000", 'Balance' => $params["newSoldeCashBalance"]]
-                );
-                $user_balance->save();
-                $BalancesOperation = DB::table('balanceoperations')->where("idBalanceOperations", BalanceOperationsEnum::From_CASH_Balance_BFS)->first();
-                $Count = DB::table('user_balances')->count();
-                $ref = $BalancesOperation->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-                $user_balance = new user_balance(
-                    ['ref' => $ref, 'idBalancesOperation' => BalanceOperationsEnum::From_CASH_Balance_BFS,
-                        'Date' => $date, 'idSource' => $idUser, 'idUser' => $idUser, 'idamount' => $BalancesOperation->idamounts, 'value' => $params["montant"], 'WinPurchaseAmount' => "0.000"
-                        , 'Balance' => $params["newSoldeBFS"], 'PrixUnitaire' => 1]
-                );
-                $user_balance->save();
+                        'current_balance' => $params["newSoldeCashBalance"]
+                    ]);
+                    $balances = Balances::getStoredUserBalances($idUser);;
 
+                    BFSsBalances::addLine([
+                        'balance_operation_id' => BalanceOperationsEnum::From_CASH_Balance_BFS->value,
+                        'operator_id' => $idUser,
+                        'beneficiary_id' => $idUser,
+                        'reference' => $ref,
+                        'percentage' => BFSsBalances::BFS_100,
+                        'description' => $params["montant"] . ' Transfered from my CB',
+                        'value' => $params["montant"],
+                        'current_balance' => $balances->getBfssBalance(BFSsBalances::BFS_100) + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::From_CASH_Balance_BFS->value) * $params["montant"])
+                    ]);
+                    DB::commit();
+                } catch (\Exception $exception) {
+                    DB::rollBack();
+                    Log::error($exception->getMessage());
+                }
                 break;
             case EventBalanceOperationEnum::ExchangeBFSToSMS :
 
                 if (($params) == null) dd('throw exception');
 
-                $BalancesOperation = DB::table('balanceoperations')->where("idBalanceOperations",
-                    BalanceOperationsEnum::BFS_TO_SMSn_BFS)->first();
-                $date = date('Y-m-d H:i:s');
-                $Count = DB::table('user_balances')->count();
-                $ref = $BalancesOperation->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-                $user_balance = new user_balance(['ref' => $ref, 'idBalancesOperation' => BalanceOperationsEnum::BFS_TO_SMSn_BFS, 'Date' => $date, 'idSource' => $idUser, 'idUser' => $idUser,
-                    'idamount' => $BalancesOperation->idamounts, 'value' => $params["montant"], 'WinPurchaseAmount' => "0.000", 'Balance' => $params["newSoldeCashBalance"]]);
-                $user_balance->save();
+                DB::beginTransaction();
+                try {
+                    $ref = BalancesFacade::getReference(BalanceOperationsEnum::BFS_TO_SM_SN_BFS->value);
+                    $oldSMSSOLD = Balances::getStoredUserBalances($idUser, "sms_balance");
+                    $seting = DB::table('settings')->where("idSETTINGS", "=", SettingsEnum::Prix_SMS->value)->first();
+                    $prix_sms = $seting->DecimalValue ?? 1.5;
+                    $balances = Balances::getStoredUserBalances($idUser);;
 
-                $BalancesOperation = DB::table('balanceoperations')->where("idBalanceOperations", BalanceOperationsEnum::From_BFS_Balance_SMS)->first();
-                $Count = DB::table('user_balances')->count();
-                $ref = $BalancesOperation->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-                $user_balance = new user_balance();
-                $user_balance->save(['ref' => $ref, 'idBalancesOperation' => BalanceOperationsEnum::From_BFS_Balance_SMS,
-                    'Date' => $date, 'idSource' => $idUser, 'idUser' => $idUser, 'idamount' => $BalancesOperation->idamounts, 'value' => $params["montant"], 'WinPurchaseAmount' => "0.000"
-                    , 'Balance' => $params["newSoldeBFS"], 'PrixUnitaire' => $params["PrixSms"]]);
+                    BFSsBalances::addLine([
+                        'balance_operation_id' => BalanceOperationsEnum::BFS_TO_SM_SN_BFS->value,
+                        'operator_id' => $idUser,
+                        'beneficiary_id' => $idUser,
+                        'reference' => $ref,
+                        'percentage' => BFSsBalances::BFS_100,
+                        'description' => 'perchase of ' . $params["montant"] . ' SMS',
+                        'value' => $params["montant"],
+                        'current_balance' => $balances->getBfssBalance(BFSsBalances::BFS_100) + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::BFS_TO_SM_SN_BFS->value) * $params["montant"])
+                    ]);
+                    $value = intdiv($params["montant"], $prix_sms);
+                    SMSBalances::addLine([
+                        'balance_operation_id' => BalanceOperationsEnum::FROM_BFS_BALANCE_SMS->value,
+                        'operator_id' => $idUser,
+                        'beneficiary_id' => $idUser,
+                        'reference' => $ref,
+                        'description' => 'perchase of ' . $value . ' SMS',
+                        'value' => $value,
+                        'sms_price' => $prix_sms,
+                        'current_balance' => $oldSMSSOLD + $value
+                    ]);
+
+                    DB::commit();
+                } catch (\Exception $exception) {
+                    DB::rollBack();
+                    Log::error($exception->getMessage());
+                }
                 break;
             case EventBalanceOperationEnum::SendSMS:
-                $BalancesOperation = DB::table('balanceoperations')->where("idBalanceOperations",
-                    BalanceOperationsEnum::EnvoyeSMS)->first();
-                $seting = DB::table('settings')->where("idSETTINGS", "=", SettingsEnum::Prix_SMS->value)->first();
-                $prix_sms = $seting->IntegerValue;
-                $date = date('Y-m-d H:i:s');
-                $Count = DB::table('user_balances')->count();
-                $ref = $BalancesOperation->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-                $user_balance = new user_balance([
-                    'ref' => $ref,
-                    'idBalancesOperation' => $BalancesOperation->idBalanceOperations,
-                    'Date' => $date,
-                    'idSource' => $idUser,
-                    'idUser' => $idUser,
-                    'idamount' => $BalancesOperation->idamounts,
-                    'value' => $prix_sms,
-                    'WinPurchaseAmount' => "0.000",
-                    'PrixUnitaire' => $prix_sms
-                ]);
-                $user_balance->save();
-
+                $ref = BalancesFacade::getReference(BalanceOperationsEnum::Achat_SMS_SMS->value);
+                $oldSMSSOLD = Balances::getStoredUserBalances($idUser, "sms_balance");
+                SMSBalances::addLine(
+                    [
+                        'balance_operation_id' => BalanceOperationsEnum::Achat_SMS_SMS->value,
+                        'operator_id' => $idUser,
+                        'beneficiary_id' => $idUser,
+                        'reference' => $ref,
+                        'description' => BalanceOperationsEnum::Achat_SMS_SMS->name,
+                        'value' => 1,
+                        'current_balance' => $oldSMSSOLD--
+                    ]
+                );
                 break;
             case EventBalanceOperationEnum::SendToPublicFromCash:
-                ///idSource is the sender
-                /// idUser is the recipient : we will retrieve it from the table params
                 if (($params) == null) dd('throw exception');
                 $soldeSender = $this->balanceOperationmanager->getBalances($idUser);
                 if (floatval($soldeSender->soldeCB) < floatval($params['montant'])) return;
                 $soldeRecipient = $this->balanceOperationmanager->getBalances($params['recipient']);
                 $newSoldeBFSRecipient = floatval($soldeRecipient->soldeBFS) + floatval($params['montant']);
                 $newSoldeCashSender = floatval($soldeSender->soldeCB) - floatval($params['montant']);
-                $BalancesOperation = DB::table('balanceoperations')->where("idBalanceOperations", BalanceOperationsEnum::From_public_User_BFS)->first();
-                $date = date('Y-m-d H:i:s');
-                $Count = DB::table('user_balances')->count();
-                $ref = $BalancesOperation->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-                $user_balance = new  user_balance([
-                    'ref' => $ref,
-                    'idBalancesOperation' => $BalancesOperation->idBalanceOperations,
-                    'Date' => $date,
-                    'idSource' => $idUser,
-                    'idUser' => $params['recipient'],
-                    'idamount' => $BalancesOperation->idamounts,
-                    'value' => $params["montant"],
-                    'WinPurchaseAmount' => "0.000",
-                    'Balance' => $newSoldeBFSRecipient
-                ]);
-                $user_balance->save();
 
-                $BalancesOperation = DB::table('balanceoperations')->where("idBalanceOperations", BalanceOperationsEnum::to_Other_Users_public_CB)->first();
-                $Count = DB::table('user_balances')->count();
-                $ref = $BalancesOperation->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-                $user_balance = new  user_balance(
-                    [
-                        'ref' => $ref,
-                        'idBalancesOperation' => $BalancesOperation->idBalanceOperations,
-                        'Date' => $date,
-                        'idSource' => $idUser,
-                        'idUser' => $idUser,
-                        'idamount' => $BalancesOperation->idamounts,
+                DB::beginTransaction();
+                try {
+                    $ref = BalancesFacade::getReference(BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_CB->value);
+
+                    CashBalances::addLine([
+                        'balance_operation_id' => BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_CB->value,
+                        'operator_id' => $idUser,
+                        'beneficiary_id' => $idUser,
+                        'reference' => $ref,
+                        'description' => BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_CB->name,
                         'value' => $params["montant"],
-                        'WinPurchaseAmount' => "0.000",
-                        'Balance' => $newSoldeCashSender
-                    ]
-                );
-                $user_balance->save();
+                        'current_balance' => $newSoldeCashSender
+                    ]);
 
+                    $balances = Balances::getStoredUserBalances($params['recipient']);
+                    BFSsBalances::addLine([
+                        'balance_operation_id' => BalanceOperationsEnum::FROM_PUBLIC_USER_BFS->value,
+                        'operator_id' => $idUser,
+                        'beneficiary_id' => $params['recipient'],
+                        'reference' => $ref,
+                        'percentage' => BFSsBalances::BFS_100,
+                        'description' => BalanceOperationsEnum::FROM_PUBLIC_USER_BFS->name,
+                        'value' => $params["montant"],
+                        'current_balance' => $balances->getBfssBalance(BFSsBalances::BFS_100) + BalanceOperation::getMultiplicator(BalanceOperationsEnum::FROM_PUBLIC_USER_BFS->value) * $newSoldeBFSRecipient
+                    ]);
+
+                    DB::commit();
+                } catch (\Exception $exception) {
+                    DB::rollBack();
+                    Log::error($exception->getMessage());
+                }
                 break;
             case EventBalanceOperationEnum::SendToPublicFromBFS:
-                ///idSource is the sender
-                /// idUser is the recipient : we will retrieve it from the table params
                 if (($params) == null) dd('throw exception');
                 $soldeSender = $this->balanceOperationmanager->getBalances($idUser);
                 if (floatval($soldeSender->soldeBFS) < floatval($params['montant'])) return;
                 $soldeRecipient = $this->balanceOperationmanager->getBalances($params['recipient']);
                 $newSoldeBFSRecipient = floatval($soldeRecipient->soldeBFS) + floatval($params['montant']);
                 $newSoldeCashSender = floatval($soldeSender->soldeBFS) - floatval($params['montant']);
-                $BalancesOperation = DB::table('balanceoperations')->where("idBalanceOperations", BalanceOperationsEnum::From_public_User_BFS)->first();
-                $date = date('Y-m-d H:i:s');
-                $Count = DB::table('user_balances')->count();
-                $ref = $BalancesOperation->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-                $user_balance = new user_balance(
-                    [
-                        'ref' => $ref,
-                        'idBalancesOperation' => $BalancesOperation->idBalanceOperations,
-                        'Date' => $date,
-                        'idSource' => $idUser,
-                        'idUser' => $params['recipient'],
-                        'idamount' => $BalancesOperation->idamounts,
-                        'value' => $params["montant"],
-                        'WinPurchaseAmount' => "0.000",
-                        'Balance' => $newSoldeBFSRecipient
-                    ]
-                );
-                $user_balance->save();
 
-                $BalancesOperation = DB::table('balanceoperations')->where("idBalanceOperations", BalanceOperationsEnum::to_Other_Users_public_BFS)->first();
-                $Count = DB::table('user_balances')->count();
-                $ref = $BalancesOperation->idBalanceOperations . date('ymd') . substr((10000 + $Count + 1), 1, 4);
-                $user_balance = new user_balance(
-                    [
-                        'ref' => $ref,
-                        'idBalancesOperation' => $BalancesOperation->idBalanceOperations,
-                        'Date' => $date,
-                        'idSource' => $idUser,
-                        'idUser' => $idUser,
-                        'idamount' => $BalancesOperation->idamounts,
+                DB::beginTransaction();
+                try {
+                    $ref = BalancesFacade::getReference(BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_BFS->value);
+                    $balances = Balances::getStoredUserBalances($idUser);
+
+                    BFSsBalances::addLine([
+                        'balance_operation_id' => BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_BFS->value,
+                        'operator_id' => $idUser,
+                        'beneficiary_id' => $idUser,
+                        'reference' => $ref,
+                        'percentage' => BFSsBalances::BFS_100,
+                        'description' => BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_BFS->name,
                         'value' => $params["montant"],
-                        'WinPurchaseAmount' => "0.000",
-                        'Balance' => $newSoldeCashSender
-                    ]
-                );
-                $user_balance->save();
+                        'current_balance' => $balances->getBfssBalance(BFSsBalances::BFS_100) + BalanceOperation::getMultiplicator(BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_BFS->value) * $newSoldeCashSender
+                    ]);
+                    $balances = Balances::getStoredUserBalances($params['recipient']);
+                    BFSsBalances::addLine([
+                        'balance_operation_id' => BalanceOperationsEnum::FROM_PUBLIC_USER_BFS->value,
+                        'operator_id' => $idUser,
+                        'beneficiary_id' => $params['recipient'],
+                        'percentage' => BFSsBalances::BFS_100,
+                        'reference' => $ref,
+                        'description' => BalanceOperationsEnum::FROM_PUBLIC_USER_BFS->name,
+                        'value' => $params["montant"],
+                        'current_balance' => $balances->getBfssBalance(BFSsBalances::BFS_100) + BalanceOperation::getMultiplicator(BalanceOperationsEnum::FROM_PUBLIC_USER_BFS->value) * $newSoldeBFSRecipient
+                    ]);
+                    DB::commit();
+                } catch (\Exception $exception) {
+                    DB::rollBack();
+                    Log::error($exception->getMessage());
+                }
                 break;
         }
     }
