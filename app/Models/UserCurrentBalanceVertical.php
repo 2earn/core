@@ -12,6 +12,7 @@ class UserCurrentBalanceVertical extends Model
         'user_id',
         'user_id_auto',
         'current_balance',
+        'previous_balance',
         'balance_id',
         'last_operation_id',
         'last_operation_date',
