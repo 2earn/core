@@ -13,7 +13,6 @@ class UserCurrentBalanceHorisontal extends Model
         'user_id_auto',
         'cash_balance',
         'bfss_balance',
-        'cash_balance',
         'discount_balance',
         'tree_balance',
         'sms_balance',

@@ -79,7 +79,7 @@
                                 {
                                     "targets": [5],
                                     render: function (data, type, row) {
-                                        if (data.indexOf('+') == -1)
+                                        if (data < 0)
                                             return '<span class="badge bg-danger con fs-14">' + data + '</span>';
                                         else
                                             return '<span class="badge bg-success con fs-14">' + data + '</span>';
