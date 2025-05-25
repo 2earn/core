@@ -89,7 +89,7 @@ class  UserBalancesHelper
                         'beneficiary_id' => $idUser,
                         'reference' => BalancesFacade::getReference(BalanceOperationsEnum::BY_REGISTERING_TREE->value),
                         'description' => BalanceOperationsEnum::BY_REGISTERING_TREE->name,
-                        'value' => $initialTree . ' $ as welcome gift',
+                        'value' => $initialTree,
                         'current_balance' => $initialTree
                     ]);
                     ChanceBalances::addLine([
@@ -98,11 +98,12 @@ class  UserBalancesHelper
                         'beneficiary_id' => $idUser,
                         'reference' => BalancesFacade::getReference(BalanceOperationsEnum::INITIAL_CHANE->value),
                         'description' => BalanceOperationsEnum::INITIAL_CHANE->name,
-                        'value' => $initialChance . ' $ as welcome gift',
+                        'value' => $initialChance,
                         'current_balance' => $initialChance
                     ]);
                     DB::commit();
                 } catch (\Exception $exception) {
+                    dd($exception);
                     DB::rollBack();
                     Log::error($exception->getMessage());
                 }
