@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
 use Core\Enum\BalanceOperationsEnum;
-use Core\Enum\ChanceTypeEnum;
 use Core\Enum\StatusRequest;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
@@ -45,7 +44,7 @@ class UserBalancesValueUpdater extends Seeder
             Log::notice('tree_balance : idUser  : ' . $user->idUser . ' Created  : ' . $user->created_at);
 
             $userCurrentBalancehorisontal = Balances::getStoredUserBalances($user->idUser);
-            $userCurrentBalancehorisontal->update(['chances_balance' => 0]);
+            $userCurrentBalancehorisontal->update(['chances_balance' => []]);
 
             ChanceBalances::addLine([
                 'balance_operation_id' => BalanceOperationsEnum::INITIAL_CHANE->value,

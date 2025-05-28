@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
 use Core\Enum\BalanceEnum;
-use Core\Enum\ChanceTypeEnum;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -174,8 +173,12 @@ class Balances
 
     public static function getTotalChance($userCurrentBalancehorisontal)
     {
-        // TO DO
-        return $userCurrentBalancehorisontal?->chances_balance	;
+        $sum = 0;
+        $chances=json_decode($userCurrentBalancehorisontal->chances_balance);
+        foreach ($chances as $valueItem) {
+            $sum = $sum + $valueItem->value;;
+        }
+        return $sum;
     }
 
     public static function updateCalculatedSold($idUser, $type = BalanceEnum::CASH, $value)

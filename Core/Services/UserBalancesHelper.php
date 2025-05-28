@@ -12,7 +12,6 @@ use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
 use Core\Enum\ActionEnum;
 use Core\Enum\BalanceOperationsEnum;
-use Core\Enum\ChanceTypeEnum;
 use Core\Enum\EventBalanceOperationEnum;
 use Core\Enum\SettingsEnum;
 use Core\Interfaces\IUserBalancesRepository;

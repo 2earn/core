@@ -26,7 +26,6 @@ class BfssObserver
         $rc = $setting[1];
         $balances = Balances::getStoredUserBalances($bFSsBalances->beneficiary_id);
         if ($bFSsBalances->percentage == "100.00") {
-
             DiscountBalances::addLine(                [
                     'balance_operation_id' => BalanceOperationsEnum::FROM_BFS->value,
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
