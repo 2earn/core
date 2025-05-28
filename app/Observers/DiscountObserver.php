@@ -12,12 +12,12 @@ class DiscountObserver
 {
     public function created(DiscountBalances $discountBalances)
     {
-            $userCurrentBalancehorisontal = Balances::getStoredUserBalances($discountBalances->beneficiary_id);
-            $newDiscountBalanceHorisental = $newDiscountBalanceVertical= $userCurrentBalancehorisontal->discount_balance +BalanceOperation::getMultiplicator($discountBalances->balance_operation_id)* $discountBalances->value;
+        $userCurrentBalancehorisontal = Balances::getStoredUserBalances($discountBalances->beneficiary_id);
+        $newDiscountBalanceHorisental = $newDiscountBalanceVertical = $userCurrentBalancehorisontal->discount_balance + BalanceOperation::getMultiplicator($discountBalances->balance_operation_id) * $discountBalances->value;
 
-            $userCurrentBalancehorisontal->update([Balances::DISCOUNT_BALANCE => $newDiscountBalanceHorisental]);
+        $userCurrentBalancehorisontal->update([Balances::DISCOUNT_BALANCE => $newDiscountBalanceHorisental]);
 
-            $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $discountBalances->beneficiary_id)
+        $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $discountBalances->beneficiary_id)
             ->where('balance_id', BalanceEnum::CHANCE)
             ->first();
         $userCurrentBalanceVertical->update(

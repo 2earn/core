@@ -24,8 +24,8 @@ class TreeObserver
 
         $userCurrentBalanceVertical->update(
             [
-                'current_balance' => $userCurrentBalanceVertical->tree_balance + $newTreeBalanceVertical,
-                'previous_balance' => $userCurrentBalanceVertical->tree_balance,
+                'current_balance' => $userCurrentBalanceVertical->current_balance + $newTreeBalanceVertical,
+                'previous_balance' => $userCurrentBalanceVertical->current_balance,
                 'last_operation_id' => $treeBalances->id,
                 'last_operation_value' => $treeBalances->value,
                 'last_operation_date' => $treeBalances->created_at,
