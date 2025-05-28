@@ -85,6 +85,7 @@ class Balances
         }
         return UserCurrentBalanceHorisontal::where('user_id', $idUser)->pluck($balances)->first();
     }
+
     public static function getStoredCash($idUser)
     {
         return Balances::getStoredUserBalances($idUser, 'cash_balances');
@@ -167,8 +168,21 @@ class Balances
 
     public static function getTotalBfs($userCurrentBalancehorisontal)
     {
-       return $userCurrentBalancehorisontal?->getBfssBalance(BFSsBalances::BFS_100) + $userCurrentBalancehorisontal?->getBfssBalance(BFSsBalances::BFS_50);
+        return $userCurrentBalancehorisontal?->getBfssBalance(BFSsBalances::BFS_100) + $userCurrentBalancehorisontal?->getBfssBalance(BFSsBalances::BFS_50);
     }
+
+    public static function getTotalChance($userCurrentBalancehorisontal)
+    {
+        $sum = 0;
+        if (!is_null($userCurrentBalancehorisontal)) {
+            $chances = json_decode($userCurrentBalancehorisontal->chances_balance);
+            foreach ($chances as $valueItem) {
+                $sum = $sum + $valueItem->value;;
+            }
+        }
+        return $sum;
+    }
+
     public static function updateCalculatedSold($idUser, $type = BalanceEnum::CASH, $value)
     {
         switch ($type) {

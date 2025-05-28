@@ -4,12 +4,12 @@ namespace App\Observers;
 
 use App\Models\BFSsBalances;
 use App\Models\DiscountBalances;
+use App\Models\UserCurrentBalanceVertical;
 use App\Services\Balances\Balances;
 use Core\Enum\BalanceEnum;
 use Core\Enum\BalanceOperationsEnum;
 use Core\Models\BalanceOperation;
 use Core\Models\Setting;
-use App\Models\UserCurrentBalanceVertical;
 use Core\Services\BalancesManager;
 
 
@@ -21,12 +21,12 @@ class BfssObserver
 
     public function created(BFSsBalances $bFSsBalances)
     {
-            $setting = Setting::WhereIn('idSETTINGS', ['22', '23'])->orderBy('idSETTINGS')->pluck('IntegerValue');
-            $md = $setting[0];
-            $rc = $setting[1];
-            $balances = Balances::getStoredUserBalances($bFSsBalances->beneficiary_id);
-            DiscountBalances::addLine(
-                [
+        $setting = Setting::WhereIn('idSETTINGS', ['22', '23'])->orderBy('idSETTINGS')->pluck('IntegerValue');
+        $md = $setting[0];
+        $rc = $setting[1];
+        $balances = Balances::getStoredUserBalances($bFSsBalances->beneficiary_id);
+        if ($bFSsBalances->percentage == "100.00") {
+            DiscountBalances::addLine(                [
                     'balance_operation_id' => BalanceOperationsEnum::FROM_BFS->value,
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
                     'beneficiary_id' => $bFSsBalances->beneficiary_id,
@@ -37,17 +37,18 @@ class BfssObserver
                 ]
             );
 
-            $userCurrentBalancehorisontal = Balances::getStoredUserBalances($bFSsBalances->beneficiary_id);
+        }
+        $userCurrentBalancehorisontal = Balances::getStoredUserBalances($bFSsBalances->beneficiary_id);
 
-            $newBfssBalanceVertical = floatval($userCurrentBalancehorisontal->getBfssBalance($bFSsBalances->percentage)) + ( BalanceOperation::getMultiplicator($bFSsBalances->balance_operation_id) * $bFSsBalances->value);
+        $newBfssBalanceVertical = floatval($userCurrentBalancehorisontal->getBfssBalance($bFSsBalances->percentage)) + (BalanceOperation::getMultiplicator($bFSsBalances->balance_operation_id) * $bFSsBalances->value);
 
-            $userCurrentBalancehorisontal->setBfssBalance($bFSsBalances->percentage, $newBfssBalanceVertical);
+        $userCurrentBalancehorisontal->setBfssBalance($bFSsBalances->percentage, $newBfssBalanceVertical);
 
-            $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $bFSsBalances->beneficiary_id)
+        $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $bFSsBalances->beneficiary_id)
             ->where('balance_id', BalanceEnum::BFS)
             ->first();
 
-            $userCurrentBalanceVertical->update(
+        $userCurrentBalanceVertical->update(
             [
                 'current_balance' => $userCurrentBalanceVertical->current_balance + $newBfssBalanceVertical,
                 'previous_balance' => $userCurrentBalanceVertical->current_balance,

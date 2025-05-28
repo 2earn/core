@@ -13,10 +13,10 @@ class SmsObserver
 
     public function created(SmsBalances $smsBalances)
     {
-            $userCurrentBalancehorisontal = Balances::getStoredUserBalances($smsBalances->beneficiary_id);
-            $newSmsBalanceHorisental = $newSmsBalanceVertical = $userCurrentBalancehorisontal->sms_balance + BalanceOperation::getMultiplicator($smsBalances->balance_operation_id) * $smsBalances->value;
+        $userCurrentBalancehorisontal = Balances::getStoredUserBalances($smsBalances->beneficiary_id);
+        $newSmsBalanceHorisental = $newSmsBalanceVertical = $userCurrentBalancehorisontal->sms_balance + BalanceOperation::getMultiplicator($smsBalances->balance_operation_id) * $smsBalances->value;
 
-            $userCurrentBalancehorisontal->update(['sms_balance' => $newSmsBalanceHorisental]);
+        $userCurrentBalancehorisontal->update(['sms_balance' => $newSmsBalanceHorisental]);
 
         $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $smsBalances->beneficiary_id)
             ->where('balance_id', BalanceEnum::CHANCE)
@@ -24,8 +24,8 @@ class SmsObserver
 
         $userCurrentBalanceVertical->update(
             [
-                'current_balance' => $userCurrentBalanceVertical->sms_balance + $newSmsBalanceVertical,
-                'previous_balance' => $userCurrentBalanceVertical->sms_balance,
+                'current_balance' => $userCurrentBalanceVertical->current_balance + $newSmsBalanceVertical,
+                'previous_balance' => $userCurrentBalanceVertical->current_balance,
                 'last_operation_id' => $smsBalances->id,
                 'last_operation_value' => $smsBalances->value,
                 'last_operation_date' => $smsBalances->created_at,

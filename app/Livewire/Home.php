@@ -94,7 +94,6 @@ class Home extends Component
         $this->treeBalance = $solde->soldeTree;
         $this->chanceBalance = $solde->soldeChance;
         $this->SMSBalance = intval($solde->soldeSMS);
-
         $this->maxActions = intval($solde->soldeCB / actualActionValue(getSelledActions(true), false));
         $solde = $balancesManager->getCurrentBalance($user->idUser);
         $usermetta_info = collect(DB::table('metta_users')->where('idUser', $user->idUser)->first());

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
 
 class UserCurrentBalanceHorisontal extends Model
 {
@@ -39,13 +38,13 @@ class UserCurrentBalanceHorisontal extends Model
     {
         $bfss_balance = $this->bfss_balance;
         $changed = false;
-        foreach ($bfss_balance as  &$item) {
+        foreach ($bfss_balance as &$item) {
             if ($type === $item['type']) {
-                $item['value'] =  $amount;
+                $item['value'] = $amount;
                 $changed = true;
-                } else {
+            } else {
                 $item['value'] = $item['value'];
-                }
+            }
 
         }
         if (!$changed) {
@@ -56,4 +55,40 @@ class UserCurrentBalanceHorisontal extends Model
             $this->save();
         }
     }
+
+    public function getChancesBalance($type)
+    {
+        if (is_array($this->chances_balance)) {
+            foreach ($this->chances_balance as $item) {
+                if ($type == $item['pool_id']) {
+                    return $item['value'];
+                }
+            }
+        }
+        return 0;
+    }
+
+    public function setChancesBalance($type, $amount)
+    {
+        $chances_balance = json_decode($this->chances_balance, true);
+        $changed = false;
+        foreach ($chances_balance as &$item) {
+            if ($type === $item['pool_id']) {
+                $item['value'] = $amount;
+                $changed = true;
+            } else {
+                $item['value'] = $item['value'];
+            }
+
+        }
+        if (!$changed) {
+            $chances_balance[] = ['pool_id' => $type, 'value' => $amount];
+        }
+        $this->chances_balance = $chances_balance;
+        if ($this->isDirty('chances_balance')) {
+            $this->save();
+        }
+    }
+
+
 }

@@ -12,15 +12,10 @@ class ChanceObserver
 {
     public function created(ChanceBalances $chanceBalances)
     {
-            $userCurrentBalancehorisontal = Balances::getStoredUserBalances($chanceBalances->beneficiary_id);
-            $old = json_decode($chanceBalances->chance_balance);
-            if (array_key_exists($chanceBalances->persontage, $old)) {
-                $old[$chanceBalances->persontage] = $newChanceBalanceVertical = $old[$chanceBalances->persontage] + BalanceOperation::getMultiplicator($chanceBalances->balance_operation_id) * $chanceBalances->value;
-            } else {
-                $old[$chanceBalances->persontage] = $newChanceBalanceVertical = BalanceOperation::getMultiplicator($chanceBalances->balance_operation_id) * $chanceBalances->value;
-            }
-            $newChanceBalanceHorisental = json_encode($old);
-            $userCurrentBalancehorisontal->update(['chance_balance' => $newChanceBalanceHorisental]);
+        $userCurrentBalancehorisontal = Balances::getStoredUserBalances($chanceBalances->beneficiary_id);
+
+        $newChanceBalanceHorisental = $newChanceBalanceVertical = $userCurrentBalancehorisontal->getChancesBalance($chanceBalances->pool_id) + BalanceOperation::getMultiplicator($chanceBalances->balance_operation_id) * $chanceBalances->value;
+        $userCurrentBalancehorisontal->setChancesBalance($chanceBalances->pool_id, $chanceBalances->current_balance);
 
         $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $chanceBalances->beneficiary_id)
             ->where('balance_id', BalanceEnum::CHANCE)
@@ -28,7 +23,7 @@ class ChanceObserver
 
         $userCurrentBalanceVertical->update(
             [
-                'current_balance' => $userCurrentBalanceVertical->current_balance + $newChanceBalanceVertical,
+                'current_balance' => $userCurrentBalanceVertical->current_balance + $newChanceBalanceHorisental,
                 'previous_balance' => $userCurrentBalanceVertical->current_balance,
                 'last_operation_id' => $chanceBalances->id,
                 'last_operation_value' => $chanceBalances->value,
