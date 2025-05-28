@@ -282,6 +282,7 @@
                                 % <span>{{ (int)$chanceBalance}} <small
                                         class="text-muted fs-13 text-muted">.{{$chanceBalance - (int)$chanceBalance}}</small></span>
                             </h4>
+                            <a href="#" class="text-decoration-none">{{ __('Will be available soon') }}</a>
                             <a href="{{route('user_balance_tree' , app()->getLocale() )}} "
                                class="text-decoration-underline d-none">{{ __('see_details') }}</a>
                         </div>
@@ -313,6 +314,7 @@
                             <h4 class="fs-22 fw-semibold ff-secondary mb-4">
                                 <span class="counter-value" data-target="{{$chanceBalance}}">{{$chanceBalance}}</span>
                             </h4>
+                            <a href="#" class="text-decoration-none">{{ __('Will be available soon') }}</a>
                             <a href="{{route('user_balance_chance' , app()->getLocale() )}} "
                                class="text-decoration-underline d-none">{{ __('see_details') }}</a>
                         </div>
