@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
 use Core\Enum\BalanceEnum;
+use Core\Enum\ChanceTypeEnum;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -85,6 +86,7 @@ class Balances
         }
         return UserCurrentBalanceHorisontal::where('user_id', $idUser)->pluck($balances)->first();
     }
+
     public static function getStoredCash($idUser)
     {
         return Balances::getStoredUserBalances($idUser, 'cash_balances');
@@ -167,8 +169,15 @@ class Balances
 
     public static function getTotalBfs($userCurrentBalancehorisontal)
     {
-       return $userCurrentBalancehorisontal?->getBfssBalance(BFSsBalances::BFS_100) + $userCurrentBalancehorisontal?->getBfssBalance(BFSsBalances::BFS_50);
+        return $userCurrentBalancehorisontal?->getBfssBalance(BFSsBalances::BFS_100) + $userCurrentBalancehorisontal?->getBfssBalance(BFSsBalances::BFS_50);
     }
+
+    public static function getTotalChance($userCurrentBalancehorisontal)
+    {
+        // TO DO
+        return $userCurrentBalancehorisontal?->chances_balance	;
+    }
+
     public static function updateCalculatedSold($idUser, $type = BalanceEnum::CASH, $value)
     {
         switch ($type) {

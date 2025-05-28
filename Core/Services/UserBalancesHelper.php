@@ -12,6 +12,7 @@ use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
 use Core\Enum\ActionEnum;
 use Core\Enum\BalanceOperationsEnum;
+use Core\Enum\ChanceTypeEnum;
 use Core\Enum\EventBalanceOperationEnum;
 use Core\Enum\SettingsEnum;
 use Core\Interfaces\IUserBalancesRepository;
@@ -74,6 +75,7 @@ class  UserBalancesHelper
                 $initialChance = getSettingIntegerParam('INITIAL_CHANCE', 0);
                 DB::beginTransaction();
                 try {
+
                     DiscountBalances::addLine([
                         'balance_operation_id' => BalanceOperationsEnum::BY_REGISTERING_DB->value,
                         'operator_id' => Balances::SYSTEM_SOURCE_ID,
@@ -83,24 +85,28 @@ class  UserBalancesHelper
                         'value' => $initialDiscount,
                         'current_balance' => $initialDiscount
                     ]);
+
                     TreeBalances::addLine([
                         'balance_operation_id' => BalanceOperationsEnum::BY_REGISTERING_TREE->value,
                         'operator_id' => Balances::SYSTEM_SOURCE_ID,
                         'beneficiary_id' => $idUser,
                         'reference' => BalancesFacade::getReference(BalanceOperationsEnum::BY_REGISTERING_TREE->value),
-                        'description' => BalanceOperationsEnum::BY_REGISTERING_TREE->name,
+                        'description' => $initialTree . ' % as welcome gift',
                         'value' => $initialTree,
                         'current_balance' => $initialTree
                     ]);
+
                     ChanceBalances::addLine([
                         'balance_operation_id' => BalanceOperationsEnum::INITIAL_CHANE->value,
                         'operator_id' => Balances::SYSTEM_SOURCE_ID,
                         'beneficiary_id' => $idUser,
                         'reference' => BalancesFacade::getReference(BalanceOperationsEnum::INITIAL_CHANE->value),
-                        'description' => BalanceOperationsEnum::INITIAL_CHANE->name,
+                        'description' => $initialChance . ' % as welcome gift',
                         'value' => $initialChance,
+                        'pool_id' => 1,
                         'current_balance' => $initialChance
                     ]);
+
                     DB::commit();
                 } catch (\Exception $exception) {
                     dd($exception);

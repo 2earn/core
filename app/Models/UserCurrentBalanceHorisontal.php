@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
 
 class UserCurrentBalanceHorisontal extends Model
 {
@@ -39,13 +38,13 @@ class UserCurrentBalanceHorisontal extends Model
     {
         $bfss_balance = $this->bfss_balance;
         $changed = false;
-        foreach ($bfss_balance as  &$item) {
+        foreach ($bfss_balance as &$item) {
             if ($type === $item['type']) {
-                $item['value'] =  $amount;
+                $item['value'] = $amount;
                 $changed = true;
-                } else {
+            } else {
                 $item['value'] = $item['value'];
-                }
+            }
 
         }
         if (!$changed) {
@@ -55,5 +54,17 @@ class UserCurrentBalanceHorisontal extends Model
         if ($this->isDirty('bfss_balance')) {
             $this->save();
         }
+    }
+
+    public function getChancesBalance($type)
+    {
+        if (is_array($this->chances_balance)) {
+            foreach ($this->chances_balance as $item) {
+                if ($type == $item['type']) {
+                    return $item['value'];
+                }
+            }
+        }
+        return 0;
     }
 }

@@ -8,6 +8,7 @@ use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
 use App\Services\Balances\Balances;
 use Core\Enum\BalanceEnum;
+use Core\Enum\StatusRequest;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 
@@ -49,8 +50,8 @@ class UserBalancesUpdater extends Seeder
     {
         $user = User::where('idUser', $user->idUser)->first();
         $userCurrentBalancehorisontal = Balances::getStoredUserBalances($user->idUser);
-        if (is_null($userCurrentBalancehorisontal)) {
 
+        if (is_null($userCurrentBalancehorisontal)) {
             UserCurrentBalanceHorisontal::create([
                 'user_id' => $user->idUser,
                 'user_id_auto' => $user->id,
@@ -62,6 +63,7 @@ class UserBalancesUpdater extends Seeder
                 'share_balance' => 0,
                 'chances_balance' => 0,
             ]);
+
             $userCurrentBalancehorisontal = Balances::getStoredUserBalances($user->idUser);
             $userCurrentBalancehorisontal->setBfssBalance(BFSsBalances::BFS_100, 0);
             $userCurrentBalancehorisontal->setBfssBalance(BFSsBalances::BFS_100, 0);
@@ -73,8 +75,7 @@ class UserBalancesUpdater extends Seeder
 
     public function run(): void
     {
-        $users = User::all();
-        $count = 0;
+        $users = User::where('status', '>=', StatusRequest::OptValidated->value)->get();
         foreach ($users as $user) {
             $this->initUserCurrentBalanceHorisontal($user);
             $this->initUserCurrentBalanceVertical($user);

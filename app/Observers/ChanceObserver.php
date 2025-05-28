@@ -13,7 +13,8 @@ class ChanceObserver
     public function created(ChanceBalances $chanceBalances)
     {
         $userCurrentBalancehorisontal = Balances::getStoredUserBalances($chanceBalances->beneficiary_id);
-        $newChanceBalanceHorisental = $newChanceBalanceVertical = $userCurrentBalancehorisontal->chances_balance + BalanceOperation::getMultiplicator($chanceBalances->balance_operation_id) * $chanceBalances->value;
+
+        $newChanceBalanceHorisental = $newChanceBalanceVertical = $chanceBalances->value + BalanceOperation::getMultiplicator($chanceBalances->balance_operation_id) * $chanceBalances->value;
 
         $userCurrentBalancehorisontal->update(['chances_balance' => $newChanceBalanceHorisental]);
 
