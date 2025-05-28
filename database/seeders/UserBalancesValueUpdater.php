@@ -5,8 +5,10 @@ namespace Database\Seeders;
 use App\Models\ChanceBalances;
 use App\Models\TreeBalances;
 use App\Models\User;
+use App\Models\UserCurrentBalanceVertical;
 use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
+use Core\Enum\BalanceEnum;
 use Core\Enum\BalanceOperationsEnum;
 use Core\Enum\StatusRequest;
 use Illuminate\Database\Seeder;
@@ -26,6 +28,7 @@ class UserBalancesValueUpdater extends Seeder
             $initialTree = getSettingIntegerParam('INITIAL_TREE', 0);
             $initialChance = getSettingIntegerParam('INITIAL_CHANCE', 0);
 
+            UserCurrentBalanceVertical::where('user_id', $user->idUser)->where('balance_id', BalanceEnum::TREE)->first()->update(['current_balance' => 0, 'previous_balance' => 0]);
             $userCurrentBalancehorisontal = Balances::getStoredUserBalances($user->idUser);
             $userCurrentBalancehorisontal->update(['tree_balance' => 0]);
 
@@ -43,6 +46,7 @@ class UserBalancesValueUpdater extends Seeder
             $this->tree_balance = $this->tree_balance + 1;
             Log::notice('tree_balance : idUser  : ' . $user->idUser . ' Created  : ' . $user->created_at);
 
+            UserCurrentBalanceVertical::where('user_id', $user->idUser)->where('balance_id', BalanceEnum::CHANCE)->first()->update(['current_balance' => 0, 'previous_balance' => 0]);;
             $userCurrentBalancehorisontal = Balances::getStoredUserBalances($user->idUser);
             $userCurrentBalancehorisontal->update(['chances_balance' => []]);
 

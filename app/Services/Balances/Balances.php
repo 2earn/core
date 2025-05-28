@@ -174,9 +174,11 @@ class Balances
     public static function getTotalChance($userCurrentBalancehorisontal)
     {
         $sum = 0;
-        $chances=json_decode($userCurrentBalancehorisontal->chances_balance);
-        foreach ($chances as $valueItem) {
-            $sum = $sum + $valueItem->value;;
+        if (!is_null($userCurrentBalancehorisontal)) {
+            $chances = json_decode($userCurrentBalancehorisontal->chances_balance);
+            foreach ($chances as $valueItem) {
+                $sum = $sum + $valueItem->value;;
+            }
         }
         return $sum;
     }

@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use App\Models\UserCurrentBalanceVertical;
 use App\Models\vip;
 use App\Services\Balances\Balances;
 use Core\Models\metta_user;
@@ -21,7 +22,6 @@ class UserDetails extends Component
     public function mount($idUser, Request $request)
     {
         $user = User::find(Route::current()->parameter('idUser'));
-
         $this->userProfileImage = User::getUserProfileImage($user->idUser);
         $this->userNationalFrontImage = User::getNationalFrontImage($user->idUser);
         $this->userNationalBackImage = User::getNationalBackImage($user->idUser);
@@ -34,7 +34,8 @@ class UserDetails extends Component
         $params['user'] = User::find($this->idUser);
         $params['metta'] = metta_user::where('idUser', $params['user']->idUser)->first();
         $params['dispalyedUserCred'] = getUserDisplayedName($params['user']->idUser);
-        $params['soldes'] = Balances::getStoredUserBalances($params['user']->idUser);
+        $params['userCurrentBalanceHorisontal'] = Balances::getStoredUserBalances($params['user']->idUser);
+        $params['userCurrentBalanceVertical'] = UserCurrentBalanceVertical::where('user_id', $params['user']->idUser)            ->get();
         $hasVip = vip::Where('idUser', '=', $params['user']->idUser)
             ->where('closed', '=', false)->get();
         if ($hasVip->isNotEmpty()) {
