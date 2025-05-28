@@ -35,7 +35,7 @@ class UserDetails extends Component
         $params['metta'] = metta_user::where('idUser', $params['user']->idUser)->first();
         $params['dispalyedUserCred'] = getUserDisplayedName($params['user']->idUser);
         $params['userCurrentBalanceHorisontal'] = Balances::getStoredUserBalances($params['user']->idUser);
-        $params['userCurrentBalanceVertical'] = UserCurrentBalanceVertical::where('user_id', $params['user']->idUser)            ->get();
+        $params['userCurrentBalanceVertical'] = UserCurrentBalanceVertical::where('user_id', $params['user']->idUser)->get();
         $hasVip = vip::Where('idUser', '=', $params['user']->idUser)
             ->where('closed', '=', false)->get();
         if ($hasVip->isNotEmpty()) {
