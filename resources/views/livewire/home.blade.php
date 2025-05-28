@@ -282,9 +282,8 @@
                                 % <span>{{ (int)$chanceBalance}} <small
                                         class="text-muted fs-13 text-muted">.{{$chanceBalance - (int)$chanceBalance}}</small></span>
                             </h4>
-                            <a href="#" class="text-decoration-none">{{ __('Will be available soon') }}</a>
                             <a href="{{route('user_balance_tree' , app()->getLocale() )}} "
-                               class="text-decoration-underline d-none">{{ __('see_details') }}</a>
+                               class="text-decoration-underline">{{ __('see_details') }}</a>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon src="{{ URL::asset('build/icons/1855-palmtree.json') }}"
@@ -301,7 +300,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">{{ __('Chance Solde') }}</p>
+                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">{{ __('Chance Sold') }}</p>
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
@@ -314,9 +313,8 @@
                             <h4 class="fs-22 fw-semibold ff-secondary mb-4">
                                 <span class="counter-value" data-target="{{$chanceBalance}}">{{$chanceBalance}}</span>
                             </h4>
-                            <a href="#" class="text-decoration-none">{{ __('Will be available soon') }}</a>
                             <a href="{{route('user_balance_chance' , app()->getLocale() )}} "
-                               class="text-decoration-underline d-none">{{ __('see_details') }}</a>
+                               class="text-decoration-underline">{{ __('see_details') }}</a>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon src="{{ URL::asset('build/icons/1471-dice-cube.json') }}"
