@@ -283,7 +283,7 @@
                                         class="text-muted fs-13 text-muted">.{{$chanceBalance - (int)$chanceBalance}}</small></span>
                             </h4>
                             <a href="{{route('user_balance_tree' , app()->getLocale() )}} "
-                               class="text-decoration-underline">{{ __('see_details') }}</a>
+                               class="text-decoration-underline d-none">{{ __('see_details') }}</a>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon src="{{ URL::asset('build/icons/1855-palmtree.json') }}"
@@ -314,7 +314,7 @@
                                 <span class="counter-value" data-target="{{$chanceBalance}}">{{$chanceBalance}}</span>
                             </h4>
                             <a href="{{route('user_balance_chance' , app()->getLocale() )}} "
-                               class="text-decoration-underline">{{ __('see_details') }}</a>
+                               class="text-decoration-underline d-none">{{ __('see_details') }}</a>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon src="{{ URL::asset('build/icons/1471-dice-cube.json') }}"
