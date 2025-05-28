@@ -114,6 +114,10 @@ class CouponBuy extends Component
     public function simulateCoupon()
     {
         $this->equal = false;
+        if ($this->displayedAmount == "") {
+            return redirect()->route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform])->with('danger', trans('Wrong amount'));
+        }
+
         $this->amount = $this->displayedAmount;
         $this->preSumulationResult = $this->getCouponsForAmount($this->amount);
         if ($this->amount) {

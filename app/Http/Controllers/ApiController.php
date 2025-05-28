@@ -1096,6 +1096,7 @@ class ApiController extends BaseController
                 'ub.created_at',
                 'bo.operation',
                 'ub.description',
+                'ub.value',
                 'ub.current_balance',
                 DB::raw(" CASE WHEN ub.beneficiary_id = '11111111' THEN 'system' ELSE (SELECT CONCAT(IFNULL(enfirstname, ''), ' ', IFNULL(enlastname, '')) FROM metta_users mu WHERE mu.idUser = ub.beneficiary_id) END AS source "),
                 'bo.IO as sensP'

@@ -3,8 +3,14 @@
 namespace App\Livewire;
 
 use App\Http\Traits\earnTrait;
+use App\Models\BFSsBalances;
 use App\Models\MettaUser;
+use App\Models\User;
+use App\Models\UserCurrentBalanceHorisontal;
+use App\Models\UserCurrentBalanceVertical;
 use App\Notifications\contact_registred;
+use App\Services\Balances\Balances;
+use Core\Enum\BalanceEnum;
 use Core\Enum\EventBalanceOperationEnum;
 use Core\Enum\StatusRequest;
 use Core\Enum\TypeEventNotificationEnum;
@@ -75,6 +81,37 @@ class CheckOptCode extends Component
      * 10 - save operations of userBalance
      *  ToDo
      */
+    public function initUserCurrentBalance($idUser)
+    {
+        $user = User::where('idUser', $idUser)->first();
+        UserCurrentBalanceHorisontal::create([
+            'user_id' => $idUser,
+            'user_id_auto' => $user->id,
+            'cash_balance' => 0,
+            'bfss_balance' => [],
+            'sms_balance' => 0,
+            'discount_balance' => 0,
+            'tree_balance' => 0,
+            'share_balance' => 0,
+            'chances_balance' => 0,
+        ]);
+        $userCurrentBalancehorisontal = Balances::getStoredUserBalances($idUser);
+        $userCurrentBalancehorisontal->setBfssBalance(BFSsBalances::BFS_100, 0);
+        $userCurrentBalancehorisontal->setBfssBalance(BFSsBalances::BFS_100, 0);
+        foreach (BalanceEnum::cases() as $case) {
+            UserCurrentBalanceVertical::create([
+                'user_id' => $idUser,
+                'user_id_auto' => $user->id,
+                'balance_id' => $case->value,
+                'current_balance' => 0,
+                'last_operation_id' => 0,
+                'last_operation_date' => 0,
+                'last_operation_value' => 0,
+            ]);
+        }
+
+    }
+
     public function verifCodeOpt(settingsManager $settingsManager, CommandeServiceManager $commandeServiceManager, UserBalancesHelper $userBalancesHelper)
     {
 
@@ -106,6 +143,7 @@ class CheckOptCode extends Component
                 $userUpline->notify(new contact_registred($user->fullphone_number));
                 $settingsManager->NotifyUser($userUpline->id, TypeEventNotificationEnum::ToUpline, ['msg' => $user->fullphone_number, 'toMail' => "khan_josef@hotmail.com", 'emailTitle' => "reg Title"]);
             }
+            $this->initUserCurrentBalance($user->idUser);
             $userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::Signup, $user->idUser);
         }
         return redirect()->route('login', app()->getLocale())->with('success', Lang::get('User registered successfully, you can login now'));
