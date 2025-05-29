@@ -1,4 +1,4 @@
-<div>
+<div class="container-fluid">
     @section('title')
         {{ __('User Details') }}
     @endsection
@@ -319,7 +319,9 @@
                                     </div>
                                     <div class="flex-shrink-0">
                                         <span
-                                            class="text-danger">{{formatSolde($balance?->current_balance,3)}} @if($balance->balance_id<4){{config('app.currency')}} @endif </span>
+                                            class="text-danger">{{formatSolde($balance?->current_balance,3)}} @if($balance->balance_id<4)
+                                                {{config('app.currency')}}
+                                            @endif </span>
                                     </div>
                                 </div>
                             </li>

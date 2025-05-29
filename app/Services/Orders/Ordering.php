@@ -230,23 +230,25 @@ class Ordering
         }
     }
 
+
     public static function initBfssTable($user)
     {
         $bfssTables = [];
-        $bfsValue = Balances::getStoredBfss($user->idUser, BFSsBalances::BFS_100);
-        if ($bfsValue > 0) {
-            $bfssTables[BFSsBalances::BFS_100] = ['available' => Balances::getStoredBfss($user->idUser, BFSsBalances::BFS_100)];
+        $userCurrentBalanceHorisontal = Balances::getStoredUserBalances($user->idUser);
+        $bfss = $userCurrentBalanceHorisontal->bfss_balance;
+        foreach ($bfss as $key => $bfs) {
+            if ($bfs['value'] > 0) {
+                $bfssTables[$bfs['type']] = ['available' => $bfs['value']];
+            }
         }
-        $bfsValue = Balances::getStoredBfss($user->idUser, BFSsBalances::BFS_50);
-        if ($bfsValue > 0) {
-            $bfssTables[BFSsBalances::BFS_50] = ['available' => Balances::getStoredBfss($user->idUser, BFSsBalances::BFS_50)];
-        }
+        krsort($bfssTables);
         return $bfssTables;
     }
 
     public static function simulateBFSs(Order $order)
     {
         $bfssTables = Ordering::initBfssTable($order->user()->first());
+
         $amount_after_discount = $order->amount_after_discount;
         if (!empty($bfssTables)) {
             foreach ($bfssTables as $key => $bfs) {
