@@ -179,9 +179,8 @@ class Balances
     {
         $sum = 0;
         if (!is_null($userCurrentBalancehorisontal)) {
-            $chances = json_decode($userCurrentBalancehorisontal->chances_balance);
-            foreach ($chances as $valueItem) {
-                $sum = $sum + $valueItem->value;;
+            foreach ($userCurrentBalancehorisontal->chances_balance as $valueItem) {
+                $sum = $sum + $valueItem['value'];
             }
         }
         return $sum;
