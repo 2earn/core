@@ -93,7 +93,7 @@ class CheckOptCode extends Component
             'discount_balance' => 0,
             'tree_balance' => 0,
             'share_balance' => 0,
-            'chances_balance' => 0,
+            'chances_balance' => [],
         ]);
         foreach (BalanceEnum::cases() as $case) {
             UserCurrentBalanceVertical::create([

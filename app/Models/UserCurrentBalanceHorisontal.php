@@ -21,7 +21,7 @@ class UserCurrentBalanceHorisontal extends Model
 
     use HasFactory;
 
-    protected $casts = ['bfss_balance' => 'array'];
+    protected $casts = ['bfss_balance' => 'array', 'chances_balance' => 'array'];
 
     public function getBfssBalance($type)
     {
@@ -70,7 +70,7 @@ class UserCurrentBalanceHorisontal extends Model
 
     public function setChancesBalance($type, $amount)
     {
-        $chances_balance = json_decode($this->chances_balance, true);
+        $chances_balance =$this->chances_balance;
         $changed = false;
         foreach ($chances_balance as &$item) {
             if ($type === $item['pool_id']) {
