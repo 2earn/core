@@ -199,16 +199,23 @@ class ApiController extends BaseController
             ]);
             $balances = Balances::getStoredUserBalances($reciver);
             $value = intval($number_of_action / $palier) * $actual_price * $palier;
-            BFSsBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::BY_ACQUIRING_SHARES->value,
-                'operator_id' => Balances::SYSTEM_SOURCE_ID,
-                'beneficiary_id' => $reciver_bfs,
-                'reference' => $ref,
-                'percentage' => BFSsBalances::BFS_50,
-                'description' => $number_of_action . ' share(s) purchased',
-                'value' => $value,
-                'current_balance' => $balances->getBfssBalance("50.00") + BalanceOperation::getMultiplicator(BalanceOperationsEnum::BY_ACQUIRING_SHARES->value) * $value
-            ]);
+            $SettingBFSsTypeForAction = getSettingStringParam('BFSS_TYPE_FOR_ACTION', '50.00');
+            if (floatval($SettingBFSsTypeForAction) > 100 or floatval($SettingBFSsTypeForAction) < 0.01) {
+                $SettingBFSsTypeForAction = '50.00';
+            }
+            if ($value > 0) {
+                BFSsBalances::addLine([
+                    'balance_operation_id' => BalanceOperationsEnum::BY_ACQUIRING_SHARES->value,
+                    'operator_id' => Balances::SYSTEM_SOURCE_ID,
+                    'beneficiary_id' => $reciver_bfs,
+                    'reference' => $ref,
+                    'percentage' => $SettingBFSsTypeForAction,
+                    'description' => $number_of_action . ' share(s) purchased',
+                    'value' => $value,
+                    'current_balance' => $balances->getBfssBalance($SettingBFSsTypeForAction) + BalanceOperation::getMultiplicator(BalanceOperationsEnum::BY_ACQUIRING_SHARES->value) * $value
+                ]);
+            }
+
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollback();
