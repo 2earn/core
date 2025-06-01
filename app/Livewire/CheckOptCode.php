@@ -95,9 +95,6 @@ class CheckOptCode extends Component
             'share_balance' => 0,
             'chances_balance' => 0,
         ]);
-        $userCurrentBalancehorisontal = Balances::getStoredUserBalances($idUser);
-        $userCurrentBalancehorisontal->setBfssBalance(BFSsBalances::BFS_100, 0);
-        $userCurrentBalancehorisontal->setBfssBalance(BFSsBalances::BFS_100, 0);
         foreach (BalanceEnum::cases() as $case) {
             UserCurrentBalanceVertical::create([
                 'user_id' => $idUser,

@@ -25,6 +25,7 @@ class BfssObserver
         $md = $setting[0];
         $rc = $setting[1];
         $balances = Balances::getStoredUserBalances($bFSsBalances->beneficiary_id);
+
         if ($bFSsBalances->percentage == "100.00") {
             DiscountBalances::addLine(                [
                     'balance_operation_id' => BalanceOperationsEnum::FROM_BFS->value,
@@ -36,8 +37,8 @@ class BfssObserver
                     'current_balance' => $balances->discount_balance + min($md, $bFSsBalances->value * (pow(abs($bFSsBalances->value - 10), 1.5) / $rc))
                 ]
             );
-
         }
+
         $userCurrentBalancehorisontal = Balances::getStoredUserBalances($bFSsBalances->beneficiary_id);
 
         $newBfssBalanceVertical = floatval($userCurrentBalancehorisontal->getBfssBalance($bFSsBalances->percentage)) + (BalanceOperation::getMultiplicator($bFSsBalances->balance_operation_id) * $bFSsBalances->value);

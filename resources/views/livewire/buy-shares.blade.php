@@ -245,7 +245,6 @@
                     let me_or_other = $("input[name='inlineRadioOptions']:checked").val();
                     let bfs_for = $("input[name='bfs-for']:checked").val();
                     let country_code = iti.getSelectedCountryData().iso2;
-                    console.log('Preparation')
                     $.ajax({
                         url: "{{ route('buyAction', app()->getLocale()) }}",
                         type: "POST",

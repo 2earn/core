@@ -64,9 +64,6 @@ class UserBalancesUpdater extends Seeder
                 'chances_balance' => 0,
             ]);
 
-            $userCurrentBalancehorisontal = Balances::getStoredUserBalances($user->idUser);
-            $userCurrentBalancehorisontal->setBfssBalance(BFSsBalances::BFS_100, 0);
-            $userCurrentBalancehorisontal->setBfssBalance(BFSsBalances::BFS_100, 0);
             $this->horisentalBalances = $this->horisentalBalances + 1;
             Log::notice('idUser  : ' . $user->idUser . ' Created  : ' . $user->created_at);
         }

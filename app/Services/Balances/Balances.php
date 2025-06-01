@@ -168,7 +168,11 @@ class Balances
 
     public static function getTotalBfs($userCurrentBalancehorisontal)
     {
-        return $userCurrentBalancehorisontal?->getBfssBalance(BFSsBalances::BFS_100) + $userCurrentBalancehorisontal?->getBfssBalance(BFSsBalances::BFS_50);
+        $sum = 0;
+        foreach ($userCurrentBalancehorisontal->bfss_balance as $valueItem) {
+            $sum = $sum + $valueItem['value'];
+        }
+        return $sum;
     }
 
     public static function getTotalChance($userCurrentBalancehorisontal)
