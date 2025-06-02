@@ -33,6 +33,7 @@ use App\Livewire\ValidateAccount;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /*
 |--------------------------------------------------------------------------
@@ -366,10 +367,9 @@ Route::get('/{slug}', function () {
 });
 
 Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'middleware' => 'setlocale'], function () {
-Route::get('/{slug}', function () {
-    dd('ddd');
-    return redirect(app()->getLocale());
-});
+    Route::get('/{slug}', function () {
+        throw new  NotFoundHttpException();
+    });
 });
 
 
