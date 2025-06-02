@@ -58,7 +58,7 @@
                                                            autocomplete="off"
                                                            @if($buyed)
                                                                disabled
-                                                            @endif
+                                                        @endif
                                                     >
                                                     <span class="input-group-text"> {{config('app.currency')}}</span>
                                                     <button class="btn btn-outline-primary material-shadow-none"
@@ -72,13 +72,6 @@
                                                 </div>
                                             </div>
                                             @if($simulated)
-                                                @if($buyed)
-                                                    <p>
-                                                        <a href="{{$linkOrder}}"
-                                                           class="link-secondary float-end">{{__('Go to the order')}}</a>
-                                                    </p>
-                                                @endif
-
                                         </div>
                                     </div>
                                     @endif
@@ -131,9 +124,9 @@
                             <div class="card card-light">
                                 <div class="card-header">
                                     <button
-                                            class="btn btn-success material-shadow-none"
-                                            wire:click="ConfirmPurchase(1)" type="button"
-                                            id="button-buy">{{__('Confirm the purchase')}} {{$amount}} {{config('app.currency')}}
+                                        class="btn btn-success material-shadow-none"
+                                        wire:click="ConfirmPurchase(1)" type="button"
+                                        id="button-buy">{{__('Confirm the purchase')}} {{$amount}} {{config('app.currency')}}
                                     </button>
                                 </div>
                                 <div class="card-body">
@@ -156,9 +149,9 @@
                                                     </td>
                                                     <td>
                                                         <span
-                                                                class="badge bg-info-subtle text-info fs-14 my-1 fw-normal"
-                                                                @if(\App\Models\User::isSuperAdmin())
-                                                                    title="{{$coupon->reserved_until}} - {{__(\Core\Enum\CouponStatusEnum::tryFrom($coupon->status)->name)}}"
+                                                            class="badge bg-info-subtle text-info fs-14 my-1 fw-normal"
+                                                            @if(\App\Models\User::isSuperAdmin())
+                                                                title="{{$coupon->reserved_until}} - {{__(\Core\Enum\CouponStatusEnum::tryFrom($coupon->status)->name)}}"
                                                             @endif
                                                         >
                                                         @if(!is_array($coupon))
@@ -168,7 +161,7 @@
                                                     </td>
                                                     <td>
                                                         <span
-                                                                class="badge bg-info-subtle text-info fs-14 my-1 fw-normal">
+                                                            class="badge bg-info-subtle text-info fs-14 my-1 fw-normal">
                                                         @if(!is_array($coupon))
                                                                 @if(!$buyed)
                                                                     {{substr_replace($coupon->pin, str_repeat('*', strlen($coupon->pin)), 0 )}}
@@ -180,7 +173,7 @@
                                                     </td>
                                                     <td>
                                                         <h5 class="fs-14 my-1 fw-normal"><span
-                                                                    class="badge bg-danger-subtle text-danger">{{__(\Core\Enum\CouponStatusEnum::tryFrom($coupon->status)->name)}}</span>
+                                                                class="badge bg-danger-subtle text-danger">{{__(\Core\Enum\CouponStatusEnum::tryFrom($coupon->status)->name)}}</span>
                                                         </h5>
                                                         @if($coupon->status==\Core\Enum\CouponStatusEnum::reserved->value)
                                                             <span class="text-muted">{{$coupon->reserved_until}}</span>
@@ -203,7 +196,7 @@
                                                 </td>
                                                 <td>
                                                 <span
-                                                        class="badge bg-success-subtle fs-14 text-success">{{$amount}} {{config('app.currency')}}</span>
+                                                    class="badge bg-success-subtle fs-14 text-success">{{$amount}} {{config('app.currency')}}</span>
                                                 </td>
 
                                             </tr>
@@ -220,8 +213,8 @@
                             <div class="card card-light">
                                 <div class="card-header">
                                     <button
-                                            class="btn btn-success material-shadow-none"
-                                            wire:click="ConfirmPurchase(2)">{{__('Confirm the purchase')}} {{$lastValue+$amount}} {{config('app.currency')}}</button>
+                                        class="btn btn-success material-shadow-none"
+                                        wire:click="ConfirmPurchase(2)">{{__('Confirm the purchase')}} {{$lastValue+$amount}} {{config('app.currency')}}</button>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive table-card m-1">
@@ -243,9 +236,9 @@
                                                     </td>
                                                     <td>
                                                         <span
-                                                                class="badge bg-success-subtle text-info fs-14 my-1 fw-normal"
-                                                                @if(\App\Models\User::isSuperAdmin())
-                                                                    title="{{$coupon->reserved_until}} _ {{__(\Core\Enum\CouponStatusEnum::tryFrom($coupon->status)->name)}}"
+                                                            class="text-muted fs-14 my-1 fw-normal"
+                                                            @if(\App\Models\User::isSuperAdmin())
+                                                                title="{{$coupon->reserved_until}} _ {{__(\Core\Enum\CouponStatusEnum::tryFrom($coupon->status)->name)}}"
                                                             @endif
                                                         >
                                                         @if(!is_array($coupon))
@@ -255,7 +248,7 @@
                                                     </td>
                                                     <td>
                                                         <span
-                                                                class="badge bg-success-subtle text-info fs-14 my-1 fw-normal">
+                                                            class="badge bg-success-subtle text-info fs-14 my-1 fw-normal">
                                                         @if(!is_array($coupon))
                                                                 @if(!$buyed)
                                                                     {{substr_replace($coupon->pin, str_repeat('*', strlen($coupon->pin)), 0 )}}
@@ -267,7 +260,7 @@
                                                     </td>
                                                     <td>
                                                         <h5 class="fs-14 my-1 fw-normal"><span
-                                                                    class="badge bg-danger-subtle text-danger">{{__(\Core\Enum\CouponStatusEnum::tryFrom($coupon->status)->name)}}</span>
+                                                                class="badge bg-info-subtle text-info">{{__(\Core\Enum\CouponStatusEnum::tryFrom($coupon->status)->name)}}</span>
                                                         </h5>
                                                         @if($coupon->status==\Core\Enum\CouponStatusEnum::reserved->value)
                                                             <span class="text-muted">{{$coupon->reserved_until}}</span>
@@ -291,7 +284,7 @@
                                                     </td>
                                                     <td>
                     <span
-                            class="badge bg-success-subtle fs-14 text-success"> {{$lastValue+$amount}} {{config('app.currency')}}</span>
+                        class="badge bg-success-subtle fs-14 text-success"> {{$lastValue+$amount}} {{config('app.currency')}}</span>
                                                     </td>
                                                 </tr>
                                                 </tfoot>
@@ -301,7 +294,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     @endif
                     <div class="col-lg-12">
@@ -330,9 +322,9 @@
                                                     </td>
                                                     <td>
                                                     <span
-                                                            class="badge bg-success-subtle text-success fs-14 my-1 fw-normal"
-                                                            @if(\App\Models\User::isSuperAdmin())
-                                                                title="{{$coupon->reserved_until}} _ {{__(\Core\Enum\CouponStatusEnum::tryFrom($coupon->status)->name)}}"
+                                                        class="text-muted fs-14 my-1 fw-normal"
+                                                        @if(\App\Models\User::isSuperAdmin())
+                                                            title="{{$coupon->reserved_until}} _ {{__(\Core\Enum\CouponStatusEnum::tryFrom($coupon->status)->name)}}"
                                                         @endif
                                                     >
                                                     @if(!is_array($coupon))
@@ -342,7 +334,7 @@
                                                     </td>
                                                     <td>
                                                     <span
-                                                            class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
+                                                        class="badge bg-success-subtle text-success fs-14 my-1 fw-normal">
                                                     @if(!is_array($coupon))
                                                             @if(!$buyed)
                                                                 {{substr_replace($coupon->pin, str_repeat('*', strlen($coupon->pin)), 0 )}}
@@ -354,7 +346,7 @@
                                                     </td>
                                                     <td>
                                                         <h5 class="fs-14 my-1 fw-normal"><span
-                                                                    class="badge bg-danger-subtle text-danger">{{__(\Core\Enum\CouponStatusEnum::tryFrom($coupon->status)->name)}}</span>
+                                                                class="badge bg-info-subtle text-info">{{__(\Core\Enum\CouponStatusEnum::tryFrom($coupon->status)->name)}}</span>
                                                         </h5>
                                                     </td>
                                                     <td>
@@ -367,20 +359,20 @@
                                                     @if($buyed)
                                                         <td>
                                                             <button
-                                                                    class="btn btn-outline-primary waves-effect waves-light"
-                                                                    @if(!$coupon->consumed)
-                                                                        onclick="copyClipboard('{{$coupon->pin}}')"
-                                                                    @endif
+                                                                class="btn btn-outline-primary waves-effect waves-light"
+                                                                @if(!$coupon->consumed)
+                                                                    onclick="copyClipboard('{{$coupon->pin}}')"
+                                                                @endif
 
-                                                                    @if($coupon->consumed)
-                                                                        disabled
-                                                                    @endif
-                                                                    type="submit">{{__('Copier')}}</button>
+                                                                @if($coupon->consumed)
+                                                                    disabled
+                                                                @endif
+                                                                type="submit">{{__('Copier')}}</button>
                                                             @if(!$coupon->consumed)
                                                                 <button
-                                                                        class="btn btn-outline-primary waves-effect waves-light"
-                                                                        wire:click="consumeCoupon({{$coupon->id}})"
-                                                                        type="submit">{{__('Consume')}}
+                                                                    class="btn btn-outline-primary waves-effect waves-light"
+                                                                    wire:click="consumeCoupon({{$coupon->id}})"
+                                                                    type="submit">{{__('Consume')}}
                                                                 </button>
                                                             @endif
                                                         </td>
@@ -392,6 +384,38 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="card card-light mt-2">
+                                <div class="card-body">
+                                    <ul class="list-group">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <strong>  {{__('Order Total')}}</strong> <span
+                                                class="badge bg-dark">{{$order->deal_amount_before_discount}}  {{config('app.currency')}}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <strong>   {{__('Discount')}}</strong><span
+                                                class="badge bg-dark">{{$order->total_final_discount}}  {{config('app.currency')}}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <strong>   {{__('Amount after discount')}}</strong> <span
+                                                class="badge bg-primary">  {{$order->amount_after_discount}}    {{config('app.currency')}}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex logoTopBFSLabel justify-content-between align-items-center">
+                                            <strong>   {{__('Paid with BFSs')}}</strong>
+                                            <h5>   {{$order->amount_after_discount-$order->paid_cash}}  {{config('app.currency')}}</h5>
+                                        </li>
+                                        <li class="list-group-item d-flex logoTopCashLabel  justify-content-between align-items-center">
+                                            <strong> {{__('Paid with Cash')}} </strong>
+                                            <h5>  {{$order->paid_cash}}  {{config('app.currency')}}</h5>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            @if($buyed)
+                                <div class="card-body">
+                                    <a href="{{$linkOrder}}"
+                                       class="link-secondary float-end">{{__('Check the order')}}</a>
+                                </div>
+                            @endif
                         @endif
                     </div>
                     <div class="col-lg-12">

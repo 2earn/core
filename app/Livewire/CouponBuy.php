@@ -23,6 +23,7 @@ class CouponBuy extends Component
     public $equal = false;
     public $simulated = false;
     public $buyed = false;
+    public $order = null;
     public $linkOrder = null;
     public $lastValue;
     public $idPlatform;
@@ -198,6 +199,7 @@ class CouponBuy extends Component
             $this->displayedAmount = $total_amount;
             $this->buyed = true;
             $this->linkOrder = route('orders_detail', ['locale' => app()->getLocale(), 'id' => $order->id]);
+            $this->order = $order;
             DB::commit();
         } catch (Exception $exception) {
             DB::rollBack();
