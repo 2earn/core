@@ -365,4 +365,11 @@ Route::get('/{slug}', function () {
     return redirect(app()->getLocale());
 });
 
+Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'middleware' => 'setlocale'], function () {
+Route::get('/{slug}', function () {
+    dd('ddd');
+    return redirect(app()->getLocale());
+});
+});
+
 

@@ -4,69 +4,9 @@
             {{ __('Hobbies') }}
         @endslot
     @endcomponent
-        <div id="listeHobbies" class="row mt-2">
-            <div class="col-xxl-4">
-                <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title">Learn</h5>
-                    <h6 class="card-subtitle text-muted">{{__('learnHobbiesDescription')}}</h6>
-                </div>
-                <div class="card-body">
-                    @foreach($hobbies->where('platform','learn') as $key => $hobbie)
-                        <div class="form-check form-switch mb-3" dir="ltr">
-                            <input wire:model="hobbies.{{$key}}.selected" type="checkbox"
-                                   class="form-check-input" id="Hobbies_{{$hobbie->name}}" checked="">
-                            <label class="form-check-label"
-                                   for="Hobbies_{{$hobbie->name}}">{{ __('Hobbies_'. $hobbie->name ) }}  </label>
-                        </div>
-                    @endforeach
-                </div>
+        <div class="card">
+            <div class="card-body">
+                @livewire('page-timer', ['deadline'=>'hobbies_cs'])
             </div>
         </div>
-            <div class="col-xxl-4">
-                <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title">Shop</h5>
-                    <h6 class="card-subtitle text-muted">{{__('shopHobbiesDescription')}}</h6>
-                </div>
-                <div class="card-body">
-                    @foreach($hobbies->where('platform','shop') as $key => $hobbie)
-                        <div class="form-check form-switch mb-3" dir="ltr">
-                            <input wire:model="hobbies.{{$key}}.selected" type="checkbox"
-                                   class="form-check-input" id="Hobbies_{{$hobbie->name}}" checked="">
-                            <label class="form-check-label"
-                                   for="Hobbies_{{$hobbie->name}}">{{ __('Hobbies_'. $hobbie->name ) }}  </label>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-            <div class="col-xxl-4">
-                <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title">Move</h5>
-                    <h6 class="card-subtitle text-muted">{{__('2earnHobbiesDescription')}}</h6>
-                </div>
-                <div class="card-body p-3">
-                    @foreach($hobbies->where('platform','move') as $key => $hobbie)
-                        <div class="form-check form-switch mb-3" dir="ltr">
-                            <input wire:model="hobbies.{{$key}}.selected" type="checkbox"
-                                   class="form-check-input toggle-checkboxFree" id="Hobbies_{{$hobbie->name}}" checked="">
-                            <label class="form-check-label"
-                                   for="Hobbies_{{$hobbie->name}}">{{ __('Hobbies_'. $hobbie->name ) }}  </label>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script type="module">
-        document.addEventListener("DOMContentLoaded", function () {
-
-            $('#listeHobbies :checkbox').change(function () {
-                window.Livewire.dispatch('save');
-            });
-        });
-    </script>
 </div>
