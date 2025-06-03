@@ -273,6 +273,14 @@
                             </ul>
                         </div>
                     </li>
+                    <li class="nav-item cool-link {{$currentRouteName=='settlement_tracking'? 'active' : ''}}">
+                        <a href="{{route('settlement_tracking',app()->getLocale(),false )}}"
+                           class="nav-link menu-link {{$currentRouteName=='settlement_tracking'? 'active' : ''}}"
+                           role="button">
+                            <i class="ri-money-dollar-circle-fill"></i>
+                            <span>{{__('Settlement tracking')}}</span>
+                        </a>
+                    </li>
                     @if(User::isSuperAdmin())
                         <li class="menu-title">
                             <span data-key="t-menu">{{ __('SUPER ADMIN MENU') }}</span>
