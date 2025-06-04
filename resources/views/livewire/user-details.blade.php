@@ -319,19 +319,20 @@
                                             </div>
                                         </div>
                                         <div class="flex-shrink-0 mx-2 ">
+                                            <h5 class="fs-12 my-1 fw-normal"><span
+                                                    class="badge bg-danger-subtle text-danger">{{formatSolde($balance?->previous_balance,3)}} @if($balance->balance_id<4)
+                                                        {{config('app.currency')}}
+                                                    @endif </span></h5>
+                                            <span class="text-muted">{{__('Previous balance')}}</span>
+                                        </div>
+                                        <div class="flex-shrink-0 mx-2 ">
                                             <h5 class="fs-14 my-1 fw-normal"><span
                                                     class="badge bg-danger-subtle text-danger">{{formatSolde($balance?->current_balance,3)}} @if($balance->balance_id<4)
                                                         {{config('app.currency')}}
                                                     @endif</span></h5>
                                             <span class="text-muted">{{__('Current balance')}}</span>
                                         </div>
-                                        <div class="flex-shrink-0 mx-2 ">
-                                            <h5 class="fs-14 my-1 fw-normal"><span
-                                                    class="badge bg-danger-subtle text-danger">{{formatSolde($balance?->previous_balance,3)}} @if($balance->balance_id<4)
-                                                        {{config('app.currency')}}
-                                                    @endif </span></h5>
-                                            <span class="text-muted">{{__('Previous balance')}}</span>
-                                        </div>
+
                                     </div>
                                 </li>
                             @endforeach
