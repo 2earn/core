@@ -199,9 +199,9 @@ class ApiController extends BaseController
             ]);
             $balances = Balances::getStoredUserBalances($reciver);
             $value = intval($number_of_action / $palier) * $actual_price * $palier;
-            $SettingBFSsTypeForAction = getSettingStringParam('BFSS_TYPE_FOR_ACTION', '50.00');
+            $SettingBFSsTypeForAction = getSettingStringParam('BFSS_TYPE_FOR_ACTION', '50');
             if (floatval($SettingBFSsTypeForAction) > 100 or floatval($SettingBFSsTypeForAction) < 0.01) {
-                $SettingBFSsTypeForAction = '50.00';
+                $SettingBFSsTypeForAction = '50';
             }
             if ($value > 0) {
                 BFSsBalances::addLine([
