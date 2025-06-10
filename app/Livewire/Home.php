@@ -3,6 +3,8 @@
 namespace App\Livewire;
 
 
+use App\Models\BusinessSector;
+use App\Models\News as NewsModel;
 use App\Models\Survey;
 use App\Models\vip;
 use Core\Models\Setting;
@@ -12,7 +14,6 @@ use DateInterval;
 use DateTime;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
-use App\Models\News as NewsModel;
 
 class Home extends Component
 {
@@ -53,6 +54,7 @@ class Home extends Component
     public $actions = 0;
     public $benefices = 0;
     public $cout = 0;
+    public $businessSectors;
 
     protected $listeners = [
         'checkContactNumbre' => 'checkContactNumbre',
@@ -60,9 +62,11 @@ class Home extends Component
     ];
 
 
-    public function mount(settingsManager $settingsManager, BalancesManager $balancesManager)    {
+    public function mount(settingsManager $settingsManager, BalancesManager $balancesManager)
+    {
         $this->settingsManager = $settingsManager;
         $this->balancesManager = $balancesManager;
+        $this->businessSectors = BusinessSector::all();
     }
 
     public function getIp()
