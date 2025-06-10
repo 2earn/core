@@ -45,7 +45,7 @@ class CouponBuy extends Component
 
     public function mount()
     {
-        $this->idPlatform = Route::current()->parameter('id');;
+        $this->idPlatform = Route::current()->parameter('id');
         $this->amount = 0;
 
         $this->maxAmount = Coupon::where(function ($query) {
