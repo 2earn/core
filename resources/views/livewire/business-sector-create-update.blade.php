@@ -54,7 +54,7 @@
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>
 
-                    <div class="form-group col-sm-12 col-md-12 mb-3">
+                    <div class="form-group col-sm-12 col-md-4 mb-3">
                         <label for="thumbnailsImage">{{__('Thumbnails Image')}}</label>
                         <input type="file" id="thumbnailsImage" wire:model.live="thumbnailsImage" class="form-control">
                         @error('thumbnailsImage') <span class="error">{{ $message }}</span> @enderror
@@ -65,7 +65,20 @@
                             </div>
                         @endif
                     </div>
-                    <div class="form-group col-sm-12 col-md-12 mb-3">
+
+                    <div class="form-group col-sm-12 col-md-4 mb-3">
+                        <label for="thumbnailsHomeImage">{{__('Thumbnails Home Image')}}</label>
+                        <input type="file" id="thumbnailsHomeImage" wire:model.live="thumbnailsHomeImage" class="form-control">
+                        @error('thumbnailsHomeImage') <span class="error">{{ $message }}</span> @enderror
+                        @if ($businessSector?->thumbnailsHomeImage)
+                            <div class="mt-3">
+                                <img src="{{ asset('uploads/' . $businessSector->thumbnailsHomeImage->url) }}"
+                                     alt="Business Sector thumbnailsHomeImage" class="img-thumbnail">
+                            </div>
+                        @endif
+                    </div>
+                    
+                    <div class="form-group col-sm-12 col-md-4 mb-3">
                         <label for="logoImage">{{__('Logo Image')}}</label>
                         <input type="file" id="logoImage" wire:model.live="logoImage" class="form-control">
                         @error('logoImage') <span class="error">{{ $message }}</span> @enderror
