@@ -55,8 +55,8 @@
                                     @endif
                                 </h3>
                             </div>
-                            <div class="card-body row my-2">
-                                <div class="col-md-6">
+                            <div class="card-body row my-4">
+                                <div class="col-md-12">
                                     <h4>
                                         {{__('Description')}}
                                     </h4>
@@ -80,7 +80,17 @@
                                              class="d-block img-fluid img-business-square mx-auto rounded float-left">
                                     @endif
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
+                                    @if ($business_sector->thumbnailsHomeImage)
+                                        <img src="{{ asset('uploads/' . $business_sector->thumbnailsHomeImage->url) }}"
+                                             alt="Business Sector Home Image"
+                                             class="d-block img-fluid img-business-square mx-auto rounded float-left">
+                                    @else
+                                        <img src="{{Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_THUMB_HOME)}}"
+                                             class="d-block img-fluid img-business-square mx-auto rounded float-left">
+                                    @endif
+                                </div>
+                                <div class="col-md-5">
                                     @if ($business_sector->thumbnailsImage)
                                         <img src="{{ asset('uploads/' . $business_sector->thumbnailsImage->url) }}"
                                              alt="Business Sector Image"
@@ -120,7 +130,7 @@
                                     </div>
                                 @endif
                             </div>
-                            <div class="card-footer">
+                            <div class="card-footer my-2">
                                 <div class="row">
                                     <div class="col">
                                         <p class="card-text float-end"><strong>{{__('Created at')}}:</strong> <small
