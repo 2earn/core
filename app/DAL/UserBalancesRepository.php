@@ -27,7 +27,7 @@ class  UserBalancesRepository implements IUserBalancesRepository
             $calculetedUserBalances->soldeT = formatSolde($userCurrentBalancehorisontal->tree_balance, $decimals);
             $calculetedUserBalances->soldeSMS = formatSolde($userCurrentBalancehorisontal->sms_balance, $decimals);
             $calculetedUserBalances->soldeChance =  formatSolde(Balances::getTotalChance($userCurrentBalancehorisontal), $decimals);
-            $calculetedUserBalances->soldeTree = formatSolde(TreeBalances::getTreesNumber($userCurrentBalancehorisontal->tree_balance), $decimals);
+            $calculetedUserBalances->soldeTree = formatSolde($userCurrentBalancehorisontal->tree_balance, $decimals);
         }
         return $calculetedUserBalances;
     }

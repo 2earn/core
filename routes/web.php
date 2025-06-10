@@ -260,6 +260,10 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         });
 
+        Route::prefix('/settlement')->name('settlement_')->group(function () {
+            Route::get('/tracking', \App\Livewire\SettlementTracking::class)->name('tracking');
+        });
+
         Route::prefix('/coupon')->name('coupon_')->group(function () {
             Route::get('/{id}/buy', \App\Livewire\CouponBuy::class)->name('buy');
         });

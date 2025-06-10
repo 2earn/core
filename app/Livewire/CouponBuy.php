@@ -18,11 +18,12 @@ class CouponBuy extends Component
 {
     const DELAY_FOR_COUPONS_SIMULATION = 5;
     public $amount = 0;
-    public $displayedAmount = 0;
+    public $displayedAmount;
     public $coupons;
     public $equal = false;
     public $simulated = false;
     public $buyed = false;
+    public $order = null;
     public $linkOrder = null;
     public $lastValue;
     public $idPlatform;
@@ -46,7 +47,6 @@ class CouponBuy extends Component
     {
         $this->idPlatform = Route::current()->parameter('id');;
         $this->amount = 0;
-        $this->displayedAmount = 0;
 
         $this->maxAmount = Coupon::where(function ($query) {
 
@@ -114,8 +114,9 @@ class CouponBuy extends Component
     public function simulateCoupon()
     {
         $this->equal = false;
-        if ($this->displayedAmount == "") {
-            return redirect()->route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform])->with('danger', trans('Wrong amount'));
+
+        if ($this->displayedAmount == "" || $this->displayedAmount == "0" || intval($this->displayedAmount) < 1) {
+            return redirect()->route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform])->with('danger', trans('Wrong wintered amount'));
         }
 
         $this->amount = $this->displayedAmount;
@@ -198,6 +199,7 @@ class CouponBuy extends Component
             $this->displayedAmount = $total_amount;
             $this->buyed = true;
             $this->linkOrder = route('orders_detail', ['locale' => app()->getLocale(), 'id' => $order->id]);
+            $this->order = $order;
             DB::commit();
         } catch (Exception $exception) {
             DB::rollBack();

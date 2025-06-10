@@ -10,9 +10,44 @@
             @endslot
         @endcomponent
         <div class="row card">
+            @if(!empty($bfss))
+                <div class="card-header">
+                    <h5 class="card-title mb-0">{{__('BFSs description values')}} </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-4">
+                        @foreach($bfss as $bfs)
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card border">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm flex-shrink-0">
+                                                        <span
+                                                            class="avatar-title bg-light text-primary rounded-circle fs-3 material-shadow">
+                                                            <i class="ri-money-dollar-circle-fill align-middle"></i>
+                                                        </span>
+                                            </div>
+                                            <div class="flex-grow-1 ms-3">
+                                                <h3 class="text-uppercase text-muted float-end mb-1"> {{$bfs['type']}}</h3>
+                                            </div>
+                                            <div class="flex-grow-1 ms-3">
+                                                <h4 class="float-end mb-0">{{config('app.currency')}} <span
+                                                    >{{formatSolde(floatval($bfs['value']),2)}}</span></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+            <div class="card-header">
+                <h5 class="card-title mb-0">{{__('BFSs description title')}} </h5>
+            </div>
             <div class="card-body">
                 <div class="row g-4">
-                    <div class="col-sm">
+                    <div class="col-12">
                         <div class="justify-content-sm-end">
                             <div class="search-box ms-2">
                                 <p>{{ __('bfs description') }}</p>
@@ -33,7 +68,7 @@
                         id="ub_table_bfs" style="width: 100%">
                         <thead class="table-light">
                         <tr class=" tabHeader2earn">
-                            <th>{{__('Num')}}</th>
+                            <th>{{ __('Operation order') }}</th>
                             <th>{{ __('ref')}}</th>
                             <th>{{ __('date')}}</th>
                             <th>{{ __('Operation Designation')}}</th>
@@ -99,15 +134,6 @@
                                             return '<span class="badge bg-danger con fs-14">' + data + '</span>';
                                         else
                                             return '<span class="badge bg-success con fs-14">' + data + '</span>';
-                                    }
-                                },
-                                {
-                                    "targets": [7],
-                                    render: function (data, type, row) {
-                                        if (row.ranks == 1)
-                                            return '<div class="logoTopBFSLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
-                                        else
-                                            return data;
                                     }
                                 },
                                 {

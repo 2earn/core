@@ -51,6 +51,7 @@ class ApiController extends BaseController
 {
     const DATE_FORMAT = 'd/m/Y H:i:s';
     const CURRENCY = '$';
+    const SEPACE = ' ';
     const SEPARATOR = ' : ';
 
 
@@ -199,9 +200,9 @@ class ApiController extends BaseController
             ]);
             $balances = Balances::getStoredUserBalances($reciver);
             $value = intval($number_of_action / $palier) * $actual_price * $palier;
-            $SettingBFSsTypeForAction = getSettingStringParam('BFSS_TYPE_FOR_ACTION', '50.00');
+            $SettingBFSsTypeForAction = getSettingStringParam('BFSS_TYPE_FOR_ACTION', '50');
             if (floatval($SettingBFSsTypeForAction) > 100 or floatval($SettingBFSsTypeForAction) < 0.01) {
-                $SettingBFSsTypeForAction = '50.00';
+                $SettingBFSsTypeForAction = '50';
             }
             if ($value > 0) {
                 BFSsBalances::addLine([
@@ -1011,7 +1012,7 @@ class ApiController extends BaseController
         return DB::table($balance . ' as ub')
             ->join('balance_operations as bo', 'ub.balance_operation_id', '=', 'bo.id')
             ->selectRaw('
-        RANK() OVER (ORDER BY ub.created_at desc, ub.reference desc) as ranks,
+        RANK() OVER (ORDER BY ub.created_at ASC, ub.reference ASC) as ranks,
         ub.beneficiary_id,
         ub.id,
         ub.operator_id,
@@ -1068,7 +1069,7 @@ class ApiController extends BaseController
                 return Carbon\Carbon::parse($user->created_at)->format('Y-m-d');
             })
             ->editColumn('current_balance', function ($balance) {
-                return self::CURRENCY . formatSolde($balance->current_balance, 2);
+                return self::CURRENCY . self::SEPACE . formatSolde($balance->current_balance, 2);
             })
             ->editColumn('description', function ($row) use ($idAmounts) {
                 if ($idAmounts == 3)
@@ -1081,7 +1082,14 @@ class ApiController extends BaseController
 
     public function getTreeUser($locale)
     {
-        return datatables($this->getUserBalancesList($locale, auth()->user()->idUser, BalanceEnum::TREE->value, false))->make(true);
+        return datatables($this->getUserBalancesList($locale, auth()->user()->idUser, BalanceEnum::TREE->value, false))
+            ->editColumn('value', function ($balcene) {
+                return formatSolde($balcene->value, 2) . ' ' . self::CURRENCY;
+            })
+            ->editColumn('current_balance', function ($balcene) {
+                return formatSolde($balcene->current_balance, 2) . ' ' . self::CURRENCY;
+            })
+            ->make(true);
     }
 
     public function getSmsUser($locale)
@@ -1111,7 +1119,15 @@ class ApiController extends BaseController
             ->join('balance_operations as bo', 'ub.balance_operation_id', '=', 'bo.id')
             ->where('ub.beneficiary_id', $user->idUser)
             ->orderBy('created_at')->get();
-        return datatables($userData)->make(true);
+
+        return datatables($userData)
+            ->editColumn('value', function ($balcene) {
+                return formatSolde($balcene->value, 2);
+            })
+            ->editColumn('current_balance', function ($balcene) {
+                return formatSolde($balcene->current_balance, 2);
+            })
+            ->make(true);
     }
 
     public function getPurchaseBFSUser()
@@ -1120,7 +1136,7 @@ class ApiController extends BaseController
         if (!$user) $user->idUser = '';
         $userData = DB::table('bfss_balances as ub')
             ->select(
-                DB::raw('RANK() OVER (ORDER BY ub.created_at DESC) as ranks'),
+                DB::raw('RANK() OVER (ORDER BY ub.created_at ASC) as ranks'),
                 'ub.beneficiary_id', 'ub.id', 'ub.operator_id', 'ub.reference', 'ub.created_at', 'bo.operation', 'ub.description',
                 DB::raw(" CASE WHEN ub.operator_id = '11111111' THEN 'system' ELSE (SELECT CONCAT(IFNULL(enfirstname, ''), ' ', IFNULL(enlastname, '')) FROM metta_users mu WHERE mu.idUser = ub.beneficiary_id) END AS source "),
                 DB::raw(" CASE WHEN bo.IO = 'I' THEN CONCAT('+', '$', FORMAT(ub.value, 2)) WHEN bo.IO = 'O' THEN CONCAT('-', '$', FORMAT(ub.value , 2)) WHEN bo.IO = 'IO' THEN 'IO' END AS value "),
@@ -1135,7 +1151,7 @@ class ApiController extends BaseController
             ->get();
         return datatables($userData)
             ->editColumn('current_balance', function ($balance) {
-                return self::CURRENCY . formatSolde($balance->current_balance, 2);
+                return self::CURRENCY . self::SEPACE . formatSolde($balance->current_balance, 2);
             })
             ->make(true);
     }
