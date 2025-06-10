@@ -1122,10 +1122,10 @@ class ApiController extends BaseController
 
         return datatables($userData)
             ->editColumn('value', function ($balcene) {
-                return formatSolde($balcene->value, 2) . ' ' . self::CURRENCY;
+                return formatSolde($balcene->value, 2);
             })
             ->editColumn('current_balance', function ($balcene) {
-                return formatSolde($balcene->current_balance, 2) . ' ' . self::CURRENCY;
+                return formatSolde($balcene->current_balance, 2);
             })
             ->make(true);
     }
