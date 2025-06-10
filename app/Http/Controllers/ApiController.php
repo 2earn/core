@@ -51,6 +51,7 @@ class ApiController extends BaseController
 {
     const DATE_FORMAT = 'd/m/Y H:i:s';
     const CURRENCY = '$';
+    const SEPACE = ' ';
     const SEPARATOR = ' : ';
 
 
@@ -1011,7 +1012,7 @@ class ApiController extends BaseController
         return DB::table($balance . ' as ub')
             ->join('balance_operations as bo', 'ub.balance_operation_id', '=', 'bo.id')
             ->selectRaw('
-        RANK() OVER (ORDER BY ub.created_at desc, ub.reference desc) as ranks,
+        RANK() OVER (ORDER BY ub.created_at ASC, ub.reference ASC) as ranks,
         ub.beneficiary_id,
         ub.id,
         ub.operator_id,
@@ -1068,7 +1069,7 @@ class ApiController extends BaseController
                 return Carbon\Carbon::parse($user->created_at)->format('Y-m-d');
             })
             ->editColumn('current_balance', function ($balance) {
-                return self::CURRENCY . formatSolde($balance->current_balance, 2);
+                return self::CURRENCY . self::SEPACE . formatSolde($balance->current_balance, 2);
             })
             ->editColumn('description', function ($row) use ($idAmounts) {
                 if ($idAmounts == 3)
@@ -1121,10 +1122,10 @@ class ApiController extends BaseController
 
         return datatables($userData)
             ->editColumn('value', function ($balcene) {
-                return formatSolde($balcene->value, 2) . ' ' . self::CURRENCY;
+                return formatSolde($balcene->value, 2);
             })
             ->editColumn('current_balance', function ($balcene) {
-                return formatSolde($balcene->current_balance, 2) . ' ' . self::CURRENCY;
+                return formatSolde($balcene->current_balance, 2);
             })
             ->make(true);
     }
@@ -1150,7 +1151,7 @@ class ApiController extends BaseController
             ->get();
         return datatables($userData)
             ->editColumn('current_balance', function ($balance) {
-                return self::CURRENCY . formatSolde($balance->current_balance, 2);
+                return self::CURRENCY . self::SEPACE . formatSolde($balance->current_balance, 2);
             })
             ->make(true);
     }
