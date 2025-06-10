@@ -33,7 +33,7 @@
                         id="ub_table_bfs" style="width: 100%">
                         <thead class="table-light">
                         <tr class=" tabHeader2earn">
-                            <th>{{__('Num')}}</th>
+                            <th>{{ __('Operation order') }}</th>
                             <th>{{ __('ref')}}</th>
                             <th>{{ __('date')}}</th>
                             <th>{{ __('Operation Designation')}}</th>
@@ -99,16 +99,6 @@
                                             return '<span class="badge bg-danger con fs-14">' + data + '</span>';
                                         else
                                             return '<span class="badge bg-success con fs-14">' + data + '</span>';
-                                    }
-                                },
-                                {
-                                    "targets": [7],
-                                    render: function (data, type, row) {
-
-                                        if (row.ranks == 1)
-                                            return '<div class="logoTopBFSLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
-                                        else
-                                            return data;
                                     }
                                 },
                                 {
