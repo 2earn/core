@@ -33,6 +33,7 @@ use App\Livewire\ValidateAccount;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /*
 |--------------------------------------------------------------------------
@@ -259,6 +260,10 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         });
 
+        Route::prefix('/settlement')->name('settlement_')->group(function () {
+            Route::get('/tracking', \App\Livewire\SettlementTracking::class)->name('tracking');
+        });
+
         Route::prefix('/coupon')->name('coupon_')->group(function () {
             Route::get('/{id}/buy', \App\Livewire\CouponBuy::class)->name('buy');
         });
@@ -366,10 +371,9 @@ Route::get('/{slug}', function () {
 });
 
 Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'middleware' => 'setlocale'], function () {
-Route::get('/{slug}', function () {
-    dd('ddd');
-    return redirect(app()->getLocale());
-});
+    Route::get('/{slug}', function () {
+        throw new  NotFoundHttpException();
+    });
 });
 
 
