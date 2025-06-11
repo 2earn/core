@@ -42,7 +42,7 @@ class AcceptFinancialRequest extends Component
         if ($val == 2) {
             if ($bfs100 < $financialRequestAmount) {
                 $montant = $financialRequestAmount - $bfs100;
-                return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'FinRequestN' => $financialRequest->numeroReq])->with('warning', trans('Insufficient BFS 100 balance') . ' : ' . $cash . '>' . $montant);
+                return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'FinRequestN' => $financialRequest->numeroReq])->with('warning', trans('Insufficient BFS 100 balance') . ' : ' . $bfs100 . ' > ' . $montant);
             }
             $userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::SendToPublicFromBFS, $userAuth->idUser, $param);
         }
