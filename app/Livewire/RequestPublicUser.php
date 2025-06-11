@@ -94,7 +94,7 @@ class RequestPublicUser extends Component
         $users = User::where('is_public', 1)
             ->where('idUser', '<>', $userAuth->idUser)
             ->where('idCountry', $userAuth->idCountry)
-            ->where('status', '>=',StatusRequest::ValidNational)
+            ->where('status', '>',StatusRequest::OptValidated->value)
             ->get();
         return view('livewire.request-public-user', ['pub_users' => $users])->extends('layouts.master')->section('content');
     }
