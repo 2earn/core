@@ -137,7 +137,7 @@ class Balances
         }
 
         if (array_key_exists('percentage', $balances)) {
-            if (fmod($balances['percentage'], 1) == 0) {
+            if ($balances['percentage'] !== BFSsBalances::BFS_100 && fmod($balances['percentage'], 1) == 0) {
                 $balances['percentage'] = $balances['percentage'] . '.00';
             }
         }

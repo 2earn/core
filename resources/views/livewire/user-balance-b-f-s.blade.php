@@ -28,7 +28,7 @@
                                                         </span>
                                             </div>
                                             <div class="flex-grow-1 ms-3">
-                                                <h3 class="text-uppercase text-muted float-end mb-1"> {{$bfs['type']}}</h3>
+                                                <h3 class="text-uppercase text-muted float-end mb-1">{{__('BFS_')}} {{$bfs['type']}}</h3>
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h4 class="float-end mb-0">{{config('app.currency')}} <span

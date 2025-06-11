@@ -2,10 +2,11 @@
 
 namespace App\Livewire;
 
+use App\Models\BFSsBalances;
+use App\Services\Balances\Balances;
 use Core\Enum\EventBalanceOperationEnum;
 use Core\Models\detail_financial_request;
 use Core\Models\FinancialRequest;
-
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
 use Core\Services\UserBalancesHelper;
@@ -33,15 +34,19 @@ class AcceptFinancialRequest extends Component
             return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $num])->with('danger', Lang::get('Failed security code'));
         }
         $param = ['montant' => $financialRequest->amount, 'recipient' => $financialRequest->idSender];
-        $soldeUser = $balancesManager->getBalances($userAuth->idUser, -1);
+        $userCurrentBalancehorisontal = Balances::getStoredUserBalances($userAuth->idUser);
+        $bfs100 = $userCurrentBalancehorisontal->getBfssBalance(BFSsBalances::BFS_100);
+        $cash = $userCurrentBalancehorisontal->cash_balance;
+        $financialRequestAmount = floatval($financialRequest->amount);
+
         if ($val == 2) {
-            if ($soldeUser->soldeBFS < $financialRequest->amount) {
-                $montant = $financialRequest->amount - $soldeUser->soldeBFS;
-                if ($soldeUser->soldeCB > $montant)
-                    return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'FinRequestN' => $financialRequest->numeroReq])->with('danger', $montant);
+            if ($bfs100 < $financialRequestAmount) {
+                $montant = $financialRequestAmount - $bfs100;
+                return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'FinRequestN' => $financialRequest->numeroReq])->with('warning', trans('Insufficient BFS 100 balance') . ' : ' . $bfs100 . ' > ' . $montant);
             }
             $userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::SendToPublicFromBFS, $userAuth->idUser, $param);
         }
+
         $detailRequst = detail_financial_request::where('numeroRequest', '=', $num)->where('idUser', '=', $userAuth->idUser)->first();
         if (!$detailRequst) return;
         detail_financial_request::where('numeroRequest', '=', $num)->where('response', '=', null)
