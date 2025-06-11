@@ -373,9 +373,10 @@
             </div>
         </div>
     </div>
+
     <div class="row">
         @foreach($businessSectors as $businessSector)
-            <div class="col-2">
+            <div class="col-sm-6 col-md-4 col-lg-2">
                 <div class="card">
                     <div class="card-body p-3" title="{{$businessSector->name}}">
                         <a class="popup-img d-inline-block"
@@ -394,6 +395,7 @@
             </div>
         @endforeach
     </div>
+
     @foreach($news as $newsItem)
         @include('livewire.news-item', ['news' => $newsItem])
     @endforeach
