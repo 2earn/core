@@ -22,6 +22,11 @@
                     {{$deal->platform()->first()->name}}
                 </span>
             </h4>
+
+            @if(\App\Models\User::isSuperAdmin())
+                <a class="link-dark"
+                   href="{{route('sales_tracking',['locale'=>app()->getLocale(),'id'=>$deal->id])}}">{{ __('See details for Platform role') }}</a>
+            @endif
         </div>
         <div class="card-body row">
             <div class="d-flex align-items-center">
@@ -289,7 +294,7 @@
                     confirmButtonText: "{{__('Delete')}}",
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.Livewire.dispatch("delete",[ $(event.target).attr('data-id')]);
+                        window.Livewire.dispatch("delete", [$(event.target).attr('data-id')]);
                     }
                 });
             });
@@ -306,7 +311,7 @@
                     confirmButtonText: confirmButtonText,
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.Livewire.dispatch("updateDeal",[ id, status]);
+                        window.Livewire.dispatch("updateDeal", [id, status]);
                     }
                 });
             });
