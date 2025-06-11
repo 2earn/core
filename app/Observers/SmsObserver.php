@@ -19,7 +19,7 @@ class SmsObserver
         $userCurrentBalancehorisontal->update(['sms_balance' => $newSmsBalanceHorisental]);
 
         $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $smsBalances->beneficiary_id)
-            ->where('balance_id', BalanceEnum::CHANCE)
+            ->where('balance_id', BalanceEnum::SMS)
             ->first();
 
         $userCurrentBalanceVertical->update(
