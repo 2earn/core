@@ -29,7 +29,7 @@
         </div>
         <div class="card-footer text-muted">
             <button onclick="ConfirmTransacction()"
-                    class=" btn btn-primary btn2earn  float-end ">{{__('Confirm')}}</button>
+                    class=" btn btn-primary mx-2 float-end ">{{__('Confirm transfer')}}</button>
             <a class="btn btn-danger float-end"
                href="{{route('financial_transaction',app()->getLocale())}}" class="btn-danger">{{__('Cancel')}}</a>
         </div>
