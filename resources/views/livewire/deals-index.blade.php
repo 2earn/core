@@ -12,19 +12,63 @@
         @include('layouts.flash-messages')
     </div>
     <div class="row card">
-        <div class="card-header border-info">
-            <div class="row">
-                @foreach($platforms as $platform)
-                    <div class="col-auto">
-                        <h3 class="fs-14 my-1"><a href="{{$platform->link}}">
-                                {{__($platform->name)}}
-                            </a>
-                        </h3>
+        <div class="card-body row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="row m-1 card">
+                    <div class="card-header align-items-center d-flex">
+                        <h4 class="card-title mb-0 flex-grow-1">{{__('Platforms')}}</h4>
                     </div>
-
-                @endforeach
+                    <div class="card-body border-info">
+                        <div class="row">
+                            @foreach($platforms as $platform)
+                                <div class="col-auto">
+                                    <div class="form-check form-switch form-check-inline" dir="ltr">
+                                        <label for="platform.{{__($platform->name)}}">{{__($platform->name)}}</label>
+                                        <input type="checkbox" class="form-check-input"
+                                               id="platform.{{__($platform->name)}}">
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-4">
+                <div class="row m-1 card">
+                    <div class="card-header align-items-center d-flex">
+                        <h4 class="card-title mb-0 flex-grow-1">{{__('Status')}}</h4>
+                    </div>
+                    <div class="card-body border-info">
+                        <select class="form-select form-select-sm  mb-3" aria-label=".form-select-sm example">
+                            <option selected>Open this select menu</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-4">
+                <div class="row m-1 card">
+                    <div class="card-header align-items-center d-flex">
+                        <h4 class="card-title mb-0 flex-grow-1">{{__('Type')}}</h4>
+                    </div>
+                    <div class="card-body border-info">
+                        <select class="form-select form-select-sm  mb-3" aria-label=".form-select-sm example">
+                            <option selected>Open this select menu</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
+        <div class="card-footer">
+            <button class="btn btn-primary" type="submit">{{__('Search Deals')}}</button>
+        </div>
+    </div>
+    <div class="row card">
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-12">
