@@ -137,7 +137,7 @@ class Balances
         }
 
         if (array_key_exists('percentage', $balances)) {
-            if (!str_ends_with($balances['percentage'], '.00') && fmod(floatval($balances['percentage']), 1) != 0) {
+            if (!str_ends_with($balances['percentage'], '.00') && fmod(floatval($balances['percentage']), 1) == 0) {
                 $balances['percentage'] = $balances['percentage'] . '.00';
             }
         }
