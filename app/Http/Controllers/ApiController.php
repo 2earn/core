@@ -52,6 +52,7 @@ class ApiController extends BaseController
     const DATE_FORMAT = 'd/m/Y H:i:s';
     const CURRENCY = '$';
     const SEPARATOR = ' : ';
+    const PERCENTAGE = ' % ';
 
 
     public function __construct(private readonly settingsManager $settingsManager, private BalancesManager $balancesManager, private UserRepository $userRepository)
@@ -1083,10 +1084,10 @@ class ApiController extends BaseController
     {
         return datatables($this->getUserBalancesList($locale, auth()->user()->idUser, BalanceEnum::TREE->value, false))
             ->editColumn('value', function ($balcene) {
-                return formatSolde($balcene->value, 2) . ' ' . self::CURRENCY;
+                return formatSolde($balcene->value, 2) . ' ' . self::PERCENTAGE;
             })
             ->editColumn('current_balance', function ($balcene) {
-                return formatSolde($balcene->current_balance, 2) . ' ' . self::CURRENCY;
+                return formatSolde($balcene->current_balance, 2) . ' ' . self::PERCENTAGE;
             })
             ->make(true);
     }
