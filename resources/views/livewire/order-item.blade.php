@@ -105,7 +105,8 @@
                                                                 </li>
                                                                 <li class="list-group-item">
                                                                     <strong>{{__('Price')}}</strong><span
-                                                                        class="float-end">{{$orderDetail->item()->first()->price}}  {{config('app.currency')}}</span>
+                                                                        class="float-end">
+                                                                        {{$orderDetail->unit_price}}  {{config('app.currency')}}</span>
                                                                 </li>
 
                                                                 <li class="list-group-item">
