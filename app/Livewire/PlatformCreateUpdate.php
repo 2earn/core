@@ -40,8 +40,8 @@ class PlatformCreateUpdate extends Component
         'sector' => 'required',
         'link' => 'required',
         'logoImage' => 'nullable|image|mimes:jpeg,png,jpg',
-
     ];
+
     public $update = false;
     public $types = [];
     public $sectors = [];

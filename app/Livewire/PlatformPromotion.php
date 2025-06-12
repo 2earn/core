@@ -27,7 +27,7 @@ class PlatformPromotion extends Component
         ];
     }
 
-    public function revoqueRole($platformId, $type)
+    public function revokeRole($platformId, $type)
     {
         $platform = Platform::find($platformId);
         try {
@@ -37,9 +37,14 @@ class PlatformPromotion extends Component
                 $role = Promotion::Financial->name;
             }
 
-            if ($type == Promotion::Administrative->value) {
-                $platform->administrative_manager_id = null;
-                $role = Promotion::Administrative->name;
+            if ($type == Promotion::Marketing->value) {
+                $platform->marketing_manager_id = null;
+                $role = Promotion::Marketing->name;
+            }
+
+            if ($type == Promotion::Owner->value) {
+                $platform->owner_id = null;
+                $role = Promotion::Owner->name;
             }
 
             $platform->save();
@@ -50,29 +55,36 @@ class PlatformPromotion extends Component
         return redirect()->route('platform_promotion', $this->rediredtionParams)->with('success', Lang::get($role) . self::SEPARATOR . Lang::get('Role revoqued'));
     }
 
+
     public function grantRole($userId, $platformId, $type)
     {
         $user = User::find($userId);
         $platform = Platform::find($platformId);
 
         try {
+
             if ($type == Promotion::Financial->value) {
                 $platform->financial_manager_id = $user->id;
                 $role = Promotion::Financial->name;
             }
 
-            if ($type == Promotion::Administrative->value) {
-                $platform->administrative_manager_id = $user->id;
-                $role = Promotion::Administrative->name;
+            if ($type == Promotion::Marketing->value) {
+                $platform->marketing_manager_id = $user->id;
+                $role = Promotion::Marketing->name;
+            }
+
+            if ($type == Promotion::Owner->value) {
+                $platform->owner_id = $user->id;
+                $role = Promotion::Owner->name;
             }
 
             $platform->save();
         } catch
         (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect()->route('platform_promotion', $this->rediredtionParams)->with('danger', Lang::get($role) . self::SEPARATOR . Lang::get('manager promotion failed') . self::SEPARATOR . $exception->getMessage());
+            return redirect()->route('platform_promotion', $this->rediredtionParams)->with('danger', Lang::get($role) . self::SEPARATOR . Lang::get('Manager promotion failed') . self::SEPARATOR . $exception->getMessage());
         }
-        return redirect()->route('platform_promotion', $this->rediredtionParams)->with('success', Lang::get($role) . self::SEPARATOR . Lang::get('manager promotion to') . self::SEPARATOR . getUserDisplayedName($user->idUser));
+        return redirect()->route('platform_promotion', $this->rediredtionParams)->with('success', Lang::get($role) . self::SEPARATOR . Lang::get('Manager promotion to') . self::SEPARATOR . getUserDisplayedName($user->idUser));
     }
 
     public function render()

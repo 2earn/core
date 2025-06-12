@@ -24,7 +24,8 @@ class Platform extends Model
         'link',
         'show_profile',
         'image_link',
-        'administrative_manager_id',
+        'owner_id',
+        'marketing_manager_id',
         'financial_manager_id',
         'business_sector_id'
     ];
@@ -33,7 +34,12 @@ class Platform extends Model
 
     const DEFAULT_IMAGE_TYPE_LOGO = 'resources/images/platforms/logo for platform.png';
 
-    public function administrativeManager(): HasOne
+    public function marketingManager(): HasOne
+    {
+        return $this->hasOne(User::class);
+    }
+
+    public function owner(): HasOne
     {
         return $this->hasOne(User::class);
     }

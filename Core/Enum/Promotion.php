@@ -4,7 +4,8 @@ namespace Core\Enum;
 
 enum Promotion: int
 {
-    case Administrative = 1;
+    case Marketing = 1;
     case Financial = 2;
+    case Owner = 3;
 
 }
