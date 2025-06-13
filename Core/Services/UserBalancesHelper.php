@@ -74,6 +74,7 @@ class  UserBalancesHelper
                 $initialChance = getSettingIntegerParam('INITIAL_CHANCE', 0);
                 DB::beginTransaction();
                 try {
+
                     DiscountBalances::addLine([
                         'balance_operation_id' => BalanceOperationsEnum::BY_REGISTERING_DB->value,
                         'operator_id' => Balances::SYSTEM_SOURCE_ID,
@@ -83,24 +84,28 @@ class  UserBalancesHelper
                         'value' => $initialDiscount,
                         'current_balance' => $initialDiscount
                     ]);
+
                     TreeBalances::addLine([
                         'balance_operation_id' => BalanceOperationsEnum::BY_REGISTERING_TREE->value,
                         'operator_id' => Balances::SYSTEM_SOURCE_ID,
                         'beneficiary_id' => $idUser,
                         'reference' => BalancesFacade::getReference(BalanceOperationsEnum::BY_REGISTERING_TREE->value),
-                        'description' => BalanceOperationsEnum::BY_REGISTERING_TREE->name,
+                        'description' => $initialTree . ' % as welcome gift',
                         'value' => $initialTree,
                         'current_balance' => $initialTree
                     ]);
+
                     ChanceBalances::addLine([
                         'balance_operation_id' => BalanceOperationsEnum::INITIAL_CHANE->value,
                         'operator_id' => Balances::SYSTEM_SOURCE_ID,
                         'beneficiary_id' => $idUser,
                         'reference' => BalancesFacade::getReference(BalanceOperationsEnum::INITIAL_CHANE->value),
-                        'description' => BalanceOperationsEnum::INITIAL_CHANE->name,
+                        'description' => $initialChance . ' % as welcome gift',
                         'value' => $initialChance,
+                        'pool_id' => 1,
                         'current_balance' => $initialChance
                     ]);
+
                     DB::commit();
                 } catch (\Exception $exception) {
                     dd($exception);
@@ -197,11 +202,12 @@ class  UserBalancesHelper
                 break;
             case EventBalanceOperationEnum::SendToPublicFromCash:
                 if (($params) == null) dd('throw exception');
-                $soldeSender = $this->balanceOperationmanager->getBalances($idUser);
-                if (floatval($soldeSender->soldeCB) < floatval($params['montant'])) return;
-                $soldeRecipient = $this->balanceOperationmanager->getBalances($params['recipient']);
-                $newSoldeBFSRecipient = floatval($soldeRecipient->soldeBFS) + floatval($params['montant']);
-                $newSoldeCashSender = floatval($soldeSender->soldeCB) - floatval($params['montant']);
+
+                $userCurrentBalanceHorisontalSender = Balances::getStoredUserBalances($idUser);
+                $userCurrentBalanceHorisontalRecipient = Balances::getStoredUserBalances($params['recipient']);
+                if (floatval($userCurrentBalanceHorisontalSender->cash_balance) < floatval($params['montant'])) return;
+                $newSoldeBFSRecipient = floatval($userCurrentBalanceHorisontalRecipient->getBfssBalance(BFSsBalances::BFS_100)) + floatval($params['montant']);
+                $newSoldeCashSender = floatval($userCurrentBalanceHorisontalSender->cash_balance) - floatval($params['montant']);
 
                 DB::beginTransaction();
                 try {
@@ -237,11 +243,14 @@ class  UserBalancesHelper
                 break;
             case EventBalanceOperationEnum::SendToPublicFromBFS:
                 if (($params) == null) dd('throw exception');
-                $soldeSender = $this->balanceOperationmanager->getBalances($idUser);
-                if (floatval($soldeSender->soldeBFS) < floatval($params['montant'])) return;
-                $soldeRecipient = $this->balanceOperationmanager->getBalances($params['recipient']);
-                $newSoldeBFSRecipient = floatval($soldeRecipient->soldeBFS) + floatval($params['montant']);
-                $newSoldeCashSender = floatval($soldeSender->soldeBFS) - floatval($params['montant']);
+
+                $userCurrentBalanceHorisontalSender = Balances::getStoredUserBalances($idUser);
+                $userCurrentBalanceHorisontalRecipient = Balances::getStoredUserBalances($params['recipient']);
+
+                if (floatval($userCurrentBalanceHorisontalSender->getBfssBalance(BFSsBalances::BFS_100)) < floatval($params['montant'])) return;
+
+                $newSoldeBFSRecipient = floatval($userCurrentBalanceHorisontalRecipient->getBfssBalance(BFSsBalances::BFS_100)) + floatval($params['montant']);
+                $newSoldeCashSender = floatval($userCurrentBalanceHorisontalSender->getBfssBalance(BFSsBalances::BFS_100)) - floatval($params['montant']);
 
                 DB::beginTransaction();
                 try {
@@ -258,7 +267,9 @@ class  UserBalancesHelper
                         'value' => $params["montant"],
                         'current_balance' => $balances->getBfssBalance(BFSsBalances::BFS_100) + BalanceOperation::getMultiplicator(BalanceOperationsEnum::TO_OTHER_USERS_PUBLIC_BFS->value) * $newSoldeCashSender
                     ]);
+
                     $balances = Balances::getStoredUserBalances($params['recipient']);
+
                     BFSsBalances::addLine([
                         'balance_operation_id' => BalanceOperationsEnum::FROM_PUBLIC_USER_BFS->value,
                         'operator_id' => $idUser,

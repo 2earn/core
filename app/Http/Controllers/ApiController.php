@@ -52,6 +52,7 @@ class ApiController extends BaseController
     const DATE_FORMAT = 'd/m/Y H:i:s';
     const CURRENCY = '$';
     const SEPARATOR = ' : ';
+    const PERCENTAGE = ' % ';
 
 
     public function __construct(private readonly settingsManager $settingsManager, private BalancesManager $balancesManager, private UserRepository $userRepository)
@@ -199,16 +200,23 @@ class ApiController extends BaseController
             ]);
             $balances = Balances::getStoredUserBalances($reciver);
             $value = intval($number_of_action / $palier) * $actual_price * $palier;
-            BFSsBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::BY_ACQUIRING_SHARES->value,
-                'operator_id' => Balances::SYSTEM_SOURCE_ID,
-                'beneficiary_id' => $reciver_bfs,
-                'reference' => $ref,
-                'percentage' => BFSsBalances::BFS_50,
-                'description' => $number_of_action . ' share(s) purchased',
-                'value' => $value,
-                'current_balance' => $balances->getBfssBalance("50.00") + BalanceOperation::getMultiplicator(BalanceOperationsEnum::BY_ACQUIRING_SHARES->value) * $value
-            ]);
+            $SettingBFSsTypeForAction = getSettingStringParam('BFSS_TYPE_FOR_ACTION', '50');
+            if (floatval($SettingBFSsTypeForAction) > 100 or floatval($SettingBFSsTypeForAction) < 0.01) {
+                $SettingBFSsTypeForAction = '50';
+            }
+            if ($value > 0) {
+                BFSsBalances::addLine([
+                    'balance_operation_id' => BalanceOperationsEnum::BY_ACQUIRING_SHARES->value,
+                    'operator_id' => Balances::SYSTEM_SOURCE_ID,
+                    'beneficiary_id' => $reciver_bfs,
+                    'reference' => $ref,
+                    'percentage' => $SettingBFSsTypeForAction,
+                    'description' => $number_of_action . ' share(s) purchased',
+                    'value' => $value,
+                    'current_balance' => $balances->getBfssBalance($SettingBFSsTypeForAction) + BalanceOperation::getMultiplicator(BalanceOperationsEnum::BY_ACQUIRING_SHARES->value) * $value
+                ]);
+            }
+
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollback();
@@ -1074,7 +1082,14 @@ class ApiController extends BaseController
 
     public function getTreeUser($locale)
     {
-        return datatables($this->getUserBalancesList($locale, auth()->user()->idUser, BalanceEnum::TREE->value, false))->make(true);
+        return datatables($this->getUserBalancesList($locale, auth()->user()->idUser, BalanceEnum::TREE->value, false))
+            ->editColumn('value', function ($balcene) {
+                return formatSolde($balcene->value, 2) . ' ' . self::PERCENTAGE;
+            })
+            ->editColumn('current_balance', function ($balcene) {
+                return formatSolde($balcene->current_balance, 2) . ' ' . self::PERCENTAGE;
+            })
+            ->make(true);
     }
 
     public function getSmsUser($locale)
@@ -1104,7 +1119,15 @@ class ApiController extends BaseController
             ->join('balance_operations as bo', 'ub.balance_operation_id', '=', 'bo.id')
             ->where('ub.beneficiary_id', $user->idUser)
             ->orderBy('created_at')->get();
-        return datatables($userData)->make(true);
+
+        return datatables($userData)
+            ->editColumn('value', function ($balcene) {
+                return formatSolde($balcene->value, 2) . ' ' . self::CURRENCY;
+            })
+            ->editColumn('current_balance', function ($balcene) {
+                return formatSolde($balcene->current_balance, 2) . ' ' . self::CURRENCY;
+            })
+            ->make(true);
     }
 
     public function getPurchaseBFSUser()
@@ -1113,7 +1136,7 @@ class ApiController extends BaseController
         if (!$user) $user->idUser = '';
         $userData = DB::table('bfss_balances as ub')
             ->select(
-                DB::raw('RANK() OVER (ORDER BY ub.created_at DESC) as ranks'),
+                DB::raw('RANK() OVER (ORDER BY ub.created_at ASC) as ranks'),
                 'ub.beneficiary_id', 'ub.id', 'ub.operator_id', 'ub.reference', 'ub.created_at', 'bo.operation', 'ub.description',
                 DB::raw(" CASE WHEN ub.operator_id = '11111111' THEN 'system' ELSE (SELECT CONCAT(IFNULL(enfirstname, ''), ' ', IFNULL(enlastname, '')) FROM metta_users mu WHERE mu.idUser = ub.beneficiary_id) END AS source "),
                 DB::raw(" CASE WHEN bo.IO = 'I' THEN CONCAT('+', '$', FORMAT(ub.value, 2)) WHEN bo.IO = 'O' THEN CONCAT('-', '$', FORMAT(ub.value , 2)) WHEN bo.IO = 'IO' THEN 'IO' END AS value "),

@@ -1,4 +1,4 @@
-<div>
+<div class="container-fluid">
     @section('title')
         {{ __('User Details') }}
     @endsection
@@ -8,8 +8,8 @@
             {{ __('User Details') }}
         @endslot
     @endcomponent
-        <div class="row mb-5">
-            <div class="col-xl-4">
+    <div class="row mb-5">
+        <div class="col-xl-4">
             <div class="card ribbon-box border shadow-none mb-lg-0 material-shadow">
                 <div class="card-body">
                     <div class="ribbon ribbon-primary round-shape">[{{$user['idUser']}}]</div>
@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-            <div class="col-xl-4">
+        <div class="col-xl-4">
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title mb-2 text-info">{{ __('National identities cards') }}</h5>
@@ -62,7 +62,7 @@
                 </div>
             </div>
         </div>
-            <div class="col-xl-4">
+        <div class="col-xl-4">
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title mb-2 text-info">{{ __('International identity card') }}</h5>
@@ -86,7 +86,7 @@
             </div>
 
         </div>
-            <div class="col-xl-4">
+        <div class="col-xl-4">
             <div class="card border shadow-none mb-lg-0 material-shadow">
                 <h5 class="card-header text-info">
                     {{__('General data')}}
@@ -133,7 +133,7 @@
                 </div>
             </div>
         </div>
-            <div class="col-xl-4">
+        <div class="col-xl-4">
             <div class="card border shadow-none mb-lg-0 material-shadow">
                 <h5 class="card-header text-info">
                     {{__('Detailed data')}}
@@ -174,59 +174,175 @@
                 </div>
             </div>
         </div>
-            <div class="col-xl-4">
-            <div class="card border shadow-none mb-lg-0 material-shadow">
-                <h5 class="card-header text-info">
-                    {{__('Main Soldes')}}
-                </h5>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <strong>{{__('Cash Balance')}}</strong>
-                            <span class="float-end">{{formatSolde($soldes?->cash_balance,3)}}</span>
-                        </li>
-                        <li class="list-group-item">
-                            <strong>{{__('Balance For Shopping')}}</strong>
-                            <span
-                                class="float-end">{{formatSolde(\App\Services\Balances\Balances::getTotalBfs($soldes),3)}}</span>
-                        </li>
-                        <li class="list-group-item">
-                            <strong>{{__('Discounts Balance')}}</strong>
-                            <span class="float-end">{{formatSolde($soldes?->discount_balance,3)}}</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-            <div class="col-xl-4">
+    </div>
+    <div class="row mb-5">
+        @if($activeUser)
+            <div class="col-xl-6">
                 <div class="card border shadow-none mb-lg-0 material-shadow">
                     <h5 class="card-header text-info">
-                        {{__('Other soldes')}}
+                        {{__('Main Balances Horizontal')}}
                     </h5>
                     <div class="card-body">
-                        <ul class="list-group list-group-flush">
+                        <ul class="list-group">
                             <li class="list-group-item">
-                                <strong>{{__('SMS Solde')}}</strong>
-                                <span class="float-end">{{formatSolde($soldes?->sms_balance,0)}}</span>
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0 ms-2">
+                                                <h6 class="fs-14 mb-0">{{__('Cash Balance')}}</h6>
+                                                <small class="text-muted">{{now()}}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                    <span
+                                        class="text-danger">{{formatSolde($userCurrentBalanceHorisontal?->cash_balance,3)}}  {{config('app.currency')}}</span>
+                                    </div>
+                                </div>
                             </li>
                             <li class="list-group-item">
-                                <strong>{{__('Tree Solde')}}</strong>
-                                <span class="float-end">{{formatSolde($soldes?->tree_balance,0)}}</span>
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0 ms-2">
+                                                <h6 class="fs-14 mb-0">{{__('Balance For Shopping')}}</h6>
+                                                <small class="text-muted">{{now()}}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                    <span
+                                        class="text-danger">{{formatSolde(\App\Services\Balances\Balances::getTotalBfs($userCurrentBalanceHorisontal),3)}}  {{config('app.currency')}}</span>
+                                    </div>
+                                </div>
                             </li>
                             <li class="list-group-item">
-                                <strong>{{__('Actions (Shares)')}}</strong>
-                                <span class="float-end">{{formatSolde($soldes?->share_balance,0)}}</span>
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0 ms-2">
+                                                <h6 class="fs-14 mb-0">{{__('Discounts Balance')}}</h6>
+                                                <small class="text-muted">{{now()}}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                    <span
+                                        class="text-danger">{{formatSolde($userCurrentBalanceHorisontal?->discount_balance,3)}}  {{config('app.currency')}}</span>
+                                    </div>
+                                </div>
                             </li>
-                            <li class="list-group-item disabled">
-                                <strong>{{__('Chances')}}</strong>
-                                <span class="float-end">0</span>
+                            <li class="list-group-item">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0 ms-2">
+                                                <h6 class="fs-14 mb-0">{{__('SMS Balance')}}</h6>
+                                                <small class="text-muted">{{now()}}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                    <span
+                                        class="text-danger">{{formatSolde($userCurrentBalanceHorisontal?->sms_balance,3)}}</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0 ms-2">
+                                                <h6 class="fs-14 mb-0">{{__('Tree Balance')}}</h6>
+                                                <small class="text-muted">{{now()}}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                    <span
+                                        class="text-danger">{{formatSolde($userCurrentBalanceHorisontal?->tree_balance,3)}}</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0 ms-2">
+                                                <h6 class="fs-14 mb-0">{{__('Actions (Shares)')}}</h6>
+                                                <small class="text-muted">{{now()}}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                    <span
+                                        class="text-danger">{{formatSolde($userCurrentBalanceHorisontal?->share_balance,3)}}</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0 ms-2">
+                                                <h6 class="fs-14 mb-0">{{__('Chances')}}</h6>
+                                                <small class="text-muted">{{now()}}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                    <span
+                                        class="text-danger">{{\App\Services\Balances\Balances::getTotalChance($userCurrentBalanceHorisontal)}}</span>
+                                    </div>
+                                </div>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
+            <div class="col-xl-6">
+                <div class="card border shadow-none mb-lg-0 material-shadow">
+                    <h5 class="card-header text-info">
+                        {{__('Main Balances Vertical')}}
+                    </h5>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            @foreach($userCurrentBalanceVertical as $balance)
+                                <li class="list-group-item">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0 ms-2">
+                                                    <h6 class="fs-14 mb-0">{{__(\Core\Enum\BalanceEnum::tryFrom($balance->balance_id)->name)}}</h6>
+                                                    <small class="text-muted">{{$balance?->last_operation_date}}</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-shrink-0 mx-2 ">
+                                            <h5 class="fs-12 my-1 fw-normal"><span
+                                                    class="badge bg-danger-subtle text-danger">{{formatSolde($balance?->previous_balance,3)}} @if($balance->balance_id<4)
+                                                        {{config('app.currency')}}
+                                                    @endif </span></h5>
+                                            <span class="text-muted">{{__('Previous balance')}}</span>
+                                        </div>
+                                        <div class="flex-shrink-0 mx-2 ">
+                                            <h5 class="fs-14 my-1 fw-normal"><span
+                                                    class="badge bg-danger-subtle text-danger">{{formatSolde($balance?->current_balance,3)}} @if($balance->balance_id<4)
+                                                        {{config('app.currency')}}
+                                                    @endif</span></h5>
+                                            <span class="text-muted">{{__('Current balance')}}</span>
+                                        </div>
+
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        @endif
         @if(isset($metta->adresse))
-                <div class="col-xl-4">
+            <div class="col-xl-4">
                 <div class="card border shadow-none mb-lg-0 material-shadow">
                     <div class="card border shadow-none mb-lg-0 material-shadow">
                         <h5 class="card-header text-info">
@@ -242,7 +358,7 @@
             </div>
         @endif
         @if(isset($vip))
-                <div class="col-xl-4">
+            <div class="col-xl-4">
                 <div class="card border shadow-none mb-lg-0 material-shadow">
                     <div class="card border shadow-none mb-lg-0 material-shadow">
                         <h5 class="card-header text-info">

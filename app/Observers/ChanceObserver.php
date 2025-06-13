@@ -7,20 +7,16 @@ use App\Models\UserCurrentBalanceVertical;
 use App\Services\Balances\Balances;
 use Core\Enum\BalanceEnum;
 use Core\Models\BalanceOperation;
+use Illuminate\Support\Facades\Log;
 
 class ChanceObserver
 {
     public function created(ChanceBalances $chanceBalances)
     {
-            $userCurrentBalancehorisontal = Balances::getStoredUserBalances($chanceBalances->beneficiary_id);
-            $old = json_decode($chanceBalances->chance_balance);
-            if (array_key_exists($chanceBalances->persontage, $old)) {
-                $old[$chanceBalances->persontage] = $newChanceBalanceVertical = $old[$chanceBalances->persontage] + BalanceOperation::getMultiplicator($chanceBalances->balance_operation_id) * $chanceBalances->value;
-            } else {
-                $old[$chanceBalances->persontage] = $newChanceBalanceVertical = BalanceOperation::getMultiplicator($chanceBalances->balance_operation_id) * $chanceBalances->value;
-            }
-            $newChanceBalanceHorisental = json_encode($old);
-            $userCurrentBalancehorisontal->update(['chance_balance' => $newChanceBalanceHorisental]);
+        $userCurrentBalancehorisontal = Balances::getStoredUserBalances($chanceBalances->beneficiary_id);
+
+        $newChanceBalanceVertical = $userCurrentBalancehorisontal->getChancesBalance($chanceBalances->pool_id) + BalanceOperation::getMultiplicator($chanceBalances->balance_operation_id) * $chanceBalances->value;
+        $userCurrentBalancehorisontal->setChancesBalance($chanceBalances->pool_id, $newChanceBalanceVertical);
 
         $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $chanceBalances->beneficiary_id)
             ->where('balance_id', BalanceEnum::CHANCE)

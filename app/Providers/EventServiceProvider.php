@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\BFSsBalances;
 use App\Models\CashBalances;
+use App\Models\ChanceBalances;
 use App\Models\CommissionBreakDown;
 use App\Models\DiscountBalances;
 use App\Models\SharesBalances;
@@ -11,6 +12,7 @@ use App\Models\SMSBalances;
 use App\Models\TreeBalances;
 use App\Observers\BfssObserver;
 use App\Observers\CashObserver;
+use App\Observers\ChanceObserver;
 use App\Observers\DiscountObserver;
 use App\Observers\OrderObserver;
 use App\Observers\ShareObserver;
@@ -39,6 +41,7 @@ class EventServiceProvider extends ServiceProvider
         TreeBalances::class => [TreeObserver::class],
         SMSBalances::class => [SmsObserver::class],
         SharesBalances::class => [ShareObserver::class],
+        ChanceBalances::class => [ChanceObserver::class],
     ];
 
     /**

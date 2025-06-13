@@ -66,8 +66,7 @@ class TreeBalances extends Model
     public static function getTreesNumber($treeBalances)
     {
         try {
-            $totalTree = getSettingIntegerParam('TOTAL_TREE', 1);
-            return $treeBalances / $totalTree;
+            return $treeBalances /  getSettingIntegerParam('TOTAL_TREE', 150);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return 0;

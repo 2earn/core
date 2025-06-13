@@ -3,8 +3,10 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use App\Models\UserCurrentBalanceVertical;
 use App\Models\vip;
 use App\Services\Balances\Balances;
+use Core\Enum\StatusRequest;
 use Core\Models\metta_user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
@@ -17,11 +19,11 @@ class UserDetails extends Component
     public $userNationalFrontImage;
     public $userNationalBackImage;
     public $userInternationalImage;
+    public $activeUser = false;
 
     public function mount($idUser, Request $request)
     {
         $user = User::find(Route::current()->parameter('idUser'));
-
         $this->userProfileImage = User::getUserProfileImage($user->idUser);
         $this->userNationalFrontImage = User::getNationalFrontImage($user->idUser);
         $this->userNationalBackImage = User::getNationalBackImage($user->idUser);
@@ -34,7 +36,11 @@ class UserDetails extends Component
         $params['user'] = User::find($this->idUser);
         $params['metta'] = metta_user::where('idUser', $params['user']->idUser)->first();
         $params['dispalyedUserCred'] = getUserDisplayedName($params['user']->idUser);
-        $params['soldes'] = Balances::getStoredUserBalances($params['user']->idUser);
+        if ($params['user']->status >= StatusRequest::OptValidated->value) {
+            $this->activeUser = true;
+            $params['userCurrentBalanceHorisontal'] = Balances::getStoredUserBalances($params['user']->idUser);
+            $params['userCurrentBalanceVertical'] = UserCurrentBalanceVertical::where('user_id', $params['user']->idUser)->get();
+        }
         $hasVip = vip::Where('idUser', '=', $params['user']->idUser)
             ->where('closed', '=', false)->get();
         if ($hasVip->isNotEmpty()) {

@@ -85,6 +85,7 @@ class Balances
         }
         return UserCurrentBalanceHorisontal::where('user_id', $idUser)->pluck($balances)->first();
     }
+
     public static function getStoredCash($idUser)
     {
         return Balances::getStoredUserBalances($idUser, 'cash_balances');
@@ -134,6 +135,13 @@ class Balances
         if (!array_key_exists('beneficiary_id_auto', $balances) or is_null($balances['beneficiary_id_auto'])) {
             $balances['beneficiary_id_auto'] = User::where('idUser', $balances['beneficiary_id'])->first()->id;
         }
+
+        if (array_key_exists('percentage', $balances)) {
+            if (!str_ends_with($balances['percentage'], '.00') && fmod(floatval($balances['percentage']), 1) == 0) {
+                $balances['percentage'] = $balances['percentage'] . '.00';
+            }
+        }
+
         Log::info(json_encode($balances));
 
         return $balances;
@@ -167,8 +175,24 @@ class Balances
 
     public static function getTotalBfs($userCurrentBalancehorisontal)
     {
-       return $userCurrentBalancehorisontal?->getBfssBalance(BFSsBalances::BFS_100) + $userCurrentBalancehorisontal?->getBfssBalance(BFSsBalances::BFS_50);
+        $sum = 0;
+        foreach ($userCurrentBalancehorisontal->bfss_balance as $valueItem) {
+            $sum = $sum + $valueItem['value'];
+        }
+        return $sum;
     }
+
+    public static function getTotalChance($userCurrentBalancehorisontal)
+    {
+        $sum = 0;
+        if (!is_null($userCurrentBalancehorisontal)) {
+            foreach ($userCurrentBalancehorisontal->chances_balance as $valueItem) {
+                $sum = $sum + $valueItem['value'];
+            }
+        }
+        return $sum;
+    }
+
     public static function updateCalculatedSold($idUser, $type = BalanceEnum::CASH, $value)
     {
         switch ($type) {
