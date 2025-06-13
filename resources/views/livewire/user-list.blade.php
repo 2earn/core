@@ -520,10 +520,9 @@
                 $('#ub_table_list').DataTable().destroy();
             }
             $('#ub_table_list').DataTable({
-                ordering: true,
+                ordering: false,
                 retrieve: true,
                 searching: false,
-                "orderCellsTop": true,
                 "fixedHeader": true,
                 "processing": true,
                 "data": data,
@@ -566,7 +565,7 @@
 
                 $(document).ready(function () {
                     $.getJSON(window.url, function (data) {
-                        $('#modalTitle').html('{{__('Cash balance')}}');
+                        $('#modalTitle').html('{{__('Cash bbalance')}}');
                         createOrUpdateDataTable(data);
                     });
                 });
