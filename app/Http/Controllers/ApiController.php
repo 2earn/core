@@ -53,6 +53,7 @@ class ApiController extends BaseController
     const CURRENCY = '$';
     const SEPACE = ' ';
     const SEPARATOR = ' : ';
+    const PERCENTAGE = ' % ';
 
 
     public function __construct(private readonly settingsManager $settingsManager, private BalancesManager $balancesManager, private UserRepository $userRepository)
@@ -1084,10 +1085,10 @@ class ApiController extends BaseController
     {
         return datatables($this->getUserBalancesList($locale, auth()->user()->idUser, BalanceEnum::TREE->value, false))
             ->editColumn('value', function ($balcene) {
-                return formatSolde($balcene->value, 2) . ' ' . self::CURRENCY;
+                return formatSolde($balcene->value, 2) . ' ' . self::PERCENTAGE;
             })
             ->editColumn('current_balance', function ($balcene) {
-                return formatSolde($balcene->current_balance, 2) . ' ' . self::CURRENCY;
+                return formatSolde($balcene->current_balance, 2) . ' ' . self::PERCENTAGE;
             })
             ->make(true);
     }
@@ -1323,8 +1324,10 @@ class ApiController extends BaseController
             $platforms = Platform::where(function ($query) {
                 $query
                     ->where('administrative_manager_id', '=', auth()->user()->id)
-                    ->orWhere('financial_manager_id', '=', auth()->user()->id);
-            })->get();
+                    ->orWhere('owner_id', '=', auth()->user()->id)
+                    ->orWhere('marketing_manager_id', '=', auth()->user()->id);
+            })
+                ->get();
             $platformsIds = [];
             foreach ($platforms as $platform) {
                 $platformsIds[] = $platform->id;

@@ -20,10 +20,9 @@ class ShareObserver
             ->where('balance_id', BalanceEnum::SHARE)
             ->first();
 
-
         $userCurrentBalanceVertical->update(
             [
-                'current_balance' => $newShareBalanceVertical,
+                'current_balance' => $userCurrentBalanceVertical->current_balance + BalanceOperation::getMultiplicator($shareBalances->balance_operation_id) * $newShareBalanceVertical,
                 'previous_balance' => $userCurrentBalanceVertical->current_balance,
                 'last_operation_id' => $shareBalances->id,
                 'last_operation_value' => $shareBalances->value,
