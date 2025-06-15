@@ -24,7 +24,7 @@ class SmsObserver
 
         $userCurrentBalanceVertical->update(
             [
-                'current_balance' => $userCurrentBalanceVertical->current_balance + $newSmsBalanceVertical,
+                'current_balance' => $userCurrentBalanceVertical->current_balance + BalanceOperation::getMultiplicator($smsBalances->balance_operation_id)* $newSmsBalanceVertical,
                 'previous_balance' => $userCurrentBalanceVertical->current_balance,
                 'last_operation_id' => $smsBalances->id,
                 'last_operation_value' => $smsBalances->value,
