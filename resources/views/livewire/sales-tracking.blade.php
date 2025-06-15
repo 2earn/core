@@ -1,11 +1,11 @@
 <div class="container-fluid">
     @section('title')
-        {{ __('Sales tracking') }}
+        {{ __('Deal sales tracking') }}
     @endsection
     @component('components.breadcrumb')
         @slot('li_1')@endslot
         @slot('title')
-            {{ __('Sales tracking') }}
+            {{ __('Deal sales tracking') }}
         @endslot
     @endcomponent
     <div class="card">

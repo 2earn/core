@@ -1324,8 +1324,10 @@ class ApiController extends BaseController
             $platforms = Platform::where(function ($query) {
                 $query
                     ->where('administrative_manager_id', '=', auth()->user()->id)
-                    ->orWhere('financial_manager_id', '=', auth()->user()->id);
-            })->get();
+                    ->orWhere('owner_id', '=', auth()->user()->id)
+                    ->orWhere('marketing_manager_id', '=', auth()->user()->id);
+            })
+                ->get();
             $platformsIds = [];
             foreach ($platforms as $platform) {
                 $platformsIds[] = $platform->id;
