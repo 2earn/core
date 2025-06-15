@@ -95,9 +95,12 @@ class Platform extends Model
             return true;
         }
         return Platform::where(function ($query) use ($id) {
-            $query->where('administrative_manager_id', '=', $id)
-                ->orWhere('financial_manager_id', '=', $id);
-        })->exists();
+            $query
+                ->where('administrative_manager_id', '=', $id)
+                ->orWhere('owner_id', '=', $id)
+                ->orWhere('marketing_manager_id', '=', $id);
+        })
+            ->exists();
     }
 
 }
