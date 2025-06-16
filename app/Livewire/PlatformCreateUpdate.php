@@ -101,8 +101,8 @@ class PlatformCreateUpdate extends Component
         $deal = $platform->deals()->create([
             'name' => $platform->name . ' Deal',
             'description' => $platform->name . ' Deal',
-            'validated' => TRUE,
-            'status' => DealStatus::Opened->value,
+            'validated' => False,
+            'status' => DealStatus::New->value,
             'type' => DealTypeEnum::coupons->value,
             'current_turnover' => 0,
             'target_turnover' => 10000,
