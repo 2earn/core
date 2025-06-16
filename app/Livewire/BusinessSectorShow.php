@@ -55,7 +55,6 @@ class BusinessSectorShow extends Component
             'businessSector' => $businessSector,
             'platforms' => Platform::where('enabled', true)->where('business_sector_id', $this->idBusinessSector)->orderBy('created_at')->get(),
         ];
-
         $this->items = $this->loadItems();
         return view('livewire.business-sector-show', $params)->extends('layouts.master')->section('content');
     }
