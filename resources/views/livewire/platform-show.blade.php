@@ -49,9 +49,9 @@
                 </div>
                 <div class="col-2">
                     <div class="float-end">
-                        @if($platform->administrative_manager_id)
-                            <span title="{{$platform->administrative_manager_id}}"
-                                  class="badge text-info">{{__(\Core\Enum\Promotion::Administrative->name)}}</span>
+                        @if($platform->financial_manager_id)
+                            <span title="{{$platform->financial_manager_id}}"
+                                  class="badge text-info">{{__(\Core\Enum\Promotion::Financial->name)}}</span>
                         @endif
                         @if($platform->financial_manager_id)
                             <span title="{{$platform->financial_manager_id}}"

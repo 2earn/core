@@ -1316,57 +1316,6 @@ class ApiController extends BaseController
             ->make(true);
     }
 
-    public function getDeals()
-    {
-        if (User::isSuperAdmin()) {
-            $deals = Deal::whereNot('status', DealStatus::Archived->value)->orderBy('validated', 'ASC')->orderBy('platform_id', 'ASC')->get();
-        } else {
-            $platforms = Platform::where(function ($query) {
-                $query
-                    ->where('administrative_manager_id', '=', auth()->user()->id)
-                    ->orWhere('owner_id', '=', auth()->user()->id)
-                    ->orWhere('marketing_manager_id', '=', auth()->user()->id);
-            })
-                ->get();
-            $platformsIds = [];
-            foreach ($platforms as $platform) {
-                $platformsIds[] = $platform->id;
-            }
-            $deals = Deal::whereIn('platform_id', $platformsIds)->orderBy('validated', 'ASC')->orderBy('platform_id', 'ASC')->get();
-        }
-
-        return datatables($deals)
-            ->addColumn('action', function ($deal) {
-                return view('parts.datatable.deals-action', ['deal' => $deal, 'currentRouteName' => Route::currentRouteName()]);
-            })
-            ->addColumn('details', function ($deal) {
-                return view('parts.datatable.deals-details',
-                    [
-                        'status' => $deal->status,
-                        'type' => $deal->type,
-                        'validated' => $deal->validated
-                    ]
-                );
-            })
-            ->addColumn('platform_id', function ($deal) {
-
-
-                if ($deal->platform()->first()) {
-
-                    return view('parts.datatable.deals-platform', ['platform' => $deal, 'currentRouteName' => Route::currentRouteName()]);
-
-                }
-                return '**';
-            })
-            ->addColumn('created_at', function ($platform) {
-                return $platform->created_at?->format(self::DATE_FORMAT);
-            })->addColumn('updated_at', function ($platform) {
-                return $platform->updated_at?->format(self::DATE_FORMAT);
-            })
-            ->rawColumns(['action'])
-            ->make(true);
-    }
-
     public function getRequest()
     {
         $condition = "";
