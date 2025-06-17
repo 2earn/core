@@ -24,7 +24,7 @@ class ChanceObserver
 
         $userCurrentBalanceVertical->update(
             [
-                'current_balance' => $userCurrentBalanceVertical->current_balance + BalanceOperation::getMultiplicator($chanceBalances->balance_operation_id) * $newChanceBalanceVertical,
+                'current_balance' => $newChanceBalanceVertical,
                 'previous_balance' => $userCurrentBalanceVertical->current_balance,
                 'last_operation_id' => $chanceBalances->id,
                 'last_operation_value' => $chanceBalances->value,

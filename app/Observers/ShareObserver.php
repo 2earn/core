@@ -22,7 +22,7 @@ class ShareObserver
 
         $userCurrentBalanceVertical->update(
             [
-                'current_balance' => $userCurrentBalanceVertical->current_balance + BalanceOperation::getMultiplicator($shareBalances->balance_operation_id) * $newShareBalanceVertical,
+                'current_balance' => $newShareBalanceVertical,
                 'previous_balance' => $userCurrentBalanceVertical->current_balance,
                 'last_operation_id' => $shareBalances->id,
                 'last_operation_value' => $shareBalances->value,

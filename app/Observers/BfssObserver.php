@@ -51,7 +51,7 @@ class BfssObserver
 
         $userCurrentBalanceVertical->update(
             [
-                'current_balance' => $userCurrentBalanceVertical->current_balance + BalanceOperation::getMultiplicator($bFSsBalances->balance_operation_id) * $newBfssBalanceVertical,
+                'current_balance' => $newBfssBalanceVertical,
                 'previous_balance' => $userCurrentBalanceVertical->current_balance,
                 'last_operation_id' => $bFSsBalances->id,
                 'last_operation_value' => $bFSsBalances->value,
