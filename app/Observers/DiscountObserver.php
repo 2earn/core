@@ -7,6 +7,7 @@ use App\Models\UserCurrentBalanceVertical;
 use App\Services\Balances\Balances;
 use Core\Enum\BalanceEnum;
 use Core\Models\BalanceOperation;
+use Illuminate\Support\Facades\Log;
 
 class DiscountObserver
 {
@@ -31,6 +32,9 @@ class DiscountObserver
                 'last_operation_date' => $discountBalances->created_at,
             ]
         );
+
+        Log::info('DiscountObserver current_balance '. $newDiscountBalanceVertical,);
+
     }
 
 }

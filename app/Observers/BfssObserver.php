@@ -11,6 +11,7 @@ use Core\Enum\BalanceOperationsEnum;
 use Core\Models\BalanceOperation;
 use Core\Models\Setting;
 use Core\Services\BalancesManager;
+use Illuminate\Support\Facades\Log;
 
 
 class BfssObserver
@@ -58,5 +59,7 @@ class BfssObserver
                 'last_operation_date' => $bFSsBalances->created_at,
             ]
         );
+
+        Log::info('BfssObserver current_balance '. $newBfssBalanceVertical,);
     }
 }

@@ -7,6 +7,7 @@ use App\Models\UserCurrentBalanceVertical;
 use App\Services\Balances\Balances;
 use Core\Enum\BalanceEnum;
 use Core\Models\BalanceOperation;
+use Illuminate\Support\Facades\Log;
 
 class ShareObserver
 {
@@ -29,6 +30,9 @@ class ShareObserver
                 'last_operation_date' => $shareBalances->created_at,
             ]
         );
+
+        Log::info('ShareObserver current_balance '. $newShareBalanceVertical,);
+
     }
 
 }

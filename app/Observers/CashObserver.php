@@ -7,6 +7,7 @@ use App\Models\UserCurrentBalanceVertical;
 use App\Services\Balances\Balances;
 use Core\Enum\BalanceEnum;
 use Core\Models\BalanceOperation;
+use Illuminate\Support\Facades\Log;
 
 class CashObserver
 {
@@ -29,5 +30,7 @@ class CashObserver
                 'last_operation_date' => $cashBalances->created_at,
             ]
         );
+        Log::info('CashObserver current_balance '. $newCashBalanceVertical,);
+
     }
 }

@@ -31,6 +31,9 @@ class ChanceObserver
                 'last_operation_date' => $chanceBalances->created_at,
             ]
         );
+
+        Log::info('ChanceObserver current_balance '. $newChanceBalanceVertical,);
+
     }
 
 

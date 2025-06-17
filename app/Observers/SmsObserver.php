@@ -7,6 +7,7 @@ use App\Models\UserCurrentBalanceVertical;
 use App\Services\Balances\Balances;
 use Core\Enum\BalanceEnum;
 use Core\Models\BalanceOperation;
+use Illuminate\Support\Facades\Log;
 
 class SmsObserver
 {
@@ -31,6 +32,8 @@ class SmsObserver
                 'last_operation_date' => $smsBalances->created_at,
             ]
         );
+        Log::info('SmsObserver current_balance '. $newSmsBalanceVertical,);
+
     }
 
 }
