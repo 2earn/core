@@ -76,35 +76,127 @@
     @if($choosenDeals->count())
         <div class="row">
             <div class="col-lg-12 card">
-                    <div class="card-body table-responsive">
-                        <table id="dealTable"
-                               class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
-                            <thead class="table-light">
-                            <tr class="head2earn tabHeader2earn">
-                                <th>{{__('Details')}}</th>
-                                <th>{{__('id')}}</th>
-                                <th>{{__('name')}}</th>
-                                <th>{{__('Details')}}</th>
-                                <th>{{__('Platform')}}</th>
-                                <th>{{__('Action')}}</th>
+                <div class="card-body table-responsive">
+                    <table id="dealTable"
+                           class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
+                        <thead class="table-light">
+                        <tr class="head2earn tabHeader2earn">
+                            <th>{{__('Details')}}</th>
+                            <th>{{__('id')}}</th>
+                            <th>{{__('name')}}</th>
+                            <th>{{__('Details')}}</th>
+                            <th>{{__('Platform')}}</th>
+                            <th>{{__('Action')}}</th>
+                        </tr>
+                        </thead>
+                        <tbody class="body2earn">
+                        @foreach($choosenDeals as $deal)
+                            <tr>
+                                <td>
+                                    <i class="fa-solid fa-circle-question text-info fa-lg dtmdbtn"></i>
+                                </td>
+                                <td>{{$deal->id}}</td>
+                                <td>{{$deal->name}}</td>
+                                <td>
+                                    <ul class="list-group list-group-horizontal-md">
+                                        <li class="list-group-item">
+                                                    <span class="text-info btn btn-soft-primary" title="{{$deal->status}}">
+                                                {{__(strtoupper(\Core\Enum\DealStatus::from($deal->status)->name))}}
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item">
+                                                    <span class="text-info btn btn-soft-secondary" title="{{$deal->type}}">
+                                                {{__(strtoupper(\Core\Enum\DealTypeEnum::from($deal->type)->name))}}
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item">@if($deal->validated)
+                                                <span class="btn btn-soft-success"> {{__('Validated')}}</span>
+                                            @else
+                                                <span class="btn btn-soft-warning"> {{__('Not validated')}}</span>
+                                            @endif
+                                        </li>
+                                    </ul>
+
+                                </td>
+                                <td>
+                                    {{\App\Models\TranslaleModel::getTranslation($platform,'name',$platform->name)}}
+                                    <br>
+                                    @if(\App\Models\User::isSuperAdmin())
+                                        <small class="mx-2">
+                                            <a class="link-info"
+                                               href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($platform,'name')])}}">{{__('See or update Translation')}}</a>
+                                        </small>
+                                    @endif
+                                </td>
+                                <td>
+                                    <div>
+                                        @if(isset($currentRouteName))
+                                            @if($currentRouteName!='deals_show')
+                                                @if(\App\Models\User::isSuperAdmin())
+                                                    <a href="{{route('deals_show', ['locale' => app()->getLocale(), 'id' => $deal->id])}}"
+                                                       class="btn btn-xs btn-outline-info btn2earnTable  m-1">{{__('Show')}}</a>
+                                                @endif
+
+                                                @if(\Core\Models\Platform::canCheckDeals(auth()->user()->id))
+                                                    <a class="link-info" target="_blank"
+                                                       href="{{route('sales_tracking',['locale'=>app()->getLocale(),'id'=>$deal->id])}}">
+                                                        @if(\App\Models\User::isSuperAdmin())
+                                                            {{ __('See details for Platform role') }}
+                                                        @else
+                                                            {{ __('See more deal details') }}
+                                                        @endif
+                                                    </a>
+                                                @endif
+                                            @endif
+                                        @endif
+                                        <hr>
+                                        @if(!$deal->validated)
+                                            <a href="{{route('deals_create_update', ['locale' => app()->getLocale(), 'id' => $deal->id, 'idPlatform' => $deal->platform_id])}}"
+                                               class="btn btn-xs btn-primary btn2earnTable  m-1">{{__('Edit')}}</a>
+                                            @if($deal->status< \Core\Enum\DealStatus::Opened->value)
+                                                <button class="btn btn-secondary updateDeal" data-status="0"
+                                                        data-id="{{$deal->id}}" data-status-name="{{__('Validate')}}">
+                                                    {{__('Validate')}}
+                                                </button>
+                                            @endif
+                                        @endif
+                                        @if($deal->validated)
+                                            <a href="{{route('items_create_update',['locale'=>app()->getLocale(), 'dealId' => $deal->id])}}"
+                                               class="btn btn-outline-success">{{__('Create Item')}}
+                                            </a>
+                                            @if($deal->status== \Core\Enum\DealStatus::New->value)
+                                                <button class="btn btn-secondary updateDeal" data-status="{{\Core\Enum\DealStatus::Opened->value}}"
+                                                        data-id="{{$deal->id}}" data-status-name="{{__(\Core\Enum\DealStatus::Opened->name)}}">
+                                                    {{__('Open')}}
+                                                </button>
+                                            @endif
+                                            @if($deal->validated)
+                                                @if($deal->status== \Core\Enum\DealStatus::Opened->value)
+                                                    <button class="btn btn-secondary updateDeal" data-status="{{\Core\Enum\DealStatus::Closed->value}}"
+                                                            data-id="{{$deal->id}}" data-status-name="{{__(\Core\Enum\DealStatus::Closed->name)}}">
+                                                        {{__('close')}}
+                                                    </button>
+                                                @endif
+                                                @if($deal->status== \Core\Enum\DealStatus::Closed->value)
+                                                    <button class="btn btn-secondary updateDeal" data-status="{{\Core\Enum\DealStatus::Archived->value}}"
+                                                            data-id="{{$deal->id}}" data-status-name="{{__(\Core\Enum\DealStatus::Archived->name)}}">
+                                                        {{__('Archive')}}
+                                                    </button>
+                                                @endif
+                                            @endif
+                                        @endif
+                                        @if(\App\Models\User::isSuperAdmin())
+                                            <a data-id="{{$deal->id}}" data-name="{{$deal->name }}" title="{{$deal->name }}"
+                                               class="btn btn-xs btn-danger btn2earnTable deleteDeal m-1">{{__('Delete')}}</a>
+                                        @endif
+                                    </div>
+
+                                </td>
                             </tr>
-                            </thead>
-                            <tbody class="body2earn">
-                            @foreach($choosenDeals as $deal)
-                                <tr>
-                                    <td>
-                                        <i class="fa-solid fa-circle-question text-info fa-lg dtmdbtn"></i>
-                                    </td>
-                                    <td>{{$deal->id}}</td>
-                                    <td>{{$deal->name}}</td>
-                                    <td>{{$deal->detail}}</td>
-                                    <td>{{$deal->platform_id}}</td>
-                                    <td>{{$deal->action}}</td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     @endif

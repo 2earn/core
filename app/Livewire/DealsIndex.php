@@ -86,11 +86,6 @@ class DealsIndex extends Component
     public function filterDeals()
     {
         $this->choosenDeals = $this->prepareQuery();
-        foreach ($this->choosenDeals as $key => $choosenDeal) {
-            $this->choosenDeals[$key]->action = view('parts.datatable.deals-action', ['deal' => $choosenDeal, 'currentRouteName' => Route::currentRouteName()]);
-            $this->choosenDeals[$key]->detail = view('parts.datatable.deals-details', ['status' => $choosenDeal->status, 'type' => $choosenDeal->type, 'validated' => $choosenDeal->validated]);
-            $this->choosenDeals[$key]->platform_id = view('parts.datatable.deals-platform', ['platform' => $choosenDeal, 'currentRouteName' => Route::currentRouteName()]);
-        }
         $this->dispatch('updateDealsaDatatable', []);
     }
 

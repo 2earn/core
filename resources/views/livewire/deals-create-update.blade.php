@@ -1,5 +1,5 @@
 <div class="container-fluid">
-@component('components.breadcrumb')
+    @component('components.breadcrumb')
         @slot('title')
             @if($update)
                 {{__('Update Deal')}}
@@ -137,6 +137,56 @@
                             </div>
                         </div>
                         <hr class="text-muted">
+                        <div class="row">
+                            <div class="form-group col-3 mb-3">
+                                <label for="earn_profit">{{__('2earn profit')}}</label> <span
+                                    class="text-info float-end">{{__('%')}}</span>
+
+                                <input type="number"
+                                       class="form-control @error('earn_profit') is-invalid @enderror"
+                                       id="earn_profit"
+                                       wire:model.live="earn_profit"
+                                       placeholder="{{__('Enter earn_profit')}}">
+                                @error('earn_profit') <span class="text-danger">{{ $message }}</span>@enderror
+                                <div class="form-text">{{__('Required field')}}</div>
+                            </div>
+                            <div class="form-group col-3 mb-3">
+                                <label for="tree_remuneration">{{__('tree_remuneration')}}</label> <span
+                                    class="text-info float-end">{{__('%')}}</span>
+
+                                <input type="number"
+                                       class="form-control @error('tree_remuneration') is-invalid @enderror"
+                                       id="tree_remuneration"
+                                       wire:model.live="tree_remuneration"
+                                       placeholder="{{__('Enter tree_remuneration')}}">
+                                @error('tree_remuneration') <span class="text-danger">{{ $message }}</span>@enderror
+                                <div class="form-text">{{__('Required field')}}</div>
+                            </div>
+                            <div class="form-group col-3 mb-3">
+                                <label for="earn_profit">{{__('proactive_cashback')}}</label> <span
+                                    class="text-info float-end">{{__('%')}}</span>
+
+                                <input type="number"
+                                       class="form-control @error('proactive_cashback') is-invalid @enderror"
+                                       id="proactive_cashback"
+                                       wire:model.live="proactive_cashback"
+                                       placeholder="{{__('Enter proactive_cashback')}}">
+                                @error('proactive_cashback') <span class="text-danger">{{ $message }}</span>@enderror
+                                <div class="form-text">{{__('Required field')}}</div>
+                            </div>
+                            <div class="form-group col-3 mb-3">
+                                <label for="jackpot">{{__('jackpot')}}</label> <span
+                                    class="text-info float-end">{{__('%')}}</span>
+
+                                <input type="number"
+                                       class="form-control @error('jackpot') is-invalid @enderror"
+                                       id="jackpot"
+                                       wire:model.live="jackpot"
+                                       placeholder="{{__('Enter jackpot')}}">
+                                @error('jackpot') <span class="text-danger">{{ $message }}</span>@enderror
+                                <div class="form-text">{{__('Required field')}}</div>
+                            </div>
+                        </div>
                         <div class="row mt-3">
                             <div class="col-12">
                                 @if($update)

@@ -30,6 +30,11 @@ class DealsCreateUpdate extends Component
         $final_commission,
         $discount;
 
+    public $earn_profit,
+        $jackpot,
+        $tree_remuneration,
+        $proactive_cashback;
+
     public $update = false;
 
     public $statusList;
@@ -75,6 +80,10 @@ class DealsCreateUpdate extends Component
         $this->margin_percentage =
         $this->discount = 10;
         $this->current_turnover = 0;
+        $this->earn_profit = $this->getDealParam('DEALS_EARN_PROFIT_PERCENTAGE');
+        $this->jackpot = $this->getDealParam('DEALS_JACKPOT_PERCENTAGE');
+        $this->tree_remuneration = $this->getDealParam('DEALS_TREE_REMUNERATION_PERCENTAGE');
+        $this->proactive_cashback = $this->getDealParam('DEALS_PROACTIVE_CASHBACK_PERCENTAGE');
     }
 
     public function edit()
@@ -90,6 +99,10 @@ class DealsCreateUpdate extends Component
         $this->initial_commission = $deal->initial_commission;
         $this->final_commission = $deal->final_commission;
         $this->discount = $deal->discount;
+        $this->earn_profit = $deal->earn_profit;
+        $this->jackpot = $deal->jackpot;
+        $this->tree_remuneration = $deal->tree_remuneration;
+        $this->proactive_cashback = $deal->proactive_cashback;
         $this->idPlatform = $deal->platform_id;
         $this->update = true;
     }
@@ -112,6 +125,10 @@ class DealsCreateUpdate extends Component
             'items_profit_average' => $this->items_profit_average,
             'initial_commission' => $this->initial_commission,
             'final_commission' => $this->final_commission,
+            'earn_profit' => $this->earn_profit,
+            'tree_remuneration' => $this->tree_remuneration,
+            'proactive_cashback' => $this->proactive_cashback,
+            'jackpot' => $this->jackpot,
             'discount' => $this->discount,
             'created_by_id' => auth()->user()->id
         ];
@@ -143,6 +160,10 @@ class DealsCreateUpdate extends Component
             'initial_commission' => $this->initial_commission,
             'final_commission' => $this->final_commission,
             'discount' => $this->discount,
+            'earn_profit' => $this->earn_profit,
+            'tree_remuneration' => $this->tree_remuneration,
+            'proactive_cashback' => $this->proactive_cashback,
+            'jackpot' => $this->jackpot,
             'created_by_id' => auth()->user()->id,
             'platform_id' => $this->idPlatform,
         ];
