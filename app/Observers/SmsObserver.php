@@ -7,6 +7,7 @@ use App\Models\UserCurrentBalanceVertical;
 use App\Services\Balances\Balances;
 use Core\Enum\BalanceEnum;
 use Core\Models\BalanceOperation;
+use Illuminate\Support\Facades\Log;
 
 class SmsObserver
 {
@@ -24,13 +25,15 @@ class SmsObserver
 
         $userCurrentBalanceVertical->update(
             [
-                'current_balance' => $userCurrentBalanceVertical->current_balance + BalanceOperation::getMultiplicator($smsBalances->balance_operation_id)* $newSmsBalanceVertical,
+                'current_balance' => $userCurrentBalanceVertical->current_balance + BalanceOperation::getMultiplicator($smsBalances->balance_operation_id) * $smsBalances->value,
                 'previous_balance' => $userCurrentBalanceVertical->current_balance,
                 'last_operation_id' => $smsBalances->id,
                 'last_operation_value' => $smsBalances->value,
                 'last_operation_date' => $smsBalances->created_at,
             ]
         );
+        Log::info('SmsObserver current_balance '. $newSmsBalanceVertical,);
+
     }
 
 }

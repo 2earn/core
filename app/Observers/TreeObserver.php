@@ -7,6 +7,7 @@ use App\Models\UserCurrentBalanceVertical;
 use App\Services\Balances\Balances;
 use Core\Enum\BalanceEnum;
 use Core\Models\BalanceOperation;
+use Illuminate\Support\Facades\Log;
 
 class TreeObserver
 {
@@ -24,13 +25,13 @@ class TreeObserver
 
         $userCurrentBalanceVertical->update(
             [
-                'current_balance' => $userCurrentBalanceVertical->current_balance + BalanceOperation::getMultiplicator($treeBalances->balance_operation_id) * $newTreeBalanceVertical,
+                'current_balance' => $userCurrentBalanceVertical->current_balance + BalanceOperation::getMultiplicator($treeBalances->balance_operation_id) * $treeBalances->value,
                 'previous_balance' => $userCurrentBalanceVertical->current_balance,
                 'last_operation_id' => $treeBalances->id,
                 'last_operation_value' => $treeBalances->value,
                 'last_operation_date' => $treeBalances->created_at,
             ]
         );
+        Log::info('TreeObserver current_balance ' . $newTreeBalanceVertical);
     }
-
 }
