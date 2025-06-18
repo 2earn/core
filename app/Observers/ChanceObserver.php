@@ -18,9 +18,7 @@ class ChanceObserver
         $newChanceBalanceVertical = $userCurrentBalancehorisontal->getChancesBalance($chanceBalances->pool_id) + BalanceOperation::getMultiplicator($chanceBalances->balance_operation_id) * $chanceBalances->value;
         $userCurrentBalancehorisontal->setChancesBalance($chanceBalances->pool_id, $newChanceBalanceVertical);
 
-        $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $chanceBalances->beneficiary_id)
-            ->where('balance_id', BalanceEnum::CHANCE)
-            ->first();
+        $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $chanceBalances->beneficiary_id)->where('balance_id', BalanceEnum::CHANCE)->first();
 
         $userCurrentBalanceVertical->update(
             [
@@ -32,9 +30,7 @@ class ChanceObserver
             ]
         );
 
-        Log::info('ChanceObserver current_balance ' . $newChanceBalanceVertical);
-
+        $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $chanceBalances->beneficiary_id)->where('balance_id', BalanceEnum::CHANCE)->first();
+        Log::info('ChanceObserver current_balance ' . $newChanceBalanceVertical . '(Pool: ' . $chanceBalances->pool_id . ') => Total Chances: ' . $userCurrentBalanceVertical->current_balance);
     }
-
-
 }
