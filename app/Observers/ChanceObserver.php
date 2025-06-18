@@ -30,7 +30,6 @@ class ChanceObserver
             ]
         );
 
-        $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $chanceBalances->beneficiary_id)->where('balance_id', BalanceEnum::CHANCE)->first();
         Log::info('ChanceObserver current_balance ' . $newChanceBalanceVertical . '(Pool: ' . $chanceBalances->pool_id . ') => Total Chances: ' . $userCurrentBalanceVertical->current_balance);
     }
 }
