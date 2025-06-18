@@ -7,6 +7,7 @@ use App\Models\UserCurrentBalanceVertical;
 use App\Services\Balances\Balances;
 use Core\Enum\BalanceEnum;
 use Core\Models\BalanceOperation;
+use Illuminate\Support\Facades\Log;
 
 class ShareObserver
 {
@@ -22,13 +23,16 @@ class ShareObserver
 
         $userCurrentBalanceVertical->update(
             [
-                'current_balance' => $userCurrentBalanceVertical->current_balance + BalanceOperation::getMultiplicator($shareBalances->balance_operation_id) * $newShareBalanceVertical,
+                'current_balance' => $userCurrentBalanceVertical->current_balance + BalanceOperation::getMultiplicator($shareBalances->balance_operation_id) * $shareBalances->value,
                 'previous_balance' => $userCurrentBalanceVertical->current_balance,
                 'last_operation_id' => $shareBalances->id,
                 'last_operation_value' => $shareBalances->value,
                 'last_operation_date' => $shareBalances->created_at,
             ]
         );
+
+        Log::info('ShareObserver current_balance ' . $newShareBalanceVertical);
+
     }
 
 }
