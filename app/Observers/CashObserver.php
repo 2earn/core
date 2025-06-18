@@ -23,14 +23,14 @@ class CashObserver
 
         $userCurrentBalanceVertical->update(
             [
-                'current_balance' => $newCashBalanceVertical,
+                'current_balance' => $userCurrentBalanceVertical->current_balance + BalanceOperation::getMultiplicator($cashBalances->balance_operation_id) * $cashBalances->value,
                 'previous_balance' => $userCurrentBalanceVertical->current_balance,
                 'last_operation_id' => $cashBalances->id,
                 'last_operation_value' => $cashBalances->value,
                 'last_operation_date' => $cashBalances->created_at,
             ]
         );
-        Log::info('CashObserver current_balance '. $newCashBalanceVertical,);
+        Log::info('CashObserver current_balance ' . $newCashBalanceVertical);
 
     }
 }

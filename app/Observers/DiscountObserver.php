@@ -25,7 +25,7 @@ class DiscountObserver
 
         $userCurrentBalanceVertical->update(
             [
-                'current_balance' => $newDiscountBalanceVertical,
+                'current_balance' => $newDiscountBalanceVertical->current_balance + BalanceOperation::getMultiplicator($discountBalances->balance_operation_id) * $discountBalances->value,
                 'previous_balance' => $userCurrentBalanceVertical->current_balance,
                 'last_operation_id' => $discountBalances->id,
                 'last_operation_value' => $discountBalances->value,
