@@ -11,6 +11,7 @@ use Core\Enum\BalanceOperationsEnum;
 use Core\Models\BalanceOperation;
 use Core\Models\Setting;
 use Core\Services\BalancesManager;
+use Illuminate\Support\Facades\Log;
 
 
 class BfssObserver
@@ -45,18 +46,18 @@ class BfssObserver
 
         $userCurrentBalancehorisontal->setBfssBalance($bFSsBalances->percentage, $newBfssBalanceVertical);
 
-        $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $bFSsBalances->beneficiary_id)
-            ->where('balance_id', BalanceEnum::BFS)
-            ->first();
+        $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $bFSsBalances->beneficiary_id)->where('balance_id', BalanceEnum::BFS)->first();
 
         $userCurrentBalanceVertical->update(
             [
-                'current_balance' => $userCurrentBalanceVertical->current_balance + BalanceOperation::getMultiplicator($bFSsBalances->balance_operation_id) * $newBfssBalanceVertical,
+                'current_balance' => $userCurrentBalanceVertical->current_balance + BalanceOperation::getMultiplicator($bFSsBalances->balance_operation_id) * $bFSsBalances->value,
                 'previous_balance' => $userCurrentBalanceVertical->current_balance,
                 'last_operation_id' => $bFSsBalances->id,
                 'last_operation_value' => $bFSsBalances->value,
                 'last_operation_date' => $bFSsBalances->created_at,
             ]
         );
+
+        Log::info('BfsObserver current_balance ' . $newBfssBalanceVertical . '(Pourcentage: ' . $bFSsBalances->percentage . ') => Total Bfss: ' . $userCurrentBalanceVertical->current_balance);
     }
 }
