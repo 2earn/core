@@ -204,12 +204,11 @@
         function updateDatatable() {
             $('#dealTable').DataTable({
                 "responsive": true,
-
                 "language": {"url": urlLang},
             });
         }
 
-        window.addEventListener('confirmOPTVerifMail', event => {
+        window.addEventListener('updateDealsaDatatable', event => {
             updateDatatable();
         });
         document.addEventListener("DOMContentLoaded", function () {
@@ -219,11 +218,8 @@
             }
 
             $('body').on('click', '.refreshDeals', function (event) {
-
                 window.Livewire.dispatch("refreshDeals", [$(event.target).attr('data-id')]);
-
-                $('#dealTable').DataTable().ajax.reload();
-                console.log('dealTable')
+                $('#dealTable').DataTable().reload();
             });
 
             $('body').on('click', '.deleteDeal', function (event) {
