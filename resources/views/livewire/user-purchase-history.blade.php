@@ -170,7 +170,7 @@
                             <th>{{__('Total order quantity')}}</th>
                             <th>{{__('Paid cash')}}</th>
                             <th>{{__('Details')}}</th>
-                            <th>{{__('Other detals')}}</th>
+                            <th>{{__('Other details')}}</th>
                             <th>{{__('Actions')}}</th>
                         </tr>
                         </thead>
