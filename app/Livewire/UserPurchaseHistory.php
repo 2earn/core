@@ -13,12 +13,13 @@ use Livewire\Component;
 class UserPurchaseHistory extends Component
 {
     public $allPlatforms, $allDeals, $allItems, $allStatuses, $currentRouteName;
+
     public $selectedStatuses = [];
     public $choosenOrders = [];
     public $selectedDealIds = [];
     public $selectedPlatformIds = [];
-    public $selectedDealId = [];
     public $selectedItemsIds = [];
+
     public $listeners = [
         'refreshOrders' => 'filterOrders'
     ];

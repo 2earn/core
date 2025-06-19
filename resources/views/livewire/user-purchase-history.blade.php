@@ -132,7 +132,6 @@
                                 <td>{{$order->total_order_quantity}}</td>
                                 <td>{{$order->paid_cash}}</td>
                                 <td>
-
                                     <div class="list-group">
                                         @foreach($order->OrderDetails()->get() as $key => $orderDetail)
                                             <a href="javascript:void(0);"
@@ -204,25 +203,28 @@
         </div>
     @endif
     <script type="module">
+        window.addEventListener('updateOrdersDatatable', event => {
+            var table = $('#userPurchaseHistoryTable').DataTable();
+            table.destroy();
+            $('#userPurchaseHistoryTable').DataTable({
+                "paging": true,
+                "responsive": true,
+                "language": {"url": urlLang},
+            });
+        });
 
-        function updateDatatable() {
+        document.addEventListener("DOMContentLoaded", function () {
             if (!$.fn.dataTable.isDataTable('#userPurchaseHistoryTable')) {
+
                 $('#userPurchaseHistoryTable').DataTable({
+                    "paging": true,
                     "responsive": true,
                     "language": {"url": urlLang},
                 });
             }
-        }
 
-        window.addEventListener('updateOrdersDatatable', event => {
-            updateDatatable();
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            updateDatatable();
             $('body').on('click', '.refreshOrders', function (event) {
                 window.Livewire.dispatch("refreshOrders", [$(event.target).attr('data-id')]);
-                $('#userPurchaseHistoryTable').DataTable().reload();
             });
         });
     </script>

@@ -79,14 +79,17 @@ class DealsIndex extends Component
         if (!empty($this->selectedPlatforms)) {
             $query->whereIn('platform_id', $this->selectedPlatforms);
         }
-
-        return $query->orderBy('validated', 'ASC')->orderBy('platform_id', 'ASC')->get();
+        $query->orderBy('validated', 'ASC')->orderBy('platform_id', 'ASC');
+        Log::info($query->toSql());
+        Log::info($query->toRawSql());
+        return $query->get();
     }
 
     public function filterDeals()
     {
         $this->choosenDeals = $this->prepareQuery();
-        $this->dispatch('updateDealsaDatatable', []);
+        log::info(json_encode($this->choosenDeals));
+        $this->dispatch('updateDealsDatatable', []);
     }
 
     public function updateDeal($id, $status)

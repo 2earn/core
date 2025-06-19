@@ -100,12 +100,14 @@
                                 <td>
                                     <ul class="list-group list-group-horizontal-md">
                                         <li class="list-group-item">
-                                                    <span class="text-info btn btn-soft-primary" title="{{$deal->status}}">
+                                                    <span class="text-info btn btn-soft-primary"
+                                                          title="{{$deal->status}}">
                                                 {{__(strtoupper(\Core\Enum\DealStatus::from($deal->status)->name))}}
                                             </span>
                                         </li>
                                         <li class="list-group-item">
-                                                    <span class="text-info btn btn-soft-secondary" title="{{$deal->type}}">
+                                                    <span class="text-info btn btn-soft-secondary"
+                                                          title="{{$deal->type}}">
                                                 {{__(strtoupper(\Core\Enum\DealTypeEnum::from($deal->type)->name))}}
                                             </span>
                                         </li>
@@ -165,28 +167,35 @@
                                                class="btn btn-outline-success">{{__('Create Item')}}
                                             </a>
                                             @if($deal->status== \Core\Enum\DealStatus::New->value)
-                                                <button class="btn btn-secondary updateDeal" data-status="{{\Core\Enum\DealStatus::Opened->value}}"
-                                                        data-id="{{$deal->id}}" data-status-name="{{__(\Core\Enum\DealStatus::Opened->name)}}">
+                                                <button class="btn btn-secondary updateDeal"
+                                                        data-status="{{\Core\Enum\DealStatus::Opened->value}}"
+                                                        data-id="{{$deal->id}}"
+                                                        data-status-name="{{__(\Core\Enum\DealStatus::Opened->name)}}">
                                                     {{__('Open')}}
                                                 </button>
                                             @endif
                                             @if($deal->validated)
                                                 @if($deal->status== \Core\Enum\DealStatus::Opened->value)
-                                                    <button class="btn btn-secondary updateDeal" data-status="{{\Core\Enum\DealStatus::Closed->value}}"
-                                                            data-id="{{$deal->id}}" data-status-name="{{__(\Core\Enum\DealStatus::Closed->name)}}">
+                                                    <button class="btn btn-secondary updateDeal"
+                                                            data-status="{{\Core\Enum\DealStatus::Closed->value}}"
+                                                            data-id="{{$deal->id}}"
+                                                            data-status-name="{{__(\Core\Enum\DealStatus::Closed->name)}}">
                                                         {{__('close')}}
                                                     </button>
                                                 @endif
                                                 @if($deal->status== \Core\Enum\DealStatus::Closed->value)
-                                                    <button class="btn btn-secondary updateDeal" data-status="{{\Core\Enum\DealStatus::Archived->value}}"
-                                                            data-id="{{$deal->id}}" data-status-name="{{__(\Core\Enum\DealStatus::Archived->name)}}">
+                                                    <button class="btn btn-secondary updateDeal"
+                                                            data-status="{{\Core\Enum\DealStatus::Archived->value}}"
+                                                            data-id="{{$deal->id}}"
+                                                            data-status-name="{{__(\Core\Enum\DealStatus::Archived->name)}}">
                                                         {{__('Archive')}}
                                                     </button>
                                                 @endif
                                             @endif
                                         @endif
                                         @if(\App\Models\User::isSuperAdmin())
-                                            <a data-id="{{$deal->id}}" data-name="{{$deal->name }}" title="{{$deal->name }}"
+                                            <a data-id="{{$deal->id}}" data-name="{{$deal->name }}"
+                                               title="{{$deal->name }}"
                                                class="btn btn-xs btn-danger btn2earnTable deleteDeal m-1">{{__('Delete')}}</a>
                                         @endif
                                     </div>
@@ -201,25 +210,27 @@
         </div>
     @endif
     <script type="module">
-        function updateDatatable() {
+        window.addEventListener('updateDealsDatatable', event => {
+            var table = $('#dealTable').DataTable();
+            table.destroy();
             $('#dealTable').DataTable({
+                "paging": true,
                 "responsive": true,
                 "language": {"url": urlLang},
             });
-        }
-
-        window.addEventListener('updateDealsaDatatable', event => {
-            updateDatatable();
         });
-        document.addEventListener("DOMContentLoaded", function () {
 
+        document.addEventListener("DOMContentLoaded", function () {
             if (!$.fn.dataTable.isDataTable('#dealTable')) {
-                updateDatatable();
+                $('#dealTable').DataTable({
+                    "paging": true,
+                    "responsive": true,
+                    "language": {"url": urlLang},
+                });
             }
 
             $('body').on('click', '.refreshDeals', function (event) {
                 window.Livewire.dispatch("refreshDeals", [$(event.target).attr('data-id')]);
-                $('#dealTable').DataTable().reload();
             });
 
             $('body').on('click', '.deleteDeal', function (event) {
