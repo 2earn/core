@@ -12,6 +12,9 @@
         @include('layouts.flash-messages')
     </div>
     <div class="row card">
+        <div class="card-header">
+            <h6 class="card-title mb-0">{{__('Filters')}}</h6>
+        </div>
         <div class="card-body row">
             <div class="col-sm-12 col-md-12 col-lg-12">
                 <div class="row m-1 card border border-muted">
@@ -73,10 +76,13 @@
             <button class="btn btn-primary refreshDeals float-end">{{__('Search Deals')}}</button>
         </div>
     </div>
-    @if($choosenDeals->count())
-        <div class="row">
-            <div class="col-lg-12 card">
-                <div class="card-body table-responsive">
+    <div class="row">
+        <div class="col-lg-12 card">
+            <div class="card-header">
+                <h6 class="card-title mb-0">{{__('Results')}}</h6>
+            </div>
+            <div class="card-body table-responsive">
+                @if($choosenDeals->count())
                     <table id="dealTable"
                            class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
                         <thead class="table-light">
@@ -205,10 +211,14 @@
                         @endforeach
                         </tbody>
                     </table>
-                </div>
+                @else
+                    <div class="col-lg-12 text-muted">
+                        {{__('No deals')}}
+                    </div>
+                @endif
             </div>
         </div>
-    @endif
+    </div>
     <script type="module">
         window.addEventListener('updateDealsDatatable', event => {
             var table = $('#dealTable').DataTable();

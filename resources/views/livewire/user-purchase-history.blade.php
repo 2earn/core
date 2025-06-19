@@ -7,36 +7,47 @@
             {{ __('User purchase history') }}
         @endslot
     @endcomponent
-    <div class="card">
-        <div class="card-body">
-            <div class="card-body row">
-                <div class="col-sm-12 col-md-6 col-lg-6">
-                    <div class="row m-1 card border border-muted">
-                        <div class="card-body border-info">
-                            <label>{{__('Business sectors')}}</label>
-                            <div class="row">
+    <div class="card row">
+        <div class="card-header">
+            <h6 class="card-title mb-0">{{__('Filters')}}</h6>
+        </div>
+        <div class="card-body row">
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                <div class="row m-1 card border border-muted">
+                    <div class="card-body border-info">
+                        <label>{{__('Business sectors')}}</label>
+                        <div class="row">
+                            @if($allSectors->count())
                                 @foreach($allSectors as $sector)
                                     <div class="col-auto">
                                         <div class="form-check form-switch form-check-inline" dir="ltr">
                                             <label
                                                 class="text-muted"
-                                                for="platform.{{__($sector->name)}}">{{__($sector->name)}}</label>
+                                                for="sector.{{__($sector->name)}}">{{__($sector->name)}}</label>
                                             <input type="checkbox" class="form-check-input"
                                                    wire:model="selectedSectorsIds"
                                                    value="{{$sector->id}}"
-                                                   id="platform.{{__($sector->name)}}">
+                                                   id="sector.{{__($sector->name)}}">
                                         </div>
                                     </div>
                                 @endforeach
-                            </div>
+                            @else
+                                <div class="col-auto text-muted">
+                                    {{__('No sector from orders')}}
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-6">
-                    <div class="row m-1 card border border-muted">
-                        <div class="card-body border-info">
-                            <label>{{__('Platforms')}}</label>
-                            <div class="row">
+            </div>
+
+
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                <div class="row m-1 card border border-muted">
+                    <div class="card-body border-info">
+                        <label>{{__('Platforms')}}</label>
+                        <div class="row">
+                            @if($allPlatforms->count())
                                 @foreach($allPlatforms as $platform)
                                     <div class="col-auto">
                                         <div class="form-check form-switch form-check-inline" dir="ltr">
@@ -50,15 +61,23 @@
                                         </div>
                                     </div>
                                 @endforeach
-                            </div>
+                            @else
+                                <div class="col-auto text-muted">
+                                    {{__('No Platforms from orders')}}
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-6">
-                    <div class="row m-1 card border border-muted">
-                        <div class="card-body border-info">
-                            <label>{{__('Deals')}}</label>
-                            <div class="row">
+            </div>
+
+
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                <div class="row m-1 card border border-muted">
+                    <div class="card-body border-info">
+                        <label>{{__('Deals')}}</label>
+                        <div class="row">
+                            @if($allDeals->count())
                                 @foreach($allDeals as $deal)
                                     <div class="col-auto">
                                         <div class="form-check form-switch form-check-inline" dir="ltr">
@@ -72,20 +91,28 @@
                                         </div>
                                     </div>
                                 @endforeach
-                            </div>
+                            @else
+                                <div class="col-auto text-muted">
+                                    {{__('No deals from orders')}}
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-6">
-                    <div class="row m-1 card border border-muted">
-                        <div class="card-body border-info">
-                            <label>{{__('Items')}}</label>
-                            <div class="row">
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                <div class="row m-1 card border border-muted">
+                    <div class="card-body border-info">
+                        <label>{{__('Items')}}</label>
+                        <div class="row">
+                            @if($allItems->count())
                                 @foreach($allItems as $item)
                                     <div class="col-auto">
                                         <div class="form-check form-switch form-check-inline" dir="ltr">
                                             <label
-                                                for="item.{{__($item->name)}}.{{__($item->id)}}" class="text-muted">
+                                                for="item.{{__($item->name)}}.{{__($item->id)}}"
+                                                class="text-muted">
                                                 {{__($item->name)}}
                                                 @if(!is_null($item->platform()->first()))
                                                     - {{ $item->platform()->first()->name}}
@@ -98,20 +125,24 @@
                                         </div>
                                     </div>
                                 @endforeach
-                            </div>
+                            @else
+                                <div class="col-auto text-muted">
+                                    {{__('No items from orders')}}
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-6">
-                    <div class="row m-1 card border border-muted">
-                        <div class="card-body border-info">
-                            <label>{{__('Status')}}</label>
-                            <select class="form-select form-select-sm  mb-3" multiple wire:model="selectedStatuses">
-                                @foreach($allStatuses as $status)
-                                    <option value="{{$status->value}}">{{__($status->name)}}</option>
-                                @endforeach
-                            </select>
-                        </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                <div class="row m-1 card border border-muted">
+                    <div class="card-body border-info">
+                        <label>{{__('Status')}}</label>
+                        <select class="form-select form-select-sm  mb-3" multiple wire:model="selectedStatuses">
+                            @foreach($allStatuses as $status)
+                                <option value="{{$status->value}}">{{__($status->name)}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
             </div>
@@ -121,10 +152,13 @@
         </div>
     </div>
 
-    @if($choosenOrders->count())
-        <div class="row">
-            <div class="col-lg-12 card">
-                <div class="card-body table-responsive">
+    <div class="card row">
+        <div class="card-header">
+            <h6 class="card-title mb-0">{{__('Results')}}</h6>
+        </div>
+        <div class=" card-body col-lg-12 ">
+            <div class="table-responsive">
+                @if($choosenOrders->count())
                     <table id="userPurchaseHistoryTable"
                            class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
                         <thead class="table-light">
@@ -220,10 +254,15 @@
                         @endforeach
                         </tbody>
                     </table>
-                </div>
+                @else
+                    <div class="col-auto text-muted">
+                        {{__('No orders')}}
+                    </div>
+                @endif
+
             </div>
         </div>
-    @endif
+    </div>
     <script type="module">
         window.addEventListener('updateOrdersDatatable', event => {
             var table = $('#userPurchaseHistoryTable').DataTable();
