@@ -29,6 +29,7 @@ class Platform extends Model
         'financial_manager_id',
         'business_sector_id'
     ];
+
     public $timestamps = true;
     const IMAGE_TYPE_LOGO = 'logo';
 

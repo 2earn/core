@@ -2,8 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Models\Deal;
+use App\Models\Item;
 use App\Models\Order;
-use App\Models\User;
 use Core\Enum\OrderEnum;
 use Core\Models\Platform;
 use Illuminate\Support\Facades\Route;
@@ -11,10 +12,13 @@ use Livewire\Component;
 
 class UserPurchaseHistory extends Component
 {
-    public $allPlatforms, $allStatuses, $currentRouteName;
+    public $allPlatforms, $allDeals, $allItems, $allStatuses, $currentRouteName;
     public $selectedStatuses = [];
     public $choosenOrders = [];
-    public $selectedPlatforms = [];
+    public $selectedDealIds = [];
+    public $selectedPlatformIds = [];
+    public $selectedDealId = [];
+    public $selectedItemsIds = [];
     public $listeners = [
         'refreshOrders' => 'filterOrders'
     ];
@@ -22,28 +26,62 @@ class UserPurchaseHistory extends Component
     public function mount()
     {
         $this->currentRouteName = Route::currentRouteName();
-        if (User::isSuperAdmin()) {
-            $this->allPlatforms = Platform::all();
-        } else {
-            $this->allPlatforms = Platform::where(function ($query) {
-                $query->where('financial_manager_id', '=', auth()->user()->id)
-                    ->orWhere('marketing_manager_id', '=', auth()->user()->id)
-                    ->orWhere('owner_id', '=', auth()->user()->id);
-            })->get();
-        }
+        $userId = auth()->user()->id;
+
+        $this->allPlatforms = Platform::whereHas('items.orderDetails.order', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })
+            ->distinct()
+            ->get();
+
+        $this->allDeals = Deal::with('items')
+            ->whereHas('items.orderDetails.order', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->distinct()
+            ->get();
+
+        $this->allItems = Item::whereHas('OrderDetails.order', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })
+            ->distinct()
+            ->get();
+
         $this->allStatuses = OrderEnum::cases();
+
         $this->filterOrders();
     }
 
     public function prepareQuery()
     {
         $query = Order::query();
+        $query->where('user_id', auth()->user()->id);
 
         if (!empty($this->selectedStatuses)) {
             $query->whereIn('status', $this->selectedStatuses);
         }
 
-        return $query->orderBy('created_at', 'ASC')->get();
+        if (!empty($this->selectedPlatformIds)) {
+            $query->whereHas('OrderDetails.item', function ($q) {
+                $q->whereIn('platform_id', $this->selectedPlatformIds);
+            });
+        }
+
+        if (!empty($this->selectedDealIds)) {
+            $query->whereHas('OrderDetails.item', function ($q) {
+                $q->whereIn('deal_id', $this->selectedDealIds);
+            });
+        }
+
+        if (!empty($this->selectedItemsIds)) {
+            $query->whereHas('OrderDetails.item', function ($q) {
+                $q->whereIn('id', $this->selectedItemsIds);
+            });
+        }
+
+        $query->orderBy('created_at', 'ASC');
+
+        return $query->get();
     }
 
     public function filterOrders()

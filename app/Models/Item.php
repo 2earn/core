@@ -58,5 +58,4 @@ class Item extends Model
     {
         return $this->morphOne(Image::class, 'imageable')->where('type', '=', self::IMAGE_TYPE_THUMBNAILS);
     }
-
 }

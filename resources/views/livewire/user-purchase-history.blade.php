@@ -10,7 +10,7 @@
     <div class="card">
         <div class="card-body">
             <div class="card-body row">
-                <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="col-sm-12 col-md-6 col-lg-6">
                     <div class="row m-1 card border border-muted">
                         <div class="card-body border-info">
                             <label>{{__('Platforms')}}</label>
@@ -19,9 +19,10 @@
                                     <div class="col-auto">
                                         <div class="form-check form-switch form-check-inline" dir="ltr">
                                             <label
+                                                class="text-muted"
                                                 for="platform.{{__($platform->name)}}">{{__($platform->name)}}</label>
                                             <input type="checkbox" class="form-check-input"
-                                                   wire:model="selectedPlatforms"
+                                                   wire:model="selectedPlatformIds"
                                                    value="{{$platform->id}}"
                                                    id="platform.{{__($platform->name)}}">
                                         </div>
@@ -31,7 +32,55 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-4">
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="row m-1 card border border-muted">
+                        <div class="card-body border-info">
+                            <label>{{__('Deals')}}</label>
+                            <div class="row">
+                                @foreach($allDeals as $deal)
+                                    <div class="col-auto">
+                                        <div class="form-check form-switch form-check-inline" dir="ltr">
+                                            <label
+                                                for="deal.{{__($deal->name)}}"
+                                                class="text-muted">{{__($deal->name)}}</label>
+                                            <input type="checkbox" class="form-check-input"
+                                                   wire:model="selectedDealIds"
+                                                   value="{{$deal->id}}"
+                                                   id="deal.{{__($deal->name)}}">
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="row m-1 card border border-muted">
+                        <div class="card-body border-info">
+                            <label>{{__('Items')}}</label>
+                            <div class="row">
+                                @foreach($allItems as $item)
+                                    <div class="col-auto">
+                                        <div class="form-check form-switch form-check-inline" dir="ltr">
+                                            <label
+                                                for="item.{{__($item->name)}}.{{__($item->id)}}" class="text-muted">
+                                                {{__($item->name)}}
+                                                @if(!is_null($item->platform()->first()))
+                                                    - {{ $item->platform()->first()->name}}
+                                                @endif
+                                            </label>
+                                            <input type="checkbox" class="form-check-input"
+                                                   wire:model="selectedItemsIds"
+                                                   value="{{$item->id}}"
+                                                   id="item.{{__($item->name)}}.{{__($item->id)}}">
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6">
                     <div class="row m-1 card border border-muted">
                         <div class="card-body border-info">
                             <label>{{__('Status')}}</label>
@@ -50,7 +99,6 @@
         </div>
     </div>
 
-
     @if($choosenOrders->count())
         <div class="row">
             <div class="col-lg-12 card">
@@ -63,11 +111,11 @@
                             <th>{{__('id')}}</th>
                             <th>{{__('Status')}}</th>
                             <th>{{__('user')}}</th>
-                            <th>{{__('Note')}}</th>
                             <th>{{__('Total order quantity')}}</th>
                             <th>{{__('Paid cash')}}</th>
+                            <th>{{__('Details')}}</th>
+                            <th>{{__('Other detals')}}</th>
                             <th>{{__('Actions')}}</th>
-
                         </tr>
                         </thead>
                         <tbody class="body2earn">
@@ -81,9 +129,68 @@
                                     <span class="badge bg-info text-end fs-14"> {{__($order->status->name)}}</span>
                                 </td>
                                 <td>{{getUserDisplayedName(\App\Models\User::getIdUserById($order->user_id))}}</td>
-                                <td>{{$order->note}}</td>
                                 <td>{{$order->total_order_quantity}}</td>
                                 <td>{{$order->paid_cash}}</td>
+                                <td>
+
+                                    <div class="list-group">
+                                        @foreach($order->OrderDetails()->get() as $key => $orderDetail)
+                                            <a href="javascript:void(0);"
+                                               class="list-group-item list-group-item-action">
+                                                <div class="float-end">
+                                                    {{$orderDetail->total_amount}} {{config('app.currency')}}
+                                                </div>
+                                                <div class="d-flex mb-2 align-items-center">
+                                                    <div class="flex-shrink-0">
+
+                                                        @if($orderDetail->item()->first()->photo_link)
+                                                            <img alt="{{__('Item Image')}}"
+                                                                 src="{{$orderDetail->item()->first()->photo_link}}"
+                                                                 class="avatar-sm rounded-circle"/>
+                                                        @elseif($orderDetail->item()->first()->thumbnailsImage)
+                                                            <img
+                                                                src="{{ asset('uploads/' . $orderDetail->item()->first()->thumbnailsImage->url) }}"
+                                                                alt="{{__('Item Image')}}"
+                                                                class="avatar-sm rounded-circle"
+                                                            >
+                                                        @else
+                                                            <img
+                                                                src="{{Vite::asset(\App\Models\Item::DEFAULT_IMAGE_TYPE_THUMB)}}"
+                                                                alt="{{__('Item Image')}}"
+                                                                class="avatar-sm rounded-circle">
+                                                        @endif
+
+                                                    </div>
+                                                    <div class="flex-grow-1 ms-3">
+                                                        <h5 class="list-title fs-15 mb-1">
+                                                            {{$orderDetail->item()->first()->name}}
+                                                            @if(!is_null($orderDetail->item()->first()->platform()->first()))
+                                                                - {{ $orderDetail->item()->first()->platform()->first()->name}}
+                                                            @endif
+                                                        </h5>
+                                                        <p class="list-text mb-0 fs-12">
+                                                            {{__('Qty')}}: {{$orderDetail->qty}}
+                                                        </p>
+                                                        <p class="list-text mb-0 fs-12">
+                                                            {{__('Unit price')}}: {{$orderDetail->unit_price}}
+                                                        </p>
+                                                        @if($orderDetail->shipping)
+                                                            <p class="list-text mb-0 fs-12">
+                                                                {{__('shipping')}}: {{$orderDetail->shipping}}
+                                                            </p>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                </td>
+                                <td>
+                                    <h5>{{__('Note')}}</h5>
+                                    <pre>
+                                        {{$order->note}}
+                                   </pre>
+                                </td>
                                 <td>
                                     <a href="{{route('orders_detail', ['locale'=>app()->getLocale(),'id'=>$order->id])}}"
                                        class=float-end">{{__('More details')}}</a>

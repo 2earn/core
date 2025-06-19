@@ -6,6 +6,7 @@ use Core\Enum\OrderEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use InvalidArgumentException;
 
 class Order extends Model
 {
@@ -50,7 +51,6 @@ class Order extends Model
         $this->status = $newStatus;
         $this->save();
         return $this->status;
-
     }
 
 }

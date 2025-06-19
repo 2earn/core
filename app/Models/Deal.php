@@ -146,4 +146,5 @@ class Deal extends Model
         $commission = Deal::getCommissionPercentage($deal);
         return ($commission * $deal->current_turnover / 100) / 100 * $percentage;
     }
+
 }
