@@ -13,6 +13,28 @@
                 <div class="col-sm-12 col-md-6 col-lg-6">
                     <div class="row m-1 card border border-muted">
                         <div class="card-body border-info">
+                            <label>{{__('Business sectors')}}</label>
+                            <div class="row">
+                                @foreach($allSectors as $sector)
+                                    <div class="col-auto">
+                                        <div class="form-check form-switch form-check-inline" dir="ltr">
+                                            <label
+                                                class="text-muted"
+                                                for="platform.{{__($sector->name)}}">{{__($sector->name)}}</label>
+                                            <input type="checkbox" class="form-check-input"
+                                                   wire:model="selectedSectorsIds"
+                                                   value="{{$sector->id}}"
+                                                   id="platform.{{__($sector->name)}}">
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="row m-1 card border border-muted">
+                        <div class="card-body border-info">
                             <label>{{__('Platforms')}}</label>
                             <div class="row">
                                 @foreach($allPlatforms as $platform)

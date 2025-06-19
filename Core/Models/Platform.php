@@ -47,12 +47,12 @@ class Platform extends Model
 
     public function financialManager(): HasOne
     {
-        return $this->hasOne(User::class);
+        return $this->hasOne(User::class,);
     }
 
     public function businessSector(): HasOne
     {
-        return $this->hasOne(BusinessSector::class);
+        return $this->hasOne(BusinessSector::class,'id', 'business_sector_id');
     }
 
     public function productDealHistory(): HasMany

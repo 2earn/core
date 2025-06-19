@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\BusinessSector;
 use App\Models\Deal;
 use App\Models\Item;
 use App\Models\Order;
@@ -12,8 +13,9 @@ use Livewire\Component;
 
 class UserPurchaseHistory extends Component
 {
-    public $allPlatforms, $allDeals, $allItems, $allStatuses, $currentRouteName;
+    public $allSectors, $allPlatforms, $allDeals, $allItems, $allStatuses, $currentRouteName;
 
+    public $selectedSectorsIds = [];
     public $selectedStatuses = [];
     public $choosenOrders = [];
     public $selectedDealIds = [];
@@ -28,6 +30,12 @@ class UserPurchaseHistory extends Component
     {
         $this->currentRouteName = Route::currentRouteName();
         $userId = auth()->user()->id;
+
+        $this->allSectors = BusinessSector::whereHas('platforms.items.orderDetails.order', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })
+            ->distinct()
+            ->get();
 
         $this->allPlatforms = Platform::whereHas('items.orderDetails.order', function ($query) use ($userId) {
             $query->where('user_id', $userId);
@@ -77,6 +85,11 @@ class UserPurchaseHistory extends Component
         if (!empty($this->selectedItemsIds)) {
             $query->whereHas('OrderDetails.item', function ($q) {
                 $q->whereIn('id', $this->selectedItemsIds);
+            });
+        }
+        if (!empty($this->selectedSectorsIds)) {
+            $query->whereHas('OrderDetails.item.platform.businessSector', function ($q) {
+                $q->whereIn('id', $this->selectedSectorsIds);
             });
         }
 
