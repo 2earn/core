@@ -147,49 +147,49 @@
                             id="sidebarBiography">
 
                             <ul class="nav nav-sm flex-column">
-                                <li class="nav-item cool-link {{$currentRouteName==$sidebarBiographyArray[0]? 'active' : ''}} ">
+                                <li class="nav-item d-none cool-link {{$currentRouteName==$sidebarBiographyArray[0]? 'active' : ''}} ">
                                     <a href="{{route($sidebarBiographyArray[0], app()->getLocale(),false)}}"
                                        class="nav-link ">
                                         {{ __('Academic Background') }}
                                     </a>
                                 </li>
-                                <li class="nav-item cool-link {{$currentRouteName==$sidebarBiographyArray[1]? 'active' : ''}}">
+                                <li class="nav-item d-none cool-link {{$currentRouteName==$sidebarBiographyArray[1]? 'active' : ''}}">
                                     <a href="{{route($sidebarBiographyArray[1], app()->getLocale(),false)}}"
                                        class="nav-link ">
                                         {{ __('Career Experience') }}
                                     </a>
                                 </li>
-                                <li class="nav-item cool-link {{$currentRouteName==$sidebarBiographyArray[2]? 'active' : ''}}">
+                                <li class="nav-item d-none  cool-link {{$currentRouteName==$sidebarBiographyArray[2]? 'active' : ''}}">
                                     <a href="{{route($sidebarBiographyArray[2], app()->getLocale(),false)}}"
                                        class="nav-link ">
                                         {{ __('Hard Skills') }}
                                     </a>
                                 </li>
-                                <li class="nav-item cool-link {{$currentRouteName==$sidebarBiographyArray[3]? 'active' : ''}}">
+                                <li class="nav-item d-none  cool-link {{$currentRouteName==$sidebarBiographyArray[3]? 'active' : ''}}">
                                     <a href="{{route($sidebarBiographyArray[3], app()->getLocale(),false)}}"
                                        class="nav-link ">
                                         {{ __('Soft Skills') }}
                                     </a>
                                 </li>
-                                <li class="nav-item cool-link {{$currentRouteName==$sidebarBiographyArray[4]? 'active' : ''}}">
+                                <li class="nav-item d-none  cool-link {{$currentRouteName==$sidebarBiographyArray[4]? 'active' : ''}}">
                                     <a href="{{route($sidebarBiographyArray[4], app()->getLocale(),false)}}"
                                        class="nav-link ">
                                         {{ __('Personal Characterization') }}
                                     </a>
                                 </li>
-                                <li class="nav-item cool-link {{$currentRouteName==$sidebarBiographyArray[5]? 'active' : ''}}">
+                                <li class="nav-item  d-none cool-link {{$currentRouteName==$sidebarBiographyArray[5]? 'active' : ''}}">
                                     <a href="{{route($sidebarBiographyArray[5], app()->getLocale(),false)}}"
                                        class="nav-link ">
                                         {{ __('CD Personality') }}
                                     </a>
                                 </li>
-                                <li class="nav-item cool-link {{$currentRouteName==$sidebarBiographyArray[6]? 'active' : ''}}">
+                                <li class="nav-item  d-none cool-link {{$currentRouteName==$sidebarBiographyArray[6]? 'active' : ''}}">
                                     <a href="{{route($sidebarBiographyArray[6], app()->getLocale(),false)}}"
                                        class="nav-link ">
                                         {{ __('Sensory Representation System') }}
                                     </a>
                                 </li>
-                                <li class="nav-item cool-link {{$currentRouteName==$sidebarBiographyArray[7]? 'active' : ''}}">
+                                <li class="nav-item  d-none cool-link {{$currentRouteName==$sidebarBiographyArray[7]? 'active' : ''}}">
                                     <a href="{{route($sidebarBiographyArray[7], app()->getLocale(),false)}}"
                                        class="nav-link ">
                                         {{ __('Myers-Briggs Type Indicator (MBTI)') }}
@@ -201,7 +201,7 @@
                                         {{ __('e-Business Card (EBC)') }}
                                     </a>
                                 </li>
-                                <li class="nav-item cool-link {{$currentRouteName==$sidebarBiographyArray[9]? 'active' : ''}}">
+                                <li class="nav-item  d-none cool-link {{$currentRouteName==$sidebarBiographyArray[9]? 'active' : ''}}">
                                     <a href="{{route($sidebarBiographyArray[9], app()->getLocale(),false)}}"
                                        class="nav-link ">
                                         {{ __('Rapport PDF') }}
