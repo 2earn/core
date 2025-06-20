@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
 
 class ItemsCreateUpdate extends Component
 {
@@ -113,6 +112,7 @@ class ItemsCreateUpdate extends Component
                 ]);
             }
         } catch (\Exception $exception) {
+            dd($exception);
             $this->cancel();
             Log::error($exception->getMessage());
             return redirect()->route('items_detail', ['locale' => app()->getLocale(), 'id' => $this->idItem])->with('danger', Lang::get('Something goes wrong while updating Item'));

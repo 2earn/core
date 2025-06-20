@@ -21,20 +21,16 @@ class Login extends Component
     const RATE_KEY = 'login-attempts-';
     const BLOCKED_KEY = 'blocked-user-';
 
-    const COOLDOWN_PERIOD = 3000;
-
     protected $listeners = [
         'login' => 'login',
         'changeLanguage' => 'changeLanguage'
     ];
 
     public ?string $from = null;
-    public int $expireAt;
 
     public function mount(Request $request)
     {
         $this->from = $request->query->get('form');
-        $this->expireAt = getSettingIntegerParam('EXPIRE_AT', 30);
     }
 
     public function login($number, $code, $pass, $iso, settingsManager $settingsManager, Request $request)
@@ -48,8 +44,9 @@ class Login extends Component
         }
 
         if (RateLimiter::tooManyAttempts(self::RATE_KEY . $number, self::MAX_ATTEMPTS)) {
-            Cache::put(self::BLOCKED_KEY . $number, $this->expireAt, $this->expireAt);
-            Log::warning("User $number blocked until $this->expireAt due to excessive failed attempts.");
+            $expiresAt = now()->addMinutes(10);
+            Cache::put(self::BLOCKED_KEY . $number, $expiresAt, $expiresAt);
+            Log::warning("User $number blocked until $expiresAt due to excessive failed attempts.");
             return redirect()->route('login', ['locale' => app()->getLocale()])
                 ->with('danger', Lang::get('Too many failed attempts! You are temporarily blocked.'));
         }
@@ -61,7 +58,7 @@ class Login extends Component
 
         $user = $settingsManager->loginUser(str_replace(' ', '', $number), $code, false, $pass, $iso);
         if (!$user) {
-            RateLimiter::hit(self::RATE_KEY . $number, self::COOLDOWN_PERIOD);
+            RateLimiter::hit(self::RATE_KEY . $number, 60);
             Log::info("Failed login attempt: $number (Attempts left: " . RateLimiter::remaining(self::RATE_KEY . $number, self::MAX_ATTEMPTS) . ")");
             return redirect()->route('login', ['locale' => app()->getLocale()])
                 ->with('danger', Lang::get('Your phone or password is incorrect!'));
