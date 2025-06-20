@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
-use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
+use Livewire\WithFileUploads;
 
 class ItemsCreateUpdate extends Component
 {
@@ -22,6 +22,7 @@ class ItemsCreateUpdate extends Component
     public $platformId;
     public $deals = [];
     public $thumbnailsImage;
+
     public $name, $ref, $price, $discount, $discount_2earn, $photo_link, $description, $stock;
 
     public $update = false;
