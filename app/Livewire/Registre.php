@@ -8,16 +8,15 @@ use App\Models\User;
 use Core\Enum\StatusRequest;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
-use Core\Models\UserContactNumber;
 use Core\Services\settingsManager;
 use Core\Services\TransactionManager;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Livewire\Component;
-use Illuminate\Support\Facades\Http;
 use Symfony\Component\HttpFoundation\IpUtils;
 
 class Registre extends Component
@@ -135,15 +134,20 @@ class Registre extends Component
 
     public function mount()
     {
-        $ip = ip2long(request()->ip());
-        $ip = long2ip($ip);
-        if ($ip = '0.0.0.0') {
-            $ip = "41.226.181.241";
+        $this->country_code = "TN";
+        try {
+            $ip = ip2long(request()->ip());
+            $ip = long2ip($ip);
+            if ($ip = '0.0.0.0') {
+                $ip = "41.226.181.241";
+            }
+            $IP = $ip;
+            $json = file_get_contents("http://ipinfo.io/{$ip}/geo");
+            $details = json_decode($json, true);
+            $this->country_code = $details['country'];
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
         }
-        $IP = $ip;
-        $json = file_get_contents("http://ipinfo.io/{$ip}/geo");
-        $details = json_decode($json, true);
-        $this->country_code = $details['country'];
     }
 
     public function render()
