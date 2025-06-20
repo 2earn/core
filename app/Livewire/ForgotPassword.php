@@ -26,6 +26,7 @@ class ForgotPassword extends Component
     public $locales;
     public $check;
     public int $expireAt;
+    public int $maxAttempts;
 
     protected $listeners = [
         'checkopt' => 'checkopt',
@@ -36,13 +37,14 @@ class ForgotPassword extends Component
     public function mount()
     {
         $this->expireAt = getSettingIntegerParam('EXPIRE_AT', 30);
+        $this->maxAttempts = getSettingIntegerParam('MAX_ATTEMPT', self::MAX_ATTEMPTS);
     }
 
     public function PresendSms($ccode, $fullNumber, settingsManager $settingsManager)
     {
         $key = self::RATE_KEY . $fullNumber;
 
-        if (RateLimiter::tooManyAttempts($key, self::MAX_ATTEMPTS)) {
+        if (RateLimiter::tooManyAttempts($key, $this->maxAttempts)) {
             Cache::put('blocked-user-' . $fullNumber, true, now()->addMinutes($this->expireAt));
             return redirect()->route("forget_password", app()->getLocale())
                 ->with('danger', Lang::get('Too many attempts! Please try again later.'));

@@ -3,13 +3,11 @@
 namespace App\Livewire;
 
 use App\Http\Traits\earnTrait;
-use App\Models\BFSsBalances;
 use App\Models\MettaUser;
 use App\Models\User;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
 use App\Notifications\contact_registred;
-use App\Services\Balances\Balances;
 use Core\Enum\BalanceEnum;
 use Core\Enum\EventBalanceOperationEnum;
 use Core\Enum\StatusRequest;
@@ -19,15 +17,21 @@ use Core\Services\CommandeServiceManager;
 use Core\Services\settingsManager;
 use Core\Services\UserBalancesHelper;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Component;
 
 class CheckOptCode extends Component
 {
     use earnTrait;
+
+    const MAX_ATTEMPTS = 3;
+    const COOLDOWN_PERIOD = 3000;
+    const RATE_KEY = 'opt-login-attempts-';
 
     public $code;
     public $idUser = 0;
@@ -38,6 +42,9 @@ class CheckOptCode extends Component
     protected $rules = [
         'code' => 'required|numeric|min:4|max:4'
     ];
+
+    public int $expireAt;
+    public int $maxAttempts;
 
     protected $messages = [
         'code.required' => 'The code cannot be empty.',
@@ -57,6 +64,8 @@ class CheckOptCode extends Component
         if (!is_null($param)) {
             $this->numHelpPhone = $param->StringValue;
         }
+        $this->expireAt = getSettingIntegerParam('EXPIRE_AT', 30);
+        $this->maxAttempts = getSettingIntegerParam('MAX_ATTEMPT', self::MAX_ATTEMPTS);
     }
 
     public function render()
@@ -111,7 +120,13 @@ class CheckOptCode extends Component
 
     public function verifCodeOpt(settingsManager $settingsManager, CommandeServiceManager $commandeServiceManager, UserBalancesHelper $userBalancesHelper)
     {
-
+        $key = self::RATE_KEY . $this->numPhone;
+        if (RateLimiter::tooManyAttempts($key,  $this->maxAttempts)) {
+            Cache::put('blocked-user-' . $this->numPhone, true, now()->addMinutes($this->expireAt));
+            return redirect()->route("forget_password", app()->getLocale())
+                ->with('danger', Lang::get('Too many attempts! Please try again later.'));
+        }
+        RateLimiter::hit($key, self::COOLDOWN_PERIOD);
         $user = $settingsManager->getUsers()->where('idUser', Crypt::decryptString($this->idUser))->first();
 
         if (!empty($this->getErrorBag()->getMessages())) {
@@ -143,6 +158,8 @@ class CheckOptCode extends Component
             $this->initUserCurrentBalance($user->idUser);
             $userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::Signup, $user->idUser);
         }
+        RateLimiter::clear(self::RATE_KEY . $this->numPhone);
+
         return redirect()->route('login', app()->getLocale())->with('success', Lang::get('User registered successfully, you can login now'));
     }
 }
