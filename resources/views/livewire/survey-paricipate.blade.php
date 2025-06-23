@@ -1,5 +1,5 @@
 <div class="container-fluid">
-@component('components.breadcrumb')
+    @component('components.breadcrumb')
         @slot('title')
             {{__('Survey')}} > {{$survey->id}}
             - {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}} > {{__('Participation')}}
@@ -86,7 +86,8 @@
                             </div>
                             <div class="card-footer">
                                 <button class="btn btn-info add-btn float-end mb-2"
-                                        type="submit">
+                                        type="submit"
+                                        wire:loading.attr="disabled">
                                     {{__('Participate')}}
                                     <div wire:loading>
                                                 <span class="spinner-border spinner-border-sm" role="status"
@@ -103,5 +104,13 @@
         @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
             @vite('resources/js/surveys.js')
         @endif
+
+        <script type="module">
+            $(function () {
+                $('#appointment_form').on('submit', function () {
+                    $('#register').attr('disabled', 'true');
+                });
+            });
+        </script>
     </div>
 </div>
