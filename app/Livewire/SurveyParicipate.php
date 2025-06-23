@@ -17,6 +17,7 @@ class SurveyParicipate extends Component
     public $idSurvey;
 
     public $currentRouteName;
+    public $routeRedirectionParams;
     public $responces;
     public $oldSurveyResponses;
     public $oldReponses = null;
@@ -116,9 +117,9 @@ class SurveyParicipate extends Component
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect()->route('surveys_participate', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while participating to this survey!!') );
+            return redirect()->route('surveys_participate', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while participating to this survey!!'));
         }
-       return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('success', Lang::get('You just participated successfully to this survey'));
+        return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('success', Lang::get('You just participated successfully to this survey'));
 
     }
 
