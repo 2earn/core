@@ -15,8 +15,8 @@ class SurveyParicipate extends Component
 {
 
     public $idSurvey;
-
     public $currentRouteName;
+    public $particiaped = false;
     public $routeRedirectionParams;
     public $responces;
     public $oldSurveyResponses;
@@ -52,19 +52,19 @@ class SurveyParicipate extends Component
     public function checkParticipation($survey, $question)
     {
         if ($survey->question->selection == Selection::MULTIPLE->value && !count($this->responces)) {
-            throw new \Exception(Lang::get('Invalid responce: no selected choices'));
+            throw new \Exception(Lang::get('Invalid response: no selected choices'));
         }
 
         if ($survey->question->selection == Selection::UNIQUE->value && empty($this->responces)) {
-            throw new \Exception(Lang::get('Invalid responce: no selected choices'));
+            throw new \Exception(Lang::get('Invalid response: no selected choices'));
         }
 
         if ($question->selection == Selection::UNIQUE->value && empty($this->responces)) {
-            throw new \Exception(Lang::get('Invalid responce: too many selected choices'));
+            throw new \Exception(Lang::get('Invalid response: too many selected choices'));
         }
 
         if ($question->selection == Selection::MULTIPLE->value && count($this->responces) > $question->maxResponse) {
-            throw new \Exception(Lang::get('Invalid responce: too many selected choices'));
+            throw new \Exception(Lang::get('Invalid response: too many selected choices'));
         }
     }
 
@@ -102,17 +102,19 @@ class SurveyParicipate extends Component
             } else {
                 $surveyResponse = $this->createNewParicipationAndCheckLimits();
             }
+            if (!$this->particiaped) {
+                SurveyResponseItem::where('surveyResponse_id', $surveyResponse->id)->where('surveyQuestion_id', $survey->question->id)->delete();
 
-            SurveyResponseItem::where('surveyResponse_id', $surveyResponse->id)->where('surveyQuestion_id', $survey->question->id)->delete();
-
-            if ($question->selection == Selection::MULTIPLE->value) {
-                foreach ($this->responces as $responceItem) {
-                    $surveyResponseItemParams = ['surveyResponse_id' => $surveyResponse->id, 'surveyQuestion_id' => $survey->question->id, 'surveyQuestionChoice_id' => $responceItem];
+                if ($question->selection == Selection::MULTIPLE->value) {
+                    foreach ($this->responces as $responceItem) {
+                        $surveyResponseItemParams = ['surveyResponse_id' => $surveyResponse->id, 'surveyQuestion_id' => $survey->question->id, 'surveyQuestionChoice_id' => $responceItem];
+                        SurveyResponseItem::create($surveyResponseItemParams);
+                    }
+                } else {
+                    $surveyResponseItemParams = ['surveyResponse_id' => $surveyResponse->id, 'surveyQuestion_id' => $survey->question->id, 'surveyQuestionChoice_id' => $this->responces];
                     SurveyResponseItem::create($surveyResponseItemParams);
                 }
-            } else {
-                $surveyResponseItemParams = ['surveyResponse_id' => $surveyResponse->id, 'surveyQuestion_id' => $survey->question->id, 'surveyQuestionChoice_id' => $this->responces];
-                SurveyResponseItem::create($surveyResponseItemParams);
+                $this->particiaped = true;
             }
 
         } catch (\Exception $exception) {
