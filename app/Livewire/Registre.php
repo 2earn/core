@@ -142,7 +142,7 @@ class Registre extends Component
                 $ip = "41.226.181.241";
             }
             $IP = $ip;
-            $json = file_get_contents("http://ipinfo.io/{$ip}/geo");
+            $json = file_get_contents("http://ipapi.io/{$ip}/geo");
             $details = json_decode($json, true);
             $this->country_code = $details['country'];
         } catch (\Exception $exception) {
