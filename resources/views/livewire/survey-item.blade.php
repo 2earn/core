@@ -618,7 +618,7 @@
                     </div>
                 @else
                     <div class="col-sm-12 col-md-12 col-lg-12">
-                        <button wire:click="like()" class="btn btn-soft-info"
+                        <button wire:click="addLike()" class="btn btn-soft-info"
                                 @if(!$survey->isLikable()) disabled @endif>
                             <i class="ri-thumb-up-line align-bottom me-1"></i>
                             {{__('Like')}}
