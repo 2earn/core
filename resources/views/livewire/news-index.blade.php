@@ -97,10 +97,6 @@
                                         {{__('Edit')}}
 
                                     </a>
-                                    <p class="mx-2 float-end">
-                                        <a class="link-info"
-                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($news,'answer')])}}">{{__('See or update Translation')}}</a>
-                                    </p>
                                 @endif
                             </div>
                             <div class="card-footer">
