@@ -7,7 +7,6 @@ use App\Models\BFSsBalances;
 use App\Models\BusinessSector;
 use App\Models\CashBalances;
 use App\Models\Coupon;
-use App\Models\Deal;
 use App\Models\SharesBalances;
 use App\Models\User;
 use App\Models\vip;
@@ -18,7 +17,6 @@ use carbon;
 use Core\Enum\BalanceEnum;
 use Core\Enum\BalanceOperationsEnum;
 use Core\Enum\CouponStatusEnum;
-use Core\Enum\DealStatus;
 use Core\Enum\PlatformType;
 use Core\Enum\StatusRequest;
 use Core\Enum\TypeEventNotificationEnum;
@@ -37,7 +35,6 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator as Val;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Validation\Rule;
@@ -1131,11 +1128,11 @@ class ApiController extends BaseController
             ->make(true);
     }
 
-    public function getPurchaseBFSUser()
+    public function getPurchaseBFSUser($locale, $type = null)
     {
         $user = $this->settingsManager->getAuthUser();
         if (!$user) $user->idUser = '';
-        $userData = DB::table('bfss_balances as ub')
+        $query = DB::table('bfss_balances as ub')
             ->select(
                 DB::raw('RANK() OVER (ORDER BY ub.created_at ASC) as ranks'),
                 'ub.beneficiary_id', 'ub.id', 'ub.operator_id', 'ub.reference', 'ub.created_at', 'bo.operation', 'ub.description',
@@ -1145,11 +1142,16 @@ class ApiController extends BaseController
                 'ub.percentage as percentage',
                 'ub.current_balance'
             )
-            ->join('balance_operations as bo', 'ub.balance_operation_id', '=', 'bo.id')
-            ->where('ub.beneficiary_id', $user->idUser)
-            ->orderBy('created_at')
-            ->orderBy('percentage')
-            ->get();
+            ->join('balance_operations as bo', 'ub.balance_operation_id', '=', 'bo.id');
+        $query->where('ub.beneficiary_id', $user->idUser);
+
+        if ($type != null && $type != 'ALL') {
+            $query->where('percentage', $type);
+        }
+
+        $query->orderBy('created_at')
+            ->orderBy('percentage');
+        $userData = $query->get();
         return datatables($userData)
             ->editColumn('current_balance', function ($balance) {
                 return self::CURRENCY . self::SEPACE . formatSolde($balance->current_balance, 2);

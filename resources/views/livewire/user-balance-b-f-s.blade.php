@@ -12,27 +12,62 @@
         <div class="row card">
             @if(!empty($bfss))
                 <div class="card-header">
-                    <h5 class="card-title mb-0">{{__('BFSs description values')}} </h5>
+                    <h5 class="card-title mb-0">{{__('BFSs description values')}} @if($type)
+                            <span class="text-success">({{$type}})</span>
+                        @endif</h5>
                 </div>
                 <div class="card-body">
                     <div class="row g-4">
-                        @foreach($bfss as $bfs)
-                            <div class="col-lg-3 col-md-6">
-                                <div class="card border">
+                        @if($type!='ALL')
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card card-animate">
                                     <div class="card-body">
                                         <div class="d-flex align-items-center">
-                                            <div class="avatar-sm flex-shrink-0">
-                                                        <span
-                                                            class="avatar-title bg-light text-primary rounded-circle fs-3 material-shadow">
-                                                            <i class="ri-money-dollar-circle-fill align-middle"></i>
-                                                        </span>
+                                            <div class="flex-grow-1 overflow-hidden">
+                                                <p class="text-uppercase fw-medium text-muted text-truncate mb-0">{{__('BFS_')}}</p>
                                             </div>
-                                            <div class="flex-grow-1 ms-3">
-                                                <h3 class="text-uppercase text-muted float-end mb-1">{{__('BFS_')}} {{$bfs['type']}}</h3>
+                                            <div class="flex-shrink-0">
+                                                <h5 class="text-muted fs-14 mb-0">
+                                                    <i class="ri-money-dollar-circle-line fs-13 align-middle"></i> {{__('ALL')}}
+                                                </h5>
                                             </div>
-                                            <div class="flex-grow-1 ms-3">
-                                                <h4 class="float-end mb-0">{{config('app.currency')}} <span
-                                                    >{{formatSolde(floatval($bfs['value']),2)}}</span></h4>
+                                        </div>
+                                        <div class="d-flex align-items-end justify-content-between mt-4">
+                                            <div>
+                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">{{config('app.currency')}}{{formatSolde(floatval($this->totalBfs),2)}}</h4>
+                                                <a href="{{route('user_balance_bfs' , ['locale'=>app()->getLocale()] )}}"
+                                                   class="text-decoration-underline">{{__('More details')}}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                        @foreach($bfss as $bfs)
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card card-animate">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1 overflow-hidden">
+                                                <p class="text-uppercase fw-medium text-muted text-truncate mb-0">{{__('BFS_')}}</p>
+                                            </div>
+                                            <div class="flex-shrink-0">
+                                                <h5 class="
+                                                    @if($type==$bfs['type'])
+                                                text-success
+                                                 @else
+                                                text-muted
+                                                 @endif
+                                                 fs-14 mb-0">
+                                                    <i class="ri-money-dollar-circle-line fs-13 align-middle"></i> {{$bfs['type']}}
+                                                </h5>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-end justify-content-between mt-4">
+                                            <div>
+                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">{{config('app.currency')}}{{formatSolde(floatval($bfs['value']),2)}}</h4>
+                                                <a href="{{route('user_balance_bfs' , ['locale'=>app()->getLocale(),'type'=>$bfs['type']] )}}"
+                                                   class="text-decoration-underline">{{__('More details')}}</a>
                                             </div>
                                         </div>
                                     </div>
@@ -114,7 +149,7 @@
                         },
                         "processing": true,
                         search: {return: true},
-                        "ajax": "{{route('api_user_bfs_purchase',app()->getLocale())}}",
+                        "ajax": "{{route('api_user_bfs_purchase',['locale'=>app()->getLocale(),'type'=>$type])}}",
                         "columns": [
                             {data: 'ranks'},
                             {data: 'reference'},
