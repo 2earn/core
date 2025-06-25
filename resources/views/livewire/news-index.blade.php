@@ -60,7 +60,7 @@
                                     <div class="col-md-8">
                                         <blockquote class="blockquote">
                                             <p class="card-text">
-                                                {{\App\Models\TranslaleModel::getTranslation($news,'content',$news->content)}}
+                                                {!! \App\Models\TranslaleModel::getTranslation($news,'content',$news->content) !!}
                                             </p>
 
                                             @if(\App\Models\User::isSuperAdmin())

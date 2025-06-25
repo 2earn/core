@@ -31,7 +31,8 @@
                                 <span
                                     class="col-auto flash-red">{{formatSolde($benefices,2)}}                                    <span
                                         class="text-muted"> {{config('app.currency')}}</span>
-</span></p>
+                                </span>
+                            </p>
                         </div>
                         <div class="row col-12">
                             <div class="discount-time text-center">

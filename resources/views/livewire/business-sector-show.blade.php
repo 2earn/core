@@ -45,11 +45,11 @@
                 <div class="col-lg-9">
                     <h5 class="text-dark mt-2">{{__('Description')}}:</h5>
                     <blockquote class="text-dark">
-                        {{\App\Models\TranslaleModel::getTranslation($businessSector,'description',$businessSector->description)}}
+                        {!! \App\Models\TranslaleModel::getTranslation($businessSector,'description',$businessSector->description) !!}
                         @if(\App\Models\User::isSuperAdmin())
                             <br>
                             <small class="m-2">
-                                <a class="link-dark float-end"
+                                <a class="link-info float-end"
                                    href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($businessSector,'description')])}}">{{__('See or update Translation')}}</a>
                             </small>
                         @endif
@@ -128,7 +128,7 @@
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text mb-2">
-                                            {{\App\Models\TranslaleModel::getTranslation($platform,'description',$platform->description)}}
+                                            {!! \App\Models\TranslaleModel::getTranslation($platform,'description',$platform->description) !!}
                                             @if(\App\Models\User::isSuperAdmin())
                                                 <small class="mx-2">
                                                     <a class="link-info"
