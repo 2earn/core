@@ -128,11 +128,9 @@
             </button>
         </div>
     </div>
-    @vite(['resources/js/ckeditor.js'])
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-
-            window.ClassicEditor
+        <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
+        <script>
+            ClassicEditor
                 .create(document.querySelector('#editor'), {
                     addPlugins: ['SourceEditing'], removePlugins: [
                         'Image', 'ImageCaption', 'ImageStyle', 'ImageToolbar',
@@ -141,13 +139,11 @@
                 })
                 .then(editor => {
                     editor.model.document.on('change:data', () => {
-                    @this.set('content', editor.getData())
-                        ;
-                    });
+                    @this.set('message', editor.getData());
+                    })
                 })
                 .catch(error => {
                     console.error(error);
                 });
-        });
-    </script>
+        </script>
 </div>
