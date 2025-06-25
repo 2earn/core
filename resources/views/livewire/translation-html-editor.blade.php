@@ -131,7 +131,7 @@
     @vite(['resources/js/ckeditor.js'])
     <script type="module">
         document.addEventListener('DOMContentLoaded', function () {
-            ClassicEditor
+            window.ClassicEditor
                 .create(document.querySelector('#editor'), {
                     addPlugins: ['SourceEditing'], removePlugins: [
                         'Image', 'ImageCaption', 'ImageStyle', 'ImageToolbar',
