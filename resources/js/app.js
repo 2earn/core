@@ -66,9 +66,6 @@ window.SimpleBar = SimpleBar;
 window.FilePond = FilePond;
 window.FilePondPluginImagePreview = FilePondPluginImagePreview;
 
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-window.ClassicEditor = ClassicEditor;
-
 
 (function () {
 

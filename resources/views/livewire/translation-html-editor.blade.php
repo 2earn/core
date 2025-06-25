@@ -129,8 +129,9 @@
         </div>
     </div>
     @vite(['resources/js/ckeditor.js'])
-    <script type="module">
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
+
             window.ClassicEditor
                 .create(document.querySelector('#editor'), {
                     addPlugins: ['SourceEditing'], removePlugins: [
