@@ -223,14 +223,16 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                                     alt="{{__('English')}}" title="{{__('English')}}"
                                                                     class="avatar-xxs m-2">
                                                                 <span
-                                                                    class="text-muted mx-1">{{ Str::limit($value->valueEn,300)}}</span>
+                                                                    class="text-muted mx-1">{!!  Str::limit($value->valueEn,300) !!}}</span>
 
                                                                 <a href="{{route('translate_html',['locale'=>app()->getLocale(),'id'=>$value->id,'lang'=>'en'])}}"
-                                                                   id="add-item" class="btn btn-soft-secondary fw-medium float-end"><i
+                                                                   id="add-item"
+                                                                   class="btn btn-soft-secondary fw-medium float-end"><i
                                                                         class="ri-globe-fill"></i> {{__('HTML')}}
                                                                     <img
                                                                         src="{{Vite::asset("resources/images/flags/" . strtolower('gb') . ".svg")}}"
-                                                                        alt="{{__('English')}}" title="{{__('English')}}"
+                                                                        alt="{{__('English')}}"
+                                                                        title="{{__('English')}}"
                                                                         class="avatar-xxs mx-2">
                                                                 </a>
 
@@ -244,9 +246,10 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                                     alt="{{__('Arabe')}}" title="{{__('Arabe')}}"
                                                                     class="avatar-xxs m-2">
                                                                 <span
-                                                                    class="text-muted mx-1">{{ Str::limit($value->value,300)}}</span>
+                                                                    class="text-muted mx-1">{!! Str::limit($value->value,300)  !!}</span>
                                                                 <a href="{{route('translate_html',['locale'=>app()->getLocale(),'id'=>$value->id,'lang'=>'ar'])}}"
-                                                                   id="add-item" class="btn btn-soft-secondary fw-medium float-end"><i
+                                                                   id="add-item"
+                                                                   class="btn btn-soft-secondary fw-medium float-end"><i
                                                                         class="ri-globe-fill"></i> {{__('HTML')}}
                                                                     <img
                                                                         src="{{Vite::asset("resources/images/flags/" . strtolower('sa') . ".svg")}}"
@@ -260,13 +263,15 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                                     alt="{{__('Francais')}}" title="{{__('Francais')}}"
                                                                     class="avatar-xxs m-2">
                                                                 <span
-                                                                    class="text-muted mx-1">{{ Str::limit($value->valueFr,300)}}</span>
+                                                                    class="text-muted mx-1">{!! Str::limit($value->valueFr,300) !!}</span>
                                                                 <a href="{{route('translate_html',['locale'=>app()->getLocale(),'id'=>$value->id,'lang'=>'fr'])}}"
-                                                                   id="add-item" class="btn btn-soft-secondary fw-medium float-end"><i
+                                                                   id="add-item"
+                                                                   class="btn btn-soft-secondary fw-medium float-end"><i
                                                                         class="ri-globe-fill"></i> {{__('HTML')}}
                                                                     <img
                                                                         src="{{Vite::asset("resources/images/flags/" . strtolower('fr') . ".svg")}}"
-                                                                        alt="{{__('Francais')}}" title="{{__('Francais')}}"
+                                                                        alt="{{__('Francais')}}"
+                                                                        title="{{__('Francais')}}"
                                                                         class="avatar-xxs mx-2">
                                                                 </a>
                                                             </li>
@@ -276,13 +281,15 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                                     alt="{{__('Turkish')}}" title="{{__('Turkish')}}"
                                                                     class="avatar-xxs m-2">
                                                                 <span
-                                                                    class="text-muted mx-1">{{ Str::limit($value->valueTr,300)}}</span>
+                                                                    class="text-muted mx-1">{!! Str::limit($value->valueTr,300) !!}</span>
                                                                 <a href="{{route('translate_html',['locale'=>app()->getLocale(),'id'=>$value->id,'lang'=>'tr'])}}"
-                                                                   id="add-item" class="btn btn-soft-secondary fw-medium float-end"><i
+                                                                   id="add-item"
+                                                                   class="btn btn-soft-secondary fw-medium float-end"><i
                                                                         class="ri-globe-fill"></i> {{__('HTML')}}
                                                                     <img
                                                                         src="{{Vite::asset("resources/images/flags/" . strtolower('tr') . ".svg")}}"
-                                                                        alt="{{__('Turkish')}}" title="{{__('Turkish')}}"
+                                                                        alt="{{__('Turkish')}}"
+                                                                        title="{{__('Turkish')}}"
                                                                         class="avatar-xxs mx-2">
                                                                 </a>
                                                             </li>
@@ -293,13 +300,15 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                                     src="{{Vite::asset("resources/images/flags/" . strtolower('es') . ".svg")}}"
                                                                     alt="{{__('Spanish')}}" title="{{__('Spanish')}}"
                                                                     class="avatar-xxs m-2"><span
-                                                                    class="text-muted mx-1">{{ Str::limit($value->valueEs,300)}}</span>
+                                                                    class="text-muted mx-1">{!! Str::limit($value->valueEs,300) !!}</span>
                                                                 <a href="{{route('translate_html',['locale'=>app()->getLocale(),'id'=>$value->id,'lang'=>'es'])}}"
-                                                                   id="add-item" class="btn btn-soft-secondary fw-medium float-end"><i
+                                                                   id="add-item"
+                                                                   class="btn btn-soft-secondary fw-medium float-end"><i
                                                                         class="ri-globe-fill"></i> {{__('HTML')}}
                                                                     <img
                                                                         src="{{Vite::asset("resources/images/flags/" . strtolower('es') . ".svg")}}"
-                                                                        alt="{{__('Spanish')}}" title="{{__('Spanish')}}"
+                                                                        alt="{{__('Spanish')}}"
+                                                                        title="{{__('Spanish')}}"
                                                                         class="avatar-xxs mx-2">
                                                                 </a>
                                                             </li>
@@ -308,13 +317,15 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                                     src="{{Vite::asset("resources/images/flags/" . strtolower('ru') . ".svg")}}"
                                                                     alt="{{__('Russian')}}" title="{{__('Russian')}}"
                                                                     class="avatar-xxs m-2"><span
-                                                                    class="text-muted mx-1">{{ Str::limit($value->valueRu,300)}}</span>
+                                                                    class="text-muted mx-1">{!! Str::limit($value->valueRu,300) !!}</span>
                                                                 <a href="{{route('translate_html',['locale'=>app()->getLocale(),'id'=>$value->id,'lang'=>'ru'])}}"
-                                                                   id="add-item" class="btn btn-soft-secondary fw-medium float-end"><i
+                                                                   id="add-item"
+                                                                   class="btn btn-soft-secondary fw-medium float-end"><i
                                                                         class="ri-globe-fill"></i> {{__('HTML')}}
                                                                     <img
                                                                         src="{{Vite::asset("resources/images/flags/" . strtolower('ru') . ".svg")}}"
-                                                                        alt="{{__('Russian')}}" title="{{__('Russian')}}"
+                                                                        alt="{{__('Russian')}}"
+                                                                        title="{{__('Russian')}}"
                                                                         class="avatar-xxs mx-2">
                                                                 </a>
                                                             </li>
@@ -323,9 +334,10 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                                     src="{{Vite::asset("resources/images/flags/" . strtolower('de') . ".svg")}}"
                                                                     alt="{{__('German')}}" title="{{__('German')}}"
                                                                     class="avatar-xxs m-2"><span
-                                                                    class="text-muted mx-1">{{ Str::limit($value->valueDe,300)}}</span>
+                                                                    class="text-muted mx-1">{!! Str::limit($value->valueDe,300) !!}</span>
                                                                 <a href="{{route('translate_html',['locale'=>app()->getLocale(),'id'=>$value->id,'lang'=>'de'])}}"
-                                                                   id="add-item" class="btn btn-soft-secondary fw-medium float-end"><i
+                                                                   id="add-item"
+                                                                   class="btn btn-soft-secondary fw-medium float-end"><i
                                                                         class="ri-globe-fill"></i> {{__('HTML')}}
                                                                     <img
                                                                         src="{{Vite::asset("resources/images/flags/" . strtolower('de') . ".svg")}}"

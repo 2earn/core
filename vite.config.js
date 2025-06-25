@@ -84,6 +84,7 @@ export default defineConfig({
                 'resources/js/pages/crypto-kyc.init.js',
                 'resources/js/surveys.js',
                 'resources/js/pages/passowrd-create.init.js',
+                'resources/js/ckeditor.js',
             ],
             refresh: true,
             server: {

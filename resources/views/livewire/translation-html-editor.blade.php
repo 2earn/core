@@ -128,7 +128,7 @@
             </button>
         </div>
     </div>
-    <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
+    @vite(['resources/js/ckeditor.js'])
     <script type="module">
         document.addEventListener('DOMContentLoaded', function () {
             ClassicEditor
