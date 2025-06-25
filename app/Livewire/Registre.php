@@ -132,6 +132,29 @@ class Registre extends Component
         return $newUser;
     }
 
+
+    function lookupIpFromApi(string $ip): array
+    {
+        try {
+            $response = Http::withToken(config('services.api_token'))
+                ->acceptJson()
+                ->post('https://ip.2earn.cash/api/lookup', ['ip' => $ip]);
+            if ($response->successful()) {
+                return $response->json();
+            }
+        } catch (\Throwable $e) {
+            Log::error("Erreur IP lookup pour $ip : " . $e->getMessage());
+        }
+        return [
+            'ip' => $ip,
+            'country_code' => 'XX',
+            'cidr' => null,
+            'data' => null,
+            'source' => null,
+        ];
+    }
+
+
     public function mount()
     {
         $this->country_code = "TN";
@@ -141,10 +164,9 @@ class Registre extends Component
             if ($ip = '0.0.0.0') {
                 $ip = "41.226.181.241";
             }
-            $IP = $ip;
-            $json = file_get_contents("http://ipapi.io/{$ip}/geo");
-            $details = json_decode($json, true);
-            $this->country_code = $details['country'];
+            $result = $this->lookupIpFromApi($ip);
+            Log::notice(json_encode($result));
+            $this->country_code = $result['country_code'];
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
         }
