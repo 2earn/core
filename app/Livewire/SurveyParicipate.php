@@ -15,8 +15,9 @@ class SurveyParicipate extends Component
 {
 
     public $idSurvey;
-
     public $currentRouteName;
+    public $particiapetionProcess = false;
+    public $routeRedirectionParams;
     public $responces;
     public $oldSurveyResponses;
     public $oldReponses = null;
@@ -51,19 +52,19 @@ class SurveyParicipate extends Component
     public function checkParticipation($survey, $question)
     {
         if ($survey->question->selection == Selection::MULTIPLE->value && !count($this->responces)) {
-            throw new \Exception(Lang::get('Invalid responce: no selected choices'));
+            throw new \Exception(Lang::get('Invalid response: no selected choices'));
         }
 
         if ($survey->question->selection == Selection::UNIQUE->value && empty($this->responces)) {
-            throw new \Exception(Lang::get('Invalid responce: no selected choices'));
+            throw new \Exception(Lang::get('Invalid response: no selected choices'));
         }
 
         if ($question->selection == Selection::UNIQUE->value && empty($this->responces)) {
-            throw new \Exception(Lang::get('Invalid responce: too many selected choices'));
+            throw new \Exception(Lang::get('Invalid response: too many selected choices'));
         }
 
         if ($question->selection == Selection::MULTIPLE->value && count($this->responces) > $question->maxResponse) {
-            throw new \Exception(Lang::get('Invalid responce: too many selected choices'));
+            throw new \Exception(Lang::get('Invalid response: too many selected choices'));
         }
     }
 
@@ -92,6 +93,7 @@ class SurveyParicipate extends Component
     public function participate()
     {
         try {
+
             $survey = Survey::findOrFail($this->idSurvey);
             $question = $survey->question;
             $this->checkParticipation($survey, $question);
@@ -101,25 +103,28 @@ class SurveyParicipate extends Component
             } else {
                 $surveyResponse = $this->createNewParicipationAndCheckLimits();
             }
-
-            SurveyResponseItem::where('surveyResponse_id', $surveyResponse->id)->where('surveyQuestion_id', $survey->question->id)->delete();
-
-            if ($question->selection == Selection::MULTIPLE->value) {
-                foreach ($this->responces as $responceItem) {
-                    $surveyResponseItemParams = ['surveyResponse_id' => $surveyResponse->id, 'surveyQuestion_id' => $survey->question->id, 'surveyQuestionChoice_id' => $responceItem];
+            if (!$this->particiapetionProcess) {
+                $this->particiapetionProcess = true;
+                if (SurveyResponseItem::where('surveyResponse_id', $surveyResponse->id)->where('surveyQuestion_id', $survey->question->id)->count() > 1) {
+                    return redirect()->route('surveys_participate', $this->routeRedirectionParams)->with('danger', Lang::get('Many participation to this survey'));
+                }
+                SurveyResponseItem::where('surveyResponse_id', $surveyResponse->id)->where('surveyQuestion_id', $survey->question->id)->delete();
+                if ($question->selection == Selection::MULTIPLE->value) {
+                    foreach ($this->responces as $responceItem) {
+                        $surveyResponseItemParams = ['surveyResponse_id' => $surveyResponse->id, 'surveyQuestion_id' => $survey->question->id, 'surveyQuestionChoice_id' => $responceItem];
+                        SurveyResponseItem::create($surveyResponseItemParams);
+                    }
+                } else {
+                    $surveyResponseItemParams = ['surveyResponse_id' => $surveyResponse->id, 'surveyQuestion_id' => $survey->question->id, 'surveyQuestionChoice_id' => $this->responces];
                     SurveyResponseItem::create($surveyResponseItemParams);
                 }
-            } else {
-                $surveyResponseItemParams = ['surveyResponse_id' => $surveyResponse->id, 'surveyQuestion_id' => $survey->question->id, 'surveyQuestionChoice_id' => $this->responces];
-                SurveyResponseItem::create($surveyResponseItemParams);
+                $this->particiapetionProcess = false;
             }
-
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect()->route('surveys_participate', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while participating to this survey!!') );
+            return redirect()->route('surveys_participate', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while participating to this survey'));
         }
-       return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('success', Lang::get('You just participated successfully to this survey'));
-
+        return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('success', Lang::get('You just participated successfully to this survey'));
     }
 
     public function render()

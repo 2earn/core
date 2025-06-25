@@ -8,6 +8,7 @@ use App\Models\TranslaleModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -68,7 +69,7 @@ class NewsCreateUpdate extends Component
             $news = News::where('id', $this->idNews)->update($params);
             if ($this->mainImage) {
                 $news = News::where('id', $this->idNews)->first();
-                if ($news->mainImage) {
+                if (!is_null($news->mainImage)) {
                     Storage::disk('public2')->delete($news->mainImage->url);
                 }
                 $imagePath = $this->mainImage->store('news/' . News::IMAGE_TYPE_MAIN, 'public2');
@@ -128,7 +129,7 @@ class NewsCreateUpdate extends Component
 
     public function render()
     {
-        $params = ['news' => Faq::find($this->idNews)];
+        $params = ['news' => News::find($this->idNews)];
         return view('livewire.news-create-update', $params)->extends('layouts.master')->section('content');
     }
 }

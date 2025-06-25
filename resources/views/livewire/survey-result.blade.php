@@ -101,7 +101,7 @@
                             {{__('Participation details')}}</h6></div>
                     <div class="card-body row">
                         <ul class="list-group list-group-flush pl-2">
-                            @forelse($survey->surveyResponse as $surveyResponse)
+                            @forelse($survey->surveyResponse->sortByDesc('created_at') as $surveyResponse)
                                 <li class="list-group-item">
                                     {{ getUserDisplayedName($surveyResponse->user->idUser)}} <span
                                         class="text-muted">{{__('at')}}: {{ $surveyResponse->created_at}} </span>

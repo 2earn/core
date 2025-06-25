@@ -43,7 +43,7 @@
                         <label for="logoImage">{{__('Main Image')}}</label>
                         <input type="file" id="mainImage" wire:model.live="mainImage" class="form-control">
                         @error('mainImage') <span class="error">{{ $message }}</span> @enderror
-                        @if ($news?->mainImage)
+                   @if ($news?->mainImage)
                             <div class="mt-3">
                                 <img src="{{ asset('uploads/' . $news->mainImage->url) }}"
                                      alt="Business Sector logoImage" class="img-thumbnail">

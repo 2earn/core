@@ -20,11 +20,13 @@ class ForgotPassword extends Component
     use earnLog;
 
     const MAX_ATTEMPTS = 3;
-    const COOLDOWN_PERIOD = 300;
+    const COOLDOWN_PERIOD = 3000;
     const RATE_KEY = 'forgot-password-attempts-';
 
     public $locales;
     public $check;
+    public int $expireAt;
+    public int $maxAttempts;
 
     protected $listeners = [
         'checkopt' => 'checkopt',
@@ -32,17 +34,23 @@ class ForgotPassword extends Component
         'sendSms' => 'sendSms'
     ];
 
+    public function mount()
+    {
+        $this->expireAt = getSettingIntegerParam('EXPIRE_AT', 30);
+        $this->maxAttempts = getSettingIntegerParam('MAX_ATTEMPT', self::MAX_ATTEMPTS);
+    }
+
     public function PresendSms($ccode, $fullNumber, settingsManager $settingsManager)
     {
         $key = self::RATE_KEY . $fullNumber;
 
-        if (RateLimiter::tooManyAttempts($key, self::MAX_ATTEMPTS)) {
-            Cache::put('blocked-user-' . $fullNumber, true, now()->addMinutes(10));
+        if (RateLimiter::tooManyAttempts($key, $this->maxAttempts)) {
+            Cache::put('blocked-user-' . $fullNumber, true, now()->addMinutes($this->expireAt));
             return redirect()->route("forget_password", app()->getLocale())
                 ->with('danger', Lang::get('Too many attempts! Please try again later.'));
         }
 
-        RateLimiter::hit($key, self::COOLDOWN_PERIOD); // Set the cooldown period (e.g., 60 seconds)
+        RateLimiter::hit($key, self::COOLDOWN_PERIOD);
 
         $user = $settingsManager->getUserByFullNumber($fullNumber);
         if (!$user) {

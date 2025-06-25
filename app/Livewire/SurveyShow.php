@@ -9,7 +9,6 @@ use App\Models\SurveyQuestionChoice;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
-use Livewire\Attributes\Url;
 use Livewire\Component;
 
 class SurveyShow extends Component
@@ -20,6 +19,7 @@ class SurveyShow extends Component
     public $like;
     public $comment;
     public $disableNote;
+
 
     public function mount($idSurvey)
     {
@@ -140,7 +140,7 @@ class SurveyShow extends Component
     }
 
 
-    public function like()
+    public function addLike()
     {
         $survey = Survey::find($this->idSurvey);
         $survey->likes()->create(['user_id' => auth()->user()->id]);
