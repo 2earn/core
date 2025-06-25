@@ -27,7 +27,7 @@
             <div @if($news->mainImage) class="col-sm-12 col-md-8 col-lg-8"
                  @else class="col-sm-12 col-md-12 col-lg-12" @endif>
                 <blockquote>
-                    {{\App\Models\TranslaleModel::getTranslation($news,'content',$news->content)}}
+                    {!! \App\Models\TranslaleModel::getTranslation($news,'content',$news->content) !!}
                 </blockquote>
                 @if(\App\Models\User::isSuperAdmin())
                     <p class="mx-2">

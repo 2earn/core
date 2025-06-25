@@ -176,9 +176,9 @@
                 <h6 class="mt-2 text-info">{{__('Description')}}:</h6>
                 <p class="card-text text-muted">
                     @if($currentRouteName=="surveys_show")
-                        {{\App\Models\TranslaleModel::getTranslation($survey,'description',$survey->description)}}
+                        {!! \App\Models\TranslaleModel::getTranslation($survey,'description',$survey->description) !!}
                     @else
-                        {{ Str::limit(\App\Models\TranslaleModel::getTranslation($survey,'description',$survey->description),200)}}
+                        {!! Str::limit(\App\Models\TranslaleModel::getTranslation($survey,'description',$survey->description),200) !!}
                     @endif
                     @if(\App\Models\User::isSuperAdmin())
                         <br>  <a class="link-info"

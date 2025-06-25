@@ -45,8 +45,7 @@
                         <div class="card border card-border-light">
                             <div class="card-header">
                                 <h5 class="card-title mb-1">
-                                    {{$faq->id}}
-                                    - {{\App\Models\TranslaleModel::getTranslation($faq,'question',$faq->question)}}
+                                    - {!! \App\Models\TranslaleModel::getTranslation($faq,'question',$faq->question) !!}
                                 </h5>
                                 @if(\App\Models\User::isSuperAdmin())
                                     <p class="mx-2 float-end">
@@ -58,7 +57,7 @@
                             <div class="card-body">
                                 <blockquote class="blockquote">
                                     <p class="card-text">
-                                        {{\App\Models\TranslaleModel::getTranslation($faq,'answer',$faq->answer)}}
+                                        {!! \App\Models\TranslaleModel::getTranslation($faq,'answer',$faq->answer) !!}
                                     </p>
                                 </blockquote>
                                 @if(\App\Models\User::isSuperAdmin())
