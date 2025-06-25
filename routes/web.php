@@ -208,6 +208,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::prefix('/translate')->group(function () {
                 Route::get('/', TranslateView::class)->name('translate');
                 Route::get('/model/data', \App\Livewire\TranslateModelData::class)->name('translate_model_data');
+                Route::get('/{id}/html/{lang}', \App\Livewire\TranslationHtmlEditor::class)->name('translate_html');
             });
 
             Route::prefix('/target')->name('target_')->group(function () {
@@ -309,7 +310,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/coupons/user', 'App\Http\Controllers\ApiController@getUserCoupons')->name('api_user_coupon');
         Route::get('/platforms', 'App\Http\Controllers\ApiController@getPlatforms')->name('api_platforms');
         Route::get('/roles', 'App\Http\Controllers\ApiController@getRoles')->name('api_role');
-        Route::get('/deals/search', [\App\Livewire\DealsIndex::class,'filterDeals'])->name('api_deal_search');
+        Route::get('/deals/search', [\App\Livewire\DealsIndex::class, 'filterDeals'])->name('api_deal_search');
         Route::get('/request', 'App\Http\Controllers\ApiController@getRequest')->name('api_request');
         Route::get('/representatives', 'App\Http\Controllers\ApiController@getRepresentatives')->name('api_representatives');
         Route::get('/user/balancesCB', 'App\Http\Controllers\ApiController@getUserBalancesCB')->name('api_user_balances_cb');
