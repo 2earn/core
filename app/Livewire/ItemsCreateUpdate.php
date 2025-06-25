@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -21,6 +22,7 @@ class ItemsCreateUpdate extends Component
     public $platformId;
     public $deals = [];
     public $thumbnailsImage;
+
     public $name, $ref, $price, $discount, $discount_2earn, $photo_link, $description, $stock;
 
     public $update = false;
@@ -99,9 +101,10 @@ class ItemsCreateUpdate extends Component
             }
 
             Item::where('id', $this->idItem)->update($dataItem);
+            $item = Item::where('id', $this->idItem)->first();
 
             if ($this->thumbnailsImage) {
-                if ($item->thumbnailsImage) {
+                if (!is_null($item->thumbnailsImage)) {
                     Storage::disk('public2')->delete($item->thumbnailsImage->url);
                 }
                 $imagePath = $this->thumbnailsImage->store('business-sectors/' . Item::IMAGE_TYPE_THUMBNAILS, 'public2');
@@ -113,7 +116,6 @@ class ItemsCreateUpdate extends Component
             }
         } catch (\Exception $exception) {
             dd($exception);
-            $this->cancel();
             Log::error($exception->getMessage());
             return redirect()->route('items_detail', ['locale' => app()->getLocale(), 'id' => $this->idItem])->with('danger', Lang::get('Something goes wrong while updating Item'));
         }
