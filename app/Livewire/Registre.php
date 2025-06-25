@@ -19,6 +19,7 @@ use Illuminate\Support\Str;
 use Livewire\Component;
 use Symfony\Component\HttpFoundation\IpUtils;
 
+
 class Registre extends Component
 {
     use earnTrait;
@@ -159,11 +160,7 @@ class Registre extends Component
     {
         $this->country_code = "TN";
         try {
-            $ip = ip2long(request()->ip());
-            $ip = long2ip($ip);
-            if ($ip = '0.0.0.0') {
-                $ip = "41.226.181.241";
-            }
+            $ip = request()->ip();
             $result = $this->lookupIpFromApi($ip);
             Log::notice(json_encode($result));
             $this->country_code = $result['country_code'];

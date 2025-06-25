@@ -15,7 +15,7 @@ return [
     */
     'ga4' => [
         'measurementId' => env('GA_MEASUREMENT_ID'),
-        ],
+    ],
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),
@@ -34,6 +34,7 @@ return [
     'recaptcha' => [
         'key' => env('RECAPTCHA_SITE_KEY'),
         'secret' => env('RECAPTCHA_SECRET_KEY'),
-        'api_token' => env('API_LOOKUP_TOKEN','1|tl48jBRLgYHbBoQWmYX0ZRPkK8WAgBS4oGn46Xii6bcbf35b'),
-    ]
+    ],
+    'api_token' => env('API_LOOKUP_TOKEN', '1|tl48jBRLgYHbBoQWmYX0ZRPkK8WAgBS4oGn46Xii6bcbf35b'),
+
 ];
