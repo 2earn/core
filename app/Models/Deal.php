@@ -37,6 +37,10 @@ class Deal extends Model
         'total_unused_cashback_value',
         'created_by_id',
         'platform_id',
+        'cash_company_profit',
+        'cash_jackpot',
+        'cash_tree',
+        'cash_cashback',
     ];
 
 

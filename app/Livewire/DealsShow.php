@@ -73,17 +73,15 @@ class DealsShow extends Component
         if (is_null($deal)) {
             $this->redirect()->route('deals_index', ['locale' => app()->getLocale()]);
         }
+
         $commissions = CommissionBreakDown::where('deal_id', $this->idDeal)
             ->orderBy('id', 'ASC')
             ->get();
 
-        foreach ($commissions as $commission) {
-            $this->jackpot = $commission->cash_jackpot;
-            $this->earn_profit = $commission->cash_company_profit;
-            $this->proactive_cashback = $commission->cash_cashback;
-            $this->tree_remuneration = $commission->cash_tree;
-        }
-
+        $this->jackpot = $commissions->sum('cash_jackpot');
+        $this->earn_profit = $commissions->sum('cash_company_profit');
+        $this->proactive_cashback = $commissions->sum('cash_cashback');
+        $this->tree_remuneration = $commissions->sum('cash_tree');
 
         $params = [
             'deal' => $deal,

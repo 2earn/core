@@ -214,6 +214,9 @@
                             <span class="mx-2 text-success">
                                 {{formatSolde($earn_profit,2)}} {{config('app.currency')}}
                             </span>
+                            <span class="mx-2 text-primary">
+                                {{formatSolde($deal->cash_company_profit,2)}} {{config('app.currency')}}
+                            </span>
                         </div>
                     </div>
                 </li>
@@ -232,6 +235,9 @@
                             </span>
                             <span class="mx-2 text-success">
                                 {{formatSolde($jackpot,2)}} {{config('app.currency')}}
+                            </span>
+                            <span class="mx-2 text-primary">
+                                {{formatSolde($deal->cash_jackpot,2)}} {{config('app.currency')}}
                             </span>
                         </div>
                     </div>
@@ -252,6 +258,9 @@
                             <span class="mx-2 text-success">
                                 {{formatSolde($tree_remuneration,2)}} {{config('app.currency')}}
                             </span>
+                            <span class="mx-2 text-primary">
+                                {{formatSolde($deal->cash_tree,2)}} {{config('app.currency')}}
+                            </span>
                         </div>
                     </div>
                 </li>
@@ -270,6 +279,9 @@
                             </span>
                             <span class="mx-2 text-success">
                                 {{formatSolde($proactive_cashback)}} {{config('app.currency')}}
+                            </span>
+                            <span class="mx-2 text-primary">
+                                {{formatSolde($deal->cash_cashback,2)}} {{config('app.currency')}}
                             </span>
                         </div>
                     </div>
