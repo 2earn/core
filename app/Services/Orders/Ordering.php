@@ -389,7 +389,10 @@ class Ordering
             $cbData['cash_jackpot'] = $cbData['camembert'] * $deal->jackpot / 100;
             $cbData['cash_tree'] = $cbData['camembert'] * $deal->tree_remuneration / 100;
             $cbData['cash_cashback'] = $cbData['camembert'] * $deal->proactive_cashback / 100;
+
             $cbData['cumulative_cashback'] = $cumulativeCashback + $cbData['cash_cashback'];
+
+            Ordering::updateDealRepartition($deal, $cbData);
 
             CommissionBreakDown::create($cbData);
         }
@@ -404,6 +407,15 @@ class Ordering
             'commission_percentage' => $SettingCommissionPercentage,
             'commission_value' => $order->out_of_deal_amount / 100 * $SettingCommissionPercentage,
         ]);
+    }
+
+    public static function updateDealRepartition($deal, $cbData)
+    {
+        $deal->cash_company_profit = $deal->cash_company_profit + $cbData['cash_company_profit'];
+        $deal->cash_jackpot = $deal->cash_jackpot + $cbData['cash_jackpot'];
+        $deal->cash_tree = $deal->cash_tree + $cbData['cash_tree'];
+        $deal->cash_cashback = $deal->cash_cashback + $cbData['cash_cashback'];
+        $deal->save();
     }
 
     public static function run($simulation)

@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use App\Models\CommissionBreakDown;
 use App\Models\Deal;
-use Core\Enum\CommissionTypeEnum;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +18,11 @@ class DealsShow extends Component
         'delete' => 'delete',
         'updateDeal' => 'updateDeal',
     ];
+
+    public $jackpot = 0;
+    public $earn_profit = 0;
+    public $proactive_cashback = 0;
+    public $tree_remuneration = 0;
 
     public $idDeal,
         $currentRouteName,
@@ -69,9 +73,16 @@ class DealsShow extends Component
         if (is_null($deal)) {
             $this->redirect()->route('deals_index', ['locale' => app()->getLocale()]);
         }
+
         $commissions = CommissionBreakDown::where('deal_id', $this->idDeal)
             ->orderBy('id', 'ASC')
             ->get();
+
+        $this->jackpot = $commissions->sum('cash_jackpot');
+        $this->earn_profit = $commissions->sum('cash_company_profit');
+        $this->proactive_cashback = $commissions->sum('cash_cashback');
+        $this->tree_remuneration = $commissions->sum('cash_tree');
+
         $params = [
             'deal' => $deal,
             'commissions' => $commissions

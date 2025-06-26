@@ -100,25 +100,27 @@
                                                 title="{{__('Cash company profit')}}">
                                                 <strong>{{__('Cash company profit')}}</strong>
                                                 <span
-                                                    class="badge badge-outline-info float-end">    {{$commission->cash_company_profit}}  {{config('app.currency')}}
+                                                    class="badge badge-outline-info float-end">{{$commission->cash_company_profit}}  {{config('app.currency')}}
                                     </span>
-                                            </li>
-                                            <li class="list-group-item" title="{{__('Cash cashback')}}">
-                                                <strong>{{__('Cash cashback')}}</strong>
-                                                <span
-                                                    class="badge badge-outline-info float-end">  {{$commission->cash_cashback}}  {{config('app.currency')}}                                    </span>
                                             </li>
                                             <li class="list-group-item" title="{{__('Cash jackpot')}}">
                                                 <strong>{{__('Cash jackpot')}}</strong>
 
                                                 <span
-                                                    class="badge badge-outline-info float-end"> {{$commission->cash_jackpot}}  {{config('app.currency')}}
+                                                    class="badge badge-outline-info float-end">{{$commission->cash_jackpot}}  {{config('app.currency')}}
                                                                   </span>
                                             </li>
                                             <li class="list-group-item" title="{{__('Cash tree')}}">
                                                 <strong>{{__('Cash tree')}}</strong>
                                                 <span
-                                                    class="badge badge-outline-info float-end">     {{$commission->cash_tree}}  {{config('app.currency')}}                                    </span>
+                                                    class="badge badge-outline-info float-end">{{$commission->cash_tree}}  {{config('app.currency')}}
+                                                </span>
+                                            </li>
+                                            <li class="list-group-item" title="{{__('Cash cashback')}}">
+                                                <strong>{{__('Cash cashback')}}</strong>
+                                                <span
+                                                    class="badge badge-outline-info float-end">{{$commission->cash_cashback}}  {{config('app.currency')}}
+                                                </span>
                                             </li>
                                         </ul>
                                     @else

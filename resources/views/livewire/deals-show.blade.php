@@ -212,7 +212,10 @@
                                 {{$deal->earn_profit}} %
                             </span>
                             <span class="mx-2 text-success">
-                                {{\App\Models\Deal::getCamombertPartPercentage($deal,$deal->earn_profit)}} {{config('app.currency')}}
+                                {{formatSolde($earn_profit,2)}} {{config('app.currency')}}
+                            </span>
+                            <span class="mx-2 text-primary">
+                                {{formatSolde($deal->cash_company_profit,2)}} {{config('app.currency')}}
                             </span>
                         </div>
                     </div>
@@ -231,7 +234,10 @@
                                 {{$deal->jackpot}} %
                             </span>
                             <span class="mx-2 text-success">
-                                {{\App\Models\Deal::getCamombertPartPercentage($deal,$deal->jackpot)}} {{config('app.currency')}}
+                                {{formatSolde($jackpot,2)}} {{config('app.currency')}}
+                            </span>
+                            <span class="mx-2 text-primary">
+                                {{formatSolde($deal->cash_jackpot,2)}} {{config('app.currency')}}
                             </span>
                         </div>
                     </div>
@@ -250,7 +256,10 @@
                                 {{$deal->tree_remuneration}} %
                             </span>
                             <span class="mx-2 text-success">
-                                {{\App\Models\Deal::getCamombertPartPercentage($deal,$deal->tree_remuneration)}} {{config('app.currency')}}
+                                {{formatSolde($tree_remuneration,2)}} {{config('app.currency')}}
+                            </span>
+                            <span class="mx-2 text-primary">
+                                {{formatSolde($deal->cash_tree,2)}} {{config('app.currency')}}
                             </span>
                         </div>
                     </div>
@@ -269,7 +278,10 @@
                                 {{$deal->proactive_cashback}} %
                             </span>
                             <span class="mx-2 text-success">
-                                {{\App\Models\Deal::getCamombertPartPercentage($deal,$deal->proactive_cashback)}} {{config('app.currency')}}
+                                {{formatSolde($proactive_cashback)}} {{config('app.currency')}}
+                            </span>
+                            <span class="mx-2 text-primary">
+                                {{formatSolde($deal->cash_cashback,2)}} {{config('app.currency')}}
                             </span>
                         </div>
                     </div>
