@@ -19,11 +19,6 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-12 col-md-12 col-lg-12">
-                <p class="text-muted mb-2">
-                    {{__('Dear Members')}}
-                </p>
-            </div>
             <div @if($news->mainImage) class="col-sm-12 col-md-8 col-lg-8"
                  @else class="col-sm-12 col-md-12 col-lg-12" @endif>
                 <blockquote>
@@ -35,9 +30,6 @@
                            href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($news,'content')])}}">{{__('See or update Translation')}}</a>
                     </p>
                 @endif
-                <p class="text-muted mb-2">
-                    {{__('Best regards')}}
-                </p>
             </div>
             @if($news->mainImage)
                 <div class="col-sm-12 col-md-4 col-lg-3">
@@ -51,7 +43,7 @@
 
     </div>
     <div class="card-footer">
-            <span class="text-info mb-2">
+            <span class="text-muted mb-2">
                 {{__('The Management Team')}}
             </span>
         <span class="text-muted mb-0 float-end">

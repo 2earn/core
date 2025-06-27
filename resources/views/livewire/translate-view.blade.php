@@ -149,7 +149,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                     <div class="card-header headerTranslate">
                         <div class="row">
                             <div class="col-md-4 form-row">
-                                <select wire:model.live="nbrPagibation" class="form-control col-6"
+                                <select wire:model.live="nbrPagibation" class="form-control col-5"
                                         id="nbrPagibation">
                                     @foreach ($nbrPagibationArray as $nbrPagibationItem)
                                         <option
@@ -158,7 +158,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                 </select>
                             </div>
                             <div class="col-md-4 form-row">
-                                <input type="text" class="form-control col-6"
+                                <input type="text" class="form-control col-7"
                                        placeholder="{{__('Search')}}..."
                                        id="search"
                                        wire:model.live="search"/>
@@ -306,13 +306,13 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                class="btn btn-soft-info  mt-1">{{__('Edit')}}
                                             </a>
                                             <a type="btn" onclick="confirmDelete({{$value->id}})"
-                                               class="btn btn-soft-danger mt-1">{{__('Delete')}}
+                                               class="btn btn-soft-danger mt-1 float-end">{{__('Delete')}}
                                             </a>
-                                            <hr class="my-3">
+                                            <hr class="my-3 text-muted">
                                             <span class="text-muted mt-4">
                                                 <i class="fa-solid fa-plus mx-2"></i> {{ \Carbon\Carbon::parse($value->created_at)->format('d M Y, H:i') }}
                                             </span>
-                                            <hr class="my-3">
+                                            <hr class="my-3 text-muted">
                                             <span class="text-muted mt-4">
                                                 <i class="fa-solid fa-pen-to-square mx-2"></i> {{ \Carbon\Carbon::parse($value->updated_at)->format('d M Y, H:i') }}
                                             </span>

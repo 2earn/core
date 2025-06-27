@@ -66,7 +66,7 @@
                                     <div class="p-lg-5 p-4">
                                         <div>
                                             <h5 class="text-primary"> {{__('Welcome_Back')}}</h5>
-                                            <p class="text-primary"> {{__('continueTo2earn')}} </p>
+                                            <p class="text-muted mx-3 mt-2"> {{__('continueTo2earn')}} </p>
                                         </div>
                                         <div class="mt-4">
                                             @include('layouts.flash-messages')
