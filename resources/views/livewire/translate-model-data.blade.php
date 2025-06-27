@@ -350,19 +350,19 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                     </div>
                                                 </td>
 
-                                                <td>
+                                                <td class="w-25">
                                                     <a type="btn" wire:click="initTranslate({{$value->id}})"
                                                        data-bs-toggle="modal" data-bs-target="#editTranslationModal"
                                                        class="btn btn-soft-info  mt-1">{{__('Edit')}}
                                                     </a>
                                                     <a type="btn" onclick="confirmDelete({{$value->id}})"
-                                                       class="btn btn-soft-danger mt-1">{{__('Delete')}}
+                                                       class="btn btn-soft-danger float-end mt-1">{{__('Delete')}}
                                                     </a>
-                                                    <hr class="my-3">
+                                                    <hr class="my-3 text-muted">
                                                     <span class="text-muted mt-4">
                                                 <i class="fa-solid fa-plus mx-2"></i> {{ \Carbon\Carbon::parse($value->created_at)->format('d M Y, H:i') }}
                                             </span>
-                                                    <hr class="my-3">
+                                                    <hr class="my-3 text-muted">
                                                     <span class="text-muted mt-4">
                                                 <i class="fa-solid fa-pen-to-square mx-2"></i> {{ \Carbon\Carbon::parse($value->updated_at)->format('d M Y, H:i') }}
                                             </span>
