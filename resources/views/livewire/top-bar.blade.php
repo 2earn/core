@@ -305,10 +305,10 @@
                         <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
-                            <img class="rounded-circle header-profile-user" alt="Header Avatar"
+                            <img class="rounded-circle header-profile-user mx-2" alt="Header Avatar"
                                  src="{{ URL::asset($userProfileImage) }}">
                             <span class="text-center ms-xl-2">
-                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"
+                                <span class="d-none d-xl-inline-block mx-2 fw-medium user-name-text"
                                       title="{{$userStatus}}">
                                     {{getUserDisplayedName()}} </span>
                                  <span
@@ -338,8 +338,8 @@
                             <a class="dropdown-item" href="{{route('account',app()->getLocale() )}}">
                                 <img class="rounded-circle header-profile-user"
                                      src="{{ URL::asset($userProfileImage) }}">
-                                <span
-                                    class="align-middle">{{ __('Account') }}</span>
+                                <strong
+                                    class="align-middle mx-2 text-muted font-weight-bold">{{ __('Account') }}</strong>
                             </a>
                             <div class="dropdown-divider">
                             </div>

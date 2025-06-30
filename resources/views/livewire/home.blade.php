@@ -385,10 +385,10 @@
                         >
                             @if ($businessSector->thumbnailsHomeImage)
                                 <img src="{{ asset('uploads/' . $businessSector->thumbnailsHomeImage->url) }}"
-                                     class="rounded img-fluid" alt="">
+                                     class="rounded img-fluid" alt="{{$businessSector->name}}">
                             @else
                                 <img src="{{Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_THUMB_HOME)}}"
-                                     class="rounded img-fluid" alt="">
+                                     class="rounded img-fluid" alt="{{$businessSector->name}}">
                             @endif
                         </a>
                     </div>

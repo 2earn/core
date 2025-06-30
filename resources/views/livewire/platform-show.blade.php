@@ -38,7 +38,7 @@
             <div class="row">
                 <div class="col-10">
                     <p class="card-text text-muted">
-                        {{\App\Models\TranslaleModel::getTranslation($platform,'description',$platform->name)}}
+                        {!! \App\Models\TranslaleModel::getTranslation($platform,'description',$platform->name) !!}
                         @if(\App\Models\User::isSuperAdmin())
                             <small class="mx-2">
                                 <a class="link-info"

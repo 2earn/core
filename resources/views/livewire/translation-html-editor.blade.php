@@ -133,6 +133,10 @@
         document.addEventListener('DOMContentLoaded', function () {
             ClassicEditor
                 .create(document.querySelector('#editor'), {
+                    language: {
+                        ui: '{{$this->lang}}',
+                        content: '{{$this->lang}}'
+                    },
                     addPlugins: ['SourceEditing'], removePlugins: [
                         'Image', 'ImageCaption', 'ImageStyle', 'ImageToolbar',
                         'ImageUpload', 'MediaEmbed', 'CKFinder', 'CKFinderUploadAdapter', 'EasyImage'
