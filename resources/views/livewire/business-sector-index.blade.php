@@ -61,7 +61,7 @@
                                         {{__('Description')}}
                                     </h4>
                                     <blockquote class="blockquote card-text">
-                                        {{\App\Models\TranslaleModel::getTranslation($business_sector,'description',$business_sector->description)}}
+                                        {!! \App\Models\TranslaleModel::getTranslation($business_sector,'description',$business_sector->description) !!}
                                         @if(\App\Models\User::isSuperAdmin())
                                             <small class="mx-2">
                                                 <a class="link-info"
