@@ -12,8 +12,9 @@
         <div class="row card">
             @if(!empty($bfss))
                 <div class="card-header">
-                    <h5 class="card-title mb-0">{{__('BFSs description values')}} @if($type)
-                            <span class="text-success">({{$type}})</span>
+                    <h5 class="card-title mb-0">{{__('BFSs description values')}}
+                        @if($type)
+                            <span class="text-success">({{__($type)}})</span>
                         @endif</h5>
                 </div>
                 <div class="card-body">
