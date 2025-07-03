@@ -208,6 +208,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::prefix('/translate')->group(function () {
                 Route::get('/', TranslateView::class)->name('translate');
                 Route::get('/model/data', \App\Livewire\TranslateModelData::class)->name('translate_model_data');
+                Route::get('/{id}/html/{lang}', \App\Livewire\TranslationHtmlEditor::class)->name('translate_html');
             });
 
             Route::prefix('/target')->name('target_')->group(function () {
@@ -260,9 +261,18 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         });
 
+        Route::prefix('/settlement')->name('settlement_')->group(function () {
+            Route::get('/tracking', \App\Livewire\SettlementTracking::class)->name('tracking');
+        });
+
         Route::prefix('/coupon')->name('coupon_')->group(function () {
             Route::get('/{id}/buy', \App\Livewire\CouponBuy::class)->name('buy');
         });
+
+        Route::prefix('/sales')->name('sales_')->group(function () {
+            Route::get('/{id}/tracking', \App\Livewire\SalesTracking::class)->name('tracking');
+        });
+
         Route::get('/shares/solde', \App\Livewire\SharesSolde::class)->name('shares_solde');
 
         Route::get('/stat-countries', 'App\Http\Controllers\ApiController@getCountriStat')->name('api_stat_countries');
@@ -300,12 +310,12 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/coupons/user', 'App\Http\Controllers\ApiController@getUserCoupons')->name('api_user_coupon');
         Route::get('/platforms', 'App\Http\Controllers\ApiController@getPlatforms')->name('api_platforms');
         Route::get('/roles', 'App\Http\Controllers\ApiController@getRoles')->name('api_role');
-        Route::get('/deals', 'App\Http\Controllers\ApiController@getDeals')->name('api_deal');
+        Route::get('/deals/search', [\App\Livewire\DealsIndex::class, 'filterDeals'])->name('api_deal_search');
         Route::get('/request', 'App\Http\Controllers\ApiController@getRequest')->name('api_request');
         Route::get('/representatives', 'App\Http\Controllers\ApiController@getRepresentatives')->name('api_representatives');
         Route::get('/user/balancesCB', 'App\Http\Controllers\ApiController@getUserBalancesCB')->name('api_user_balances_cb');
         Route::get('/user/invitations', 'App\Http\Controllers\ApiController@getInvitationsUser')->name('api_user_invitations');
-        Route::get('/user/purchaseBFS', 'App\Http\Controllers\ApiController@getPurchaseBFSUser')->name('api_user_bfs_purchase');
+        Route::get('/user/purchaseBFS/{type}', 'App\Http\Controllers\ApiController@getPurchaseBFSUser')->name('api_user_bfs_purchase');
         Route::get('/user/tree', 'App\Http\Controllers\ApiController@getTreeUser')->name('api_user_tree');
         Route::get('/user/sms', 'App\Http\Controllers\ApiController@getSmsUser')->name('api_user_sms');
         Route::get('/user/chance', 'App\Http\Controllers\ApiController@getChanceUser')->name('api_user_chance');

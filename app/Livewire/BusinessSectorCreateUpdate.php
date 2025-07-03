@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use App\Models\BusinessSector;
-use App\Models\Image;
 use App\Models\TranslaleModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
@@ -20,6 +19,7 @@ class BusinessSectorCreateUpdate extends Component
     public $idBusinessSector;
     public $name, $description, $color;
     public $thumbnailsImage;
+    public $thumbnailsHomeImage;
     public $logoImage;
     public $update = false;
 
@@ -27,6 +27,7 @@ class BusinessSectorCreateUpdate extends Component
         'name' => 'required',
         'description' => 'required',
         'thumbnailsImage' => 'nullable|image|mimes:jpeg,png,jpg',
+        'thumbnailsHomeImage' => 'nullable|image|mimes:jpeg,png,jpg',
         'logoImage' => 'nullable|image|mimes:jpeg,png,jpg',
     ];
 
@@ -71,6 +72,19 @@ class BusinessSectorCreateUpdate extends Component
                     'type' => BusinessSector::IMAGE_TYPE_THUMBNAILS,
                 ]);
             }
+
+            if ($this->thumbnailsHomeImage) {
+                if ($businessSector->thumbnailsHomeImage) {
+                    Storage::disk('public2')->delete($businessSector->thumbnailsHomeImage->url);
+                }
+                $imagePath = $this->thumbnailsHomeImage->store('business-sectors/' . BusinessSector::IMAGE_TYPE_THUMBNAILS_HOME, 'public2');
+                $businessSector->thumbnailsHomeImage()->delete();
+                $businessSector->thumbnailsHomeImage()->create([
+                    'url' => $imagePath,
+                    'type' => BusinessSector::IMAGE_TYPE_THUMBNAILS_HOME,
+                ]);
+            }
+
             if ($this->logoImage) {
 
                 if ($businessSector->logoImage) {
@@ -106,6 +120,15 @@ class BusinessSectorCreateUpdate extends Component
                     'type' => BusinessSector::IMAGE_TYPE_THUMBNAILS,
                 ]);
             }
+
+            if ($this->thumbnailsHomeImage) {
+                $imagePath = $this->thumbnailsHomeImage->store('business-sectors/' . BusinessSector::IMAGE_TYPE_THUMBNAILS_HOME, 'public2');
+                $businessSector->thumbnailsHomeImage()->create([
+                    'url' => $imagePath,
+                    'type' => BusinessSector::IMAGE_TYPE_THUMBNAILS_HOME,
+                ]);
+            }
+
             if ($this->logoImage) {
                 $imagePath = $this->logoImage->store('business-sectors/' . BusinessSector::IMAGE_TYPE_LOGO, 'public2');
                 $businessSector->logoImage()->create([

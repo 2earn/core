@@ -136,6 +136,7 @@ class TranslateModelData extends Component
             ->orWhere(DB::raw('upper(value)'), 'like', '%' . strtoupper($this->search) . '%')
             ->orderBy('id', 'desc')
             ->paginate($this->nbrPagibation);
+
         return view('livewire.translate-model-data', ["translates" => $translate])->extends('layouts.master')->section('content');
     }
 

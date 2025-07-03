@@ -100,7 +100,7 @@ class  UserBalancesHelper
                         'operator_id' => Balances::SYSTEM_SOURCE_ID,
                         'beneficiary_id' => $idUser,
                         'reference' => BalancesFacade::getReference(BalanceOperationsEnum::INITIAL_CHANE->value),
-                        'description' => $initialChance . ' % as welcome gift',
+                        'description' => $initialChance . ' as welcome gift',
                         'value' => $initialChance,
                         'pool_id' => 1,
                         'current_balance' => $initialChance

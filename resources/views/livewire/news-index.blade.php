@@ -41,28 +41,26 @@
                                     {{$news->id}}
                                     - {{\App\Models\TranslaleModel::getTranslation($news,'title',$news->title)}}
                                 </h5>
-                                @if(\App\Models\User::isSuperAdmin())
-                                    <p class="mx-2 float-end">
-                                        <a class="link-info"
-                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($news,'title')])}}">{{__('See or update Translation')}}</a>
-                                    </p>
-                                @endif
-
                                 @if($news->enabled)
                                     <span class="badge bg-success float-end">{{__('Enabled')}}</span>
                                 @else
                                     <span class="badge bg-danger float-end">{{__('Disabled')}}</span>
                                 @endif
 
+                                @if(\App\Models\User::isSuperAdmin())
+                                    <p class="mx-2 float-end">
+                                        <a class="link-info"
+                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($news,'title')])}}">{{__('See or update Translation')}}</a>
+                                    </p>
+                                @endif
                             </div>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-8">
                                         <blockquote class="blockquote">
                                             <p class="card-text">
-                                                {{\App\Models\TranslaleModel::getTranslation($news,'content',$news->content)}}
+                                                {!! \App\Models\TranslaleModel::getTranslation($news,'content',$news->content) !!}
                                             </p>
-
                                             @if(\App\Models\User::isSuperAdmin())
                                                 <p class="mx-2 float-end">
                                                     <a class="link-info"
@@ -82,7 +80,7 @@
                                 @if(\App\Models\User::isSuperAdmin())
                                     <a wire:click="delete('{{$news->id}}')"
                                        title="{{__('Delete news')}}"
-                                       class="btn btn-soft-danger material-shadow-none float-end mx-2">
+                                       class="btn btn-soft-danger material-shadow-none mt-1 float-end mx-2">
                                         {{__('Delete')}}
                                         <div wire:loading wire:target="delete('{{$news->id}}')">
                                                 <span class="spinner-border spinner-border-sm" role="status"
@@ -93,9 +91,8 @@
                                     <a
                                         href="{{route('news_create_update',['locale'=> app()->getLocale(),'id'=>$news->id])}}"
                                         title="{{__('Edit news')}}"
-                                        class="btn btn-soft-primary material-shadow-none float-end">
+                                        class="btn btn-soft-primary material-shadow-none mt-1 float-end">
                                         {{__('Edit')}}
-
                                     </a>
                                 @endif
                             </div>

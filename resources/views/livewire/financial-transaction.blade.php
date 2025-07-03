@@ -143,7 +143,7 @@
                                     <div class="col-xxl-4 mx-auto ">
                                         <div class="input-group">
                                                 <span class="input-group-text"
-                                                      id="inputGroup-sizing-default">{{ __('Balance For Shopping') }}</span>
+                                                      id="inputGroup-sizing-default">{{ __('BFS 100') }}</span>
                                             <input type="number"
                                                    name="soldeBFS" id="soldeBFS" class="form-control text-center"
                                                    value="" disabled

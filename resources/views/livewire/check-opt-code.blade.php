@@ -15,7 +15,7 @@
                                    href="{{route('registre',app()->getLocale())}}"><span><i
                                             class="fa fa-angle-left"></i></span>{{ __('Back') }} </a>
                                 <h3 class="text-center">{{ __('OTP Verification') }}</h3>
-                                <p class="text-center">{{ __('We will send one time code on this number') }} </br> {{$numPhone}}</p>
+                                <p class="text-center">{{ __('We will send one time code') }}</p>
 
                                 @if(!is_null($numHelpPhone))
                                     <div class="alert alert-primary material-shadow" role="alert">
@@ -34,7 +34,7 @@
                                         @include('layouts.flash-messages')
                                     </div>
                                     <div class="mb-3">
-                                        <label>{{ __('Your OTP Code') }}</label>
+                                        <label>{{ __('The OTP Code') }}</label>
                                         <input type="number" min="1" max="9999"
                                                class="form-control text-center font-weight-bold"
                                                name="activationCodeValue" wire:model="code">

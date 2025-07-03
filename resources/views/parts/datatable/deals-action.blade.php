@@ -1,11 +1,24 @@
 <div>
     @if(isset($currentRouteName))
         @if($currentRouteName!='deals_show')
-            <a href="{{route('deals_show', ['locale' => app()->getLocale(), 'id' => $deal->id])}}"
-               class="btn btn-xs btn-outline-info btn2earnTable  m-1">{{__('Show')}}</a>
+            @if(\App\Models\User::isSuperAdmin())
+                <a href="{{route('deals_show', ['locale' => app()->getLocale(), 'id' => $deal->id])}}"
+                   class="btn btn-xs btn-outline-info btn2earnTable  m-1">{{__('Show')}}</a>
+            @endif
+
+            @if(\Core\Models\Platform::canCheckDeals(auth()->user()->id))
+                <a class="link-info" target="_blank"
+                   href="{{route('sales_tracking',['locale'=>app()->getLocale(),'id'=>$deal->id])}}">
+                    @if(\App\Models\User::isSuperAdmin())
+                        {{ __('See details for Platform role') }}
+                    @else
+                        {{ __('See more deal details') }}
+                    @endif
+                </a>
+            @endif
         @endif
     @endif
-
+    <hr>
     @if(!$deal->validated)
         <a href="{{route('deals_create_update', ['locale' => app()->getLocale(), 'id' => $deal->id, 'idPlatform' => $deal->platform_id])}}"
            class="btn btn-xs btn-primary btn2earnTable  m-1">{{__('Edit')}}</a>
@@ -41,6 +54,8 @@
             @endif
         @endif
     @endif
-    <a data-id="{{$deal->id}}" data-name="{{$deal->name }}" title="{{$deal->name }}"
-       class="btn btn-xs btn-danger btn2earnTable deleteDeal m-1">{{__('Delete')}}</a>
+    @if(\App\Models\User::isSuperAdmin())
+        <a data-id="{{$deal->id}}" data-name="{{$deal->name }}" title="{{$deal->name }}"
+           class="btn btn-xs btn-danger btn2earnTable deleteDeal m-1">{{__('Delete')}}</a>
+    @endif
 </div>

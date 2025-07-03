@@ -10,9 +10,79 @@
             @endslot
         @endcomponent
         <div class="row card">
+            @if(!empty($bfss))
+                <div class="card-header">
+                    <h5 class="card-title mb-0">{{__('BFSs description values')}} @if($type)
+                            <span class="text-success">({{$type}})</span>
+                        @endif</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-4">
+                        @if($type!='ALL')
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card card-animate">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1 overflow-hidden">
+                                                <p class="text-uppercase fw-medium text-muted text-truncate mb-0">{{__('BFS_')}}</p>
+                                            </div>
+                                            <div class="flex-shrink-0">
+                                                <h5 class="text-muted fs-14 mb-0">
+                                                    <i class="ri-money-dollar-circle-line fs-13 align-middle"></i> {{__('ALL')}}
+                                                </h5>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-end justify-content-between mt-4">
+                                            <div>
+                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">{{config('app.currency')}}{{formatSolde(floatval($this->totalBfs),2)}}</h4>
+                                                <a href="{{route('user_balance_bfs' , ['locale'=>app()->getLocale()] )}}"
+                                                   class="text-decoration-underline">{{__('More details')}}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                        @foreach($bfss as $bfs)
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card card-animate">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1 overflow-hidden">
+                                                <p class="text-uppercase fw-medium text-muted text-truncate mb-0">{{__('BFS_')}}</p>
+                                            </div>
+                                            <div class="flex-shrink-0">
+                                                <h5 class="
+                                                    @if($type==$bfs['type'])
+                                                text-success
+                                                 @else
+                                                text-muted
+                                                 @endif
+                                                 fs-14 mb-0">
+                                                    <i class="ri-money-dollar-circle-line fs-13 align-middle"></i> {{$bfs['type']}}
+                                                </h5>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-end justify-content-between mt-4">
+                                            <div>
+                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">{{config('app.currency')}}{{formatSolde(floatval($bfs['value']),2)}}</h4>
+                                                <a href="{{route('user_balance_bfs' , ['locale'=>app()->getLocale(),'type'=>$bfs['type']] )}}"
+                                                   class="text-decoration-underline">{{__('More details')}}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+            <div class="card-header">
+                <h5 class="card-title mb-0">{{__('BFSs description title')}} </h5>
+            </div>
             <div class="card-body">
                 <div class="row g-4">
-                    <div class="col-sm">
+                    <div class="col-12">
                         <div class="justify-content-sm-end">
                             <div class="search-box ms-2">
                                 <p>{{ __('bfs description') }}</p>
@@ -33,7 +103,7 @@
                         id="ub_table_bfs" style="width: 100%">
                         <thead class="table-light">
                         <tr class=" tabHeader2earn">
-                            <th>{{__('Num')}}</th>
+                            <th>{{ __('Operation order') }}</th>
                             <th>{{ __('ref')}}</th>
                             <th>{{ __('date')}}</th>
                             <th>{{ __('Operation Designation')}}</th>
@@ -79,7 +149,7 @@
                         },
                         "processing": true,
                         search: {return: true},
-                        "ajax": "{{route('api_user_bfs_purchase',app()->getLocale())}}",
+                        "ajax": "{{route('api_user_bfs_purchase',['locale'=>app()->getLocale(),'type'=>$type])}}",
                         "columns": [
                             {data: 'ranks'},
                             {data: 'reference'},
@@ -99,16 +169,6 @@
                                             return '<span class="badge bg-danger con fs-14">' + data + '</span>';
                                         else
                                             return '<span class="badge bg-success con fs-14">' + data + '</span>';
-                                    }
-                                },
-                                {
-                                    "targets": [7],
-                                    render: function (data, type, row) {
-
-                                        if (row.ranks == 1)
-                                            return '<div class="logoTopBFSLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
-                                        else
-                                            return data;
                                     }
                                 },
                                 {

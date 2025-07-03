@@ -31,7 +31,8 @@
                                 <span
                                     class="col-auto flash-red">{{formatSolde($benefices,2)}}                                    <span
                                         class="text-muted"> {{config('app.currency')}}</span>
-</span></p>
+                                </span>
+                            </p>
                         </div>
                         <div class="row col-12">
                             <div class="discount-time text-center">
@@ -98,7 +99,7 @@
                                 @endif
                             </h3>
                             <a href="{{route('user_balance_cb' , app()->getLocale() )}} "
-                               class="text-decoration-underline">{{ __('see_details') }}</a>
+                               class="text-decoration-underline text-muted">{{ __('see_details') }}</a>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon
@@ -161,7 +162,7 @@
                                 @endif
                             </h3>
                             <a href="{{route('user_balance_bfs' , app()->getLocale() )}} "
-                               class="text-decoration-underline">{{ __('see_details') }}</a>
+                               class="text-decoration-underline text-muted">{{ __('see_details') }}</a>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon
@@ -223,7 +224,7 @@
                                 @endif
                             </h4>
                             <a href="{{route('user_balance_db' , app()->getLocale() )}} "
-                               class="text-decoration-underline">{{ __('see_details') }}</a>
+                               class="text-decoration-underline text-muted">{{ __('see_details') }}</a>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon
@@ -256,7 +257,7 @@
                                 <span class="counter-value" data-target="{{$SMSBalance}}">{{$SMSBalance}}</span>
                             </h4>
                             <a href="{{route('user_balance_sms' , app()->getLocale() )}} "
-                               class="text-decoration-underline">{{ __('see_details') }}</a>
+                               class="text-decoration-underline text-muted">{{ __('see_details') }}</a>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon src="{{ URL::asset('build/icons/981-consultation-gradient-edited.json') }}"
@@ -282,7 +283,7 @@
                                 <span>{{ $treeBalance }} </span> %
                             </h4>
                             <a href="{{route('user_balance_tree' , app()->getLocale() )}} "
-                               class="text-decoration-underline">{{ __('see_details') }}</a>
+                               class="text-decoration-underline text-muted">{{ __('see_details') }}</a>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon src="{{ URL::asset('build/icons/1855-palmtree.json') }}"
@@ -313,7 +314,7 @@
                                 <span class="counter-value" data-target="{{$chanceBalance}}">{{$chanceBalance}}</span>
                             </h4>
                             <a href="{{route('user_balance_chance' , app()->getLocale() )}} "
-                               class="text-decoration-underline">{{ __('see_details') }}</a>
+                               class="text-decoration-underline text-muted">{{ __('see_details') }}</a>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <lord-icon src="{{ URL::asset('build/icons/1471-dice-cube.json') }}"
@@ -331,7 +332,7 @@
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 overflow-hidden">
                             <a href="{{route('shares_solde' , app()->getLocale() )}} "
-                               class="text-decoration-underline"><p
+                               class="text-decoration-underline text-muted"><p
                                     class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Actions (Shares)') }}</p>
                             </a>
                         </div>
@@ -373,6 +374,29 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        @foreach($businessSectors as $businessSector)
+            <div class="col-sm-6 col-md-4 col-lg-2">
+                <div class="card">
+                    <div class="card-body p-3" title="{{$businessSector->name}}">
+                        <a class="popup-img d-inline-block"
+                           href="{{route('business_sector_show',['locale'=> app()->getLocale(),'id'=>$businessSector->id])}}"
+                        >
+                            @if ($businessSector->thumbnailsHomeImage)
+                                <img src="{{ asset('uploads/' . $businessSector->thumbnailsHomeImage->url) }}"
+                                     class="rounded img-fluid" alt="{{$businessSector->name}}">
+                            @else
+                                <img src="{{Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_THUMB_HOME)}}"
+                                     class="rounded img-fluid" alt="{{$businessSector->name}}">
+                            @endif
+                        </a>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+
     @foreach($news as $newsItem)
         @include('livewire.news-item', ['news' => $newsItem])
     @endforeach

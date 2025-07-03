@@ -41,19 +41,31 @@
     </div>
     <div class="col-12">
         <div class="card mt-2">
-            <div class="card-body">
-                <div class="col-lg-12">
+            <div class="card-body row">
+                <div class="col-lg-9">
                     <h5 class="text-dark mt-2">{{__('Description')}}:</h5>
                     <blockquote class="text-dark">
-                        {{\App\Models\TranslaleModel::getTranslation($businessSector,'description',$businessSector->description)}}
+                        {!! \App\Models\TranslaleModel::getTranslation($businessSector,'description',$businessSector->description) !!}
                         @if(\App\Models\User::isSuperAdmin())
                             <br>
                             <small class="m-2">
-                                <a class="link-dark float-end"
+                                <a class="link-info float-end"
                                    href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($businessSector,'description')])}}">{{__('See or update Translation')}}</a>
                             </small>
                         @endif
                     </blockquote>
+                </div>
+                <div class="col-lg-3">
+                    @if ($businessSector->thumbnailsHomeImage)
+                        <img src="{{ asset('uploads/' . $businessSector->thumbnailsHomeImage->url) }}"
+                             alt="Business Sector Home Image"
+                             class="d-block img-fluid img-business-square mx-auto rounded float-left">
+                    @else
+                        <img src="{{Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_THUMB_HOME)}}"
+                             class="d-block img-fluid img-business-square mx-auto rounded float-left">
+                    @endif
+                </div>
+                <div class="col-lg-12">
                     <div class="d-flex profile-wrapper">
                         @if(\App\Models\User::isSuperAdmin())
                             <div class="flex-shrink-0">
@@ -116,7 +128,7 @@
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text mb-2">
-                                            {{\App\Models\TranslaleModel::getTranslation($platform,'description',$platform->description)}}
+                                            {!! \App\Models\TranslaleModel::getTranslation($platform,'description',$platform->description) !!}
                                             @if(\App\Models\User::isSuperAdmin())
                                                 <small class="mx-2">
                                                     <a class="link-info"
@@ -133,7 +145,7 @@
                                                class="btn btn-primary m-1">{{__('Coupon History')}}</a>
                                         </div>
                                         <p class="card-text"><small
-                                                    class="text-muted">    {{$platform->created_at}}</small>
+                                                class="text-muted">    {{$platform->created_at}}</small>
                                         </p>
                                     </div>
                                 </div>

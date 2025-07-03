@@ -38,7 +38,7 @@
             <div class="row">
                 <div class="col-10">
                     <p class="card-text text-muted">
-                        {{\App\Models\TranslaleModel::getTranslation($platform,'description',$platform->name)}}
+                        {!! \App\Models\TranslaleModel::getTranslation($platform,'description',$platform->name) !!}
                         @if(\App\Models\User::isSuperAdmin())
                             <small class="mx-2">
                                 <a class="link-info"
@@ -49,9 +49,9 @@
                 </div>
                 <div class="col-2">
                     <div class="float-end">
-                        @if($platform->administrative_manager_id)
-                            <span title="{{$platform->administrative_manager_id}}"
-                                  class="badge text-info">{{__(\Core\Enum\Promotion::Administrative->name)}}</span>
+                        @if($platform->financial_manager_id)
+                            <span title="{{$platform->financial_manager_id}}"
+                                  class="badge text-info">{{__(\Core\Enum\Promotion::Financial->name)}}</span>
                         @endif
                         @if($platform->financial_manager_id)
                             <span title="{{$platform->financial_manager_id}}"

@@ -2,16 +2,29 @@
 
 namespace App\Livewire;
 
-use Core\Services\settingsManager;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
+use App\Services\Balances\Balances;
+use Illuminate\Http\Request;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class UserBalanceBFS extends Component
 {
+    public $bfss = [];
+    public $type;
+    public $totalBfs;
+
+    public function mount(Request $request)
+    {
+
+        $this->type = $request->input('type');
+        if (is_null($this->type)) {
+            $this->type = "ALL";
+        }
+
+        $this->bfss = Balances::getStoredUserBalances(Auth()->user()->idUser, Balances::BFSS_BALANCE);
+        $balances = Balances::getStoredUserBalances(Auth()->user()->idUser);
+        $this->totalBfs = Balances::getTotalBfs($balances);
+    }
+
     public function render()
     {
         return view('livewire.user-balance-b-f-s')->extends('layouts.master')->section('content');

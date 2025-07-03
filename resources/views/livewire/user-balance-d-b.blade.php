@@ -17,6 +17,7 @@
                         id="userBalanceDB_table" style="width: 100%">
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">
+                            <th>{{ __('Operation order') }}</th>
                             <th>{{ __('ref') }}</th>
                             <th>{{ __('date') }}</th>
                             <th>{{ __('Operation Designation') }}</th>
@@ -66,6 +67,7 @@
                             },
                             "ajax": "{{route('api_user_balances',['locale'=> app()->getLocale(), 'idAmounts'=>'Discounts-Balance'])}}",
                             "columns": [
+                                {data: 'ranks'},
                                 {data: 'reference'},
                                 {data: 'created_at'},
                                 {data: 'operation'},
@@ -76,7 +78,7 @@
                             "columnDefs":
                                 [
                                     {
-                                        "targets": [4],
+                                        "targets": [5],
                                         render: function (data, type, row) {
                                             if (data.indexOf('+') == -1)
                                                 return '<span class="badge bg-danger text-end  fs-14">' + data + '</span>';
@@ -85,22 +87,7 @@
 
                                         },
                                         className: classAl,
-                                    },
-                                    {
-                                        "targets": [5],
-                                        render: function (data, type, row) {
-                                            if (row.ranks == 1)
-                                                return '<div class="' +
-                                                    '' +
-                                                    'logoTopDBLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
-                                            else
-                                                return data;
-                                        }
-                                    },
-                                    {
-                                        "targets": [5], className: classAl,
-                                    },
-
+                                    }
                                 ],
                             "language": {"url": urlLang},
                         }

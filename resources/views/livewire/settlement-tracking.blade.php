@@ -1,16 +1,15 @@
 <div class="container-fluid">
-@section('title')
-        {{ __('Sensory Representation System') }}
+    @section('title')
+        {{ __('Settlement tracking') }}
     @endsection
     @component('components.breadcrumb')
-        @slot('li_1')@endslot
         @slot('title')
-            {{ __('Sensory Representation System') }}
+            {{ __('Settlement tracking') }}
         @endslot
     @endcomponent
     <div class="card">
         <div class="card-body">
-            @livewire('page-timer', ['deadline' =>  'sensory_rep_sys_cs'])
+            @livewire('page-timer', ['deadline' => 'settlement_tracking_cs'])
         </div>
     </div>
 </div>

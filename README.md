@@ -5,9 +5,4 @@ Framework : Laravel 12 - Livewire 3
 
 # Current MEP
 
-php artisan db:seed --class=LimitSettingSeeder
-
-php artisan db:seed --class=CleanUpDuplicateSurveyResponsesSeeder
-
-php artisan migrate
-
+php artisan db:seed --class=UpdateDealsProfitSeeder

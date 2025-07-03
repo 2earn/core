@@ -241,6 +241,15 @@ class User extends Authenticatable
         $user->internationalIdentitieImage()->save($image);
     }
 
+    public static function getIdUserById($id)
+    {
+        $user = User::find($id);
+        if (!is_null($user)) {
+            return $user->idUser;
+        }
+        return null;
+    }
+
     public static function isSuperAdmin()
     {
         if (!strtoupper(auth()?->user()?->getRoleNames()->first()) == self::SUPER_ADMIN_ROLE_NAME) {

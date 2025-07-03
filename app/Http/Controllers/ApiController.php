@@ -7,7 +7,6 @@ use App\Models\BFSsBalances;
 use App\Models\BusinessSector;
 use App\Models\CashBalances;
 use App\Models\Coupon;
-use App\Models\Deal;
 use App\Models\SharesBalances;
 use App\Models\User;
 use App\Models\vip;
@@ -18,7 +17,6 @@ use carbon;
 use Core\Enum\BalanceEnum;
 use Core\Enum\BalanceOperationsEnum;
 use Core\Enum\CouponStatusEnum;
-use Core\Enum\DealStatus;
 use Core\Enum\PlatformType;
 use Core\Enum\StatusRequest;
 use Core\Enum\TypeEventNotificationEnum;
@@ -37,7 +35,6 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator as Val;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Validation\Rule;
@@ -51,6 +48,7 @@ class ApiController extends BaseController
 {
     const DATE_FORMAT = 'd/m/Y H:i:s';
     const CURRENCY = '$';
+    const SEPACE = ' ';
     const SEPARATOR = ' : ';
     const PERCENTAGE = ' % ';
 
@@ -1012,7 +1010,7 @@ class ApiController extends BaseController
         return DB::table($balance . ' as ub')
             ->join('balance_operations as bo', 'ub.balance_operation_id', '=', 'bo.id')
             ->selectRaw('
-        RANK() OVER (ORDER BY ub.created_at desc, ub.reference desc) as ranks,
+        RANK() OVER (ORDER BY ub.created_at ASC, ub.reference ASC) as ranks,
         ub.beneficiary_id,
         ub.id,
         ub.operator_id,
@@ -1069,7 +1067,7 @@ class ApiController extends BaseController
                 return Carbon\Carbon::parse($user->created_at)->format('Y-m-d');
             })
             ->editColumn('current_balance', function ($balance) {
-                return self::CURRENCY . formatSolde($balance->current_balance, 2);
+                return self::CURRENCY . self::SEPACE . formatSolde($balance->current_balance, 2);
             })
             ->editColumn('description', function ($row) use ($idAmounts) {
                 if ($idAmounts == 3)
@@ -1122,19 +1120,19 @@ class ApiController extends BaseController
 
         return datatables($userData)
             ->editColumn('value', function ($balcene) {
-                return formatSolde($balcene->value, 2) . ' ' . self::CURRENCY;
+                return formatSolde($balcene->value, 2);
             })
             ->editColumn('current_balance', function ($balcene) {
-                return formatSolde($balcene->current_balance, 2) . ' ' . self::CURRENCY;
+                return formatSolde($balcene->current_balance, 2);
             })
             ->make(true);
     }
 
-    public function getPurchaseBFSUser()
+    public function getPurchaseBFSUser($locale, $type = null)
     {
         $user = $this->settingsManager->getAuthUser();
         if (!$user) $user->idUser = '';
-        $userData = DB::table('bfss_balances as ub')
+        $query = DB::table('bfss_balances as ub')
             ->select(
                 DB::raw('RANK() OVER (ORDER BY ub.created_at ASC) as ranks'),
                 'ub.beneficiary_id', 'ub.id', 'ub.operator_id', 'ub.reference', 'ub.created_at', 'bo.operation', 'ub.description',
@@ -1144,14 +1142,19 @@ class ApiController extends BaseController
                 'ub.percentage as percentage',
                 'ub.current_balance'
             )
-            ->join('balance_operations as bo', 'ub.balance_operation_id', '=', 'bo.id')
-            ->where('ub.beneficiary_id', $user->idUser)
-            ->orderBy('created_at')
-            ->orderBy('percentage')
-            ->get();
+            ->join('balance_operations as bo', 'ub.balance_operation_id', '=', 'bo.id');
+        $query->where('ub.beneficiary_id', $user->idUser);
+
+        if ($type != null && $type != 'ALL') {
+            $query->where('percentage', $type);
+        }
+
+        $query->orderBy('created_at')
+            ->orderBy('percentage');
+        $userData = $query->get();
         return datatables($userData)
             ->editColumn('current_balance', function ($balance) {
-                return self::CURRENCY . formatSolde($balance->current_balance, 2);
+                return self::CURRENCY . self::SEPACE . formatSolde($balance->current_balance, 2);
             })
             ->make(true);
     }
@@ -1309,55 +1312,6 @@ class ApiController extends BaseController
                 return $platform->created_at?->format(self::DATE_FORMAT);
             })
             ->addColumn('updated_at', function ($platform) {
-                return $platform->updated_at?->format(self::DATE_FORMAT);
-            })
-            ->rawColumns(['action'])
-            ->make(true);
-    }
-
-    public function getDeals()
-    {
-        if (User::isSuperAdmin()) {
-            $deals = Deal::whereNot('status', DealStatus::Archived->value)->orderBy('validated', 'ASC')->orderBy('platform_id', 'ASC')->get();
-        } else {
-            $platforms = Platform::where(function ($query) {
-                $query
-                    ->where('administrative_manager_id', '=', auth()->user()->id)
-                    ->orWhere('financial_manager_id', '=', auth()->user()->id);
-            })->get();
-            $platformsIds = [];
-            foreach ($platforms as $platform) {
-                $platformsIds[] = $platform->id;
-            }
-            $deals = Deal::whereIn('platform_id', $platformsIds)->orderBy('validated', 'ASC')->orderBy('platform_id', 'ASC')->get();
-        }
-
-        return datatables($deals)
-            ->addColumn('action', function ($deal) {
-                return view('parts.datatable.deals-action', ['deal' => $deal, 'currentRouteName' => Route::currentRouteName()]);
-            })
-            ->addColumn('details', function ($deal) {
-                return view('parts.datatable.deals-details',
-                    [
-                        'status' => $deal->status,
-                        'type' => $deal->type,
-                        'validated' => $deal->validated
-                    ]
-                );
-            })
-            ->addColumn('platform_id', function ($deal) {
-
-
-                if ($deal->platform()->first()) {
-
-                    return view('parts.datatable.deals-platform', ['platform' => $deal, 'currentRouteName' => Route::currentRouteName()]);
-
-                }
-                return '**';
-            })
-            ->addColumn('created_at', function ($platform) {
-                return $platform->created_at?->format(self::DATE_FORMAT);
-            })->addColumn('updated_at', function ($platform) {
                 return $platform->updated_at?->format(self::DATE_FORMAT);
             })
             ->rawColumns(['action'])

@@ -32,74 +32,123 @@
                     <li class="list-group-item">
                         <div class="row">
                             <div class="col-sm-12 col-md-3 col-lg-2">
-                                <img src="{{$platform->image_link}}" alt="" class="avatar-xs rounded-circle">
-
+                                @if ($platform?->logoImage)
+                                    <img src="{{ asset('uploads/' . $platform->logoImage->url) }}"
+                                         class="img-fluid d-block avatar-md rounded-circle">
+                                @else
+                                    <img src="{{Vite::asset(\Core\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO)}}"
+                                         class="img-fluid d-block avatar-md rounded-circle">
+                                @endif
                                 <a href="{{$platform->link}}"><h5>{{ strtoupper($platform->name) }}</h5></a>
                             </div>
-                            <div class="col-sm-12 col-md-3 col-lg-3" title="{{$platform->administrative_manager_id}}">
-                                @if($platform->administrative_manager_id)
-                                    <span class="badge bg-primary-subtle text-primary badge-border">
-                                        @if($user->id==$platform->administrative_manager_id)
-                                            {{__('This is')}}
-                                        @else
-                                            {{__('An other user user is the')}}
+                            @if($user->id!=$platform->marketing_manager_id||$user->id!=$platform->financial_manager_id||$user->id!=$platform->owner_id)
+                                <div class="col-sm-12 col-md-4 col-lg-2">
+                                    <ul class="list-group">
+                                        @if($user->id!=$platform->marketing_manager_id)
+                                            <li class="list-group-item">
+                                                <button type="button"
+                                                        class="btn btn-outline-secondary btn-label right ms-auto"
+                                                        wire:click="grantRole({{$user->id}},{{$platform->id}},{{\Core\Enum\Promotion::Marketing->value}})"
+                                                >
+                                                    {{__('Administrative')}}
+                                                </button>
+                                            </li>
                                         @endif
-                                        {{__(\Core\Enum\Promotion::Administrative->name)}}
-                                    </span>
-                                    @if($user->id==$platform->administrative_manager_id)
-                                        <button type="button"
-                                                class="btn btn-outline-danger btn-label right ms-auto"
-                                                wire:click="revoqueRole({{$platform->id}},{{\Core\Enum\Promotion::Administrative->value}})">
-                                            {{__('Revoque')}}
-                                        </button>
-                                    @endif
-                                @endif
-                            </div>
-                            <div class="col-sm-12 col-md-3 col-lg-3" title="{{$platform->financial_manager_id}}">
-
-                                @if($platform->financial_manager_id)
-                                    <span class="badge bg-info-subtle text-info badge-border">
-                                        @if($user->id==$platform->financial_manager_id)
-                                            {{__('This is')}}
-                                        @else
-                                            {{__('An other user user is the')}}
+                                        @if($user->id!=$platform->financial_manager_id)
+                                            <li class="list-group-item">
+                                                <button type="button"
+                                                        class="btn btn-outline-info btn-label right ms-auto"
+                                                        wire:click="grantRole({{$user->id}},{{$platform->id}},{{\Core\Enum\Promotion::Financial->value}})"
+                                                >
+                                                    {{__('Financial')}}
+                                                </button>
+                                            </li>
                                         @endif
-                                        {{__(\Core\Enum\Promotion::Financial->name)}}
-                                    </span>
-                                    @if($user->id==$platform->financial_manager_id)
-                                        <button type="button"
-                                                class="btn btn-outline-danger btn-label right ms-auto"
-                                                wire:click="revoqueRole({{$platform->id}},{{\Core\Enum\Promotion::Financial->value}})">
-                                            {{__('Revoque')}}
-                                        </button>
-                                    @endif
-                                @endif
-                            </div>
-                            <div class="col-sm-12 col-md-5 col-lg-3">
-                                <span
-                                    class="text-muted">{{__('Promote as Manager')}} :</span>
-                                <br>
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    @if($user->id!=$platform->administrative_manager_id)
-                                        <button type="button"
-                                                class="btn btn-outline-secondary btn-label right ms-auto"
-                                                wire:click="grantRole({{$user->id}},{{$platform->id}},{{\Core\Enum\Promotion::Administrative->value}})"
-                                        >
-                                            {{__('Administrative')}}
-                                        </button>
-                                    @endif
 
-                                    @if($user->id!=$platform->financial_manager_id)
-                                        <button type="button"
-                                                class="btn btn-outline-info btn-label right ms-auto"
-                                                wire:click="grantRole({{$user->id}},{{$platform->id}},{{\Core\Enum\Promotion::Financial->value}})"
-                                        >
-                                            {{__('Financial')}}
-                                        </button>
-                                    @endif
+                                        @if($user->id!=$platform->owner_id)
+                                            <li class="list-group-item">
+                                                <button type="button"
+                                                        class="btn btn-outline-primary btn-label right ms-auto"
+                                                        wire:click="grantRole({{$user->id}},{{$platform->id}},{{\Core\Enum\Promotion::Owner->value}})"
+                                                >
+                                                    {{__('Owner')}}
+                                                </button>
+                                            </li>
+                                        @endif
+                                    </ul>
                                 </div>
+                            @endif
+                            @if($user->id==$platform->marketing_manager_id||$user->id==$platform->financial_manager_id||$user->id==$platform->owner_id)
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <ul class="list-group list-group-horizontal-md justify-content-center">
+                                        @if($platform->marketing_manager_id)
+                                            <li class="list-group-item">
+                                                <div title="{{$platform->marketing_manager_id}}">
+                                                    <span class="badge bg-primary-subtle text-primary badge-border">
+                                        @if($user->id==$platform->marketing_manager_id)
+                                                            {{__('This is')}}
+                                                        @else
+                                                            {{__('An other user user is the')}}
+                                                        @endif
+                                                        {{__(\Core\Enum\Promotion::Marketing->name)}}
+                                    </span>
+                                                    @if($user->id==$platform->marketing_manager_id)
+                                                        <button type="button"
+                                                                class="btn btn-outline-danger btn-label right ms-auto"
+                                                                wire:click="revokeRole({{$platform->id}},{{\Core\Enum\Promotion::Marketing->value}})">
+                                                            {{__('Revoke')}}
+                                                        </button>
+                                                    @endif
+                                                </div>
+                                            </li>
+                                        @endif
+                                        @if($platform->financial_manager_id)
+                                            <li class="list-group-item">
+                                                <div title="{{$platform->financial_manager_id}}">
+                                                    <span class="badge bg-info-subtle text-info badge-border">
+                                        @if($user->id==$platform->financial_manager_id)
+                                                            {{__('This is')}}
+                                                        @else
+                                                            {{__('An other user user is the')}}
+                                                        @endif
+                                                        {{__(\Core\Enum\Promotion::Financial->name)}}
+                                    </span>
+                                                    @if($user->id==$platform->financial_manager_id)
+                                                        <button type="button"
+                                                                class="btn btn-outline-danger btn-label right ms-auto"
+                                                                wire:click="revokeRole({{$platform->id}},{{\Core\Enum\Promotion::Financial->value}})">
+                                                            {{__('Revoke')}}
+                                                        </button>
+                                                    @endif
+                                                </div>
+                                            </li>
+                                        @endif
 
-                            </div>
+                                        @if($platform->owner_id)
+                                            <li class="list-group-item">
+                                                <div title="{{$platform->owner_id}}">
+                                                    <span class="badge bg-info-subtle text-info badge-border">
+                                        @if($user->id==$platform->owner_id)
+                                                            {{__('This is')}}
+                                                        @else
+                                                            {{__('An other user user is the')}}
+                                                        @endif
+                                                        {{__(\Core\Enum\Promotion::Owner->name)}}
+                                    </span>
+                                                    @if($user->id==$platform->owner_id)
+                                                        <button type="button"
+                                                                class="btn btn-outline-danger btn-label right ms-auto"
+                                                                wire:click="revokeRole({{$platform->id}},{{\Core\Enum\Promotion::Owner->value}})">
+                                                            {{__('Revoke')}}
+                                                        </button>
+                                                    @endif
+                                                </div>
+                                            </li>
+                                        @endif
+
+                                    </ul>
+                                </div>
+                            @endif
                         </div>
                     </li>
                 @endforeach

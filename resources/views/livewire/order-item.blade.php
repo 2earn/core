@@ -427,10 +427,10 @@
                                                             <td class="logoTopDBLabel text-end fs-14">
                                                                 <h5> {{$discount->value}}  {{config('app.currency')}}</h5>
                                                             </td>
-                                                            <td>
-                                                    <span
-                                                        class="badge bg-info text-end fs-14 float-end"> {{$discount->current_balance}} {{config('app.currency')}}</span>
+                                                            <td class="logoTopDBLabel text-end fs-14">
+                                                                <h5>  {{$discount->current_balance}} {{config('app.currency')}}</h5>
                                                             </td>
+
                                                             <td>
                                                                 <p>  {{$discount->description}}
                                                                     / {{__('Discount')}}  {{$discount->current_balance+$discount->value}}
@@ -467,9 +467,8 @@
                                                                 <td class="logoTopBFSLabel text-end fs-14">
                                                                     <h5> {{$bfs->value}}  {{config('app.currency')}}</h5>
                                                                 </td>
-                                                                <td>
-                                                        <span
-                                                            class="badge bg-info text-end fs-14 float-end"> {{$bfs->current_balance}}  {{config('app.currency')}}</span>
+                                                                <td class="logoTopBFSLabel text-end fs-14">
+                                                                    <h5>  {{$bfs->current_balance}}  {{config('app.currency')}}</h5>
                                                                 </td>
                                                                 <td>
                                                                     <p>{{$bfs->description}}
@@ -510,9 +509,8 @@
                                                             <td class="logoTopCashLabel text-end fs-14">
                                                                 <h5> {{$cash->value}}  {{config('app.currency')}}</h5>
                                                             </td>
-                                                            <td>
-                                                    <span
-                                                        class="badge bg-info text-end fs-14 float-end">     {{$cash->current_balance}}  {{config('app.currency')}}</span>
+                                                            <td class="logoTopCashLabel text-end fs-14">
+                                                                <h5>   {{$cash->current_balance}}  {{config('app.currency')}}</h5>
                                                             </td>
                                                             <td>
                                                                 <p>

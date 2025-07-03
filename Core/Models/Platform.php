@@ -24,28 +24,35 @@ class Platform extends Model
         'link',
         'show_profile',
         'image_link',
-        'administrative_manager_id',
+        'owner_id',
+        'marketing_manager_id',
         'financial_manager_id',
         'business_sector_id'
     ];
+
     public $timestamps = true;
     const IMAGE_TYPE_LOGO = 'logo';
 
     const DEFAULT_IMAGE_TYPE_LOGO = 'resources/images/platforms/logo for platform.png';
 
-    public function administrativeManager(): HasOne
+    public function marketingManager(): HasOne
+    {
+        return $this->hasOne(User::class);
+    }
+
+    public function owner(): HasOne
     {
         return $this->hasOne(User::class);
     }
 
     public function financialManager(): HasOne
     {
-        return $this->hasOne(User::class);
+        return $this->hasOne(User::class,);
     }
 
     public function businessSector(): HasOne
     {
-        return $this->hasOne(BusinessSector::class);
+        return $this->hasOne(BusinessSector::class,'id', 'business_sector_id');
     }
 
     public function productDealHistory(): HasMany
@@ -89,9 +96,12 @@ class Platform extends Model
             return true;
         }
         return Platform::where(function ($query) use ($id) {
-            $query->where('administrative_manager_id', '=', $id)
-                ->orWhere('financial_manager_id', '=', $id);
-        })->exists();
+            $query
+                ->where('financial_manager_id', '=', $id)
+                ->orWhere('owner_id', '=', $id)
+                ->orWhere('marketing_manager_id', '=', $id);
+        })
+            ->exists();
     }
 
 }
