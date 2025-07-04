@@ -277,7 +277,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         Route::get('/stat-countries', 'App\Http\Controllers\ApiController@getCountriStat')->name('api_stat_countries');
         Route::post('/validate-phone', 'App\Http\Controllers\ApiController@validatePhone')->name('validate_phone');
-        Route::post('/buy-action', 'App\Http\Controllers\ApiController@buyAction')->name('buyAction');
+        Route::post('/buy-action', 'App\Http\Controllers\ApiController@buyAction')->name('buy_action');
         Route::get('/action-by-ammount', 'App\Http\Controllers\ApiController@actionByAmmount')->name('action_by_ammount');
         Route::post('/gift-action-by-ammount', 'App\Http\Controllers\ApiController@giftActionByAmmount')->name('gift_action_by_ammount');
     });
