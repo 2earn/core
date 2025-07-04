@@ -246,7 +246,7 @@
                     let bfs_for = $("input[name='bfs-for']:checked").val();
                     let country_code = iti.getSelectedCountryData().iso2;
                     $.ajax({
-                        url: "{{ route('buyAction', app()->getLocale()) }}",
+                        url: "{{ route('buy_action', app()->getLocale()) }}",
                         type: "POST",
                         data: {
                             me_or_other: me_or_other,
