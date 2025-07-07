@@ -1251,9 +1251,12 @@ class ApiController extends BaseController
 
     public function getCouponsInjector()
     {
-        return datatables(BalanceInjectorCoupon::orderBy('id', 'desc')->get())
+        return datatables(BalanceInjectorCoupon::orderBy('created_at', 'desc')->get())
             ->addColumn('action', function ($coupon) {
                 return view('parts.datatable.coupon-action', ['coupon' => $coupon]);
+            })
+            ->addColumn('category', function ($coupon) {
+                return view('parts.datatable.coupon-category', ['coupon' => $coupon]);
             })
             ->addColumn('value', function ($coupon) {
                 return view('parts.datatable.coupon-value', ['coupon' => $coupon]);

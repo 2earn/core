@@ -14,7 +14,7 @@
                 <div class="col-sm-12 col-md-12  col-lg-12">
                     <button id="deleteAll"
                             class="btn btn-soft-danger material-shadow-none mt-1">{{__('Delete All')}}</button>
-                    <a href="{{route('coupon_create',['locale'=>app()->getLocale()])}}"
+                    <a href="{{route('coupon_injector_create',['locale'=>app()->getLocale()])}}"
                        class="btn btn-soft-info material-shadow-none mt-1 float-end"
                        id="create-btn">
                         {{__('Add Coupons list')}}
@@ -34,6 +34,7 @@
                                     <tr class="head2earn tabHeader2earn">
                                         <th><input type="checkbox" id="selectAll"/></th>
                                         <th>{{__('Details')}}</th>
+                                        <th>{{__('Category')}}</th>
                                         <th>{{__('Pin')}}</th>
                                         <th>{{__('sn')}}</th>
                                         <th>{{__('Dates')}}</th>
@@ -77,6 +78,7 @@
                     "columns": [
                         {data: null, defaultContent: '<input type="checkbox" class="row-select" />', orderable: false, searchable: false},
                         datatableControlBtn,
+                        {data: 'category'},
                         {data: 'pin'},
                         {data: 'sn'},
                         {data: 'dates'},

@@ -15,17 +15,18 @@ class BalanceInjectorCouponSeeder extends Seeder
     public function run(): void
     {
         foreach (range(1, 50) as $i) {
+            $category = rand(1, 3);
             BalanceInjectorCoupon::create([
-                'pin' => strtoupper(Str::random(10)),
-                'sn' => 'SN' . rand(10000, 99999),
+                'pin' => strtoupper(Str::random(20)),
+                'sn' => 'SN' . rand(100000, 999999),
                 'attachment_date' => Carbon::now()->subDays(rand(1, 30)),
                 'purchase_date' => Carbon::now()->subDays(rand(1, 20)),
                 'consumption_date' => rand(0, 1) ? Carbon::now()->subDays(rand(1, 10)) : null,
                 'value' => rand(100, 200),
                 'consumed' => rand(0, 1),
                 'status' => 1,
-                'category' => 1,
-                'type' => null,
+                'category' => $category,
+                'type' => $category == 2 ? '100.00' : null,
                 'reserved_until' => rand(0, 1) ? Carbon::now()->addDays(rand(1, 15)) : null,
             ]);
 
