@@ -8,7 +8,6 @@ use Core\Enum\TargetType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 
 class Survey extends Model
@@ -201,6 +200,7 @@ class Survey extends Model
     public function CheckVisibility($idSurvey, $property): bool
     {
         $survey = Survey::find($idSurvey);
+
         if ($survey->{$property} == TargetType::ALL->value) {
             return true;
         }
@@ -238,14 +238,14 @@ class Survey extends Model
                 if (!is_null($survey->closeDate)) {
                     $closeDate = new \DateTime($survey->closeDate);
                     if ($closeDate->modify('+' . $delayAfterClosed . ' day') > $today) {
-                        return true;
+                        return $this->CheckVisibility($this->id, 'show');
                     } else {
                         Survey::close($survey->id);
                     }
-
                     return false;
                 }
                 return false;
+
             }
 
             if (!is_null($survey->goals) && $survey->goals > 0) {
