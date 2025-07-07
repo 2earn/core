@@ -201,10 +201,6 @@ class Survey extends Model
     {
         $survey = Survey::find($idSurvey);
 
-//        if ($survey->id == 14&& $property!='showAttchivementChrono'&&$property!='showResult') {
-//            dd($property,$survey->{$property});
-//        }
-
         if ($survey->{$property} == TargetType::ALL->value) {
             return true;
         }
