@@ -2,10 +2,7 @@
 
 namespace App\Livewire;
 
-use Core\Models\action_historys;
 use Core\Models\Amount;
-use Core\Models\balanceoperation;
-use Core\Models\Setting;
 use Core\Services\settingsManager;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -13,7 +10,7 @@ use Livewire\Component;
 class ConfigurationAmounts extends Component
 {
 
-        public $idamountsAm;
+    public $idamountsAm;
     public $amountsnameAm;
     public $amountswithholding_taxAm;
     public $amountspaymentrequestAm;
@@ -63,7 +60,7 @@ class ConfigurationAmounts extends Component
             $amount->amountsactive = $this->amountsactiveAm;
             $amount->amountsshortname = $this->amountsshortnameAm;
             $amount->save();
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('configuration_amounts', app()->getLocale())->with('danger', trans('Setting param updating failed'));
         }

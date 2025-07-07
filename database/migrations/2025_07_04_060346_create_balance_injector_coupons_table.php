@@ -24,7 +24,7 @@ return new class extends Migration {
             $table->boolean('consumed')->default(false);
             $table->enum('status', [CouponStatusEnum::available->value, CouponStatusEnum::reserved->value, CouponStatusEnum::purchased->value, CouponStatusEnum::consumed->value])->default(CouponStatusEnum::available->value);
             $table->enum('category', [BalanceEnum::CASH->value, BalanceEnum::BFS->value, BalanceEnum::DB->value])->default(BalanceEnum::CASH->value);
-            $table->string('type')->unique();
+            $table->string('type')->nullable();
             $table->timestamps();
             $table->unsignedBigInteger('platform_id')->nullable()->foreign('platform_id')->default(1)->nullable()->references('id')->on('platforms')->onDelete('cascade');
             $table->unsignedBigInteger('user_id')->foreign('user_id')->references('id')->on('user')->onDelete('cascade');

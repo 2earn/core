@@ -273,6 +273,15 @@
                             </ul>
                         </div>
                     </li>
+                    <li class="nav-item cool-link {{$currentRouteName=='coupon_injector_runner'? 'active' : ''}}">
+                        <a href="{{route('coupon_injector_runner',app()->getLocale(),false )}}"
+                           class="nav-link menu-link {{$currentRouteName=='coupon_injector_runner'? 'active' : ''}}"
+                           role="button">
+                            <i class="ri-coupon-2-fill"></i>
+                            <span>{{__('Balance injector Coupon')}}</span>
+                        </a>
+                    </li>
+
                     <li class="nav-item cool-link {{$currentRouteName=='settlement_tracking'? 'active' : ''}}">
                         <a href="{{route('settlement_tracking',app()->getLocale(),false )}}"
                            class="nav-link menu-link {{$currentRouteName=='settlement_tracking'? 'active' : ''}}"
@@ -307,6 +316,14 @@
                                role="button">
                                 <i class="ri-coupon-3-fill"></i>
                                 <span>{{__('Coupon')}}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item cool-link {{$currentRouteName=='coupon_injector_index'? 'active' : ''}}">
+                            <a href="{{route('coupon_injector_index',app()->getLocale(),false )}}"
+                               class="nav-link menu-link {{$currentRouteName=='coupon_injector_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-coupon-4-fill"></i>
+                                <span>{{__('Balance injector coupon')}}</span>
                             </a>
                         </li>
                         <li class="nav-item cool-link {{$currentRouteName=='orders_index'? 'active' : ''}}">
