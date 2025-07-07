@@ -36,6 +36,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator as Val;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Validation\Rule;
@@ -1252,6 +1253,29 @@ class ApiController extends BaseController
     public function getCouponsInjector()
     {
         return datatables(BalanceInjectorCoupon::orderBy('created_at', 'desc')->get())
+            ->addColumn('action', function ($coupon) {
+                return view('parts.datatable.coupon-action', ['coupon' => $coupon]);
+            })
+            ->addColumn('category', function ($coupon) {
+                return view('parts.datatable.coupon-category', ['coupon' => $coupon]);
+            })
+            ->addColumn('value', function ($coupon) {
+                return view('parts.datatable.coupon-value', ['coupon' => $coupon]);
+            })
+            ->addColumn('consumed', function ($coupon) {
+                return view('parts.datatable.coupon-consumed', ['coupon' => $coupon]);
+            })
+            ->addColumn('dates', function ($coupon) {
+                return view('parts.datatable.coupon-dates', ['coupon' => $coupon]);
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+    }
+
+    public function getUserCouponsInjector()
+    {
+        $coupons = BalanceInjectorCoupon::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->get();
+        return datatables($coupons)
             ->addColumn('action', function ($coupon) {
                 return view('parts.datatable.coupon-action', ['coupon' => $coupon]);
             })

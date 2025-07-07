@@ -316,6 +316,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/history/notification', 'App\Http\Controllers\ApiController@getHistoryNotification')->name('api_history_notification');
         Route::get('/coupons', 'App\Http\Controllers\ApiController@getCoupons')->name('api_coupon');
         Route::get('/coupons', 'App\Http\Controllers\ApiController@getCouponsInjector')->name('api_coupon_injector');
+        Route::get('/coupons', 'App\Http\Controllers\ApiController@getUserCouponsInjector')->name('api_user_coupon_injector');
         Route::get('/coupons/user', 'App\Http\Controllers\ApiController@getUserCoupons')->name('api_user_coupon');
         Route::get('/platforms', 'App\Http\Controllers\ApiController@getPlatforms')->name('api_platforms');
         Route::get('/roles', 'App\Http\Controllers\ApiController@getRoles')->name('api_role');
