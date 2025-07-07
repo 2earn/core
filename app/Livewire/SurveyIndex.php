@@ -156,11 +156,11 @@ class SurveyIndex extends Component
 
         if (User::isSuperAdmin()) {
             return $surveysQuery
-                ->orderBy('created_at','DESC')
+                ->orderBy('created_at', 'DESC')
                 ->get();
         }
 
-        foreach ($surveysQuery->get() as $survey) {
+        foreach ($surveysQuery->orderBy('created_at', 'DESC')->get() as $survey) {
             if ($survey->canShow()) {
                 $surveys[] = $survey;
             }
