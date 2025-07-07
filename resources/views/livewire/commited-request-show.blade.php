@@ -1,4 +1,4 @@
-<div>
+<div class="container-fluid">
     @section('title')
         {{ __('Committed investor request examination') }}
     @endsection
@@ -26,19 +26,19 @@
                         @if($commitedInvestorsRequest->user->email)
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <strong>{{__('Email')}}</strong><span
-                                        class="text-muted float-end">{{$commitedInvestorsRequest->user->email}}</span>
+                                    class="text-muted float-end">{{$commitedInvestorsRequest->user->email}}</span>
                             </li>
                         @endif
                         @if($commitedInvestorsRequest->user->idUser)
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <strong>{{__('Id User')}}</strong><span
-                                        class="text-muted float-end">{{$commitedInvestorsRequest->user->idUser}}</span>
+                                    class="text-muted float-end">{{$commitedInvestorsRequest->user->idUser}}</span>
                             </li>
                         @endif
                         @if($commitedInvestorsRequest->user->name)
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <strong>{{__('Name')}}</strong><span
-                                        class="text-muted float-end">{{$commitedInvestorsRequest->user->name}}</span>
+                                    class="text-muted float-end">{{$commitedInvestorsRequest->user->name}}</span>
                             </li>
                         @endif
                     </ul>
@@ -58,7 +58,7 @@
                     @forelse($commitedInvestorsRequests as $commitedRequest)
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             {{$commitedRequest->request_date}} <span
-                                    class="badge {{$commitedRequest->status==\Core\Enum\RequestStatus::Rejected->value?'bg-warning':'bg-success'}} ">{{__(\Core\Enum\RequestStatus::tryFrom($commitedRequest->status)->name)}}</span>
+                                class="badge {{$commitedRequest->status==\Core\Enum\RequestStatus::Rejected->value?'bg-warning':'bg-success'}} ">{{__(\Core\Enum\RequestStatus::tryFrom($commitedRequest->status)->name)}}</span>
                         </li>
                     @empty
                     @endforelse
