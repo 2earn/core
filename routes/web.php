@@ -347,6 +347,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         Route::get('/api/action/values', 'App\Http\Controllers\ApiController@getActionValues')->name('api_action_values');
         Route::post('/api/coupon/delete', 'App\Http\Controllers\ApiController@deleteCoupon')->name('api_delete_coupons');
+        Route::post('/api/coupon/injector/delete', 'App\Http\Controllers\ApiController@deleteInjectorCoupon')->name('api_delete_injector_coupons');
 
         Route::get('/get-updated-card-content', 'App\Http\Controllers\ApiController@getUpdatedCardContent')->name('get-updated-card-content');
         Route::post('/add-cash', 'App\Http\Controllers\ApiController@addCash')->name('add_cash');

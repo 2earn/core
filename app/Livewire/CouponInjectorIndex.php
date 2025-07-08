@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use App\Models\BalanceInjectorCoupon;
-use App\Models\Coupon;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;

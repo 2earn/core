@@ -13,14 +13,12 @@ class BalanceInjectorCoupon extends Model
         'pin',
         'sn',
         'attachment_date',
-        'purchase_date',
         'consumption_date',
         'value',
         'consumed',
         'status',
         'category',
         'type',
-        'reserved_until',
         'user_id',
     ];
 
@@ -31,7 +29,7 @@ class BalanceInjectorCoupon extends Model
 
     public static function consume($coupon)
     {
-        return $coupon->update(['user_id' => auth()->user()->id, 'consumed' => 1]);
+        return $coupon->update(['user_id' => auth()->user()->id, 'consumed' => 1, 'consumption_date' => now()]);
     }
 
 }

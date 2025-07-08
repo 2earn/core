@@ -32,7 +32,6 @@ class CouponInjectorRunner extends Component
             }
             return redirect()->route('coupon_injector_runner', ['locale' => app()->getLocale()])->with('success', Lang::get('Rechange balance operation ended with success'));
         } catch (\Exception $e) {
-            dd($e->getMessage());
             Log::error($e->getMessage());
             return redirect()->route('coupon_injector_runner', ['locale' => app()->getLocale()])->with('danger', Lang::get('Rechange balance operation failed'));
         }

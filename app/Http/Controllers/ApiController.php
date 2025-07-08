@@ -36,7 +36,6 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator as Val;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Validation\Rule;
@@ -1217,9 +1216,24 @@ class ApiController extends BaseController
         }
 
         try {
-            Coupon::whereIn('id', $ids)->delete();
-            return response()->json(['message' => 'Coupons deleted successfully']);
-        } catch (Exception $exception) {
+            Coupon::whereIn('id', $ids)->where('consumed', 0)->delete();
+            return response()->json(['message' => 'Coupons deleted successfully (Only not consumed)']);
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['message' => 'An error occurred while deleting the coupons'], 500);
+        }
+    }
+
+    public function deleteInjectorCoupon(Req $request)
+    {
+        $ids = $request->input('ids');
+        if (empty($ids)) {
+            return response()->json(['message' => 'No IDs provided'], 400);
+        }
+        try {
+            BalanceInjectorCoupon::whereIn('id', $ids)->where('consumed', 0)->delete();
+            return response()->json(['message' => 'Injector coupons deleted successfully (Only not consumed)']);
+        } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return response()->json(['message' => 'An error occurred while deleting the coupons'], 500);
         }
@@ -1266,7 +1280,7 @@ class ApiController extends BaseController
                 return view('parts.datatable.coupon-consumed', ['coupon' => $coupon]);
             })
             ->addColumn('dates', function ($coupon) {
-                return view('parts.datatable.coupon-dates', ['coupon' => $coupon]);
+                return view('parts.datatable.coupon-injector-dates', ['coupon' => $coupon]);
             })
             ->rawColumns(['action'])
             ->make(true);
@@ -1289,7 +1303,7 @@ class ApiController extends BaseController
                 return view('parts.datatable.coupon-consumed', ['coupon' => $coupon]);
             })
             ->addColumn('dates', function ($coupon) {
-                return view('parts.datatable.coupon-dates', ['coupon' => $coupon]);
+                return view('parts.datatable.coupon-injector-dates', ['coupon' => $coupon]);
             })
             ->rawColumns(['action'])
             ->make(true);

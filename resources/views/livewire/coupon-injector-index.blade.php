@@ -120,7 +120,7 @@
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 $.ajax({
-                                    url: "{{route('api_delete_coupons',app()->getLocale())}}",
+                                    url: "{{route('api_delete_injector_coupons',app()->getLocale())}}",
                                     method: "POST",
                                     data: {
                                         ids: ids,

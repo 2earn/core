@@ -48,10 +48,10 @@ class CouponInjectorCreate extends Component
                 'category' => intval($this->category_id),
                 'consumed' => false
             ];
-
+            $dateNow = now()->format('YmdHis');
             for ($i = 1; $i <= $this->numberOfCoupons; $i++) {
-                $coupon['pin'] = strtoupper(Str::random(20));
-                $coupon['sn'] = 'SN' . rand(100000, 999999);
+                $coupon['pin'] = $dateNow . strtoupper(Str::random(10));
+                $coupon['sn'] = 'SN' . $dateNow . rand(100000, 999999);
                 $coupon['type'] = $this->type;
                 BalanceInjectorCoupon::create($coupon);
             }

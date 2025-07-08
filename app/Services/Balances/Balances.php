@@ -232,7 +232,6 @@ class Balances
             return true;
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e->getMessage());
             Log::error($e->getMessage());
             return false;
         }
@@ -258,7 +257,6 @@ class Balances
             return true;
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e->getMessage());
             Log::error($e->getMessage());
             return false;
         }
@@ -283,8 +281,6 @@ class Balances
             return true;
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e->getMessage());
-
             Log::error($e->getMessage());
             return false;
         }
