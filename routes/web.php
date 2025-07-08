@@ -31,6 +31,11 @@ use App\Livewire\UserBalanceSMS;
 use App\Livewire\UserPurchaseHistory;
 use App\Livewire\ValidateAccount;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Firebase\JWT\Key;
+use Firebase\JWT\JWT;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -380,6 +385,71 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
     Route::get('/{slug}', function () {
         throw new  NotFoundHttpException();
     });
+});
+Route::get('/oauth/callback', function (Request $request) {
+    $code = $request->input('code');
+    $state = $request->input('state');
+
+    // Vérifier le state reçu correspond à celui en session (sécurité)
+
+
+    // Préparer la requête POST pour échanger le code contre un token
+    $response = Http::asForm()
+        ->withOptions([
+            'verify' => false, // ⚠️ Ne jamais faire en production
+        ])
+        ->withBasicAuth('4fb79ec4-bb11-4bea-993f-825bace2bfd4', 'secret123456')
+        ->post('https://auth.2earn.test/api/oauth/token', [
+            'grant_type' => 'authorization_code',
+            'code' => $code,
+            'redirect_uri' => url('/oauth/callback'),
+        ]);
+
+    if (!$response->ok()) {
+        return response()->json([
+            'error' => 'unauthorized',
+            'message' => 'Erreur lors de la récupération du token.'
+        ], 401);
+    }
+
+    $data = $response->json();
+
+    $idToken = $data['id_token'] ?? null;
+
+    if (!$idToken) {
+        return response()->json([
+            'error' => 'invalid_id_token',
+            'message' => 'ID Token manquant dans la réponse.'
+        ], 401);
+    }
+
+    // Récupérer la clé publique pour vérifier le JWT (RS256)
+    $publicKey = file_get_contents(storage_path('oauth-public/public.key'));
+
+    // Décoder et vérifier le id_token
+    try {
+        $decoded = JWT::decode($idToken, new Key($publicKey, 'RS256'));
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => 'invalid_token',
+            'message' => 'Token invalide: ' . $e->getMessage()
+        ], 401);
+    }
+
+    // Optionnel : vérifier le nonce ici avec session('oauth_nonce')
+
+    // Connecter l'utilisateur dans ton système avec $decoded->sub (l’ID utilisateur)
+    // Ex : Auth::loginUsingId($decoded->sub);
+
+    // Pour l’exemple on retourne les claims du token
+    $user = \App\Models\User::find($decoded->sub);
+    if ($user) {
+        Auth::login($user);
+    } else {
+        abort(401, 'Utilisateur non trouvé.');
+    }
+
+    return redirect('/home');
 });
 
 
