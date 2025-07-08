@@ -227,7 +227,7 @@ class Balances
                 'value' => $coupon->value,
                 'current_balance' => $userCurrentBalancehorisontal->cash_balance + $coupon->value
             ]);
-            $coupon->update(['user_id' => auth()->user()->id]);
+            BalanceInjectorCoupon::consume($coupon);
             DB::commit();
             return true;
         } catch (\Exception $e) {
@@ -253,7 +253,7 @@ class Balances
                 'value' => $coupon->value,
                 'current_balance' => $userCurrentBalancehorisontal->getBfssBalance($coupon->value) + $coupon->value
             ]);
-            $coupon->update(['user_id' => auth()->user()->id]);
+            BalanceInjectorCoupon::consume($coupon);
             DB::commit();
             return true;
         } catch (\Exception $e) {
@@ -278,7 +278,7 @@ class Balances
                 'value' => $coupon->value,
                 'current_balance' => $userCurrentBalancehorisontal->discount_balance + $coupon->value
             ]);
-            $coupon->update(['user_id' => auth()->user()->id]);
+            BalanceInjectorCoupon::consume($coupon);
             DB::commit();
             return true;
         } catch (\Exception $e) {

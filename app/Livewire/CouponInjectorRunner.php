@@ -25,7 +25,7 @@ class CouponInjectorRunner extends Component
         try {
             $coupon = BalanceInjectorCoupon::where('pin', $this->pin)->first();
             if ($coupon) {
-                if ($coupon->consumed) {
+                if ($coupon->consumed == 1) {
                     return redirect()->route('coupon_injector_runner', ['locale' => app()->getLocale()])->with('warning', Lang::get('Using a consumed Coupons'));
                 }
                 Balances::injectCouponBalance($coupon);

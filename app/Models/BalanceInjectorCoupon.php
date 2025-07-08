@@ -29,4 +29,9 @@ class BalanceInjectorCoupon extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public static function consume($coupon)
+    {
+        return $coupon->update(['user_id' => auth()->user()->id, 'consumed' => 1]);
+    }
+
 }
