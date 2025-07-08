@@ -16,22 +16,6 @@
                 </div>
             </li>
         @endif
-        @if($coupon->purchase_date)
-            <li class="list-group-item">
-                <div class="d-flex align-items-center">
-                    <div class="flex-grow-1">
-                        <div class="d-flex">
-                            <div class="flex-shrink-0 ms-2">
-                                <h6 class="fs-14 mb-0">{{__('Purchase')}}</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex-shrink-0">
-                        <span class="text-danger">{{$coupon->purchase_date}}</span>
-                    </div>
-                </div>
-            </li>
-        @endif
         @if($coupon->consumption_date)
             <li class="list-group-item">
                 <div class="d-flex align-items-center">

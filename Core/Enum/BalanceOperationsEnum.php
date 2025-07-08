@@ -1,4 +1,5 @@
 <?php
+
 namespace Core\Enum;
 enum BalanceOperationsEnum: int
 {
@@ -59,6 +60,7 @@ enum BalanceOperationsEnum: int
     case ORDER_DISCOUNT = 58;
     case ORDER_BFS = 59;
     case ORDER_CASH = 60;
+    case COUPONS_DISCOUNT = 61;
+    case COUPONS_BFS = 62;
+    case COUPONS_CASH = 63;
 }
-
-

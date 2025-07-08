@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DAL\UserRepository;
+use App\Models\BalanceInjectorCoupon;
 use App\Models\BFSsBalances;
 use App\Models\BusinessSector;
 use App\Models\CashBalances;
@@ -1215,9 +1216,24 @@ class ApiController extends BaseController
         }
 
         try {
-            Coupon::whereIn('id', $ids)->delete();
-            return response()->json(['message' => 'Coupons deleted successfully']);
-        } catch (Exception $exception) {
+            Coupon::whereIn('id', $ids)->where('consumed', 0)->delete();
+            return response()->json(['message' => 'Coupons deleted successfully (Only not consumed)']);
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['message' => 'An error occurred while deleting the coupons'], 500);
+        }
+    }
+
+    public function deleteInjectorCoupon(Req $request)
+    {
+        $ids = $request->input('ids');
+        if (empty($ids)) {
+            return response()->json(['message' => 'No IDs provided'], 400);
+        }
+        try {
+            BalanceInjectorCoupon::whereIn('id', $ids)->where('consumed', 0)->delete();
+            return response()->json(['message' => 'Injector coupons deleted successfully (Only not consumed)']);
+        } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return response()->json(['message' => 'An error occurred while deleting the coupons'], 500);
         }
@@ -1245,6 +1261,51 @@ class ApiController extends BaseController
                 return view('parts.datatable.coupon-dates', ['coupon' => $coupon]);
             })
             ->rawColumns(['action', 'platform_id'])
+            ->make(true);
+    }
+
+    public function getCouponsInjector()
+    {
+        return datatables(BalanceInjectorCoupon::orderBy('created_at', 'desc')->get())
+            ->addColumn('action', function ($coupon) {
+                return view('parts.datatable.coupon-action', ['coupon' => $coupon]);
+            })
+            ->addColumn('category', function ($coupon) {
+                return view('parts.datatable.coupon-category', ['coupon' => $coupon]);
+            })
+            ->addColumn('value', function ($coupon) {
+                return view('parts.datatable.coupon-value', ['coupon' => $coupon]);
+            })
+            ->addColumn('consumed', function ($coupon) {
+                return view('parts.datatable.coupon-consumed', ['coupon' => $coupon]);
+            })
+            ->addColumn('dates', function ($coupon) {
+                return view('parts.datatable.coupon-injector-dates', ['coupon' => $coupon]);
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+    }
+
+    public function getUserCouponsInjector()
+    {
+        $coupons = BalanceInjectorCoupon::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->get();
+        return datatables($coupons)
+            ->addColumn('action', function ($coupon) {
+                return view('parts.datatable.coupon-action', ['coupon' => $coupon]);
+            })
+            ->addColumn('category', function ($coupon) {
+                return view('parts.datatable.coupon-category', ['coupon' => $coupon]);
+            })
+            ->addColumn('value', function ($coupon) {
+                return view('parts.datatable.coupon-value', ['coupon' => $coupon]);
+            })
+            ->addColumn('consumed', function ($coupon) {
+                return view('parts.datatable.coupon-consumed', ['coupon' => $coupon]);
+            })
+            ->addColumn('dates', function ($coupon) {
+                return view('parts.datatable.coupon-injector-dates', ['coupon' => $coupon]);
+            })
+            ->rawColumns(['action'])
             ->make(true);
     }
 
