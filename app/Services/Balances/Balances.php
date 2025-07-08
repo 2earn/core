@@ -217,13 +217,12 @@ class Balances
     {
         try {
             DB::beginTransaction();
-            $ref = BalancesFacade::getReference(BalanceOperationsEnum::CASH_TRANSFERT_O->value);
             $userCurrentBalancehorisontal = Balances::getStoredUserBalances(auth()->user()->idUser);
             CashBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::CASH_TO_BFS_CB->value,
+                'balance_operation_id' => BalanceOperationsEnum::COUPONS_CASH->value,
                 'operator_id' => Balances::SYSTEM_SOURCE_ID,
                 'beneficiary_id' => auth()->user()->idUser,
-                'reference' => $ref,
+                'reference' => BalancesFacade::getReference(BalanceOperationsEnum::COUPONS_CASH->value),
                 'description' => $coupon->value . ' Added From coupons',
                 'value' => $coupon->value,
                 'current_balance' => $userCurrentBalancehorisontal->cash_balance + $coupon->value
@@ -233,6 +232,7 @@ class Balances
             return true;
         } catch (\Exception $e) {
             DB::rollBack();
+            dd($e->getMessage());
             Log::error($e->getMessage());
             return false;
         }
@@ -242,24 +242,23 @@ class Balances
     {
         try {
             DB::beginTransaction();
-            $ref = BalancesFacade::getReference(BalanceOperationsEnum::CASH_TRANSFERT_O->value);
             $userCurrentBalancehorisontal = Balances::getStoredUserBalances(auth()->user()->idUser);
             BFSsBalances::addLine([
                 'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_BFS->value,
                 'operator_id' => Balances::SYSTEM_SOURCE_ID,
                 'beneficiary_id' => auth()->user()->idUser,
-                'reference' => $ref,
+                'reference' => BalancesFacade::getReference(BalanceOperationsEnum::COUPONS_BFS->value),
                 'percentage' => $coupon->type,
                 'description' => $coupon->value . ' Added From coupons',
                 'value' => $coupon->value,
                 'current_balance' => $userCurrentBalancehorisontal->getBfssBalance($coupon->value) + $coupon->value
             ]);
-
             $coupon->update(['user_id' => auth()->user()->id]);
             DB::commit();
             return true;
         } catch (\Exception $e) {
             DB::rollBack();
+            dd($e->getMessage());
             Log::error($e->getMessage());
             return false;
         }
@@ -269,14 +268,12 @@ class Balances
     {
         try {
             DB::beginTransaction();
-            $ref = BalancesFacade::getReference(BalanceOperationsEnum::CASH_TRANSFERT_O->value);
             $userCurrentBalancehorisontal = Balances::getStoredUserBalances(auth()->user()->idUser);
-
             DiscountBalances::addLine([
                 'balance_operation_id' => BalanceOperationsEnum::BY_REGISTERING_DB->value,
                 'operator_id' => Balances::SYSTEM_SOURCE_ID,
                 'beneficiary_id' => auth()->user()->idUser,
-                'reference' => $ref,
+                'reference' => BalancesFacade::getReference(BalanceOperationsEnum::COUPONS_DISCOUNT->value),
                 'description' => $coupon->value . ' Added From coupons',
                 'value' => $coupon->value,
                 'current_balance' => $userCurrentBalancehorisontal->discount_balance + $coupon->value
@@ -286,6 +283,8 @@ class Balances
             return true;
         } catch (\Exception $e) {
             DB::rollBack();
+            dd($e->getMessage());
+
             Log::error($e->getMessage());
             return false;
         }
@@ -293,10 +292,11 @@ class Balances
 
     public static function injectCouponBalance(BalanceInjectorCoupon $coupon): bool
     {
-        $return_value = match ($coupon->category) {
+        $return_value = match (intval($coupon->category)) {
             BalanceEnum::CASH->value => Balances::injectCashCouponBalance($coupon),
             BalanceEnum::BFS->value => Balances::injectBFSCouponBalance($coupon),
             BalanceEnum::DB->value => Balances::injectDiscountCouponBalance($coupon),
+            default => throw new \Exception('Unexpected match value'),
         };
         return $return_value;
     }

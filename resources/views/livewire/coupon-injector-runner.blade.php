@@ -10,6 +10,9 @@
     @endcomponent
     <div class="row">
         <div class="col-xl-12">
+            @include('layouts.flash-messages')
+        </div>
+        <div class="col-xl-12">
             <div class="card">
                 <div class="card-header align-items-center border-0 d-flex">
                     <h4 class="card-title mb-0 flex-grow-1">{{__('Coupon runner')}}</h4>
