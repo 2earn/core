@@ -23,7 +23,7 @@ class BalanceInjectorCouponSeeder extends Seeder
                 'purchase_date' => Carbon::now()->subDays(rand(1, 20)),
                 'consumption_date' => rand(0, 1) ? Carbon::now()->subDays(rand(1, 10)) : null,
                 'value' => rand(100, 200),
-                'consumed' => rand(0, 1),
+                'consumed' => 0,
                 'status' => 1,
                 'category' => $category,
                 'type' => $category == 2 ? '100.00' : null,

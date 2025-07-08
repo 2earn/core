@@ -18,10 +18,10 @@
                     <div class="p-3">
                         <div class="input-group mb-0">
                             <label class="input-group-text">{{__('Pin code')}}</label>
-                            <input type="text" class="form-control" placeholder="{{__('Pin code')}}">
+                            <input type="text" wire:model.live="pin" class="form-control" placeholder="{{__('Pin code')}}">
                         </div>
                         <div class="pt-2">
-                            <button type="button" class="btn btn-primary w-100">{{__('Run coupon')}}</button>
+                            <button type="button" wire:click="runCoupon()" class="btn btn-primary w-100">{{__('Run coupon')}}</button>
                         </div>
                     </div>
                 </div>

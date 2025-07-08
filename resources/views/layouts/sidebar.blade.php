@@ -278,7 +278,7 @@
                            class="nav-link menu-link {{$currentRouteName=='coupon_injector_runner'? 'active' : ''}}"
                            role="button">
                             <i class="ri-coupon-2-fill"></i>
-                            <span>{{__('Balance injector Coupon')}}</span>
+                            <span>{{__('Balance inj. Coupons')}}</span>
                         </a>
                     </li>
 
@@ -323,7 +323,7 @@
                                class="nav-link menu-link {{$currentRouteName=='coupon_injector_index'? 'active' : ''}}"
                                role="button">
                                 <i class="ri-coupon-4-fill"></i>
-                                <span>{{__('Balance injector coupon')}}</span>
+                                <span>{{__('Balance injector')}}</span>
                             </a>
                         </li>
                         <li class="nav-item cool-link {{$currentRouteName=='orders_index'? 'active' : ''}}">
