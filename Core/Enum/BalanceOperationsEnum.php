@@ -63,4 +63,5 @@ enum BalanceOperationsEnum: int
     case COUPONS_DISCOUNT = 61;
     case COUPONS_BFS = 62;
     case COUPONS_CASH = 63;
+    case SHARE_FROM_BFS_100 = 64;
 }
