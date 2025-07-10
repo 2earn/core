@@ -19,7 +19,13 @@ class CommunicationBoard extends Component
         $news = NewsModel::where('enabled', 1)->orderBy('id', 'desc')->get();
         $communicationBoard = $surveys->merge($news)->sortByDesc('created_at')->values();
         foreach ($communicationBoard as $key => $value) {
-            $this->communicationBoard[$key] = ['type' => get_class($value), 'value' => $value];
+            if (get_class($value) == 'App\Models\Survey') {
+                if ($value->canShow()) {
+                    $this->communicationBoard[$key] = ['type' => get_class($value), 'value' => $value];
+                }
+            } else {
+                $this->communicationBoard[$key] = ['type' => get_class($value), 'value' => $value];
+            }
         }
         $this->currentRouteName = Route::currentRouteName();
 
