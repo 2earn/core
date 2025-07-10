@@ -6,4 +6,5 @@
             @include('livewire.news-item', ['news' => $communicationBoardItem['value']])
         @endif
     @endforeach
+    @vite('resources/js/surveys.js')
 </div>
