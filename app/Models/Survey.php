@@ -311,7 +311,7 @@ class Survey extends Model
         $survey = Survey::find($this->id);
         $today = new \DateTime();
 
-        $delayAfterArchived = getSettingIntegerParam('DELAY_AFTER_CLOSED', self::DELAY_AFTER_ARCHIVED);
+        $delayAfterArchived = getSettingIntegerParam('DELAY_AFTER_ARCHIVED', self::DELAY_AFTER_ARCHIVED);
 
         if (!is_null($survey->archivedDate)) {
             $archiveDate = new \DateTime($survey->archivedDate);
