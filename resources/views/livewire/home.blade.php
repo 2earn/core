@@ -376,33 +376,10 @@
     </div>
 
     <div class="row">
-        @foreach($businessSectors as $businessSector)
-            <div class="col-sm-6 col-md-4 col-lg-2">
-                <div class="card">
-                    <div class="card-body p-3" title="{{$businessSector->name}}">
-                        <a class="popup-img d-inline-block"
-                           href="{{route('business_sector_show',['locale'=> app()->getLocale(),'id'=>$businessSector->id])}}"
-                        >
-                            @if ($businessSector->thumbnailsHomeImage)
-                                <img src="{{ asset('uploads/' . $businessSector->thumbnailsHomeImage->url) }}"
-                                     class="rounded img-fluid" alt="{{$businessSector->name}}">
-                            @else
-                                <img src="{{Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_THUMB_HOME)}}"
-                                     class="rounded img-fluid" alt="{{$businessSector->name}}">
-                            @endif
-                        </a>
-                    </div>
-                </div>
-            </div>
-        @endforeach
-    </div>
 
-    @foreach($news as $newsItem)
-        @include('livewire.news-item', ['news' => $newsItem])
-    @endforeach
-    <div class="row">
-        <livewire:survey-index/>
     </div>
+    <livewire:bussiness-sectors-home/>
+    <livewire:communication-board/>
     <div class="card col-12">
         <div class="card-header border-info">
             <div class="d-flex align-items-center">
