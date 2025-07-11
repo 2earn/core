@@ -464,7 +464,6 @@
         </div>
     @endif
     @if(intval($survey->status)>\Core\Enum\StatusSurvey::OPEN->value || !$survey->enabled)
-
         <div class="card-header border-info fw-medium text-muted mb-0">
             <h5 class="mt-2 text-info">    {{__('Questions')}}</h5>
         </div>
@@ -577,11 +576,25 @@
     @endif
 
     @if(intval($survey->status)==\Core\Enum\StatusSurvey::OPEN->value && $survey->enabled)
-        @livewire('survey-paricipate', ['idSurvey' => $survey->id])
+        <div class="card">
+            <div class="card-header border-info fw-medium text-muted mb-0">
+                <h5 class="mt-2 text-info">{{__('Participation')}}</h5>
+            </div>
+            <div class="card-body">
+                @livewire('survey-paricipate', ['idSurvey' => $survey->id])
+            </div>
+        </div>
     @endif
 
     @if( $survey->status>\Core\Enum\StatusSurvey::NEW->value )
-        @livewire('survey-result', ['idSurvey' => $survey->id])
+        <div class="card">
+            <div class="card-header border-info fw-medium text-muted mb-0">
+                <h5 class="mt-2 text-info">{{__('Result')}} :</h5>
+            </div>
+            <div class="card-body">
+                @livewire('survey-result', ['idSurvey' => $survey->id])
+            </div>
+        </div>
     @endif
 
     @if($currentRouteName=="surveys_show")
@@ -619,10 +632,15 @@
                 @if($survey->isLikable())
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <ul class="list-group">
-
-                            @forelse ($survey->likes as $like)
+                            @php
+                                $likeNumber=  $survey->likes->count();
+                            @endphp
+                            @forelse ($survey->likes->sortByDesc('created_at') as $like)
                                 <li class="list-group-item mt-2 text-muted">
-                                    {{$loop->index+1}} ) {{ getUserDisplayedName($like->user->idUser)}} <span
+                                    <a  class="fw-medium link-primary">
+                                    {{$likeNumber-$loop->index}}
+                                    </a>
+                                    - {{ getUserDisplayedName($like->user->idUser)}} <span
                                         class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
                                 </li>
                             @empty
