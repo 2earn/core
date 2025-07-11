@@ -15,11 +15,13 @@ class SurveyResult extends Component
 
     public $idSurvey;
     public $currentRouteName;
+    public $showDetail;
 
-    public function mount($idSurvey)
+    public function mount($idSurvey, $showDetail = false)
     {
         $this->idSurvey = $idSurvey;
         $this->currentRouteName = Route::currentRouteName();
+        $this->showDetail = $showDetail;
     }
 
     public function render()
@@ -29,8 +31,8 @@ class SurveyResult extends Component
         $params ['responses'] = $params ['question']->serveyQuestionChoice()->get();
         $participation = SurveyResponse::where('survey_id', $this->idSurvey)->count();
         $stats = [];
-       $totalChoosen=0;
-       $totalParticipation=0;
+        $totalChoosen = 0;
+        $totalParticipation = 0;
         $totalChoiceChoosen = SurveyResponseItem::where('surveyQuestion_id', $params ['survey']->question->id)->count();
 
         foreach ($params ['responses'] as $response) {

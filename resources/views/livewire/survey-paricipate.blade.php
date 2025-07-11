@@ -1,15 +1,20 @@
-<div class="container-fluid">
-    @component('components.breadcrumb')
-        @slot('title')
-            {{__('Survey')}} > {{$survey->id}}
-            - {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}} > {{__('Participation')}}
-        @endslot
-    @endcomponent
+<div @if($showDetail) class="container-fluid" @endif>
+    @if($showDetail)
+        @component('components.breadcrumb')
+            @slot('title')
+                {{__('Survey')}} > {{$survey->id}}
+                - {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}} > {{__('Participation')}}
+            @endslot
+        @endcomponent
+    @endif
     <div class="row">
         <div class="card">
+            @if($showDetail)
+                <div class="card-body row">
+                    @include('livewire.survey-item', ['survey' => $survey])
+                </div>
+            @endif
             <div class="card-body row">
-                @include('livewire.survey-item', ['survey' => $survey])
-
                 @if($survey->question)
                     <div class="card">
                         <form wire:submit="participate()">
@@ -17,9 +22,6 @@
                                 <h6 class="card-title mb-0">     {{ __('Participation') }}</h6>
                             </div>
                             <div class="card-body">
-                                <div class="row">
-                                    @include('layouts.flash-messages')
-                                </div>
                                 <div class="row">
                                     <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
                                                        <span

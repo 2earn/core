@@ -47,6 +47,11 @@
 
     </div>
     @if(\App\Models\User::isSuperAdmin())
+        <div class="card-body">
+            <div class="row">
+                @include('layouts.flash-messages')
+            </div>
+        </div>
         <div class="card-body row">
             <div class="col-sm-12 col-md-4 col-lg-3  mt-1">
 
@@ -447,29 +452,6 @@
                     @endif
                 @endif
             @endif
-            @if(intval($survey->status)==\Core\Enum\StatusSurvey::OPEN->value && $survey->enabled)
-                @if(\App\Models\SurveyResponse::isPaticipated(auth()->user()->id, $survey->id))
-                    @if($survey->updatable)
-                        <a href="{{route('surveys_participate', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id] )}}"
-                           class="btn btn-soft-info material-shadow-none mt-1">{{__('Update Participation')}}</a>
-                    @endif
-                @endif
-                @if(! \App\Models\SurveyResponse::isPaticipated(auth()->user()->id, $survey->id))
-                    <a href="{{route('surveys_participate', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id] )}}"
-                       class="btn btn-soft-info material-shadow-none mt-1">{{__('Paticipate')}}</a>
-                @endif
-
-            @endif
-
-            @if(intval($survey->status)>\Core\Enum\StatusSurvey::NEW->value)
-                @if( ($survey->canShowResult() && $survey->enabled) ||\App\Models\User::isSuperAdmin())
-                    <a href="{{route('surveys_results', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id] )}}"
-                       class="btn btn-soft-info material-shadow-none  mt-1">{{__('Show results')}}</a>
-                @else
-                    <btn disabled class="btn btn-soft-info material-shadow-none mt-1">{{__('Show results')}}</btn>
-                @endif
-            @endif
-
             @if(!$survey->canShowResult() )
                 <div class="alert alert-info material-shadow material-shadow mt-2" role="alert">
                     <h6 class="alert-heading">{{__('Disabled result title')}}</h6> * {{$survey->disabledResult}}
@@ -481,7 +463,8 @@
             @endif
         </div>
     @endif
-    @if($currentRouteName=="surveys_show")
+    @if(intval($survey->status)>\Core\Enum\StatusSurvey::OPEN->value || !$survey->enabled)
+
         <div class="card-header border-info fw-medium text-muted mb-0">
             <h5 class="mt-2 text-info">    {{__('Questions')}}</h5>
         </div>
@@ -591,6 +574,14 @@
 
             </ul>
         </div>
+    @endif
+
+    @if(intval($survey->status)==\Core\Enum\StatusSurvey::OPEN->value && $survey->enabled)
+        @livewire('survey-paricipate', ['idSurvey' => $survey->id])
+    @endif
+
+    @if( $survey->status>\Core\Enum\StatusSurvey::NEW->value )
+        @livewire('survey-result', ['idSurvey' => $survey->id])
     @endif
 
     @if($currentRouteName=="surveys_show")
@@ -739,7 +730,6 @@
                     <button type="button" wire:click="disable('{{$survey->id}}')"
                             class="btn btn-primary">{{__('Disable Survey')}}</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
-
                 </div>
             </div>
         </div>
