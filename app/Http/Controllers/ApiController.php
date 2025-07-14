@@ -1146,11 +1146,8 @@ class ApiController extends BaseController
 
         if ($type != null && $type != 'ALL') {
             $query->where('percentage', $type);
-        }
-
-        $query->orderBy('created_at')
-            ->orderBy('percentage');
-        return datatables($query->get())
+        };
+        return datatables($query->orderBy('created_at')->orderBy('percentage')->get())
             ->editColumn('description', function ($row) {
                 return Balances::generateDescriptionById($row->id, BalanceEnum::BFS->value);
             })
