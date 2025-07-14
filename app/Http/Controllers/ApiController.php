@@ -987,6 +987,7 @@ class ApiController extends BaseController
         };
         $results = DB::table($balances . ' as u')
             ->select(
+                'u.id',
                 'u.reference',
                 'u.beneficiary_id',
                 'u.created_at',
@@ -1086,12 +1087,21 @@ class ApiController extends BaseController
             ->editColumn('current_balance', function ($balcene) {
                 return formatSolde($balcene->current_balance, 2) . ' ' . self::PERCENTAGE;
             })
+            ->editColumn('description', function ($row) {
+                return Balances::generateDescriptionById($row->id, BalanceEnum::TREE->value);
+            })
+            ->rawColumns(['description'])
             ->make(true);
     }
 
     public function getSmsUser($locale)
     {
-        return datatables($this->getUserBalancesList($locale, auth()->user()->idUser, BalanceEnum::SMS->value, false))->make(true);
+        return datatables($this->getUserBalancesList($locale, auth()->user()->idUser, BalanceEnum::SMS->value, false))
+            ->editColumn('description', function ($row) {
+                return Balances::generateDescriptionById($row->id, BalanceEnum::SMS->value);
+            })
+            ->rawColumns(['description'])
+            ->make(true);
     }
 
     public function getChanceUser()
@@ -1118,12 +1128,16 @@ class ApiController extends BaseController
             ->orderBy('created_at')->get();
 
         return datatables($userData)
-            ->editColumn('value', function ($balcene) {
-                return formatSolde($balcene->value, 2);
+            ->editColumn('value', function ($balance) {
+                return formatSolde($balance->value, 2);
             })
-            ->editColumn('current_balance', function ($balcene) {
-                return formatSolde($balcene->current_balance, 2);
+            ->editColumn('description', function ($row) {
+                return Balances::generateDescriptionById($row->id, BalanceEnum::CHANCE->value);
             })
+            ->editColumn('current_balance', function ($balance) {
+                return formatSolde($balance->current_balance, 2);
+            })
+            ->rawColumns(['description'])
             ->make(true);
     }
 
