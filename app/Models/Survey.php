@@ -46,6 +46,13 @@ class Survey extends Model
         'disabledResult',
         'disabledComment',
         'disabledLike',
+        'show_results_as_number',
+        'show_results_as_percentage',
+    ];
+
+    protected $casts = [
+        'show_results_as_number' => 'boolean',
+        'show_results_as_percentage' => 'boolean',
     ];
 
     public function surveyResponse()

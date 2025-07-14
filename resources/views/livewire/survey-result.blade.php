@@ -45,77 +45,90 @@
                 <h6 class="card-title mb-0 text-info ">   {{__('Participation response choices details')}}</h6>
             </div>
 
-            <div class="card-body row">
-                <table class="table table-bordered mt-2 pl-2">
-                    <thead>
-                    <tr>
-                        <th scope="col">{{__('#')}}</th>
-                        <th scope="col">{{__('title')}}</th>
-                        <th scope="col">{{__('Choosen')}}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach ($stats as $statsItem)
+            @if(!$survey->canShowResult() )
+                <div class="card-body row">
+                    <table class="table table-bordered mt-2 pl-2">
+                        <thead>
                         <tr>
-                            <td>
-                                {{$loop->index+1}}
+                            <th scope="col">{{__('#')}}</th>
+                            <th scope="col">{{__('title')}}</th>
+                            @if($survey->show_results_as_number ||$survey->show_results_as_percentage)
+                                <th scope="col">{{__('Choosen')}}</th>
+                            @endif
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach ($stats as $statsItem)
+                            <tr>
+                                <td>
+                                    {{$loop->index+1}}
+                                </td>
+                                <td>
+                                    {{$statsItem['title']}}
+                                </td>
+                                <td>
+                                    @if($survey->show_results_as_number)
+                                        {{$statsItem['choosenK']}} {{__('times')}}
+                                    @endif
+                                    @if($survey->show_results_as_percentage)
+                                        - {{formatSolde($statsItem['persontageK'],2)}}%
+                                    @endif
+
+                                </td>
+                            </tr>
+                        @endforeach
+                        <tr>
+                            <td colspan="2"><h5
+                                        class="float-end">{{__('Total')}} {{__('participations / participants')}}</h5>
                             </td>
                             <td>
-                                {{$statsItem['title']}}
-                            </td>
-                            <td>
-                                {{$statsItem['choosenK']}} {{__('times')}}
-                                - {{formatSolde($statsItem['persontageK'],2)}}%
+                                @if($participation>0)
+                                    @if($survey->show_results_as_number)
+                                        {{ $totalChoosen}} / {{$participation}} {{__('times')}} -
+                                    @endif
+                                    @if($survey->show_results_as_percentage)
+                                        {{ formatSolde(($totalChoosen /$participation)*100,2)}} %
+                                        {{__('soit')}} {{ formatSolde($totalChoosen /$participation,2)}} {{__('choix par participant')}}
+                                    @endif
+                                @else
+                                    <div class="alert alert-warning material-shadow" role="alert">
+                                        {{__('No participation')}}
+                                    </div>
+                                @endif
                             </td>
                         </tr>
-                    @endforeach
-                    <tr>
-                        <td colspan="2"><h5
-                                class="float-end">{{__('Total')}} {{__('participations / participants')}}</h5>
-                        </td>
-                        <td>
-                            @if($participation>0)
-                                {{ $totalChoosen}} / {{$participation}} {{__('times')}} -
-
-                                {{ formatSolde(($totalChoosen /$participation)*100,2)}} %
-                                {{__('soit')}} {{ formatSolde($totalChoosen /$participation,2)}} {{__('choix par participant')}}
-                            @else
-                                <div class="alert alert-warning material-shadow" role="alert">
-                                    {{__('No participation')}}
-                                </div>
-                            @endif
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            @if($currentRouteName=="surveys_show")
-                <div class="card-header border-muted fw-medium text-muted mb-0">
-                    <h6 class="card-title mb-0 flex-grow-1 text-info">
-                        {{__('Participation details')}}</h6>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="card-body row">
-                    <ul class="list-group list-group-flush pl-2">
-                        @php
-                            $total = $survey->surveyResponse->count();
-                        @endphp
-                    @forelse($survey->surveyResponse->sortByDesc('created_at') as $key => $surveyResponse)
-                            <li class="list-group-item">
+            @endif
+            @if(!$survey->canShowResult() )
+                @if($currentRouteName=="surveys_show")
+                    <div class="card-header border-muted fw-medium text-muted mb-0">
+                        <h6 class="card-title mb-0 flex-grow-1 text-info">
+                            {{__('Participation details')}}</h6>
+                    </div>
+                    <div class="card-body row">
+                        <ul class="list-group list-group-flush pl-2">
+                            @php
+                                $total = $survey->surveyResponse->count();
+                            @endphp
+                            @forelse($survey->surveyResponse->sortByDesc('created_at') as $key => $surveyResponse)
+                                <li class="list-group-item">
 
-                                <a  class="fw-medium link-primary"> {{ $total - $loop->index }}</a>
-                           -            {{ getUserDisplayedName($surveyResponse->user->idUser)}} <span
-                                    class="text-muted">{{__('at')}}: {{ $surveyResponse->created_at}} </span>
-                            </li>
-                        @empty
-                            <li class="list-group-item">
-                                <div class="alert alert-warning material-shadow" role="alert">
-                                    {{__('No participation')}}
-                                </div>
-                            </li>
-                        @endforelse
-                    </ul>
-                </div>
+                                    <a class="fw-medium link-primary"> {{ $total - $loop->index }}</a>
+                                    - {{ getUserDisplayedName($surveyResponse->user->idUser)}} <span
+                                            class="text-muted">{{__('at')}}: {{ $surveyResponse->created_at}} </span>
+                                </li>
+                            @empty
+                                <li class="list-group-item">
+                                    <div class="alert alert-warning material-shadow" role="alert">
+                                        {{__('No participation')}}
+                                    </div>
+                                </li>
+                            @endforelse
+                        </ul>
+                    </div>
+                @endif
             @endif
         </div>
     </div>
