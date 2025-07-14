@@ -52,7 +52,7 @@ class CashBalances extends Model
 
     public function balanceOperation()
     {
-        return $this->hasOne(BalanceOperation::class);
+        return $this->hasOne(BalanceOperation::class,'id','balance_operation_id');
     }
 
 

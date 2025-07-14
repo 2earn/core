@@ -38,9 +38,7 @@
                 }
             );
             document.addEventListener("DOMContentLoaded", function () {
-
                 var select2_array = [];
-
                 $('#ub_table_chance').DataTable(
                     {
                         retrieve: true,

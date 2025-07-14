@@ -49,8 +49,8 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive table-card">
-                        <table class="table table-bordered">
-                            <thead class="table-light">
+                        <table class="table table-striped table-bordered table-nowrap">
+                            <thead>
                             <tr class="tabHeader2earn">
                                 <th>{{ __('FirstName') }}</th>
                                 <th>{{ __('LastName') }}</th>

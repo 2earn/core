@@ -57,6 +57,9 @@ class Account extends Component
     public $userNationalFrontImage;
     public $userNationalBackImage;
     public $userInternationalImage;
+    public $personaltitles;
+    public $genders;
+    public $languages;
 
     protected $listeners = [
         'PreChangePass' => 'PreChangePass',
@@ -98,6 +101,11 @@ class Account extends Component
         $this->userInternationalImage = User::getInternational($theId);
 
         $this->initSendPasswordChangeOPT($settingManager->getidCountryForSms(auth()->user()->id));
+
+        $this->personaltitles = DB::table('personal_titles')->get();
+        $this->genders = DB::table('genders')->get();
+
+        $this->languages = DB::table('languages')->get();
     }
 
     public function initSendPasswordChangeOPT($userContactActif)
@@ -431,9 +439,7 @@ class Account extends Component
         if (!$userAuth)
             dd('not found page');
         $this->numberActif = $settingsManager->getidCountryForSms($userAuth->id)->fullNumber;
-        $this->genders = DB::table('genders')->get();
-        $this->personaltitles = DB::table('personal_titles')->get()->toArray();
-        $this->languages = DB::table('languages')->get();
+
         $usermetta_info = collect(DB::table('metta_users')->where('idUser', $userAuth->idUser)->first());
         $user = DB::table('users')->where('idUser', $userAuth->idUser)->first();
         $this->countryUser = Lang::get($settingsManager->getCountrieById($user->idCountry)->name);
@@ -453,6 +459,4 @@ class Account extends Component
 
         return view('livewire.account', ['hasRequest' => $hasRequest, 'errors_array' => $this->errors_array])->extends('layouts.master')->section('content');
     }
-
-
 }

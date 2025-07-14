@@ -987,6 +987,7 @@ class ApiController extends BaseController
         };
         $results = DB::table($balances . ' as u')
             ->select(
+                'u.id',
                 'u.reference',
                 'u.beneficiary_id',
                 'u.created_at',
@@ -1071,9 +1072,7 @@ class ApiController extends BaseController
                 return self::CURRENCY . self::SEPACE . formatSolde($balance->current_balance, 2);
             })
             ->editColumn('description', function ($row) use ($idAmounts) {
-                if ($idAmounts == 3)
-                    return '<div style="text-align:right;">' . htmlspecialchars($row->description) . '</div>';
-                else return $row->description;
+                return Balances::generateDescriptionById($row->id, $idAmounts);
             })
             ->rawColumns(['description', 'formatted_date'])
             ->make(true);
@@ -1088,12 +1087,21 @@ class ApiController extends BaseController
             ->editColumn('current_balance', function ($balcene) {
                 return formatSolde($balcene->current_balance, 2) . ' ' . self::PERCENTAGE;
             })
+            ->editColumn('description', function ($row) {
+                return Balances::generateDescriptionById($row->id, BalanceEnum::TREE->value);
+            })
+            ->rawColumns(['description'])
             ->make(true);
     }
 
     public function getSmsUser($locale)
     {
-        return datatables($this->getUserBalancesList($locale, auth()->user()->idUser, BalanceEnum::SMS->value, false))->make(true);
+        return datatables($this->getUserBalancesList($locale, auth()->user()->idUser, BalanceEnum::SMS->value, false))
+            ->editColumn('description', function ($row) {
+                return Balances::generateDescriptionById($row->id, BalanceEnum::SMS->value);
+            })
+            ->rawColumns(['description'])
+            ->make(true);
     }
 
     public function getChanceUser()
@@ -1120,12 +1128,16 @@ class ApiController extends BaseController
             ->orderBy('created_at')->get();
 
         return datatables($userData)
-            ->editColumn('value', function ($balcene) {
-                return formatSolde($balcene->value, 2);
+            ->editColumn('value', function ($balance) {
+                return formatSolde($balance->value, 2);
             })
-            ->editColumn('current_balance', function ($balcene) {
-                return formatSolde($balcene->current_balance, 2);
+            ->editColumn('description', function ($row) {
+                return Balances::generateDescriptionById($row->id, BalanceEnum::CHANCE->value);
             })
+            ->editColumn('current_balance', function ($balance) {
+                return formatSolde($balance->current_balance, 2);
+            })
+            ->rawColumns(['description'])
             ->make(true);
     }
 
@@ -1148,15 +1160,15 @@ class ApiController extends BaseController
 
         if ($type != null && $type != 'ALL') {
             $query->where('percentage', $type);
-        }
-
-        $query->orderBy('created_at')
-            ->orderBy('percentage');
-        $userData = $query->get();
-        return datatables($userData)
+        };
+        return datatables($query->orderBy('created_at')->orderBy('percentage')->get())
+            ->editColumn('description', function ($row) {
+                return Balances::generateDescriptionById($row->id, BalanceEnum::BFS->value);
+            })
             ->editColumn('current_balance', function ($balance) {
                 return self::CURRENCY . self::SEPACE . formatSolde($balance->current_balance, 2);
             })
+            ->rawColumns(['description'])
             ->make(true);
     }
 
