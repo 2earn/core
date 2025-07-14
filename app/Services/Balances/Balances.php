@@ -11,6 +11,7 @@ use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
 use Core\Enum\BalanceEnum;
 use Core\Enum\BalanceOperationsEnum;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -295,5 +296,10 @@ class Balances
             default => throw new \Exception('Unexpected match value'),
         };
         return $return_value;
+    }
+
+    public static function generateDescription(Model $balance): string
+    {
+        return view('balances.show-' . $balance->balance_operation_id, $balance);
     }
 }

@@ -435,7 +435,11 @@
                                                                 <p>  {{$discount->description}}
                                                                     / {{__('Discount')}}  {{$discount->current_balance+$discount->value}}
                                                                     - {{$discount->value}}
-                                                                    = {{$discount->current_balance}}</p>
+                                                                    = {{$discount->current_balance}}
+                                                                    {{-- BO NEW DESC--}}
+                                                                    <br>
+                                                                    {!! \App\Services\Balances\Balances::generateDescription($discount) !!}
+                                                                </p>
                                                             </td>
                                                             <td>
                                                                 {{$discount->created_at}}
@@ -474,7 +478,11 @@
                                                                     <p>{{$bfs->description}}
                                                                         / {{__('BFS')}}  {{$bfs->current_balance+$bfs->value}}
                                                                         - {{$bfs->value}}
-                                                                        = {{$bfs->current_balance}}</p>
+                                                                        = {{$bfs->current_balance}}
+                                                                        {{-- BO NEW DESC--}}
+                                                                        <br>
+                                                                        {!! \App\Services\Balances\Balances::generateDescription($bfs) !!}
+                                                                    </p>
                                                                 </td>
                                                                 <td>
                                                         <span
@@ -518,6 +526,9 @@
                                                                     / {{__('CASH')}}  {{$cash->current_balance+$cash->value}}
                                                                     - {{$cash->value}}
                                                                     = {{$cash->current_balance}}
+                                                                    {{-- BO NEW DESC--}}
+                                                                    <br>
+                                                                    {!! \App\Services\Balances\Balances::generateDescription($cash) !!}
                                                                 </p>
                                                             </td>
                                                             <td>
