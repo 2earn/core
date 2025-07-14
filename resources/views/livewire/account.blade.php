@@ -448,13 +448,10 @@
                                                     <select class="form-select mb-3"
                                                             wire:model="usermetta_info.personaltitle">
                                                         <option value="">{{__('no selected value')}}</option>
-                                                        <?php if (isset($personaltitles)){
-                                                        foreach ($personaltitles as $personaltitle){
-                                                            ?>
-                                                        <option
-                                                            value="{{$personaltitle->id}}">{{__($personaltitle->name)}}</option>
-                                                        <?php }
-                                                        } ?>
+                                                        @foreach($personaltitles as $personaltitle)
+                                                            <option
+                                                                value="{{$personaltitle->id}}">{{__($personaltitle->name)}}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </div>
@@ -466,13 +463,10 @@
                                                             wire:model="usermetta_info.gender">
                                                         <
                                                         <option value="">{{__('no selected value')}}</option>
-                                                        <?php if (isset($genders)){
-                                                        foreach ($genders as $gender){
-                                                            ?>
-                                                        <option
-                                                            value="{{$gender->id}}">{{ __( $gender->name)  }}</option>
-                                                        <?php }
-                                                        } ?>
+                                                        @foreach($genders as $gender)
+                                                            <option
+                                                                value="{{$gender->id}}">{{__($gender->name)}}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </div>
@@ -483,14 +477,10 @@
                                                     <select class="form-select mb-3" aria-label=" "
                                                             wire:model="usermetta_info.idLanguage">
                                                         <option value="" selected>{{__('no selected value')}}</option>
-                                                        <?php if (isset($languages)){ ?>
-                                                            <?php
-                                                        foreach ($languages as $language){
-                                                            ?>
-                                                        <option
-                                                            value="{{$language->name}}"> {{ __('lang'.$language->PrefixLanguage)  }}</option>
-                                                        <?php }
-                                                        } ?>
+                                                        @foreach($languages as $language)
+                                                            <option
+                                                                value="{{$language->id}}">{{__($language->name)}}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </div>
