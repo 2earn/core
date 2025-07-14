@@ -56,6 +56,20 @@
                                     <label class="form-check-label" for="updatable">{{__('Updatable')}}</label>
                                 </div>
                             </div>
+                            <div class="form-group  col-sm-4 col-md-2">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" role="switch" wire:model.live="showResultsAsNumber" type="checkbox"
+                                           id="showResultsAsNumber" placeholder="{{__('showResultsAsNumber')}}" checked>
+                                    <label class="form-check-label" for="showResultsAsNumber">{{__('Show results as number')}}</label>
+                                </div>
+                            </div>
+                            <div class="form-group  col-sm-4 col-md-2">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" role="switch" wire:model.live="showResultsAsPercentage" type="checkbox"
+                                           id="showResultsAsPercentage" placeholder="{{__('showResultsAsPercentage')}}" checked>
+                                    <label class="form-check-label" for="showResultsAsPercentage">{{__('Show results as percentage')}}</label>
+                                </div>
+                            </div>
                             <div class="form-group mb-3">
                                 <label for="Description">{{__('Description')}}</label>
                                 <textarea class="form-control @error('description') is-invalid @enderror"

@@ -47,11 +47,6 @@
 
     </div>
     @if(\App\Models\User::isSuperAdmin())
-        <div class="card-body">
-            <div class="row">
-                @include('layouts.flash-messages')
-            </div>
-        </div>
         <div class="card-body row">
             <div class="col-sm-12 col-md-4 col-lg-3  mt-1">
 
@@ -80,14 +75,23 @@
 
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {{__('Shows result')}}
-                        <span
-                            class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->showResult)?->name)}}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Shows')}}
                         <span
                             class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->show)?->name)}} </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{__('Show results as number')}}
+                        <span
+                            class="badge btn {{ $survey->show_results_as_number ? 'btn-success' : 'btn-danger'  }}">
+                             {{__($survey->show_results_as_number ? 'True' : 'False')}}
+                     </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{__('Show results as percentage')}}
+                        <span
+                            class="badge btn {{ $survey->show_results_as_percentage ? 'btn-success' : 'btn-danger'  }}">
+                             {{__($survey->show_results_as_percentage ? 'True' : 'False')}}
+                </span>
                     </li>
                 </ul>
             </div>
@@ -110,6 +114,11 @@
             </div>
             <div class="col-sm-12 col-md-4 col-lg-3 text-right mt-1">
                 <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{__('Shows result')}}
+                        <span
+                            class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->showResult)?->name)}}</span>
+                    </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Likable')}} <span
                             class="badge btn btn-info"> {{__(\Core\Enum\TargetType::tryFrom($survey->likable)?->name)}}</span>
@@ -463,7 +472,8 @@
             @endif
         </div>
     @endif
-    @if(intval($survey->status)>\Core\Enum\StatusSurvey::OPEN->value || !$survey->enabled)
+
+    @if(intval($survey->status)<\Core\Enum\StatusSurvey::OPEN->value)
         <div class="card-header border-info fw-medium text-muted mb-0">
             <h5 class="mt-2 text-info">    {{__('Questions')}}</h5>
         </div>
@@ -586,15 +596,17 @@
         </div>
     @endif
 
-    @if( $survey->status>\Core\Enum\StatusSurvey::NEW->value )
-        <div class="card">
-            <div class="card-header border-info fw-medium text-muted mb-0">
-                <h5 class="mt-2 text-info">{{__('Result')}} :</h5>
+    @if($survey->status>\Core\Enum\StatusSurvey::NEW->value )
+        @if($survey->canShowResult() )
+            <div class="card">
+                <div class="card-header border-info fw-medium text-muted mb-0">
+                    <h5 class="mt-2 text-info">{{__('Result')}} :</h5>
+                </div>
+                <div class="card-body">
+                    @livewire('survey-result', ['idSurvey' => $survey->id])
+                </div>
             </div>
-            <div class="card-body">
-                @livewire('survey-result', ['idSurvey' => $survey->id])
-            </div>
-        </div>
+        @endif
     @endif
 
     @if($currentRouteName=="surveys_show")
@@ -637,8 +649,8 @@
                             @endphp
                             @forelse ($survey->likes->sortByDesc('created_at') as $like)
                                 <li class="list-group-item mt-2 text-muted">
-                                    <a  class="fw-medium link-primary">
-                                    {{$likeNumber-$loop->index}}
+                                    <a class="fw-medium link-primary">
+                                        {{$likeNumber-$loop->index}}
                                     </a>
                                     - {{ getUserDisplayedName($like->user->idUser)}} <span
                                         class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>

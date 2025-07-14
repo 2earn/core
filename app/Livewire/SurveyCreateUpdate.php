@@ -23,6 +23,8 @@ class SurveyCreateUpdate extends Component
     public $enabled = false;
     public $published = false;
     public $updatable = false;
+    public $showResultsAsNumber = false;
+    public $showResultsAsPercentage = false;
 
     public
         $commentable,
@@ -112,6 +114,8 @@ class SurveyCreateUpdate extends Component
                 'enabled' => $this->enabled,
                 'published' => $this->published,
                 'updatable' => $this->updatable,
+                'show_results_as_number' => $this->showResultsAsNumber,
+                'show_results_as_percentage' => $this->showResultsAsPercentage,
                 'show' => $this->show,
                 'showResult' => $this->showResult,
                 'commentable' => $this->commentable,
@@ -140,7 +144,7 @@ class SurveyCreateUpdate extends Component
                         'name' => TranslaleModel::getTranslateName($survey, $translation),
                         'value' => $this->{$translation} . ' AR',
                         'valueFr' => $this->{$translation} . ' FR',
-                        'valueEn' => $this->{$translation} . ' EN'  ,
+                        'valueEn' => $this->{$translation} . ' EN',
                         'valueEs' => $this->{$translation} . ' ES',
                         'valueTr' => $this->{$translation} . ' TR',
                         'valueRu' => $this->{$translation} . ' Ru',
@@ -164,6 +168,8 @@ class SurveyCreateUpdate extends Component
         $this->enabled = $survey->enabled;
         $this->published = $survey->published;
         $this->updatable = $survey->updatable;
+        $this->showResultsAsNumber = $this->showResultsAsNumber;
+        $this->showResultsAsPercentage = $this->showResultsAsPercentage;
         $this->commentable = $survey->commentable;
         $this->likable = $survey->likable;
         $this->show = $survey->show;
@@ -201,6 +207,8 @@ class SurveyCreateUpdate extends Component
                 'enabled' => $this->enabled,
                 'published' => $this->published,
                 'updatable' => $this->updatable,
+                'show_results_as_number' => $this->showResultsAsNumber,
+                'show_results_as_percentage' => $this->showResultsAsPercentage,
                 'show' => $this->show,
                 'showResult' => $this->showResult,
                 'commentable' => $this->commentable,

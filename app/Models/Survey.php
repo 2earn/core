@@ -207,7 +207,6 @@ class Survey extends Model
     public function CheckVisibility($idSurvey, $property): bool
     {
         $survey = Survey::find($idSurvey);
-
         if ($survey->{$property} == TargetType::ALL->value) {
             return true;
         }
