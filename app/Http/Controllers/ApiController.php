@@ -1071,9 +1071,7 @@ class ApiController extends BaseController
                 return self::CURRENCY . self::SEPACE . formatSolde($balance->current_balance, 2);
             })
             ->editColumn('description', function ($row) use ($idAmounts) {
-                if ($idAmounts == 3)
-                    return '<div style="text-align:right;">' . htmlspecialchars($row->description) . '</div>';
-                else return $row->description;
+                return Balances::generateDescriptionById($row->id, $idAmounts);
             })
             ->rawColumns(['description', 'formatted_date'])
             ->make(true);
@@ -1152,11 +1150,14 @@ class ApiController extends BaseController
 
         $query->orderBy('created_at')
             ->orderBy('percentage');
-        $userData = $query->get();
-        return datatables($userData)
+        return datatables($query->get())
+            ->editColumn('description', function ($row) {
+                return Balances::generateDescriptionById($row->id, BalanceEnum::BFS->value);
+            })
             ->editColumn('current_balance', function ($balance) {
                 return self::CURRENCY . self::SEPACE . formatSolde($balance->current_balance, 2);
             })
+            ->rawColumns(['description'])
             ->make(true);
     }
 

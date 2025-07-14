@@ -6,6 +6,9 @@ use App\Models\BalanceInjectorCoupon;
 use App\Models\BFSsBalances;
 use App\Models\CashBalances;
 use App\Models\DiscountBalances;
+use App\Models\SharesBalances;
+use App\Models\SMSBalances;
+use App\Models\TreeBalances;
 use App\Models\User;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
@@ -14,6 +17,7 @@ use Core\Enum\BalanceOperationsEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\View;
 
 class Balances
 {
@@ -298,8 +302,23 @@ class Balances
         return $return_value;
     }
 
+    public static function generateDescriptionById($id, $boid): string
+    {
+        $balance = match (intval($boid)) {
+            BalanceEnum::CASH->value => CashBalances::find($boid),
+            BalanceEnum::BFS->value => BFSsBalances::find($boid),
+            BalanceEnum::DB->value => DiscountBalances::find($boid),
+            BalanceEnum::TREE->value => TreeBalances::find($boid),
+            BalanceEnum::SMS->value => SMSBalances::find($boid),
+            BalanceEnum::SHARE->value => SharesBalances::find($boid),
+            BalanceEnum::CHANCE->value => SharesBalances::find($boid),
+            default => throw new \Exception('Unexpected match value'),
+        };
+        return Balances::generateDescription($balance);
+    }
+
     public static function generateDescription(Model $balance): string
     {
-        return view('balances.show-' . $balance->balance_operation_id, $balance);
+        return View::make('balances.show-' . $balance->balance_operation_id, compact('balance'))->render();
     }
 }
