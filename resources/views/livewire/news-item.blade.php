@@ -1,5 +1,4 @@
 <div class="card ribbon-box right border shadow-none overflow-hidden material-shadow">
-
     <div class="card-body">
         <div class="ribbon ribbon-danger ribbon-shape trending-ribbon">
             <i class="ri-flashlight-fill text-white align-bottom float-start me-1"></i> <span
@@ -40,7 +39,6 @@
                 </div>
             @endif
         </div>
-
     </div>
     <div class="card-footer">
             <span class="text-muted mb-2">
