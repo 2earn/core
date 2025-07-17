@@ -402,7 +402,7 @@
                    class="btn btn-soft-info material-shadow-none  mt-1">{{__('Details')}}</a>
             @endif
             @if(\App\Models\User::isSuperAdmin())
-                <button type="button" class="btn btn-info btn-animation waves-effect waves-light"
+                <button type="button" class="btn btn-info"
                         wire:click="duplicateSurvey({{$survey->id}})"><span>{{__('Duplicate')}}</span></button>
 
 

@@ -249,6 +249,7 @@ return [
         'LaravelPwa' => \Ladumor\LaravelPwa\LaravelPwa::class,
         'Sponsorship' => \App\Services\Sponsorship\SponsorshipFacade::class,
         'Targeting' => \App\Services\Targeting\TargetingFacade::class,
+        'Communication' => \App\Services\Communication\CommunicationFacade::class,
         'Ordering' => \App\Services\Orders\OrderingFacade::class,
         'OrderingSimulation' => \App\Services\Orders\OrderingSimulationFacade::class,
         'Carts' => \App\Services\Carts\Carts::class,
