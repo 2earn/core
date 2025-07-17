@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Survey;
+use App\Models\TranslaleModel;
 use App\Models\User;
 use Core\Enum\StatusSurvey;
 use Illuminate\Support\Facades\Lang;
@@ -20,6 +21,7 @@ class SurveyIndex extends Component
 
     public $currentRouteName;
     protected $paginationTheme = 'bootstrap';
+
 
     public function updatingSearch(): void
     {
@@ -167,6 +169,81 @@ class SurveyIndex extends Component
         }
         return $surveys;
     }
+
+    public function duplicateSurvey($id)
+    {
+        $original = Survey::findOrFail($id);
+        $duplicate = $original->replicate();
+        $duplicate->name = $original->name . ' (Copy)';
+        $duplicate->description = $original->description . ' (Copy)';
+        $duplicate->enabled = false;
+        $duplicate->status = StatusSurvey::NEW->value;
+        $duplicate->created_at = now();
+        $duplicate->updated_at = now();
+        $duplicate->save();
+        $translations = ['name', 'description'];
+
+        foreach ($translations as $translation) {
+            TranslaleModel::create(
+                [
+                    'name' => TranslaleModel::getTranslateName($duplicate, $translation),
+                    'value' => $duplicate->{$translation} . ' AR',
+                    'valueFr' => $duplicate->{$translation} . ' FR',
+                    'valueEn' => $duplicate->{$translation} . ' EN',
+                    'valueTr' => $duplicate->{$translation} . ' TR',
+                    'valueEs' => $duplicate->{$translation} . ' ES',
+                    'valueRu' => $duplicate->{$translation} . ' Ru',
+                    'valueDe' => $duplicate->{$translation} . ' De',
+                ]);
+        }
+
+
+        if ($duplicate->targets->isEmpty()) {
+            $duplicate->targets()->attach([$original->targets->first()]);
+        }
+
+        $originalQuestion = $original->question()->first();
+        $duplicateQuestion = $originalQuestion->replicate();
+        $duplicateQuestion->survey_id = $duplicate->id;
+        $duplicateQuestion->content = $originalQuestion->content;
+        $duplicateQuestion->save();
+
+        TranslaleModel::create(
+            [
+                'name' => TranslaleModel::getTranslateName($duplicateQuestion, 'content'),
+                'value' => $duplicateQuestion->content . ' AR',
+                'valueFr' => $duplicateQuestion->content . ' FR',
+                'valueEn' => $duplicateQuestion->content . ' EN',
+                'valueEs' => $duplicateQuestion->content . ' ES',
+                'valueTr' => $duplicateQuestion->content . ' Tr',
+                'valueRu' => $duplicateQuestion->content . ' RU',
+                'valueDe' => $duplicateQuestion->content . ' DE',
+            ]);
+
+        $originalQuestionChoices = $originalQuestion->serveyQuestionChoice()->get();
+        foreach ($originalQuestionChoices as $originalQuestionChoice) {
+            $duplicateQuestionChoice = $originalQuestionChoice->replicate();
+            $duplicateQuestionChoice->title = $originalQuestionChoice->title;
+            $duplicateQuestionChoice->question_id = $duplicateQuestion->id;
+            $duplicateQuestionChoice->save();
+            TranslaleModel::create(
+                [
+                    'name' => TranslaleModel::getTranslateName($duplicateQuestionChoice, 'title'),
+                    'value' => $duplicateQuestionChoice->title . ' AR',
+                    'valueFr' => $duplicateQuestionChoice->title . ' FR',
+                    'valueEn' => $duplicateQuestionChoice->title . ' EN',
+                    'valueEs' => $duplicateQuestionChoice->title . ' ES',
+                    'valueTr' => $duplicateQuestionChoice->title . ' Tr',
+                    'valueRu' => $duplicateQuestionChoice->title . ' Ru',
+                    'valueDe' => $duplicateQuestionChoice->title . ' De',
+                ]);
+        }
+
+        $this->routeRedirectionParams = ['locale' => app()->getLocale(), 'idSurvey' => $duplicate->id];
+        return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('success', Lang::get('Survey duplicated Successfully'));
+
+    }
+
 
     public function render()
     {

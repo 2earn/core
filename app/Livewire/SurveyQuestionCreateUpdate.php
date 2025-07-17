@@ -85,7 +85,11 @@ class SurveyQuestionCreateUpdate extends Component
                     [
                         'value' => $this->content . ' AR',
                         'valueFr' => $this->content . ' FR',
-                        'valueEn' => $this->content . ' EN'
+                        'valueEn' => $this->content . ' EN',
+                        'valueTr' => $this->content . ' TR',
+                        'valueEs' => $this->content . ' ES',
+                        'valueRu' => $this->content . ' Ru',
+                        'valueDe' => $this->content . ' De'
                     ]);
             }
 

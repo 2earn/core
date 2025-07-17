@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Services\Balances\Balances;
+use App\Services\Communication\Communication;
 use App\Services\Sponsorship\Sponsorship;
 use App\Services\Targeting\Targeting;
 use Illuminate\Http\Request;
@@ -24,6 +25,9 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind('Targeting', function ($app) {
             return new Targeting($app->make('App\DAL\UserRepository'), $app->make('Core\Services\BalancesManager'));
+        });
+        $this->app->bind('Communication', function ($app) {
+            return new Communication();
         });
 
         $this->app->bind('Balances', function ($app) {
