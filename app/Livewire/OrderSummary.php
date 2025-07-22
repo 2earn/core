@@ -26,6 +26,34 @@ class OrderSummary extends Component
         $this->currentRouteName = Route::currentRouteName();
     }
 
+    public function simulateOrder()
+    {
+        $cart = Cart::where('user_id', auth()->user()->id)->first();
+        $ordersData = [];
+        foreach ($cart->cartItem()->get() as $cartItem) {
+            $item = $cartItem->item()->first();
+            $ordersData[$item->deal()->first()->platform_id][] = $cartItem;
+        }
+        foreach ($ordersData as $key => $ordersDataItems) {
+
+            $order = Order::create(['user_id' => auth()->user()->id, 'note' => 'Product buy platform ' . $key]);
+
+            foreach ($ordersDataItems as $ordersItems) {
+                $order->orderDetails()->create([
+                    'qty' => $ordersItems->qty,
+                    'unit_price' => $ordersItems->unit_price,
+                    'total_amount' => $ordersItems->total_amount,
+                    'item_id' => $ordersItems->item_id,
+                    'shipping' => $ordersItems->shipping,
+                ]);
+            }
+            $order->updateStatus(OrderEnum::Ready);
+
+        }
+        return redirect()->route('orders_simulation', ['locale' => app()->getLocale(), 'id' => $order->id])->with('danger', trans('order failed'));
+
+    }
+
     public function validateCart()
     {
         $cart = Cart::where('user_id', auth()->user()->id)->first();

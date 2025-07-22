@@ -284,6 +284,8 @@ class Ordering
                 $amount = $order->amount_after_discount;
             }
             self::simulateCash($order, $amount);
+            $order->updateStatus(OrderEnum::Simulated);
+
             return ['order' => $order, 'order_deal' => $order_deal, 'bfssTables' => $bfssTables];
         }
         return false;
