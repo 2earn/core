@@ -108,8 +108,8 @@
         @endif
         @if($cart->total_cart>0)
             <div class="card-footer">
-                <button wire:click="validateCart()"
-                        class="btn btn-soft-success mx-2 float-end">{{__('Validate Cart')}}</button>
+                <button wire:click="simulateOrder()"
+                        class="btn btn-soft-success mx-2 float-end">{{__('Simulate Order')}}</button>
                 <button wire:click="clearCart()"
                         class="btn btn-soft-warning mx-2 float-end">{{__('Clear Cart')}}</button>
             </div>
