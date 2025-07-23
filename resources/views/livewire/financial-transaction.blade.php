@@ -2,7 +2,7 @@
     <div>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
-        <script >
+        <script>
 
             var ErreurSoldeReqBFS2 = '{{Session::has('ErreurSoldeReqBFS2')}}';
             if (ErreurSoldeReqBFS2) {
@@ -118,12 +118,10 @@
                                                 <span class="input-group-text"
                                                       id="inputGroup-sizing-default">{{ __('Enter your amount') }}</span>
                                             <input type="number"
-                                                   name="montantExchange"
-                                                   id="montantExchange"
-                                                   onpaste="handlePaste(event)"
-                                                   class="form-control text-center "
-                                                   placeholder="{{ __('Enter your amount') }}"
-                                                   onpaste="handlePaste(event)" wire:model="soldeExchange">
+                                                   name="montantExchange" id="montantExchange"
+                                                   wire:keyup.debounce="updatedSoldeExchange()"
+                                                   onpaste="handlePaste(event)" class="form-control text-center"
+                                                   placeholder="{{ __('Enter your amount') }}" onpaste="handlePaste(event)" wire:model="soldeExchange">
                                         </div>
                                     </div>
                                     @if(config('app.available_locales')[app()->getLocale()]['direction']=='ltr')
@@ -147,7 +145,7 @@
                                             <input type="number"
                                                    name="soldeBFS" id="soldeBFS" class="form-control text-center"
                                                    value="" disabled
-                                                   onpaste="handlePaste(event)">
+                                                   wire:model="newBfsSolde" onpaste="handlePaste(event)">
                                         </div>
                                     </div>
                                 </div>
@@ -617,9 +615,9 @@
             var Mymnt = {{$soldeExchange}};
             var newmntBFS = soldeBFS + Mymnt;
             inputsoldeBFS.val(newmntBFS.toFixed(2));
-            $("#montantExchange").keyup(function () {
-                inputsoldeBFS.val(parseFloat($(this).val()));
-            })
+            // $("#montantExchange").keyup(function () {
+            //     inputsoldeBFS.val(parseFloat($(this).val()));
+            // })
             inputSms.val(mnt);
             var mntSms = mnt * prixSms;
             var newsoldeBFS = soldeBFS - mntSms
@@ -729,9 +727,8 @@
                 })
             })
         </script>
-        <script  type="module">
+        <script type="module">
             document.addEventListener("DOMContentLoaded", function () {
-
 
 
                 var triggerTabList = [].slice.call(document.querySelectorAll('#pills-tab a'))

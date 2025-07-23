@@ -5,6 +5,7 @@ namespace App\Livewire;
 
 use App\Models\BFSsBalances;
 use App\Models\User;
+use App\Services\Balances\Balances;
 use Core\Enum\ExchangeTypeEnum;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
@@ -12,11 +13,9 @@ use Core\Models\detail_financial_request;
 use Core\Models\FinancialRequest;
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
-use App\Services\Balances\Balances;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
-
 use Livewire\Component;
 
 class FinancialTransaction extends Component
@@ -24,15 +23,15 @@ class FinancialTransaction extends Component
 
     const DATE_FORMAT = 'Y-m-d H:i:s';
 
+    public $testprop = 0;
     public $soldecashB;
     public $soldeBFS;
     public $soldeExchange = 0;
+    public $newBfsSolde = 0;
     public $numberSmsExchange = 0;
     public $prix_sms = 0;
     public $montantSms = 0;
-    public $testprop = 0;
     public $mobile;
-    public $requestIn;
     public $FinRequestN;
     public $showCanceled;
     public $fromTab;
@@ -49,6 +48,30 @@ class FinancialTransaction extends Component
         'ShowCanceled' => 'ShowCanceled',
         'RejectRequest' => 'RejectRequest'
     ];
+
+    public function mount(Request $request)
+    {
+        $val = $request->input('montant');
+        $show = $request->input('ShowCancel');
+        if ($val != null) {
+            $this->soldeExchange = $val;
+        }
+
+        $numReq = $request->input('FinRequestN');
+
+        if ($numReq != null) {
+            $this->FinRequestN = $numReq;
+        }
+        if ($show != null) {
+            $this->showCanceled = $show;
+        }
+    }
+
+
+    public function updatedSoldeExchange($value)
+    {
+        $this->newBfsSolde = $value;
+    }
 
     public function RejectRequest($numeroRequste, settingsManager $settingsManager)
     {
@@ -86,21 +109,6 @@ class FinancialTransaction extends Component
         return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'montant' => $mnt, 'FinRequestN' => $req]);
     }
 
-    public function mount(Request $request)
-    {
-        $val = $request->input('montant');
-        $show = $request->input('ShowCancel');
-        if ($val != null) {
-            $this->soldeExchange = $val;
-        }
-        $numReq = $request->input('FinRequestN');
-        if ($numReq != null) {
-            $this->FinRequestN = $numReq;
-        }
-        if ($show != null) {
-            $this->showCanceled = $show;
-        }
-    }
 
     public function AcceptRequest($numeroRequste)
     {
@@ -156,7 +164,7 @@ class FinancialTransaction extends Component
         $user = $settingsManager->getUserById($userAuth->id);
         if ($code != $user->activationCodeValue)
             return redirect()->route("financial_transaction", app()->getLocale())->with('danger', Lang::get('Invalid OPT code'));
-        $settingsManager->exchange(ExchangeTypeEnum::CashToBFS, $settingsManager->getAuthUser()->idUser,floatval( $this->soldeExchange));
+        $settingsManager->exchange(ExchangeTypeEnum::CashToBFS, $settingsManager->getAuthUser()->idUser, floatval($this->soldeExchange));
         if ($this->FinRequestN != null && $this->FinRequestN != '') {
             return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $this->FinRequestN]);
         }
@@ -209,8 +217,8 @@ class FinancialTransaction extends Component
         $this->getRequestIn($settingsManager);
         $userAuth = $settingsManager->getAuthUser();
         $this->mobile = $userAuth->fullNumber;
-        $this->soldecashB = floatval(Balances::getStoredUserBalances(auth()->user()->idUser,Balances::CASH_BALANCE)) - floatval($this->soldeExchange);
-        $this->soldeBFS = floatval(Balances::getStoredBfss(auth()->user()->idUser,BFSsBalances::BFS_100)) - floatval($this->numberSmsExchange);
+        $this->soldecashB = floatval(Balances::getStoredUserBalances(auth()->user()->idUser, Balances::CASH_BALANCE)) - floatval($this->soldeExchange);
+        $this->soldeBFS = floatval(Balances::getStoredBfss(auth()->user()->idUser, BFSsBalances::BFS_100)) - floatval($this->numberSmsExchange);
 
         $seting = DB::table('settings')->where("idSETTINGS", "=", "13")->first();
 
@@ -221,11 +229,7 @@ class FinancialTransaction extends Component
         number_format($this->soldecashB, 2, '.', ',');
         number_format($this->soldeBFS, 2, '.', ',');
 
-        $requestToMee = detail_financial_request::join('financial_request', 'financial_request.numeroReq', '=', 'detail_financial_request.numeroRequest')
-            ->join('users', 'financial_request.idSender', '=', 'users.idUser')
-            ->where('detail_financial_request.idUser', $userAuth->idUser)
-            ->orderBy('financial_request.date', 'desc')
-            ->get(['financial_request.numeroReq', 'financial_request.date', 'users.name', 'users.mobile', 'financial_request.amount', 'financial_request.status']);
+
         if ($this->showCanceled == '1') {
             $requestFromMee = FinancialRequest::where('financial_request.idSender', $userAuth->idUser)
                 ->join('users as u1', 'financial_request.idSender', '=', 'u1.idUser')
@@ -241,25 +245,27 @@ class FinancialTransaction extends Component
                 ->get(['financial_request.numeroReq', 'financial_request.date', 'u1.name', 'u1.mobile', 'financial_request.amount', 'financial_request.status as FStatus', 'financial_request.securityCode']);
         }
 
-        $requestInOpen = detail_financial_request::join('financial_request', 'financial_request.numeroReq', '=', 'detail_financial_request.numeroRequest')
-            ->where('detail_financial_request.idUser', $userAuth->idUser)
-            ->where('financial_request.Status', 0)
-            ->where('detail_financial_request.vu', 0)
-            ->count();
-        $requestOutAccepted = FinancialRequest::where('financial_request.idSender', $userAuth->idUser)
-            ->where('financial_request.Status', 1)
-            ->where('financial_request.vu', 0)
-            ->count();
-        $requestOutRefused = FinancialRequest::where('financial_request.idSender', $userAuth->idUser)
-            ->where('financial_request.Status', 5)
-            ->where('financial_request.vu', 0)
-            ->count();
         $params = [
-            'requestToMee' => $requestToMee,
+            'requestToMee' => detail_financial_request::join('financial_request', 'financial_request.numeroReq', '=', 'detail_financial_request.numeroRequest')
+                ->join('users', 'financial_request.idSender', '=', 'users.idUser')
+                ->where('detail_financial_request.idUser', $userAuth->idUser)
+                ->orderBy('financial_request.date', 'desc')
+                ->get(['financial_request.numeroReq', 'financial_request.date', 'users.name', 'users.mobile', 'financial_request.amount', 'financial_request.status'])
+            ,
             'requestFromMee' => $requestFromMee,
-            'requestInOpen' => $requestInOpen,
-            'requestOutAccepted' => $requestOutAccepted,
-            'requestOutRefused' => $requestOutRefused
+            'requestInOpen' => detail_financial_request::join('financial_request', 'financial_request.numeroReq', '=', 'detail_financial_request.numeroRequest')
+                ->where('detail_financial_request.idUser', $userAuth->idUser)
+                ->where('financial_request.Status', 0)
+                ->where('detail_financial_request.vu', 0)
+                ->count(),
+            'requestOutAccepted' => FinancialRequest::where('financial_request.idSender', $userAuth->idUser)
+                ->where('financial_request.Status', 1)
+                ->where('financial_request.vu', 0)
+                ->count(),
+            'requestOutRefused' => FinancialRequest::where('financial_request.idSender', $userAuth->idUser)
+                ->where('financial_request.Status', 5)
+                ->where('financial_request.vu', 0)
+                ->count()
         ];
         return view('livewire.financial-transaction', $params)->extends('layouts.master')->section('content');
     }
