@@ -29,12 +29,13 @@ class FinancialTransaction extends Component
     public $soldeExchange = 0;
     public $newBfsSolde = 0;
     public $numberSmsExchange = 0;
-    public $prix_sms = 0;
     public $montantSms = 0;
     public $mobile;
     public $FinRequestN;
-    public $showCanceled;
     public $fromTab;
+    public $showCanceled;
+    public $requestToMee;
+    public $prix_sms;
 
     protected $listeners = [
         'PreExchange' => 'PreExchange',
@@ -68,10 +69,7 @@ class FinancialTransaction extends Component
     }
 
 
-    public function updatedSoldeExchange($value)
-    {
-        $this->newBfsSolde = $value;
-    }
+
 
     public function RejectRequest($numeroRequste, settingsManager $settingsManager)
     {
@@ -146,30 +144,8 @@ class FinancialTransaction extends Component
     }
 
 
-    public function PreExchange(settingsManager $settingsManager)
-    {
-        $userAuth = $settingsManager->getAuthUser();
-        if (!$userAuth) return;
-        $check_exchange = rand(1000, 9999);
-        User::where('id', $userAuth->id)->update(['activationCodeValue' => $check_exchange]);
-        $userContactActif = $settingsManager->getidCountryForSms($userAuth->id);
-        $fullNumber = $userContactActif->fullNumber;
-        $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::OPTVerification, ['msg' => $check_exchange, 'type' => TypeNotificationEnum::SMS]);
-        $this->dispatch('OptExBFSCash', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'FullNumber' => $fullNumber]);
-    }
 
-    public function ExchangeCashToBFS($code, settingsManager $settingsManager)
-    {
-        $userAuth = $settingsManager->getAuthUser();
-        $user = $settingsManager->getUserById($userAuth->id);
-        if ($code != $user->activationCodeValue)
-            return redirect()->route("financial_transaction", app()->getLocale())->with('danger', Lang::get('Invalid OPT code'));
-        $settingsManager->exchange(ExchangeTypeEnum::CashToBFS, $settingsManager->getAuthUser()->idUser, floatval($this->soldeExchange));
-        if ($this->FinRequestN != null && $this->FinRequestN != '') {
-            return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $this->FinRequestN]);
-        }
-        return redirect()->route('financial_transaction', app()->getLocale())->with('success', Lang::get('Success CASH to BFS exchange'));
-    }
+
 
     public function exchangeSms($code, $numberSms, settingsManager $settingsManager)
     {
@@ -214,8 +190,9 @@ class FinancialTransaction extends Component
         if ($this->showCanceled == null || $this->showCanceled == "") {
             $this->showCanceled = 0;
         }
-        $this->getRequestIn($settingsManager);
         $userAuth = $settingsManager->getAuthUser();
+
+        $this->getRequestIn($settingsManager);
         $this->mobile = $userAuth->fullNumber;
         $this->soldecashB = floatval(Balances::getStoredUserBalances(auth()->user()->idUser, Balances::CASH_BALANCE)) - floatval($this->soldeExchange);
         $this->soldeBFS = floatval(Balances::getStoredBfss(auth()->user()->idUser, BFSsBalances::BFS_100)) - floatval($this->numberSmsExchange);
@@ -228,7 +205,6 @@ class FinancialTransaction extends Component
 
         number_format($this->soldecashB, 2, '.', ',');
         number_format($this->soldeBFS, 2, '.', ',');
-
 
         if ($this->showCanceled == '1') {
             $requestFromMee = FinancialRequest::where('financial_request.idSender', $userAuth->idUser)
