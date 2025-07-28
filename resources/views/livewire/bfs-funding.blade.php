@@ -1,4 +1,4 @@
-<div class="tab-pane" id="bfs_funding" role="tabpanel">
+<div class="tab-pane @if($filter=="2" ) active show @endif" id="bfs_funding" role="tabpanel">
     <div class="card">
         <div class="card-header">
             <h4 class="card-title">{{ __('BFS account funding') }}</h4>

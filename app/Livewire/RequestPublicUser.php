@@ -24,7 +24,7 @@ class RequestPublicUser extends Component
     public function sendFinancialRequest(settingsManager $settingsManager)
     {
         if (!count($this->selectedUsers) > 0) {
-            return redirect()->route('financial_transaction', app()->getLocale())->with('danger', Lang::get('No selected users'));
+            return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 2])->with('danger', Lang::get('No selected users'));
         };
         $userAuth = $settingsManager->getAuthUser();
         $lastnumero = 0;
@@ -56,7 +56,7 @@ class RequestPublicUser extends Component
                 'status' => '0',
                 'securityCode' => $securityCode
             ]);
-        return redirect()->route('financial_transaction', app()->getLocale())->with('success', Lang::get('Financial request sended successfully ,This is your security code') . ' : ' . $securityCode);
+        return redirect()->route('financial_transaction',  ['locale' => app()->getLocale(), 'filter' => 2])->with('success', Lang::get('Financial request sended successfully ,This is your security code') . ' : ' . $securityCode);
     }
 
     public function send($idUser, settingsManager $settingsManager)
@@ -78,7 +78,7 @@ class RequestPublicUser extends Component
                 'validated' => 0,
                 'type_user' => 2
             ]);
-        return redirect()->route('financial_transaction', app()->getLocale())->with('success', Lang::get('SuccesSendReqPublicUser'));
+        return redirect()->route('financial_transaction',  ['locale' => app()->getLocale(), 'filter' => 2])->with('success', Lang::get('SuccesSendReqPublicUser'));
     }
 
     public function mount(Request $request)

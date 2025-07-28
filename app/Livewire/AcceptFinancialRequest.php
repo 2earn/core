@@ -42,7 +42,7 @@ class AcceptFinancialRequest extends Component
         if ($val == 2) {
             if ($bfs100 < $financialRequestAmount) {
                 $montant = $financialRequestAmount - $bfs100;
-                return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'FinRequestN' => $financialRequest->numeroReq])->with('warning', trans('Insufficient BFS 100 balance') . ' : ' . $bfs100 . ' > ' . $montant);
+                return redirect()->route('financial_transaction', ['locale' => app()->getLocale(),'filter' => 5, 'FinRequestN' => $financialRequest->numeroReq])->with('warning', trans('Insufficient BFS 100 balance') . ' : ' . $bfs100 . ' > ' . $montant);
             }
             $userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::SendToPublicFromBFS, $userAuth->idUser, $param);
         }
@@ -55,7 +55,7 @@ class AcceptFinancialRequest extends Component
             ->update(['response' => 1, 'dateResponse' => date('Y-m-d H:i:s')]);
         FinancialRequest::where('numeroReq', '=', $num)
             ->update(['status' => 1, 'idUserAccepted' => $userAuth->idUser, 'dateAccepted' => date('Y-m-d H:i:s')]);
-        return redirect()->route('financial_transaction', app()->getLocale())->with('success', Lang::get('accepted Request'));
+        return redirect()->route('financial_transaction',['locale' => app()->getLocale(), 'filter' => 5])->with('success', Lang::get('accepted Request'));
     }
 
     public function mount(Request $request)

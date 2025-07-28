@@ -5,23 +5,31 @@ namespace App\Livewire;
 use Core\Models\detail_financial_request;
 use Core\Models\FinancialRequest;
 use Core\Services\settingsManager;
+use Illuminate\Http\Request;
 use Livewire\Component;
 
 class OutgoingRequest extends Component
 {
     public $showCanceled;
-    public $requestToMee ;
+    public $requestToMee;
 
 
     protected $listeners = [
         'ShowCanceled' => 'ShowCanceled',
         'AcceptRequest' => 'AcceptRequest',
     ];
+
+    public $filter;
+
+    public function mount($filter,Request $request)
+    {
+        $this->filter = $filter;
+    }
     public function ShowCanceled($val)
     {
         $this->showCanceled = $val;
         $this->fromTab = 'fromRequestOut';
-        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'ShowCancel' => $val])->with('info', 'sdf');
+        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 5, 'ShowCancel' => $val])->with('info', 'sdf');
     }
 
     public function AcceptRequest($numeroRequste)
@@ -31,6 +39,7 @@ class OutgoingRequest extends Component
         if ($financialRequest->status != 0) return;
         return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $numeroRequste]);
     }
+
     public function render(settingsManager $settingsManager)
     {
         if ($this->showCanceled == null || $this->showCanceled == "") {

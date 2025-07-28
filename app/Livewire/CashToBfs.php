@@ -22,6 +22,7 @@ class CashToBfs extends Component
     public $numberSmsExchange = 0;
     public $FinRequestN;
     public $prix_sms;
+    public $filter;
 
     protected $listeners = [
         'updatedSoldeExchange' => 'updatedSoldeExchange',
@@ -29,8 +30,9 @@ class CashToBfs extends Component
         'ExchangeCashToBFS' => 'ExchangeCashToBFS',
     ];
 
-    public function mount(Request $request)
+    public function mount($filter,Request $request)
     {
+        $this->filter = $filter;
         $val = $request->input('montant');
         $show = $request->input('ShowCancel');
         if ($val != null) {
@@ -55,12 +57,12 @@ class CashToBfs extends Component
         $userAuth = $settingsManager->getAuthUser();
         $user = $settingsManager->getUserById($userAuth->id);
         if ($code != $user->activationCodeValue)
-            return redirect()->route("financial_transaction", app()->getLocale())->with('danger', Lang::get('Invalid OPT code'));
+            return redirect()->route("financial_transaction", ['locale' => app()->getLocale(), 'filter' => 1])->with('danger', Lang::get('Invalid OPT code'));
         $settingsManager->exchange(ExchangeTypeEnum::CashToBFS, $settingsManager->getAuthUser()->idUser, floatval($this->soldeExchange));
         if ($this->FinRequestN != null && $this->FinRequestN != '') {
             return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $this->FinRequestN]);
         }
-        return redirect()->route('financial_transaction', app()->getLocale())->with('success', Lang::get('Success CASH to BFS exchange'));
+        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 1])->with('success', Lang::get('Success CASH to BFS exchange'));
     }
 
     public function PreExchange(settingsManager $settingsManager)

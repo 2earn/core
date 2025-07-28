@@ -1,4 +1,4 @@
-<div class="tab-pane" id="bfs_sms" role="tabpanel">
+<div class="tab-pane   @if($filter=="3" ) active show @endif" id="bfs_sms" role="tabpanel">
     <div class="card">
         <div class="card-header">
             <h4 class="card-title">
@@ -149,9 +149,6 @@
         });
 
         $("#submitExchangeSms").prop('disabled', true);
-
-
-
         window.addEventListener('confirmSms', event => {
             Swal.fire({
                 title: '{{ __('Your verification code') }}',

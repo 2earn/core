@@ -5,11 +5,18 @@ namespace App\Livewire;
 use Core\Models\detail_financial_request;
 use Core\Models\FinancialRequest;
 use Core\Services\settingsManager;
+use Illuminate\Http\Request;
 use Livewire\Component;
 
 class IncomingRequest extends Component
 {
     public $showCanceled;
+    public $filter;
+
+    public function mount($filter, Request $request)
+    {
+        $this->filter = $filter;
+    }
 
     public function render(settingsManager $settingsManager)
     {

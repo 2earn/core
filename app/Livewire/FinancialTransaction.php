@@ -26,14 +26,12 @@ class FinancialTransaction extends Component
     public $soldecashB;
     public $soldeBFS;
     public $soldeExchange = 0;
-    public $newBfsSolde = 0;
     public $numberSmsExchange = 0;
-    public $montantSms = 0;
     public $mobile;
     public $FinRequestN;
     public $fromTab;
     public $showCanceled;
-    public $requestToMee;
+    public $filter;
 
     protected $listeners = [
         'exchangeSms' => 'exchangeSms',
@@ -47,6 +45,7 @@ class FinancialTransaction extends Component
 
     public function mount(Request $request)
     {
+        $filter = $request->route('filter');
         $val = $request->input('montant');
         $show = $request->input('ShowCancel');
         if ($val != null) {
@@ -62,9 +61,6 @@ class FinancialTransaction extends Component
             $this->showCanceled = $show;
         }
     }
-
-
-
 
     public function RejectRequest($numeroRequste, settingsManager $settingsManager)
     {
@@ -197,7 +193,6 @@ class FinancialTransaction extends Component
         ];
         return view('livewire.financial-transaction', $params)->extends('layouts.master')->section('content');
     }
-
 }
 
 

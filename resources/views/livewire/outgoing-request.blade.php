@@ -1,4 +1,8 @@
-<div class="tab-pane " id="me_others" role="tabpanel">
+<div class="tab-pane   @if($filter=="4" ) active show @endif" id="me_others" role="tabpanel">
+    <div class="card">
+    <div class="card-header align-items-center d-flex">
+        <h4 class="card-title mb-0 flex-grow-1">{{ __('Outgoming request') }}</h4>
+    </div>
     <div class="card-header">
         <div class="form-check">
             <input onclick="ShowCanceledRequest()" class="form-check-input" type="checkbox"
@@ -96,6 +100,7 @@
                 </tbody>
             </table>
         </div>
+    </div>
     </div>
     <div class="modal fade" id="financialTransactionModal" tabindex="-1"
          aria-labelledby="financialTransactionModalLabel"

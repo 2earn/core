@@ -31,7 +31,7 @@
             <button onclick="ConfirmTransacction()"
                     class=" btn btn-primary mx-2 float-end ">{{__('Confirm transfer')}}</button>
             <a class="btn btn-danger float-end"
-               href="{{route('financial_transaction',app()->getLocale())}}" class="btn-danger">{{__('Cancel')}}</a>
+               href="{{route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 5])}}" class="btn-danger">{{__('Cancel')}}</a>
         </div>
     </div>
     <script>

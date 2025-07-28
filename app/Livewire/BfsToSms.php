@@ -22,13 +22,16 @@ class BfsToSms extends Component
     public $testprop = 0;
     public $soldeBFS = 0;
     public $soldeExchange = 0;
+    public $filter;
+
     protected $listeners = [
         'PreExchangeSMS' => 'PreExchangeSMS',
         'exchangeSms' => 'exchangeSms'
     ];
 
-    public function mount(Request $request)
+    public function mount($filter, Request $request)
     {
+        $this->filter = $filter;
         $val = $request->input('montant');
         $show = $request->input('ShowCancel');
         if ($val != null) {
@@ -45,7 +48,6 @@ class BfsToSms extends Component
         }
     }
 
-
     public function PreExchangeSMS(settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
@@ -58,25 +60,21 @@ class BfsToSms extends Component
         $this->dispatch('confirmSms', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'FullNumber' => $fullNumber]);
     }
 
-
     public function exchangeSms($code, $numberSms, settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
         $user = $settingsManager->getUserById($userAuth->id);
         if ($code != $user->activationCodeValue)
-            return redirect()->route("financial_transaction", app()->getLocale())->with('danger', Lang::get('Invalid OPT code'));
+            return redirect()->route("financial_transaction", ['locale' => app()->getLocale(), 'filter' => 3])->with('danger', Lang::get('Invalid OPT code'));
         $settingsManager->exchange(ExchangeTypeEnum::BFSToSMS, $settingsManager->getAuthUser()->idUser, intval($numberSms));
-        return redirect()->route('financial_transaction', app()->getLocale())->with('success', Lang::get('BFS to sms exchange operation seceded'));
+        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 3])->with('success', Lang::get('BFS to sms exchange operation seceded'));
     }
 
     public function render()
     {
-
         $seting = DB::table('settings')->where("idSETTINGS", "=", "13")->first();
-
         $this->prix_sms = $seting->DecimalValue ?? 1.5;
         $this->soldeBFS = floatval(Balances::getStoredBfss(auth()->user()->idUser, BFSsBalances::BFS_100)) - floatval($this->numberSmsExchange);
-
         $this->montantSms = $this->prix_sms * $this->numberSmsExchange;
         return view('livewire.bfs-to-sms');
     }

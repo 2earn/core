@@ -124,7 +124,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/balance-chance', \App\Livewire\UserBalanceChance::class)->name('user_balance_chance');
         });
 
-        Route::get('/financial/transaction', FinancialTransaction::class)->name('financial_transaction');
+        Route::get('/financial/transaction/{filter?}', FinancialTransaction::class)->name('financial_transaction');
         Route::get('/contact-number', ContactNumber::class)->name('contact_number');
         Route::get('/user/edit-contact', EditUserContact::class)->name('user_contact_edit');
         Route::get('/balances/exchange/funding/RequestPulicUser', RequestPublicUser::class)->name('user_request_public');

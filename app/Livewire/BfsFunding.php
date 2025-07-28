@@ -2,14 +2,21 @@
 
 namespace App\Livewire;
 
+use Illuminate\Http\Request;
 use Livewire\Component;
 
 class BfsFunding extends Component
 {
+    public $filter;
     protected $listeners = [
         'redirectPay', 'redirectPay',
     ];
 
+    public function mount($filter,Request $request)
+    {
+        $this->filter = $filter;
+
+    }
     public function redirectPay($url, $amount)
     {
         switch ($url) {
