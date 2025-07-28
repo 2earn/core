@@ -79,4 +79,32 @@
         }
 
     </script>
+    <script type="module">
+        $("#pay").click(function () {
+            var amount = $("#amount").val();
+            if (!(amount) || (amount == 0)) {
+                swal.fire({
+                    title: `{{trans('the funding amount field can not be empty or 0! Please enter a valid amount!')}}`,
+                    icon: "error",
+                    confirmButtonText: '{{trans('Yes')}}'
+                });
+                return;
+            }
+            if ((!$("#paypal").is(':checked')) && (!$("#creditCard").is(':checked')) && (!$("#upline").is(':checked')) && (!$("#publicUser").is(':checked'))) {
+                swal.fire({
+                    title: `{{trans('choose_payment_option')}}`,
+                    icon: "error",
+                    confirmButtonText: '{{trans('Yes')}}'
+                });
+                return;
+            }
+            window.Livewire.dispatch('redirectPay', [theUrl, amount]);
+        });
+        var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
+        var urlLang = "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
+        $('#customerTable2').DataTable({
+            order: [[1, 'desc']],
+            "language": {"url": urlLang},
+        });
+    </script>
 </div>

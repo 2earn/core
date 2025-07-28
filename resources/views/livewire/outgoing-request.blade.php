@@ -120,4 +120,37 @@
             </div>
         </div>
     </div>
+    <script>
+
+        function cancelRequestF(numReq) {
+            Swal.fire({
+                title: `{{trans('cancel_request')}}`,
+                confirmButtonText: '{{trans('Yes')}}',
+                showCancelButton: true,
+                cancelButtonText: '{{trans('No')}}',
+                denyButtonText: 'No',
+                customClass: {actions: 'my-actions', confirmButton: 'order-2', denyButton: 'order-3',}
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.Livewire.dispatch('DeleteRequest', [numReq]);
+                }
+            })
+        }
+
+        function hiddenTr(num) {
+            $("#" + num).prop("hidden", !$("#" + num).prop("hidden"));
+        }
+        function acceptRequst(numeroRequest) {
+            window.Livewire.dispatch('AcceptRequest', [numeroRequest]);
+        }
+
+
+        function ShowCanceledRequest() {
+            if (document.getElementById('ShowCanceled').checked) {
+                window.Livewire.dispatch('ShowCanceled', [1])
+            } else {
+                window.Livewire.dispatch('ShowCanceled', [0])
+            }
+        }
+    </script>
 </div>

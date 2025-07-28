@@ -44,4 +44,22 @@
             </tbody>
         </table>
     </div>
+    <script>
+
+
+        function rejectRequst(numeroRequest) {
+            Swal.fire({
+                title: `{{trans('reject_request')}}`,
+                confirmButtonText: '{{trans('Yes')}}',
+                showCancelButton: true,
+                cancelButtonText: '{{trans('No')}}',
+                customClass: {actions: 'my-actions', confirmButton: 'order-2', denyButton: 'order-3',}
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.Livewire.dispatch('RejectRequest', [numeroRequest]);
+                }
+            })
+        }
+
+    </script>
 </div>

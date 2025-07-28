@@ -23,6 +23,7 @@
                         <span class="input-group-text"
                               id="inputGroup-sizing-default">{{ __('Enter your amount') }}</span>
                         <input type="number" name="soldeSMS" id="soldeSMS"
+                               disabled
                                class="form-control text-center"
                                placeholder="{{ __('Enter your amount') }}"
                                onpaste="handlePaste(event)">

@@ -12,6 +12,25 @@ class OutgoingRequest extends Component
     public $showCanceled;
     public $requestToMee ;
 
+
+    protected $listeners = [
+        'ShowCanceled' => 'ShowCanceled',
+        'AcceptRequest' => 'AcceptRequest',
+    ];
+    public function ShowCanceled($val)
+    {
+        $this->showCanceled = $val;
+        $this->fromTab = 'fromRequestOut';
+        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'ShowCancel' => $val])->with('info', 'sdf');
+    }
+
+    public function AcceptRequest($numeroRequste)
+    {
+        $financialRequest = FinancialRequest::where('numeroReq', '=', $numeroRequste)->first();
+        if (!$financialRequest) return;
+        if ($financialRequest->status != 0) return;
+        return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $numeroRequste]);
+    }
     public function render(settingsManager $settingsManager)
     {
         if ($this->showCanceled == null || $this->showCanceled == "") {

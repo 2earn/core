@@ -114,61 +114,8 @@
                 </div>
             </div>
         </div>
-        <script>
-            var theUrl = '';
-
-
-            function acceptRequst(numeroRequest) {
-                window.Livewire.dispatch('AcceptRequest', [numeroRequest]);
-            }
-
-            function rejectRequst(numeroRequest) {
-                Swal.fire({
-                    title: `{{trans('reject_request')}}`,
-                    confirmButtonText: '{{trans('Yes')}}',
-                    showCancelButton: true,
-                    cancelButtonText: '{{trans('No')}}',
-                    customClass: {actions: 'my-actions', confirmButton: 'order-2', denyButton: 'order-3',}
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.Livewire.dispatch('RejectRequest', [numeroRequest]);
-                    }
-                })
-            }
-
-
-
-            function cancelRequestF(numReq) {
-                Swal.fire({
-                    title: `{{trans('cancel_request')}}`,
-                    confirmButtonText: '{{trans('Yes')}}',
-                    showCancelButton: true,
-                    cancelButtonText: '{{trans('No')}}',
-                    denyButtonText: 'No',
-                    customClass: {actions: 'my-actions', confirmButton: 'order-2', denyButton: 'order-3',}
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.Livewire.dispatch('DeleteRequest', [numReq]);
-                    }
-                })
-            }
-
-            function hiddenTr(num) {
-                $("#" + num).prop("hidden", !$("#" + num).prop("hidden"));
-            }
-
-            function ShowCanceledRequest() {
-                if (document.getElementById('ShowCanceled').checked) {
-                    window.Livewire.dispatch('ShowCanceled', [1])
-                } else {
-                    window.Livewire.dispatch('ShowCanceled', [0])
-                }
-            }
-        </script>
         <script type="module">
             document.addEventListener("DOMContentLoaded", function () {
-
-
                 var triggerTabList = [].slice.call(document.querySelectorAll('#pills-tab a'))
                 triggerTabList.forEach(function (triggerEl) {
                     var tabTrigger = new bootstrap.Tab(triggerEl)
@@ -222,32 +169,6 @@
                         }
                     })
                 })
-            });
-            $("#pay").click(function () {
-                var amount = $("#amount").val();
-                if (!(amount) || (amount == 0)) {
-                    swal.fire({
-                        title: `{{trans('the funding amount field can not be empty or 0! Please enter a valid amount!')}}`,
-                        icon: "error",
-                        confirmButtonText: '{{trans('Yes')}}'
-                    });
-                    return;
-                }
-                if ((!$("#paypal").is(':checked')) && (!$("#creditCard").is(':checked')) && (!$("#upline").is(':checked')) && (!$("#publicUser").is(':checked'))) {
-                    swal.fire({
-                        title: `{{trans('choose_payment_option')}}`,
-                        icon: "error",
-                        confirmButtonText: '{{trans('Yes')}}'
-                    });
-                    return;
-                }
-                window.Livewire.dispatch('redirectPay', [theUrl, amount]);
-            });
-            var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
-            var urlLang = "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
-            $('#customerTable2').DataTable({
-                order: [[1, 'desc']],
-                "language": {"url": urlLang},
             });
         </script>
     </div>
