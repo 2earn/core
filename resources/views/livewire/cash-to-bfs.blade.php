@@ -7,13 +7,13 @@
             <div class="row">
                 <div class="col-xxl-4 mx-auto ">
                     <div class="input-group">
-                                                <span class="input-group-text"
-                                                      id="inputGroup-sizing-default">{{ __('Enter your amount') }}</span>
+                    <span class="input-group-text" id="inputGroup-sizing-default">
+                        {{ __('Enter your amount') }}
+                    </span>
                         <input type="number"
                                name="montantExchange" id="montantExchange"
-                               {{--                               wire:keyup.debounce="updatedSoldeExchange()"--}}
-                               wire:model.lazy="soldeExchange"
-                               onpaste="handlePaste(event)" class="form-control text-center"
+                               wire:model.lazy="soldeExchange" onpaste="handlePaste(event)"
+                               class="form-control text-center"
                                placeholder="{{ __('Enter your amount') }}" onpaste="handlePaste(event)">
                     </div>
                 </div>
@@ -33,13 +33,12 @@
                 </div>
                 <div class="col-xxl-4 mx-auto ">
                     <div class="input-group">
-                                                <span class="input-group-text"
-                                                      id="inputGroup-sizing-default">{{ __('BFS 100') }}</span>
+                    <span class="input-group-text" id="inputGroup-sizing-default">
+                        {{ __('BFS 100') }}
+                    </span>
                         <input type="number"
-                               name="soldeBFS" id="soldeBFS" class="form-control text-center"
-                               wire:model.lazy="soldeBFS"
-                               value="" disabled
-                               wire:model="newBfsSolde" onpaste="handlePaste(event)">
+                               name="soldeBFS" id="soldeBFS" class="form-control text-center" wire:model.lazy="soldeBFS"
+                               value="" disabled wire:model="newBfsSolde" onpaste="handlePaste(event)">
                     </div>
                 </div>
             </div>
@@ -75,7 +74,6 @@
                 }
             })
         })
-
     </script>
     <script>
         function ConfirmExchange() {

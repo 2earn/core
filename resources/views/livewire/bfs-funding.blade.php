@@ -7,22 +7,19 @@
             <div class="row gy-4">
                 <div class="col-xxl-8 mx-auto ">
                     <div class="input-group">
-                                                <span class="input-group-text"
-                                                      id="inputGroup-sizing-default">{{ __('backand_Amount_to_Fund_in_DCP') }}</span>
-                        <input style="color: #939393" type="number" name="fundAmountTXT"
-                               id="amount"
-                               class="form-control text-center"
-                               placeholder="{{ __('backand_Enter_the_funding_amount') }}"
-                               onpaste="handlePaste(event)">
+                        <span class="input-group-text" id="inputGroup-sizing-default">
+                            {{ __('backand_Amount_to_Fund_in_DCP') }}
+                        </span>
+                        <input type="number" name="fundAmountTXT" id="amount" class="form-control text-center"
+                               placeholder="{{ __('backand_Enter_the_funding_amount') }}" onpaste="handlePaste(event)">
                     </div>
                 </div>
                 <div class="col-xxl-8 mx-auto text-center ">
                     <h5 class="mb-5 text-center "> {{ __('backand_Choose_payment_option') }}</h5>
-                    <div class="form-check form-check-inline ">
+                    <div class="form-check form-check-inline d-none">
                         <input class="form-check-input" type="radio" name="inlineRadioOptions"
                                value="paypal" id="paypal" onclick="setPaymentFormTarget(0)">
-                        <label class="form-check-label fs-5 text-primary"
-                               for="paypal">
+                        <label class="form-check-label fs-5 text-primary"                               for="paypal">
                             <i class="ri-paypal-fill me-2 "></i>
                             {{__('Paypal')}}</label>
                     </div>
@@ -56,7 +53,6 @@
                         </label>
                     </div>
                 </div>
-
             </div>
         </div>
         <div class="card-footer">

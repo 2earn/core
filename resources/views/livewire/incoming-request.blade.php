@@ -21,13 +21,14 @@
                     <td><span> {{$value->name}}</span></td>
                     <td><span>{{$value->mobile}}</span></td>
                     <td><span>{{number_format((float)$value->amount, 2, '.', ' ')}} </span></td>
-                    <td><span>
-                                                    @if($value->status == 0)
+                    <td>
+                        <span>
+                            @if($value->status == 0)
                                 <a style="background-color: #51A351;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: 5px">{{__('Opened')}}</a>
                             @else
                                 <a style="background-color: #BD362F;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: 5px">{{__('Closed')}}</a>
                             @endif
-                                                </span>
+                        </span>
                     </td>
                     <td>
                         @if($value->status == 0)
@@ -45,8 +46,6 @@
         </table>
     </div>
     <script>
-
-
         function rejectRequst(numeroRequest) {
             Swal.fire({
                 title: `{{trans('reject_request')}}`,
@@ -60,6 +59,5 @@
                 }
             })
         }
-
     </script>
 </div>

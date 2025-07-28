@@ -10,9 +10,7 @@
     </div>
     <div class="card-body pt-0">
         <div class="table-responsive ">
-            <table class="table table-striped table-bordered tableEditAdmin"
-                   id="ReqFromMe_table2"
-                   style="width: 100%">
+            <table class="table table-striped table-bordered tableEditAdmin"                   id="ReqFromMe_table2">
                 <thead class="table-light">
                 <tr>
                     <th>#</th>
@@ -35,7 +33,8 @@
                         </td>
                         <td onclick="hiddenTr({{$value->numeroReq}})">
                             <span>{{$value->amount}}</span></td>
-                        <td><span>
+                        <td>
+                            <span>
                                                     @if($value->FStatus == 0)
                                     <a style="background-color: #F89406;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding:@if(app()->getLocale()=="ar") 1px @else 5px @endif ; ">{{__('Opened')}}</a>
                                     <a onclick="cancelRequestF('{{$value->numeroReq}}')"
