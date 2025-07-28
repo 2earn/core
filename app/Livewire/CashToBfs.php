@@ -10,6 +10,7 @@ use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
 use Core\Services\settingsManager;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 
@@ -20,6 +21,7 @@ class CashToBfs extends Component
     public $soldeExchange;
     public $numberSmsExchange = 0;
     public $FinRequestN;
+    public $prix_sms;
 
     protected $listeners = [
         'updatedSoldeExchange' => 'updatedSoldeExchange',
@@ -43,6 +45,9 @@ class CashToBfs extends Component
         if ($show != null) {
             $this->showCanceled = $show;
         }
+        $seting = DB::table('settings')->where("idSETTINGS", "=", "13")->first();
+
+        $this->prix_sms = $seting->DecimalValue ?? 1.5;
     }
 
     public function ExchangeCashToBFS($code, settingsManager $settingsManager)

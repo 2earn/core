@@ -46,4 +46,142 @@
             </button>
         </div>
     </div>
+    <script>
+        function ConfirmExchangeSms() {
+            var soldeBFS = {{ $soldeBFS}};
+            var nbSMS = $("#NSMS").val();
+            var soldeExchange = $("#soldeSMS").val();
+            if (Number.isNaN(nbSMS) || Number.isNaN(soldeExchange)) return;
+            if (soldeExchange < 0) return;
+            if (soldeExchange == 0) {
+                Swal.fire({
+                    title: '{{trans('Please enter the transfer amount!')}}',
+                    icon: "warning",
+                    showCancelButton: false,
+                    confirmButtonText: '{{trans('ok')}}',
+                })
+                return;
+            }
+            var newSolde = soldeBFS - soldeExchange;
+            if (newSolde < 0) {
+                Swal.fire({
+                    title: '{{trans('BFS_not_allow')}}',
+                    icon: "warning",
+                    showCancelButton: false,
+                    confirmButtonText: '{{trans('ok')}}',
+                })
+                return;
+
+            }
+            Swal.fire({
+                title: '{{trans('Are you sure to exchange')}}' + soldeExchange + '{{trans('BFS To SMS ?')}}',
+                text: '{{trans('operation_irreversible')}}',
+                icon: "warning",
+                showCancelButton: true,
+                cancelButtonText: '{{trans('canceled')}}',
+                confirmButtonText: '{{trans('ok')}}',
+                denyButtonText: 'No',
+                customClass: {
+                    actions: 'my-actions',
+                    cancelButton: 'order-1 right-gap',
+                    confirmButton: 'order-2',
+                    denyButton: 'order-3',
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.Livewire.dispatch('PreExchangeSMS');
+                } else if (result.isDenied) {
+                    Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
+        }
+    </script>
+    <script type="module">
+        var timerInterval;
+        var mnt = '{{$testprop}}';
+        var soldeBFS = {{$soldeBFS}};
+        var prixSms = "{{$prix_sms}}";
+        var mntSms = mnt * prixSms;
+        var newsoldeBFS = soldeBFS - mntSms
+        var soldeBFS = '{{$soldeBFS}}';
+        var inputMontantSms = $("#soldeSMS");
+        var inputSms = $("#NSMS");
+        var inputsoldeBFSSMS = $("#soldeBFSSMS");
+        var inputsoldeBFS = $("#soldeBFS");
+        var Mymnt = '{{$soldeExchange}}';
+        var newmntBFS = soldeBFS + Mymnt;
+        inputsoldeBFS.val(newmntBFS);
+
+        inputSms.val(mnt);
+
+        inputMontantSms.val(mntSms.toFixed(2));
+        inputsoldeBFSSMS.val(newsoldeBFS.toFixed(2));
+
+        $("#NSMS").keyup(function () {
+            var montantSms = $(this).val() * prixSms;
+            inputMontantSms.val(montantSms.toFixed(2));
+            var newsolde = soldeBFS - montantSms;
+            newsoldeBFS = soldeBFS - montantSms;
+            inputsoldeBFSSMS.val(newsolde.toFixed(2));
+            if (montantSms == 0) {
+                $("#submitExchangeSms").prop('disabled', true);
+            } else {
+                $("#submitExchangeSms").prop('disabled', false);
+            }
+        });
+
+        $("#NSMS").keyup(function () {
+            var montantSms = $(this).val() * prixSms;
+            inputMontantSms.val(montantSms.toFixed(2));
+            var newsolde = soldeBFS - montantSms;
+            newsoldeBFS = soldeBFS - montantSms;
+            inputsoldeBFSSMS.val(newsolde.toFixed(2));
+            if (montantSms == 0) {
+                $("#submitExchangeSms").prop('disabled', true);
+            } else {
+                $("#submitExchangeSms").prop('disabled', false);
+            }
+        });
+
+        $("#soldeSMS").focusout(function () {
+            var sms = $("#NSMS").val();
+            var mnt = sms * prixSms;
+            inputMontantSms.val(mnt.toFixed(2));
+            var newsolde = soldeBFS - mnt;
+            newsoldeBFS = soldeBFS - mnt;
+            inputsoldeBFSSMS.val(newsolde.toFixed(2));
+        });
+
+        $("#submitExchangeSms").prop('disabled', true);
+
+
+
+        window.addEventListener('confirmSms', event => {
+            Swal.fire({
+                title: '{{ __('Your verification code') }}',
+                html: '{{ __('We_will_send') }}<br> ',
+                html: '{{ __('We_will_send') }}<br>' + event.detail[0].FullNumber + '<br>' + '{{ __('Your OTP Code') }}',
+                input: 'text',
+                allowOutsideClick: false,
+                timer: '{{ env('timeOPT',180000) }}',
+                timerProgressBar: true,
+                confirmButtonText: '{{trans('ok')}}',
+                showCancelButton: true,
+                cancelButtonText: '{{trans('canceled !')}}',
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                  willClose: () => {
+                    clearInterval(timerInterval)
+                },
+            }).then((resultat) => {
+                if (resultat.value) {
+                    window.Livewire.dispatch('exchangeSms', [resultat.value, $("#NSMS").val()]);
+                }
+                if (resultat.isDismissed) {
+                    location.reload();
+                }
+            })
+        })
+    </script>
 </div>

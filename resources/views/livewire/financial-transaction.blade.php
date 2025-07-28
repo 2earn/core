@@ -117,17 +117,6 @@
         <script>
             var theUrl = '';
 
-            function setPaymentFormTarget(gate) {
-                if (gate == 0) {
-                    theUrl = "paymentpaypal";
-                } else if (gate == 1) {
-                    theUrl = "paymentcreditcard";
-                } else if (gate == 2) {
-                    theUrl = "paymentviaadmin";
-                } else if (gate == 3) {
-                    theUrl = "req_public_user";
-                }
-            }
 
             function acceptRequst(numeroRequest) {
                 window.Livewire.dispatch('AcceptRequest', [numeroRequest]);
@@ -148,54 +137,6 @@
             }
 
 
-            function ConfirmExchangeSms() {
-                var soldeBFS = {{ $soldeBFS}};
-                var nbSMS = $("#NSMS").val();
-                var soldeExchange = $("#soldeSMS").val();
-                if (Number.isNaN(nbSMS) || Number.isNaN(soldeExchange)) return;
-                if (soldeExchange < 0) return;
-                if (soldeExchange == 0) {
-                    Swal.fire({
-                        title: '{{trans('Please enter the transfer amount!')}}',
-                        icon: "warning",
-                        showCancelButton: false,
-                        confirmButtonText: '{{trans('ok')}}',
-                    })
-                    return;
-                }
-                var newSolde = soldeBFS - soldeExchange;
-                if (newSolde < 0) {
-                    Swal.fire({
-                        title: '{{trans('BFS_not_allow')}}',
-                        icon: "warning",
-                        showCancelButton: false,
-                        confirmButtonText: '{{trans('ok')}}',
-                    })
-                    return;
-
-                }
-                Swal.fire({
-                    title: '{{trans('Are you sure to exchange')}}' + soldeExchange + '{{trans('BFS To SMS ?')}}',
-                    text: '{{trans('operation_irreversible')}}',
-                    icon: "warning",
-                    showCancelButton: true,
-                    cancelButtonText: '{{trans('canceled')}}',
-                    confirmButtonText: '{{trans('ok')}}',
-                    denyButtonText: 'No',
-                    customClass: {
-                        actions: 'my-actions',
-                        cancelButton: 'order-1 right-gap',
-                        confirmButton: 'order-2',
-                        denyButton: 'order-3',
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.Livewire.dispatch('PreExchangeSMS');
-                    } else if (result.isDenied) {
-                        Swal.fire('Changes are not saved', '', 'info')
-                    }
-                })
-            }
 
             function cancelRequestF(numReq) {
                 Swal.fire({
@@ -223,130 +164,6 @@
                     window.Livewire.dispatch('ShowCanceled', [0])
                 }
             }
-        </script>
-        <script type="module">
-            var timerInterval;
-            var mnt = {{$testprop}};
-            var prixSms = {{$prix_sms}};
-            var soldeBFS = {{$soldeBFS}};
-            var inputMontantSms = $("#soldeSMS");
-            var inputSms = $("#NSMS");
-            var inputsoldeBFSSMS = $("#soldeBFSSMS");
-            var inputsoldeBFS = $("#soldeBFS");
-            var Mymnt = {{$soldeExchange}};
-            var newmntBFS = soldeBFS + Mymnt;
-            inputsoldeBFS.val(newmntBFS.toFixed(2));
-            // $("#montantExchange").keyup(function () {
-            //     inputsoldeBFS.val(parseFloat($(this).val()));
-            // })
-            inputSms.val(mnt);
-            var mntSms = mnt * prixSms;
-            var newsoldeBFS = soldeBFS - mntSms
-            inputMontantSms.val(mntSms.toFixed(2));
-            inputsoldeBFSSMS.val(newsoldeBFS.toFixed(2));
-            $("#NSMS").keyup(function () {
-                var montantSms = $(this).val() * prixSms;
-                inputMontantSms.val(montantSms.toFixed(2));
-                var newsolde = soldeBFS - montantSms;
-                newsoldeBFS = soldeBFS - montantSms;
-                inputsoldeBFSSMS.val(newsolde.toFixed(2));
-                if (montantSms == 0) {
-                    $("#submitExchangeSms").prop('disabled', true);
-                } else {
-                    $("#submitExchangeSms").prop('disabled', false);
-                }
-            });
-
-            $("#NSMS").keyup(function () {
-                var montantSms = $(this).val() * prixSms;
-                inputMontantSms.val(montantSms.toFixed(2));
-                var newsolde = soldeBFS - montantSms;
-                newsoldeBFS = soldeBFS - montantSms;
-                inputsoldeBFSSMS.val(newsolde.toFixed(2));
-                if (montantSms == 0) {
-                    $("#submitExchangeSms").prop('disabled', true);
-                } else {
-                    $("#submitExchangeSms").prop('disabled', false);
-                }
-            });
-            $("#soldeSMS").focusout(function () {
-                var sms = $("#NSMS").val();
-                var mnt = sms * prixSms;
-                inputMontantSms.val(mnt.toFixed(2));
-                var newsolde = soldeBFS - mnt;
-                newsoldeBFS = soldeBFS - mnt;
-                inputsoldeBFSSMS.val(newsolde.toFixed(2));
-            });
-            $("#submitExchangeSms").prop('disabled', true);
-
-            window.addEventListener('OptExBFSCash', event => {
-                Swal.fire({
-                    title: '{{ __('Your verification code') }}',
-                    html: '{{ __('We_will_send') }}<br>' + event.detail[0].FullNumber + '<br>' + '{{ __('Your OTP Code') }}',
-                    input: 'text',
-                    allowOutsideClick: false,
-                    timer: '{{ env('timeOPT',180000) }}',
-                    timerProgressBar: true,
-                    confirmButtonText: '{{trans('ok')}}',
-                    showCancelButton: true,
-                    cancelButtonText: '{{trans('canceled !')}}',
-                    footer: ' <i></i><div class="footerOpt"></div>',
-                    didOpen: () => {
-                        const b = Swal.getFooter().querySelector('i');
-                        Swal.getFooter().querySelector('div').classList.add("row");
-                        const p22 = Swal.getFooter().querySelector('div');
-                        timerInterval = setInterval(() => {
-                            p22.innerHTML = '<div class="col-12">{{trans('It will close in')}}' + ' ' + (Swal.getTimerLeft() / 1000).toFixed(0) + ' ' + '{{trans('secondes')}}' + '</br> ' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a> </div>'
-                        }, 100)
-                    },
-                    willClose: () => {
-                        clearInterval(timerInterval)
-                    },
-                    input: 'text',
-                    inputAttributes: {autocapitalize: 'off'},
-                }).then((resultat) => {
-                    if (resultat.value) {
-                        window.Livewire.dispatch('ExchangeCashToBFS', [resultat.value]);
-                    }
-                })
-            })
-
-
-            window.addEventListener('confirmSms', event => {
-                Swal.fire({
-                    title: '{{ __('Your verification code') }}',
-                    html: '{{ __('We_will_send') }}<br> ',
-                    html: '{{ __('We_will_send') }}<br>' + event.detail[0].FullNumber + '<br>' + '{{ __('Your OTP Code') }}',
-                    input: 'text',
-                    allowOutsideClick: false,
-                    timer: '{{ env('timeOPT',180000) }}',
-                    timerProgressBar: true,
-                    confirmButtonText: '{{trans('ok')}}',
-                    showCancelButton: true,
-                    cancelButtonText: '{{trans('canceled !')}}',
-                    footer: '<div class="footerOpt"></div>',
-                    inputAttributes: {
-                        autocapitalize: 'off'
-                    },
-                    didOpen: () => {
-                        const b = Swal.getFooter().querySelector('i')
-                        const p22 = Swal.getFooter().querySelector('div')
-                        timerInterval = setInterval(() => {
-                            p22.innerHTML = '{{trans('It will close in')}}' + (Swal.getTimerLeft() / 1000).toFixed(0) + '{{trans('secondes')}}' + '</br>' + '{{trans('Dont get code?') }}' + ' <a>' + '{{trans('Resend')}}' + '</a>'
-                        }, 100)
-                    },
-                    willClose: () => {
-                        clearInterval(timerInterval)
-                    },
-                }).then((resultat) => {
-                    if (resultat.value) {
-                        window.Livewire.dispatch('exchangeSms', [resultat.value, $("#NSMS").val()]);
-                    }
-                    if (resultat.isDismissed) {
-                        location.reload();
-                    }
-                })
-            })
         </script>
         <script type="module">
             document.addEventListener("DOMContentLoaded", function () {

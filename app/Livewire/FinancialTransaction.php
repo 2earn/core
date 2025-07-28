@@ -23,7 +23,6 @@ class FinancialTransaction extends Component
 
     const DATE_FORMAT = 'Y-m-d H:i:s';
 
-    public $testprop = 0;
     public $soldecashB;
     public $soldeBFS;
     public $soldeExchange = 0;
@@ -35,12 +34,8 @@ class FinancialTransaction extends Component
     public $fromTab;
     public $showCanceled;
     public $requestToMee;
-    public $prix_sms;
 
     protected $listeners = [
-        'PreExchange' => 'PreExchange',
-        'ExchangeCashToBFS' => 'ExchangeCashToBFS',
-        'PreExchangeSMS' => 'PExchangeSms',
         'exchangeSms' => 'exchangeSms',
         'redirectPay', 'redirectPay',
         'AcceptRequest' => 'AcceptRequest',
@@ -116,46 +111,6 @@ class FinancialTransaction extends Component
         return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $numeroRequste]);
     }
 
-    public function redirectPay($url, $amount)
-    {
-        switch ($url) {
-            case 'paymentpaypal':
-                return redirect()->route('payment_paypal', ["locale" => app()->getLocale(), "amount" => $amount]);
-                break;
-            case 'paymentcreditcard' :
-                return redirect()->route('payment_strip', ["locale" => app()->getLocale(), "amount" => $amount]);
-                break;
-            case 'req_public_user' :
-                return redirect()->route('user_request_public', ["locale" => app()->getLocale(), "amount" => $amount]);
-                break;
-        }
-    }
-
-    public function PExchangeSms(settingsManager $settingsManager)
-    {
-        $userAuth = $settingsManager->getAuthUser();
-        if (!$userAuth) return;
-        $check_exchange = rand(1000, 9999);
-        User::where('id', $userAuth->id)->update(['activationCodeValue' => $check_exchange]);
-        $userContactActif = $settingsManager->getidCountryForSms($userAuth->id);
-        $fullNumber = $userContactActif->fullNumber;
-        $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::OPTVerification, ['msg' => $check_exchange, 'type' => TypeNotificationEnum::SMS]);
-        $this->dispatch('confirmSms', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'FullNumber' => $fullNumber]);
-    }
-
-
-
-
-
-    public function exchangeSms($code, $numberSms, settingsManager $settingsManager)
-    {
-        $userAuth = $settingsManager->getAuthUser();
-        $user = $settingsManager->getUserById($userAuth->id);
-        if ($code != $user->activationCodeValue)
-            return redirect()->route("financial_transaction", app()->getLocale())->with('danger', Lang::get('Invalid OPT code'));
-        $settingsManager->exchange(ExchangeTypeEnum::BFSToSMS, $settingsManager->getAuthUser()->idUser, intval($numberSms));
-        return redirect()->route('financial_transaction', app()->getLocale())->with('success', Lang::get('BFS to sms exchange operation seceded'));
-    }
 
     public function getRequestIn()
     {
@@ -185,6 +140,8 @@ class FinancialTransaction extends Component
         return redirect()->route('financial_transaction', app()->getLocale())->with('success', Lang::get('Delete request accepted'));
     }
 
+
+
     public function render(settingsManager $settingsManager, BalancesManager $balancesManager)
     {
         if ($this->showCanceled == null || $this->showCanceled == "") {
@@ -197,11 +154,6 @@ class FinancialTransaction extends Component
         $this->soldecashB = floatval(Balances::getStoredUserBalances(auth()->user()->idUser, Balances::CASH_BALANCE)) - floatval($this->soldeExchange);
         $this->soldeBFS = floatval(Balances::getStoredBfss(auth()->user()->idUser, BFSsBalances::BFS_100)) - floatval($this->numberSmsExchange);
 
-        $seting = DB::table('settings')->where("idSETTINGS", "=", "13")->first();
-
-        $this->prix_sms = $seting->DecimalValue ?? 1.5;
-
-        $this->montantSms = $this->prix_sms * $this->numberSmsExchange;
 
         number_format($this->soldecashB, 2, '.', ',');
         number_format($this->soldeBFS, 2, '.', ',');

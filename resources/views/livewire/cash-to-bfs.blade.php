@@ -11,7 +11,7 @@
                                                       id="inputGroup-sizing-default">{{ __('Enter your amount') }}</span>
                         <input type="number"
                                name="montantExchange" id="montantExchange"
-{{--                               wire:keyup.debounce="updatedSoldeExchange()"--}}
+                               {{--                               wire:keyup.debounce="updatedSoldeExchange()"--}}
                                wire:model.lazy="soldeExchange"
                                onpaste="handlePaste(event)" class="form-control text-center"
                                placeholder="{{ __('Enter your amount') }}" onpaste="handlePaste(event)">
@@ -50,13 +50,39 @@
                     id="exchange">{{ __('CASH to BFS exchange') }}</button>
         </div>
     </div>
+    <script type="module">
+        var timerInterval;
+        window.addEventListener('OptExBFSCash', event => {
+            Swal.fire({
+                title: '{{ __('Your verification code') }}',
+                html: '{{ __('We_will_send') }}<br>' + event.detail[0].FullNumber + '<br>' + '{{ __('Your OTP Code') }}',
+                input: 'text',
+                allowOutsideClick: false,
+                timer: '{{ env('timeOPT',180000) }}',
+                timerProgressBar: true,
+                confirmButtonText: '{{trans('ok')}}',
+                showCancelButton: true,
+                cancelButtonText: '{{trans('cancel')}}',
+                willClose: () => {
+                    clearInterval(timerInterval)
+                },
+                input: 'text',
+                inputAttributes: {autocapitalize: 'off'},
+            }).then((resultat) => {
+                console.log(resultat)
+                if (resultat.value) {
+                    window.Livewire.dispatch('ExchangeCashToBFS', [resultat.value]);
+                }
+            })
+        })
+
+    </script>
     <script>
         function ConfirmExchange() {
             var soldecashB = {{ $soldecashB}};
             var soldeExchange = document.getElementById('montantExchange').value
             if (Number.isNaN(soldecashB) || Number.isNaN(soldeExchange)) return;
-            if (soldeExchange < 0) return;
-            if (soldeExchange == 0) {
+            if (soldeExchange <= 0) {
                 Swal.fire({
                     title: '{{trans('Please enter the transfer amount!')}}',
                     icon: "warning",
@@ -77,10 +103,10 @@
             }
             Swal.fire({
                 title: '{{trans('Are you sure to exchange ?')}}' + " " + '<br>' + soldeExchange + "$ " + '{{trans('?')}}',
-                text: '{{trans('operation_irreversible')}}',
+                text: '{{trans('operation irreversible')}}',
                 icon: "warning",
                 showCancelButton: true,
-                cancelButtonText: '{{trans('canceled !')}}',
+                cancelButtonText: '{{trans('cancel')}}',
                 confirmButtonText: '{{trans('ok')}}',
                 denyButtonText: 'No',
                 customClass: {
@@ -97,6 +123,5 @@
                 }
             })
         }
-
     </script>
 </div>

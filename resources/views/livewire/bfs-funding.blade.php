@@ -65,4 +65,18 @@
             </button>
         </div>
     </div>
+    <script>
+        function setPaymentFormTarget(gate) {
+            if (gate == 0) {
+                theUrl = "paymentpaypal";
+            } else if (gate == 1) {
+                theUrl = "paymentcreditcard";
+            } else if (gate == 2) {
+                theUrl = "paymentviaadmin";
+            } else if (gate == 3) {
+                theUrl = "req_public_user";
+            }
+        }
+
+    </script>
 </div>
