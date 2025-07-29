@@ -67,8 +67,7 @@ class AcceptFinancialRequest extends Component
 
     public function render(settingsManager $settingsManager, BalancesManager $balancesManager)
     {
-        $userAuth = $settingsManager->getAuthUser();
-        $soldeUser = $balancesManager->getBalances($userAuth->idUser, -1);
+        $soldeUser= floatval(Balances::getStoredBfss(auth()->user()->idUser, BFSsBalances::BFS_100));
 
         $financialRequest = FinancialRequest::join('users', 'financial_request.idSender', '=', 'users.idUser')
             ->where('numeroReq', '=', $this->numeroReq)

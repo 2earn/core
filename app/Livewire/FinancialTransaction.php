@@ -39,7 +39,7 @@ class FinancialTransaction extends Component
         'AcceptRequest' => 'AcceptRequest',
         'redirectToTransfertCash' => 'redirectToTransfertCash',
         'ShowCanceled' => 'ShowCanceled',
-        'RejectRequest' => 'RejectRequest'
+        'RejectRequest' => 'RejectRequest','refreshChildren' => '$refresh'
     ];
 
     public function mount(Request $request)
@@ -60,8 +60,6 @@ class FinancialTransaction extends Component
             $this->showCanceled = $show;
         }
     }
-
-
 
     public function ShowCanceled($val)
     {
@@ -84,7 +82,6 @@ class FinancialTransaction extends Component
         return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $numeroRequste]);
     }
 
-
     public function getRequestIn()
     {
         $rechargeRequests = DB::table('recharge_requests')->select('recharge_requests.Date', 'users.name as USER', 'recharge_requests.payeePhone as userphone', 'recharge_requests.amount')
@@ -99,10 +96,6 @@ class FinancialTransaction extends Component
             ->leftJoin('users', 'users.idUser', '=', 'recharge_requests.idPayee')
             ->where('recharge_requests.idSender', auth()->user()->idUser)->get();
     }
-
-
-
-
 
     public function render(settingsManager $settingsManager, BalancesManager $balancesManager)
     {
@@ -157,6 +150,7 @@ class FinancialTransaction extends Component
                 ->where('financial_request.vu', 0)
                 ->count()
         ];
+
         return view('livewire.financial-transaction', $params)->extends('layouts.master')->section('content');
     }
 }

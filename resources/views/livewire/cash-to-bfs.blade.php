@@ -14,6 +14,7 @@
                                name="montantExchange" id="montantExchange"
                                wire:model.lazy="soldeExchange" onpaste="handlePaste(event)"
                                class="form-control text-center"
+                               wire:keyup.debounce="updatetheSoldeExchange()"
                                placeholder="{{ __('Enter your amount') }}" onpaste="handlePaste(event)">
                     </div>
                 </div>
@@ -34,10 +35,20 @@
                 <div class="col-xxl-4 mx-auto ">
                     <div class="input-group">
                     <span class="input-group-text" id="inputGroup-sizing-default">
-                        {{ __('BFS 100') }}
+                        {{ __('Actual Solde BFS 100') }}
                     </span>
                         <input type="number"
                                name="soldeBFS" id="soldeBFS" class="form-control text-center" wire:model.lazy="soldeBFS"
+                               value="" disabled wire:model="soldeBFS" onpaste="handlePaste(event)">
+                    </div>
+
+                    <div class="input-group mt-2">
+                    <span class="input-group-text" id="inputGroup-sizing-default">
+                        {{ __('New Sold BFS 100') }}
+                    </span>
+                        <input type="number"
+                               name="newBfsSolde" id="newBfsSolde" class="form-control text-center"
+                               wire:model.lazy="newBfsSolde"
                                value="" disabled wire:model="newBfsSolde" onpaste="handlePaste(event)">
                     </div>
                 </div>
@@ -100,7 +111,7 @@
                 return;
             }
             Swal.fire({
-                title: '{{trans('Are you sure to exchange ?')}}' + " " + '<br>' + soldeExchange + "$ " + '{{trans('?')}}',
+                title: '{{trans('Are you sure to exchange ?')}}' + " " + '<br>' + soldeExchange + "$ " + '{{trans('from cash to Bfs 100?')}}',
                 text: '{{trans('operation irreversible')}}',
                 icon: "warning",
                 showCancelButton: true,

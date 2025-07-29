@@ -12,7 +12,7 @@
             <ul class="list-group mt-2">
                 <li class="list-group-item">
                     <strong>{{__('Solde')}}:</strong>
-                    <span class="float-end">{{$soldeUser->soldeBFS}} $</span>
+                    <span class="float-end">{{$soldeUser}} {{config('app.currency')}}</span>
                 </li>
                 <li class="list-group-item">
                     <strong>{{__('Opération')}}: </strong>
@@ -28,13 +28,26 @@
                 </li>
                 <li class="list-group-item">
                     <strong>{{__('Montant_envoyer')}}</strong>
-                    <span class="float-end">  {{$financialRequest->amount}} $</span>
+                    <span
+                        class="float-end    @if($soldeUser<$financialRequest->amount) text-danger @else text-success @endif">  {{$financialRequest->amount}} {{config('app.currency')}}</span>
+                    @if($soldeUser<$financialRequest->amount)
+                        <hr>
+                        <div class="alert alert-warning m-2 float-end" role="alert">
+                            {{ __('Insufficient sold') }}
+                        </div>
+                    @endif
                 </li>
             </ul>
+
         </div>
         <div class="card-footer text-muted">
             <button onclick="ConfirmTransacction()"
-                    class=" btn btn-primary mx-2 float-end ">{{__('Confirm transfer')}}</button>
+                    @if($soldeUser < $financialRequest->amount) disabled @endif
+                    class=" btn btn-primary mx-2 float-end ">
+                {{__('Confirm transfer of ')}} {{$financialRequest->amount}} {{config('app.currency')}}
+            </button>
+
+
             <a class="btn btn-danger float-end"
                href="{{route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 5])}}"
                class="btn-danger">{{__('Cancel')}}</a>

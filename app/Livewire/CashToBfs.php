@@ -23,14 +23,14 @@ class CashToBfs extends Component
     public $FinRequestN;
     public $prix_sms;
     public $filter;
+    public $newBfsSolde;
 
     protected $listeners = [
-        'updatedSoldeExchange' => 'updatedSoldeExchange',
         'PreExchange' => 'PreExchange',
         'ExchangeCashToBFS' => 'ExchangeCashToBFS',
     ];
 
-    public function mount($filter,Request $request)
+    public function mount($filter, Request $request)
     {
         $this->filter = is_null($filter) ? 1 : $filter;
         $val = $request->input('montant');
@@ -77,17 +77,18 @@ class CashToBfs extends Component
         $this->dispatch('OptExBFSCash', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'FullNumber' => $fullNumber]);
     }
 
-    public $newBfsSolde;
 
-    public function updatedSoldeExchange($value)
+    public function updatetheSoldeExchange()
     {
-        $this->newBfsSolde = $value;
+        $this->soldeBFS = floatval(Balances::getStoredBfss(auth()->user()->idUser, BFSsBalances::BFS_100)) - floatval($this->numberSmsExchange);
+        $this->newBfsSolde = $this->soldeBFS + $this->soldeExchange;
     }
 
     public function render()
     {
         $this->soldecashB = floatval(Balances::getStoredUserBalances(auth()->user()->idUser, Balances::CASH_BALANCE)) - floatval($this->soldeExchange);
         $this->soldeBFS = floatval(Balances::getStoredBfss(auth()->user()->idUser, BFSsBalances::BFS_100)) - floatval($this->numberSmsExchange);
+        $this->updatetheSoldeExchange();
         return view('livewire.cash-to-bfs');
     }
 }
