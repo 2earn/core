@@ -61,29 +61,7 @@ class FinancialTransaction extends Component
         }
     }
 
-    public function RejectRequest($numeroRequste, settingsManager $settingsManager)
-    {
-        $userAuth = $settingsManager->getAuthUser();
-        if (!$userAuth) abort(404);
-        $financialRequest = FinancialRequest::where('numeroReq', '=', $numeroRequste)->first();
-        if (!$financialRequest) abort(404);
-        if ($financialRequest->status != 0) abort(404);
-        $detailReques = detail_financial_request::where('numeroRequest', '=', $numeroRequste)
-            ->where('idUser', '=', $userAuth->idUser)
-            ->first();
-        if (!$detailReques) abort(404);
-        detail_financial_request::where('numeroRequest', '=', $numeroRequste)
-            ->where('idUser', '=', $userAuth->idUser)
-            ->update(['response' => 2, 'dateResponse' => date(self::DATE_FORMAT)]);
 
-        $detailRest = detail_financial_request::where('numeroRequest', '=', $numeroRequste)
-            ->where('response', '=', null)
-            ->get();
-        if (count($detailRest) == 0) {
-            FinancialRequest::where('numeroReq', '=', $numeroRequste)
-                ->update(['status' => 5, 'idUserAccepted' => $userAuth->idUser, 'dateAccepted' => date(self::DATE_FORMAT)]);
-        }
-    }
 
     public function ShowCanceled($val)
     {

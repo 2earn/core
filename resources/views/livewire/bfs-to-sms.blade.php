@@ -70,8 +70,8 @@
 
             }
             Swal.fire({
-                title: '{{trans('Are you sure to exchange')}}' + soldeExchange + '{{trans('BFS To SMS ?')}}',
-                text: '{{trans('operation_irreversible')}}',
+                title: '{{trans('Are you sure to exchange')}} ' + parseInt(soldeExchange) + ' {{trans('BFS To SMS ?')}}',
+                text: '{{trans('Irreversible operation')}}',
                 icon: "warning",
                 showCancelButton: true,
                 cancelButtonText: '{{trans('canceled')}}',

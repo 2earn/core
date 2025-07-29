@@ -6,16 +6,50 @@ use Core\Models\detail_financial_request;
 use Core\Models\FinancialRequest;
 use Core\Services\settingsManager;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 
 class IncomingRequest extends Component
 {
+    const DATE_FORMAT = 'Y-m-d H:i:s';
+
     public $showCanceled;
     public $filter;
+
+    protected $listeners = [
+        'RejectRequest' => 'RejectRequest'
+    ];
 
     public function mount($filter, Request $request)
     {
         $this->filter = $filter;
+    }
+
+    public function RejectRequest($numeroRequste, settingsManager $settingsManager)
+    {
+        $userAuth = $settingsManager->getAuthUser();
+        if (!$userAuth) abort(404);
+        $financialRequest = FinancialRequest::where('numeroReq', '=', $numeroRequste)->first();
+
+        if (!$financialRequest || $financialRequest->status != 0) {
+            return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 5])->with('danger', Lang::get('Invalid financial request'));
+        }
+
+        $detailReques = detail_financial_request::where('numeroRequest', '=', $numeroRequste)
+            ->where('idUser', '=', $userAuth->idUser)
+            ->first();
+        if (!$detailReques) abort(404);
+        detail_financial_request::where('numeroRequest', '=', $numeroRequste)
+            ->where('idUser', '=', $userAuth->idUser)
+            ->update(['response' => 2, 'dateResponse' => date(self::DATE_FORMAT)]);
+
+        $detailRest = detail_financial_request::where('numeroRequest', '=', $numeroRequste)
+            ->where('response', '=', null)
+            ->get();
+        if (count($detailRest) == 0) {
+            FinancialRequest::where('numeroReq', '=', $numeroRequste)
+                ->update(['status' => 5, 'idUserAccepted' => $userAuth->idUser, 'dateAccepted' => date(self::DATE_FORMAT)]);
+        }
     }
 
     public function render(settingsManager $settingsManager)
