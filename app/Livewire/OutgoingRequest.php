@@ -24,7 +24,7 @@ class OutgoingRequest extends Component
 
     public $filter;
 
-    public function mount($filter,Request $request)
+    public function mount($filter, Request $request)
     {
         $this->filter = $filter;
     }
@@ -34,11 +34,14 @@ class OutgoingRequest extends Component
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) return;
         $financialRequest = FinancialRequest::where('numeroReq', '=', $num)->first();
-        if (!$financialRequest) abort(404);
-        if ($financialRequest->status != 0) abort(404);
-        FinancialRequest::where('numeroReq', '=', $num)
-            ->update(['status' => 3, 'idUserAccepted' => $userAuth->idUser, 'dateAccepted' => date(self::DATE_FORMAT)]);
-        return redirect()->route('financial_transaction',  ['locale' => app()->getLocale(), 'filter' => 4])->with('success', Lang::get('Delete request accepted'));
+
+        if (!$financialRequest || $financialRequest->status != 0) {
+            return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 4])->with('danger', Lang::get('Invalid financial request'));
+        }
+        FinancialRequest::where('numeroReq', '=', $num)->update(
+            ['status' => 3, 'idUserAccepted' => $userAuth->idUser, 'dateAccepted' => date(self::DATE_FORMAT)]
+        );
+        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 4])->with('success', Lang::get('Delete request accepted'));
     }
 
 

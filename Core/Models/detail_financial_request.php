@@ -10,6 +10,9 @@ class detail_financial_request extends Model
     protected $table = 'detail_financial_request';
     public $timestamps = false;
 
+    protected $fillable = [
+        'response', 'dateResponse'
+    ];
 
     public function FinancialRequest()
     {

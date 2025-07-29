@@ -38,18 +38,24 @@ class IncomingRequest extends Component
         $detailReques = detail_financial_request::where('numeroRequest', '=', $numeroRequste)
             ->where('idUser', '=', $userAuth->idUser)
             ->first();
-        if (!$detailReques) abort(404);
-        detail_financial_request::where('numeroRequest', '=', $numeroRequste)
-            ->where('idUser', '=', $userAuth->idUser)
+
+        if (!$detailReques) {
+            return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 5])->with('danger', Lang::get('Invalid details financial request'));
+        }
+
+         detail_financial_request::where('numeroRequest', '=', $numeroRequste)
             ->update(['response' => 2, 'dateResponse' => date(self::DATE_FORMAT)]);
 
         $detailRest = detail_financial_request::where('numeroRequest', '=', $numeroRequste)
             ->where('response', '=', null)
             ->get();
+
         if (count($detailRest) == 0) {
             FinancialRequest::where('numeroReq', '=', $numeroRequste)
                 ->update(['status' => 5, 'idUserAccepted' => $userAuth->idUser, 'dateAccepted' => date(self::DATE_FORMAT)]);
         }
+
+        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 5])->with('success', Lang::get('Financial request rejected successfully'));
     }
 
     public function render(settingsManager $settingsManager)
