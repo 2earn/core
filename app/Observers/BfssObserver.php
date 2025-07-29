@@ -11,17 +11,33 @@ use App\Services\Balances\BalancesFacade;
 use Core\Enum\BalanceEnum;
 use Core\Enum\BalanceOperationsEnum;
 use Core\Models\BalanceOperation;
-use Core\Models\Setting;
 use Core\Services\BalancesManager;
 use Illuminate\Support\Facades\Log;
 
 
 class BfssObserver
 {
-    const MIN_BFSS_TO_GET_ACTION = 1000;
+    const MIN_BFSS_TO_GET_ACTION = 800;
 
     public function __construct(private BalancesManager $balancesManager)
     {
+    }
+
+    public function checkDiscountFromGiftedBFs(BFSsBalances $bFSsBalances)
+    {
+
+        $balances = Balances::getStoredUserBalances($bFSsBalances->beneficiary_id);
+
+        $value = Balances::getDiscountEarnedFromBFS100I($bFSsBalances->value);
+        DiscountBalances::addLine([
+                'balance_operation_id' => BalanceOperationsEnum::FROM_BFS->value,
+                'operator_id' => Balances::SYSTEM_SOURCE_ID,
+                'beneficiary_id' => $bFSsBalances->beneficiary_id,
+                'reference' => $bFSsBalances->reference,
+                'value' => $value,
+                'current_balance' => $balances->discount_balance + $value
+            ]
+        );
     }
 
     public function checkSharesFromGiftedBFs(BFSsBalances $bFSsBalances)
@@ -47,23 +63,10 @@ class BfssObserver
 
     public function created(BFSsBalances $bFSsBalances)
     {
-        $setting = Setting::WhereIn('idSETTINGS', ['22', '23'])->orderBy('idSETTINGS')->pluck('IntegerValue');
-        $md = $setting[0];
-        $rc = $setting[1];
-        $balances = Balances::getStoredUserBalances($bFSsBalances->beneficiary_id);
+
         $balanceOperation = BalanceOperation::find($bFSsBalances->balance_operation_id);
         if ($bFSsBalances->percentage == "100.00" && $balanceOperation->io == 'I') {
-            DiscountBalances::addLine([
-                    'balance_operation_id' => BalanceOperationsEnum::FROM_BFS->value,
-                    'operator_id' => Balances::SYSTEM_SOURCE_ID,
-                    'beneficiary_id' => $bFSsBalances->beneficiary_id,
-                    'reference' => $bFSsBalances->reference,
-                    'value' => min($md, $bFSsBalances->value * (pow(abs($bFSsBalances->value - 10), 1.5) / $rc)),
-                    'description' => number_format(100 * min($md, $bFSsBalances->value * (pow(abs($bFSsBalances->value - 10), 1.5) / $rc)) / $md, 2, '.', '') . '%',
-                    'current_balance' => $balances->discount_balance + min($md, $bFSsBalances->value * (pow(abs($bFSsBalances->value - 10), 1.5) / $rc))
-                ]
-            );
-
+            $this->checkDiscountFromGiftedBFs($bFSsBalances);
             $this->checkSharesFromGiftedBFs($bFSsBalances);
         }
 

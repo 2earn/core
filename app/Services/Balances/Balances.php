@@ -28,6 +28,8 @@ class Balances
     const BFSS_BALANCE = 'bfss_balance';
     const DISCOUNT_BALANCE = 'discount_balance';
 
+    const MIN_BFSS_TO_GET_DISCOUNT = 1000;
+
 
     public function getBalanceCompter()
     {
@@ -320,5 +322,18 @@ class Balances
     public static function generateDescription(Model $balance): string
     {
         return View::make('balances.show-' . $balance->balance_operation_id, compact('balance'))->render();
+    }
+
+    public static function getDiscountEarnedFromBFS100I($bFSsBalancesValue): float
+    {
+        $minBfs = getSettingIntegerParam('MIN_BFSS_TO_GET_DISCOUNT', self::MIN_BFSS_TO_GET_DISCOUNT);
+        $value = 0;
+        if ($minBfs > $bFSsBalancesValue) {
+            $pourcentage = $bFSsBalancesValue / $minBfs;
+            $value = $pourcentage * $bFSsBalancesValue;
+        } else {
+            $value = $bFSsBalancesValue;
+        }
+        return $value;
     }
 }
