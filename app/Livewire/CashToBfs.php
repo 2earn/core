@@ -32,7 +32,7 @@ class CashToBfs extends Component
 
     public function mount($filter,Request $request)
     {
-        $this->filter = $filter;
+        $this->filter = is_null($filter) ? 1 : $filter;
         $val = $request->input('montant');
         $show = $request->input('ShowCancel');
         if ($val != null) {

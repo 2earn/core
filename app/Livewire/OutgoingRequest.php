@@ -6,6 +6,7 @@ use Core\Models\detail_financial_request;
 use Core\Models\FinancialRequest;
 use Core\Services\settingsManager;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 
 class OutgoingRequest extends Component
@@ -13,10 +14,12 @@ class OutgoingRequest extends Component
     public $showCanceled;
     public $requestToMee;
 
+    const DATE_FORMAT = 'Y-m-d H:i:s';
 
     protected $listeners = [
         'ShowCanceled' => 'ShowCanceled',
         'AcceptRequest' => 'AcceptRequest',
+        'DeleteRequest' => 'DeleteRequest',
     ];
 
     public $filter;
@@ -25,11 +28,25 @@ class OutgoingRequest extends Component
     {
         $this->filter = $filter;
     }
+
+    public function DeleteRequest($num, settingsManager $settingsManager)
+    {
+        $userAuth = $settingsManager->getAuthUser();
+        if (!$userAuth) return;
+        $financialRequest = FinancialRequest::where('numeroReq', '=', $num)->first();
+        if (!$financialRequest) abort(404);
+        if ($financialRequest->status != 0) abort(404);
+        FinancialRequest::where('numeroReq', '=', $num)
+            ->update(['status' => 3, 'idUserAccepted' => $userAuth->idUser, 'dateAccepted' => date(self::DATE_FORMAT)]);
+        return redirect()->route('financial_transaction',  ['locale' => app()->getLocale(), 'filter' => 4])->with('success', Lang::get('Delete request accepted'));
+    }
+
+
     public function ShowCanceled($val)
     {
         $this->showCanceled = $val;
         $this->fromTab = 'fromRequestOut';
-        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 5, 'ShowCancel' => $val])->with('info', 'sdf');
+        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 4, 'ShowCancel' => $val])->with('info', 'sdf');
     }
 
     public function AcceptRequest($numeroRequste)

@@ -128,7 +128,7 @@
 
         function cancelRequestF(numReq) {
             Swal.fire({
-                title: `{{trans('cancel_request')}}`,
+                title: `{{trans('Do you want to cancel this request')}}`,
                 confirmButtonText: '{{trans('Yes')}}',
                 showCancelButton: true,
                 cancelButtonText: '{{trans('No')}}',

@@ -38,7 +38,6 @@ class FinancialTransaction extends Component
         'redirectPay', 'redirectPay',
         'AcceptRequest' => 'AcceptRequest',
         'redirectToTransfertCash' => 'redirectToTransfertCash',
-        'DeleteRequest' => 'DeleteRequest',
         'ShowCanceled' => 'ShowCanceled',
         'RejectRequest' => 'RejectRequest'
     ];
@@ -124,17 +123,6 @@ class FinancialTransaction extends Component
     }
 
 
-    public function DeleteRequest($num, settingsManager $settingsManager)
-    {
-        $userAuth = $settingsManager->getAuthUser();
-        if (!$userAuth) return;
-        $financialRequest = FinancialRequest::where('numeroReq', '=', $num)->first();
-        if (!$financialRequest) abort(404);
-        if ($financialRequest->status != 0) abort(404);
-        FinancialRequest::where('numeroReq', '=', $num)
-            ->update(['status' => 3, 'idUserAccepted' => $userAuth->idUser, 'dateAccepted' => date(self::DATE_FORMAT)]);
-        return redirect()->route('financial_transaction', app()->getLocale())->with('success', Lang::get('Delete request accepted'));
-    }
 
 
 
