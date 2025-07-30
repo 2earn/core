@@ -987,13 +987,13 @@ class ApiController extends BaseController
         };
         $results = DB::table($balances . ' as u')
             ->select(
+                DB::raw("RANK() OVER (ORDER BY u.created_at ASC, u.reference ASC) as ranks"),
                 'u.id',
                 'u.reference',
                 'u.beneficiary_id',
                 'u.created_at',
                 'u.balance_operation_id',
                 'b.operation',
-                'u.description',
                 DB::raw("CASE WHEN b.IO = 'I' THEN u.value ELSE -u.value END AS value"),
                 'u.current_balance'
             )
@@ -1071,10 +1071,7 @@ class ApiController extends BaseController
             ->editColumn('current_balance', function ($balance) {
                 return self::CURRENCY . self::SEPACE . formatSolde($balance->current_balance, 2);
             })
-            ->editColumn('description', function ($row) use ($idAmounts) {
-                return Balances::generateDescriptionById($row->id, $idAmounts);
-            })
-            ->rawColumns(['description', 'formatted_date'])
+            ->rawColumns(['formatted_date'])
             ->make(true);
     }
 
@@ -1087,20 +1084,12 @@ class ApiController extends BaseController
             ->editColumn('current_balance', function ($balcene) {
                 return formatSolde($balcene->current_balance, 2) . ' ' . self::PERCENTAGE;
             })
-            ->editColumn('description', function ($row) {
-                return Balances::generateDescriptionById($row->id, BalanceEnum::TREE->value);
-            })
-            ->rawColumns(['description'])
             ->make(true);
     }
 
     public function getSmsUser($locale)
     {
         return datatables($this->getUserBalancesList($locale, auth()->user()->idUser, BalanceEnum::SMS->value, false))
-            ->editColumn('description', function ($row) {
-                return Balances::generateDescriptionById($row->id, BalanceEnum::SMS->value);
-            })
-            ->rawColumns(['description'])
             ->make(true);
     }
 

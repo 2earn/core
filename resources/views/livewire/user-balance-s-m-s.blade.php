@@ -16,10 +16,10 @@
                            id="userBalanceSMS_table" style="width: 100%">
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">
+                            <th>{{__('Ranks')}}</th>
                             <th>{{__('reference')}}</th>
                             <th>{{ __('Created at') }}</th>
                             <th>{{ __('Operation Designation') }}</th>
-                            <th>{{ __('description') }}</th>
                             <th>{{ __('Value') }}</th>
                             <th>{{ __('Current balance') }}</th>
                         </tr>
@@ -49,10 +49,10 @@
                     bAutoWidth: false,
                     "ajax": "<?php echo e(route('api_user_sms', ['locale' => app()->getLocale()])); ?>",
                     "columns": [
+                        {data: 'ranks'},
                         {data: 'reference'},
                         {data: 'created_at'},
                         {data: 'operation'},
-                        {data: 'description'},
                         {data: 'value', className: classAl},
                         {data: 'current_balance', className: classAl},
                     ],

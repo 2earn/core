@@ -21,7 +21,6 @@
                             <th>{{ __('ref') }}</th>
                             <th>{{ __('date') }}</th>
                             <th>{{ __('Operation Designation') }}</th>
-                            <th>{{ __('description') }}</th>
                             <th>{{ __('Value') }}</th>
                             <th>{{ __('Balance') }}</th>
                         </tr>
@@ -68,7 +67,6 @@
                             {data: 'reference'},
                             {data: 'created_at'},
                             {data: 'operation'},
-                            {data: 'description'},
                             {data: 'value', className: classAl},
                             {data: 'current_balance', className: classAl},
                         ],
@@ -82,15 +80,6 @@
                                         else
                                             return '<span class="badge bg-success con fs-14">' + data + '</span>';
 
-                                    }
-                                },
-                                {
-                                    "targets": [6],
-                                    render: function (data, type, row) {
-                                        if (row.ranks == 1)
-                                            return '<div class="logoTopBFSLabel"><h5 class="text-success fs-14 mb-0 ms-2">' + data + '</h5></div>';
-                                        else
-                                            return data;
                                     }
                                 },
                                 {

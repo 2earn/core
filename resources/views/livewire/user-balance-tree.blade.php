@@ -20,7 +20,6 @@
                             <th>{{__('reference')}}</th>
                             <th>{{ __('Created at') }}</th>
                             <th>{{ __('Operation Designation') }}</th>
-                            <th>{{ __('description') }}</th>
                             <th>{{ __('Value') }}</th>
                             <th>{{ __('Current balance') }}</th>
                         </tr>
@@ -65,14 +64,13 @@
                             {data: 'reference'},
                             {data: 'created_at'},
                             {data: 'operation'},
-                            {data: 'description'},
                             {data: 'value', className: classAl},
                             {data: 'current_balance', className: classAl},
                         ],
                         "columnDefs":
                             [
                                 {
-                                    "targets": [5],
+                                    "targets": [4],
                                     render: function (data, type, row) {
                                         return '<span class="badge bg-danger con  fs-14">' + data + '</span>';
                                     }
