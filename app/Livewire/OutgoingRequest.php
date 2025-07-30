@@ -1,78 +1,55 @@
 <?php
 
-
 namespace App\Livewire;
 
-use App\Models\BFSsBalances;
-use App\Models\User;
-use App\Services\Balances\Balances;
-use Core\Enum\ExchangeTypeEnum;
-use Core\Enum\TypeEventNotificationEnum;
-use Core\Enum\TypeNotificationEnum;
 use Core\Models\detail_financial_request;
 use Core\Models\FinancialRequest;
-use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 
-class FinancialTransaction extends Component
+class OutgoingRequest extends Component
 {
+    public $showCanceled;
+    public $requestToMee;
+    public $filter;
 
     const DATE_FORMAT = 'Y-m-d H:i:s';
 
-    public $soldecashB;
-    public $soldeBFS;
-    public $soldeExchange = 0;
-    public $numberSmsExchange = 0;
-    public $mobile;
-    public $FinRequestN;
-    public $fromTab;
-    public $showCanceled;
-    public $filter;
-
     protected $listeners = [
-        'exchangeSms' => 'exchangeSms',
-        'redirectPay', 'redirectPay',
-        'AcceptRequest' => 'AcceptRequest',
-        'redirectToTransfertCash' => 'redirectToTransfertCash',
         'ShowCanceled' => 'ShowCanceled',
-        'RejectRequest' => 'RejectRequest','refreshChildren' => '$refresh'
+        'AcceptRequest' => 'AcceptRequest',
+        'DeleteRequest' => 'DeleteRequest',
     ];
 
-    public function mount(Request $request)
+    public function mount($filter, Request $request)
     {
-        $this->filter = $request->route('filter');
-        $val = $request->input('montant');
-        $show = $request->input('ShowCancel');
-        if ($val != null) {
-            $this->soldeExchange = $val;
-        }
-
-        $numReq = $request->input('FinRequestN');
-
-        if ($numReq != null) {
-            $this->FinRequestN = $numReq;
-        }
-        if ($show != null) {
-            $this->showCanceled = $show;
-        }
+        $this->filter = $filter;
     }
+
+    public function DeleteRequest($num, settingsManager $settingsManager)
+    {
+        $userAuth = $settingsManager->getAuthUser();
+        if (!$userAuth) return;
+        $financialRequest = FinancialRequest::where('numeroReq', '=', $num)->first();
+
+        if (!$financialRequest || $financialRequest->status != 0) {
+            return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 4])->with('danger', Lang::get('Invalid financial request'));
+        }
+        FinancialRequest::where('numeroReq', '=', $num)->update(
+            ['status' => 3, 'idUserAccepted' => $userAuth->idUser, 'dateAccepted' => date(self::DATE_FORMAT)]
+        );
+        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 4])->with('success', Lang::get('Delete request accepted'));
+    }
+
 
     public function ShowCanceled($val)
     {
         $this->showCanceled = $val;
         $this->fromTab = 'fromRequestOut';
-        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'ShowCancel' => $val])->with('info', 'sdf');
+        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 4, 'ShowCancel' => $val])->with('info', 'sdf');
     }
-
-    public function redirectToTransfertCash($mnt, $req)
-    {
-        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'montant' => $mnt, 'FinRequestN' => $req]);
-    }
-
 
     public function AcceptRequest($numeroRequste)
     {
@@ -82,37 +59,12 @@ class FinancialTransaction extends Component
         return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $numeroRequste]);
     }
 
-    public function getRequestIn()
-    {
-        $rechargeRequests = DB::table('recharge_requests')->select('recharge_requests.Date', 'users.name as USER', 'recharge_requests.payeePhone as userphone', 'recharge_requests.amount')
-            ->leftJoin('users', 'users.idUser', '=', 'recharge_requests.idPayee')
-            ->where('recharge_requests.idUser', auth()->user()->idUser)->get();
-    }
-
-    public function getRequestOut()
-    {
-        $rechargeRequests = DB::table('recharge_requests')
-            ->select('recharge_requests.Date', 'users.name as USER', 'recharge_requests.payeePhone as userphone', 'recharge_requests.amount')
-            ->leftJoin('users', 'users.idUser', '=', 'recharge_requests.idPayee')
-            ->where('recharge_requests.idSender', auth()->user()->idUser)->get();
-    }
-
-    public function render(settingsManager $settingsManager, BalancesManager $balancesManager)
+    public function render(settingsManager $settingsManager)
     {
         if ($this->showCanceled == null || $this->showCanceled == "") {
             $this->showCanceled = 0;
         }
         $userAuth = $settingsManager->getAuthUser();
-
-        $this->getRequestIn($settingsManager);
-        $this->mobile = $userAuth->fullNumber;
-        $this->soldecashB = floatval(Balances::getStoredUserBalances(auth()->user()->idUser, Balances::CASH_BALANCE)) - floatval($this->soldeExchange);
-        $this->soldeBFS = floatval(Balances::getStoredBfss(auth()->user()->idUser, BFSsBalances::BFS_100)) - floatval($this->numberSmsExchange);
-
-
-        number_format($this->soldecashB, 2, '.', ',');
-        number_format($this->soldeBFS, 2, '.', ',');
-
         if ($this->showCanceled == '1') {
             $requestFromMee = FinancialRequest::where('financial_request.idSender', $userAuth->idUser)
                 ->join('users as u1', 'financial_request.idSender', '=', 'u1.idUser')
@@ -150,9 +102,6 @@ class FinancialTransaction extends Component
                 ->where('financial_request.vu', 0)
                 ->count()
         ];
-
-        return view('livewire.financial-transaction', $params)->extends('layouts.master')->section('content');
+        return view('livewire.outgoing-request', $params);
     }
 }
-
-

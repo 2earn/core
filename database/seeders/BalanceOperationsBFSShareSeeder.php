@@ -23,5 +23,9 @@ class BalanceOperationsBFSShareSeeder extends Seeder
             DB::table('settings')->insert(['ParameterName' => 'MIN_BFSS_TO_GET_ACTION', 'IntegerValue' => 800]);
         }
 
+        if (!DB::table('settings')->where("ParameterName", "=", 'MIN_BFSS_TO_GET_DISCOUNT')->exists()) {
+            DB::table('settings')->insert(['ParameterName' => 'MIN_BFSS_TO_GET_DISCOUNT', 'IntegerValue' => 800]);
+        }
+
     }
 }
