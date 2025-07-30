@@ -13,6 +13,7 @@ class OutgoingRequest extends Component
 {
     public $showCanceled;
     public $requestToMee;
+    public $filter;
 
     const DATE_FORMAT = 'Y-m-d H:i:s';
 
@@ -21,8 +22,6 @@ class OutgoingRequest extends Component
         'AcceptRequest' => 'AcceptRequest',
         'DeleteRequest' => 'DeleteRequest',
     ];
-
-    public $filter;
 
     public function mount($filter, Request $request)
     {

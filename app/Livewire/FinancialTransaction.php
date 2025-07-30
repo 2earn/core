@@ -44,7 +44,7 @@ class FinancialTransaction extends Component
 
     public function mount(Request $request)
     {
-        $filter = $request->route('filter');
+        $this->filter = $request->route('filter');
         $val = $request->input('montant');
         $show = $request->input('ShowCancel');
         if ($val != null) {

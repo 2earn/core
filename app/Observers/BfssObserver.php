@@ -27,7 +27,6 @@ class BfssObserver
     {
 
         $balances = Balances::getStoredUserBalances($bFSsBalances->beneficiary_id);
-
         $value = Balances::getDiscountEarnedFromBFS100I($bFSsBalances->value);
         DiscountBalances::addLine([
                 'balance_operation_id' => BalanceOperationsEnum::FROM_BFS->value,
@@ -63,7 +62,6 @@ class BfssObserver
 
     public function created(BFSsBalances $bFSsBalances)
     {
-
         $balanceOperation = BalanceOperation::find($bFSsBalances->balance_operation_id);
         if ($bFSsBalances->percentage == "100.00" && $balanceOperation->io == 'I') {
             $this->checkDiscountFromGiftedBFs($bFSsBalances);

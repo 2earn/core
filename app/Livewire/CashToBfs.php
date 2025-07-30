@@ -36,6 +36,7 @@ class CashToBfs extends Component
         $this->filter = is_null($filter) ? 1 : $filter;
         $val = $request->input('montant');
         $show = $request->input('ShowCancel');
+
         if ($val != null) {
             $this->soldeExchange = $val;
         }
@@ -81,16 +82,13 @@ class CashToBfs extends Component
 
     public function updatetheSoldeExchange()
     {
-        $balances = Balances::getStoredUserBalances(auth()->user()->idUser);
         $this->soldeBFS = floatval(Balances::getStoredBfss(auth()->user()->idUser, BFSsBalances::BFS_100)) - floatval($this->numberSmsExchange);
         $this->newBfsSolde = $this->soldeBFS + floatval( $this->soldeExchange);
         $this->ernedDiscount = Balances::getDiscountEarnedFromBFS100I(floatval($this->soldeExchange));
-
     }
 
     public function render()
     {
-
         $this->soldecashB = floatval(Balances::getStoredUserBalances(auth()->user()->idUser, Balances::CASH_BALANCE)) - floatval($this->soldeExchange);
         $this->soldeBFS = floatval(Balances::getStoredBfss(auth()->user()->idUser, BFSsBalances::BFS_100)) - floatval($this->numberSmsExchange);
         $this->updatetheSoldeExchange();

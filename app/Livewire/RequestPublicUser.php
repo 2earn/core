@@ -16,6 +16,7 @@ class RequestPublicUser extends Component
 {
     public $amount;
     public $selectedUsers = [];
+
     protected $listeners = [
         'send' => 'send',
         'sendFinancialRequest' => 'sendFinancialRequest'
@@ -56,7 +57,7 @@ class RequestPublicUser extends Component
                 'status' => '0',
                 'securityCode' => $securityCode
             ]);
-        return redirect()->route('financial_transaction',  ['locale' => app()->getLocale(), 'filter' => 2])->with('success', Lang::get('Financial request sended successfully ,This is your security code') . ' : ' . $securityCode);
+        return redirect()->route('financial_transaction',  ['locale' => app()->getLocale(), 'filter' => 2])->with('success', Lang::get('Financial request sent successfully ,This is your security code') . ' : ' . $securityCode);
     }
 
     public function send($idUser, settingsManager $settingsManager)
@@ -78,7 +79,7 @@ class RequestPublicUser extends Component
                 'validated' => 0,
                 'type_user' => 2
             ]);
-        return redirect()->route('financial_transaction',  ['locale' => app()->getLocale(), 'filter' => 2])->with('success', Lang::get('SuccesSendReqPublicUser'));
+        return redirect()->route('financial_transaction',  ['locale' => app()->getLocale(), 'filter' => 2])->with('success', Lang::get('Success send req to public user'));
     }
 
     public function mount(Request $request)
