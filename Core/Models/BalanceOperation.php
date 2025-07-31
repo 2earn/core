@@ -2,14 +2,16 @@
 
 namespace Core\Models;
 
-use App\Models\SharesBalances;
 use App\Models\BFSsBalances;
 use App\Models\CashBalances;
 use App\Models\DiscountBalances;
+use App\Models\OperationCategory;
+use App\Models\SharesBalances;
 use App\Models\SMSBalances;
 use App\Models\TreeBalances;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class BalanceOperation extends Model
 {
@@ -23,6 +25,7 @@ class BalanceOperation extends Model
         'amounts_id',
         'note',
         'modify_amount',
+        'operation_category_id',
     ];
 
     public function cashBalance(): HasMany
@@ -54,6 +57,12 @@ class BalanceOperation extends Model
     {
         return $this->hasMany(TreeBalances::class);
     }
+
+    public function opeartionCategory(): HasOne
+    {
+        return $this->hasOne(OperationCategory::class);
+    }
+
     public function parent()
     {
         return $this->belongsTo(BalanceOperation::class, 'parent_id');
