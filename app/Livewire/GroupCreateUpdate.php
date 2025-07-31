@@ -63,12 +63,12 @@ class GroupCreateUpdate extends Component
     {
         $this->validate();
         try {
-            $condition = Group::create(['operator' => $this->operator, 'target_id' => $this->idTarget]);
+            Group::create(['operator' => $this->operator, 'target_id' => $this->idTarget]);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('danger', Lang::get('Something goes wrong while creating Group!!') );
         }
-        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Group Created Successfully!!') . ' ' . $condition->content);
+        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Group Created Successfully!!'));
     }
 
 

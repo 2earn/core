@@ -8,6 +8,7 @@ use App\Models\BFSsBalances;
 use App\Models\BusinessSector;
 use App\Models\CashBalances;
 use App\Models\Coupon;
+use App\Models\OperationCategory;
 use App\Models\SharesBalances;
 use App\Models\User;
 use App\Models\vip;
@@ -918,6 +919,16 @@ class ApiController extends BaseController
             })
             ->editColumn('amountsshortname', function ($balance) {
                 return view('parts.datatable.balances-short', ['balance' => $balance]);
+            })
+            ->escapeColumns([])
+            ->toJson();
+    }
+
+    public function getBalanceOperationsCategories()
+    {
+        return datatables(OperationCategory::all())
+            ->addColumn('action', function ($operationCategory) {
+                return view('parts.datatable.balances-categories-actions', ['operationCategory' => $operationCategory]);
             })
             ->escapeColumns([])
             ->toJson();

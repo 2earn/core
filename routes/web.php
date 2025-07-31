@@ -235,6 +235,10 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
             Route::prefix('/balances')->name('balances_')->group(function () {
                 Route::get('/index', \App\Livewire\Balances::class)->name('index');
+                Route::prefix('/categories')->name('categories_')->group(function () {
+                    Route::get('/index', \App\Livewire\OperationCategoryIndex::class)->name('index');
+                    Route::get('/', \App\Livewire\OperationCategoryCreateUpdate::class)->name('create_update');
+                });
             });
 
             Route::get('/index/test', \App\Livewire\NewBalance::class)->name('index_test');
@@ -306,7 +310,8 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
     Route::group(['prefix' => 'api/v1'], function () {
         Route::get('/countries', 'App\Http\Controllers\ApiController@getCountries')->name('api_countries');
         Route::get('/settings', 'App\Http\Controllers\ApiController@getSettings')->name('api_settings');
-        Route::get('/balance/operations', 'App\Http\Controllers\ApiController@getBalanceOperations')->name('api_bal_operations');
+        Route::get('/balance/operations', 'App\Http\Controllers\ApiController@getBalanceOperations')->name('api_balance_operations');
+        Route::get('/balance/operations/categories', 'App\Http\Controllers\ApiController@getBalanceOperationsCategories')->name('api_operations_categories');
         Route::get('/amounts', 'App\Http\Controllers\ApiController@getAmounts')->name('api_Amounts');
         Route::get('/action/historys', 'App\Http\Controllers\ApiController@getActionHistorys')->name('api_action_history');
         Route::get('/user/contacts', 'App\Http\Controllers\ApiController@getUserContacts')->name('api_user_contacts');

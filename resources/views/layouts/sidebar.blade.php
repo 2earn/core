@@ -358,6 +358,14 @@
                                 <span>{{__('Balance operations')}}</span>
                             </a>
                         </li>
+                        <li class="nav-item cool-link {{$currentRouteName=='balances_categories_index'? 'active' : ''}}">
+                            <a href="{{route('balances_categories_index',['locale'=>request()->route("locale")],false )}}"
+                               class="nav-link menu-link {{$currentRouteName=='balances_categories_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-wallet-3-fill"></i>
+                                <span>{{__('Balance categories')}}</span>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarRoleArray)? 'collapsed' : 'active'}}"
                                href="#sidebarRole" data-bs-toggle="collapse"

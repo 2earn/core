@@ -129,7 +129,7 @@
                         },
                         "processing": true,
                         search: {return: true},
-                        "ajax": "{{route('api_bal_operations' ,app()->getLocale())}}",
+                        "ajax": "{{route('api_balance_operations' ,app()->getLocale())}}",
                         "columns": [
                             {"data": "id"},
                             {"data": "operation"},
@@ -155,11 +155,3 @@
         </script>
     </div>
 </div>
-
-
-
-
-
-
-
-
