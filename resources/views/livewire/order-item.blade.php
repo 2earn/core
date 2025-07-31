@@ -22,7 +22,6 @@
             <button type="button" class="btn btn-soft-primary material-shadow-none btn-sm mx-2">
                 {{getUserDisplayedName($order->user()->first()->idUser)}}
             </button>
-            <h4 class="card-title mb-0 flex-grow-1">{{$order->created_at}}</h4>
             <div>
                 @if($order->total_order_quantity && $currentRouteName=="orders_detail")
                     <button type="button" class="btn btn-soft-primary material-shadow-none btn-sm">
