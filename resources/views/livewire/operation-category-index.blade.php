@@ -2,7 +2,7 @@
     <div>
         @component('components.breadcrumb')
             @slot('title')
-                {{ __('Balance operations') }}
+                {{ __('Operation category') }}
             @endslot
         @endcomponent
         <div class="row">
@@ -16,15 +16,11 @@
                     <div class="table-responsive table-card mt-3 mb-1">
                         <table wire:ignore
                                class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                               id="BalanceOperationsTable">
+                               id="OperationsTable">
                             <thead class="table-light">
                             <tr>
                                 <th>{{ __('id') }}</th>
-                                <th>{{ __('Details') }}</th>
-                                <th>{{ __('Balance') }}</th>
-                                <th>{{ __('Parent') }}</th>
-                                <th>{{ __('Operation category') }}</th>
-                                <th>{{ __('Amount') }}</th>
+                                <th>{{ __('Name') }}</th>
                                 <th>{{ __('Actions') }}</th>
                             </tr>
                             </thead>
@@ -39,7 +35,7 @@
         <script type="module">
             document.addEventListener("DOMContentLoaded", function () {
 
-                $('#BalanceOperationsTable').DataTable(
+                $('#OperationsTable').DataTable(
                     {
                         retrieve: true,
                         "colReorder": true,
@@ -49,7 +45,7 @@
                             this.api()
                                 .columns()
                                 .every(function () {
-                                    var that = $('#BalanceOperationsTable').DataTable();
+                                    var that = $('#OperationsTable').DataTable();
                                     $('input', this.footer()).on('keydown', function (ev) {
                                         if (ev.keyCode == 13) {
                                             that.search(this.value).draw();
@@ -59,14 +55,10 @@
                         },
                         "processing": true,
                         search: {return: true},
-                        "ajax": "{{route('api_balance_operations' ,app()->getLocale())}}",
+                        "ajax": "{{route('api_operations_categories' ,app()->getLocale())}}",
                         "columns": [
                             {"data": "id"},
-                            {"data": "details"},
-                            {"data": "amounts_id"},
-                            {"data": "parent_id"},
-                            {"data": "operation_category_id"},
-                            {"data": "amountsshortname"},
+                            {"data": "name"},
                             {data: 'action', name: 'action', orderable: false, searchable: false},
                         ],
                         "language": {"url": urlLang},
@@ -83,3 +75,11 @@
         </script>
     </div>
 </div>
+
+
+
+
+
+
+
+
