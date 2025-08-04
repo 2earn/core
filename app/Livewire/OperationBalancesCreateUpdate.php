@@ -14,6 +14,7 @@ class OperationBalancesCreateUpdate extends Component
 {
     public $idOperation;
     public $operation;
+    public $ref;
     public $io;
     public $source;
     public $mode;
@@ -49,6 +50,7 @@ class OperationBalancesCreateUpdate extends Component
         $balance = BalanceOperation::find($idOperation);
         $this->operation = $balance->operation;
         $this->io = $balance->io;
+        $this->ref = $balance->ref;
         $this->source = $balance->source;
         $this->mode = $balance->mode;
         $this->amounts_id = $balance->amounts_id;
@@ -73,6 +75,7 @@ class OperationBalancesCreateUpdate extends Component
             }
             $balance->operation = $this->operation;
             $balance->io = $this->io;
+            $balance->ref = $this->ref;
             $balance->source = $this->source;
             $balance->mode = $this->mode;
             $balance->amounts_id = $this->amounts_id;

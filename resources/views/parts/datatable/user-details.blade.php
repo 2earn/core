@@ -1,11 +1,16 @@
 <ul class="list-group list-group-flush">
     @if($user->OptActivation)
-        <li class="list-group-item"><strong>{{__('Opt activation code')}}:</strong> <span
-                class="float-end">{{$user->OptActivation}}</span></li>
+        <li class="list-group-item">
+            <strong
+                    @if($user->activationCodeValue)
+                        title="{{__('Last Opt value')}} : {{$user->activationCodeValue}}"
+                    @endif
+            >{{__('Opt activation code')}}:</strong>
+            <span class="float-end">{{$user->OptActivation}}</span></li>
     @endif
     @if($user->register_upline)
         <li class="list-group-item"><strong>{{__('Register upline')}}:</strong> <span
-                class="float-end">{{$user->register_upline}}</span>
+                    class="float-end">{{$user->register_upline}}</span>
         </li>
     @endif
     @if($user->pass)

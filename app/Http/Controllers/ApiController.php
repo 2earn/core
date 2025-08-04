@@ -763,7 +763,7 @@ class ApiController extends BaseController
     {
         return User::select('countries.apha2', 'countries.name as country', 'users.id', 'users.status', 'users.idUser', 'idUplineRegister',
             DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'),
-            'users.mobile', 'users.created_at', 'OptActivation', 'pass',
+            'users.mobile', 'users.created_at', 'OptActivation', 'activationCodeValue', 'pass',
             DB::raw('IFNULL(`vip`.`flashCoefficient`,"##") as coeff'),
             DB::raw('IFNULL(`vip`.`flashDeadline`,"##") as periode'),
             DB::raw('IFNULL(`vip`.`flashNote`,"##") as note'),
@@ -888,19 +888,20 @@ class ApiController extends BaseController
 
     public function getBalanceOperationsQuery()
     {
+        $select = ['balance_operations.id',
+            'balance_operations.operation',
+            'balance_operations.io',
+            'balance_operations.ref',
+            'balance_operations.source',
+            'balance_operations.amounts_id',
+            'balance_operations.note',
+            'balance_operations.parent_id',
+            'balance_operations.operation_category_id',
+            'balance_operations.modify_amount',
+            'amounts.amountsshortname'];
         return DB::table('balance_operations')
             ->leftJoin('amounts', 'balance_operations.amounts_id', '=', 'amounts.idamounts')
-            ->select(
-                'balance_operations.id',
-                'balance_operations.operation',
-                'balance_operations.io',
-                'balance_operations.source',
-                'balance_operations.amounts_id',
-                'balance_operations.note',
-                'balance_operations.parent_id',
-                'balance_operations.operation_category_id',
-                'balance_operations.modify_amount',
-                'amounts.amountsshortname');
+            ->select($select);
     }
 
     public function getBalanceOperations()

@@ -32,6 +32,11 @@
                                placeholder="operation" name="operation">
                     </div>
                     <div class="form-group col-6 mt-2">
+                        <label class="me-sm-2">{{ __('Reference') }}</label>
+                        <input wire:model="ref" type="text" class="form-control"
+                               placeholder="ref" name="ref">
+                    </div>
+                    <div class="form-group col-6 mt-2">
                         <label class="me-sm-2">{{ __('source') }}</label>
                         <input wire:model="source" type="text" class="form-control"
                                placeholder="source" name="source">
