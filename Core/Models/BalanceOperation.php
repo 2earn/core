@@ -27,6 +27,7 @@ class BalanceOperation extends Model
         'modify_amount',
         'parent_id',
         'operation_category_id',
+        'ref',
     ];
 
     public function cashBalance(): HasMany
