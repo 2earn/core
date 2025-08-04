@@ -25,6 +25,7 @@ class BalanceOperation extends Model
         'amounts_id',
         'note',
         'modify_amount',
+        'parent_id',
         'operation_category_id',
     ];
 

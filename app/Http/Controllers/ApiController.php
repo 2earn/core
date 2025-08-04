@@ -898,6 +898,7 @@ class ApiController extends BaseController
                 'balance_operations.amounts_id',
                 'balance_operations.note',
                 'balance_operations.parent_id',
+                'balance_operations.operation_category_id',
                 'balance_operations.modify_amount',
                 'amounts.amountsshortname');
     }
@@ -905,6 +906,9 @@ class ApiController extends BaseController
     public function getBalanceOperations()
     {
         return datatables($this->getBalanceOperationsQuery())
+            ->addColumn('details', function ($balance) {
+                return view('parts.datatable.balances-details', ['balance' => $balance]);
+            })
             ->addColumn('action', function ($balance) {
                 return view('parts.datatable.balances-status', ['balance' => $balance]);
             })
@@ -914,13 +918,15 @@ class ApiController extends BaseController
             ->editColumn('parent_id', function ($balance) {
                 return view('parts.datatable.balances-parent', ['balance' => BalanceOperation::find($balance->parent_id)]);
             })
+            ->editColumn('operation_category_id', function ($balance) {
+                return view('parts.datatable.balances-category', ['category' => OperationCategory::find($balance->operation_category_id)]);
+            })
             ->editColumn('amounts_id', function ($balance) {
                 return view('parts.datatable.balances-amounts-id', ['ammount' => $balance->amounts_id]);
             })
             ->editColumn('amountsshortname', function ($balance) {
                 return view('parts.datatable.balances-short', ['balance' => $balance]);
             })
-            ->escapeColumns([])
             ->toJson();
     }
 
