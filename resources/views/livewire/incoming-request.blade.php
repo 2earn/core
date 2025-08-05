@@ -4,8 +4,10 @@
             <h4 class="card-title mb-0 flex-grow-1">{{ __('Incoming request') }}</h4>
         </div>
         <div class="card-body table-responsive ">
-            <table class="table align-middle dt-responsive nowrap" id="customerTable2"
-                   style="width: 100%">
+            <table
+                class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap dataTable"
+                id="customerTable2"
+            >
                 <thead class="table-light">
                 <tr class="tabHeader2earn">
                     <th>{{ __('Request') }}</th>

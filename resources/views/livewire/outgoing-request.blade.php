@@ -1,43 +1,45 @@
 <div class="tab-pane   @if($filter=="4" ) active show @endif" id="me_others" role="tabpanel">
     <div class="card">
-    <div class="card-header align-items-center d-flex">
-        <h4 class="card-title mb-0 flex-grow-1">{{ __('Outgoming request') }}</h4>
-    </div>
-    <div class="card-header">
-        <div class="form-check">
-            <input onclick="ShowCanceledRequest()" class="form-check-input" type="checkbox"
-                   @if($showCanceled == 1) checked @endif value="" id="ShowCanceled">
-            <label class="form-check-label" for="flexCheckDefault">
-                {{__('show_canceled')}}
-            </label>
+        <div class="card-header align-items-center d-flex">
+            <h4 class="card-title mb-0 flex-grow-1">{{ __('Outgoming request') }}</h4>
         </div>
-    </div>
-    <div class="card-body pt-0">
-        <div class="table-responsive ">
-            <table class="table table-striped table-bordered tableEditAdmin"                   id="ReqFromMe_table2">
-                <thead class="table-light">
-                <tr>
-                    <th>#</th>
-                    <th>{{__('numeroReq')}}</th>
-                    <th>{{__('date')}}</th>
-                    <th>{{__('Amount')}}</th>
-                    <th>{{__('Status')}}</th>
-                </tr>
-                </thead>
-                <tbody>
-                @forelse  ($requestFromMee as $value)
+        <div class="card-header">
+            <div class="form-check">
+                <input onclick="ShowCanceledRequest()" class="form-check-input" type="checkbox"
+                       @if($showCanceled == 1) checked @endif value="" id="ShowCanceled">
+                <label class="form-check-label" for="flexCheckDefault">
+                    {{__('show_canceled')}}
+                </label>
+            </div>
+        </div>
+        <div class="card-body pt-0">
+            <div class="table-responsive ">
+                <table
+                    class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap dataTable"
+                    id="ReqFromMe_table2">
+                    <thead class="table-light">
                     <tr>
-                        <td onclick="hiddenTr({{$value->numeroReq}})">
-                            <i style="color: #51A351" class="fas fa-plus-circle"></i>
-                        </td>
-                        <td onclick="hiddenTr({{$value->numeroReq}})">
-                            <span>{{$value->numeroReq}}</span></td>
-                        <td onclick="hiddenTr({{$value->numeroReq}})">
-                            <span> {{$value->date}}</span>
-                        </td>
-                        <td onclick="hiddenTr({{$value->numeroReq}})">
-                            <span>{{$value->amount}}</span></td>
-                        <td>
+                        <th>#</th>
+                        <th>{{__('numeroReq')}}</th>
+                        <th>{{__('date')}}</th>
+                        <th>{{__('Amount')}}</th>
+                        <th>{{__('Status')}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @forelse  ($requestFromMee as $value)
+                        <tr>
+                            <td onclick="hiddenTr({{$value->numeroReq}})">
+                                <i style="color: #51A351" class="fas fa-plus-circle"></i>
+                            </td>
+                            <td onclick="hiddenTr({{$value->numeroReq}})">
+                                <span>{{$value->numeroReq}}</span></td>
+                            <td onclick="hiddenTr({{$value->numeroReq}})">
+                                <span> {{$value->date}}</span>
+                            </td>
+                            <td onclick="hiddenTr({{$value->numeroReq}})">
+                                <span>{{$value->amount}}</span></td>
+                            <td>
                             <span>
                                                     @if($value->FStatus == 0)
                                     <a style="background-color: #F89406;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding:@if(app()->getLocale()=="ar") 1px @else 5px @endif ; ">{{__('Opened')}}</a>
@@ -51,27 +53,27 @@
                                     <a style="background-color: #BD362F;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: @if(app()->getLocale()=="ar") 1px @else 5px @endif ; ">{{__('Rejected')}}</a>
                                 @endif
                                                 </span>
-                        </td>
-                    </tr>
-                    <tr hidden="true" id={{$value->numeroReq}}>
-                        <td colspan="12">
-                            <table class="table table-striped table-bordered table2earn "
-                                   style="width: 100%">
-                                <thead>
-                                <tr>
-                                    <th>{{__('user')}}</th>
-                                    <th>{{__('Mobile Number')}}</th>
-                                    <th>{{__('response')}}</th>
-                                    <th>{{__('dateResponse')}}</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach ($value->details  as $valueD)
-                                    @if($valueD->user !=null )
-                                        <tr>
-                                            <td><span> {{$valueD->User->name}}</span></td>
-                                            <td><span> {{$valueD->User->mobile}}</span></td>
-                                            <td>
+                            </td>
+                        </tr>
+                        <tr hidden="true" id={{$value->numeroReq}}>
+                            <td colspan="12">
+                                <table class="table table-striped table-bordered table2earn "
+                                       style="width: 100%">
+                                    <thead>
+                                    <tr>
+                                        <th>{{__('user')}}</th>
+                                        <th>{{__('Mobile Number')}}</th>
+                                        <th>{{__('response')}}</th>
+                                        <th>{{__('dateResponse')}}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach ($value->details  as $valueD)
+                                        @if($valueD->user !=null )
+                                            <tr>
+                                                <td><span> {{$valueD->User->name}}</span></td>
+                                                <td><span> {{$valueD->User->mobile}}</span></td>
+                                                <td>
                                                                         <span>
                                                                             @if($valueD->response == "" ||$valueD->response == null )
                                                                                 <a style="background-color: #F89406;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: 5px">{{__('No Response')}}</a>
@@ -83,24 +85,24 @@
                                                                                 <a style="background-color: #BD362F;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: 5px">{{__('Canceled')}}</a>
                                                                             @endif
                                                                         </span>
-                                            </td>
-                                            <td><span> {{$valueD->dateResponse}}</span></td>
-                                        </tr>
-                                    @endif
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="5">{{__('No Outgoing requests')}}</td>
-                    </tr>
-                @endforelse
-                </tbody>
-            </table>
+                                                </td>
+                                                <td><span> {{$valueD->dateResponse}}</span></td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5">{{__('No Outgoing requests')}}</td>
+                        </tr>
+                    @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
     </div>
     <div class="modal fade" id="financialTransactionModal" tabindex="-1"
          aria-labelledby="financialTransactionModalLabel"
@@ -144,6 +146,7 @@
         function hiddenTr(num) {
             $("#" + num).prop("hidden", !$("#" + num).prop("hidden"));
         }
+
         function acceptRequst(numeroRequest) {
             window.Livewire.dispatch('AcceptRequest', [numeroRequest]);
         }

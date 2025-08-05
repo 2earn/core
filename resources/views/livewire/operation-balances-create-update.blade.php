@@ -22,8 +22,8 @@
                 </h6>
             </div>
         </div>
-        <div class="card-body row ">
-            <form>
+        <form>
+            <div class="card-body row ">
                 <input type="hidden" wire:model.live="id">
                 <div class="row">
                     <div class="form-group col-6 mt-2">
@@ -84,12 +84,13 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group col-6 mt-2">
+                    <div class="form-group col-12 mt-2">
                         <label class="me-sm-2">{{ __('Note') }}</label>
-                        <input wire:model="note" type="text" class="form-control"
-                               placeholder="note" name="note">
+                        <textarea wire:model="note" class="form-control" placeholder="note" name="note" rows="4"></textarea>
                     </div>
                 </div>
+            </div>
+            <div class="card-footer">
                 <div class="row mt-3">
                     <div class="col-md-2">
                         @if($update)
@@ -102,7 +103,8 @@
                                 class="btn btn-danger">{{__('Cancel')}}</button>
                     </div>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
+
     </div>
 </div>
