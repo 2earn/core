@@ -24,16 +24,14 @@ class CouponInjectorRunner extends Component
         }
         try {
             $coupon = BalanceInjectorCoupon::where('pin', $this->pin)->first();
-            if ($coupon) {
-                if ($coupon->consumed == 1) {
-                    return redirect()->route('coupon_injector_runner', ['locale' => app()->getLocale()])->with('warning', Lang::get('Using a consumed Coupons'));
-                }
-                Balances::injectCouponBalance($coupon);
+            if (is_null($coupon) || $coupon->consumed == 1) {
+                return redirect()->route('coupon_injector_runner', ['locale' => app()->getLocale()])->with('warning', Lang::get('Using a bad Coupon pin or a consumed one'));
             }
-            return redirect()->route('coupon_injector_runner', ['locale' => app()->getLocale()])->with('success', Lang::get('Rechange balance operation ended with success'));
+            Balances::injectCouponBalance($coupon);
+            return redirect()->route('coupon_injector_runner', ['locale' => app()->getLocale()])->with('success', Lang::get('Recharge balance operation ended with success'));
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return redirect()->route('coupon_injector_runner', ['locale' => app()->getLocale()])->with('danger', Lang::get('Rechange balance operation failed'));
+            return redirect()->route('coupon_injector_runner', ['locale' => app()->getLocale()])->with('danger', Lang::get('Recharge balance operation failed'));
         }
 
     }
