@@ -103,7 +103,7 @@
                         </div>
                     </div>
                 @empty
-                    <p>{{__('No faqs')}}</p>
+                    <p class="text-muted">{{__('No faqs')}}.</p>
                 @endforelse
                 {{ $faqs->links() }}
             </div>

@@ -1,5 +1,5 @@
 <div class="container-fluid">
-@component('components.breadcrumb')
+    @component('components.breadcrumb')
         @slot('title')
             {{ __('News') }}
         @endslot
@@ -98,9 +98,13 @@
                             </div>
                             <div class="card-footer">
                                 <div class="row">
-                                    <div class="col">
-                                        <button type="button" class="btn btn-info" wire:click="duplicateNews({{$news->id}})" ><span>{{__('Duplicate')}}</span></button>
-                                    </div>
+                                    @if(\App\Models\User::isSuperAdmin())
+                                        <div class="col">
+                                            <button type="button" class="btn btn-info"
+                                                    wire:click="duplicateNews({{$news->id}})">
+                                                <span>{{__('Duplicate')}}</span></button>
+                                        </div>
+                                    @endif
                                     <div class="col">
                                         <p class="card-text float-end">{{__('Created at')}}: <small
                                                 class="text-muted">{{$news->created_at}}</small>
