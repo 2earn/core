@@ -17,7 +17,6 @@
                         <a href="{{route('target_create_update', app()->getLocale())}}"
                            class="btn btn-soft-info add-btn"
                            id="create-btn">
-                            <i class="ri-add-line align-bottom me-1 ml-2"></i>
                             {{__('Create new target')}}
                         </a>
                     </div>

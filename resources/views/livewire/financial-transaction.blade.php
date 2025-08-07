@@ -10,29 +10,29 @@
         </div>
         <div class="row card">
             <div class="card-header align-items-xl-center d-xl-flex">
-                <ul id="pills-tab" class="nav nav-pills" role="tablist">
-                    <li class="nav-item" role="presentation">
+                <ul id="pills-tab" class="nav nav-pills nav-info" role="tablist">
+                    <li class="nav-item waves-effect waves-light mx-1 p-1" role="presentation">
                         <a class="nav-link @if($filter=="1" or $filter=="") active @endif " data-bs-toggle="tab"
                            href="#cash_bfs" role="tab"
                            aria-selected="false" tabindex="-1">
                             {!! __('Cash >> BFS') !!}
                         </a>
                     </li>
-                    <li class="nav-item" role="presentation">
+                    <li class="nav-item waves-effect waves-light mx-1 p-1" role="presentation">
                         <a class="nav-link align-middle @if($filter=="2" ) active @endif " data-bs-toggle="tab"
                            href="#bfs_funding" role="tab"
                            aria-selected="false" tabindex="-1">
                             {{ __('BFS Funding') }}
                         </a>
                     </li>
-                    <li class="nav-item" role="presentation">
+                    <li class="nav-item waves-effect waves-light mx-1 p-1" role="presentation">
                         <a class="nav-link align-middle  @if($filter=="3" ) active @endif " data-bs-toggle="tab"
                            href="#bfs_sms" role="tab"
                            aria-selected="false" tabindex="-1">
                             {!! __('BFS >> SMS') !!}
                         </a>
                     </li>
-                    <li class="nav-item" role="presentation">
+                    <li class="nav-item waves-effect waves-light mx-1 p-1" role="presentation">
                         <a id="pills-profile-tab" class="nav-link  @if($filter=="4" ) active @endif "
                            data-bs-toggle="tab" href="#me_others" role="tab"
                            aria-selected="true">
@@ -57,7 +57,7 @@
                             @endif
                         </a>
                     </li>
-                    <li class="nav-item" role="presentation">
+                    <li class="nav-item waves-effect waves-light mx-1 p-1" role="presentation">
                         <a id="pills-contact-tab" class="nav-link  @if($filter=="5" ) active @endif "
                            data-bs-toggle="tab" href="#others_me" role="tab"
                            aria-selected="true">

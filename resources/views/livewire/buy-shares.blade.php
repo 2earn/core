@@ -2,7 +2,7 @@
     <div class="card-header">
         <div class="d-flex align-items-center">
             <div class="flex-grow-1">
-                <h5 class="card-title mb-0">{{ __('Buy Shares') }}</h5>
+                <h5 class="card-title mb-2 text-info">{{ __('Buy Shares') }}</h5>
                 @if($flash)
                     <div class="flash-background float-end">{{__('V I P')}}</div>
                 @endif

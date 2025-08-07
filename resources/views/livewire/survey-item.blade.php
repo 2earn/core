@@ -528,7 +528,7 @@
                                 @forelse ($survey->question->serveyQuestionChoice as $choice)
                                     <li class="list-group-item mt-2">
                                         <div class="row">
-                                            <div class="col-sm-12 col-md-6 col-lg-7 text-muted"
+                                            <div class="col-sm-12 col-md-12 col-lg-12 text-muted"
                                                  title="{{$choice->id}}">
                                                 {{$loop->index+1}}
                                                 - {{\App\Models\TranslaleModel::getTranslation($choice,'title',$choice->title)}}
@@ -539,7 +539,7 @@
                                                 @endif
                                             </div>
                                             @if(\App\Models\User::isSuperAdmin() && intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
-                                                <div class="col-sm-12 col-md-6 col-lg-5">
+                                                <div class="col-sm-12 col-md-12 col-lg-12">
                                                     <div class="btn-group  btn-group-sm" role="group"
                                                          aria-label="Basic example">
                                                         <a href="{{route('surveys_question_choice_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id,'idQuestion'=>$survey->question->id,'idChoice'=>$choice->id] )}}"

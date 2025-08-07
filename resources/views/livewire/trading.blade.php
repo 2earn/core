@@ -22,7 +22,7 @@
                 <div class="card-header">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h5 class="card-title mb-0">{{__('Sale Shares')}}</h5>
+                            <h5 class="card-title mb-0 text-info">{{__('Sale Shares')}}</h5>
                         </div>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                 <div class="card-header">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h5 class="card-title mb-0">{{__('Share Price Evolution')}}</h5>
+                            <h5 class="card-title mb-0 text-info">{{__('Share Price Evolution')}}</h5>
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                 <div class="card-header">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h5 class="card-title mb-0">{{__('Sale Shares tables')}}</h5>
+                            <h5 class="card-title mb-0 text-info">{{__('Sale Shares tables')}}</h5>
                         </div>
                     </div>
                 </div>
