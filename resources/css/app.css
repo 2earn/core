@@ -16169,3 +16169,11 @@ span.flatpickr-weekday {
     background: var(--vz-vertical-menu-title-color);
     transition: width .3s;
 }
+
+.bs-square-img {
+    height: 200px;
+    width: auto;
+    padding: 10px;
+    object-fit: cover;
+    border-radius: 0;
+}

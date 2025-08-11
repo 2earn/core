@@ -6,7 +6,7 @@
                 <span class="trending-ribbon-text"> {{__('Survey')}}</span>
             </div>
         @endif
-        <h5>
+        <h5 class="text-info">
             @if(in_array($currentRouteName,["surveys_show","surveys_participate","surveys_results"]))
                 <a href="{{route('home', app()->getLocale())}}"
                    class="btn btn-outline-primary waves-effect waves-light material-shadow-none mx-1 btn-sm"
