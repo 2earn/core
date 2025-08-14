@@ -383,7 +383,7 @@
     <div class="card col-12">
         <div class="card-header border-info">
             <div class="d-flex align-items-center">
-                <h6 class="card-title mb-0 flex-grow-1">{{ __('we_are_present_in') }}</h6>
+                <h5 class="card-title mb-0 flex-grow-1 text-info">{{ __('we_are_present_in') }}</h5>
             </div>
         </div>
         <div class="card-body">
@@ -401,7 +401,7 @@
     <div class="card col-12">
         <div class="card-header border-info">
             <div class="d-flex align-items-center">
-                <h6 class="card-title mb-0 flex-grow-1">{{ __('Country ponderation') }}</h6>
+                <h5 class="card-title mb-0 flex-grow-1 text-info">{{ __('Country ponderation') }}</h5>
             </div>
         </div>
         <div class="card-body">
