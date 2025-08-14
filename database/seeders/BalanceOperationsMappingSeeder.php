@@ -11,7 +11,6 @@ class BalanceOperationsMappingSeeder extends Seeder
 
     public function run(): void
     {
-        DB::table(self::TABLE_NAME)->truncate();
 
         $categories = DB::table('operation_categories')->pluck('id', 'code')->toArray();
         // balance_type ===> amounts_id ====> ?
