@@ -13,8 +13,7 @@ class BalanceOperationsMappingSeeder extends Seeder
     {
 
         $categories = DB::table('operation_categories')->pluck('id', 'code')->toArray();
-        // balance_type ===> amounts_id ====> ?
-        DB::table(self::TABLE_NAME)->insert([
+        $data = [
             ['id' => 1, 'ref' => 'BAL01-CAT001-NUM001', 'operation_category_id' => $categories['CAT001'], 'operation' => 'GIFT', 'direction' => 'IN', 'balance_type' => 'cash', 'parent_id' => null, 'relatable' => false, 'relatable_model' => null, 'relatable_type' => null],
             ['id' => 2, 'ref' => 'BAL02-CAT001-NUM001', 'operation_category_id' => $categories['CAT001'], 'operation' => 'GIFT', 'direction' => 'IN', 'balance_type' => 'bfs', 'parent_id' => null, 'relatable' => false, 'relatable_model' => null, 'relatable_type' => null],
             ['id' => 3, 'ref' => 'BAL03-CAT001-NUM001', 'operation_category_id' => $categories['CAT001'], 'operation' => 'WELCOME GIFT', 'direction' => 'IN', 'balance_type' => 'discount', 'parent_id' => null, 'relatable' => false, 'relatable_model' => null, 'relatable_type' => null],
@@ -77,10 +76,16 @@ class BalanceOperationsMappingSeeder extends Seeder
             ['id' => 60, 'ref' => 'BAL02-CAT007-NUM003', 'operation_category_id' => $categories['CAT007'], 'operation' => 'SHARES SELL', 'direction' => 'IN', 'balance_type' => 'bfs', 'parent_id' => 20, 'relatable' => true, 'relatable_model' => 'user', 'relatable_type' => 'default'],
             ['id' => 61, 'ref' => 'BAL01-CAT012-NUM001', 'operation_category_id' => $categories['CAT012'], 'operation' => 'TOP-UP WITH CARD', 'direction' => 'IN', 'balance_type' => 'cash', 'parent_id' => 20, 'relatable' => false, 'relatable_model' => null, 'relatable_type' => null],
             ['id' => 62, 'ref' => 'BAL01-CAT012-NUM002', 'operation_category_id' => $categories['CAT012'], 'operation' => 'CASH TOP-UP WITH VOUCHER', 'direction' => 'IN', 'balance_type' => 'cash', 'parent_id' => null, 'relatable' => true, 'relatable_model' => 'order', 'relatable_type' => 'coupon'],
-            ['id' => 63, 'ref' => 'BAL06-CAT006-NUM001', 'operation_category_id' => $categories['CAT006'], 'operation' => 'FROM BFS_100', 'direction' => 'IN', 'balance_type' => 'share', 'parent_id' => null, 'relatable' => true, 'relatable_model' => 'bfssBalance', 'relatable_type' => 'default'],
+            ['id' => 63, 'ref' => 'BAL06-CAT006-NUM004', 'operation_category_id' => $categories['CAT006'], 'operation' => 'FROM BFS_100', 'direction' => 'IN', 'balance_type' => 'share', 'parent_id' => null, 'relatable' => true, 'relatable_model' => 'bfssBalance', 'relatable_type' => 'default'],
             ['id' => 64, 'ref' => 'BAL03-CAT009-NUM002', 'operation_category_id' => $categories['CAT009'], 'operation' => 'GIFT VOUCHER', 'direction' => 'IN', 'balance_type' => 'discount', 'parent_id' => null, 'relatable' => true, 'relatable_model' => 'discountBalance', 'relatable_type' => 'note'],
             ['id' => 65, 'ref' => 'BAL02-CAT009-NUM003', 'operation_category_id' => $categories['CAT009'], 'operation' => 'GIFT VOUCHER', 'direction' => 'IN', 'balance_type' => 'bfs', 'parent_id' => null, 'relatable' => true, 'relatable_model' => 'bfssBalance', 'relatable_type' => 'note'],
             ['id' => 66, 'ref' => 'BAL02-CAT012-NUM004', 'operation_category_id' => $categories['CAT012'], 'operation' => 'BFS_100 TOP-UP WITH VOUCHER', 'direction' => 'IN', 'balance_type' => 'bfs', 'parent_id' => null, 'relatable' => true, 'relatable_model' => 'order', 'relatable_type' => 'coupon'],
-        ]);
+        ];
+        foreach ($data as $index => $item) {
+            DB::table(self::TABLE_NAME)->updateOrInsert(
+                ['id' => $item['id']],$item
+            );
+
+        }
     }
 }
