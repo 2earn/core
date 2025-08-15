@@ -9,6 +9,8 @@ class OperationCategory extends Model
 {
     protected $fillable = [
         'name',
+        'code',
+        'description',
     ];
 
     public function balanceOperation()

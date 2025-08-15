@@ -28,6 +28,7 @@ class BalanceOperation extends Model
         'parent_id',
         'operation_category_id',
         'ref',
+        'direction',
     ];
 
     public function cashBalance(): HasMany

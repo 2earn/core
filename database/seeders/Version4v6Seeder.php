@@ -23,6 +23,7 @@ class Version4v6Seeder extends Seeder
         Artisan::call('db:seed', ['--class' => 'Database\Seeders\BalanceOperationsCouponSeeder']);
         Artisan::call('db:seed', ['--class' => 'Database\Seeders\BalanceOperationsBFSShareSeeder']);
         Artisan::call('db:seed', ['--class' => 'Database\Seeders\OperationCategorySeeder']);
+        Artisan::call('db:seed', ['--class' => 'Database\Seeders\BalanceOperationsMappingSeeder']);
 
         Log::notice('Finish Seeder version 4.6');
     }
