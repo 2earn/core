@@ -898,7 +898,11 @@ class ApiController extends BaseController
             'balance_operations.parent_id',
             'balance_operations.operation_category_id',
             'balance_operations.modify_amount',
-            'amounts.amountsshortname'];
+            'balance_operations.relatable',
+            'balance_operations.relatable_model',
+            'balance_operations.relatable_type',
+            'amounts.amountsshortname'
+        ];
         return DB::table('balance_operations')
             ->leftJoin('amounts', 'balance_operations.amounts_id', '=', 'amounts.idamounts')
             ->select($select);
@@ -925,8 +929,8 @@ class ApiController extends BaseController
             ->editColumn('amounts_id', function ($balance) {
                 return view('parts.datatable.balances-amounts-id', ['ammount' => $balance->amounts_id]);
             })
-            ->editColumn('amountsshortname', function ($balance) {
-                return view('parts.datatable.balances-short', ['balance' => $balance]);
+            ->addColumn('others', function ($balance) {
+                return view('parts.datatable.balances-others', ['balance' => $balance]);
             })
             ->toJson();
     }

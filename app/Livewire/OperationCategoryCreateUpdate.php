@@ -12,6 +12,8 @@ class OperationCategoryCreateUpdate extends Component
 {
     public $idCategory;
     public $name;
+    public $code;
+    public $description;
     public $update = false;
 
     protected $rules = ['name' => 'required'];
@@ -19,8 +21,8 @@ class OperationCategoryCreateUpdate extends Component
     public function mount(Request $request)
     {
         $this->idCategory = $request->input('idCategory');
-        if (!is_null( $this->idCategory)) {
-            $this->edit( $this->idCategory);
+        if (!is_null($this->idCategory)) {
+            $this->edit($this->idCategory);
         }
     }
 
@@ -29,6 +31,8 @@ class OperationCategoryCreateUpdate extends Component
         $category = OperationCategory::find($idCategory);
         $this->idCategory = $idCategory;
         $this->name = $category->name;
+        $this->code = $category->code;
+        $this->description = $category->description;
         $this->update = true;
     }
 
@@ -43,7 +47,9 @@ class OperationCategoryCreateUpdate extends Component
         try {
             OperationCategory::where('id', $this->idCategory)
                 ->update([
-                    'name' => $this->name
+                    'name' => $this->name,
+                    'code' => $this->code,
+                    'description' => $this->description
                 ]);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -56,7 +62,11 @@ class OperationCategoryCreateUpdate extends Component
     {
         $this->validate();
         try {
-            OperationCategory::create(['name' => $this->name]);
+            OperationCategory::create([
+                'name' => $this->name,
+                'code' => $this->code,
+                'description' => $this->description
+            ]);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('balances_categories_index', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while creating Operation category'));
