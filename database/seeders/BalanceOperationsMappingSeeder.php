@@ -80,10 +80,18 @@ class BalanceOperationsMappingSeeder extends Seeder
             ['id' => 64, 'ref' => 'BAL03-CAT009-NUM002', 'operation_category_id' => $categories['CAT009'], 'operation' => 'GIFT VOUCHER', 'direction' => 'IN', 'balance_type' => 'discount', 'parent_id' => null, 'relatable' => true, 'relatable_model' => 'discountBalance', 'relatable_type' => 'note'],
             ['id' => 65, 'ref' => 'BAL02-CAT009-NUM003', 'operation_category_id' => $categories['CAT009'], 'operation' => 'GIFT VOUCHER', 'direction' => 'IN', 'balance_type' => 'bfs', 'parent_id' => null, 'relatable' => true, 'relatable_model' => 'bfssBalance', 'relatable_type' => 'note'],
             ['id' => 66, 'ref' => 'BAL02-CAT012-NUM004', 'operation_category_id' => $categories['CAT012'], 'operation' => 'BFS_100 TOP-UP WITH VOUCHER', 'direction' => 'IN', 'balance_type' => 'bfs', 'parent_id' => null, 'relatable' => true, 'relatable_model' => 'order', 'relatable_type' => 'coupon'],
+            ['id' => 1018, 'ref' => 'BAL01-CAT001-NUM999', 'operation_category_id' => $categories['CAT001'], 'operation' => 'Add cash from seeder', 'direction' => 'IN', 'balance_type' => 'cash', 'parent_id' => null, 'relatable' => true, 'relatable_model' => null, 'relatable_type' => null],
         ];
         foreach ($data as $index => $item) {
+
+            if ($item['direction'] == 'IN') {
+                $item['io'] = 'I';
+            } else {
+                $item['io'] = 'O';
+            }
+
             DB::table(self::TABLE_NAME)->updateOrInsert(
-                ['id' => $item['id']],$item
+                ['id' => $item['id']], $item
             );
 
         }
