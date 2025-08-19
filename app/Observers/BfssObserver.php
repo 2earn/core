@@ -29,7 +29,7 @@ class BfssObserver
         $balances = Balances::getStoredUserBalances($bFSsBalances->beneficiary_id);
         $value = Balances::getDiscountEarnedFromBFS100I($bFSsBalances->value);
         DiscountBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::FROM_BFS->value,
+                'balance_operation_id' => BalanceOperationsEnum::OLD_ID_47->value,
                 'operator_id' => Balances::SYSTEM_SOURCE_ID,
                 'beneficiary_id' => $bFSsBalances->beneficiary_id,
                 'reference' => $bFSsBalances->reference,
@@ -44,11 +44,11 @@ class BfssObserver
         $minBfs = getSettingIntegerParam('MIN_BFSS_TO_GET_ACTION', self::MIN_BFSS_TO_GET_ACTION);
         if ($minBfs < $bFSsBalances->value) {
             $actualActionValue = actualActionValue(getSelledActions(true), false);
-            $ref = BalancesFacade::getReference(BalanceOperationsEnum::SHARE_FROM_BFS_100->value);
+            $ref = BalancesFacade::getReference(BalanceOperationsEnum::OLD_ID_64->value);
             $numberOfActions = intval($bFSsBalances->value / $actualActionValue);
             $balances = Balances::getStoredUserBalances(auth()->user()->idUser);
             SharesBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::SHARE_FROM_BFS_100->value,
+                'balance_operation_id' => BalanceOperationsEnum::OLD_ID_64->value,
                 'operator_id' => Balances::SYSTEM_SOURCE_ID,
                 'beneficiary_id' => auth()->user()->idUser,
                 'reference' => $ref,
