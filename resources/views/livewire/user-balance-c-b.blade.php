@@ -72,6 +72,7 @@
                                 <th>{{ __('Operation Designation') }}</th>
                                 <th>{{ __('Value') }}</th>
                                 <th>{{ __('Balance') }}</th>
+                                <th>{{ __('Complementary information') }}</th>
                             </tr>
                             </thead>
                             <tbody class="body2earn">
@@ -165,7 +166,6 @@
             });
 
             document.addEventListener("DOMContentLoaded", function () {
-
                 $('#ub_table').DataTable(
                     {
                         ordering: true,
@@ -186,6 +186,7 @@
                             {data: 'operation'},
                             {data: 'value'},
                             {data: 'current_balance'},
+                            {data: 'complementary_information'},
                         ],
                         "columnDefs":
                             [
