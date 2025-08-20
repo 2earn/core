@@ -4,7 +4,7 @@
     $user=\App\Models\User::find($balanceModel->beneficiary_id_auto);
 @endphp
 @if(!is_null($user))
-    <span class="text-muted">{{__('About the cash operation')}}:</span>
+    <span class="text-muted">{{__('About User')}}:</span>
     <div data-simplebar style="max-height: 215px;">
         <ul class="list-group">
             <li class="list-group-item">
