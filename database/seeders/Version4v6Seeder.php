@@ -24,8 +24,11 @@ class Version4v6Seeder extends Seeder
         Artisan::call('db:seed', ['--class' => 'Database\Seeders\BalanceOperationsBFSShareSeeder']);
         Artisan::call('db:seed', ['--class' => 'Database\Seeders\OperationCategorySeeder']);
         Artisan::call('db:seed', ['--class' => 'Database\Seeders\BalanceOperationsMappingSeeder']);
-        Artisan::call('db:seed', ['--class' => 'Database\Seeders\BalancesMigrationSeeder']);
 
+        if (App::environment('local')) {
+            Artisan::call('db:seed', ['--class' => 'Database\Seeders\BalancesMigrationSeeder']);
+            Artisan::call('db:seed', ['--class' => 'Database\Seeders\UsersWithStatusMinusTwoAfterAttackSeeder']);
+        }
         Log::notice('Finish Seeder version 4.6');
     }
 }
