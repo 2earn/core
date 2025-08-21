@@ -33,6 +33,25 @@
                     @error('name') <span class="text-danger">{{ $message }}</span>@enderror
                     <div class="form-text">{{__('Required field')}}</div>
                 </div>
+                <div class="form-group">
+                    <label for="code">{{__('code')}}</label>
+                    <input type="text" class="form-control @error('code') is-invalid @enderror"
+                           id="code"
+                           placeholder="{{__('Enter code')}}" wire:model.live="code">
+                    @error('code') <span class="text-danger">{{ $message }}</span>@enderror
+                    <div class="form-text">{{__('Required field')}}</div>
+                </div>
+                <div class="form-group">
+                    <label for="description">{{ __('description') }}</label>
+                    <textarea class="form-control @error('description') is-invalid @enderror"
+                              id="description"
+                              placeholder="{{ __('Enter description') }}"
+                              wire:model.live="description"
+                              rows="4"></textarea>
+                    @error('description') <span class="text-danger">{{ $message }}</span> @enderror
+                    <div class="form-text">{{ __('Required field') }}</div>
+                </div>
+
             </div>
             <div class="card-footer">
                 <div class="row">

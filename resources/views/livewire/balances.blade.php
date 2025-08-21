@@ -24,7 +24,7 @@
                                 <th>{{ __('Balance') }}</th>
                                 <th>{{ __('Parent') }}</th>
                                 <th>{{ __('Operation category') }}</th>
-                                <th>{{ __('Amount') }}</th>
+                                <th>{{ __('Others') }}</th>
                                 <th>{{ __('Actions') }}</th>
                             </tr>
                             </thead>
@@ -66,7 +66,7 @@
                             {"data": "amounts_id"},
                             {"data": "parent_id"},
                             {"data": "operation_category_id"},
-                            {"data": "amountsshortname"},
+                            {"data": "others"},
                             {data: 'action', name: 'action', orderable: false, searchable: false},
                         ],
                         "language": {"url": urlLang},

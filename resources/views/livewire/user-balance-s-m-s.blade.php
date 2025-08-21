@@ -22,6 +22,7 @@
                             <th>{{ __('Operation Designation') }}</th>
                             <th>{{ __('Value') }}</th>
                             <th>{{ __('Current balance') }}</th>
+                            <th>{{ __('Complementary information') }}</th>
                         </tr>
                         </thead>
                         <tbody class="body2earn">
@@ -55,6 +56,7 @@
                         {data: 'operation'},
                         {data: 'value', className: classAl},
                         {data: 'current_balance', className: classAl},
+                        {data: 'complementary_information'},
                     ],
                     "columnDefs":
                         [

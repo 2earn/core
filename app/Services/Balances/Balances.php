@@ -226,10 +226,10 @@ class Balances
             DB::beginTransaction();
             $userCurrentBalancehorisontal = Balances::getStoredUserBalances(auth()->user()->idUser);
             CashBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::COUPONS_CASH->value,
+                'balance_operation_id' => BalanceOperationsEnum::OLD_ID_63->value,
                 'operator_id' => Balances::SYSTEM_SOURCE_ID,
                 'beneficiary_id' => auth()->user()->idUser,
-                'reference' => BalancesFacade::getReference(BalanceOperationsEnum::COUPONS_CASH->value),
+                'reference' => BalancesFacade::getReference(BalanceOperationsEnum::OLD_ID_63->value),
                 'description' => $coupon->value . ' Added From coupons',
                 'value' => $coupon->value,
                 'current_balance' => $userCurrentBalancehorisontal->cash_balance + $coupon->value
@@ -250,10 +250,10 @@ class Balances
             DB::beginTransaction();
             $userCurrentBalancehorisontal = Balances::getStoredUserBalances(auth()->user()->idUser);
             BFSsBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_BFS->value,
+                'balance_operation_id' => BalanceOperationsEnum::OLD_ID_50->value,
                 'operator_id' => Balances::SYSTEM_SOURCE_ID,
                 'beneficiary_id' => auth()->user()->idUser,
-                'reference' => BalancesFacade::getReference(BalanceOperationsEnum::COUPONS_BFS->value),
+                'reference' => BalancesFacade::getReference(BalanceOperationsEnum::OLD_ID_62->value),
                 'percentage' => $coupon->type,
                 'description' => $coupon->value . ' Added From coupons',
                 'value' => $coupon->value,
@@ -275,10 +275,10 @@ class Balances
             DB::beginTransaction();
             $userCurrentBalancehorisontal = Balances::getStoredUserBalances(auth()->user()->idUser);
             DiscountBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::BY_REGISTERING_DB->value,
+                'balance_operation_id' => BalanceOperationsEnum::OLD_ID_6->value,
                 'operator_id' => Balances::SYSTEM_SOURCE_ID,
                 'beneficiary_id' => auth()->user()->idUser,
-                'reference' => BalancesFacade::getReference(BalanceOperationsEnum::COUPONS_DISCOUNT->value),
+                'reference' => BalancesFacade::getReference(BalanceOperationsEnum::OLD_ID_61->value),
                 'description' => $coupon->value . ' Added From coupons',
                 'value' => $coupon->value,
                 'current_balance' => $userCurrentBalancehorisontal->discount_balance + $coupon->value

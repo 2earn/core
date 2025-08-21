@@ -296,12 +296,12 @@ class Ordering
         foreach ($order_deal as $order_deal_item) {
             $countedDiscount = $order_deal_item['final_discount'];
             if ($countedDiscount <= $balances->discount_balance) {
-                $currentBalance = $balances->discount_balance + BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_BFS->value) * $countedDiscount;
+                $currentBalance = $balances->discount_balance + BalanceOperation::getMultiplicator(BalanceOperationsEnum::OLD_ID_59->value) * $countedDiscount;
                 $discountData = [
-                    'balance_operation_id' => BalanceOperationsEnum::ORDER_DISCOUNT->value,
+                    'balance_operation_id' => BalanceOperationsEnum::OLD_ID_58->value,
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
                     'beneficiary_id' => $order->user()->first()->idUser,
-                    'reference' => BalancesFacade::getReference(BalanceOperationsEnum::ORDER_DISCOUNT->value),
+                    'reference' => BalancesFacade::getReference(BalanceOperationsEnum::OLD_ID_58->value),
                     'description' => $countedDiscount . ' From ordering (id) ' . $order->id,
                     'value' => $countedDiscount,
                     'current_balance' => $currentBalance
@@ -316,13 +316,13 @@ class Ordering
     public static function runBFS(Order $order, $bfssTables, $balances)
     {
         foreach ($bfssTables as $key => $bfs) {
-            $currentBalance = $balances->getBfssBalance($key) + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_BFS->value) * $bfs['toSubstruct']);
+            $currentBalance = $balances->getBfssBalance($key) + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::OLD_ID_59->value) * $bfs['toSubstruct']);
             if ($bfs['toSubstruct'] <= $balances->getBfssBalance($key)) {
                 $bfsData = [
-                    'balance_operation_id' => BalanceOperationsEnum::ORDER_BFS->value,
+                    'balance_operation_id' => BalanceOperationsEnum::OLD_ID_59->value,
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
                     'beneficiary_id' => $order->user()->first()->idUser,
-                    'reference' => BalancesFacade::getReference(BalanceOperationsEnum::ORDER_BFS->value),
+                    'reference' => BalancesFacade::getReference(BalanceOperationsEnum::OLD_ID_59->value),
                     'percentage' => $key,
                     'description' => $bfs['toSubstruct'] . ' From ordering (id) ' . $order->id,
                     'value' => $bfs['toSubstruct'],
@@ -339,12 +339,12 @@ class Ordering
     {
         if ($order->paid_cash) {
             if ($order->paid_cash <= $balances->cash_balance) {
-                $currentBalance = $balances->cash_balance + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::ORDER_CASH->value) * $order->paid_cash);
+                $currentBalance = $balances->cash_balance + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::OLD_ID_60->value) * $order->paid_cash);
                 $cashData = [
-                    'balance_operation_id' => BalanceOperationsEnum::ORDER_CASH->value,
+                    'balance_operation_id' => BalanceOperationsEnum::OLD_ID_60->value,
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
                     'beneficiary_id' => $order->user()->first()->idUser,
-                    'reference' => BalancesFacade::getReference(BalanceOperationsEnum::ORDER_CASH->value),
+                    'reference' => BalancesFacade::getReference(BalanceOperationsEnum::OLD_ID_60->value),
                     'description' => $order->paid_cash . ' From ordering (id) ' . $order->id,
                     'value' => $order->paid_cash,
                     'current_balance' => $currentBalance

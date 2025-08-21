@@ -21,6 +21,8 @@
                             <tr>
                                 <th>{{ __('id') }}</th>
                                 <th>{{ __('Name') }}</th>
+                                <th>{{ __('Code') }}</th>
+                                <th>{{ __('Description') }}</th>
                                 <th>{{ __('Actions') }}</th>
                             </tr>
                             </thead>
@@ -59,6 +61,8 @@
                         "columns": [
                             {"data": "id"},
                             {"data": "name"},
+                            {"data": "code"},
+                            {"data": "description"},
                             {data: 'action', name: 'action', orderable: false, searchable: false},
                         ],
                         "language": {"url": urlLang},

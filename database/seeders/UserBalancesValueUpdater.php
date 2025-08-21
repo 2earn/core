@@ -33,11 +33,11 @@ class UserBalancesValueUpdater extends Seeder
             $userCurrentBalancehorisontal->update(['tree_balance' => 0]);
 
             TreeBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::BY_REGISTERING_TREE->value,
+                'balance_operation_id' => BalanceOperationsEnum::OLD_ID_1->value,
                 'operator_id' => Balances::SYSTEM_SOURCE_ID,
                 'beneficiary_id' => $user->idUser,
-                'reference' => BalancesFacade::getReference(BalanceOperationsEnum::BY_REGISTERING_TREE->value),
-                'description' => BalanceOperationsEnum::BY_REGISTERING_TREE->name,
+                'reference' => BalancesFacade::getReference(BalanceOperationsEnum::OLD_ID_1->value),
+                'description' => BalanceOperationsEnum::OLD_ID_1->name,
                 'value' => $initialTree,
                 'current_balance' => $initialTree
             ]);
@@ -51,11 +51,11 @@ class UserBalancesValueUpdater extends Seeder
             $userCurrentBalancehorisontal->update(['chances_balance' => []]);
 
             ChanceBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::INITIAL_CHANE->value,
+                'balance_operation_id' => BalanceOperationsEnum::OLD_ID_56->value,
                 'operator_id' => Balances::SYSTEM_SOURCE_ID,
                 'beneficiary_id' => $user->idUser,
-                'reference' => BalancesFacade::getReference(BalanceOperationsEnum::INITIAL_CHANE->value),
-                'description' => BalanceOperationsEnum::INITIAL_CHANE->name,
+                'reference' => BalancesFacade::getReference(BalanceOperationsEnum::OLD_ID_56->value),
+                'description' => BalanceOperationsEnum::OLD_ID_56->name,
                 'value' => $initialChance,
                 'pool_id' => 1,
                 'current_balance' => $initialChance

@@ -88,7 +88,7 @@ class ApiController extends BaseController
         $actual_price = actualActionValue(getSelledActions(true), false);
 
 
-        $ref = BalancesFacade::getReference(BalanceOperationsEnum::SELLED_SHARES->value);
+        $ref = BalancesFacade::getReference(BalanceOperationsEnum::OLD_ID_44->value);
 
 
         $palier = Setting::Where('idSETTINGS', '19')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
@@ -147,7 +147,7 @@ class ApiController extends BaseController
             $oldTotalAmount = SharesBalances::where('beneficiary_id', $reciver)->orderBy(DB::raw('created_at'), "DESC")->pluck('total_amount')->first();
 
             SharesBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::SELLED_SHARES->value,
+                'balance_operation_id' => BalanceOperationsEnum::OLD_ID_44->value,
                 'operator_id' => Balances::SYSTEM_SOURCE_ID,
                 'beneficiary_id' => $reciver,
                 'reference' => $ref,
@@ -164,7 +164,7 @@ class ApiController extends BaseController
             if ($gift > 0) {
                 $balances = Balances::getStoredUserBalances($reciver);
                 SharesBalances::addLine([
-                    'balance_operation_id' => BalanceOperationsEnum::COMPLIMENTARY_BENEFITS_ON_PURCHASED_SHARES->value,
+                    'balance_operation_id' => BalanceOperationsEnum::OLD_ID_54->value,
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
                     'beneficiary_id' => $reciver,
                     'reference' => $ref,
@@ -177,7 +177,7 @@ class ApiController extends BaseController
             if ($flashGift > 0) {
                 $balances = Balances::getStoredUserBalances($reciver);
                 SharesBalances::addLine([
-                    'balance_operation_id' => BalanceOperationsEnum::VIP_BENEFITS_ON_PURCHASED_SHARES->value,
+                    'balance_operation_id' => BalanceOperationsEnum::OLD_ID_55->value,
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
                     'beneficiary_id' => $reciver,
                     'reference' => $ref,
@@ -190,7 +190,7 @@ class ApiController extends BaseController
             $balances = Balances::getStoredUserBalances($reciver);
 
             CashBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::SELL_SHARES->value,
+                'balance_operation_id' => BalanceOperationsEnum::OLD_ID_48->value,
                 'operator_id' => auth()->user()->idUser,
                 'beneficiary_id' => auth()->user()->idUser,
                 'reference' => $ref,
@@ -206,14 +206,14 @@ class ApiController extends BaseController
             }
             if ($value > 0) {
                 BFSsBalances::addLine([
-                    'balance_operation_id' => BalanceOperationsEnum::BY_ACQUIRING_SHARES->value,
+                    'balance_operation_id' => BalanceOperationsEnum::OLD_ID_46->value,
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
                     'beneficiary_id' => $reciver_bfs,
                     'reference' => $ref,
                     'percentage' => $SettingBFSsTypeForAction,
                     'description' => $number_of_action . ' share(s) purchased',
                     'value' => $value,
-                    'current_balance' => $balances->getBfssBalance($SettingBFSsTypeForAction) + BalanceOperation::getMultiplicator(BalanceOperationsEnum::BY_ACQUIRING_SHARES->value) * $value
+                    'current_balance' => $balances->getBfssBalance($SettingBFSsTypeForAction) + BalanceOperation::getMultiplicator(BalanceOperationsEnum::OLD_ID_46->value) * $value
                 ]);
             }
 
@@ -276,9 +276,9 @@ class ApiController extends BaseController
             if (intval($old_value) < intval($request->amount)) {
                 throw new \Exception(Lang::get('Insuffisant cash solde'));
             }
-            $ref = BalancesFacade::getReference(BalanceOperationsEnum::CASH_TRANSFERT_O->value);
+            $ref = BalancesFacade::getReference(BalanceOperationsEnum::OLD_ID_42->value);
             CashBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::SELL_SHARES->value,
+                'balance_operation_id' => BalanceOperationsEnum::OLD_ID_48->value,
                 'operator_id' => auth()->user()->idUser,
                 'beneficiary_id' => auth()->user()->idUser,
                 'reference' => $ref,
@@ -288,7 +288,7 @@ class ApiController extends BaseController
             ]);
 
             CashBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::CASH_TRANSFERT_I->value,
+                'balance_operation_id' => BalanceOperationsEnum::OLD_ID_43->value,
                 'operator_id' => auth()->user()->idUser,
                 'beneficiary_id' => $request->input('reciver'),
                 'reference' => $ref,
@@ -351,6 +351,9 @@ class ApiController extends BaseController
             })
             ->addColumn('value_format', function ($sharesBalances) {
                 return number_format($sharesBalances->value, 0);
+            })
+            ->addColumn('complementary_information', function ($balance) {
+                return view('parts.datatable.ci.ci-' . $balance->balance_operation_id, ['balance' => $balance]);
             })
             ->rawColumns(['total_price', 'share_price', 'formatted_created_at', 'total_shares', 'present_value', 'current_earnings', 'value_format'])
             ->make(true);
@@ -519,10 +522,10 @@ class ApiController extends BaseController
             $old_value = Balances::getStoredUserBalances($user, Balances::CASH_BALANCE);
             $value = BalancesFacade::getCash($user);
             CashBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::CASH_TOP_UP_WITH_CARD->value,
+                'balance_operation_id' => BalanceOperationsEnum::OLD_ID_51->value,
                 'operator_id' => $user,
                 'beneficiary_id' => $user,
-                'reference' => BalancesFacade::getReference(BalanceOperationsEnum::CASH_TOP_UP_WITH_CARD),
+                'reference' => BalancesFacade::getReference(BalanceOperationsEnum::OLD_ID_51),
                 'description' => $data->tran_ref,
                 'value' => $data->tran_total / $k,
                 'current_balance' => $value + $data->tran_total / $k
@@ -602,7 +605,7 @@ class ApiController extends BaseController
     {
         return DB::table('cash_balances')
             ->select('value', 'description', 'created_at')
-            ->where('balance_operation_id', BalanceOperationsEnum::CASH_TRANSFERT_O->value)
+            ->where('balance_operation_id', BalanceOperationsEnum::OLD_ID_42->value)
             ->where('beneficiary_id', Auth()->user()->idUser)
             ->whereNotNull('description')
             ->orderBy('created_at', 'DESC');
@@ -898,7 +901,11 @@ class ApiController extends BaseController
             'balance_operations.parent_id',
             'balance_operations.operation_category_id',
             'balance_operations.modify_amount',
-            'amounts.amountsshortname'];
+            'balance_operations.relatable',
+            'balance_operations.relatable_model',
+            'balance_operations.relatable_type',
+            'amounts.amountsshortname'
+        ];
         return DB::table('balance_operations')
             ->leftJoin('amounts', 'balance_operations.amounts_id', '=', 'amounts.idamounts')
             ->select($select);
@@ -925,8 +932,8 @@ class ApiController extends BaseController
             ->editColumn('amounts_id', function ($balance) {
                 return view('parts.datatable.balances-amounts-id', ['ammount' => $balance->amounts_id]);
             })
-            ->editColumn('amountsshortname', function ($balance) {
-                return view('parts.datatable.balances-short', ['balance' => $balance]);
+            ->addColumn('others', function ($balance) {
+                return view('parts.datatable.balances-others', ['balance' => $balance]);
             })
             ->toJson();
     }
@@ -1039,6 +1046,7 @@ class ApiController extends BaseController
         bo.operation,
         ub.description,
         ub.current_balance,
+        ub.balance_operation_id,
         CASE
             WHEN ub.operator_id = "11111111" THEN "system"
             ELSE (SELECT CONCAT(IFNULL(enfirstname, ""), " ", IFNULL(enlastname, ""))
@@ -1058,27 +1066,18 @@ class ApiController extends BaseController
 
     public function getUserBalances($locale, $typeAmounts)
     {
-        $idAmounts = 0;
         $balance = null;
         switch ($typeAmounts) {
-            case 'cash-Balance':
-                $idAmounts = 1;
-                $balance = "cash_balances";
-                break;
             case 'Balance-For-Shopping':
-                $idAmounts = 2;
                 $balance = "bfss_balances";
                 break;
             case 'Discounts-Balance':
-                $idAmounts = 3;
                 $balance = "discount_balances";
                 break;
             case 'SMS-Balance':
-                $idAmounts = 5;
                 $balance = "sms_balances";
                 break;
             default :
-                $idAmounts = 0;
                 $balance = "cash_balances";
                 break;
         }
@@ -1088,6 +1087,9 @@ class ApiController extends BaseController
             })
             ->editColumn('current_balance', function ($balance) {
                 return self::CURRENCY . self::SEPACE . formatSolde($balance->current_balance, 2);
+            })
+            ->addColumn('complementary_information', function ($balance) {
+                return view('parts.datatable.ci.ci-' . $balance->balance_operation_id, ['balance' => $balance]);
             })
             ->rawColumns(['formatted_date'])
             ->make(true);
@@ -1102,12 +1104,18 @@ class ApiController extends BaseController
             ->editColumn('current_balance', function ($balcene) {
                 return formatSolde($balcene->current_balance, 2) . ' ' . self::PERCENTAGE;
             })
+            ->addColumn('complementary_information', function ($balance) {
+                return view('parts.datatable.ci.ci-' . $balance->balance_operation_id, ['balance' => $balance]);
+            })
             ->make(true);
     }
 
     public function getSmsUser($locale)
     {
         return datatables($this->getUserBalancesList($locale, auth()->user()->idUser, BalanceEnum::SMS->value, false))
+            ->addColumn('complementary_information', function ($balance) {
+                return view('parts.datatable.ci.ci-' . $balance->balance_operation_id, ['balance' => $balance]);
+            })
             ->make(true);
     }
 
@@ -1127,6 +1135,7 @@ class ApiController extends BaseController
                 'ub.description',
                 'ub.value',
                 'ub.current_balance',
+                'ub.balance_operation_id',
                 DB::raw(" CASE WHEN ub.beneficiary_id = '11111111' THEN 'system' ELSE (SELECT CONCAT(IFNULL(enfirstname, ''), ' ', IFNULL(enlastname, '')) FROM metta_users mu WHERE mu.idUser = ub.beneficiary_id) END AS source "),
                 'bo.IO as sensP'
             )
@@ -1144,6 +1153,9 @@ class ApiController extends BaseController
             ->editColumn('current_balance', function ($balance) {
                 return formatSolde($balance->current_balance, 2);
             })
+            ->addColumn('complementary_information', function ($balance) {
+                return view('parts.datatable.ci.ci-' . $balance->balance_operation_id, ['balance' => $balance]);
+            })
             ->rawColumns(['description'])
             ->make(true);
     }
@@ -1160,7 +1172,8 @@ class ApiController extends BaseController
                 DB::raw(" CASE WHEN bo.IO = 'I' THEN CONCAT('+', '$', FORMAT(ub.value, 2)) WHEN bo.IO = 'O' THEN CONCAT('-', '$', FORMAT(ub.value , 2)) WHEN bo.IO = 'IO' THEN 'IO' END AS value "),
                 'bo.IO as sensP',
                 'ub.percentage as percentage',
-                'ub.current_balance'
+                'ub.current_balance',
+                'ub.balance_operation_id'
             )
             ->join('balance_operations as bo', 'ub.balance_operation_id', '=', 'bo.id');
         $query->where('ub.beneficiary_id', $user->idUser);
@@ -1174,6 +1187,9 @@ class ApiController extends BaseController
             })
             ->editColumn('current_balance', function ($balance) {
                 return self::CURRENCY . self::SEPACE . formatSolde($balance->current_balance, 2);
+            })
+            ->addColumn('complementary_information', function ($balance) {
+                return view('parts.datatable.ci.ci-' . $balance->balance_operation_id, ['balance' => $balance]);
             })
             ->rawColumns(['description'])
             ->make(true);

@@ -37,6 +37,7 @@
                             <th>{{__('total_price')}}</th>
                             <th>{{__('present_value')}}</th>
                             <th>{{__('current_earnings')}}</th>
+                            <th>{{ __('Complementary information') }}</th>
                         </tr>
                         </thead>
                         <tbody class="body2earn">
@@ -119,6 +120,7 @@
                     {data: 'total_price'},
                     {data: 'present_value'},
                     {data: 'current_earnings'},
+                    {data: 'complementary_information'},
                 ],
                 "language": {"url": urlLang}
             });
