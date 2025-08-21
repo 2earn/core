@@ -5,7 +5,7 @@
 @endphp
 
 @if($smsModels->count())
-    <span class="text-muted my-2" title="{{$balanceModel->reference}}">{{__('Last  operations <3')}}:</span>
+    <span class="text-muted my-2" title="{{$balanceModel->reference}}">{{__('Last  operations / max last 3 operations')}}:</span>
 @endif
 <div data-simplebar style="max-height: 215px;">
     <ul class="list-group">

@@ -20,8 +20,8 @@
                             <thead class="table-light">
                             <tr>
                                 <th>{{ __('id') }}</th>
-                                <th>{{ __('Name') }}</th>
                                 <th>{{ __('Code') }}</th>
+                                <th>{{ __('Name') }}</th>
                                 <th>{{ __('Description') }}</th>
                                 <th>{{ __('Actions') }}</th>
                             </tr>
@@ -60,8 +60,8 @@
                         "ajax": "{{route('api_operations_categories' ,app()->getLocale())}}",
                         "columns": [
                             {"data": "id"},
-                            {"data": "name"},
                             {"data": "code"},
+                            {"data": "name"},
                             {"data": "description"},
                             {data: 'action', name: 'action', orderable: false, searchable: false},
                         ],
