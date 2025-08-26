@@ -48,13 +48,17 @@ class CouponInjectorCreate extends Component
                 'category' => intval($this->category_id),
                 'consumed' => false
             ];
+
             $dateNow = now()->format('YmdHis');
+            $type = ($this->category_id == "2" && $this->type == '') ? '100.00' : $this->type;
+
             for ($i = 1; $i <= $this->numberOfCoupons; $i++) {
                 $coupon['pin'] = $dateNow . strtoupper(Str::random(10));
                 $coupon['sn'] = 'SN' . $dateNow . rand(100000, 999999);
-                $coupon['type'] = $this->type;
+                $coupon['type'] = $type;
                 BalanceInjectorCoupon::create($coupon);
             }
+
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Coupons created Successfully'));
         } catch (\Exception $exception) {
             return redirect()->route('coupon_injector_create', ['locale' => app()->getLocale()])->with('danger', Lang::get('Coupons creation Failed') . ' ' . $exception->getMessage());
