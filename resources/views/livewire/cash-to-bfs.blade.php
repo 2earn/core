@@ -46,19 +46,17 @@
                     <span class="input-group-text" id="inputGroup-sizing-default">
                         {{ __('New Sold BFS 100') }}
                     </span>
-                        <input type="number"
-                               name="newBfsSolde" id="newBfsSolde" class="form-control text-center"
-                               wire:model.lazy="newBfsSolde"
-                               value="" disabled wire:model="newBfsSolde" onpaste="handlePaste(event)">
+                        <span class="input-group-text form-control text-primary" id="inputGroup-sizing-default">
+                     {{$newBfsSolde}} {{config('app.currency')}}
+                    </span>
                     </div>
                     <div class="input-group mt-2">
                     <span class="input-group-text" id="inputGroup-sizing-default">
                         {{ __('Earned Discount') }}
                     </span>
-                        <input type="number"
-                               name="ernedDiscount" id="ernedDiscount" class="form-control text-center"
-                               wire:model.lazy="ernedDiscount"
-                               value="" disabled wire:model="ernedDiscount" >
+                        <span class="input-group-text form-control text-primary" id="inputGroup-sizing-default">
+                        {{formatSolde($ernedDiscount,3)}} {{config('app.currency')}}
+                        </span>
                     </div>
                 </div>
             </div>
