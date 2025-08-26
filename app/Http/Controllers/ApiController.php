@@ -199,12 +199,17 @@ class ApiController extends BaseController
                 'current_balance' => $balances->cash_balance - ($number_of_action) * $actual_price
             ]);
             $balances = Balances::getStoredUserBalances($reciver);
+
             $value = intval($number_of_action / $palier) * $actual_price * $palier;
+
             $SettingBFSsTypeForAction = getSettingStringParam('BFSS_TYPE_FOR_ACTION', '50');
             if (floatval($SettingBFSsTypeForAction) > 100 or floatval($SettingBFSsTypeForAction) < 0.01) {
                 $SettingBFSsTypeForAction = '50';
             }
-            if ($value > 0) {
+            $SettingBFSsLimitForAction = getSettingIntegerParam('BFSS_LIMIT_FOR_ACTION', '500');
+            $SettingBFSsGiftForAction = getSettingIntegerParam('BFSS_GIFT_FOR_ACTION', '100');
+
+            if (($number_of_action * $actual_price) > $SettingBFSsLimitForAction) {
                 BFSsBalances::addLine([
                     'balance_operation_id' => BalanceOperationsEnum::OLD_ID_46->value,
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
@@ -212,7 +217,7 @@ class ApiController extends BaseController
                     'reference' => $ref,
                     'percentage' => $SettingBFSsTypeForAction,
                     'description' => $number_of_action . ' share(s) purchased',
-                    'value' => $value,
+                    'value' => $SettingBFSsGiftForAction,
                     'current_balance' => $balances->getBfssBalance($SettingBFSsTypeForAction) + BalanceOperation::getMultiplicator(BalanceOperationsEnum::OLD_ID_46->value) * $value
                 ]);
             }
