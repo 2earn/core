@@ -84,7 +84,7 @@ class CashToBfs extends Component
     {
         $this->soldeBFS = floatval(Balances::getStoredBfss(auth()->user()->idUser, BFSsBalances::BFS_100)) - floatval($this->numberSmsExchange);
         $this->newBfsSolde = $this->soldeBFS + floatval( $this->soldeExchange);
-        $this->ernedDiscount = formatSolde(Balances::getDiscountEarnedFromBFS100I(floatval($this->soldeExchange)),3);
+        $this->ernedDiscount = Balances::getDiscountEarnedFromBFS100I(floatval($this->soldeExchange));
     }
 
     public function render()
