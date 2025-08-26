@@ -18,5 +18,19 @@ class ActionSettingSeeder extends Seeder
             ]);
         }
 
+        if (!DB::table('settings')->where("ParameterName", "=", 'BFSS_LIMIT_FOR_ACTION')->exists()) {
+            DB::table('settings')->insert([
+                'ParameterName' => 'BFSS_LIMIT_FOR_ACTION',
+                'IntegerValue' => 500,
+            ]);
+        }
+
+        if (!DB::table('settings')->where("ParameterName", "=", 'BFSS_GIFT_FOR_ACTION')->exists()) {
+            DB::table('settings')->insert([
+                'ParameterName' => 'BFSS_GIFT_FOR_ACTION',
+                'IntegerValue' => 100,
+            ]);
+        }
+
     }
 }
