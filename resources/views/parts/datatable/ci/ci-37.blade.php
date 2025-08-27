@@ -3,6 +3,8 @@
     $shareModel=\App\Models\SharesBalances::where('reference',$balanceModel->reference)
     ->where('balance_operation_id',\Core\Enum\BalanceOperationsEnum::OLD_ID_13->value)->first();
 @endphp
+<span class="text-muted">{{$balance->id}}:</span>
+<hr>37<hr>
 
 @if(!is_null($shareModel))
     <span class="text-muted" title="{{$balanceModel->reference}}">{{__('About the share operation')}}:</span>

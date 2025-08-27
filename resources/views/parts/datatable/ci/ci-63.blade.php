@@ -2,7 +2,8 @@
     $balanceModel=\App\Models\SharesBalances::find($balance->id);
     $bfsModel=\App\Models\BFSsBalances::where('reference',$balanceModel->reference)->first();
 @endphp
-
+<span class="text-muted">{{$balance->id}}:</span>
+<hr>64<hr>
 @if(!is_null($bfsModel))
     <span class="text-muted" title="{{$balanceModel->reference}}">{{__('About the share operation')}}:</span>
     <div data-simplebar style="max-height: 215px;">

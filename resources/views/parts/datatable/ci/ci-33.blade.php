@@ -3,6 +3,9 @@
     $treeModel=\App\Models\TreeBalances::where('reference',$balanceModel->reference)
     ->where('balance_operation_id',\Core\Enum\BalanceOperationsEnum::OLD_ID_13->value)->first();
 @endphp
+<span class="text-muted">{{$balance->id}}:</span>
+<hr>33<hr>
+
 
 @if(!is_null($treeModel))
     <span class="text-muted" title="{{$balanceModel->reference}}">{{__('About the tree operation')}}:</span>

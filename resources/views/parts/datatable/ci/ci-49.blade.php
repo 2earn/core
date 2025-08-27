@@ -3,6 +3,8 @@
     $discountModels=\App\Models\DiscountBalances::where('beneficiary_id_auto',$balanceModel->beneficiary_id_auto)
    ->limit(3)->get();
 @endphp
+<span class="text-muted">{{$balance->id}}:</span>
+<hr>49<hr>
 
 @if($discountModels->count())
     <span class="text-muted my-2" title="{{$balanceModel->reference}}">{{__('Last  operations / max last 3 operations')}}:</span>

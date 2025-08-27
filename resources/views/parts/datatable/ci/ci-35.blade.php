@@ -3,6 +3,8 @@
     $chanceModel=\App\Models\ChanceBalances::where('reference',$balanceModel->reference)
     ->where('balance_operation_id',\Core\Enum\BalanceOperationsEnum::OLD_ID_13->value)->first();
 @endphp
+<span class="text-muted">{{$balance->id}}:</span>
+<hr>35<hr>
 
 @if(!is_null($chanceModel))
     <span class="text-muted" title="{{$balanceModel->reference}}">{{__('About the Chance operation')}}:</span>

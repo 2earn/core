@@ -3,6 +3,8 @@
     $balanceModel=\App\Models\CashBalances::find($balance->id);
     $user=\App\Models\User::find($balanceModel->beneficiary_id_auto);
 @endphp
+<span class="text-muted">{{$balance->id}}:</span>
+<hr>23<hr>
 @if(!is_null($user))
     <span class="text-muted">{{__('About User')}}:</span>
     <div data-simplebar style="max-height: 215px;">
