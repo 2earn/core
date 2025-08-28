@@ -3,17 +3,16 @@
         <div class="card-header align-items-center d-flex">
             <h4 class="card-title mb-0 flex-grow-1">{{ __('Incoming request') }}</h4>
         </div>
-        <div class="card-body table-responsive ">
+        <div class="card-body table-responsive">
             <table
-                class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap dataTable"
+                class="table table-striped table-bordered"
                 id="customerTable2"
             >
                 <thead class="table-light">
                 <tr class="tabHeader2earn">
                     <th>{{ __('Request') }}</th>
                     <th>{{ __('date') }}</th>
-                    <th>{{ __('user') }}</th>
-                    <th>{{ __('UserPhone') }}</th>
+                    <th>{{ __('User phone') }}</th>
                     <th>{{ __('Amount') }}</th>
                     <th>{{ __('Status') }}</th>
                     <th>{{ __('Actions') }}</th>
@@ -22,11 +21,14 @@
                 <tbody class="list form-check-all">
                 @foreach ($requestToMee as $value)
                     <tr>
-                        <td><span>{{$value->numeroReq}}</span></td>
-                        <td><span> {{$value->date}}</span></td>
-                        <td><span> {{$value->name}}</span></td>
-                        <td><span>{{$value->mobile}}</span></td>
-                        <td><span>{{number_format((float)$value->amount, 2, '.', ' ')}} </span></td>
+                        <td>{{$value->numeroReq}}</td>
+                        <td>{{$value->date}}</td>
+                        <td>
+                            {{$value->mobile}}
+                        </td>
+                        <td>
+                            {{ formatSolde($value->amount,2) }}
+                        </td>
                         <td>
                         <span>
                             @if($value->status == 0)

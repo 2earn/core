@@ -44,7 +44,7 @@
             <button onclick="ConfirmTransacction()"
                     @if($soldeUser < $financialRequest->amount) disabled @endif
                     class=" btn btn-primary mx-2 float-end ">
-                {{__('Confirm transfer of ')}} {{$financialRequest->amount}} {{config('app.currency')}}
+                {{__('Confirm transfer of')}} {{$financialRequest->amount}} {{config('app.currency')}}
             </button>
 
 

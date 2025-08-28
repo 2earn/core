@@ -15,7 +15,7 @@
         <div class="card-body pt-0">
             <div class="table-responsive ">
                 <table
-                    class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap dataTable"
+                    class="table table-striped table-bordered"
                     id="ReqFromMe_table2">
                     <thead class="table-light">
                     <tr>
@@ -42,15 +42,15 @@
                             <td>
                             <span>
                                                     @if($value->FStatus == 0)
-                                    <a style="background-color: #F89406;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding:@if(app()->getLocale()=="ar") 1px @else 5px @endif ; ">{{__('Opened')}}</a>
-                                    <a onclick="cancelRequestF('{{$value->numeroReq}}')"
+                                    <a class="p-1" style="background-color: #F89406;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding:@if(app()->getLocale()=="ar") 1px @else 5px @endif ; ">{{__('Opened')}}</a>
+                                    <a class="p-1" onclick="cancelRequestF('{{$value->numeroReq}}')"
                                        style="background-color: #3595f6;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: @if(app()->getLocale()=="ar") 1px @else 5px @endif ; ">{{__('Cancel')}}</a>
                                 @elseif($value->FStatus == 1)
-                                    <a style="background-color: #51A351;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: @if(app()->getLocale()=="ar") 1px @else 5px @endif ; ">{{__('Accepted')}}</a>
+                                    <a class="p-1" style="background-color: #51A351;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: @if(app()->getLocale()=="ar") 1px @else 5px @endif ; ">{{__('Accepted')}}</a>
                                 @elseif($value->FStatus == 3)
-                                    <a style="background-color: #f02602;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: @if(app()->getLocale()=="ar") 1px @else 5px @endif ; ">{{__('Canceled')}}</a>
+                                    <a class="p-1" style="background-color: #f02602;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: @if(app()->getLocale()=="ar") 1px @else 5px @endif ; ">{{__('Canceled')}}</a>
                                 @else
-                                    <a style="background-color: #BD362F;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: @if(app()->getLocale()=="ar") 1px @else 5px @endif ; ">{{__('Rejected')}}</a>
+                                    <a class="p-1" style="background-color: #BD362F;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: @if(app()->getLocale()=="ar") 1px @else 5px @endif ; ">{{__('Rejected')}}</a>
                                 @endif
                                                 </span>
                             </td>
@@ -76,13 +76,13 @@
                                                 <td>
                                                                         <span>
                                                                             @if($valueD->response == "" ||$valueD->response == null )
-                                                                                <a style="background-color: #F89406;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: 5px">{{__('No Response')}}</a>
+                                                                                <a class="p-1" style="background-color: #F89406;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: 5px">{{__('No Response')}}</a>
                                                                             @elseif($valueD->response == 1)
-                                                                                <a style="background-color: #51A351;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: 5px">{{__('Accepted')}}</a>
+                                                                                <a class="p-1"  style="background-color: #51A351;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: 5px">{{__('Accepted')}}</a>
                                                                             @elseif($valueD->response == "2")
-                                                                                <a style="background-color: #BD362F;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: 5px">{{__('Rejected')}}</a>
+                                                                                <a class="p-1"  style="background-color: #BD362F;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: 5px">{{__('Rejected')}}</a>
                                                                             @elseif($valueD->response == "3")
-                                                                                <a style="background-color: #BD362F;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: 5px">{{__('Canceled')}}</a>
+                                                                                <a class="p-1" style="background-color: #BD362F;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: 5px">{{__('Canceled')}}</a>
                                                                             @endif
                                                                         </span>
                                                 </td>
