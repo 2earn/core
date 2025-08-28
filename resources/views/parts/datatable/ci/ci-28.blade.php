@@ -3,8 +3,9 @@
           $bfsModel=\App\Models\BFSsBalances::where('reference',$balanceModel->reference)
           ->where('balance_operation_id',\Core\Enum\BalanceOperationsEnum::OLD_ID_13->value)->first();
 @endphp
-<span class="text-muted">{{$balance->id}}:</span>
-<hr>28<hr>
+@if (App::environment(['local', 'dev']))
+    <span class="text-muted">{{$balance->id}}:</span>/28/{{$balance->balance_operation_id}}<hr>
+@endif
 @if(!is_null($bfsModel))
     <span class="text-muted" title="{{$bfsModel->reference}}">{{__('About the bfs operation')}}:</span>
     <div data-simplebar style="max-height: 215px;">

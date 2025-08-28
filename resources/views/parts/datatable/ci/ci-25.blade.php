@@ -1,10 +1,14 @@
 @php
     $idOrder=0;
     $balanceModel=\App\Models\BFSsBalances::find($balance->id);
-    $user=\App\Models\User::find($balanceModel->beneficiary_id_auto);
+      $newBalanceModel=\App\Models\BFSsBalances::where('reference',$balanceModel->reference)
+          ->where('balance_operation_id',\Core\Enum\BalanceOperationsEnum::OLD_ID_14->value)->first();
+      $user=\App\Models\User::find($newBalanceModel->beneficiary_id_auto);
 @endphp
-<span class="text-muted">{{$balance->id}}:</span>
-<hr>25<hr>
+@if (App::environment(['local', 'dev']))
+    <span class="text-muted">{{$balance->id}}:</span>/25/{{$balance->balance_operation_id}}
+    <hr>
+@endif
 @if(!is_null($user))
     <span class="text-muted">{{__('About User')}}:</span>
     <div data-simplebar style="max-height: 215px;">
@@ -19,7 +23,7 @@
                         </div>
                     </div>
                     <div class="flex-shrink-0">
-                        <span class="text-danger">{{getUserDisplayedName($balance->beneficiary_id)}}</span>
+                        <span class="text-danger">{{getUserDisplayedName($user->idUser)}}</span>
                     </div>
                 </div>
             </li>

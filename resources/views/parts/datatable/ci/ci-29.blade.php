@@ -2,8 +2,9 @@
     $balanceModel=\App\Models\CashBalances::find($balance->id);
     $user=\App\Models\User::find($balanceModel->beneficiary_id_auto);
 @endphp
-<span class="text-muted">{{$balance->id}}:</span>
-<hr>29<hr>
+@if (App::environment(['local', 'dev']))
+    <span class="text-muted">{{$balance->id}}:</span>/29/{{$balance->balance_operation_id}}<hr>
+@endif
 @if(!is_null($user))
     <span class="text-muted">{{__('About User')}}:</span>
     <div data-simplebar style="max-height: 215px;">

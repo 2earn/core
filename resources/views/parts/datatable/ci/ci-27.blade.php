@@ -2,8 +2,9 @@
     $balanceModel=\App\Models\BFSsBalances::find($balance->id);
     $shareModel=\App\Models\SharesBalances::where('reference',$balanceModel->reference)->first();
 @endphp
-<span class="text-muted">{{$balance->id}}:</span>
-<hr>27<hr>
+@if (App::environment(['local', 'dev']))
+    <span class="text-muted">{{$balance->id}}:</span>/27/{{$balance->balance_operation_id}}<hr>
+@endif
 @if(!is_null($shareModel))
     <span class="text-muted" title="{{$shareModel->reference}}">{{__('About the bfs operation')}}:</span>
     <div data-simplebar style="max-height: 215px;">
