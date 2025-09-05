@@ -6,7 +6,7 @@
                 <span class="trending-ribbon-text"> {{__('Survey')}}</span>
             </div>
         @endif
-        <h5>
+        <h5 class="text-info">
             @if(in_array($currentRouteName,["surveys_show","surveys_participate","surveys_results"]))
                 <a href="{{route('home', app()->getLocale())}}"
                    class="btn btn-outline-primary waves-effect waves-light material-shadow-none mx-1 btn-sm"
@@ -75,14 +75,23 @@
 
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {{__('Shows result')}}
-                        <span
-                            class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->showResult)?->name)}}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Shows')}}
                         <span
                             class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->show)?->name)}} </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{__('Show results as number')}}
+                        <span
+                            class="badge btn {{ $survey->show_results_as_number ? 'btn-success' : 'btn-danger'  }}">
+                             {{__($survey->show_results_as_number ? 'True' : 'False')}}
+                     </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{__('Show results as percentage')}}
+                        <span
+                            class="badge btn {{ $survey->show_results_as_percentage ? 'btn-success' : 'btn-danger'  }}">
+                             {{__($survey->show_results_as_percentage ? 'True' : 'False')}}
+                </span>
                     </li>
                 </ul>
             </div>
@@ -105,6 +114,11 @@
             </div>
             <div class="col-sm-12 col-md-4 col-lg-3 text-right mt-1">
                 <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{__('Shows result')}}
+                        <span
+                            class="badge btn btn-info">{{__(\Core\Enum\TargetType::tryFrom($survey->showResult)?->name)}}</span>
+                    </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{__('Likable')}} <span
                             class="badge btn btn-info"> {{__(\Core\Enum\TargetType::tryFrom($survey->likable)?->name)}}</span>
@@ -388,6 +402,10 @@
                    class="btn btn-soft-info material-shadow-none  mt-1">{{__('Details')}}</a>
             @endif
             @if(\App\Models\User::isSuperAdmin())
+                <button type="button" class="btn btn-info"
+                        wire:click="duplicateSurvey({{$survey->id}})"><span>{{__('Duplicate')}}</span></button>
+
+
                 @if(intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
                     <a href="{{route('surveys_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id] )}}"
                        class="btn btn-soft-info material-shadow-none mt-1">
@@ -447,29 +465,6 @@
                     @endif
                 @endif
             @endif
-            @if(intval($survey->status)==\Core\Enum\StatusSurvey::OPEN->value && $survey->enabled)
-                @if(\App\Models\SurveyResponse::isPaticipated(auth()->user()->id, $survey->id))
-                    @if($survey->updatable)
-                        <a href="{{route('surveys_participate', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id] )}}"
-                           class="btn btn-soft-info material-shadow-none mt-1">{{__('Update Participation')}}</a>
-                    @endif
-                @endif
-                @if(! \App\Models\SurveyResponse::isPaticipated(auth()->user()->id, $survey->id))
-                    <a href="{{route('surveys_participate', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id] )}}"
-                       class="btn btn-soft-info material-shadow-none mt-1">{{__('Paticipate')}}</a>
-                @endif
-
-            @endif
-
-            @if(intval($survey->status)>\Core\Enum\StatusSurvey::NEW->value)
-                @if( ($survey->canShowResult() && $survey->enabled) ||\App\Models\User::isSuperAdmin())
-                    <a href="{{route('surveys_results', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id] )}}"
-                       class="btn btn-soft-info material-shadow-none  mt-1">{{__('Show results')}}</a>
-                @else
-                    <btn disabled class="btn btn-soft-info material-shadow-none mt-1">{{__('Show results')}}</btn>
-                @endif
-            @endif
-
             @if(!$survey->canShowResult() )
                 <div class="alert alert-info material-shadow material-shadow mt-2" role="alert">
                     <h6 class="alert-heading">{{__('Disabled result title')}}</h6> * {{$survey->disabledResult}}
@@ -481,116 +476,137 @@
             @endif
         </div>
     @endif
-    @if($currentRouteName=="surveys_show")
-        <div class="card-header border-info fw-medium text-muted mb-0">
-            <h5 class="mt-2 text-info">    {{__('Questions')}}</h5>
-        </div>
-        <div class="card-body">
-            <ul class="list-group">
-                @if($survey->question)
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-sm-12 col-md-6 col-lg-12 mt-2">
+    <div class="card-header border-info fw-medium text-muted mb-0">
+        <h5 class="mt-2 text-info">    {{__('Questions')}}</h5>
+    </div>
+    <div class="card-body">
+        <ul class="list-group">
+            @if($survey->question)
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-lg-12 mt-2">
                               <span
                                   class="badge btn {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'btn-success' : 'btn-danger'  }}">
                           {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? __('Multiple') : __('Unique')  }}                                      </span>
-                                @if($survey->question->selection== \Core\Enum\Selection::MULTIPLE->value )
-                                    <span class="badge btn btn-info"> {{$survey->question->maxResponse}}</span>
-                                @endif
+                            @if($survey->question->selection== \Core\Enum\Selection::MULTIPLE->value )
+                                <span class="badge btn btn-info"> {{$survey->question->maxResponse}}</span>
+                            @endif
 
-                                @if(!empty($survey->question->disableNote))
-                                    <span class="badge btn btn-info">
+                            @if(!empty($survey->question->disableNote))
+                                <span class="badge btn btn-info">
                             {{__('Disable Note')}} : {{$survey->question->disableNote}}
                         </span>
-                                @endif
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-7 mt-3">
-                                <figure class="mt-2 ">
-                                    <blockquote class="blockquote ml-2">
-                                        {{\App\Models\TranslaleModel::getTranslation($survey->question,'content',$survey->question->content)}}
-                                    </blockquote>
-                                </figure>
-
-                                @if(\App\Models\User::isSuperAdmin())
-                                    <a class="link-info"
-                                       href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey->question,'content')])}}">{{__('See or update Translation')}}</a>
-                                @endif
-                            </div>
-                            <div class="col-sm-12 col-md-6 col-lg-5">
-
-                                @if(\App\Models\User::isSuperAdmin() && intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
-                                    <div class="btn-group  btn-group-sm" role="group" aria-label="Basic example">
-                                        <a href="{{route('surveys_question_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id,'IdQuestion'=>$survey->question->id] )}}"
-                                           class="btn btn-soft-info material-shadow-none">
-                                            {{__('Edit')}}
-                                        </a>
-                                        <a href="{{route('surveys_question_choice_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id,'idQuestion'=>$survey->question->id] )}}"
-                                           class="btn btn-soft-info material-shadow-none">
-                                            {{__('Add Choice')}}
-                                        </a>
-                                    </div>
-                                @endif
-                                <ul class="mt-3">
-                                    @forelse ($survey->question->serveyQuestionChoice as $choice)
-                                        <li class="list-group-item mt-2">
-                                            <div class="row">
-                                                <div class="col-sm-12 col-md-6 col-lg-7 text-muted"
-                                                     title="{{$choice->id}}">
-                                                    {{$loop->index+1}}
-                                                    - {{\App\Models\TranslaleModel::getTranslation($choice,'title',$choice->title)}}
-                                                    <br>
-                                                    @if(\App\Models\User::isSuperAdmin())
-                                                        <a class="link-info"
-                                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($choice,'title')])}}">{{__('See or update Translation')}}</a>
-                                                    @endif
-                                                </div>
-                                                @if(\App\Models\User::isSuperAdmin() && intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
-                                                    <div class="col-sm-12 col-md-6 col-lg-5">
-                                                        <div class="btn-group  btn-group-sm" role="group"
-                                                             aria-label="Basic example">
-                                                            <a href="{{route('surveys_question_choice_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id,'idQuestion'=>$survey->question->id,'idChoice'=>$choice->id] )}}"
-                                                               title="{{__('Update Choice')}}"
-                                                               class="btn btn-soft-info material-shadow-none">
-                                                                {{__('Update')}}
-                                                            </a>
-                                                            <a wire:click="removeChoice('{{$choice->id}}')"
-                                                               title="{{__('Remove Choice')}}"
-                                                               class="btn btn-soft-danger material-shadow-none">
-                                                                {{__('Remove')}}
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                            @endif
-                                        </li>
-                                    @empty
-                                        <li class="list-group-item mt-2">
-                                            {{__('No Choices')}}
-                                        </li>
-                                    @endforelse
-                                </ul>
-                                @if(!$survey->question)
-                                    <a wire:click="removeQuestion('{{$question->id}}')"
-                                       class="btn btn-soft-danger material-shadow-none">
-                                        {{__('Remove')}}
-                                    </a>
-                                @endif
-                            </div>
+                            @endif
                         </div>
-                    </li>
-                @else
-                    <li class="list-group-item">{{__('No questions')}}.
-                        @if(\App\Models\User::isSuperAdmin())
-                            <br>
-                            <a href="{{route('surveys_question_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id] )}}"
-                               title="{{__('Add Question')}}" class="btn btn-soft-info material-shadow-none mt-2">
-                                {{__('Add Question')}}
-                            </a>
-                        @endif
-                    </li>
-                @endif
+                        <div class="col-sm-12 col-md-12 col-lg-7 mt-3">
+                            <figure class="mt-2 ">
+                                <blockquote class="blockquote ml-2">
+                                    {{\App\Models\TranslaleModel::getTranslation($survey->question,'content',$survey->question->content)}}
+                                </blockquote>
+                            </figure>
 
-            </ul>
+                            @if(\App\Models\User::isSuperAdmin())
+                                <a class="link-info"
+                                   href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey->question,'content')])}}">{{__('See or update Translation')}}</a>
+                            @endif
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-5">
+
+                            @if(\App\Models\User::isSuperAdmin() && intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
+                                <div class="btn-group  btn-group-sm" role="group" aria-label="Basic example">
+                                    <a href="{{route('surveys_question_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id,'IdQuestion'=>$survey->question->id] )}}"
+                                       class="btn btn-soft-info material-shadow-none">
+                                        {{__('Edit')}}
+                                    </a>
+                                    <a href="{{route('surveys_question_choice_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id,'idQuestion'=>$survey->question->id] )}}"
+                                       class="btn btn-soft-info material-shadow-none">
+                                        {{__('Add Choice')}}
+                                    </a>
+                                </div>
+                            @endif
+                            <ul class="mt-3">
+                                @forelse ($survey->question->serveyQuestionChoice as $choice)
+                                    <li class="list-group-item mt-2">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12 col-lg-12 text-muted"
+                                                 title="{{$choice->id}}">
+                                                {{$loop->index+1}}
+                                                - {{\App\Models\TranslaleModel::getTranslation($choice,'title',$choice->title)}}
+                                                <br>
+                                                @if(\App\Models\User::isSuperAdmin())
+                                                    <a class="link-info"
+                                                       href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($choice,'title')])}}">{{__('See or update Translation')}}</a>
+                                                @endif
+                                            </div>
+                                            @if(\App\Models\User::isSuperAdmin() && intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
+                                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                                    <div class="btn-group  btn-group-sm" role="group"
+                                                         aria-label="Basic example">
+                                                        <a href="{{route('surveys_question_choice_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id,'idQuestion'=>$survey->question->id,'idChoice'=>$choice->id] )}}"
+                                                           title="{{__('Update Choice')}}"
+                                                           class="btn btn-soft-info material-shadow-none">
+                                                            {{__('Update')}}
+                                                        </a>
+                                                        <a wire:click="removeChoice('{{$choice->id}}')"
+                                                           title="{{__('Remove Choice')}}"
+                                                           class="btn btn-soft-danger material-shadow-none">
+                                                            {{__('Remove')}}
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                        @endif
+                                    </li>
+                                @empty
+                                    <li class="list-group-item mt-2">
+                                        {{__('No Choices')}}
+                                    </li>
+                                @endforelse
+                            </ul>
+                            @if(!$survey->question)
+                                <a wire:click="removeQuestion('{{$question->id}}')"
+                                   class="btn btn-soft-danger material-shadow-none">
+                                    {{__('Remove')}}
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                </li>
+            @else
+                <li class="list-group-item">{{__('No questions')}}.
+                    @if(\App\Models\User::isSuperAdmin())
+                        <br>
+                        <a href="{{route('surveys_question_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id] )}}"
+                           title="{{__('Add Question')}}" class="btn btn-soft-info material-shadow-none mt-2">
+                            {{__('Add Question')}}
+                        </a>
+                    @endif
+                </li>
+            @endif
+
+        </ul>
+    </div>
+    @if(intval($survey->status)==\Core\Enum\StatusSurvey::OPEN->value && $survey->enabled)
+        <div class="card">
+            <div class="card-header border-info fw-medium text-muted mb-0">
+                <h5 class="mt-2 text-info">{{__('Participation')}}</h5>
+            </div>
+            <div class="card-body">
+                @livewire('survey-paricipate', ['idSurvey' => $survey->id])
+            </div>
         </div>
+    @endif
+
+    @if($survey->status>\Core\Enum\StatusSurvey::NEW->value )
+        @if($survey->canShowResult() )
+            <div class="card">
+                <div class="card-header border-info fw-medium text-muted mb-0">
+                    <h5 class="mt-2 text-info">{{__('Result')}} :</h5>
+                </div>
+                <div class="card-body">
+                    @livewire('survey-result', ['idSurvey' => $survey->id])
+                </div>
+            </div>
+        @endif
     @endif
 
     @if($currentRouteName=="surveys_show")
@@ -628,10 +644,15 @@
                 @if($survey->isLikable())
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <ul class="list-group">
-
-                            @forelse ($survey->likes as $like)
+                            @php
+                                $likeNumber=  $survey->likes->count();
+                            @endphp
+                            @forelse ($survey->likes->sortByDesc('created_at') as $like)
                                 <li class="list-group-item mt-2 text-muted">
-                                    {{$loop->index+1}} ) {{ getUserDisplayedName($like->user->idUser)}} <span
+                                    <a class="fw-medium link-primary">
+                                        {{$likeNumber-$loop->index}}
+                                    </a>
+                                    - {{ getUserDisplayedName($like->user->idUser)}} <span
                                         class="text-muted">{{__('at')}}: {{ $like->created_at}} </span>
                                 </li>
                             @empty
@@ -739,7 +760,6 @@
                     <button type="button" wire:click="disable('{{$survey->id}}')"
                             class="btn btn-primary">{{__('Disable Survey')}}</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
-
                 </div>
             </div>
         </div>

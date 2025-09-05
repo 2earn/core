@@ -1,13 +1,12 @@
 <div class="card ribbon-box right border shadow-none overflow-hidden material-shadow">
-
     <div class="card-body">
         <div class="ribbon ribbon-danger ribbon-shape trending-ribbon">
             <i class="ri-flashlight-fill text-white align-bottom float-start me-1"></i> <span
-                class="trending-ribbon-text">{{__('News')}}</span>
+                class="trending-ribbon-text text-info">{{__('News')}}</span>
         </div>
         <div class="row">
             <div class="col-12">
-                <h5 class="mb-2">
+                <h5 class="mb-2 text-info">
                     {{\App\Models\TranslaleModel::getTranslation($news,'title',$news->title)}}
                 </h5>
                 @if(\App\Models\User::isSuperAdmin())
@@ -40,7 +39,6 @@
                 </div>
             @endif
         </div>
-
     </div>
     <div class="card-footer">
             <span class="text-muted mb-2">

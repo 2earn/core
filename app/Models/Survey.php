@@ -46,6 +46,13 @@ class Survey extends Model
         'disabledResult',
         'disabledComment',
         'disabledLike',
+        'show_results_as_number',
+        'show_results_as_percentage',
+    ];
+
+    protected $casts = [
+        'show_results_as_number' => 'boolean',
+        'show_results_as_percentage' => 'boolean',
     ];
 
     public function surveyResponse()
@@ -200,7 +207,6 @@ class Survey extends Model
     public function CheckVisibility($idSurvey, $property): bool
     {
         $survey = Survey::find($idSurvey);
-
         if ($survey->{$property} == TargetType::ALL->value) {
             return true;
         }
@@ -311,7 +317,7 @@ class Survey extends Model
         $survey = Survey::find($this->id);
         $today = new \DateTime();
 
-        $delayAfterArchived = getSettingIntegerParam('DELAY_AFTER_CLOSED', self::DELAY_AFTER_ARCHIVED);
+        $delayAfterArchived = getSettingIntegerParam('DELAY_AFTER_ARCHIVED', self::DELAY_AFTER_ARCHIVED);
 
         if (!is_null($survey->archivedDate)) {
             $archiveDate = new \DateTime($survey->archivedDate);

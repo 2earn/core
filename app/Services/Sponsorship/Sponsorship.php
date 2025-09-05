@@ -50,7 +50,7 @@ class Sponsorship
 
     public function executeDelayedSponsorship($upLine, $downLine)
     {
-        $userBalancesQuery = SharesBalances::where('balance_operation_id', BalanceOperationsEnum::SELLED_SHARES->value)
+        $userBalancesQuery = SharesBalances::where('balance_operation_id', BalanceOperationsEnum::OLD_ID_44->value)
             ->where('beneficiary_id', $downLine->idUser)
             ->whereRaw('TIMESTAMPDIFF(HOUR, ' . DB::raw('created_at') . ', NOW()) < ?', [$this->retardatifReservation])
             ->orderBy(DB::raw('created_at'), "ASC")
@@ -70,7 +70,7 @@ class Sponsorship
     {
 
         if ($sponsor->idUpline == 0) {
-              $date = new \DateTime($sponsor->reserved_at);
+            $date = new \DateTime($sponsor->reserved_at);
             $availability = $date->diff(now())->h + $date->diff(now())->i / 60 + $date->diff(now())->s / 3600;
 
             if ($availability < $this->reservation && $sponsor->availablity == 1) {
@@ -80,7 +80,7 @@ class Sponsorship
                 $this->userRepository->updateUserUpline($sponsor->idUser, $this->isSource);
             }
         } else {
-        if ($sponsor->purchasesNumber < $this->saleCount && $sponsor->idUpline != $this->isSource) {
+            if ($sponsor->purchasesNumber < $this->saleCount && $sponsor->idUpline != $this->isSource) {
                 return $this->userRepository->getUserByIdUser($sponsor->idUpline);
             }
         }
@@ -96,36 +96,36 @@ class Sponsorship
         DB::beginTransaction();
         try {
             SharesBalances::addLine([
-            'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_SHARE->value,
-            'operator_id' => $this->isSource,
-            'beneficiary_id' => $reserve,
-            'reference' => $ref,
-            'unit_price' => 0,
+                'balance_operation_id' => BalanceOperationsEnum::OLD_ID_52->value,
+                'operator_id' => $this->isSource,
+                'beneficiary_id' => $reserve,
+                'reference' => $ref,
+                'unit_price' => 0,
                 'value' => $value,
                 'description' => 'sponsorship commission from ' . getUserDisplayedName($resiver),
-                'current_balance' => $balances->share_balance + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::SPONSORSHIP_COMMISSION_SHARE->value) * $value)
-        ]);
+                'current_balance' => $balances->share_balance + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::OLD_ID_52->value) * $value)
+            ]);
             $value = $amount * $this->amountCash / 100;
-        CashBalances::addLine([
-            'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_CASH->value,
-            'operator_id' => $this->isSource,
-            'beneficiary_id' => $reserve,
-            'reference' => $ref,
-            'description' => 'sponsorship commission from ' . getUserDisplayedName($resiver),
-            'value' => $value,
-            'current_balance' => $balances->cash_balance + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::SPONSORSHIP_COMMISSION_CASH->value) * $value)
-        ]);
+            CashBalances::addLine([
+                'balance_operation_id' => BalanceOperationsEnum::OLD_ID_49->value,
+                'operator_id' => $this->isSource,
+                'beneficiary_id' => $reserve,
+                'reference' => $ref,
+                'description' => 'sponsorship commission from ' . getUserDisplayedName($resiver),
+                'value' => $value,
+                'current_balance' => $balances->cash_balance + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::OLD_ID_49->value) * $value)
+            ]);
             $balances = Balances::getStoredUserBalances($reserve);
-        BFSsBalances::addLine([
-            'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_BFS->value,
-            'operator_id' => $this->isSource,
-            'beneficiary_id' => $reserve,
-            'reference' => $ref,
-            'percentage' => BFSsBalances::BFS_50,
-            'description' => 'sponsorship commission from ' . getUserDisplayedName($resiver),
-            'value' => $amount * $this->amountBFS / 100,
-            'current_balance' => $balances->getBfssBalance(BFSsBalances::BFS_50) + BalanceOperation::getMultiplicator(BalanceOperationsEnum::SPONSORSHIP_COMMISSION_BFS->value)* $amount * $this->amountBFS / 100
-        ]);
+            BFSsBalances::addLine([
+                'balance_operation_id' => BalanceOperationsEnum::OLD_ID_50->value,
+                'operator_id' => $this->isSource,
+                'beneficiary_id' => $reserve,
+                'reference' => $ref,
+                'percentage' => BFSsBalances::BFS_50,
+                'description' => 'sponsorship commission from ' . getUserDisplayedName($resiver),
+                'value' => $amount * $this->amountBFS / 100,
+                'current_balance' => $balances->getBfssBalance(BFSsBalances::BFS_50) + BalanceOperation::getMultiplicator(BalanceOperationsEnum::OLD_ID_50->value) * $amount * $this->amountBFS / 100
+            ]);
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();

@@ -1,5 +1,5 @@
 <div class="container-fluid">
-@component('components.breadcrumb')
+    @component('components.breadcrumb')
         @slot('title')
             {{ __('News') }}
         @endslot
@@ -24,7 +24,6 @@
                             <a href="{{route('news_create_update', app()->getLocale())}}"
                                class="btn btn-soft-info add-btn float-end"
                                id="create-btn">
-                                <i class="ri-add-line align-bottom me-1 ml-2"></i>
                                 {{__('Create new news')}}
                             </a>
                         </div>
@@ -98,6 +97,13 @@
                             </div>
                             <div class="card-footer">
                                 <div class="row">
+                                    @if(\App\Models\User::isSuperAdmin())
+                                        <div class="col">
+                                            <button type="button" class="btn btn-info"
+                                                    wire:click="duplicateNews({{$news->id}})">
+                                                <span>{{__('Duplicate')}}</span></button>
+                                        </div>
+                                    @endif
                                     <div class="col">
                                         <p class="card-text float-end">{{__('Created at')}}: <small
                                                 class="text-muted">{{$news->created_at}}</small>

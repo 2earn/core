@@ -164,7 +164,7 @@
             window.addEventListener('OptForgetPass', event => {
                 Swal.fire({
                     title: '{{ __('Your verification code') }}',
-                    html: '{{ __('We will send') }} <br>' + event.detail[0].FullNumber + '<br>' + '{{ __('Your OTP Code') }}',
+                    html: '{{ __('We will send you an OTP Code') }}',
                     input: 'text',
                     inputAttributes: {
                         autocapitalize: 'off'

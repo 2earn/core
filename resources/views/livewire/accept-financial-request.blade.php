@@ -1,13 +1,18 @@
 <div>
-    <div class="col-12 card">
+    <div class="row">
+        <div class="col-12">
+            @include('layouts.flash-messages')
+        </div>
+    </div>
+    <div class="card">
         <div class="card-header">
-            <h5 class="card-title">{{__('Credit Transfert')}}</h5>
+            <h5 class="card-title">{{__('Credit Transfer')}}</h5>
         </div>
         <div class="card-body">
             <ul class="list-group mt-2">
                 <li class="list-group-item">
                     <strong>{{__('Solde')}}:</strong>
-                    <span class="float-end">{{$soldeUser->soldeBFS}} $</span>
+                    <span class="float-end">{{$soldeUser}} {{config('app.currency')}}</span>
                 </li>
                 <li class="list-group-item">
                     <strong>{{__('Opération')}}: </strong>
@@ -23,15 +28,29 @@
                 </li>
                 <li class="list-group-item">
                     <strong>{{__('Montant_envoyer')}}</strong>
-                    <span class="float-end">  {{$financialRequest->amount}} $</span>
+                    <span
+                        class="float-end    @if($soldeUser<$financialRequest->amount) text-danger @else text-success @endif">  {{$financialRequest->amount}} {{config('app.currency')}}</span>
+                    @if($soldeUser<$financialRequest->amount)
+                        <hr>
+                        <div class="alert alert-warning m-2 float-end" role="alert">
+                            {{ __('Insufficient sold') }}
+                        </div>
+                    @endif
                 </li>
             </ul>
+
         </div>
         <div class="card-footer text-muted">
             <button onclick="ConfirmTransacction()"
-                    class=" btn btn-primary mx-2 float-end ">{{__('Confirm transfer')}}</button>
+                    @if($soldeUser < $financialRequest->amount) disabled @endif
+                    class=" btn btn-primary mx-2 float-end ">
+                {{__('Confirm transfer of')}} {{$financialRequest->amount}} {{config('app.currency')}}
+            </button>
+
+
             <a class="btn btn-danger float-end"
-               href="{{route('financial_transaction',app()->getLocale())}}" class="btn-danger">{{__('Cancel')}}</a>
+               href="{{route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 5])}}"
+               class="btn-danger">{{__('Cancel')}}</a>
         </div>
     </div>
     <script>
@@ -44,12 +63,12 @@
                         autocapitalize: 'off'
                     },
                     showCancelButton: true,
-                    cancelButtonText: '{{trans('canceled !')}}',
+                    cancelButtonText: '{{trans('cancel')}}',
                     confirmButtonText: '{{trans('ok')}}',
                     denyButtonText: 'No',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.Livewire.dispatch('Confirmrequest',[ 2, {{$financialRequest->numeroReq}}, result.value]);
+                        window.Livewire.dispatch('ConfirmRequest', [2, {{$financialRequest->numeroReq}}, result.value]);
                     }
                 })
             }

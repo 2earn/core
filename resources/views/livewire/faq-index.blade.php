@@ -31,7 +31,6 @@
                             <a href="{{route('faq_create_update', app()->getLocale())}}"
                                class="btn btn-info add-btn float-end"
                                id="create-btn">
-                                <i class="ri-add-line align-bottom me-1 ml-2"></i>
                                 {{__('Create new faq')}}
                             </a>
                         </div>
@@ -103,7 +102,7 @@
                         </div>
                     </div>
                 @empty
-                    <p>{{__('No faqs')}}</p>
+                    <p class="text-muted">{{__('No faqs')}}.</p>
                 @endforelse
                 {{ $faqs->links() }}
             </div>

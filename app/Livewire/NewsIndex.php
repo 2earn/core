@@ -2,11 +2,12 @@
 
 namespace App\Livewire;
 
-use Illuminate\Support\Facades\Route;
 use App\Models\News;
 use App\Models\News as ModelsNews;
+use App\Services\Communication\Communication;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -18,7 +19,7 @@ class NewsIndex extends Component
     public $search = '';
     public $currentRouteName;
     protected $paginationTheme = 'bootstrap';
-    public $listeners = ['delete' => 'delete'];
+    public $listeners = ['delete' => 'delete', 'duplicateNews' => 'duplicateNews'];
 
     public function mount()
     {
@@ -33,6 +34,18 @@ class NewsIndex extends Component
     public function updatingSearch(): void
     {
         $this->resetPage();
+    }
+
+    public function duplicateNews($id)
+    {
+        try {
+            Communication::duplicateNews($id);
+
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return redirect()->route('news_index', ['locale' => app()->getLocale()])->with('success', Lang::get('News Duplication failed'));
+        }
+        return redirect()->route('news_index', ['locale' => app()->getLocale()])->with('success', Lang::get('News Duplicated Successfully'));
     }
 
     public function delete($id)

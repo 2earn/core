@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Models\Survey;
 use App\Models\SurveyQuestion;
 use App\Models\SurveyQuestionChoice;
+use App\Services\Communication\Communication;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,7 @@ class SurveyShow extends Component
             $q->where('user_id', auth()->user()->id)->where('likable_id', $this->idSurvey);
         })->exists();
     }
+
 
     public function removeQuestion($idQuestion)
     {
@@ -176,6 +178,19 @@ class SurveyShow extends Component
             }
         }
         $this->like = false;
+    }
+
+    public function duplicateSurvey($id)
+    {
+        try {
+            $duplicate = Communication::duplicateSurvey($id);
+            $this->routeRedirectionParams = ['locale' => app()->getLocale(), 'idSurvey' => $duplicate->id];
+            return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('success', Lang::get('Survey duplicated Successfully'));
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            $this->routeRedirectionParams = ['locale' => app()->getLocale(), 'idSurvey' => $id];
+            return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('success', Lang::get('Survey duplication failed'));
+        }
     }
 
     public function render()

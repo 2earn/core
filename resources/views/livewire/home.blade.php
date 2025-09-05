@@ -51,7 +51,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Cash balance') }}</p>
+                            <h5 class="text-uppercase  text-muted text-truncate mb-1 card-title">{{ __('Cash balance') }}</h5>
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
@@ -118,7 +118,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Balance for Shopping') }}</p>
+                            <h5 class="text-uppercase  text-muted text-truncate mb-1 card-title">{{ __('Balance for Shopping') }}</h5>
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
@@ -180,7 +180,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-muted text-truncate  mb-0">{{ __('Discounts Balance') }}</p>
+                            <h5 class="text-uppercase  text-muted text-truncate mb-1 card-title">{{ __('Discounts Balance') }}</h5>
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
@@ -243,7 +243,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">{{ __('SMS Solde') }}</p>
+                            <h5 class="text-uppercase  text-muted text-truncate mb-1 card-title">{{ __('SMS Solde') }}</h5>
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
@@ -274,7 +274,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">{{ __('Tree Solde') }}</p>
+                            <h5 class="text-uppercase  text-muted text-truncate mb-1 card-title">{{ __('Tree Solde') }}</h5>
                         </div>
                     </div>
                     <div class="d-flex align-items-end justify-content-between mt-4">
@@ -300,7 +300,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 overflow-hidden">
-                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">{{ __('Chance Sold') }}</p>
+                            <h5 class="text-uppercase  text-muted text-truncate mb-1 card-title">{{ __('Chance Sold') }}</h5>
                         </div>
                         <div class="flex-shrink-0">
                             <h5 class="text-success fs-14 mb-0">
@@ -332,8 +332,8 @@
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 overflow-hidden">
                             <a href="{{route('shares_solde' , app()->getLocale() )}} "
-                               class="text-decoration-underline text-muted"><p
-                                    class="text-uppercase fw-medium text-muted text-truncate   mb-0">{{ __('Actions (Shares)') }}</p>
+                               class="text-decoration-underline text-muted">
+                                <h5 class="text-uppercase  text-muted text-truncate mb-1 card-title">{{ __('Actions (Shares)') }}</h5>
                             </a>
                         </div>
                         <div class="flex-shrink-0">
@@ -376,37 +376,14 @@
     </div>
 
     <div class="row">
-        @foreach($businessSectors as $businessSector)
-            <div class="col-sm-6 col-md-4 col-lg-2">
-                <div class="card">
-                    <div class="card-body p-3" title="{{$businessSector->name}}">
-                        <a class="popup-img d-inline-block"
-                           href="{{route('business_sector_show',['locale'=> app()->getLocale(),'id'=>$businessSector->id])}}"
-                        >
-                            @if ($businessSector->thumbnailsHomeImage)
-                                <img src="{{ asset('uploads/' . $businessSector->thumbnailsHomeImage->url) }}"
-                                     class="rounded img-fluid" alt="{{$businessSector->name}}">
-                            @else
-                                <img src="{{Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_THUMB_HOME)}}"
-                                     class="rounded img-fluid" alt="{{$businessSector->name}}">
-                            @endif
-                        </a>
-                    </div>
-                </div>
-            </div>
-        @endforeach
-    </div>
 
-    @foreach($news as $newsItem)
-        @include('livewire.news-item', ['news' => $newsItem])
-    @endforeach
-    <div class="row">
-        <livewire:survey-index/>
     </div>
+    <livewire:bussiness-sectors-home/>
+    <livewire:communication-board/>
     <div class="card col-12">
         <div class="card-header border-info">
             <div class="d-flex align-items-center">
-                <h6 class="card-title mb-0 flex-grow-1">{{ __('we_are_present_in') }}</h6>
+                <h5 class="card-title mb-0 flex-grow-1 text-info">{{ __('we_are_present_in') }}</h5>
             </div>
         </div>
         <div class="card-body">
@@ -424,7 +401,7 @@
     <div class="card col-12">
         <div class="card-header border-info">
             <div class="d-flex align-items-center">
-                <h6 class="card-title mb-0 flex-grow-1">{{ __('Country ponderation') }}</h6>
+                <h5 class="card-title mb-0 flex-grow-1 text-info">{{ __('Country ponderation') }}</h5>
             </div>
         </div>
         <div class="card-body">

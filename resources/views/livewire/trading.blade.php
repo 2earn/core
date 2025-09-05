@@ -22,7 +22,7 @@
                 <div class="card-header">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h5 class="card-title mb-0">{{__('Sale Shares')}}</h5>
+                            <h5 class="card-title mb-0 text-info">{{__('Sale Shares')}}</h5>
                         </div>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                 <div class="card-header">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h5 class="card-title mb-0">{{__('Share Price Evolution')}}</h5>
+                            <h5 class="card-title mb-0 text-info">{{__('Share Price Evolution')}}</h5>
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                 <div class="card-header">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h5 class="card-title mb-0">{{__('Sale Shares tables')}}</h5>
+                            <h5 class="card-title mb-0 text-info">{{__('Table of my shares purchases')}}</h5>
                         </div>
                     </div>
                 </div>
@@ -91,12 +91,13 @@
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">
                             <th>{{__('id')}}</th>
-                            <th>{{__('date_purchase')}}</th>
-                            <th>{{__('number_of_shares')}}</th>
-                            <th>{{__('total_shares')}}</th>
-                            <th>{{__('total_price')}}</th>
-                            <th>{{__('present_value')}}</th>
-                            <th>{{__('current_earnings')}}</th>
+                            <th>{{__('Date purchase')}}</th>
+                            <th>{{__('Number of shares')}}</th>
+                            <th>{{__('Total shares')}}</th>
+                            <th>{{__('Total price')}}</th>
+                            <th>{{__('Present value')}}</th>
+                            <th>{{__('Current_earnings')}}</th>
+                            <th>{{ __('Complementary information') }}</th>
                         </tr>
                         </thead>
                         <tbody class="body2earn">
@@ -182,6 +183,7 @@
                     {data: 'total_price'},
                     {data: 'present_value'},
                     {data: 'current_earnings'},
+                    {data: 'complementary_information'},
                 ],
                 "language": {"url": urlLang}
             });

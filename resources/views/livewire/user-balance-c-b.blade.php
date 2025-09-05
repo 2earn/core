@@ -70,9 +70,9 @@
                                 <th>{{ __('ref') }}</th>
                                 <th>{{ __('date') }}</th>
                                 <th>{{ __('Operation Designation') }}</th>
-                                <th>{{ __('description') }}</th>
                                 <th>{{ __('Value') }}</th>
                                 <th>{{ __('Balance') }}</th>
+                                <th>{{ __('Complementary information') }}</th>
                             </tr>
                             </thead>
                             <tbody class="body2earn">
@@ -115,8 +115,6 @@
             </div>
         </div>
         <script type="module">
-
-
             window.onload = function () {
                 if ("{{ getUsertransaction(Auth()->user()->idUser)[0] }}" !== "null") {
                     if ({{ getUsertransaction(Auth()->user()->idUser)[0] }} === 1)
@@ -168,7 +166,6 @@
             });
 
             document.addEventListener("DOMContentLoaded", function () {
-
                 $('#ub_table').DataTable(
                     {
                         ordering: true,
@@ -187,9 +184,9 @@
                             {data: 'reference'},
                             {data: 'created_at'},
                             {data: 'operation'},
-                            {data: 'description'},
                             {data: 'value'},
                             {data: 'current_balance'},
+                            {data: 'complementary_information'},
                         ],
                         "columnDefs":
                             [

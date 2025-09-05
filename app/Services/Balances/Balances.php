@@ -2,13 +2,22 @@
 
 namespace App\Services\Balances;
 
+use App\Models\BalanceInjectorCoupon;
 use App\Models\BFSsBalances;
+use App\Models\CashBalances;
+use App\Models\DiscountBalances;
+use App\Models\SharesBalances;
+use App\Models\SMSBalances;
+use App\Models\TreeBalances;
 use App\Models\User;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
 use Core\Enum\BalanceEnum;
+use Core\Enum\BalanceOperationsEnum;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\View;
 
 class Balances
 {
@@ -18,6 +27,8 @@ class Balances
     const CASH_BALANCE = 'cash_balance';
     const BFSS_BALANCE = 'bfss_balance';
     const DISCOUNT_BALANCE = 'discount_balance';
+
+    const MIN_BFSS_TO_GET_DISCOUNT = 1000;
 
 
     public function getBalanceCompter()
@@ -206,5 +217,123 @@ class Balances
                 Balances::updateCalculatedHorisental($idUser, Balances::DISCOUNT_BALANCE, $value);
                 Balances::updateCalculatedVertical($idUser, $type, $value);
         }
+    }
+
+
+    public static function injectCashCouponBalance(BalanceInjectorCoupon $coupon): bool
+    {
+        try {
+            DB::beginTransaction();
+            $userCurrentBalancehorisontal = Balances::getStoredUserBalances(auth()->user()->idUser);
+            CashBalances::addLine([
+                'balance_operation_id' => BalanceOperationsEnum::OLD_ID_63->value,
+                'operator_id' => Balances::SYSTEM_SOURCE_ID,
+                'beneficiary_id' => auth()->user()->idUser,
+                'reference' => BalancesFacade::getReference(BalanceOperationsEnum::OLD_ID_63->value),
+                'description' => $coupon->value . ' Added From coupons',
+                'value' => $coupon->value,
+                'current_balance' => $userCurrentBalancehorisontal->cash_balance + $coupon->value
+            ]);
+            BalanceInjectorCoupon::consume($coupon);
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            return false;
+        }
+    }
+
+    public static function injectBFSCouponBalance(BalanceInjectorCoupon $coupon): bool
+    {
+        try {
+            DB::beginTransaction();
+            $userCurrentBalancehorisontal = Balances::getStoredUserBalances(auth()->user()->idUser);
+            BFSsBalances::addLine([
+                'balance_operation_id' => BalanceOperationsEnum::OLD_ID_50->value,
+                'operator_id' => Balances::SYSTEM_SOURCE_ID,
+                'beneficiary_id' => auth()->user()->idUser,
+                'reference' => BalancesFacade::getReference(BalanceOperationsEnum::OLD_ID_62->value),
+                'percentage' => $coupon->type,
+                'description' => $coupon->value . ' Added From coupons',
+                'value' => $coupon->value,
+                'current_balance' => $userCurrentBalancehorisontal->getBfssBalance($coupon->value) + $coupon->value
+            ]);
+            BalanceInjectorCoupon::consume($coupon);
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            return false;
+        }
+    }
+
+    public static function injectDiscountCouponBalance(BalanceInjectorCoupon $coupon): bool
+    {
+        try {
+            DB::beginTransaction();
+            $userCurrentBalancehorisontal = Balances::getStoredUserBalances(auth()->user()->idUser);
+            DiscountBalances::addLine([
+                'balance_operation_id' => BalanceOperationsEnum::OLD_ID_6->value,
+                'operator_id' => Balances::SYSTEM_SOURCE_ID,
+                'beneficiary_id' => auth()->user()->idUser,
+                'reference' => BalancesFacade::getReference(BalanceOperationsEnum::OLD_ID_61->value),
+                'description' => $coupon->value . ' Added From coupons',
+                'value' => $coupon->value,
+                'current_balance' => $userCurrentBalancehorisontal->discount_balance + $coupon->value
+            ]);
+            BalanceInjectorCoupon::consume($coupon);
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            return false;
+        }
+    }
+
+    public static function injectCouponBalance(BalanceInjectorCoupon $coupon): bool
+    {
+        $return_value = match (intval($coupon->category)) {
+            BalanceEnum::CASH->value => Balances::injectCashCouponBalance($coupon),
+            BalanceEnum::BFS->value => Balances::injectBFSCouponBalance($coupon),
+            BalanceEnum::DB->value => Balances::injectDiscountCouponBalance($coupon),
+            default => throw new \Exception('Unexpected match value'),
+        };
+        return $return_value;
+    }
+
+    public static function generateDescriptionById($id, $boid): string
+    {
+        $balance = match (intval($boid)) {
+            BalanceEnum::CASH->value => CashBalances::find($boid),
+            BalanceEnum::BFS->value => BFSsBalances::find($boid),
+            BalanceEnum::DB->value => DiscountBalances::find($boid),
+            BalanceEnum::TREE->value => TreeBalances::find($boid),
+            BalanceEnum::SMS->value => SMSBalances::find($boid),
+            BalanceEnum::SHARE->value => SharesBalances::find($boid),
+            BalanceEnum::CHANCE->value => SharesBalances::find($boid),
+            default => throw new \Exception('Unexpected match value'),
+        };
+        return Balances::generateDescription($balance);
+    }
+
+    public static function generateDescription(Model $balance): string
+    {
+        return View::make('balances.show-' . $balance->balance_operation_id, compact('balance'))->render();
+    }
+
+    public static function getDiscountEarnedFromBFS100I($bFSsBalancesValue): float
+    {
+        $minBfs = getSettingIntegerParam('MIN_BFSS_TO_GET_DISCOUNT', self::MIN_BFSS_TO_GET_DISCOUNT);
+        $value = 0;
+        if ($minBfs > $bFSsBalancesValue) {
+            $pourcentage = $bFSsBalancesValue / $minBfs;
+            $value = $pourcentage * $bFSsBalancesValue;
+        } else {
+            $value = $bFSsBalancesValue;
+        }
+        return $value;
     }
 }

@@ -12,8 +12,9 @@
         <div class="row card">
             @if(!empty($bfss))
                 <div class="card-header">
-                    <h5 class="card-title mb-0">{{__('BFSs description values')}} @if($type)
-                            <span class="text-success">({{$type}})</span>
+                    <h5 class="card-title mb-0">{{__('BFSs description values')}}
+                        @if($type)
+                            <span class="text-success">({{__($type)}})</span>
                         @endif</h5>
                 </div>
                 <div class="card-body">
@@ -107,10 +108,10 @@
                             <th>{{ __('ref')}}</th>
                             <th>{{ __('date')}}</th>
                             <th>{{ __('Operation Designation')}}</th>
-                            <th>{{ __('description')}}</th>
                             <th>{{ __('Percentage')}}</th>
                             <th>{{ __('Value')}}</th>
                             <th>{{ __('Balance')}}</th>
+                            <th>{{ __('Complementary information') }}</th>
                         </tr>
                         </thead>
                         <tbody class="body2earn">
@@ -155,10 +156,10 @@
                             {data: 'reference'},
                             {data: 'created_at'},
                             {data: 'operation'},
-                            {data: 'description'},
                             {data: 'percentage'},
                             {data: 'value', className: classAl},
                             {data: 'current_balance', className: classAl},
+                            {data: 'complementary_information'},
                         ],
                         "columnDefs":
                             [

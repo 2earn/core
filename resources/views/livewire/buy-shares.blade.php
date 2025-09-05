@@ -2,7 +2,7 @@
     <div class="card-header">
         <div class="d-flex align-items-center">
             <div class="flex-grow-1">
-                <h5 class="card-title mb-0">{{ __('Buy Shares') }}</h5>
+                <h5 class="card-title mb-2 text-info">{{ __('Buy Shares') }}</h5>
                 @if($flash)
                     <div class="flash-background float-end">{{__('V I P')}}</div>
                 @endif
@@ -117,9 +117,7 @@
                                        wire:keyup.debounce="simulateAmmount()" wire:model.lazy="ammount"
                                        id="ammount"
                                        class="form-control @if($flash) flash @endif">
-
                             </div>
-
                         </div>
                         <div class="col-6 @if($flash) ribbon-box right overflow-hidden @endif ">
                             <label for="action" class="col-form-label">
@@ -132,7 +130,6 @@
                                        id="action"
                                        class="form-control @if($flash) flash @endif">
                             </div>
-
                         </div>
                         @if($ammount)
                             <div class="col-12 text-muted">
@@ -246,7 +243,7 @@
                     let bfs_for = $("input[name='bfs-for']:checked").val();
                     let country_code = iti.getSelectedCountryData().iso2;
                     $.ajax({
-                        url: "{{ route('buyAction', app()->getLocale()) }}",
+                        url: "{{ route('buy_action', app()->getLocale()) }}",
                         type: "POST",
                         data: {
                             me_or_other: me_or_other,
@@ -273,9 +270,7 @@
                                     html: response.error.join('<br>')
                                 });
                             }
-
                             $('.btn-close-buy-share').trigger('click')
-
                             Swal.fire({
                                 position: 'center',
                                 icon: 'success',
@@ -283,7 +278,7 @@
                                 text: data.text,
                                 showConfirmButton: true,
                                 showCloseButton: false,
-                                confirmButtonText: '{{__('Confirm')}}',
+                                confirmButtonText: '{{__('Confirm action')}}',
                             }).then(() => {
                                 $('.buy-action-submit-spinner').hide();
                                 location.reload();
@@ -298,7 +293,7 @@
                                 icon: 'error',
                                 title: "{{__('Error in action purchase transaction')}}",
                                 cancelButtonText: '{{__('Cancel')}}',
-                                confirmButtonText: '{{__('Confirm')}}',
+                                confirmButtonText: '{{__('Confirm action 2')}}',
                                 text: responseData.error[0]
                             });
                             $('.buy-action-submit-spinner').hide();

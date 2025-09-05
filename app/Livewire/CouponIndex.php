@@ -16,8 +16,8 @@ class CouponIndex extends Component
     {
         try {
             Coupon::findOrFail($id)->delete();
-            return redirect()->route('coupon_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Platform Deleted Successfully'));
-        }catch (\Exception $exception){
+            return redirect()->route('coupon_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Coupons deleted successfully'));
+        } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('coupon_index', ['locale' => app()->getLocale()])->with('danger', $exception->getMessage());
         }

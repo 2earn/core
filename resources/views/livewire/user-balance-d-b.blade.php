@@ -21,9 +21,9 @@
                             <th>{{ __('ref') }}</th>
                             <th>{{ __('date') }}</th>
                             <th>{{ __('Operation Designation') }}</th>
-                            <th>{{ __('description') }}</th>
                             <th>{{ __('Value') }}</th>
                             <th>{{ __('Balance') }}</th>
+                            <th>{{ __('Complementary information') }}</th>
                         </tr>
                         </thead>
                         <tbody class="body2earn">
@@ -71,9 +71,9 @@
                                 {data: 'reference'},
                                 {data: 'created_at'},
                                 {data: 'operation'},
-                                {data: 'description'},
                                 {data: 'value', className: classAl},
                                 {data: 'current_balance', className: classAl},
+                                {data: 'complementary_information'},
                             ],
                             "columnDefs":
                                 [

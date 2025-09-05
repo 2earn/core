@@ -31,7 +31,6 @@
                             <a href="{{route('business_sector_create_update', app()->getLocale())}}"
                                class="btn btn-soft-info material-shadow-none mt-1 float-end"
                                id="create-btn">
-                                <i class="ri-add-line align-bottom me-1 ml-2"></i>
                                 {{__('Create new business sector')}}
                             </a>
                         </div>

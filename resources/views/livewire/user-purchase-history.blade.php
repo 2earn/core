@@ -9,7 +9,7 @@
     @endcomponent
     <div class="card row">
         <div class="card-header">
-            <h6 class="card-title mb-0">{{__('Filters')}}</h6>
+            <h6 class="card-title mb-0 text-info">{{__('Filters')}}</h6>
         </div>
         <div class="card-body row">
             <div class="col-sm-12 col-md-6 col-lg-6">
@@ -40,8 +40,6 @@
                     </div>
                 </div>
             </div>
-
-
             <div class="col-sm-12 col-md-6 col-lg-6">
                 <div class="row m-1 card border border-muted">
                     <div class="card-body border-info">
@@ -70,8 +68,6 @@
                     </div>
                 </div>
             </div>
-
-
             <div class="col-sm-12 col-md-6 col-lg-6">
                 <div class="row m-1 card border border-muted">
                     <div class="card-body border-info">
@@ -151,10 +147,9 @@
             <button class="btn btn-primary refreshOrders float-end">{{__('Search Orders')}}</button>
         </div>
     </div>
-
     <div class="card row">
         <div class="card-header">
-            <h6 class="card-title mb-0">{{__('Results')}}</h6>
+            <h6 class="card-title mb-0 text-info">{{__('Results')}}</h6>
         </div>
         <div class=" card-body col-lg-12 ">
             <div class="table-responsive">

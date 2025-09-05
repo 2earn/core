@@ -21,8 +21,9 @@ class SurveyParicipate extends Component
     public $responces;
     public $oldSurveyResponses;
     public $oldReponses = null;
+    public $showDetail;
 
-    public function mount($idSurvey)
+    public function mount($idSurvey, $showDetail = false)
     {
         $this->idSurvey = $idSurvey;
         $this->currentRouteName = Route::currentRouteName();
@@ -32,6 +33,7 @@ class SurveyParicipate extends Component
             $this->responces = [];
         }
         $this->initializeResponse($survey);
+        $this->showDetail = $showDetail;
     }
 
     public function initializeResponse($survey)

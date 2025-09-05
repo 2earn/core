@@ -22,7 +22,6 @@
             <button type="button" class="btn btn-soft-primary material-shadow-none btn-sm mx-2">
                 {{getUserDisplayedName($order->user()->first()->idUser)}}
             </button>
-            <h4 class="card-title mb-0 flex-grow-1">{{$order->created_at}}</h4>
             <div>
                 @if($order->total_order_quantity && $currentRouteName=="orders_detail")
                     <button type="button" class="btn btn-soft-primary material-shadow-none btn-sm">
@@ -69,7 +68,6 @@
                             </a>
                         </div>
                     @endif
-
                     <div class="col-md-12">
                         @if($order->orderDetails()->count())
                             <div class="card mt-2">
@@ -82,7 +80,7 @@
                                                 <th scope="col" class="text-end">{{__('Order details')}}</th>
                                                 <th scope="col" class="text-end">{{__('Prices')}}</th>
                                                 <th scope="col" class="text-end">{{__('Shipping')}}</th>
-                                                @if($order->status->value >= \Core\Enum\OrderEnum::Simulated->value && $currentRouteName=="orders_detail")
+                                                @if($order->status->value >= \Core\Enum\OrderEnum::Simulated->value && in_array($currentRouteName, ['orders_simulation', 'orders_detail']))
                                                     <th scope="col" class="text-end">{{__('Partner Discount')}}</th>
                                                     <th scope="col" class="text-end">{{__('2earn Discount')}}</th>
                                                     <th scope="col" class="text-end">{{__('Deal Discount')}}</th>
@@ -185,7 +183,7 @@
                                                                 class="text-muted float-end"> {{__('No shipping')}} </span>
                                                         @endif
                                                     </td>
-                                                    @if($order->status->value >= \Core\Enum\OrderEnum::Simulated->value && $currentRouteName=="orders_detail")
+                                                    @if($order->status->value >= \Core\Enum\OrderEnum::Simulated->value && in_array($currentRouteName, ['orders_simulation', 'orders_detail']))
                                                         @if($orderDetail->item->deal()->exists())
                                                             <td>
                                                                 <ul class="list-group">
@@ -193,22 +191,22 @@
                                                                         title="{{__('Percentage')}}">
                                                                         <i class="ri-percent-fill"></i>
                                                                         <span class="float-end">
-                                                {{$orderDetail->partner_discount_percentage}}
-                                            </span>
+                                                                        {{$orderDetail->partner_discount_percentage}}
+                                                                    </span>
                                                                     </li>
                                                                     <li class="list-group-item text-muted"
                                                                         title="{{__('value')}}">
                                                                         <i class="ri-increase-decrease-fill"></i>
                                                                         <span class="float-end">
-                                                {{$orderDetail->partner_discount}}
-                                            </span>
+                                                                        {{$orderDetail->partner_discount}}
+                                                                    </span>
                                                                     </li>
                                                                     <li class="list-group-item text-muted"
                                                                         title="{{__('Amount')}}">
                                                                         <i class="ri-money-dollar-box-fill"></i>
                                                                         <span class="float-end">
-                                                {{$orderDetail->amount_after_partner_discount}}
-                                            </span>
+                                                                        {{$orderDetail->amount_after_partner_discount}}
+                                                                    </span>
                                                                     </li>
                                                                 </ul>
                                                             </td>
@@ -218,22 +216,22 @@
                                                                         title="{{__('Percentage')}}">
                                                                         <i class="ri-percent-fill"></i>
                                                                         <span class="float-end">
-                                                {{$orderDetail->earn_discount_percentage}}
-                                            </span>
+                                                                        {{$orderDetail->earn_discount_percentage}}
+                                                                    </span>
                                                                     </li>
                                                                     <li class="list-group-item text-muted"
                                                                         title="{{__('value')}}">
                                                                         <i class="ri-increase-decrease-fill"></i>
                                                                         <span class="float-end">
-                                                {{$orderDetail->earn_discount}}
-                                            </span>
+                                                                        {{$orderDetail->earn_discount}}
+                                                                    </span>
                                                                     </li>
                                                                     <li class="list-group-item text-muted"
                                                                         title="{{__('Amount')}}">
                                                                         <i class="ri-money-dollar-box-fill"></i>
                                                                         <span class="float-end">
-                                                {{$orderDetail->amount_after_earn_discount}}
-                                            </span>
+                                                                        {{$orderDetail->amount_after_earn_discount}}
+                                                                    </span>
                                                                     </li>
                                                                 </ul>
                                                             </td>
@@ -243,8 +241,8 @@
                                                                         title="{{__('Percentage')}}">
                                                                         <i class="ri-percent-fill"></i>
                                                                         <span class="float-end">
-                                                {{$orderDetail->deal_discount_percentage}}
-                                            </span>
+                                                                        {{$orderDetail->deal_discount_percentage}}
+                                                                    </span>
                                                                     </li>
                                                                     <li class="list-group-item text-muted"
                                                                         title="{{__('value')}}">
@@ -256,8 +254,8 @@
                                                                         title="{{__('Amount')}}">
                                                                         <i class="ri-money-dollar-box-fill"></i>
                                                                         <span class="float-end">
-                                                {{$orderDetail->amount_after_deal_discount}}
-                                            </span>
+                                                                        {{$orderDetail->amount_after_deal_discount}}
+                                                                    </span>
                                                                     </li>
                                                                 </ul>
                                                             </td>
@@ -290,7 +288,7 @@
                     @include('livewire.order-deals', ['orderDeals' => $orderDeals])
                 @endif
             @endif
-            @if($order->status->value >= \Core\Enum\OrderEnum::Simulated->value  && $currentRouteName=="orders_detail")
+            @if($order->status->value >= \Core\Enum\OrderEnum::Simulated->value  && in_array($currentRouteName, ['orders_simulation', 'orders_detail']))
                 <div class="col-md-12">
                     <div class="card mt-2">
                         <div class="card-header">
@@ -310,7 +308,7 @@
                                                     <strong>{{__('Amount before discount')}}</strong>
                                                     <span
                                                         class="float-end text-muted">
-                            {{$order->deal_amount_before_discount}}  {{config('app.currency')}}</span>
+                                                    {{$order->deal_amount_before_discount}}  {{config('app.currency')}}</span>
                                                 </li>
                                             @endif
                                             @if($order->out_of_deal_amount)
@@ -327,8 +325,6 @@
                                                         {{$order->out_of_deal_amount +$order->deal_amount_before_discount}}  {{config('app.currency')}}</span>
                                                 </li>
                                             @endif
-
-
                                         </ul>
                                     </div>
                                 </div>
@@ -396,7 +392,6 @@
                                     </div>
                                 </div>
                             @endif
-
                         </div>
                     </div>
                     @endif
@@ -435,7 +430,11 @@
                                                                 <p>  {{$discount->description}}
                                                                     / {{__('Discount')}}  {{$discount->current_balance+$discount->value}}
                                                                     - {{$discount->value}}
-                                                                    = {{$discount->current_balance}}</p>
+                                                                    = {{$discount->current_balance}}
+                                                                    {{-- BO NEW DESC--}}
+                                                                    <br>
+                                                                    {!! \App\Services\Balances\Balances::generateDescription($discount) !!}
+                                                                </p>
                                                             </td>
                                                             <td>
                                                                 {{$discount->created_at}}
@@ -474,7 +473,11 @@
                                                                     <p>{{$bfs->description}}
                                                                         / {{__('BFS')}}  {{$bfs->current_balance+$bfs->value}}
                                                                         - {{$bfs->value}}
-                                                                        = {{$bfs->current_balance}}</p>
+                                                                        = {{$bfs->current_balance}}
+                                                                        {{-- BO NEW DESC--}}
+                                                                        <br>
+                                                                        {!! \App\Services\Balances\Balances::generateDescription($bfs) !!}
+                                                                    </p>
                                                                 </td>
                                                                 <td>
                                                         <span
@@ -518,6 +521,9 @@
                                                                     / {{__('CASH')}}  {{$cash->current_balance+$cash->value}}
                                                                     - {{$cash->value}}
                                                                     = {{$cash->current_balance}}
+                                                                    {{-- BO NEW DESC--}}
+                                                                    <br>
+                                                                    {!! \App\Services\Balances\Balances::generateDescription($cash) !!}
                                                                 </p>
                                                             </td>
                                                             <td>

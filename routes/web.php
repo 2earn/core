@@ -129,7 +129,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/balance-chance', \App\Livewire\UserBalanceChance::class)->name('user_balance_chance');
         });
 
-        Route::get('/financial/transaction', FinancialTransaction::class)->name('financial_transaction');
+        Route::get('/financial/transaction/{filter?}', FinancialTransaction::class)->name('financial_transaction');
         Route::get('/contact-number', ContactNumber::class)->name('contact_number');
         Route::get('/user/edit-contact', EditUserContact::class)->name('user_contact_edit');
         Route::get('/balances/exchange/funding/RequestPulicUser', RequestPublicUser::class)->name('user_request_public');
@@ -141,6 +141,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/index', \App\Livewire\OrdersIndex::class)->name('index');
             Route::get('/previous', \App\Livewire\OrdersPrevious::class)->name('previous');
             Route::get('/{id}/detail', \App\Livewire\OrderItem::class)->name('detail');
+            Route::get('/{id}/simulation', \App\Livewire\OrderSimulation::class)->name('simulation');
             Route::get('/summary', \App\Livewire\OrderSummary::class)->name('summary');
         });
         Route::prefix('/items')->name('items_')->group(function () {
@@ -239,6 +240,11 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
             Route::prefix('/balances')->name('balances_')->group(function () {
                 Route::get('/index', \App\Livewire\Balances::class)->name('index');
+                Route::get('/', \App\Livewire\OperationBalancesCreateUpdate::class)->name('create_update');
+                Route::prefix('/categories')->name('categories_')->group(function () {
+                    Route::get('/index', \App\Livewire\OperationCategoryIndex::class)->name('index');
+                    Route::get('/', \App\Livewire\OperationCategoryCreateUpdate::class)->name('create_update');
+                });
             });
 
             Route::get('/index/test', \App\Livewire\NewBalance::class)->name('index_test');
@@ -263,6 +269,10 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
                 Route::get('/index', \App\Livewire\CouponIndex::class)->name('index');
                 Route::get('/', \App\Livewire\CouponCreate::class)->name('create');
             });
+            Route::prefix('/coupon/injector')->name('coupon_injector_')->group(function () {
+                Route::get('/index', \App\Livewire\CouponInjectorIndex::class)->name('index');
+                Route::get('/', \App\Livewire\CouponInjectorCreate::class)->name('create');
+            });
 
         });
 
@@ -274,6 +284,10 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/{id}/buy', \App\Livewire\CouponBuy::class)->name('buy');
         });
 
+        Route::prefix('/coupon/injector')->name('coupon_injector_')->group(function () {
+            Route::get('/runner', \App\Livewire\CouponInjectorRunner::class)->name('runner');
+        });
+
         Route::prefix('/sales')->name('sales_')->group(function () {
             Route::get('/{id}/tracking', \App\Livewire\SalesTracking::class)->name('tracking');
         });
@@ -282,7 +296,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         Route::get('/stat-countries', 'App\Http\Controllers\ApiController@getCountriStat')->name('api_stat_countries');
         Route::post('/validate-phone', 'App\Http\Controllers\ApiController@validatePhone')->name('validate_phone');
-        Route::post('/buy-action', 'App\Http\Controllers\ApiController@buyAction')->name('buyAction');
+        Route::post('/buy-action', 'App\Http\Controllers\ApiController@buyAction')->name('buy_action');
         Route::get('/action-by-ammount', 'App\Http\Controllers\ApiController@actionByAmmount')->name('action_by_ammount');
         Route::post('/gift-action-by-ammount', 'App\Http\Controllers\ApiController@giftActionByAmmount')->name('gift_action_by_ammount');
     });
@@ -302,7 +316,8 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
     Route::group(['prefix' => 'api/v1'], function () {
         Route::get('/countries', 'App\Http\Controllers\ApiController@getCountries')->name('api_countries');
         Route::get('/settings', 'App\Http\Controllers\ApiController@getSettings')->name('api_settings');
-        Route::get('/balance/operations', 'App\Http\Controllers\ApiController@getBalanceOperations')->name('api_bal_operations');
+        Route::get('/balance/operations', 'App\Http\Controllers\ApiController@getBalanceOperations')->name('api_balance_operations');
+        Route::get('/balance/operations/categories', 'App\Http\Controllers\ApiController@getBalanceOperationsCategories')->name('api_operations_categories');
         Route::get('/amounts', 'App\Http\Controllers\ApiController@getAmounts')->name('api_Amounts');
         Route::get('/action/historys', 'App\Http\Controllers\ApiController@getActionHistorys')->name('api_action_history');
         Route::get('/user/contacts', 'App\Http\Controllers\ApiController@getUserContacts')->name('api_user_contacts');
@@ -312,6 +327,8 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/user/admin', 'App\Http\Controllers\ApiController@getUserAdmin')->name('api_user_admin');
         Route::get('/history/notification', 'App\Http\Controllers\ApiController@getHistoryNotification')->name('api_history_notification');
         Route::get('/coupons', 'App\Http\Controllers\ApiController@getCoupons')->name('api_coupon');
+        Route::get('/coupons/injector', 'App\Http\Controllers\ApiController@getCouponsInjector')->name('api_coupon_injector');
+        Route::get('/user/coupons', 'App\Http\Controllers\ApiController@getUserCouponsInjector')->name('api_user_coupon_injector');
         Route::get('/coupons/user', 'App\Http\Controllers\ApiController@getUserCoupons')->name('api_user_coupon');
         Route::get('/platforms', 'App\Http\Controllers\ApiController@getPlatforms')->name('api_platforms');
         Route::get('/roles', 'App\Http\Controllers\ApiController@getRoles')->name('api_role');
@@ -342,6 +359,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         Route::get('/api/action/values', 'App\Http\Controllers\ApiController@getActionValues')->name('api_action_values');
         Route::post('/api/coupon/delete', 'App\Http\Controllers\ApiController@deleteCoupon')->name('api_delete_coupons');
+        Route::post('/api/coupon/injector/delete', 'App\Http\Controllers\ApiController@deleteInjectorCoupon')->name('api_delete_injector_coupons');
 
         Route::get('/get-updated-card-content', 'App\Http\Controllers\ApiController@getUpdatedCardContent')->name('get-updated-card-content');
         Route::post('/add-cash', 'App\Http\Controllers\ApiController@addCash')->name('add_cash');

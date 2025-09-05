@@ -41,16 +41,16 @@
                         <div class="col-sm-12 col-md-12 col-lg-2 mt-2">
                             <button type="button" class="btn btn-soft-secondary add-btn float-end"
                                     data-bs-toggle="modal"
-                                    id="create-btn" data-bs-target="#addModal"><i
-                                    class="ri-add-line align-bottom me-1 "></i> {{ __('Add a contact') }}
+                                    id="create-btn" data-bs-target="#addModal">
+                                {{ __('Add a contact') }}
                             </button>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive table-card">
-                        <table class="table table-bordered">
-                            <thead class="table-light">
+                        <table class="table table-striped table-bordered table-nowrap">
+                            <thead>
                             <tr class="tabHeader2earn">
                                 <th>{{ __('FirstName') }}</th>
                                 <th>{{ __('LastName') }}</th>

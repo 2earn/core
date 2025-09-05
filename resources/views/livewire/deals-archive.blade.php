@@ -25,7 +25,7 @@
                 @forelse($deals as $deal)
                     @include('livewire.deals-show', ['deal' => $deal])
                 @empty
-                    <p>{{__('No archived Deals')}}.</p>
+                    <p class="text-muted">{{__('No archived Deals')}}.</p>
                 @endforelse
             </div>
         </div>

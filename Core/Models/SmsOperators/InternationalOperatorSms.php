@@ -4,6 +4,7 @@ namespace Core\Models\SmsOperators;
 
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Interfaces\IOperateurSms;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 
 class InternationalOperatorSms implements IOperateurSms
@@ -22,6 +23,9 @@ class InternationalOperatorSms implements IOperateurSms
 
     public function send()
     {
+        if (App::environment('local')) {
+            return 'No sms for local envs';
+        }
         $userSender = "2earn.cash";
         $numberFinal = ltrim($this->destination, "0");
         $ch = curl_init();

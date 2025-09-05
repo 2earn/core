@@ -15,7 +15,7 @@
                     <div class="col-12">
                         <div class="card card-height-100">
                             <div class="card-header align-items-center d-flex">
-                                <h4 class="card-title mb-0 flex-grow-1">{{ __('Countries Statistics') }}</h4>
+                                <h4 class="card-title mb-0 flex-grow-1 text-info">{{ __('Countries Statistics') }}</h4>
                             </div>
                             <div class="card-body">
                                 <div id="any1"></div>
@@ -27,7 +27,7 @@
                     <div class="col-12">
                         <div class="card card-height-100">
                             <div class="card-header align-items-center d-flex">
-                                <h4 class="card-title mb-0 flex-grow-1">{{ __('Countries Statistics') }}</h4>
+                                <h4 class="card-title mb-0 flex-grow-1 text-info">{{ __('Countries Statistics') }}</h4>
                             </div>
                             <div class="card-body">
                                 <div id="any2"></div>
@@ -39,7 +39,7 @@
                     <div class="col-12">
                         <div class="card card-height-100">
                             <div class="card-header align-items-center d-flex">
-                                <h4 class="card-title mb-0 flex-grow-1">{{ __('Countries Statistics') }}</h4>
+                                <h4 class="card-title mb-0 flex-grow-1 text-info">{{ __('Countries Statistics') }}</h4>
                             </div>
                             <div class="card-body">
                                 <div id="any3"></div>

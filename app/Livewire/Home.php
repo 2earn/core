@@ -3,9 +3,6 @@
 namespace App\Livewire;
 
 
-use App\Models\BusinessSector;
-use App\Models\News as NewsModel;
-use App\Models\Survey;
 use App\Models\vip;
 use Core\Models\Setting;
 use Core\Services\BalancesManager;
@@ -19,7 +16,7 @@ class Home extends Component
 {
     const MAX_AMOUNT = 99999999;
     const MAX_ACTIONS = 9999999;
-    public $news = [];
+
     public $cashBalance;
     public $treeBalance;
     public $chanceBalance;
@@ -54,7 +51,6 @@ class Home extends Component
     public $actions = 0;
     public $benefices = 0;
     public $cout = 0;
-    public $businessSectors;
 
     protected $listeners = [
         'checkContactNumbre' => 'checkContactNumbre',
@@ -66,7 +62,6 @@ class Home extends Component
     {
         $this->settingsManager = $settingsManager;
         $this->balancesManager = $balancesManager;
-        $this->businessSectors = BusinessSector::all();
     }
 
     public function getIp()
@@ -106,13 +101,12 @@ class Home extends Component
         $this->userSelledAction = getUserSelledActions(Auth()->user()->idUser);
         $actualActionValue = actualActionValue(getSelledActions(true), false);
 
-        $this->news = NewsModel::where('enabled', 1)->orderBy('id', 'desc')->get();
+
 
         $params = [
             "soldeBuyShares" => $balancesManager->getBalances($user->idUser, 2),
             'arraySoldeD' => [$solde->soldeCB, $solde->soldeBFS, $solde->soldeDB],
             'usermetta_info' => $usermetta_info,
-            'surveys' => Survey::all()->sortByDesc("id")->take(4),
             "actualActionValue" => [
                 'int' => intval($actualActionValue),
                 '2Fraction' => intval(($actualActionValue - floor($actualActionValue)) * 100),

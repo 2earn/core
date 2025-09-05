@@ -19,10 +19,10 @@ class AddCashSeeder extends Seeder
             foreach (self::USERS_IDS as $idUser) {
             $userCurrentBalancehorisontal = Balances::getStoredUserBalances($idUser);
             CashBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::SI_CB->value,
+                'balance_operation_id' => BalanceOperationsEnum::OLD_ID_18->value,
                 'operator_id' => $idUser,
                 'beneficiary_id' => $idUser,
-                'reference' => $balances->getReference(BalanceOperationsEnum::SI_CB->value),
+                'reference' => $balances->getReference(BalanceOperationsEnum::OLD_ID_18->value),
                 'description' => "Add cash balance from AddCashSeeder",
                 'value' => $value,
                 'current_balance' => $userCurrentBalancehorisontal->cash_balance + $value
