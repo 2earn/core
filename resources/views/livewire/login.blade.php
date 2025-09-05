@@ -13,7 +13,7 @@
                                         <div class="bg-overlay opacity-75"></div>
                                         <div class="position-relative h-100 d-flex flex-column">
                                             <div class="mb-4">
-                                                <a   href="{{route('home',app()->getLocale(),false)}}" class="d-block">
+                                                <a href="{{route('home',app()->getLocale(),false)}}" class="d-block">
                                                     <img src="{{ Vite::asset('resources/images/2earn.png') }}"
                                                          alt="2earn.cash">
                                                 </a>
@@ -44,16 +44,16 @@
                                                         </div>
                                                         <div class="carousel-item">
                                                             <img
-                                                                src="{{Vite::asset('resources/images/Move2earn Icon.png')}}"
-                                                                alt="Move2earn" height="100"
-                                                                class="responsive-image mb-3">
+                                                                    src="{{Vite::asset('resources/images/Move2earn Icon.png')}}"
+                                                                    alt="Move2earn" height="100"
+                                                                    class="responsive-image mb-3">
                                                             <p class="fs-15 fst-italic text-white">{{__('Exceptional Transportation Services')}}</p>
                                                         </div>
                                                         <div class="carousel-item">
                                                             <img
-                                                                src="{{Vite::asset('resources/images/icon-learn.png')}}"
-                                                                alt="Learn2earn" height="100"
-                                                                class="responsive-image mb-3">
+                                                                    src="{{Vite::asset('resources/images/icon-learn.png')}}"
+                                                                    alt="Learn2earn" height="100"
+                                                                    class="responsive-image mb-3">
                                                             <p class="fs-15 fst-italic text-white">{{__('Empowering knowledge, anywhere, anytime')}}</p>
                                                         </div>
                                                     </div>
@@ -73,29 +73,28 @@
                                         </div>
                                         <div class="mt-4" wire:ignore>
                                             @php
-                                                $state = bin2hex(random_bytes(16));
-                                                $nonce = bin2hex(random_bytes(16));
                                                 session(['oauth_state' => $state, 'oauth_nonce' => $nonce]);
 
                                                 $params = http_build_query([
                                                     'response_type' => 'code',
-                                                    'client_id' => '4fb79ec4-bb11-4bea-993f-825bace2bfd4',
-                                                    'redirect_uri' => 'https://2earn.test/oauth/callback',
+                                                    'client_id' => config('app.auth_2earn_client_id'),
+                                                    'redirect_uri' => config('app.auth_2earn_redirect_url'),
                                                     'scope' => 'openid',
                                                     'state' => $state,
                                                     'nonce' => $nonce,
                                                 ]);
                                             @endphp
 
-                                            <button class="btn btn-primary w-100" onclick="window.location.href='https://auth.2earn.test/oauth/authorize?{{ $params }}'">
-                                                Se connecter avec auth.2earn
+                                            <button class="btn btn-primary w-100"
+                                                    onclick="window.location.href='https://auth.2earn.test/oauth/authorize?{{ $params }}'">
+                                                {{__('Log in with auth.2earn')}}
                                             </button>
 
                                         </div>
                                         <div class="mt-5 text-center">
                                             <p class="mb-0">{{ __('Dont have an account?') }} <a
-                                                    href="{{route('registre', app()->getLocale())}}"
-                                                    class="fw-semibold text-primary text-decoration-underline">
+                                                        href="{{route('registre', app()->getLocale())}}"
+                                                        class="fw-semibold text-primary text-decoration-underline">
                                                     {{ __('Sign up') }}</a>
                                             </p>
                                         </div>
@@ -109,5 +108,4 @@
         </div>
         @include('layouts.footer', ['pageName' => 'login'])
     </div>
-
 </div>

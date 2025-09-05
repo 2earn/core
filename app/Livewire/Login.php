@@ -24,10 +24,16 @@ class Login extends Component
     public ?string $from = null;
     public int $expireAt;
 
+    public string $state;
+    public string $nonce;
+    public string $client_id;
+
     public function mount(Request $request)
     {
         $this->from = $request->query->get('form');
         $this->expireAt = getSettingIntegerParam('EXPIRE_AT', 30);
+        $this->state = bin2hex(random_bytes(16));
+        $this->nonce = bin2hex(random_bytes(16));
     }
 
 
