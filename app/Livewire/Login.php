@@ -33,7 +33,7 @@ class Login extends Component
         $this->expireAt = getSettingIntegerParam('EXPIRE_AT', 30);
         $this->state = bin2hex(random_bytes(16));
         $this->nonce = bin2hex(random_bytes(16));
-        $this->loginUrl = "login url";
+
 
         if (Auth::check()) {
             $this->redirect(route('home', ['locale' => app()->getLocale()]));
@@ -41,14 +41,14 @@ class Login extends Component
             session(['oauth_state' => $this->state, 'oauth_nonce' => $this->nonce]);
             $params = http_build_query([
                 'response_type' => 'code',
-                'client_id' => config('app.auth_2earn_client_id'),
-                'redirect_uri' => config('app.auth_2earn_redirect_url'),
+                'client_id' => config('services.auth_2earn.client_id'),
+                'redirect_uri' => config('services.auth_2earn.redirect'),
                 'scope' => 'openid',
                 'state' => $this->state,
                 'nonce' => $this->nonce,
             ]);
 
-            $this->redirect(config('app.auth_2earn_authorise_url') . '?' . $params);
+            $this->redirect(config('services.auth_2earn.authorise') . '?' . $params);
         }
     }
 

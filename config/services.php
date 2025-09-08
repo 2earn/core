@@ -32,5 +32,11 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
     'api_token' => env('API_LOOKUP_TOKEN', '1|tl48jBRLgYHbBoQWmYX0ZRPkK8WAgBS4oGn46Xii6bcbf35b'),
+    'auth_2earn' => [
+        'client_id' => env('AUTH_2EARN_CLIENT_ID'),
+        'redirect' => env('AUTH_2EARN_REDIRECT_URL'),
+        'authorise' => env('AUTH_2EARN_AUTHORISE_URL'),
+        'secret' => env('AUTH_2EARN_CLIENT_SECRET'),
+    ],
 
 ];
