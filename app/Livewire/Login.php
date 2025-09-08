@@ -27,6 +27,7 @@ class Login extends Component
     public string $state;
     public string $nonce;
     public string $client_id;
+    public string $loginUrl;
 
     public function mount(Request $request)
     {
@@ -34,6 +35,7 @@ class Login extends Component
         $this->expireAt = getSettingIntegerParam('EXPIRE_AT', 30);
         $this->state = bin2hex(random_bytes(16));
         $this->nonce = bin2hex(random_bytes(16));
+        $this->loginUrl = "login url";
     }
 
 

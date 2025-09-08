@@ -92,8 +92,8 @@
 
                                         </div>
                                         <div class="mt-5 text-center">
-                                            <p class="mb-0">{{ __('Dont have an account?') }} <a
-                                                        href="{{route('registre', app()->getLocale())}}"
+                                            <p class="mb-0">{{ __('Dont have an account') }} <a
+                                                        href="{{$loginUrl}}"
                                                         class="fw-semibold text-primary text-decoration-underline">
                                                     {{ __('Sign up') }}</a>
                                             </p>
