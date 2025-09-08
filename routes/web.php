@@ -400,5 +400,5 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
     });
 });
 
-Route::get('/oauth/callback', [OAuthController::class, 'callback']);
+Route::get('/oauth/callback', [\App\Http\Controllers\OAuthController::class, 'callback']);
 
