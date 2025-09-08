@@ -47,7 +47,7 @@ class Login extends Component
                 'nonce' => $this->nonce,
             ]);
 
-            $this->redirect('https://auth.2earn.test/oauth/authorize?' . $params);
+            $this->redirect(config('app.auth_2earn_authorise_url') . '?' . $params);
         }
     }
 

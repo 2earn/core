@@ -267,4 +267,5 @@ return [
     'auth_2earn_client_id' => env('AUTH_2EARN_CLIENT_ID'),
     'auth_2earn_redirect_url' => env('AUTH_2EARN_REDIRECT_URL'),
     'auth_2earn_client_secret' => env('AUTH_2EARN_CLIENT_SECRET'),
+    'auth_2earn_authorise_url' => env('AUTH_2EARN_AUTHORISE_URL'),
 ];
