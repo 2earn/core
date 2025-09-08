@@ -36,7 +36,7 @@ class Login extends Component
         $this->loginUrl = "login url";
 
         if (Auth::check()) {
-            $this->redirect(route('home'));
+            $this->redirect(route('home', ['locale' => app()->getLocale()]));
         } else {
             session(['oauth_state' => $this->state, 'oauth_nonce' => $this->nonce]);
             $params = http_build_query([
@@ -47,7 +47,7 @@ class Login extends Component
                 'state' => $this->state,
                 'nonce' => $this->nonce,
             ]);
-            dd(config('app.auth_2earn_authorise_url'), config('app.auth_2earn_authorise_url') . '?' . $params);
+
             $this->redirect(config('app.auth_2earn_authorise_url') . '?' . $params);
         }
     }
