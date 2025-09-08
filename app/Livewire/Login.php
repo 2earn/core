@@ -3,11 +3,9 @@
 namespace App\Livewire;
 
 use App\Http\Traits\earnLog;
-use Core\Services\settingsManager;
 use Illuminate\Foundation\Auth\RedirectsUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Login extends Component
@@ -36,6 +34,21 @@ class Login extends Component
         $this->state = bin2hex(random_bytes(16));
         $this->nonce = bin2hex(random_bytes(16));
         $this->loginUrl = "login url";
+        if (Auth::check()) {
+            $this->redirect(route('home'));
+        } else {
+            session(['oauth_state' => $this->state, 'oauth_nonce' => $this->nonce]);
+            $params = http_build_query([
+                'response_type' => 'code',
+                'client_id' => config('app.auth_2earn_client_id'),
+                'redirect_uri' => config('app.auth_2earn_redirect_url'),
+                'scope' => 'openid',
+                'state' => $this->state,
+                'nonce' => $this->nonce,
+            ]);
+
+            $this->redirect('https://auth.2earn.test/oauth/authorize?' . $params);
+        }
     }
 
     public function render()
