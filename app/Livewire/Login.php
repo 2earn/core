@@ -34,7 +34,7 @@ class Login extends Component
         $this->state = bin2hex(random_bytes(16));
         $this->nonce = bin2hex(random_bytes(16));
         $this->loginUrl = "login url";
-        if (Auth::check()) {
+        if (Auth::check()){
             $this->redirect(route('home'));
         } else {
             session(['oauth_state' => $this->state, 'oauth_nonce' => $this->nonce]);

@@ -13,6 +13,7 @@ class OAuthController extends Controller
 {
     public function callback(Request $request)
     {
+        dd($request);
         $code = $request->input('code');
         $state = $request->input('state');
 
