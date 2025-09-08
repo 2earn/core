@@ -32,7 +32,7 @@ class OAuthController extends Controller
             return response()->json(['error' => 'invalid_id_token', 'message' => trans('ID Token missing from the response')], 401);
         }
 
-        $publicKey = file_get_contents(config('services.auth_2earn.public_key_path'));
+        $publicKey = file_get_contents(storage_path(config('services.auth_2earn.public_key_path')));
 
         try {
             $decoded = JWT::decode($idToken, new Key($publicKey, 'RS256'));
