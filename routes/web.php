@@ -2,8 +2,6 @@
 
 use App\Livewire\AcceptFinancialRequest;
 use App\Livewire\Account;
-use App\Livewire\ChangePassword;
-use App\Livewire\CheckOptCode;
 use App\Livewire\ConfigurationHA;
 use App\Livewire\ContactNumber;
 use App\Livewire\Contacts;
@@ -12,7 +10,6 @@ use App\Livewire\EditUserContact;
 use App\Livewire\EntretienArbre;
 use App\Livewire\EvolutionArbre;
 use App\Livewire\FinancialTransaction;
-use App\Livewire\ForgotPassword;
 use App\Livewire\HistoriqueRecuperation;
 use App\Livewire\Hobbies;
 use App\Livewire\Home;
@@ -305,7 +302,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/{id}/show', \App\Livewire\BusinessSectorShow::class)->name('show');
     });
 
-    Route::get('/changePassword/{idUser}', ChangePassword::class)->name('reset_password');
     Route::get('/users/list', 'App\Http\Controllers\ApiController@getUsersList')->name('api_users_list');
 
     Route::get('/login', Login::class)->name('login')->middleware('setLocalLogin');

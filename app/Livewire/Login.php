@@ -38,31 +38,6 @@ class Login extends Component
         $this->loginUrl = "login url";
     }
 
-
-    public function login($number, $code, $pass, $iso, settingsManager $settingsManager)
-    {
-        if ($number == "" || $code == "" || $pass == "" || $iso == "") {
-            return redirect()->route('login', ['locale' => app()->getLocale()])->with('danger', Lang::get('your phone or your password is incorrect'));
-        }
-        if (strlen($iso) > 2) {
-            return redirect()->route('login', ['locale' => app()->getLocale()])->with('danger', Lang::get('Code_pays_incorrect'));
-        }
-        $user = $settingsManager->loginUser(str_replace(' ', '', $number), $code, false, $pass, $iso);
-        if (!$user) {
-            $this->earnDebug('Failed login : number phone -  ' . $number . ' Code pays- : ' . $code . ' Password- : ' . $pass . ' Iso- :' . $iso);
-            return redirect()->route('login', ['locale' => app()->getLocale()])->with('danger', Lang::get('your phone or your password is incorrect'));
-        }
-        try {
-            if (!is_null($this->from)) {
-                Log::info('Inscription from Site 2earn :: code:' . $code . ' number: ' . $number);
-                return redirect()->intended(route('home', app()->getLocale()))->with('from', $this->from);
-            }
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-        }
-        return redirect()->intended(route('home', app()->getLocale()));
-    }
-
     public function render()
     {
         return view('livewire.login')->extends('layouts.master-without-nav')->section('content');

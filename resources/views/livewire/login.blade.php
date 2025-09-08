@@ -74,7 +74,6 @@
                                         <div class="mt-4" wire:ignore>
                                             @php
                                                 session(['oauth_state' => $state, 'oauth_nonce' => $nonce]);
-
                                                 $params = http_build_query([
                                                     'response_type' => 'code',
                                                     'client_id' => config('app.auth_2earn_client_id'),
