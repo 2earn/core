@@ -37,6 +37,8 @@ return [
         'redirect' => env('AUTH_2EARN_REDIRECT_URL'),
         'authorise' => env('AUTH_2EARN_AUTHORISE_URL'),
         'secret' => env('AUTH_2EARN_CLIENT_SECRET'),
+        'token' => env('AUTH_2EARN_TOKEN'),
+        'public_key_path' => env('PUBLIC_KEY_PATH'),
     ],
 
 ];

@@ -34,7 +34,6 @@ class Login extends Component
         $this->state = bin2hex(random_bytes(16));
         $this->nonce = bin2hex(random_bytes(16));
 
-
         if (Auth::check()) {
             $this->redirect(route('home', ['locale' => app()->getLocale()]));
         } else {
@@ -48,7 +47,7 @@ class Login extends Component
                 'nonce' => $this->nonce,
             ]);
 
-            $this->redirect(config('services.auth_2earn.authorise') . '?' . $params);
+            $this->redirect( config('services.auth_2earn.authorise') . '?' . $params);
         }
     }
 

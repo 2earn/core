@@ -18,8 +18,8 @@ class OAuthController extends Controller
 
         $response = Http::asForm()
             ->withOptions(['verify' => false]) // ⚠️ Remove in production
-            ->withBasicAuth(config('app.auth_2earn_client_id'), config('services.oauth.client_secret'))
-            ->post(config('services.oauth.token_url'), ['grant_type' => 'authorization_code', 'code' => $code, 'redirect_uri' => url('/oauth/callback')]);
+            ->withBasicAuth(config('services.auth_2earn.client_id'), config('services.auth_2earn.secret'))
+            ->post(config('services.auth_2earn.token'), ['grant_type' => 'authorization_code', 'code' => $code, 'redirect_uri' => url('/oauth/callback')]);
 
         if (!$response->ok()) {
             return response()->json(['error' => 'unauthorized', 'message' => trans('Error while retrieving the token')], 401);
@@ -32,7 +32,7 @@ class OAuthController extends Controller
             return response()->json(['error' => 'invalid_id_token', 'message' => trans('ID Token missing from the response')], 401);
         }
 
-        $publicKey = file_get_contents(config('services.oauth.public_key_path'));
+        $publicKey = file_get_contents(config('services.auth_2earn.public_key_path'));
 
         try {
             $decoded = JWT::decode($idToken, new Key($publicKey, 'RS256'));
