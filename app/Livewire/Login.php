@@ -34,7 +34,8 @@ class Login extends Component
         $this->state = bin2hex(random_bytes(16));
         $this->nonce = bin2hex(random_bytes(16));
         $this->loginUrl = "login url";
-        if (Auth::check()){
+
+        if (Auth::check()) {
             $this->redirect(route('home'));
         } else {
             session(['oauth_state' => $this->state, 'oauth_nonce' => $this->nonce]);
@@ -46,7 +47,7 @@ class Login extends Component
                 'state' => $this->state,
                 'nonce' => $this->nonce,
             ]);
-
+            dd(config('app.auth_2earn_authorise_url'), config('app.auth_2earn_authorise_url') . '?' . $params);
             $this->redirect(config('app.auth_2earn_authorise_url') . '?' . $params);
         }
     }
