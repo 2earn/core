@@ -307,10 +307,9 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
     Route::get('/changePassword/{idUser}', ChangePassword::class)->name('reset_password');
     Route::get('/users/list', 'App\Http\Controllers\ApiController@getUsersList')->name('api_users_list');
+
     Route::get('/login', Login::class)->name('login')->middleware('setLocalLogin');
-    Route::get('/registre', Registre::class)->name('registre');
-    Route::get('/forget-password', ForgotPassword::class)->name('forget_password');
-    Route::get('/check-opt-code/{iduser}/{ccode}/{numTel}', CheckOptCode::class)->name('check_opt_code');
+
     Route::get('/validate-account', ValidateAccount::class)->name('validate_account');
 
     Route::group(['prefix' => 'api/v1'], function () {
