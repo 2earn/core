@@ -120,7 +120,6 @@ return [
     */
 
     'key' => env('APP_KEY'),
-
     'cipher' => 'AES-256-CBC',
 
     /*
@@ -263,5 +262,5 @@ return [
         'es' => ['name' => 'es', 'direction' => 'ltr', 'flag' => 'es', 'tabLang' => 'es-ES'],
         'ru' => ['name' => 'ru', 'direction' => 'ltr', 'flag' => 'ru', 'tabLang' => 'ru'],
         'de' => ['name' => 'de', 'direction' => 'ltr', 'flag' => 'de', 'tabLang' => 'de-DE'],
-    ]
+    ],
 ];

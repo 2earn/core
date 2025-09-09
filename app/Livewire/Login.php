@@ -3,11 +3,9 @@
 namespace App\Livewire;
 
 use App\Http\Traits\earnLog;
-use Core\Services\settingsManager;
 use Illuminate\Foundation\Auth\RedirectsUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Login extends Component
@@ -24,35 +22,33 @@ class Login extends Component
     public ?string $from = null;
     public int $expireAt;
 
+    public string $state;
+    public string $nonce;
+    public string $client_id;
+    public string $loginUrl;
+
     public function mount(Request $request)
     {
         $this->from = $request->query->get('form');
         $this->expireAt = getSettingIntegerParam('EXPIRE_AT', 30);
-    }
+        $this->state = bin2hex(random_bytes(16));
+        $this->nonce = bin2hex(random_bytes(16));
 
+        if (Auth::check()) {
+            $this->redirect(route('home', ['locale' => app()->getLocale()]));
+        } else {
+            session(['oauth_state' => $this->state, 'oauth_nonce' => $this->nonce]);
+            $params = http_build_query([
+                'response_type' => 'code',
+                'client_id' => config('services.auth_2earn.client_id'),
+                'redirect_uri' => config('services.auth_2earn.redirect'),
+                'scope' => 'openid',
+                'state' => $this->state,
+                'nonce' => $this->nonce,
+            ]);
 
-    public function login($number, $code, $pass, $iso, settingsManager $settingsManager)
-    {
-        if ($number == "" || $code == "" || $pass == "" || $iso == "") {
-            return redirect()->route('login', ['locale' => app()->getLocale()])->with('danger', Lang::get('your phone or your password is incorrect'));
+            $this->redirect( config('services.auth_2earn.authorise') . '?' . $params);
         }
-        if (strlen($iso) > 2) {
-            return redirect()->route('login', ['locale' => app()->getLocale()])->with('danger', Lang::get('Code_pays_incorrect'));
-        }
-        $user = $settingsManager->loginUser(str_replace(' ', '', $number), $code, false, $pass, $iso);
-        if (!$user) {
-            $this->earnDebug('Failed login : number phone -  ' . $number . ' Code pays- : ' . $code . ' Password- : ' . $pass . ' Iso- :' . $iso);
-            return redirect()->route('login', ['locale' => app()->getLocale()])->with('danger', Lang::get('your phone or your password is incorrect'));
-        }
-        try {
-            if (!is_null($this->from)) {
-                Log::info('Inscription from Site 2earn :: code:' . $code . ' number: ' . $number);
-                return redirect()->intended(route('home', app()->getLocale()))->with('from', $this->from);
-            }
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-        }
-        return redirect()->intended(route('home', app()->getLocale()));
     }
 
     public function render()

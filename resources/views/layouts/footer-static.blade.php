@@ -1,8 +1,8 @@
 <div class="row align-content-end">
-    <div class="col-lg-12 text-center text-muted">
+    <div class="col-lg-12 text-center text-light">
         {{__('Copyright')}} © {{ date('Y') }} 2Earn.cash
     </div>
-    <div class="col-lg-12 text-center text-muted">
+    <div class="col-lg-12 text-center text-light">
         <a href="{{route('who_we_are',app()->getLocale())}}" class="link-info link-footer">
             {{__('Who we are')}}
         </a>

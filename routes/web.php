@@ -2,8 +2,6 @@
 
 use App\Livewire\AcceptFinancialRequest;
 use App\Livewire\Account;
-use App\Livewire\ChangePassword;
-use App\Livewire\CheckOptCode;
 use App\Livewire\ConfigurationHA;
 use App\Livewire\ContactNumber;
 use App\Livewire\Contacts;
@@ -12,7 +10,6 @@ use App\Livewire\EditUserContact;
 use App\Livewire\EntretienArbre;
 use App\Livewire\EvolutionArbre;
 use App\Livewire\FinancialTransaction;
-use App\Livewire\ForgotPassword;
 use App\Livewire\HistoriqueRecuperation;
 use App\Livewire\Hobbies;
 use App\Livewire\Home;
@@ -31,6 +28,11 @@ use App\Livewire\UserBalanceSMS;
 use App\Livewire\UserPurchaseHistory;
 use App\Livewire\ValidateAccount;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Firebase\JWT\Key;
+use Firebase\JWT\JWT;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -300,12 +302,10 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/{id}/show', \App\Livewire\BusinessSectorShow::class)->name('show');
     });
 
-    Route::get('/changePassword/{idUser}', ChangePassword::class)->name('reset_password');
     Route::get('/users/list', 'App\Http\Controllers\ApiController@getUsersList')->name('api_users_list');
+
     Route::get('/login', Login::class)->name('login')->middleware('setLocalLogin');
-    Route::get('/registre', Registre::class)->name('registre');
-    Route::get('/forget-password', ForgotPassword::class)->name('forget_password');
-    Route::get('/check-opt-code/{iduser}/{ccode}/{numTel}', CheckOptCode::class)->name('check_opt_code');
+
     Route::get('/validate-account', ValidateAccount::class)->name('validate_account');
 
     Route::group(['prefix' => 'api/v1'], function () {
@@ -400,4 +400,5 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
     });
 });
 
+Route::get('/oauth/callback', [\App\Http\Controllers\OAuthController::class, 'callback']);
 

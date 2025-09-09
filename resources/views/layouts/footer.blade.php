@@ -1,7 +1,7 @@
 <footer class="footer {{$pageName}}">
     <div class="container">
         <div class="row align-content-end">
-            <div class="col-lg-12 text-center text-muted">
+            <div class="col-lg-12 text-center text-light">
                 <a href="{{route('home',app()->getLocale())}}" class="link-info link-footer">
                     2Earn.cash
                 </a> {{ __('has been accepted into') }}
