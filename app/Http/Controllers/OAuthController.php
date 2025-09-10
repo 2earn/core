@@ -17,13 +17,15 @@ class OAuthController extends Controller
         $state = $request->input('state');
 
         $response = Http::asForm()
-            ->withOptions(['verify' => false]) // ⚠️ Remove in production
+            ->withOptions(['verify' => false])
             ->withBasicAuth(config('services.auth_2earn.client_id'), config('services.auth_2earn.secret'))
             ->post(config('services.auth_2earn.token'), ['grant_type' => 'authorization_code', 'code' => $code, 'redirect_uri' => config('services.auth_2earn.redirect')]);
 
         if (!$response->ok()) {
             return response()->json(['error' => 'unauthorized', 'message' => trans('Error while retrieving the token')], 401);
         }
+
+        session(['token_responce' => $response->json()]);
 
         $data = $response->json();
         $idToken = $data['id_token'] ?? null;

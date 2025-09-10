@@ -36,6 +36,7 @@ return [
         'client_id' => env('AUTH_2EARN_CLIENT_ID'),
         'redirect' => env('AUTH_2EARN_REDIRECT_URL'),
         'authorise' => env('AUTH_2EARN_AUTHORISE_URL'),
+        'logout' => env('AUTH_2EARN_LOGOUT_URL'),
         'secret' => env('AUTH_2EARN_CLIENT_SECRET'),
         'token' => env('AUTH_2EARN_TOKEN'),
         'public_key_path' => env('PUBLIC_KEY_PATH'),
