@@ -19,7 +19,7 @@ class OAuthController extends Controller
         $response = Http::asForm()
             ->withOptions(['verify' => false]) // ⚠️ Remove in production
             ->withBasicAuth(config('services.auth_2earn.client_id'), config('services.auth_2earn.secret'))
-            ->post(config('services.auth_2earn.token'), ['grant_type' => 'authorization_code', 'code' => $code, 'redirect_uri' => url('/oauth/callback')]);
+            ->post(config('services.auth_2earn.token'), ['grant_type' => 'authorization_code', 'code' => $code, 'redirect_uri' => config('services.auth_2earn.redirect')]);
 
         if (!$response->ok()) {
             return response()->json(['error' => 'unauthorized', 'message' => trans('Error while retrieving the token')], 401);
