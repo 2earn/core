@@ -50,6 +50,7 @@ class TopBar extends Component
         $fromSession = session('token_responce');
         $response = Http::withToken($fromSession['access_token'])->post(config('services.auth_2earn.logout'));
         Log::notice('Logout :: ' . json_encode($response));
+        Log::notice('Logout :: ' . json_encode($response->body()));
         $settingsManager->logoutUser();
         return redirect()->route('login', ['locale' => app()->getLocale()]);
     }
