@@ -8,6 +8,7 @@ use App\Services\Balances\Balances;
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class TopBar extends Component
@@ -47,7 +48,8 @@ class TopBar extends Component
     public function logout(settingsManager $settingsManager)
     {
         $fromSession = session('token_responce');
-        Http::withToken($fromSession['access_token'])->post(config('services.auth_2earn.logout'));
+        $response = Http::withToken($fromSession['access_token'])->post(config('services.auth_2earn.logout'));
+        Log::notice('Logout :: ' . json_encode($response));
         $settingsManager->logoutUser();
         return redirect()->route('login', ['locale' => app()->getLocale()]);
     }
