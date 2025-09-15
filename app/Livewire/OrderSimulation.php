@@ -8,7 +8,6 @@ use App\Services\Orders\Ordering;
 use Core\Enum\OrderEnum;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
@@ -20,7 +19,8 @@ class OrderSimulation extends Component
     public $simulation;
     public $validated;
     public $listeners = [
-        'validateOrder' => 'validateOrder'
+        'validateOrder' => 'validateOrder',
+        'makeOrderReady' => 'makeOrderReady'
     ];
 
     public function mount(Request $request)
@@ -28,8 +28,20 @@ class OrderSimulation extends Component
         $this->idOrder = Route::current()->parameter('id');
         $this->currentRouteName = Route::currentRouteName();
         $this->order = Order::findOrFail($this->idOrder);
-        $this->simulation = Ordering::simulate($this->order);
+        if (in_array($this->order->status->value, [OrderEnum::Simulated->value, OrderEnum::Ready->value])) {
+            $this->simulation = Ordering::simulate($this->order);
+        }
         $this->validated = false;
+    }
+
+    public function makeOrderReady()
+    {
+        $this->order = Order::findOrFail($this->idOrder);
+        if ($this->order->status->value == OrderEnum::New->value && $this->order->orderDetails->count() > 0) {
+            $this->order->updateStatus(OrderEnum::Ready);
+        }
+        return redirect()->route('orders_simulation', ['locale' => app()->getLocale(), 'id' =>  $this->order->id])->with('danger', trans('Empty order'));
+
     }
 
     public function validateOrder()

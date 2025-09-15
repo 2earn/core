@@ -295,20 +295,22 @@ class Ordering
     {
         foreach ($order_deal as $order_deal_item) {
             $countedDiscount = $order_deal_item['final_discount'];
-            if ($countedDiscount <= $balances->discount_balance) {
-                $currentBalance = $balances->discount_balance + BalanceOperation::getMultiplicator(BalanceOperationsEnum::OLD_ID_59->value) * $countedDiscount;
-                $discountData = [
-                    'balance_operation_id' => BalanceOperationsEnum::OLD_ID_58->value,
-                    'operator_id' => Balances::SYSTEM_SOURCE_ID,
-                    'beneficiary_id' => $order->user()->first()->idUser,
-                    'reference' => BalancesFacade::getReference(BalanceOperationsEnum::OLD_ID_58->value),
-                    'description' => $countedDiscount . ' From ordering (id) ' . $order->id,
-                    'value' => $countedDiscount,
-                    'current_balance' => $currentBalance
-                ];
-                DiscountBalances::addLine($discountData, null, null, $order->id, null, null);
-            } else {
-                throw new Exception('No discount solde');
+            if ($countedDiscount > 0) {
+                if ($countedDiscount <= $balances->discount_balance) {
+                    $currentBalance = $balances->discount_balance + BalanceOperation::getMultiplicator(BalanceOperationsEnum::OLD_ID_59->value) * $countedDiscount;
+                    $discountData = [
+                        'balance_operation_id' => BalanceOperationsEnum::OLD_ID_58->value,
+                        'operator_id' => Balances::SYSTEM_SOURCE_ID,
+                        'beneficiary_id' => $order->user()->first()->idUser,
+                        'reference' => BalancesFacade::getReference(BalanceOperationsEnum::OLD_ID_58->value),
+                        'description' => $countedDiscount . ' From ordering (id) ' . $order->id,
+                        'value' => $countedDiscount,
+                        'current_balance' => $currentBalance
+                    ];
+                    DiscountBalances::addLine($discountData, null, null, $order->id, null, null);
+                } else {
+                    throw new Exception('No discount solde');
+                }
             }
         }
     }

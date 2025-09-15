@@ -1,10 +1,10 @@
 <div>
     @section('title')
-        {{ __('Order Summary') }}
+        {{ __('Card Summary') }}
     @endsection
     @component('components.breadcrumb')
         @slot('title')
-            {{ __('Order Summary') }}
+            {{ __('Card Summary') }}
         @endslot
     @endcomponent
     <div class="row">
@@ -17,7 +17,7 @@
             <div class="card-header">
                 <div class="d-flex">
                     <div class="flex-grow-1">
-                        <h5 class="card-title mb-0">{{__('Order Summary')}}</h5>
+                        <h5 class="card-title mb-0">{{__('Card Summary')}}</h5>
                     </div>
                 </div>
             </div>
@@ -108,8 +108,8 @@
         @endif
         @if($cart->total_cart>0)
             <div class="card-footer">
-                <button wire:click="simulateOrder()"
-                        class="btn btn-soft-success mx-2 float-end">{{__('Simulate Order')}}</button>
+                <button wire:click="createAndSimulateOrder()"
+                        class="btn btn-soft-success mx-2 float-end">{{__('Create Order & Simulate it')}}</button>
                 <button wire:click="clearCart()"
                         class="btn btn-soft-warning mx-2 float-end">{{__('Clear Cart')}}</button>
             </div>

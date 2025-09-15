@@ -3,17 +3,17 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 
-class Version4v6Seeder extends Seeder
+class Version5Seeder extends Seeder
 {
 
     public function run()
     {
+        Log::notice(app()->environment());
         Log::notice('Starting Seeder version 4.6');
-        if (App::environment('local')) {
+        if (app()->environment('local')) {
             Log::notice('Starting Seeder DealsInsertSeeder');
             Artisan::call('db:seed', ['--class' => 'Database\Seeders\DealsInsertSeeder']);
 
@@ -22,7 +22,6 @@ class Version4v6Seeder extends Seeder
 
             Log::notice('Starting Seeder CouponSeeder');
             Artisan::call('db:seed', ['--class' => 'Database\Seeders\CouponSeeder']);
-
         }
 
         Log::notice('Starting Seeder BalanceOperationsCouponSeeder');
@@ -37,7 +36,7 @@ class Version4v6Seeder extends Seeder
         Log::notice('Starting Seeder BalanceOperationsMappingSeeder');
         Artisan::call('db:seed', ['--class' => 'Database\Seeders\BalanceOperationsMappingSeeder']);
 
-        if (App::environment('local')) {
+        if (app()->environment('local')) {
 
             Log::notice('Starting Seeder BalancesMigrationSeeder');
             Artisan::call('db:seed', ['--class' => 'Database\Seeders\BalancesMigrationSeeder']);

@@ -15,11 +15,31 @@
         <div class="card-body">
             @include('livewire.order-item', ['order' => $order])
         </div>
-        @if(!$this->validated)
-            <div class="card-footer">
-                <button wire:click="validateOrder()"
-                        class="btn btn-soft-success mx-2 float-end">{{__('Validate Order')}}</button>
+        @if($order->status->value ==\Core\Enum\OrderEnum::New->value)
+            <div class="card-body">
+                @if($order->orderDetails->count() > 0)
+                <div class="alert alert-info material-shadow" role="alert">
+                    {{__('Order not ready for simulation')}}
+                </div>
+                @endif
+                @if($order->orderDetails->count() > 0)
+                    <button wire:click="makeOrderReady()"
+                            class="btn btn-soft-success mx-2 float-end">{{__('Make order not ready for simulation')}}</button>
+                @else
+                    <div class="alert alert-info material-shadow" role="alert">
+                        {{__('Empty order')}}
+                    </div>
+                @endif
+
             </div>
+
+        @else
+            @if(!$this->validated)
+                <div class="card-footer">
+                    <button wire:click="validateOrder()"
+                            class="btn btn-soft-success mx-2 float-end">{{__('Complete Order')}}</button>
+                </div>
+            @endif
         @endif
     </div>
 </div>
