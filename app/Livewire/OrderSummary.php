@@ -26,7 +26,7 @@ class OrderSummary extends Component
         $this->currentRouteName = Route::currentRouteName();
     }
 
-    public function simulateOrder()
+    public function createAndSimulateOrder()
     {
         $cart = Cart::where('user_id', auth()->user()->id)->first();
         $ordersData = [];

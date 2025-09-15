@@ -31,7 +31,7 @@ class DealsInsertSeeder extends Seeder
                 $dealNumber = rand(1, 3);
                 for ($i = 1; $i <= $dealNumber; $i++) {
                     $platform->deals()->create([
-                        'name' => $platform->name . ' - Deal',
+                        'name' => $platform->name .' ( '.$i. ') - Deal',
                         'description' => $faker->text() . ' RANDOM',
                         'validated' => TRUE,
                         'status' => DealStatus::Opened->value,
