@@ -10,27 +10,17 @@ class DeliveryNotification extends Notification
 {
     use Queueable;
 
-    /**
-     * Create a new notification instance.
-     */
+
     public function __construct()
     {
         //
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @return array<int, string>
-     */
     public function via(object $notifiable): array
     {
         return ['database'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     */
     public function toMail($notifiable)
     {
         return (new MailMessage)
@@ -49,15 +39,15 @@ class DeliveryNotification extends Notification
         ];
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'type' => 'delivery_sms',
+            'title' => __('notifications.settings.delivery_sms'),
+            'message' => __('notifications.delivery_sms.body', ['name' => $notifiable->name]),
+            'action_text' => __('notifications.delivery_sms.action'),
+            'url' => route('home', ['locale' => app()->getLocale()]),
+            'timestamp' => now()->toDateTimeString(),
         ];
     }
 }
