@@ -1,4 +1,8 @@
 <div>
+
+    {{dump($notifications)}}
+    {{dd($unreadNotifications)}}
+
     <header id="page-topbar">
         <div class="layout-width">
             <div class="navbar-header">
