@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Core\Enum\NotificationSettingEnum;
+use Illuminate\Support\Str;
 
 class NotificationHelper
 {
@@ -12,16 +13,10 @@ class NotificationHelper
     }
 
 
-    public static function format($notification)
+    public static function getTemplate($notification)
     {
-        $notificationText = '';
-        switch ($notification->type) {
-            case 'App\Notifications\contact_registred':
-                $notificationText = Lang::get('New contact registred') . ' ' . $notification->data['fullphone_number'];
-                break;
-            default:
-                echo trans('please fill it in formatNotification');
-        }
-        return $notificationText;
+        return 'notifications.'.Str::snake(class_basename($notification->type));
     }
+
+
 }
