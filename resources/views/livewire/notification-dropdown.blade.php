@@ -1,14 +1,14 @@
 <div class="dropdown topbar-head-dropdown ms-1 header-item">
-        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary"
-                id="page-header-notifications-dropdown"
-                data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-            <i class='bx bx-bell fs-22'></i>
-            <span
-                class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger"
-                id="notif-counter">{{$unreadNotificationsNumber}}
+    <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary"
+            id="page-header-notifications-dropdown"
+            data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+        <i class='bx bx-bell fs-22'></i>
+        <span
+            class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger"
+            id="notif-counter">{{$unreadNotificationsNumber}}
                                 <span class="visually-hidden">{{__('unread messages')}}</span>
                             </span>
-        </button>
+    </button>
     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
          id="notification-dropdown" aria-labelledby="page-header-notifications-dropdown">
         <div class="dropdown-head bg-primary bg-pattern rounded-top">
@@ -64,5 +64,11 @@
         @empty
             <div class="p-2 text-gray-500">{{__('No notifications')}}</div>
         @endforelse
-        </div>
+        @if($latests>0)
+            <div class="p-2 text-gray-500"><a
+                    href="{{route('notification_list',['locale'=>app()->getLocale()])}}">{{__('See all notifications')}}</a>
+            </div>
+
+        @endif
     </div>
+</div>
