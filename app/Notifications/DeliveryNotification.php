@@ -33,8 +33,7 @@ class DeliveryNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'title' => __('notifications.settings.delivery_sms'),
-            'message' => __('notifications.delivery_sms.body', ['name' => $notifiable->name]),
+            'idUser' => $notifiable->idUser,
             'url' => route('home',['locale'=>app()->getLocale()]),
         ];
     }

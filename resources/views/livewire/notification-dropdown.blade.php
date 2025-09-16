@@ -27,7 +27,7 @@
                 <div class="d-flex">
                     <div class="avatar-xs me-3 flex-shrink-0">
                                                 <span
-                                                    class="avatar-title bg-danger-subtle text-danger rounded-circle fs-16">
+                                                    class="bg-danger-subtle text-danger rounded-circle fs-16">
                                                     <i class="bx bx-message-square-dots"></i>
                                                 </span>
                     </div>
@@ -51,12 +51,15 @@
                             @endif
 
                         </div>
-                        <h6 class="mt-0 mb-2 fs-13 lh-base">
-                            {{ \App\Helpers\NotificationHelper::format($notification) }}
-                        </h6>
+                        <h5>{{ __(__('notifications.settings.delivery_sms')) }}</h5>
+                        <p>{{ __('notifications.delivery_sms.body', $notification->data['message_params'] ?? []) }}</p>
+                            <a href="{{ $notification->data['url'] }}" class="btn btn-sm btn-primary">
+                                {{ __('notifications.delivery_sms.action') }}
+                            </a>
+
                         <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
                                 <span><i
-                                        class="mdi mdi-clock-outline"></i> {{time_ago($notification->created_at)}}</span>
+                                        class="mdi mdi-clock-outline"></i>   {{ $notification->created_at->diffForHumans() }}</span>
                         </p>
                     </div>
                 </div>
@@ -65,7 +68,7 @@
             <div class="p-2 text-gray-500">{{__('No notifications')}}</div>
         @endforelse
         @if($latests>0)
-            <div class="p-2 text-gray-500"><a
+            <div class="p-2 text-gray-500 float-end"><a
                     href="{{route('notification_list',['locale'=>app()->getLocale()])}}">{{__('See all notifications')}}</a>
             </div>
 

@@ -12,5 +12,7 @@ class NotificationsSeeder extends Seeder
     {
         $user = User::find(384);
         $user->notify(new DeliveryNotification());
+        $user->notify(new DeliveryNotification());
+        $user->notify(new DeliveryNotification());
     }
 }

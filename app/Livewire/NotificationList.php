@@ -8,12 +8,15 @@ use Livewire\WithPagination;
 
 class NotificationList extends Component
 {
+
+    const NOTIFICATION_PER_PAGE = 5;
     use WithPagination;
 
     public $filter = 'all';
 
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = ['refreshNotifications' => '$refresh'];
+    protected $listeners = ['notificationUpdated' => '$refresh'];
+
 
     public function getNotificationsProperty()
     {
@@ -25,7 +28,7 @@ class NotificationList extends Component
             $query->whereNotNull('read_at');
         }
 
-        return $query->paginate(10);
+        return $query->paginate(self::NOTIFICATION_PER_PAGE);
     }
 
     public function markAsRead($id)
@@ -34,11 +37,11 @@ class NotificationList extends Component
         if ($notification) {
             $notification->markAsRead();
         }
+        $this->dispatch('notificationUpdated');
     }
 
     public function updatedFilter($value)
     {
-        logger()->info("Filter changed to: {$value}");
         $this->resetPage();
     }
 

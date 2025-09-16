@@ -6,6 +6,7 @@ return [
         'delivery_sms' => 'Notification de livraison par SMS',
     ],
     'delivery_sms' => [
+        'title' => 'Delivery sms title',
         'body' => 'Bonjour :name, votre colis est en route !',
         'action' => 'Suivre votre livraison',
     ],

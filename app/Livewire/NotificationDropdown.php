@@ -10,6 +10,7 @@ class NotificationDropdown extends Component
     public $notifications = [];
     public $latests;
     public $unreadNotificationsNumber;
+    protected $listeners = ['notificationUpdated' => 'loadNotifications'];
 
     public function mount()
     {
@@ -29,6 +30,7 @@ class NotificationDropdown extends Component
         if ($notification) {
             $notification->markAsRead();
             $this->loadNotifications();
+            $this->dispatch('notificationUpdated');
         }
     }
 
