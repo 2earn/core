@@ -1,10 +1,10 @@
 <div class="text-reset notification-item d-block dropdown-item position-relative"
-    id="{{$notification->id}}" title="{{$notification->id}}">
+     id="{{$notification->id}}" title="{{$notification->id}}">
     <div class="d-flex">
         <div class="avatar-xs me-3 flex-shrink-0">
-            <span class="bg-danger-subtle text-danger rounded-circle fs-16">
-                                                    <i class="bx bx-message-square-dots"></i>
-                                                </span>
+            <span class="btn btn-soft-info btn-sm material-shadow-none">
+                  <i class="bx bx-message-square-dots"></i>
+            </span>
         </div>
         <div class="flex-grow-1">
             <div class="float-end">

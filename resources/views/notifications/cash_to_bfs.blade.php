@@ -26,10 +26,10 @@
                 @endif
 
             </div>
-            <h5>{{ __(__('notifications.settings.share_purchase')) }}</h5>
-            <p>{{ __('notifications.share_purchase.body', $notification->data['message_params'] ?? []) }}</p>
+            <h5>{{ __(__('notifications.settings.cash_to_bfs')) }}</h5>
+            <p>{{ __('notifications.cash_to_bfs.body', $notification->data['message_params'] ?? []) }}</p>
             <a href="{{ $notification->data['url'] }}" class="btn btn-sm btn-primary">
-                {{ __('notifications.share_purchase.action') }}
+                {{ __('notifications.cash_to_bfs.action') }}
             </a>
 
             <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
