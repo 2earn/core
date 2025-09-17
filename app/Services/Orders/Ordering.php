@@ -10,6 +10,7 @@ use App\Models\DiscountBalances;
 use App\Models\Order;
 use App\Models\OrderDeal;
 use App\Models\OrderDetail;
+use App\Notifications\OrderCompleted;
 use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
 use Core\Enum\BalanceOperationsEnum;
@@ -435,7 +436,9 @@ class Ordering
             $simulation['order']->updateStatus(OrderEnum::Paid);
             Ordering::runPartition($simulation['order'], $simulation['order_deal']);
             DB::commit();
+            $simulation['order']->user()->first()->notify(new OrderCompleted($simulation['order']));
             return $simulation['order']->updateStatus(OrderEnum::Dispatched);
+
         } catch (Exception $exception) {
             DB::rollBack();
             Log::error($exception->getMessage());

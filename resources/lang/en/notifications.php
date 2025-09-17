@@ -6,6 +6,7 @@ return [
         'delivery_sms' => 'Delivery notification via SMS',
         'share_purchase' => 'Share purchase',
         'cash_to_bfs' => 'Cash to bfs',
+        'order_completed' => 'Order completed',
     ],
     'delivery_sms' => [
         'body' => 'Hello :name, your package is on the way!',
@@ -18,5 +19,9 @@ return [
     'cash_to_bfs' => [
         'body' => 'Cash to bfs converted',
         'action' => 'Track your BFS',
+    ],
+    'order_completed' => [
+        'body' => 'Order completed successfully',
+        'action' => 'See your Order',
     ],
 ];
