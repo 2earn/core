@@ -11,11 +11,16 @@
     </button>
     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
          id="notification-dropdown" aria-labelledby="page-header-notifications-dropdown">
-        <div class="dropdown-head bg-primary bg-pattern rounded-top">
+        <div class="dropdown-head bg-pattern rounded-top">
             <div class="p-3">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h1 class="m-0 fs-16 text-white">{{__('Notifications')}}</h1>
+                        <h1 class="m-0 fs-16 text-info">{{__('Notifications')}}</h1>
+                        @if($latests>0)
+                            <div class="p-2 text-light float-end"><a
+                                    href="{{route('notification_list',['locale'=>app()->getLocale()])}}">{{__('See all notifications')}}</a>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -25,11 +30,5 @@
         @empty
             <div class="p-2 text-gray-500">{{__('No notifications')}}</div>
         @endforelse
-        @if($latests>0)
-            <div class="p-2 text-gray-500 float-end"><a
-                    href="{{route('notification_list',['locale'=>app()->getLocale()])}}">{{__('See all notifications')}}</a>
-            </div>
-
-        @endif
     </div>
 </div>

@@ -3,11 +3,12 @@
 namespace App\Livewire;
 
 use App\Models\User;
-use Core\Enum\RequestStatus;
+use App\Notifications\FinancialRequestSent;
 use Core\Enum\StatusRequest;
 use Core\Models\detail_financial_request;
 use Core\Services\settingsManager;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
@@ -57,7 +58,8 @@ class RequestPublicUser extends Component
                 'status' => '0',
                 'securityCode' => $securityCode
             ]);
-        return redirect()->route('financial_transaction',  ['locale' => app()->getLocale(), 'filter' => 2])->with('success', Lang::get('Financial request sent successfully ,This is your security code') . ' : ' . $securityCode);
+        Auth::user()->notify(new FinancialRequestSent());
+        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 2])->with('success', Lang::get('Financial request sent successfully ,This is your security code') . ' : ' . $securityCode);
     }
 
     public function send($idUser, settingsManager $settingsManager)
@@ -79,7 +81,7 @@ class RequestPublicUser extends Component
                 'validated' => 0,
                 'type_user' => 2
             ]);
-        return redirect()->route('financial_transaction',  ['locale' => app()->getLocale(), 'filter' => 2])->with('success', Lang::get('Success send req to public user'));
+        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 2])->with('success', Lang::get('Success send req to public user'));
     }
 
     public function mount(Request $request)
@@ -95,7 +97,7 @@ class RequestPublicUser extends Component
         $users = User::where('is_public', 1)
             ->where('idUser', '<>', $userAuth->idUser)
             ->where('idCountry', $userAuth->idCountry)
-            ->where('status', '>',StatusRequest::OptValidated->value)
+            ->where('status', '>', StatusRequest::OptValidated->value)
             ->get();
         return view('livewire.request-public-user', ['pub_users' => $users])->extends('layouts.master')->section('content');
     }

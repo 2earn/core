@@ -7,6 +7,8 @@ return [
         'share_purchase' => 'Share purchase',
         'cash_to_bfs' => 'Cash to bfs',
         'order_completed' => 'Order completed',
+        'survey_participation' => 'Survey participation',
+        'financial_request_sent' => 'Financial request sent',
     ],
     'delivery_sms' => [
         'body' => 'Hello :name, your package is on the way!',
@@ -23,5 +25,13 @@ return [
     'order_completed' => [
         'body' => 'Order completed successfully',
         'action' => 'See your Order',
+    ],
+    'survey_participation' => [
+        'body' => 'Survey participation completed successfully',
+        'action' => 'See the survey',
+    ],
+    'financial_request_sent' => [
+        'body' => 'Financial request sent successfully',
+        'action' => 'See financial request',
     ],
 ];

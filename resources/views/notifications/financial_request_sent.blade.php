@@ -5,12 +5,13 @@
             <span class="btn btn-soft-info btn-sm material-shadow-none">
                 <i class="las la-dollar-sign"></i>
             </span>
+
         </div>
         <div class="flex-grow-1">
-            <h5>{{ __(__('notifications.settings.cash_to_bfs')) }}</h5>
-            <p>{{ __('notifications.cash_to_bfs.body', $notification->data['message_params'] ?? []) }}</p>
+            <h5>{{ __(__('notifications.settings.financial_request_sent')) }}</h5>
+            <p>{{ __('notifications.financial_request_sent.body', $notification->data['message_params'] ?? []) }}</p>
             <a href="{{ $notification->data['url'] }}" class="btn btn-sm btn-primary">
-                {{ __('notifications.cash_to_bfs.action') }}
+                {{ __('notifications.financial_request_sent.action') }}
             </a>
             <p class="mb-0 fs-11 fw-medium text-uppercase text-muted float-end">
                 <span><i

@@ -9,7 +9,7 @@ use Livewire\WithPagination;
 class NotificationList extends Component
 {
 
-    const NOTIFICATION_PER_PAGE = 5;
+    const NOTIFICATION_PER_PAGE = 10;
     use WithPagination;
 
     public $filter = 'all';

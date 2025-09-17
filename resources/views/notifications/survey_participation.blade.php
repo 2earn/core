@@ -7,10 +7,10 @@
             </span>
         </div>
         <div class="flex-grow-1">
-            <h5>{{ __(__('notifications.settings.cash_to_bfs')) }}</h5>
-            <p>{{ __('notifications.cash_to_bfs.body', $notification->data['message_params'] ?? []) }}</p>
+            <h5>{{ __(__('notifications.settings.survey_participation')) }}</h5>
+            <p>{{ __('notifications.survey_participation.body', $notification->data['message_params'] ?? []) }}</p>
             <a href="{{ $notification->data['url'] }}" class="btn btn-sm btn-primary">
-                {{ __('notifications.cash_to_bfs.action') }}
+                {{ __('notifications.survey_participation.action') }}
             </a>
             <p class="mb-0 fs-11 fw-medium text-uppercase text-muted float-end">
                 <span><i
@@ -20,10 +20,10 @@
         </div>
         <div class="flex-grow-1">
             @if ($notification->read_at === null)
-                <button type="button" class="btn btn-link"
+                <button type="button" class="btn btn-link float-end"
                         wire:click="markAsRead('{{$notification->id}}')"
                         id="all-notification-check{{$notification->id}}">
-                        <span class="btn btn-soft-info btn-sm material-shadow-none float-end" title="{{__('Mark as read')}}">
+                        <span class="btn btn-soft-info btn-sm material-shadow-none" title="{{__('Mark as read')}}">
                 <i class="ri-mail-fill"></i>
             </span>
                     <div wire:loading
