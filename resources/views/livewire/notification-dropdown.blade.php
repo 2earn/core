@@ -1,7 +1,10 @@
-<div class="dropdown topbar-head-dropdown ms-1 header-item">
+<div class="dropdown topbar-head-dropdown ms-1 header-item" wire:poll.30s="loadNotifications()">
     <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary"
             id="page-header-notifications-dropdown"
-            data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+            data-bs-toggle="dropdown" aria-expanded="false"
+            aria-expanded="false"
+            data-bs-auto-close="outside"
+    >
         <i class='bx bx-bell fs-22'></i>
         <span
             class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger"
