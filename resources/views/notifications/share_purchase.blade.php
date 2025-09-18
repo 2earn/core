@@ -1,5 +1,7 @@
-<div class="text-reset notification-item d-block dropdown-item position-relative" id="{{$notification->id}}"
-     title="{{$notification->id}}">
+<div
+    class="text-reset notification-item d-block dropdown-item position-relative m-1 @if  ($notification->read_at === null) alert alert-info @else alert alert-light @endif"
+    id="{{$notification->id}}"
+    title="{{$notification->id}}">
     <div class="d-flex">
         <div class="avatar-xs me-3 flex-shrink-0">
             <span class="btn btn-soft-info btn-sm material-shadow-none">
@@ -23,7 +25,8 @@
                 <button type="button" class="btn btn-link"
                         wire:click="markAsRead('{{$notification->id}}')"
                         id="all-notification-check{{$notification->id}}">
-                        <span class="btn btn-soft-info btn-sm material-shadow-none float-end" title="{{__('Mark as read')}}">
+                        <span class="btn btn-soft-info btn-sm material-shadow-none float-end"
+                              title="{{__('Mark as read')}}">
                 <i class="ri-mail-fill"></i>
             </span>
                     <div wire:loading

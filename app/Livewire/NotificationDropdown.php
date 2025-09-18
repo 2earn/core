@@ -34,6 +34,16 @@ class NotificationDropdown extends Component
         }
     }
 
+    public function markThemAllRead()
+    {
+        $notifications = Auth::user()->notifications()->get();
+        if ($notifications) {
+            $notifications->markAsRead();
+            $this->loadNotifications();
+            $this->dispatch('notificationUpdated');
+        }
+    }
+
     public function render()
     {
         return view('livewire.notification-dropdown');

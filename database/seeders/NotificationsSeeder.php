@@ -11,8 +11,9 @@ class NotificationsSeeder extends Seeder
     public function run(): void
     {
         $user = User::find(384);
-        $user->notify(new DeliveryNotification());
-        $user->notify(new DeliveryNotification());
-        $user->notify(new DeliveryNotification());
+        for ($i = 0; $i < 2; $i++) {
+            $user->notify(new DeliveryNotification());
+        }
+
     }
 }

@@ -5,9 +5,10 @@
         <i class='bx bx-bell fs-22'></i>
         <span
             class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger"
-            id="notif-counter">{{$unreadNotificationsNumber}}
-                                <span class="visually-hidden">{{__('unread messages')}}</span>
-                            </span>
+            id="notif-counter">
+            {{$unreadNotificationsNumber}}
+            <span class="visually-hidden">{{__('unread messages')}}</span>
+            </span>
     </button>
     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
          id="notification-dropdown" aria-labelledby="page-header-notifications-dropdown">
@@ -19,6 +20,19 @@
                         @if($latests>0)
                             <div class="p-2 text-light float-end"><a
                                     href="{{route('notification_list',['locale'=>app()->getLocale()])}}">{{__('See all notifications')}}</a>
+                            </div>
+                            <div class="p-2 btn btn-primary float-end">
+                                <a wire:click="markThemAllRead()"
+                                >{{__('Mark them all as read')}}
+                                    <div wire:loading
+                                         wire:target="markThemAllRead()">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                        <span
+                                            class="sr-only">{{__('Loading')}}...</span>
+                                    </div>
+                                </a>
+
                             </div>
                         @endif
                     </div>

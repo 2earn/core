@@ -1,5 +1,7 @@
-<div class="text-reset notification-item d-block dropdown-item position-relative" id="{{$notification->id}}"
-     title="{{$notification->id}}">
+<div
+    class="text-reset notification-item d-block dropdown-item position-relative m-1 @if  ($notification->read_at === null) alert alert-dark border-0 material-shadow @else alert alert-light  border-0 material-shadow @endif"
+    id="{{$notification->id}}"
+    title="{{$notification->id}}">
     <div class="d-flex">
         <div class="avatar-xs me-3 flex-shrink-0">
             <span class="btn btn-soft-info btn-sm material-shadow-none">

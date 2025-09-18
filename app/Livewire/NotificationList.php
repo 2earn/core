@@ -40,6 +40,16 @@ class NotificationList extends Component
         $this->dispatch('notificationUpdated');
     }
 
+    public function markThemAllRead()
+    {
+        $notifications = Auth::user()->notifications()->get();
+        if ($notifications) {
+            $notifications->markAsRead();
+            $this->getNotificationsProperty();
+            $this->dispatch('notificationUpdated');
+        }
+    }
+
     public function updatedFilter($value)
     {
         $this->resetPage();
