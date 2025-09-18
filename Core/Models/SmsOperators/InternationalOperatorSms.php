@@ -23,7 +23,7 @@ class InternationalOperatorSms implements IOperateurSms
 
     public function send()
     {
-        if (App::environment('local')) {
+        if (app()->environment('local')) {
             return 'No sms for local envs';
         }
         $userSender = "2earn.cash";
