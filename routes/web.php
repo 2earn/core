@@ -184,6 +184,9 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::prefix('/coupon')->name('coupon_')->group(function () {
             Route::get('/history', \App\Livewire\CouponHistory::class)->name('history');
         });
+        Route::prefix('/notification')->name('notification_')->group(function () {
+            Route::get('/list', \App\Livewire\NotificationList::class)->name('list');
+        });
 
         // SUPER ADMIN MENU
         // -----------------------------------------------------------

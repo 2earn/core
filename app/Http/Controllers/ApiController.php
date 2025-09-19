@@ -12,6 +12,7 @@ use App\Models\OperationCategory;
 use App\Models\SharesBalances;
 use App\Models\User;
 use App\Models\vip;
+use App\Notifications\SharePurchase;
 use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
 use App\Services\Sponsorship\SponsorshipFacade;
@@ -228,8 +229,7 @@ class ApiController extends BaseController
             Log::error($exception->getMessage());
             return response()->json(['type' => ['error'], 'message' => [trans('Actions purchase transaction failed')]]);
         }
-
-
+        Auth()->user()->notify(new SharePurchase());
         return response()->json(['type' => ['success'], 'title' => [trans('Actions purchase transaction completed successfully')], 'text' => [trans('This page will reload for update')]]);
     }
 

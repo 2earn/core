@@ -467,20 +467,7 @@ if (!function_exists('getUserDisplayedName')) {
     }
 
 }
-if (!function_exists('formatNotification')) {
-    function formatNotification($notification)
-    {
-        $notificationText = '';
-        switch ($notification->type) {
-            case 'App\Notifications\contact_registred':
-                $notificationText = Lang::get('New contact registred') . ' ' . $notification->data['fullphone_number'];
-                break;
-            default:
-                echo "i equals 2";
-        }
-        return $notificationText;
-    }
-}
+
 
 if (!function_exists('time_ago')) {
 

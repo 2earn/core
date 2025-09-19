@@ -5,7 +5,9 @@ namespace App\Livewire;
 use App\Models\Survey;
 use App\Models\SurveyResponse;
 use App\Models\SurveyResponseItem;
+use App\Notifications\SurveyParticipation;
 use Core\Enum\Selection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -95,7 +97,6 @@ class SurveyParicipate extends Component
     public function participate()
     {
         try {
-
             $survey = Survey::findOrFail($this->idSurvey);
             $question = $survey->question;
             $this->checkParticipation($survey, $question);
@@ -122,10 +123,12 @@ class SurveyParicipate extends Component
                 }
                 $this->particiapetionProcess = false;
             }
+            Auth::user()->notify(new SurveyParticipation($survey));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('surveys_participate', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while participating to this survey'));
         }
+
         return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('success', Lang::get('You just participated successfully to this survey'));
     }
 

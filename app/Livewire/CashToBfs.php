@@ -64,6 +64,7 @@ class CashToBfs extends Component
         if ($this->FinRequestN != null && $this->FinRequestN != '') {
             return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $this->FinRequestN]);
         }
+        $user->notify(new \App\Notifications\CashToBfs());
         return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 1])->with('success', Lang::get('Success CASH to BFS exchange'));
     }
 

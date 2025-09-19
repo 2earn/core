@@ -15,6 +15,7 @@ class TopBar extends Component
 {
     public $count = 0;
     public $notifications = [];
+    public $unreadNotifications = [];
     public $currentRoute;
     public $userProfileImage;
     public $locales;
@@ -60,7 +61,8 @@ class TopBar extends Component
         $authUser = auth()->user();
         $user = $settingsManager->getUserById($authUser->id);
         $this->count = auth()->user()->unreadNotifications()->count();
-        $this->notifications = auth()->user()->unreadNotifications()->get();
+        $this->notifications = auth()->user()->notifications()->get();
+        $this->unreadNotifications = auth()->user()->unreadNotifications()->get();
         $this->locales = config('app.available_locales');
         if (!$authUser)
             dd('not found page');

@@ -19,7 +19,7 @@ class UserRoleSeeder extends Seeder
         $count = 0;
         foreach ($users as $user) {
             if ($user->getRoleNames()->count() == 0) {
-                if (App::environment('local')) {
+                if (app()->environment('local')) {
                     $output->writeln(json_encode($user->id . ' : ' . getUserDisplayedName($user->idUser)));
                 }
                 $count++;
