@@ -8,9 +8,6 @@ use Illuminate\Support\Facades\Log;
 
 class FindUnusedBladeFilesSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $bladeFiles = collect(File::allFiles(resource_path('views')))
@@ -23,7 +20,6 @@ class FindUnusedBladeFilesSeeder extends Seeder
 
         $usedViews = collect();
 
-        // Scan routes and controllers for view references
         $searchPaths = [
             base_path('routes'),
             app_path('Http/Controllers'),
@@ -37,7 +33,6 @@ class FindUnusedBladeFilesSeeder extends Seeder
                         $usedViews->push($view);
                     }
                 }
-                // Also check for Route::view('/url', 'view.name')
                 if (preg_match_all("/Route::view\s*\(\s*[^,]+,\s*[\'\"]([^\'\"]+)[\'\"]/i", $content, $matches2)) {
                     foreach ($matches2[1] as $view) {
                         $usedViews->push($view);
@@ -47,15 +42,12 @@ class FindUnusedBladeFilesSeeder extends Seeder
         }
         $usedViews = $usedViews->unique()->values();
 
-        // Find unused blade files
         $unused = $bladeFiles->filter(function ($blade) use ($usedViews) {
-            // Check for direct match or dot notation
             return !$usedViews->contains(function ($used) use ($blade) {
                 return strtolower($used) === strtolower($blade);
             });
         })->values();
 
-        // Log and display
         if ($unused->isEmpty()) {
             $this->command->info('No unused Blade files found.');
             Log::info('No unused Blade files found.');
