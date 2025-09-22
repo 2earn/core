@@ -38,14 +38,29 @@
                     </div>
                 </div>
             @endif
+            <div class="col-sm-12 col-md-4 col-lg-3">
+                <div class="col-sm-12 col-md-4 col-lg-3">
+
+                </div>
+                <span class="text-muted mb-2">
+            {{__('The Management Team')}}
+        </span>
+            </div>
         </div>
     </div>
-    <div class="card-footer">
-            <span class="text-muted mb-2">
-                {{__('The Management Team')}}
+    <div class="card-footer text-muted ">
+        <span class="mb-0 float-end">
+            {{$news->published_at}}
+        </span>
+        <div class="mt-2">
+            <span class="me-3">
+                <i class="fa fa-comments"></i>
+                {{ $news->comments_count ?? 0 }} {{ __('Comments') }}
             </span>
-        <span class="text-muted mb-0 float-end">
-                {{$news->published_at}}
+            <span>
+                <i class="fa fa-thumbs-up"></i>
+                {{ $news->likes_count ?? 0 }} {{ __('Likes') }}
             </span>
+        </div>
     </div>
 </div>
