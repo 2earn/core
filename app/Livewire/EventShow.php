@@ -51,6 +51,7 @@ class EventShow extends Component
         $this->liked = Auth::check() && $this->event->likes()->where('user_id', Auth::id())->exists();
     }
 
+
     public function addComment()
     {
         $this->validate([
@@ -79,12 +80,13 @@ class EventShow extends Component
 
     public function render()
     {
-        return view('livewire.event-show', [
+        $params = [
             'event' => $this->event,
             'comments' => $this->comments,
             'unvalidatedComments' => $this->unvalidatedComments,
             'likeCount' => $this->likeCount,
             'liked' => $this->liked,
-        ])->extends('layouts.master')->section('content');
+        ];
+        return view('livewire.event-show', $params)->extends('layouts.master')->section('content');
     }
 }
