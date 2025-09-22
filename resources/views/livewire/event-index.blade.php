@@ -39,12 +39,6 @@
                                     {{$event->id}}
                                     - {{\App\Models\TranslaleModel::getTranslation($event,'title',$event->title)}}
                                 </h5>
-                                @if(\App\Models\User::isSuperAdmin())
-                                    <p class="mx-2">
-                                        <a class="link-info"
-                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($event,'title')])}}">{{__('See or update Translation')}}</a>
-                                    </p>
-                                @endif
                                 @if($event->enabled)
                                     <span class="badge bg-success float-end">{{__('Enabled')}}</span>
                                 @else
@@ -57,19 +51,27 @@
                                     </p>
                                 @endif
                             </div>
-                            <div class="card-body">
-                                <div><strong>{{__('Content')}}:</strong>
-                                    <br>
-                                    {!! \App\Models\TranslaleModel::getTranslation($event,'content',$event->content) !!}</div>
-                                @if(\App\Models\User::isSuperAdmin())
-                                    <p class="mx-2">
-                                        <a class="link-info"
-                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($event,'content')])}}">{{__('See or update Translation')}}</a>
-                                    </p>
+                            <div class="card-body row">
+                                <div @if($event->mainImage) class="col-sm-12 col-md-8 col-lg-8"
+                                     @else class="col-sm-12 col-md-12 col-lg-12" @endif>
+                                    <div><strong>{{__('Content')}}:</strong> {!! \App\Models\TranslaleModel::getTranslation($event,'content',$event->content) !!}</div>
+                                    @if(\App\Models\User::isSuperAdmin())
+                                        <p class="mx-2 float-end">
+                                            <a class="link-info"
+                                               href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($event,'content')])}}">{{__('See or update Translation')}}</a>
+                                        </p>
+                                    @endif
+                                    <div class="float-end"><strong>{{__('Published at')}}:</strong> {{$event->published_at}}</div>
+                                    <div><strong>{{__('Start at')}}:</strong> {{$event->start_at}} / <strong>{{__('End at')}}:</strong> {{$event->end_at}}</div>
+                                </div>
+                                @if($event->mainImage)
+                                    <div class="col-sm-12 col-md-4 col-lg-3">
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <img src="{{ asset('uploads/' . $event->mainImage->url) }}"
+                                                 class="img-thumbnail">
+                                        </div>
+                                    </div>
                                 @endif
-                                <hr>
-                                <div class="float-end"><strong>{{__('Published at')}}:</strong> {{$event->published_at}}</div>
-                                <div><strong>{{__('Start at')}}:</strong> {{$event->start_at}} / <strong>{{__('End at')}}:</strong> {{$event->end_at}}</div>
                             </div>
                         </div>
                     </div>

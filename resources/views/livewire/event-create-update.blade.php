@@ -54,6 +54,17 @@
                         <input type="datetime-local" id="end_at" wire:model.live="end_at" class="form-control">
                         @error('end_at') <span class="error">{{ $message }}</span> @enderror
                     </div>
+                    <div class="form-group col-12">
+                        <label for="mainImage">{{__('Main Image')}}</label>
+                        <input type="file" id="mainImage" wire:model.live="mainImage" class="form-control">
+                        @error('mainImage') <span class="error">{{ $message }}</span> @enderror
+                        @if ($event?->mainImage)
+                            <div class="mt-3">
+                                <img src="{{ asset('uploads/' . $event->mainImage->url) }}"
+                                     alt="Event Main Image" class="img-thumbnail">
+                            </div>
+                        @endif
+                    </div>
                     <div class="form-group col-12 mt-3">
                         <button type="submit" class="btn btn-success">{{ $update ? __('Update') : __('Create') }}</button>
                         <button type="button" class="btn btn-secondary" wire:click="cancel">{{__('Cancel')}}</button>

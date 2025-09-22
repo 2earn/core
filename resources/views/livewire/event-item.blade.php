@@ -2,7 +2,7 @@
     <div class="card-body">
         <div class="ribbon ribbon-primary ribbon-shape trending-ribbon">
             <i class="ri-calendar-event-fill text-white align-bottom float-start me-1"></i> <span
-                class="trending-ribbon-text text-info">{{__('Event')}}</span>
+                class="trending-ribbon-text text-light">{{__('Event')}}</span>
         </div>
         <div class="row">
             <div class="col-12">
@@ -18,7 +18,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12">
+            <div @if($event->mainImage) class="col-sm-12 col-md-8 col-lg-8"
+                 @else class="col-sm-12 col-md-12 col-lg-12" @endif>
                 <blockquote>
                     {!! \App\Models\TranslaleModel::getTranslation($event,'content',$event->content) !!}
                 </blockquote>
@@ -29,6 +30,14 @@
                     </p>
                 @endif
             </div>
+            @if($event->mainImage)
+                <div class="col-sm-12 col-md-4 col-lg-3">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <img src="{{ asset('uploads/' . $event->mainImage->url) }}"
+                             class="img-thumbnail">
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
     <div class="card-footer">
@@ -38,4 +47,3 @@
         {{$event->published_at}}
     </div>
 </div>
-

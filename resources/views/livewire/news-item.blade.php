@@ -2,7 +2,7 @@
     <div class="card-body">
         <div class="ribbon ribbon-danger ribbon-shape trending-ribbon">
             <i class="ri-flashlight-fill text-white align-bottom float-start me-1"></i> <span
-                class="trending-ribbon-text text-info">{{__('News')}}</span>
+                class="trending-ribbon-text text-light">{{__('News')}}</span>
         </div>
         <div class="row">
             <div class="col-12">

@@ -75,9 +75,23 @@ class EventCreateUpdate extends Component
         try {
             if ($this->idEvent) {
                 Event::where('id', $this->idEvent)->update($data);
+                $event = Event::find($this->idEvent);
+                if ($this->mainImage) {
+                    // Remove old image if exists
+                    if (!is_null($event->mainImage)) {
+                        \Illuminate\Support\Facades\Storage::disk('public2')->delete($event->mainImage->url);
+                    }
+                    $imagePath = $this->mainImage->store('events/' . Event::IMAGE_TYPE_MAIN, 'public2');
+                    $event->mainImage()->delete();
+                    $event->mainImage()->create([
+                        'url' => $imagePath,
+                        'type' => Event::IMAGE_TYPE_MAIN,
+                    ]);
+                }
             } else {
                 $event = Event::create($data);
                 $this->idEvent = $event->id;
+                // Add translations for title and content
                 $translations = ['title', 'content'];
                 foreach ($translations as $translation) {
                     TranslaleModel::create([
@@ -91,6 +105,13 @@ class EventCreateUpdate extends Component
                         'valueDe' => $this->{$translation} . ' De',
                     ]);
                 }
+                if ($this->mainImage) {
+                    $imagePath = $this->mainImage->store('events/' . Event::IMAGE_TYPE_MAIN, 'public2');
+                    $event->mainImage()->create([
+                        'url' => $imagePath,
+                        'type' => Event::IMAGE_TYPE_MAIN,
+                    ]);
+                }
             }
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -101,6 +122,10 @@ class EventCreateUpdate extends Component
 
     public function render()
     {
-        return view('livewire.event-create-update')->extends('layouts.master')->section('content');
+        $event = null;
+        if ($this->idEvent) {
+            $event = \App\Models\Event::with('mainImage')->find($this->idEvent);
+        }
+        return view('livewire.event-create-update', compact('event'))->extends('layouts.master')->section('content');
     }
 }
