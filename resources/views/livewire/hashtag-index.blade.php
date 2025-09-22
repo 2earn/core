@@ -23,6 +23,7 @@
                 <tr>
                     <th>{{__('ID')}}</th>
                     <th>{{__('Name')}}</th>
+                    <th>{{__('Translations')}}</th>
                     <th>{{__('Slug')}}</th>
                     <th>{{__('Actions')}}</th>
                 </tr>
@@ -31,7 +32,78 @@
                 @forelse($hashtags as $hashtag)
                     <tr>
                         <td>{{ $hashtag->id }}</td>
-                        <td>{{ $hashtag->getTranslatedName() }}</td>
+                        <td>{{ $hashtag->name }}</td>
+                        <td>
+                            @php $translations = $hashtag->getAllTranslations(); @endphp
+
+                            <div class="row">
+                                <div class="list-group list-group-flush col-auto">
+                                    <div href="#" class="list-group-item list-group-item-action">
+                                        <strong>
+                                            <img
+                                                src="{{Vite::asset("resources/images/flags/" . strtolower('sa') . ".svg")}}"
+                                                alt="{{__('Arabe')}}" title="{{__('Arabe')}}"
+                                                class="avatar-xxs m-2">
+
+                                        </strong> {{ $translations['ar'] }}
+                                    </div>
+                                    <div href="#" class="list-group-item list-group-item-action">
+                                        <strong>
+                                            <img
+                                                src="{{Vite::asset("resources/images/flags/" . strtolower('fr') . ".svg")}}"
+                                                alt="{{__('Francais')}}" title="{{__('Francais')}}"
+                                                class="avatar-xxs m-2">
+                                        </strong> {{ $translations['fr'] }}
+                                    </div>
+                                    <div href="#" class="list-group-item list-group-item-action">
+                                        <strong>
+                                            <img
+                                                src="{{Vite::asset("resources/images/flags/" . strtolower('gb') . ".svg")}}"
+                                                alt="{{__('English')}}" title="{{__('English')}}"
+                                                class="avatar-xxs m-2">
+
+                                        </strong> {{ $translations['en'] }}
+                                    </div>
+                                </div>
+
+                                <div class="list-group list-group-flush col-auto">
+                                    <div href="#" class="list-group-item list-group-item-action">
+                                        <strong>
+                                            <img
+                                                src="{{Vite::asset("resources/images/flags/" . strtolower('es') . ".svg")}}"
+                                                alt="{{__('Spanish')}}" title="{{__('Spanish')}}"
+                                                class="avatar-xxs m-2">
+                                        </strong> {{ $translations['es'] }}
+                                    </div>
+                                    <div href="#" class="list-group-item list-group-item-action">
+                                        <strong>
+                                            <img
+                                                src="{{Vite::asset("resources/images/flags/" . strtolower('tr') . ".svg")}}"
+                                                alt="{{__('Turkish')}}" title="{{__('Turkish')}}"
+                                                class="avatar-xxs m-2">
+                                        </strong> {{ $translations['tr'] }}
+                                    </div>
+
+                                    <div href="#" class="list-group-item list-group-item-action">
+                                        <strong>
+                                            <img
+                                                src="{{Vite::asset("resources/images/flags/" . strtolower('ru') . ".svg")}}"
+                                                alt="{{__('Russian')}}" title="{{__('Russian')}}"
+                                                class="avatar-xxs m-2">
+                                        </strong> {{ $translations['ru'] }}
+                                    </div>
+                                </div>
+                                <div class="list-group list-group-flush col-auto">
+                                    <div href="#" class="list-group-item list-group-item-action">
+                                        <strong> <img
+                                                src="{{Vite::asset("resources/images/flags/" . strtolower('de') . ".svg")}}"
+                                                alt="{{__('German')}}" title="{{__('German')}}"
+                                                class="avatar-xxs m-2">
+                                        </strong> {{ $translations['de'] }}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
                         <td>{{ $hashtag->slug }}</td>
                         <td>
                             <a href="{{ route('hashtags_edit', ['locale'=>app()->getLocale(),'id'=>$hashtag->id]) }}"

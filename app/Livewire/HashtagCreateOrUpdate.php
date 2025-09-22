@@ -70,17 +70,17 @@ class HashtagCreateOrUpdate extends Component
         $trans = TranslaleModel::updateOrCreate(
             ['name' => TranslaleModel::getTranslateName($hashtag, 'name')],
             [
-                'value' => $this->translations['ar'],
-                'valueFr' => $this->translations['fr'],
-                'valueEn' => $this->translations['en'],
-                'valueEs' => $this->translations['es'],
-                'valueTr' => $this->translations['tr'],
-                'valueRu' => $this->translations['ru'],
-                'valueDe' => $this->translations['de'],
+                'value' => !empty($this->translations['ar']) ? $this->translations['ar'] : $this->name . ' - ar',
+                'valueFr' => !empty($this->translations['fr']) ? $this->translations['fr'] : $this->name . ' - fr',
+                'valueEn' => !empty($this->translations['en']) ? $this->translations['en'] : $this->name . ' - en',
+                'valueEs' => !empty($this->translations['es']) ? $this->translations['es'] : $this->name . ' - es',
+                'valueTr' => !empty($this->translations['tr']) ? $this->translations['tr'] : $this->name . ' - tr',
+                'valueRu' => !empty($this->translations['ru']) ? $this->translations['ru'] : $this->name . ' - ru',
+                'valueDe' => !empty($this->translations['de']) ? $this->translations['de'] : $this->name . ' - de',
             ]
         );
         session()->flash('success', $this->hashtagId ? 'Hashtag updated successfully.' : 'Hashtag created successfully.');
-        return redirect()->route('hashtags_index',app()->getLocale());
+        return redirect()->route('hashtags_index', app()->getLocale());
     }
 
     public function render()
