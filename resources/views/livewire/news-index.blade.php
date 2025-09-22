@@ -115,6 +115,11 @@
                                                     class="text-muted">{{$news->updated_at}}</small></p>
                                         @endif
                                     </div>
+                                    <div class="col">
+                                        <a href="{{ route('news_show', ['locale' => app()->getLocale(), 'id' => $news->id]) }}" class="btn btn-secondary float-end">
+                                            {{__('View Details')}}
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
