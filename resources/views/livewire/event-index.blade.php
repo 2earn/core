@@ -36,8 +36,15 @@
                         <div class="card border card-border-light">
                             <div class="card-header">
                                 <h5 class="card-title mb-1">
-                                    {{$event->id}} - {{$event->title}}
+                                    {{$event->id}}
+                                    - {{\App\Models\TranslaleModel::getTranslation($event,'title',$event->title)}}
                                 </h5>
+                                @if(\App\Models\User::isSuperAdmin())
+                                    <p class="mx-2">
+                                        <a class="link-info"
+                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($event,'title')])}}">{{__('See or update Translation')}}</a>
+                                    </p>
+                                @endif
                                 @if($event->enabled)
                                     <span class="badge bg-success float-end">{{__('Enabled')}}</span>
                                 @else
@@ -51,7 +58,16 @@
                                 @endif
                             </div>
                             <div class="card-body">
-                                <div><strong>{{__('Content')}}:</strong> {{$event->content}}</div>
+                                <div><strong>{{__('Content')}}:</strong>
+                                    <br>
+                                    {!! \App\Models\TranslaleModel::getTranslation($event,'content',$event->content) !!}</div>
+                                @if(\App\Models\User::isSuperAdmin())
+                                    <p class="mx-2">
+                                        <a class="link-info"
+                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($event,'content')])}}">{{__('See or update Translation')}}</a>
+                                    </p>
+                                @endif
+                                <hr>
                                 <div class="float-end"><strong>{{__('Published at')}}:</strong> {{$event->published_at}}</div>
                                 <div><strong>{{__('Start at')}}:</strong> {{$event->start_at}} / <strong>{{__('End at')}}:</strong> {{$event->end_at}}</div>
                             </div>

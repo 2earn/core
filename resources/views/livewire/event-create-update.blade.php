@@ -17,6 +17,7 @@
                         <label for="title">{{__('Title')}}</label>
                         <input type="text" class="form-control @error('title') is-invalid @enderror"
                                id="title"
+                               @if($update) disabled @endif
                                placeholder="{{__('Enter title')}}" wire:model.live="title">
                         @error('title') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
@@ -25,6 +26,7 @@
                         <label for="content">{{__('Content')}}</label>
                         <textarea class="form-control @error('content') is-invalid @enderror"
                                   id="content"
+                                  @if($update) disabled @endif
                                   wire:model.live="content"
                                   placeholder="{{__('Enter content')}}"></textarea>
                         @error('content') <span class="text-danger">{{ $message }}</span>@enderror

@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Event;
+use App\Models\TranslaleModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -16,7 +17,11 @@ class EventCreateUpdate extends Component
     public $idEvent;
     public $update;
     public $enabled;
-    public $title, $content, $published_at, $start_at, $end_at;
+    public $title = '';
+    public $content = '';
+    public $published_at = '';
+    public $start_at = '';
+    public $end_at = '';
     public $mainImage;
 
     protected $rules = [
@@ -31,8 +36,10 @@ class EventCreateUpdate extends Component
     {
         $this->idEvent = $request->input('id');
         if (!is_null($this->idEvent)) {
+            $this->update = true;
             $this->edit($this->idEvent);
         } else {
+            $this->update = false;
             $this->enabled = false;
         }
     }
@@ -49,9 +56,9 @@ class EventCreateUpdate extends Component
         $this->title = $event->title;
         $this->content = $event->content;
         $this->enabled = $event->enabled;
-        $this->published_at = $event->published_at;
-        $this->start_at = $event->start_at;
-        $this->end_at = $event->end_at;
+        $this->published_at = $event->published_at ? $event->published_at->format('Y-m-d\TH:i') : null;
+        $this->start_at = $event->start_at ? $event->start_at->format('Y-m-d\TH:i') : null;
+        $this->end_at = $event->end_at ? $event->end_at->format('Y-m-d\TH:i') : null;
     }
 
     public function save()
@@ -71,6 +78,19 @@ class EventCreateUpdate extends Component
             } else {
                 $event = Event::create($data);
                 $this->idEvent = $event->id;
+                $translations = ['title', 'content'];
+                foreach ($translations as $translation) {
+                    TranslaleModel::create([
+                        'name' => TranslaleModel::getTranslateName($event, $translation),
+                        'value' => $this->{$translation} . ' AR',
+                        'valueFr' => $this->{$translation} . ' FR',
+                        'valueEn' => $this->{$translation} . ' EN',
+                        'valueTr' => $this->{$translation} . ' TR',
+                        'valueEs' => $this->{$translation} . ' ES',
+                        'valueRu' => $this->{$translation} . ' Ru',
+                        'valueDe' => $this->{$translation} . ' De',
+                    ]);
+                }
             }
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -84,4 +104,3 @@ class EventCreateUpdate extends Component
         return view('livewire.event-create-update')->extends('layouts.master')->section('content');
     }
 }
-
