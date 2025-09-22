@@ -3,11 +3,60 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use App\Models\News;
+use App\Models\Comment;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
 
 class NewsItem extends Component
 {
+    public $idNews;
+    public $like;
+    public $comment;
+    public $currentRouteName;
+
+    public function mount($idNews)
+    {
+        $this->idNews = $idNews;
+        $this->currentRouteName = Route::currentRouteName();
+        $this->like = News::whereHas('likes', function ($q) {
+            $q->where('user_id', auth()->user()->id)->where('likable_id', $this->idNews);
+        })->exists();
+    }
+
+    public function like()
+    {
+        $news = News::findOrFail($this->idNews);
+        $news->likes()->create(['user_id' => auth()->user()->id]);
+        $this->like = true;
+    }
+
+    public function dislike()
+    {
+        $news = News::findOrFail($this->idNews);
+        $news->likes()->where('user_id', auth()->user()->id)->delete();
+        $this->like = false;
+    }
+
+    public function addComment()
+    {
+        if (empty($this->comment)) {
+            return redirect()->route('news_item', ['locale' => app()->getLocale(), 'idNews' => $this->idNews])->with('danger', Lang::get('Empty comment'));
+        }
+        $news = News::findOrFail($this->idNews);
+        $news->comments()->create(['user_id' => auth()->user()->id, 'content' => $this->comment]);
+        $this->comment = "";
+    }
+
+    public function deleteComment($idComment)
+    {
+        Comment::findOrFail($idComment)->delete();
+    }
+
     public function render()
     {
-        return view('livewire.news-item');
+        $news = News::with(['mainImage', 'likes', 'comments.user'])->find($this->idNews);
+        return view('livewire.news-item', compact('news'))->extends('layouts.master')->section('content');
     }
 }

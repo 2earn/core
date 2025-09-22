@@ -69,10 +69,16 @@
                                     <div class="col-sm-12 col-md-4 col-lg-3">
                                         <div class="d-flex justify-content-center align-items-center">
                                             <img src="{{ asset('uploads/' . $event->mainImage->url) }}"
-                                                 class="img-thumbnail">
+                                                 class="img-thumbnail"
+                                                 alt="{{ __('Event Image') }}">
                                         </div>
                                     </div>
                                 @endif
+                            </div>
+                            <div class="card-footer">
+                                <a href="{{ route('event_show', ['locale' => app()->getLocale(), 'id' => $event->id]) }}" class="btn btn-outline-info btn-sm mt-2">
+                                    {{ __('Details') }}
+                                </a>
                             </div>
                         </div>
                     </div>

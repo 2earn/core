@@ -18,4 +18,12 @@ class News extends Model
     {
         return $this->morphOne(Image::class, 'imageable')->where('type', '=', self::IMAGE_TYPE_MAIN);
     }
+    public function likes()
+    {
+        return $this->morphMany(\App\Models\Like::class, 'likable');
+    }
+    public function comments()
+    {
+        return $this->morphMany(\App\Models\Comment::class, 'commentable');
+    }
 }
