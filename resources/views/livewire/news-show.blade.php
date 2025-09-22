@@ -73,7 +73,7 @@
                         <p>{{__('Please log in to comment.')}}</p>
                     </div>
                 @endguest
-                @if(auth()->check() && \App\Models\User::isSuperAdmin() && count($unvalidatedComments) > 0)
+                @if(\App\Models\User::isSuperAdmin() && count($unvalidatedComments) > 0)
                     <hr>
                     <div class="row">
                         <h5 class="text-danger">{{__('Comments awaiting validation')}}</h5>

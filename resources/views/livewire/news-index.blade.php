@@ -120,7 +120,7 @@
                                         {{__('View Details')}}
                                     </a>
                                 </div>
-                                <div class="float-end mx-1">
+                                <div class="float-end mx-1 text-muted">
                                     <span class="card-text">{{__('Created at')}}: <small
                                             class="text-muted">{{$news->created_at}}</small>
                                     </span>

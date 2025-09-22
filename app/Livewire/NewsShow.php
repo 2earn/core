@@ -3,10 +3,10 @@
 namespace App\Livewire;
 
 use App\Models\Comment;
+use App\Models\News;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-use App\Models\News;
 
 class NewsShow extends Component
 {
@@ -24,8 +24,8 @@ class NewsShow extends Component
     {
         $this->id = $id;
         $this->news = News::with(['mainImage', 'comments.user', 'likes'])->findOrFail($id);
-        $this->comments = $this->news->comments;
-        $this->likesCount = $this->news->likes->count();
+        $this->loadComments();
+        $this->loadLikes();
         $this->like = $this->news->likes()->where('user_id', auth()->id())->exists();
         $this->comment = '';
     }
@@ -42,11 +42,13 @@ class NewsShow extends Component
         }
         $this->loadLikes();
     }
+
     public function loadLikes()
     {
         $this->likeCount = $this->news->likes()->count();
         $this->liked = Auth::check() && $this->news->likes()->where('user_id', Auth::id())->exists();
     }
+
     public function addComment()
     {
         if (!Auth::check()) {
@@ -71,31 +73,30 @@ class NewsShow extends Component
         Comment::validate($commentId);
         $this->loadComments();
     }
+
     public function loadComments()
     {
         $this->comments = $this->news->comments()
             ->where('validated', true)
-            ->with('user')
             ->orderByDesc('created_at')
             ->get();
         $this->unvalidatedComments = $this->news->comments()
             ->where('validated', false)
             ->orderByDesc('created_at')
             ->get();
+
     }
 
 
     public function render()
     {
         $this->news->load(['mainImage', 'comments.user', 'likes']);
-        $this->comments = $this->news->comments;
-        $this->likesCount = $this->news->likes->count();
-        $this->like = $this->news->likes()->where('user_id', auth()->id())->exists();
-        return view('livewire.news-show', [
+
+        $params = [
             'news' => $this->news,
             'comments' => $this->comments,
             'likesCount' => $this->likesCount,
-            'like' => $this->like,
-        ])->extends('layouts.master')->section('content');
+        ];
+        return view('livewire.news-show', $params)->extends('layouts.master')->section('content');
     }
 }
