@@ -44,9 +44,18 @@
         </div>
     </div>
     <div class="card-footer">
-        <strong class="text-muted">
+                 <span class="ms-3 text-muted">
+                    <i class="bi bi-hand-thumbs-up"></i> {{ $event->likes()->count() }} {{ __('Likes') }}
+                </span>
+        <span class="ms-3 text-muted">
+                    <i class="bi bi-chat-left-text"></i> {{ $event->comments()->where('validated',true)->count() }} {{ __('Comments') }}
+                </span>
+
+        <span class="ms-3 float-end text-muted">
+  <strong>
             {{__('Event published at')}}:
         </strong>
         {{$event->published_at}}
+        </span>
     </div>
 </div>
