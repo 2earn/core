@@ -19,6 +19,7 @@ return new class extends Migration
             $table->timestamp('published_at')->nullable();
             $table->timestamp('start_at')->nullable();
             $table->timestamp('end_at')->nullable();
+            $table->string('location')->nullable();
             $table->timestamps();
         });
     }

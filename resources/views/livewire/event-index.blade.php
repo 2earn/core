@@ -63,6 +63,7 @@
                                     @endif
                                     <div class="float-end"><strong>{{__('Published at')}}:</strong> {{$event->published_at}}</div>
                                     <div><strong>{{__('Start at')}}:</strong> {{$event->start_at}} / <strong>{{__('End at')}}:</strong> {{$event->end_at}}</div>
+                                    <div><strong>{{__('Location')}}:</strong> {{$event->location}}</div>
                                 </div>
                                 @if($event->mainImage)
                                     <div class="col-sm-12 col-md-4 col-lg-3">

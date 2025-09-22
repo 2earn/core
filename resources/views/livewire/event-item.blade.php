@@ -9,6 +9,9 @@
                 <h5 class="mb-2 text-info">
                     {{\App\Models\TranslaleModel::getTranslation($event,'title',$event->title)}}
                 </h5>
+                <div class="mb-2">
+                    <span class="badge bg-secondary">{{ $event->location }}</span>
+                </div>
                 @if(\App\Models\User::isSuperAdmin())
                     <p class="mx-2">
                         <a class="link-info float-end"

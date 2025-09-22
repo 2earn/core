@@ -23,6 +23,7 @@ class EventCreateUpdate extends Component
     public $start_at = '';
     public $end_at = '';
     public $mainImage;
+    public $location = '';
 
     protected $rules = [
         'title' => 'required',
@@ -59,6 +60,7 @@ class EventCreateUpdate extends Component
         $this->published_at = $event->published_at ? $event->published_at->format('Y-m-d\TH:i') : null;
         $this->start_at = $event->start_at ? $event->start_at->format('Y-m-d\TH:i') : null;
         $this->end_at = $event->end_at ? $event->end_at->format('Y-m-d\TH:i') : null;
+        $this->location = $event->location;
     }
 
     public function save()
@@ -71,6 +73,7 @@ class EventCreateUpdate extends Component
             'published_at' => $this->published_at,
             'start_at' => $this->start_at,
             'end_at' => $this->end_at,
+            'location' => $this->location,
         ];
         try {
             if ($this->idEvent) {

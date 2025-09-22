@@ -65,6 +65,10 @@
                             </div>
                         @endif
                     </div>
+                    <div class="form-group col-12">
+                        <label for="location">{{__('Location')}}</label>
+                        <input type="text" class="form-control" id="location" wire:model.live="location" placeholder="{{__('Enter location')}}">
+                    </div>
                     <div class="form-group col-12 mt-3">
                         <button type="submit" class="btn btn-success">{{ $update ? __('Update') : __('Create') }}</button>
                         <button type="button" class="btn btn-secondary" wire:click="cancel">{{__('Cancel')}}</button>
