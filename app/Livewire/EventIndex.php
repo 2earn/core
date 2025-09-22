@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Event;
+use App\Services\Communication\Communication;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,17 @@ class EventIndex extends Component
             return redirect()->route('event_index', ['locale' => app()->getLocale()])->with('error', Lang::get('Event deletion failed'));
         }
         return redirect()->route('event_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Event deleted successfully'));
+    }
+
+    public function duplicate($id)
+    {
+        try {
+            Communication::duplicateEvent($id);
+            return redirect()->route('event_index', ['locale' => app()->getLocale()])->with('success', __('Event duplicated successfully'));
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return redirect()->route('event_index', ['locale' => app()->getLocale()])->with('error', __('Event duplication failed'));
+        }
     }
 
     public function render()

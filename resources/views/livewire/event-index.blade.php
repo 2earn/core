@@ -93,9 +93,11 @@
                                 @if(\App\Models\User::isSuperAdmin())
                                     <p class="mx-2 float-end">
                                         <a href="{{ route('event_create_update', ['locale' => app()->getLocale(), 'id' => $event->id]) }}"
-                                           class="btn btn-primary btn-sm">{{__('Edit')}}</a>
+                                           class="btn btn-outline-primary btn-sm">{{__('Edit')}}</a>
                                         <button wire:click.prevent="delete({{$event->id}})"
-                                                class="btn btn-danger btn-sm">{{__('Delete')}}</button>
+                                                class="btn btn-outline-danger btn-sm">{{__('Delete')}}</button>
+                                        <button wire:click.prevent="duplicate({{$event->id}})"
+                                                class="btn btn-outline-warning btn-sm">{{__('Duplicate')}}</button>
                                     </p>
                                 @endif
                                 <a href="{{ route('event_show', ['locale' => app()->getLocale(), 'id' => $event->id]) }}"

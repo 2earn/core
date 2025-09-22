@@ -2,6 +2,7 @@
 
 namespace App\Services\Communication;
 
+use App\Models\Event;
 use App\Models\News;
 use App\Models\Survey;
 use App\Models\TranslaleModel;
@@ -115,6 +116,38 @@ class Communication
             $image->imageable_id = $duplicate->id;
             $image->save();
         }
-        return$duplicate;
+        return $duplicate;
+    }
+
+    public static function duplicateEvent($id)
+    {
+        $original = Event::findOrFail($id);
+        $duplicate = $original->replicate();
+        $duplicate->title = $original->title . ' (Copy)';
+        $duplicate->content = $original->content . ' (Copy)';
+        $duplicate->enabled = false;
+        $duplicate->created_at = now();
+        $duplicate->updated_at = now();
+        $duplicate->save();
+        $translations = ['title', 'content'];
+
+        foreach ($translations as $translation) {
+            TranslaleModel::create([
+                'name' => TranslaleModel::getTranslateName($duplicate, $translation),
+                'value' => $duplicate->{$translation} . ' AR',
+                'valueFr' => $duplicate->{$translation} . ' FR',
+                'valueEn' => $duplicate->{$translation} . ' EN',
+                'valueTr' => $duplicate->{$translation} . ' TR',
+                'valueEs' => $duplicate->{$translation} . ' ES',
+                'valueRu' => $duplicate->{$translation} . ' Ru',
+                'valueDe' => $duplicate->{$translation} . ' De',
+            ]);
+        }
+        if (!is_null($original->mainImage)) {
+            $image = $original->mainImage->replicate();
+            $image->imageable_id = $duplicate->id;
+            $image->save();
+        }
+        return $duplicate;
     }
 }

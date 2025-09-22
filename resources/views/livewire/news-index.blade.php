@@ -109,7 +109,7 @@
 
                                 @if(\App\Models\User::isSuperAdmin())
                                     <div class="float-end mx-1">
-                                        <button type="button" class="btn btn-outline-info btn-sm"
+                                        <button type="button" class="btn btn-outline-warning btn-sm"
                                                 wire:click="duplicateNews({{$news->id}})">
                                             <span>{{__('Duplicate')}}</span></button>
                                     </div>
