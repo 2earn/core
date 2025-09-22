@@ -80,7 +80,6 @@ class EventCreateUpdate extends Component
                 Event::where('id', $this->idEvent)->update($data);
                 $event = Event::find($this->idEvent);
                 if ($this->mainImage) {
-                    // Remove old image if exists
                     if (!is_null($event->mainImage)) {
                         \Illuminate\Support\Facades\Storage::disk('public2')->delete($event->mainImage->url);
                     }
