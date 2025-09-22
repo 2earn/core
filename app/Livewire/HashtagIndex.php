@@ -11,16 +11,32 @@ class HashtagIndex extends Component
     use WithPagination;
 
     public $search = '';
+    public $confirmingDelete = false;
+    public $deleteId = null;
 
     public function updatingSearch()
     {
         $this->resetPage();
     }
 
-    public function delete($id)
+    public function confirmDelete($id)
     {
-        $hashtag = Hashtag::findOrFail($id);
+        $this->deleteId = $id;
+        $this->confirmingDelete = true;
+    }
+
+    public function cancelDelete()
+    {
+        $this->deleteId = null;
+        $this->confirmingDelete = false;
+    }
+
+    public function deleteConfirmed()
+    {
+        $hashtag = Hashtag::findOrFail($this->deleteId);
         $hashtag->delete();
+        $this->deleteId = null;
+        $this->confirmingDelete = false;
         session()->flash('success', __('Hashtag deleted successfully.'));
     }
 
