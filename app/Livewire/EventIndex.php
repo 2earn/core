@@ -47,7 +47,8 @@ class EventIndex extends Component
 
     public function render()
     {
-        $events = Event::where('title', 'like', "%{$this->search}%")
+        $events = Event::withCount(['comments', 'likes'])
+            ->where('title', 'like', "%{$this->search}%")
             ->orderByDesc('published_at')
             ->paginate(self::PAGE_SIZE);
         return view('livewire.event-index', compact('events'))->extends('layouts.master')->section('content');

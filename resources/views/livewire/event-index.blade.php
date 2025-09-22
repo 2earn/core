@@ -76,7 +76,15 @@
                                 @endif
                             </div>
                             <div class="card-footer">
-                                <a href="{{ route('event_show', ['locale' => app()->getLocale(), 'id' => $event->id]) }}" class="btn btn-outline-info btn-sm mt-2">
+
+                                <span class="ms-3 text-muted">
+                                    <i class="bi bi-chat-left-text"></i> {{ $event->comments_count }} {{ __('Comments') }}
+                                </span>
+                                <span class="ms-3 text-muted">
+                                    <i class="bi bi-hand-thumbs-up"></i> {{ $event->likes_count }} {{ __('Likes') }}
+                                </span>
+
+                                <a href="{{ route('event_show', ['locale' => app()->getLocale(), 'id' => $event->id]) }}" class="btn btn-outline-info btn-sm float-end">
                                     {{ __('Details') }}
                                 </a>
                             </div>
