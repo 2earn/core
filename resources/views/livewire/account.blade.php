@@ -33,7 +33,7 @@
                             <div class="text-center">
                                 <div class="profile-user position-relative d-inline-block mx-auto  mb-4">
                             <span
-                                class="text-muted">{{__('The photo must be in PNG, JPG or JPEG format and must not exceed 8 Mb in size')}}</span>
+                                    class="text-muted">{{__('The photo must be in PNG, JPG or JPEG format and must not exceed 8 Mb in size')}}</span>
                                     @if ($imageProfil)
                                         <img class="rounded-circle" width="70" height="70"
                                              src="{{ $imageProfil->temporaryUrl() }}?={{Str::random(16)}}" alt="">
@@ -62,6 +62,12 @@
                                 <h4>
                                     <span class="badge text-bg-secondary">[{{$user['idUser']}}]</span>
                                 </h4>
+
+                                @if($user['status']==\Core\Enum\StatusRequest::ValidNational->value||$user['status']==\Core\Enum\StatusRequest::ValidInternational->value)
+                                    <h3>
+                                        <span class="badge text-bg-success">[{{__('Identified')}}]</span>
+                                    </h3>
+                                @endif
                                 <div class="form-check form-switch mt-3" dir="ltr">
                                     <input wire:model="user.is_public" type="checkbox" class="form-check-input"
                                            id="customSwitchsizesm" checked="">
@@ -162,8 +168,8 @@
                                     </table>
                                 @else
                                     <div
-                                        class="alert alert-warning alert-dismissible alert-additional fade show mb-0 material-shadow"
-                                        role="alert">
+                                            class="alert alert-warning alert-dismissible alert-additional fade show mb-0 material-shadow"
+                                            role="alert">
                                         <div class="alert-body">
                                             <button type="button" class="btn-close" data-bs-dismiss="alert"
                                                     aria-label="Close"></button>
@@ -179,7 +185,7 @@
                                         </div>
                                     </div>
                                     <button
-                                        class="my-2 float-end btn btn-info" id="goToIdentification"
+                                            class="my-2 float-end btn btn-info" id="goToIdentification"
                                     >{{__('Open identification tab')}}</button>
                                 @endif
                             </div>
@@ -195,12 +201,12 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-center mb-3">
                                     <div
-                                        class="flex-shrink-0 @if(Route::getCurrentRoute()->getName()!="validate_account") d-none   @endif">
+                                            class="flex-shrink-0 @if(Route::getCurrentRoute()->getName()!="validate_account") d-none   @endif">
                                         <a style="color: #009fe3!important" data-bs-toggle="modal"
                                            data-bs-target="#modalEditProf"
                                            href="javascript:void(0);"
                                            class="badge bg-light text-primary fs-12"><i
-                                                class="ri-edit-box-line align-bottom me-1"></i> {{__('Edit')}}</a>
+                                                    class="ri-edit-box-line align-bottom me-1"></i> {{__('Edit')}}</a>
                                     </div>
                                 </div>
                                 <div class="progress progress-label" style="height: 20px;">
@@ -354,7 +360,7 @@
                                                            wire:model="usermetta_info.enLastName"
                                                            placeholder="{{__('Last Name')}}" value="">
                                                     <div
-                                                        class="form-text">{{__('Required for account validation')}}</div>
+                                                            class="form-text">{{__('Required for account validation')}}</div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
@@ -362,11 +368,11 @@
                                                     <label for="firstnameInput"
                                                            class="form-label">{{__('First name label')}}</label>
                                                     <input
-                                                        {{ $disabled ? 'disabled' : ''  }}
-                                                        wire:model="usermetta_info.enFirstName"
-                                                        placeholder="{{__('First name')}}" class="form-control">
+                                                            {{ $disabled ? 'disabled' : ''  }}
+                                                            wire:model="usermetta_info.enFirstName"
+                                                            placeholder="{{__('First name')}}" class="form-control">
                                                     <div
-                                                        class="form-text">{{__('Required for account validation')}}</div>
+                                                            class="form-text">{{__('Required for account validation')}}</div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
@@ -410,7 +416,7 @@
                                                         </button>
                                                     </div>
                                                     <div
-                                                        class="form-text">{{__('Required for account validation')}}</div>
+                                                            class="form-text">{{__('Required for account validation')}}</div>
 
                                                 </div>
                                             </div>
@@ -420,11 +426,11 @@
                                                         {{__('Date of birth')  }}
                                                     </label>
                                                     <input
-                                                        {{ $disabled ? 'disabled' : ''  }}
-                                                        wire:model="usermetta_info.birthday" type="date"
-                                                        class="form-control" id="JoiningdatInput"/>
+                                                            {{ $disabled ? 'disabled' : ''  }}
+                                                            wire:model="usermetta_info.birthday" type="date"
+                                                            class="form-control" id="JoiningdatInput"/>
                                                     <div
-                                                        class="form-text">{{__('Required for account validation')}}</div>
+                                                            class="form-text">{{__('Required for account validation')}}</div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
@@ -450,7 +456,7 @@
                                                         <option value="">{{__('no selected value')}}</option>
                                                         @foreach($personaltitles as $personaltitle)
                                                             <option
-                                                                value="{{$personaltitle->id}}">{{__($personaltitle->name)}}</option>
+                                                                    value="{{$personaltitle->id}}">{{__($personaltitle->name)}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -465,7 +471,7 @@
                                                         <option value="">{{__('no selected value')}}</option>
                                                         @foreach($genders as $gender)
                                                             <option
-                                                                value="{{$gender->id}}">{{__($gender->name)}}</option>
+                                                                    value="{{$gender->id}}">{{__($gender->name)}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -479,7 +485,7 @@
                                                         <option value="" selected>{{__('no selected value')}}</option>
                                                         @foreach($languages as $language)
                                                             <option
-                                                                value="{{$language->id}}">{{__($language->name)}}</option>
+                                                                    value="{{$language->id}}">{{__($language->name)}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -517,7 +523,7 @@
                                                            id="zipcodeInput1" {{ $disabled ? 'disabled' : ''  }}
                                                     >
                                                     <div
-                                                        class="form-text">{{__('Required for account validation')}}</div>
+                                                            class="form-text">{{__('Required for account validation')}}</div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-12">
@@ -576,7 +582,7 @@
                                                 <span class="spinner-border spinner-border-sm" role="status"
                                                       aria-hidden="true"></span>
                                                                         <span
-                                                                            class="sr-only">{{__('Loading')}}...</span>
+                                                                                class="sr-only">{{__('Loading')}}...</span>
                                                                     </div>
                                                                     {{ __('Reject') }}
                                                                 </button>
@@ -594,8 +600,8 @@
                                     </form>
                                 </div>
                                 <div
-                                    class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
-                                    id="changePassword" role="tabpanel">
+                                        class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
+                                        id="changePassword" role="tabpanel">
                                     <form action="">
                                         <div class="row g-2">
                                             <div class="col-lg-4">
@@ -610,9 +616,9 @@
                                                            placeholder="{{__('Old password')}}"
                                                            id="oldpasswordInput">
                                                     <button
-                                                        class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
-                                                        type="button" id="toggleOldPassword"><i
-                                                            class="ri-eye-fill align-middle"></i></button>
+                                                            class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
+                                                            type="button" id="toggleOldPassword"><i
+                                                                class="ri-eye-fill align-middle"></i></button>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
@@ -626,8 +632,8 @@
                                                            name="password" placeholder="{{__('New password please')}}"
                                                            id="newpasswordInput">
                                                     <button
-                                                        class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
-                                                        type="button" id="toggleNewPassword">
+                                                            class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
+                                                            type="button" id="toggleNewPassword">
                                                         <i class="ri-eye-fill align-middle"></i>
                                                     </button>
                                                 </div>
@@ -643,8 +649,8 @@
                                                                class="form-control" id="confirmpasswordInput"
                                                                placeholder="{{__('Confirm password')}}">
                                                         <button
-                                                            class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
-                                                            type="button" id="toggleConfirmPassword">
+                                                                class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
+                                                                type="button" id="toggleConfirmPassword">
                                                             <i class="ri-eye-fill align-middle"></i>
                                                         </button>
                                                     </div>
@@ -672,13 +678,13 @@
                                     </form>
                                 </div>
                                 <div
-                                    class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
-                                    id="experience" role="tabpanel">
+                                        class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
+                                        id="experience" role="tabpanel">
                                     <livewire:identification-check/>
                                 </div>
                                 <div
-                                    class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif d-none "
-                                    id="privacy" role="tabpanel">
+                                        class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif d-none "
+                                        id="privacy" role="tabpanel">
                                     <livewire:edit-phone-number/>
                                 </div>
                             </div>
@@ -799,10 +805,10 @@
                                                        accept=".png"/>
                                                 <label for="image55">
                                                     <lord-icon
-                                                        src="https://cdn.lordicon.com/vixtkkbk.json"
-                                                        trigger="loop" delay="1000"
-                                                        colors="primary:#464fed,secondary:#bc34b6"
-                                                        style="width:100px;height:100px">
+                                                            src="https://cdn.lordicon.com/vixtkkbk.json"
+                                                            trigger="loop" delay="1000"
+                                                            colors="primary:#464fed,secondary:#bc34b6"
+                                                            style="width:100px;height:100px">
                                                     </lord-icon>
                                                     <span> <i class="ri-camera-fill"></i> </span>
                                                 </label>
@@ -825,10 +831,10 @@
                                                        accept=".png"/>
                                                 <label for="image44">
                                                     <lord-icon
-                                                        src="https://cdn.lordicon.com/vixtkkbk.json"
-                                                        trigger="loop" delay="1000"
-                                                        colors="primary:#464fed,secondary:#bc34b6"
-                                                        style="width:100px;height:100px">
+                                                            src="https://cdn.lordicon.com/vixtkkbk.json"
+                                                            trigger="loop" delay="1000"
+                                                            colors="primary:#464fed,secondary:#bc34b6"
+                                                            style="width:100px;height:100px">
                                                     </lord-icon>
                                                     <span> <i class="ri-camera-fill"></i> </span>
                                                 </label>
@@ -1293,7 +1299,7 @@
                                 <a href="javascript:void(0);"
                                    class="btn btn-link link-success fw-medium"
                                    data-bs-dismiss="modal"><i
-                                        class="ri-close-line me-1 align-middle"></i>
+                                            class="ri-close-line me-1 align-middle"></i>
                                     {{ __('Close')}}</a>
                                 </a>
                             </div>
