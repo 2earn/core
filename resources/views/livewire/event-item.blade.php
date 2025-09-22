@@ -8,10 +8,11 @@
             <div class="col-12">
                 <h5 class="mb-2 text-info">
                     {{\App\Models\TranslaleModel::getTranslation($event,'title',$event->title)}}
+                    <div class="mb-2">
+                        <span class="badge bg-secondary">{{ $event->location }}</span>
+                    </div>
                 </h5>
-                <div class="mb-2">
-                    <span class="badge bg-secondary">{{ $event->location }}</span>
-                </div>
+
                 @if(\App\Models\User::isSuperAdmin())
                     <p class="mx-2">
                         <a class="link-info float-end"
@@ -43,10 +44,19 @@
             @endif
         </div>
     </div>
-    <div class="card-footer">
-        <strong class="text-muted">
-            {{__('Event published at')}}:
-        </strong>
-        {{$event->published_at}}
+    <div class="card-footer text-muted ">
+        <span class="mb-0 float-end">
+            {{$event->published_at}}
+        </span>
+        <div class="mt-2">
+            <span>
+                <i class="fa fa-thumbs-up"></i>
+                {{ $event->likes()->count() ?? 0 }} {{ __('Likes') }}
+            </span>
+            <span class="me-3">
+                <i class="fa fa-comments"></i>
+                {{ $event->comments()->where('validated',true)->count()  ?? 0 }} {{ __('Comments') }}
+            </span>
+        </div>
     </div>
 </div>

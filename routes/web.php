@@ -151,11 +151,13 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::prefix('/news')->name('news_')->group(function () {
             Route::get('/index', \App\Livewire\NewsIndex::class)->name('index');
             Route::get('/', \App\Livewire\NewsCreateUpdate::class)->name('create_update');
+            Route::get('/{id}/show', \App\Livewire\NewsShow::class)->name('show');
         });
 
         Route::prefix('/event')->name('event_')->group(function () {
             Route::get('/index', \App\Livewire\EventIndex::class)->name('index');
             Route::get('/', \App\Livewire\EventCreateUpdate::class)->name('create_update');
+            Route::get('/{id}/show', \App\Livewire\EventShow::class)->name('show');
         });
 
         Route::get('/accept/request', AcceptFinancialRequest::class)->name('accept_financial_request')->middleware('CloseAuth');

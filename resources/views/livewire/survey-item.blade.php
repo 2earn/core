@@ -585,6 +585,25 @@
 
         </ul>
     </div>
+    <div class="card-footer text-muted ">
+        <span class="mb-0 float-end">
+            {{$survey->openDate}}
+        </span>
+        <div class="mt-2">
+            <span>
+                <i class="fa fa-thumbs-up"></i>
+                {{ $survey->likes()->count() ?? 0 }} {{ __('Likes') }}
+            </span>
+            <span class="me-3">
+                <i class="fa fa-comments"></i>
+                {{ $survey->comments()->where('validated',true)->count()  ?? 0 }} {{ __('Comments') }}
+            </span>
+        </div>
+    </div>
+
+
+
+
     @if(intval($survey->status)==\Core\Enum\StatusSurvey::OPEN->value && $survey->enabled)
         <div class="card">
             <div class="card-header border-info fw-medium text-muted mb-0">
