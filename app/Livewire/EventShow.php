@@ -20,7 +20,7 @@ class EventShow extends Component
     public function mount($id)
     {
         $this->id = $id;
-        $this->event = Event::with('mainImage')->findOrFail($id);
+        $this->event = Event::with(['mainImage', 'hashtags'])->findOrFail($id);
         $this->loadComments();
         $this->loadLikes();
     }

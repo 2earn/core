@@ -8,9 +8,6 @@
             <div class="col-12">
                 <h5 class="mb-2 text-info">
                     {{\App\Models\TranslaleModel::getTranslation($event,'title',$event->title)}}
-                    <div class="mb-2">
-                        <span class="badge bg-secondary">{{ $event->location }}</span>
-                    </div>
                 </h5>
 
                 @if(\App\Models\User::isSuperAdmin())
@@ -22,8 +19,21 @@
             </div>
         </div>
         <div class="row">
+            @if($event->hashtags && $event->hashtags->count())
+                <div class="mt-2">
+                    <h5 class="fw-bold">{{ __('Hashtags:') }}</h5>
+                    @foreach($event->hashtags as $hashtag)
+                        <span class="badge bg-info text-light mx-1">#{{ $hashtag->name }}</span>
+                    @endforeach
+                </div>
+            @endif
+            <div class="mb-2">
+                <h5 class="fw-bold">{{ __('Location:') }}</h5>
+                <span class="badge bg-secondary">{{ $event->location }}</span>
+            </div>
             <div @if($event->mainImage) class="col-sm-12 col-md-8 col-lg-8"
                  @else class="col-sm-12 col-md-12 col-lg-12" @endif>
+                <h5 class="fw-bold">{{ __('Content:') }}</h5>
                 <blockquote>
                     {!! \App\Models\TranslaleModel::getTranslation($event,'content',$event->content) !!}
                 </blockquote>

@@ -7,11 +7,26 @@
             @else
                 <span class="badge bg-danger float-end">{{__('Disabled')}}</span>
             @endif
+
         </div>
         <div class="card-body row">
+            @if($event->hashtags && $event->hashtags->count())
+                <div class="mt-2">
+                    <h5 class="fw-bold">{{ __('Hashtags:') }}</h5>
+                    @foreach($event->hashtags as $hashtag)
+                        <span class="badge bg-info text-dark mx-1">#{{ $hashtag->name }}</span>
+                    @endforeach
+                </div>
+            @endif
+                <div class="mb-2">
+                    <h5 class="fw-bold">{{ __('Location:') }}</h5>
+                    <span class="badge bg-secondary">{{ $event->location }}</span>
+                </div>
+                <div
+                class="  @if ($event->mainImage)  col-md-7 @else  col-md-12 @endif">
+                <h5 class="fw-bold">{{ __('Content:') }}</h5>
 
-            <div
-                class="  @if ($event->mainImage)  col-md-7 @else  col-md-12 @endif"> {!! \App\Models\TranslaleModel::getTranslation($event,'content',$event->content) !!}
+                {!! \App\Models\TranslaleModel::getTranslation($event,'content',$event->content) !!}
             </div>
             @if ($event->mainImage)
                 <div class="col-md-5"><img src="{{ asset('uploads/' . $event->mainImage->url) }}" alt="Event Image"
