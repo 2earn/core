@@ -237,6 +237,14 @@
                             <span>{{__('News')}}</span>
                         </a>
                     </li>
+                    <li class="nav-item cool-link {{$currentRouteName=='event_index'? 'active' : ''}}">
+                        <a href="{{route('event_index',app()->getLocale(),false )}}"
+                           class="nav-link menu-link {{$currentRouteName=='event_index'? 'active' : ''}}"
+                           role="button">
+                            <i class="ri-calendar-event-fill"></i>
+                            <span>{{__('Events')}}</span>
+                        </a>
+                    </li>
                     @if(\Core\Models\Platform::canCheckDeals(auth()->user()->id))
                         <li class="nav-item cool-link {{$currentRouteName=='deals_index'? 'active' : ''}}">
                             <a href="{{route('deals_index',app()->getLocale(),false )}}"

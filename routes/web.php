@@ -153,6 +153,11 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/', \App\Livewire\NewsCreateUpdate::class)->name('create_update');
         });
 
+        Route::prefix('/event')->name('event_')->group(function () {
+            Route::get('/index', \App\Livewire\EventIndex::class)->name('index');
+            Route::get('/', \App\Livewire\EventCreateUpdate::class)->name('create_update');
+        });
+
         Route::get('/accept/request', AcceptFinancialRequest::class)->name('accept_financial_request')->middleware('CloseAuth');
 
         Route::prefix('/surveys')->name('surveys_')->group(function () {
@@ -404,4 +409,3 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 });
 
 Route::get('/oauth/callback', [\App\Http\Controllers\OAuthController::class, 'callback']);
-
