@@ -96,36 +96,45 @@
                                 @endif
                             </div>
                             <div class="card-footer">
-                                <div class="row">
+                                <div class="mt-2">
+                                    <span>
+                                        <i class="fa fa-thumbs-up"></i>
+                                        {{ $news->likes()->count() ?? 0 }} {{ __('Likes') }}
+                                    </span>
+                                    <span class="me-3">
+                                        <i class="fa fa-comments"></i>
+                                        {{ $news->comments()->where('validated',true)->count()  ?? 0 }} {{ __('Comments') }}
+                                    </span>
+                                </div>
+
+                                @if(\App\Models\User::isSuperAdmin())
+                                    <div class="float-end mx-1">
+                                        <button type="button" class="btn btn-outline-info btn-sm"
+                                                wire:click="duplicateNews({{$news->id}})">
+                                            <span>{{__('Duplicate')}}</span></button>
+                                    </div>
+                                @endif
+                                <div class="float-end mx-1">
+                                    <a href="{{ route('news_show', ['locale' => app()->getLocale(), 'id' => $news->id]) }}"
+                                       class="btn btn-outline-secondary  btn-sm">
+                                        {{__('View Details')}}
+                                    </a>
+                                </div>
+                                <div class="float-end mx-1">
+                                    <span class="card-text">{{__('Created at')}}: <small
+                                            class="text-muted">{{$news->created_at}}</small>
+                                    </span>
+                                    /
                                     @if(\App\Models\User::isSuperAdmin())
-                                        <div class="col">
-                                            <button type="button" class="btn btn-info"
-                                                    wire:click="duplicateNews({{$news->id}})">
-                                                <span>{{__('Duplicate')}}</span></button>
-                                        </div>
+                                        <span class="card-text">{{__('Updated at')}}: <small
+                                                class="text-muted">{{$news->updated_at}}</small></span>
                                     @endif
-                                    <div class="col">
-                                        <p class="card-text float-end">{{__('Created at')}}: <small
-                                                class="text-muted">{{$news->created_at}}</small>
-                                        </p>
-                                    </div>
-                                    <div class="col">
-                                        @if(\App\Models\User::isSuperAdmin())
-                                            <p class="card-text  float-end">{{__('Updated at')}}: <small
-                                                    class="text-muted">{{$news->updated_at}}</small></p>
-                                        @endif
-                                    </div>
-                                    <div class="col">
-                                        <a href="{{ route('news_show', ['locale' => app()->getLocale(), 'id' => $news->id]) }}" class="btn btn-secondary float-end">
-                                            {{__('View Details')}}
-                                        </a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 @empty
-                    <p>{{__('No newss')}}</p>
+                    <p>{{__('No news')}}</p>
                 @endforelse
                 {{ $newss->links() }}
             </div>

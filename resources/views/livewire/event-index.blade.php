@@ -48,16 +48,17 @@
                             <div class="card-body row">
                                 <div @if($event->mainImage) class="col-sm-12 col-md-8 col-lg-8"
                                      @else class="col-sm-12 col-md-12 col-lg-12" @endif>
-                                    <div>
+                                    <div class="col-md-12">
                                         <strong>{{__('Content')}}
                                             :</strong> {!! \App\Models\TranslaleModel::getTranslation($event,'content',$event->content) !!}
+
+                                        @if(\App\Models\User::isSuperAdmin())
+                                            <p class="mx-2 float-end">
+                                                <a class="link-info"
+                                                   href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($event,'content')])}}">{{__('See or update Translation')}}</a>
+                                            </p>
+                                        @endif
                                     </div>
-                                    @if(\App\Models\User::isSuperAdmin())
-                                        <p class="mx-2 float-end">
-                                            <a class="link-info"
-                                               href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($event,'content')])}}">{{__('See or update Translation')}}</a>
-                                        </p>
-                                    @endif
                                     <div class="col-sm-12 col-md-12 col-lg-12">
                                         <div class="float-end">
                                             <strong>{{__('Published at')}}
@@ -78,13 +79,17 @@
                                     </div>
                                 @endif
                             </div>
-                            <div class="card-footer">
-                                <span class="ms-3 text-muted">
-                                    <i class="bi bi-hand-thumbs-up"></i> {{ $event->likes()->count() }} {{ __('Likes') }}
-                                </span>
-                                <span class="ms-3 text-muted">
-                                    <i class="bi bi-chat-left-text"></i> {{ $event->comments()->where('validated',true)->count() }} {{ __('Comments') }}
-                                </span>
+                            <div class="card-footer text-muted">
+                                <div class="mt-2">
+                                    <span>
+                                        <i class="fa fa-thumbs-up"></i>
+                                        {{ $event->likes()->count() ?? 0 }} {{ __('Likes') }}
+                                    </span>
+                                                            <span class="me-3">
+                                        <i class="fa fa-comments"></i>
+                                        {{ $event->comments()->where('validated',true)->count()  ?? 0 }} {{ __('Comments') }}
+                                    </span>
+                                </div>
                                 @if(\App\Models\User::isSuperAdmin())
                                     <p class="mx-2 float-end">
                                         <a href="{{ route('event_create_update', ['locale' => app()->getLocale(), 'id' => $event->id]) }}"
