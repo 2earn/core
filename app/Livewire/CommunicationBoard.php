@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Event;
 use App\Models\News as NewsModel;
 use App\Models\Survey;
 use Core\Enum\StatusSurvey;
@@ -17,9 +18,10 @@ class CommunicationBoard extends Component
     {
         $surveys = Survey::where('status', '<', StatusSurvey::ARCHIVED->value)->orderBy('id', 'desc')->get();
         $news = NewsModel::where('enabled', 1)->orderBy('id', 'desc')->get();
-        $communicationBoard = $surveys->merge($news)->sortByDesc('created_at')->values();
+        $events = Event::where('enabled', 1)->orderBy('id', 'desc')->get();
+        $communicationBoard = $surveys->merge($news)->merge($events)->sortByDesc('created_at')->values();
         foreach ($communicationBoard as $key => $value) {
-            if (get_class($value) == 'App\Models\Survey') {
+            if (get_class($value) == 'App\\Models\\Survey') {
                 if ($value->canShow()) {
                     $this->communicationBoard[$key] = ['type' => get_class($value), 'value' => $value];
                 }
@@ -28,7 +30,6 @@ class CommunicationBoard extends Component
             }
         }
         $this->currentRouteName = Route::currentRouteName();
-
     }
 
     public function render()
