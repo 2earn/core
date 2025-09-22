@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\TranslaleModel;
 
 class Hashtag extends Model
 {
@@ -11,5 +12,10 @@ class Hashtag extends Model
     public function news()
     {
         return $this->morphedByMany(News::class, 'hashtagable');
+    }
+
+    public function getTranslatedName()
+    {
+        return TranslaleModel::getTranslation($this, 'name', $this->name);
     }
 }

@@ -29,6 +29,32 @@
                     <input type="text" disabled id="slug" wire:model="slug" class="form-control" required readonly>
                     @error('slug') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
+                <div class="mb-3">
+                    <label class="form-label">{{ __('Translations') }}</label>
+                    <div class="row">
+                        <div class="col-md-4 mb-2">
+                            <input type="text" wire:model="translations.ar" class="form-control" placeholder="Arabic (ar)">
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <input type="text" wire:model="translations.fr" class="form-control" placeholder="French (fr)">
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <input type="text" wire:model="translations.en" class="form-control" placeholder="English (en)">
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <input type="text" wire:model="translations.es" class="form-control" placeholder="Spanish (es)">
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <input type="text" wire:model="translations.tr" class="form-control" placeholder="Turkish (tr)">
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <input type="text" wire:model="translations.ru" class="form-control" placeholder="Russian (ru)">
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <input type="text" wire:model="translations.de" class="form-control" placeholder="German (de)">
+                        </div>
+                    </div>
+                </div>
 
             </div>
             <div class="card-footer">

@@ -17,6 +17,13 @@ class HashtagIndex extends Component
         $this->resetPage();
     }
 
+    public function delete($id)
+    {
+        $hashtag = Hashtag::findOrFail($id);
+        $hashtag->delete();
+        session()->flash('success', __('Hashtag deleted successfully.'));
+    }
+
     public function render()
     {
         $hashtags = Hashtag::query()
