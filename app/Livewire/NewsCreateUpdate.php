@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
-use App\Models\Faq;
 use App\Models\News;
 use App\Models\TranslaleModel;
+use App\Models\Hashtag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -21,6 +21,8 @@ class NewsCreateUpdate extends Component
     public $enabled;
     public $title, $content, $published_at;
     public $mainImage;
+    public $allHashtags = [];
+    public $selectedHashtags = [];
 
     protected $rules = [
         'title' => 'required',
@@ -30,6 +32,8 @@ class NewsCreateUpdate extends Component
 
     public function mount(Request $request)
     {
+        $this->allHashtags = Hashtag::all();
+        $this->selectedHashtags = [];
         $this->idNews = $request->input('id');
         if (!is_null($this->idNews)) {
             $this->edit($this->idNews);
@@ -52,6 +56,7 @@ class NewsCreateUpdate extends Component
         $this->content = $news->content;
         $this->published_at = $news->published_at;
         $this->update = true;
+        $this->selectedHashtags = $news->hashtags()->pluck('id')->toArray();
     }
 
     public function updateNews()
@@ -66,9 +71,10 @@ class NewsCreateUpdate extends Component
             if ($this->enabled == 1 && is_null($this->published_at)) {
                 $params['published_at'] = now();
             }
-            $news = News::where('id', $this->idNews)->update($params);
+            $news = News::where('id', $this->idNews)->first();
+            $news->update($params);
+            $news->hashtags()->sync($this->selectedHashtags);
             if ($this->mainImage) {
-                $news = News::where('id', $this->idNews)->first();
                 if (!is_null($news->mainImage)) {
                     Storage::disk('public2')->delete($news->mainImage->url);
                 }
@@ -98,6 +104,7 @@ class NewsCreateUpdate extends Component
         ];
         try {
             $createdNews = News::create($news);
+            $createdNews->hashtags()->sync($this->selectedHashtags);
             $translations = ['title', 'content'];
             foreach ($translations as $translation) {
                 TranslaleModel::create(
@@ -113,7 +120,6 @@ class NewsCreateUpdate extends Component
                     ]);
             }
             if ($this->mainImage) {
-
                 $imagePath = $this->mainImage->store('news/' . News::IMAGE_TYPE_MAIN, 'public2');
                 $createdNews->mainImage()->create([
                     'url' => $imagePath,

@@ -50,6 +50,15 @@
                             </div>
                         @endif
                     </div>
+                    <div class="form-group col-12">
+                        <label for="hashtags">{{__('Hashtags')}}</label>
+                        <select id="hashtags" class="form-control" multiple wire:model.live="selectedHashtags">
+                            @foreach($this->allHashtags as $hashtag)
+                                <option value="{{ $hashtag->id }}">{{ $hashtag->name }}</option>
+                            @endforeach
+                        </select>
+                        <div class="form-text">{{__('Select one or more hashtags')}}</div>
+                    </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-12">

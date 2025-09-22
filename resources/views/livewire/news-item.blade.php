@@ -18,8 +18,17 @@
             </div>
         </div>
         <div class="row">
+            @if($news->hashtags && $news->hashtags->count())
+                <div class="mt-2">
+                    <h5 class="fw-bold">{{ __('Hashtags:') }}</h5>
+                    @foreach($news->hashtags as $hashtag)
+                        <span class="badge bg-info text-light mx-1">#{{ $hashtag->name }}</span>
+                    @endforeach
+                </div>
+            @endif
             <div @if($news->mainImage) class="col-sm-12 col-md-8 col-lg-8"
                  @else class="col-sm-12 col-md-12 col-lg-12" @endif>
+                <h5 class="fw-bold">{{ __('Content:') }}</h5>
                 <blockquote>
                     {!! \App\Models\TranslaleModel::getTranslation($news,'content',$news->content) !!}
                 </blockquote>

@@ -23,7 +23,7 @@ class NewsShow extends Component
     public function mount($id)
     {
         $this->id = $id;
-        $this->news = News::with(['mainImage', 'comments.user', 'likes'])->findOrFail($id);
+        $this->news = News::with(['mainImage', 'comments.user', 'likes', 'hashtags'])->findOrFail($id);
         $this->loadComments();
         $this->loadLikes();
         $this->like = $this->news->likes()->where('user_id', auth()->id())->exists();
