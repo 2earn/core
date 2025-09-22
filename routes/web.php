@@ -10,6 +10,8 @@ use App\Livewire\EditUserContact;
 use App\Livewire\EntretienArbre;
 use App\Livewire\EvolutionArbre;
 use App\Livewire\FinancialTransaction;
+use App\Livewire\HashtagCreateOrUpdate;
+use App\Livewire\HashtagIndex;
 use App\Livewire\HistoriqueRecuperation;
 use App\Livewire\Hobbies;
 use App\Livewire\Home;
@@ -28,11 +30,6 @@ use App\Livewire\UserBalanceSMS;
 use App\Livewire\UserPurchaseHistory;
 use App\Livewire\ValidateAccount;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Firebase\JWT\Key;
-use Firebase\JWT\JWT;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -254,6 +251,12 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
                 });
             });
 
+            Route::prefix('/hashtags')->name('hashtags_')->group(function () {
+                Route::get('/', HashtagIndex::class)->name('index');
+                Route::get('/create', HashtagCreateOrUpdate::class)->name('create');
+                Route::get('/{id}/edit', HashtagCreateOrUpdate::class)->name('edit');
+            });
+
             Route::get('/index/test', \App\Livewire\NewBalance::class)->name('index_test');
 
             Route::prefix('/faq')->name('faq_')->group(function () {
@@ -411,3 +414,4 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 });
 
 Route::get('/oauth/callback', [\App\Http\Controllers\OAuthController::class, 'callback']);
+

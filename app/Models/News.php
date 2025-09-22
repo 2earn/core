@@ -26,4 +26,8 @@ class News extends Model
     {
         return $this->morphMany(\App\Models\Comment::class, 'commentable');
     }
+    public function hashtags()
+    {
+        return $this->morphToMany(Hashtag::class, 'hashtagable');
+    }
 }
