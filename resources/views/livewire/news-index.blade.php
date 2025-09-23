@@ -77,24 +77,16 @@
                                         </div>
                                     @endif
                                 </div>
-                                @if(\App\Models\User::isSuperAdmin())
-                                    <a wire:click="delete('{{$news->id}}')"
-                                       title="{{__('Delete news')}}"
-                                       class="btn btn-soft-danger material-shadow-none mt-1 float-end mx-2">
-                                        {{__('Delete')}}
-                                        <div wire:loading wire:target="delete('{{$news->id}}')">
-                                                <span class="spinner-border spinner-border-sm" role="status"
-                                                      aria-hidden="true"></span>
-                                            <span class="sr-only">{{__('Loading')}}...</span>
-                                        </div>
-                                    </a>
-                                    <a
-                                        href="{{route('news_create_update',['locale'=> app()->getLocale(),'id'=>$news->id])}}"
-                                        title="{{__('Edit news')}}"
-                                        class="btn btn-soft-primary material-shadow-none mt-1 float-end">
-                                        {{__('Edit')}}
-                                    </a>
-                                @endif
+                                <div class="mx-1 text-muted">
+                                    <span class="card-text">{{__('Created at')}}: <small
+                                            class="text-muted">{{$news->created_at}}</small>
+                                    </span>
+                                    /
+                                    @if(\App\Models\User::isSuperAdmin())
+                                        <span class="card-text">{{__('Updated at')}}: <small
+                                                class="text-muted">{{$news->updated_at}}</small></span>
+                                    @endif
+                                </div>
                             </div>
                             <div class="card-footer text-muted">
                                 <div class="mt-2">
@@ -110,27 +102,36 @@
 
                                 @if(\App\Models\User::isSuperAdmin())
                                     <div class="float-end mx-1">
+                                        <a wire:click="delete('{{$news->id}}')"
+                                           title="{{__('Delete news')}}"
+                                           class="btn btn-outline-danger btn-sm">
+                                            {{__('Delete')}}
+                                            <div wire:loading wire:target="delete('{{$news->id}}')">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                                <span class="sr-only">{{__('Loading')}}...</span>
+                                            </div>
+                                        </a>
+                                        <a
+                                            href="{{route('news_create_update',['locale'=> app()->getLocale(),'id'=>$news->id])}}"
+                                            title="{{__('Edit news')}}"
+                                            class="btn btn-outline-primary btn-sm">
+                                            {{__('Edit')}}
+                                        </a>
                                         <button type="button" class="btn btn-outline-warning btn-sm"
                                                 wire:click="duplicateNews({{$news->id}})">
-                                            <span>{{__('Duplicate')}}</span></button>
+                                            <span>{{__('Duplicate')}}</span>
+                                        </button>
+
                                     </div>
                                 @endif
-                                <div class="float-end mx-1">
+                                <div class="float-end">
                                     <a href="{{ route('news_show', ['locale' => app()->getLocale(), 'id' => $news->id]) }}"
                                        class="btn btn-outline-secondary  btn-sm">
                                         {{__('View Details')}}
                                     </a>
                                 </div>
-                                <div class="float-end mx-1 text-muted">
-                                    <span class="card-text">{{__('Created at')}}: <small
-                                            class="text-muted">{{$news->created_at}}</small>
-                                    </span>
-                                    /
-                                    @if(\App\Models\User::isSuperAdmin())
-                                        <span class="card-text">{{__('Updated at')}}: <small
-                                                class="text-muted">{{$news->updated_at}}</small></span>
-                                    @endif
-                                </div>
+
                             </div>
                         </div>
                     </div>

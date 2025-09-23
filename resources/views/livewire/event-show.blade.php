@@ -42,6 +42,8 @@
                 | {{__('Updated at')}}: {{ $event->updated_at }}
             @endif
         </div>
+    </div>
+    <div class="card">
         <div class="card-body row">
             <div class="my-3">
                 <button wire:click="toggleLike" class="btn btn-outline-primary">
