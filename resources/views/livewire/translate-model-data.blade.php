@@ -223,7 +223,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                                     alt="{{__('English')}}" title="{{__('English')}}"
                                                                     class="avatar-xxs m-2">
                                                                 <span
-                                                                    class="text-muted mx-1">{!!  Str::limit($value->valueEn,300) !!}}</span>
+                                                                    class="text-muted mx-1">{!!  Str::limit($value->valueEn,300) !!}</span>
 
                                                                 <a href="{{route('translate_html',['locale'=>app()->getLocale(),'id'=>$value->id,'lang'=>'en'])}}"
                                                                    id="add-item"

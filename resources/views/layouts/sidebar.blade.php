@@ -358,6 +358,14 @@
                                 <span>{{__('Targets')}}</span>
                             </a>
                         </li>
+                        <li class="nav-item cool-link {{$currentRouteName=='hashtags_index'? 'active' : ''}}">
+                            <a href="{{route('hashtags_index',['locale'=>request()->route("locale")],false )}}"
+                               class="nav-link menu-link {{$currentRouteName=='hashtags_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-hashtag"></i>
+                                <span>{{__('Hashtags')}}</span>
+                            </a>
+                        </li>
                         <li class="nav-item cool-link {{$currentRouteName=='balances_index'? 'active' : ''}}">
                             <a href="{{route('balances_index',['locale'=>request()->route("locale")],false )}}"
                                class="nav-link menu-link {{$currentRouteName=='balances_index'? 'active' : ''}}"

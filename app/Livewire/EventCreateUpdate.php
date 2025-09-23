@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Event;
+use App\Models\Hashtag;
 use App\Models\TranslaleModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
@@ -25,6 +26,9 @@ class EventCreateUpdate extends Component
     public $mainImage;
     public $location = '';
 
+    public $allHashtags = [];
+    public $selectedHashtags = [];
+
     protected $rules = [
         'title' => 'required',
         'content' => 'required',
@@ -35,6 +39,8 @@ class EventCreateUpdate extends Component
 
     public function mount(Request $request)
     {
+        $this->allHashtags = Hashtag::all();
+        $this->selectedHashtags = [];
         $this->idEvent = $request->input('id');
         if (!is_null($this->idEvent)) {
             $this->update = true;
@@ -61,6 +67,7 @@ class EventCreateUpdate extends Component
         $this->start_at = $event->start_at ? $event->start_at->format('Y-m-d\TH:i') : null;
         $this->end_at = $event->end_at ? $event->end_at->format('Y-m-d\TH:i') : null;
         $this->location = $event->location;
+        $this->selectedHashtags = $event->hashtags()->get()->pluck('id')->toArray();
     }
 
     public function save()
@@ -79,6 +86,7 @@ class EventCreateUpdate extends Component
             if ($this->idEvent) {
                 Event::where('id', $this->idEvent)->update($data);
                 $event = Event::find($this->idEvent);
+                $event->hashtags()->sync($this->selectedHashtags);
                 if ($this->mainImage) {
                     if (!is_null($event->mainImage)) {
                         \Illuminate\Support\Facades\Storage::disk('public2')->delete($event->mainImage->url);
@@ -93,8 +101,8 @@ class EventCreateUpdate extends Component
             } else {
                 $event = Event::create($data);
                 $this->idEvent = $event->id;
-                // Add translations for title and content
-                $translations = ['title', 'content'];
+                $event->hashtags()->sync($this->selectedHashtags);
+                $translations = ['title', 'content','location'];
                 foreach ($translations as $translation) {
                     TranslaleModel::create([
                         'name' => TranslaleModel::getTranslateName($event, $translation),

@@ -6,16 +6,27 @@
     @endcomponent
     <div class="card">
         <div class="card-header">
-            <h2>{{ \App\Models\TranslaleModel::getTranslation($news,'title',$news->title) }}</h2>
+            <h3>{{ \App\Models\TranslaleModel::getTranslation($news,'title',$news->title) }}
             @if($news->enabled)
                 <span class="badge bg-success float-end">{{__('Enabled')}}</span>
             @else
                 <span class="badge bg-danger float-end">{{__('Disabled')}}</span>
             @endif
+            </h3>
         </div>
         <div class="card-body row">
-            <div
-                class="  @if ($news->mainImage)  col-md-7 @else  col-md-12 @endif">  {!! \App\Models\TranslaleModel::getTranslation($news,'content',$news->content) !!}</div>
+            @if($news->hashtags && $news->hashtags->count())
+                <div class="mt-2">
+                    <h5 class="fw-bold">{{ __('Hashtags:') }}</h5>
+                    @foreach($news->hashtags as $hashtag)
+                        <span class="badge bg-info text-light mx-1">#{{ $hashtag->name }}</span>
+                    @endforeach
+                </div>
+            @endif
+                <div
+                class="  @if ($news->mainImage)  col-md-7 @else  col-md-12 @endif">
+                    <h5 class="fw-bold">{{ __('Content:') }}</h5>
+                    {!! \App\Models\TranslaleModel::getTranslation($news,'content',$news->content) !!}</div>
             @if ($news->mainImage)
                 <div class="col-md-5"><img src="{{ asset('uploads/' . $news->mainImage->url) }}" alt="News Image"
                                            class="img-thumbnail mb-3">
@@ -83,7 +94,9 @@
                                 <span class="text-muted small">{{ $comment->created_at->diffForHumans() }}</span>
                                 <div>{!! nl2br(e($comment->content)) !!}</div>
                                 <button wire:click="validateComment({{ $comment->id }})"
-                                        class="btn btn-success btn-sm mt-2 float-end">{{__('Validate')}}</button>
+                                        class="btn btn-success btn-sm m-2 float-end">{{__('Validate')}}</button>
+                                <button wire:click="deleteComment({{ $comment->id }})"
+                                        class="btn btn-danger btn-sm m-2 float-end">{{__('Delete')}}</button>
                             </div>
                         @endforeach
                     </div>

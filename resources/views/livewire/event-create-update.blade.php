@@ -41,7 +41,8 @@
                     </div>
                     <div class="form-group col-12">
                         <label for="published_at">{{__('Published At')}}</label>
-                        <input type="datetime-local" id="published_at" wire:model.live="published_at" class="form-control">
+                        <input type="datetime-local" id="published_at" wire:model.live="published_at"
+                               class="form-control">
                         @error('published_at') <span class="error">{{ $message }}</span> @enderror
                     </div>
                     <div class="form-group col-6">
@@ -67,10 +68,29 @@
                     </div>
                     <div class="form-group col-12">
                         <label for="location">{{__('Location')}}</label>
-                        <input type="text" class="form-control" id="location" wire:model.live="location" placeholder="{{__('Enter location')}}">
+                        <input type="text" class="form-control" id="location" @if($update) disabled @endif
+                        wire:model.live="location" placeholder="{{__('Enter location')}}">
+                    </div>
+                    <div class="form-group col-12">
+                        <label>{{__('Hashtags')}}</label>
+                        <div class="row ms-1">
+                            @foreach($this->allHashtags as $hashtag)
+                                <div class="form-check form-switch col-auto mb-2">
+                                    <input class="form-check-input" type="checkbox"
+                                           id="hashtag-{{ $hashtag->id }}"
+                                           value="{{ $hashtag->id }}"
+                                           wire:model.live="selectedHashtags">
+                                    <label class="form-check-label" for="hashtag-{{ $hashtag->id }}">
+                                        {{ $hashtag->name }}
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="form-text">{{__('Select one or more hashtags')}}</div>
                     </div>
                     <div class="form-group col-12 mt-3">
-                        <button type="submit" class="btn btn-success">{{ $update ? __('Update') : __('Create') }}</button>
+                        <button type="submit"
+                                class="btn btn-success">{{ $update ? __('Update') : __('Create') }}</button>
                         <button type="button" class="btn btn-secondary" wire:click="cancel">{{__('Cancel')}}</button>
                     </div>
                 </div>

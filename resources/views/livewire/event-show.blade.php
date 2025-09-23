@@ -1,17 +1,34 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-header">
-            <h2>{{ \App\Models\TranslaleModel::getTranslation($event,'title',$event->title) }}</h2>
-            @if($event->enabled)
-                <span class="badge bg-success float-end">{{__('Enabled')}}</span>
-            @else
-                <span class="badge bg-danger float-end">{{__('Disabled')}}</span>
-            @endif
+            <h4>{{ \App\Models\TranslaleModel::getTranslation($event,'title',$event->title) }}
+                @if($event->enabled)
+                    <span class="badge bg-success float-end">{{__('Enabled')}}</span>
+                @else
+                    <span class="badge bg-danger float-end">{{__('Disabled')}}</span>
+                @endif
+            </h4>
         </div>
         <div class="card-body row">
+            @if($event->hashtags && $event->hashtags->count())
+                <div class="mt-2">
+                    <span class="fw-semibold">{{ __('Hashtags:') }}</span>
+                    <br>
+                    @foreach($event->hashtags as $hashtag)
+                        <span class="badge bg-info text-light mx-1">#{{ $hashtag->name }}</span>
+                    @endforeach
+                </div>
+            @endif
 
-            <div
-                class="  @if ($event->mainImage)  col-md-7 @else  col-md-12 @endif"> {!! \App\Models\TranslaleModel::getTranslation($event,'content',$event->content) !!}
+            <div class="@if ($event->mainImage)  col-md-7 @else  col-md-12 @endif">
+                <span class="fw-semibold">{{ __('Content:') }}</span>
+                <blockquote class="text-muted">
+                    {!! \App\Models\TranslaleModel::getTranslation($event,'content',$event->content) !!}
+                </blockquote>
+                <div class="mb-2">
+                    <span class="fw-semibold">{{ __('Location:') }}</span>
+                    <span> {{\App\Models\TranslaleModel::getTranslation($event,'location',$event->location)}}</span>
+                </div>
             </div>
             @if ($event->mainImage)
                 <div class="col-md-5"><img src="{{ asset('uploads/' . $event->mainImage->url) }}" alt="Event Image"
@@ -25,6 +42,8 @@
                 | {{__('Updated at')}}: {{ $event->updated_at }}
             @endif
         </div>
+    </div>
+    <div class="card">
         <div class="card-body row">
             <div class="my-3">
                 <button wire:click="toggleLike" class="btn btn-outline-primary">
@@ -76,7 +95,9 @@
                                 <span class="text-muted small">{{ $comment->created_at->diffForHumans() }}</span>
                                 <div>{!! nl2br(e($comment->content)) !!}</div>
                                 <button wire:click="validateComment({{ $comment->id }})"
-                                        class="btn btn-success btn-sm mt-2 float-end">{{__('Validate')}}</button>
+                                        class="btn btn-success btn-sm m-2 float-end">{{__('Validate')}}</button>
+                                <button wire:click="deleteComment({{ $comment->id }})"
+                                        class="btn btn-danger btn-sm m-2 float-end">{{__('Delete')}}</button>
                             </div>
                         @endforeach
                     </div>

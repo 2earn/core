@@ -8,9 +8,6 @@
             <div class="col-12">
                 <h5 class="mb-2 text-info">
                     {{\App\Models\TranslaleModel::getTranslation($event,'title',$event->title)}}
-                    <div class="mb-2">
-                        <span class="badge bg-secondary">{{ $event->location }}</span>
-                    </div>
                 </h5>
 
                 @if(\App\Models\User::isSuperAdmin())
@@ -22,9 +19,37 @@
             </div>
         </div>
         <div class="row">
-            <div @if($event->mainImage) class="col-sm-12 col-md-8 col-lg-8"
+            @if($event->hashtags && $event->hashtags->count())
+                <div class="mt-2">
+                    <span class="fw-semibold">{{ __('Hashtags:') }}</span>
+                    <br>
+                    @foreach($event->hashtags as $hashtag)
+                        <span class="badge bg-info text-light mx-1">#{{ $hashtag->name }}</span>
+                    @endforeach
+                </div>
+            @endif
+            @if($event->location)
+                <div class="mt-2">
+                    <span class="fw-semibold">{{ __('Location:') }}</span>
+                    <span> {{\App\Models\TranslaleModel::getTranslation($event,'location',$event->location)}}</span>
+                    @if(\App\Models\User::isSuperAdmin())
+                        <p class="mx-2">
+                            <a class="link-info float-end"
+                               href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($event,'location')])}}">{{__('See or update Translation')}}</a>
+                        </p>
+                    @endif
+                </div>
+            @endif
+            @if($event->published_at)
+                <div class="mt-2">
+                    <span class="fw-semibold">{{ __('Published at:') }}</span>
+                    <span>{{ $event->published_at }}</span>
+                </div>
+            @endif
+            <div @if($event->mainImage) class="col-sm-12 col-md-8 col-lg-8 mt-2"
                  @else class="col-sm-12 col-md-12 col-lg-12" @endif>
-                <blockquote>
+                <span class="fw-semibold">{{ __('Content:') }}</span>
+                <blockquote class="text-muted">
                     {!! \App\Models\TranslaleModel::getTranslation($event,'content',$event->content) !!}
                 </blockquote>
                 @if(\App\Models\User::isSuperAdmin())
@@ -44,10 +69,12 @@
             @endif
         </div>
     </div>
-    <div class="card-footer text-muted ">
-        <span class="mb-0 float-end">
-            {{$event->published_at}}
-        </span>
+    <div class="card-footer text-muted">
+        <a href="{{ route('event_show', ['locale' => app()->getLocale(), 'id' => $event->id]) }}"
+           class="btn btn-outline-primary btn-sm mx-1 float-end">
+            {{ __('View details') }}
+        </a>
+
         <div class="mt-2">
             <span>
                 <i class="fa fa-thumbs-up"></i>

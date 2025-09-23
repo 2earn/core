@@ -18,7 +18,8 @@ class EventIndex extends Component
     public $search = '';
     public $currentRouteName;
     protected $paginationTheme = 'bootstrap';
-    public $listeners = ['delete' => 'delete'];
+    public $eventIdToDelete = null;
+    public $listeners = ['delete' => 'delete', 'clearDeleteEventId' => 'clearDeleteEventId'];
 
     public function mount()
     {
@@ -35,15 +36,29 @@ class EventIndex extends Component
         $this->resetPage();
     }
 
-    public function delete($id)
+    public function confirmDelete($id)
+    {
+        $this->eventIdToDelete = $id;
+        $this->dispatch('showDeleteModal');
+    }
+
+    public function delete()
     {
         try {
-            Event::destroy($id);
+            Event::destroy($this->eventIdToDelete);
+            $this->eventIdToDelete = null;
+            $this->dispatch('hideDeleteModal');
+            return redirect()->route('event_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Event deleted successfully'));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
+            $this->dispatch('hideDeleteModal');
             return redirect()->route('event_index', ['locale' => app()->getLocale()])->with('error', Lang::get('Event deletion failed'));
         }
-        return redirect()->route('event_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Event deleted successfully'));
+    }
+
+    public function clearDeleteEventId()
+    {
+        $this->eventIdToDelete = null;
     }
 
     public function duplicate($id)

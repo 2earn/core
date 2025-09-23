@@ -23,7 +23,7 @@ class NewsShow extends Component
     public function mount($id)
     {
         $this->id = $id;
-        $this->news = News::with(['mainImage', 'comments.user', 'likes'])->findOrFail($id);
+        $this->news = News::with(['mainImage', 'comments.user', 'likes', 'hashtags'])->findOrFail($id);
         $this->loadComments();
         $this->loadLikes();
         $this->like = $this->news->likes()->where('user_id', auth()->id())->exists();
@@ -71,6 +71,13 @@ class NewsShow extends Component
     {
         if (!auth()->check() || !User::isSuperAdmin()) return;
         Comment::validate($commentId);
+        $this->loadComments();
+    }
+
+    public function deleteComment($commentId)
+    {
+        if (!auth()->check() || !User::isSuperAdmin()) return;
+        Comment::deleteComment($commentId);
         $this->loadComments();
     }
 

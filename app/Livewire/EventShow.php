@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Comment;
 use App\Models\Event;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,7 @@ class EventShow extends Component
     public function mount($id)
     {
         $this->id = $id;
-        $this->event = Event::with('mainImage')->findOrFail($id);
+        $this->event = Event::with(['mainImage', 'hashtags'])->findOrFail($id);
         $this->loadComments();
         $this->loadLikes();
     }
@@ -41,7 +42,14 @@ class EventShow extends Component
     public function validateComment($commentId)
     {
         if (!auth()->check() || !User::isSuperAdmin()) return;
-        \App\Models\Comment::validate($commentId);
+        Comment::validate($commentId);
+        $this->loadComments();
+    }
+
+    public function deleteComment($commentId)
+    {
+        if (!auth()->check() || !User::isSuperAdmin()) return;
+        Comment::deleteComment($commentId);
         $this->loadComments();
     }
 

@@ -585,9 +585,9 @@
 
         </ul>
     </div>
-    <div class="card-footer text-muted ">
+    <div class="card-footer text-muted">
         <span class="mb-0 float-end">
-            {{$survey->openDate}}
+          {{__('Opening date')}}:  {{$survey->openDate}}
         </span>
         <div class="mt-2">
             <span>
@@ -600,8 +600,6 @@
             </span>
         </div>
     </div>
-
-
 
 
     @if(intval($survey->status)==\Core\Enum\StatusSurvey::OPEN->value && $survey->enabled)
