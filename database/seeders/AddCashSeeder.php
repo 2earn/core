@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\App;
 
 class AddCashSeeder extends Seeder
 {
-    const USERS_IDS = [197604395, 197604239, 197604342];
+    const USERS_IDS = [197604395, 197604239, 197604342, 197604161];
     public function run()
     {
         if (!App::isProduction()) {
