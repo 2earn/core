@@ -14,7 +14,8 @@ class DatabaseSeeder extends Seeder
             BalanceOperationsBFSShareSeeder::class,
             OperationCategorySeeder::class,
             BalanceOperationsMappingSeeder::class,
-            UsersWithStatusMinusTwoAfterAttackSeeder::class
+            UsersWithStatusMinusTwoAfterAttackSeeder::class,
+            TruncateNotificationsTableSeeder::class
         ]);
     }
 }
