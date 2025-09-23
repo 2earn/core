@@ -71,14 +71,15 @@
             </a>
         </div>
         <div class="mt-2">
+                 <span>
+                <i class="fa fa-thumbs-up"></i>
+                {{ $news->likes()->count() ?? 0 }} {{ __('Likes') }}
+            </span>
             <span class="me-3">
                 <i class="fa fa-comments"></i>
-                {{ $news->comments_count ?? 0 }} {{ __('Comments') }}
+                {{ $news->comments()->where('validated',true)->count()  ?? 0 }} {{ __('Comments') }}
             </span>
-            <span>
-                <i class="fa fa-thumbs-up"></i>
-                {{ $news->likes_count ?? 0 }} {{ __('Likes') }}
-            </span>
+
         </div>
     </div>
 </div>

@@ -95,7 +95,9 @@
                                 <span class="text-muted small">{{ $comment->created_at->diffForHumans() }}</span>
                                 <div>{!! nl2br(e($comment->content)) !!}</div>
                                 <button wire:click="validateComment({{ $comment->id }})"
-                                        class="btn btn-success btn-sm mt-2 float-end">{{__('Validate')}}</button>
+                                        class="btn btn-success btn-sm m-2 float-end">{{__('Validate')}}</button>
+                                <button wire:click="deleteComment({{ $comment->id }})"
+                                        class="btn btn-danger btn-sm m-2 float-end">{{__('Delete')}}</button>
                             </div>
                         @endforeach
                     </div>

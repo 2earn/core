@@ -74,6 +74,13 @@ class NewsShow extends Component
         $this->loadComments();
     }
 
+    public function deleteComment($commentId)
+    {
+        if (!auth()->check() || !User::isSuperAdmin()) return;
+        Comment::deleteComment($commentId);
+        $this->loadComments();
+    }
+
     public function loadComments()
     {
         $this->comments = $this->news->comments()
