@@ -20,6 +20,7 @@ class NewsIndex extends Component
     public $currentRouteName;
     protected $paginationTheme = 'bootstrap';
     public $listeners = ['delete' => 'delete', 'duplicateNews' => 'duplicateNews'];
+    public $newsIdToDelete = null;
 
     public function mount()
     {
@@ -48,13 +49,22 @@ class NewsIndex extends Component
         return redirect()->route('news_index', ['locale' => app()->getLocale()])->with('success', Lang::get('News Duplicated Successfully'));
     }
 
-    public function delete($id)
+    public function confirmDelete($id)
+    {
+        $this->newsIdToDelete = $id;
+        $this->dispatch('showDeleteModal');
+    }
+
+    public function delete()
     {
         try {
-            ModelsNews::findOrFail($id)->delete();
+            ModelsNews::findOrFail($this->newsIdToDelete)->delete();
+            $this->newsIdToDelete = null;
+            $this->dispatch('hideDeleteModal');
             return redirect()->route('news_index', ['locale' => app()->getLocale()])->with('success', Lang::get('News Deleted Successfully'));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
+            $this->dispatch('hideDeleteModal');
             return redirect()->route('news_index', ['locale' => app()->getLocale()])->with('danger', $exception->getMessage());
         }
     }
@@ -63,9 +73,14 @@ class NewsIndex extends Component
     public function render()
     {
         if (!is_null($this->search) && !empty($this->search)) {
-            $params['newss'] = News::where('title', 'like', '%' . $this->search . '%')->orderBy('created_at', 'desc')->paginate(self::PAGE_SIZE);
+            $params['newss'] = News::with(['hashtags', 'mainImage'])
+                ->where('title', 'like', '%' . $this->search . '%')
+                ->orderBy('created_at', 'desc')
+                ->paginate(self::PAGE_SIZE);
         } else {
-            $params['newss'] = News::orderBy('created_at', 'desc')->paginate(self::PAGE_SIZE);
+            $params['newss'] = News::with(['hashtags', 'mainImage'])
+                ->orderBy('created_at', 'desc')
+                ->paginate(self::PAGE_SIZE);
         }
         return view('livewire.news-index', $params)->extends('layouts.master')->section('content');
     }
