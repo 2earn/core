@@ -68,6 +68,15 @@
                                                 </p>
                                             @endif
                                         </blockquote>
+                                        @if($news->hashtags && $news->hashtags->count())
+                                            <div class="mt-2">
+                                                <span class="fw-semibold">{{ __('Hashtags:') }}</span>
+                                                @foreach($news->hashtags as $hashtag)
+                                                    <span
+                                                        class="badge bg-info text-light mx-1">#{{ $hashtag->name }}</span>
+                                                @endforeach
+                                            </div>
+                                        @endif
                                     </div>
                                     @if ($news->mainImage)
                                         <div class="col-md-4">

@@ -72,12 +72,20 @@
                         wire:model.live="location" placeholder="{{__('Enter location')}}">
                     </div>
                     <div class="form-group col-12">
-                        <label for="hashtags">{{__('Hashtags')}}</label>
-                        <select id="hashtags" class="form-control" multiple wire:model.live="selectedHashtags">
+                        <label>{{__('Hashtags')}}</label>
+                        <div class="row ms-1">
                             @foreach($this->allHashtags as $hashtag)
-                                <option value="{{ $hashtag->id }}">{{ $hashtag->name }}</option>
+                                <div class="form-check form-switch col-auto mb-2">
+                                    <input class="form-check-input" type="checkbox"
+                                           id="hashtag-{{ $hashtag->id }}"
+                                           value="{{ $hashtag->id }}"
+                                           wire:model.live="selectedHashtags">
+                                    <label class="form-check-label" for="hashtag-{{ $hashtag->id }}">
+                                        {{ $hashtag->name }}
+                                    </label>
+                                </div>
                             @endforeach
-                        </select>
+                        </div>
                         <div class="form-text">{{__('Select one or more hashtags')}}</div>
                     </div>
                     <div class="form-group col-12 mt-3">

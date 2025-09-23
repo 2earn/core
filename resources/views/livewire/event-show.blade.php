@@ -15,7 +15,7 @@
                     <span class="fw-semibold">{{ __('Hashtags:') }}</span>
                     <br>
                     @foreach($event->hashtags as $hashtag)
-                        <span class="badge bg-info text-dark mx-1">#{{ $hashtag->name }}</span>
+                        <span class="badge bg-info text-light mx-1">#{{ $hashtag->name }}</span>
                     @endforeach
                 </div>
             @endif
