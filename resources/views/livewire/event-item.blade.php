@@ -22,6 +22,7 @@
             @if($event->hashtags && $event->hashtags->count())
                 <div class="mt-2">
                     <span class="fw-semibold">{{ __('Hashtags:') }}</span>
+                    <br>
                     @foreach($event->hashtags as $hashtag)
                         <span class="badge bg-info text-light mx-1">#{{ $hashtag->name }}</span>
                     @endforeach
@@ -31,6 +32,12 @@
                 <div class="mt-2">
                     <span class="fw-semibold">{{ __('Location:') }}</span>
                     <span>{{ $event->location }}</span>
+                </div>
+            @endif
+            @if($event->published_at)
+                <div class="mt-2">
+                    <span class="fw-semibold">{{ __('Published at:') }}</span>
+                    <span>{{ $event->published_at }}</span>
                 </div>
             @endif
             <div @if($event->mainImage) class="col-sm-12 col-md-8 col-lg-8 mt-2"
@@ -57,14 +64,11 @@
         </div>
     </div>
     <div class="card-footer text-muted">
-
         <a href="{{ route('event_show', ['locale' => app()->getLocale(), 'id' => $event->id]) }}"
            class="btn btn-outline-primary btn-sm mx-1 float-end">
             {{ __('View details') }}
         </a>
-        <span class="mb-0 float-end">
-            {{$event->published_at}}
-        </span>
+
         <div class="mt-2">
             <span>
                 <i class="fa fa-thumbs-up"></i>
