@@ -35,10 +35,10 @@
                     <div class="col-sm-12 col-lg-12">
                         <div class="card border card-border-light">
                             <div class="card-header">
-                                <h5 class="card-title mb-1">
+                                <span class="card-title mb-1">
                                     {{$event->id}}
                                     - {{\App\Models\TranslaleModel::getTranslation($event,'title',$event->title)}}
-                                </h5>
+                                </span>
                                 @if($event->enabled)
                                     <span class="badge bg-success float-end">{{__('Enabled')}}</span>
                                 @else
@@ -46,12 +46,23 @@
                                 @endif
                             </div>
                             <div class="card-body row">
+                                @if($event->hashtags && $event->hashtags->count())
+                                    <div class="mt-2">
+                                        <span class="fw-semibold">{{ __('Hashtags:') }}</span>
+                                        <br>
+                                        @foreach($event->hashtags as $hashtag)
+                                            <span class="badge bg-info text-light mx-1">#{{ $hashtag->name }}</span>
+                                        @endforeach
+                                    </div>
+                                @endif
                                 <div @if($event->mainImage) class="col-sm-12 col-md-8 col-lg-8"
                                      @else class="col-sm-12 col-md-12 col-lg-12" @endif>
-                                    <div class="col-md-12">
-                                        <strong>{{__('Content')}}
-                                            :</strong> {!! \App\Models\TranslaleModel::getTranslation($event,'content',$event->content) !!}
-
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                         <span class="fw-semibold">{{__('Content')}}
+                                            :</span>
+                                        <blockquote class="text-muted">
+                                            {!! \App\Models\TranslaleModel::getTranslation($event,'content',$event->content) !!}
+                                        </blockquote>
                                         @if(\App\Models\User::isSuperAdmin())
                                             <p class="mx-2 float-end">
                                                 <a class="link-info"
@@ -59,14 +70,10 @@
                                             </p>
                                         @endif
                                     </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-12">
-                                        <div class="float-end">
-                                            <strong>{{__('Published at')}}
-                                                :</strong> {{$event->published_at}}</div>
-                                        <div><strong>{{__('Start at')}}:</strong> {{$event->start_at}} /
-                                            <strong>{{__('End at')}}:</strong> {{$event->end_at}}</div>
-                                        <div><strong>{{__('Location')}}:</strong> {{$event->location}}
-                                        </div>
+                                    <div class="col-sm-12 col-md-12 col-lg-12 mt-2">
+                                        <p><strong>{{__('Location')}}:</strong> {{$event->location}} </p>
+                                        <p class="float-end"><strong>{{__('Published at')}}:</strong> {{$event->published_at}}</p>
+                                        <p><strong>{{__('Start at')}}:</strong> {{$event->start_at}} / <strong>{{__('End at')}}:</strong> {{$event->end_at}}</p>
                                     </div>
                                 </div>
                                 @if($event->mainImage)
@@ -85,7 +92,7 @@
                                         <i class="fa fa-thumbs-up"></i>
                                         {{ $event->likes()->count() ?? 0 }} {{ __('Likes') }}
                                     </span>
-                                                            <span class="me-3">
+                                    <span class="me-3">
                                         <i class="fa fa-comments"></i>
                                         {{ $event->comments()->where('validated',true)->count()  ?? 0 }} {{ __('Comments') }}
                                     </span>
@@ -102,7 +109,7 @@
                                 @endif
                                 <a href="{{ route('event_show', ['locale' => app()->getLocale(), 'id' => $event->id]) }}"
                                    class="btn btn-outline-info btn-sm float-end">
-                                    {{ __('Details') }}
+                                    {{ __('View details') }}
                                 </a>
                             </div>
                         </div>

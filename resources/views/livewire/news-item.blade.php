@@ -20,7 +20,8 @@
         <div class="row">
             @if($news->hashtags && $news->hashtags->count())
                 <div class="mt-2">
-                    <h5 class="fw-bold">{{ __('Hashtags:') }}</h5>
+                    <span class="fw-semibold">{{ __('Hashtags:') }}</span>
+                    <br>
                     @foreach($news->hashtags as $hashtag)
                         <span class="badge bg-info text-light mx-1">#{{ $hashtag->name }}</span>
                     @endforeach
@@ -28,7 +29,7 @@
             @endif
             <div @if($news->mainImage) class="col-sm-12 col-md-8 col-lg-8"
                  @else class="col-sm-12 col-md-12 col-lg-12" @endif>
-                <h5 class="fw-bold">{{ __('Content:') }}</h5>
+                     <span class="fw-semibold">{{ __('Content:') }}</span>
                 <blockquote>
                     {!! \App\Models\TranslaleModel::getTranslation($news,'content',$news->content) !!}
                 </blockquote>
@@ -57,10 +58,16 @@
             </div>
         </div>
     </div>
-    <div class="card-footer text-muted ">
+    <div class="card-footer text-muted">
         <span class="mb-0 float-end">
             {{$news->published_at}}
         </span>
+        <div class="float-end mx-1">
+            <a href="{{ route('news_show', ['locale' => app()->getLocale(), 'id' => $news->id]) }}"
+               class="btn btn-outline-secondary  btn-sm">
+                {{__('View Details')}}
+            </a>
+        </div>
         <div class="mt-2">
             <span class="me-3">
                 <i class="fa fa-comments"></i>

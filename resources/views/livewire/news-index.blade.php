@@ -36,15 +36,15 @@
                     <div class="col-sm-12 col-lg-12">
                         <div class="card border card-border-light">
                             <div class="card-header">
-                                <h5 class="card-title mb-1">
+                                <h4 class="card-title mb-1">
                                     {{$news->id}}
                                     - {{\App\Models\TranslaleModel::getTranslation($news,'title',$news->title)}}
-                                </h5>
-                                @if($news->enabled)
-                                    <span class="badge bg-success float-end">{{__('Enabled')}}</span>
-                                @else
-                                    <span class="badge bg-danger float-end">{{__('Disabled')}}</span>
-                                @endif
+                                    @if($news->enabled)
+                                        <span class="badge bg-success float-end">{{__('Enabled')}}</span>
+                                    @else
+                                        <span class="badge bg-danger float-end">{{__('Disabled')}}</span>
+                                    @endif
+                                </h4>
 
                                 @if(\App\Models\User::isSuperAdmin())
                                     <p class="mx-2 float-end">
@@ -56,6 +56,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-8">
+                                        <span class="fw-semibold">{{ __('Content:') }}</span>
                                         <blockquote class="blockquote">
                                             <p class="card-text">
                                                 {!! \App\Models\TranslaleModel::getTranslation($news,'content',$news->content) !!}
@@ -95,7 +96,7 @@
                                     </a>
                                 @endif
                             </div>
-                            <div class="card-footer">
+                            <div class="card-footer text-muted">
                                 <div class="mt-2">
                                     <span>
                                         <i class="fa fa-thumbs-up"></i>

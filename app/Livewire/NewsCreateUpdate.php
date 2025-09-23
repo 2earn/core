@@ -56,7 +56,7 @@ class NewsCreateUpdate extends Component
         $this->content = $news->content;
         $this->published_at = $news->published_at;
         $this->update = true;
-        $this->selectedHashtags = $news->hashtags()->pluck('id')->toArray();
+        $this->selectedHashtags = $news->hashtags()->get()->toArray();
     }
 
     public function updateNews()

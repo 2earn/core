@@ -1,32 +1,34 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-header">
-            <h2>{{ \App\Models\TranslaleModel::getTranslation($event,'title',$event->title) }}</h2>
-            @if($event->enabled)
-                <span class="badge bg-success float-end">{{__('Enabled')}}</span>
-            @else
-                <span class="badge bg-danger float-end">{{__('Disabled')}}</span>
-            @endif
-
+            <h4>{{ \App\Models\TranslaleModel::getTranslation($event,'title',$event->title) }}
+                @if($event->enabled)
+                    <span class="badge bg-success float-end">{{__('Enabled')}}</span>
+                @else
+                    <span class="badge bg-danger float-end">{{__('Disabled')}}</span>
+                @endif
+            </h4>
         </div>
         <div class="card-body row">
             @if($event->hashtags && $event->hashtags->count())
                 <div class="mt-2">
-                    <h5 class="fw-bold">{{ __('Hashtags:') }}</h5>
+                    <span class="fw-semibold">{{ __('Hashtags:') }}</span>
+                    <br>
                     @foreach($event->hashtags as $hashtag)
                         <span class="badge bg-info text-dark mx-1">#{{ $hashtag->name }}</span>
                     @endforeach
                 </div>
             @endif
-                <div class="mb-2">
-                    <h5 class="fw-bold">{{ __('Location:') }}</h5>
-                    <span class="badge bg-secondary">{{ $event->location }}</span>
-                </div>
-                <div
-                class="  @if ($event->mainImage)  col-md-7 @else  col-md-12 @endif">
-                <h5 class="fw-bold">{{ __('Content:') }}</h5>
 
-                {!! \App\Models\TranslaleModel::getTranslation($event,'content',$event->content) !!}
+            <div class="@if ($event->mainImage)  col-md-7 @else  col-md-12 @endif">
+                <span class="fw-semibold">{{ __('Content:') }}</span>
+                <blockquote class="text-muted">
+                    {!! \App\Models\TranslaleModel::getTranslation($event,'content',$event->content) !!}
+                </blockquote>
+                <div class="mb-2">
+                    <span class="fw-semibold">{{ __('Location:') }}</span>
+                    <span>{{ $event->location }}</span>
+                </div>
             </div>
             @if ($event->mainImage)
                 <div class="col-md-5"><img src="{{ asset('uploads/' . $event->mainImage->url) }}" alt="Event Image"
