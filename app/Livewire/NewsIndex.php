@@ -19,7 +19,7 @@ class NewsIndex extends Component
     public $search = '';
     public $currentRouteName;
     protected $paginationTheme = 'bootstrap';
-    public $listeners = ['delete' => 'delete', 'duplicateNews' => 'duplicateNews'];
+    public $listeners = ['delete' => 'delete', 'duplicateNews' => 'duplicateNews', 'clearDeleteNewsId' => 'clearDeleteNewsId'];
     public $newsIdToDelete = null;
 
     public function mount()
@@ -69,6 +69,10 @@ class NewsIndex extends Component
         }
     }
 
+    public function clearDeleteNewsId()
+    {
+        $this->newsIdToDelete = null;
+    }
 
     public function render()
     {

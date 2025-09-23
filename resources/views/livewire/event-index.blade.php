@@ -124,8 +124,16 @@
                                     <p class="mx-2 float-end">
                                         <a href="{{ route('event_create_update', ['locale' => app()->getLocale(), 'id' => $event->id]) }}"
                                            class="btn btn-outline-primary btn-sm">{{__('Edit')}}</a>
-                                        <button wire:click.prevent="delete({{$event->id}})"
-                                                class="btn btn-outline-danger btn-sm">{{__('Delete')}}</button>
+                                        <button type="button"
+                                                class="btn btn-outline-danger btn-sm"
+                                                wire:click="confirmDelete({{$event->id}})">
+                                            {{__('Delete')}}
+                                            <div wire:loading wire:target="delete">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                      aria-hidden="true"></span>
+                                                <span class="sr-only">{{__('Loading')}}...</span>
+                                            </div>
+                                        </button>
                                         <button wire:click.prevent="duplicate({{$event->id}})"
                                                 class="btn btn-outline-warning btn-sm">{{__('Duplicate')}}</button>
                                     </p>
@@ -148,4 +156,41 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="deleteEventModal" tabindex="-1" aria-labelledby="deleteEventModalLabel"
+         aria-hidden="true" wire:ignore.self>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteEventModalLabel">{{ __('Confirm Delete') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ __('Are you sure you want to delete this event? This action cannot be undone.') }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                    <button type="button" class="btn btn-danger" wire:click="delete">{{ __('Delete') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @push('scripts')
+        <script>
+            window.addEventListener('showDeleteModal', () => {
+                var myModal = new bootstrap.Modal(document.getElementById('deleteEventModal'));
+                myModal.show();
+            });
+            window.addEventListener('hideDeleteModal', () => {
+                var myModalEl = document.getElementById('deleteEventModal');
+                var modal = bootstrap.Modal.getInstance(myModalEl);
+                if (modal) modal.hide();
+            });
+            document.getElementById('deleteEventModal').addEventListener('hidden.bs.modal', function () {
+                Livewire.dispatch('clearDeleteEventId');
+            });
+        </script>
+    @endpush
 </div>
+

@@ -176,16 +176,19 @@
     </div>
 
     @push('scripts')
-            <script>
-                window.addEventListener('showDeleteModal', () => {
-                    var myModal = new bootstrap.Modal(document.getElementById('deleteNewsModal'));
-                    myModal.show();
-                });
-                window.addEventListener('hideDeleteModal', () => {
-                    var myModalEl = document.getElementById('deleteNewsModal');
-                    var modal = bootstrap.Modal.getInstance(myModalEl);
-                    if (modal) modal.hide();
-                });
-            </script>
-        @endpush
+        <script>
+            window.addEventListener('showDeleteModal', () => {
+                var myModal = new bootstrap.Modal(document.getElementById('deleteNewsModal'));
+                myModal.show();
+            });
+            window.addEventListener('hideDeleteModal', () => {
+                var myModalEl = document.getElementById('deleteNewsModal');
+                var modal = bootstrap.Modal.getInstance(myModalEl);
+                if (modal) modal.hide();
+            });
+            document.getElementById('deleteNewsModal').addEventListener('hidden.bs.modal', function () {
+                Livewire.dispatch('clearDeleteNewsId');
+            });
+        </script>
+    @endpush
 </div>
