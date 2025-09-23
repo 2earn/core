@@ -31,7 +31,13 @@
             @if($event->location)
                 <div class="mt-2">
                     <span class="fw-semibold">{{ __('Location:') }}</span>
-                    <span>{{ $event->location }}</span>
+                    <span> {{\App\Models\TranslaleModel::getTranslation($event,'location',$event->location)}}</span>
+                    @if(\App\Models\User::isSuperAdmin())
+                        <p class="mx-2">
+                            <a class="link-info float-end"
+                               href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($event,'location')])}}">{{__('See or update Translation')}}</a>
+                        </p>
+                    @endif
                 </div>
             @endif
             @if($event->published_at)

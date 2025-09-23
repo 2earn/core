@@ -102,8 +102,7 @@ class EventCreateUpdate extends Component
                 $event = Event::create($data);
                 $this->idEvent = $event->id;
                 $event->hashtags()->sync($this->selectedHashtags);
-                // Add translations for title and content
-                $translations = ['title', 'content'];
+                $translations = ['title', 'content','location'];
                 foreach ($translations as $translation) {
                     TranslaleModel::create([
                         'name' => TranslaleModel::getTranslateName($event, $translation),

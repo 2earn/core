@@ -35,14 +35,20 @@
                     <div class="col-sm-12 col-lg-12">
                         <div class="card border card-border-light">
                             <div class="card-header">
-                                <span class="card-title mb-1">
+                                <h4 class="card-title mb-1">
                                     {{$event->id}}
                                     - {{\App\Models\TranslaleModel::getTranslation($event,'title',$event->title)}}
-                                </span>
-                                @if($event->enabled)
-                                    <span class="badge bg-success float-end">{{__('Enabled')}}</span>
-                                @else
-                                    <span class="badge bg-danger float-end">{{__('Disabled')}}</span>
+                                    @if($event->enabled)
+                                        <span class="badge bg-success float-end">{{__('Enabled')}}</span>
+                                    @else
+                                        <span class="badge bg-danger float-end">{{__('Disabled')}}</span>
+                                    @endif
+                                </h4>
+                                @if(\App\Models\User::isSuperAdmin())
+                                    <p class="mx-2">
+                                        <a class="link-info"
+                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($event,'title')])}}">{{__('See or update Translation')}}</a>
+                                    </p>
                                 @endif
                             </div>
                             <div class="card-body row">
@@ -64,16 +70,18 @@
                                             {!! \App\Models\TranslaleModel::getTranslation($event,'content',$event->content) !!}
                                         </blockquote>
                                         @if(\App\Models\User::isSuperAdmin())
-                                            <p class="mx-2 float-end">
+                                            <p class="mx-2">
                                                 <a class="link-info"
                                                    href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($event,'content')])}}">{{__('See or update Translation')}}</a>
                                             </p>
                                         @endif
                                     </div>
+
                                     <div class="col-sm-12 col-md-12 col-lg-12 mt-2">
-                                        <p><strong>{{__('Location')}}:</strong> {{$event->location}} </p>
-                                        <p class="float-end"><strong>{{__('Published at')}}:</strong> {{$event->published_at}}</p>
-                                        <p><strong>{{__('Start at')}}:</strong> {{$event->start_at}} / <strong>{{__('End at')}}:</strong> {{$event->end_at}}</p>
+                                        <p class="float-end mt-2"><strong>{{__('Published at')}}
+                                                :</strong> {{$event->published_at}}</p>
+                                        <p><strong>{{__('Start at')}}:</strong> {{$event->start_at}} /
+                                            <strong>{{__('End at')}}:</strong> {{$event->end_at}}</p>
                                     </div>
                                 </div>
                                 @if($event->mainImage)
@@ -85,6 +93,21 @@
                                         </div>
                                     </div>
                                 @endif
+                                @if($event->location)
+                                    <div class="col-sm-12 col-md-12 col-lg-12 mt-2">
+                                        <p>
+                                            <strong>{{__('Location')}}
+                                                :</strong> {{\App\Models\TranslaleModel::getTranslation($event,'location',$event->location)}}
+                                            @if(\App\Models\User::isSuperAdmin())
+                                                <span class="mx-2">
+                                                <a class="link-info"
+                                                   href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($event,'location')])}}">{{__('See or update Translation')}}</a>
+                                            </span>
+                                            @endif
+                                        </p>
+                                    </div>
+                                @endif
+
                             </div>
                             <div class="card-footer text-muted">
                                 <div class="mt-2">

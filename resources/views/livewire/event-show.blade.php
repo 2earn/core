@@ -27,7 +27,7 @@
                 </blockquote>
                 <div class="mb-2">
                     <span class="fw-semibold">{{ __('Location:') }}</span>
-                    <span>{{ $event->location }}</span>
+                    <span> {{\App\Models\TranslaleModel::getTranslation($event,'location',$event->location)}}</span>
                 </div>
             </div>
             @if ($event->mainImage)
