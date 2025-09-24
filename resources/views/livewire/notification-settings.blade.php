@@ -25,9 +25,12 @@
             {{ __('Manage my notifications') }}
         @endslot
     @endcomponent
-    <div class="row">
-        <div class="col-xl-6">
-            <div class="card">
+    <div class="card">
+        <div class="card-body row ">
+            <div class="col-md-12">
+                @include('layouts.flash-messages')
+            </div>
+            <div class="card col-md-6">
                 <div class="card-header align-items-center d-flex">
                     <h4 class="card-title mb-0 flex-grow-1">{{__('email_notification')}}</h4>
                     <div class="flex-shrink-0">
@@ -56,7 +59,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card">
+            <div class="card col-md-6">
                 <div class="card-header align-items-center d-flex">
                     <h4 class="card-title mb-0 flex-grow-1">{{__('Discount_plan')}}</h4>
                     <div class="flex-shrink-0">
@@ -115,9 +118,7 @@
 
                 </div>
             </div>
-        </div>
-        <div class="col-xl-6">
-            <div class="card">
+            <div class="card col-md-12">
                 <div class="card-header align-items-center d-flex">
                     <h4 class="card-title mb-0 flex-grow-1">{{__('sms notification')}}</h4>
                     <div class="flex-shrink-0">
@@ -158,13 +159,11 @@
                     </div>
                 </div>
             </div>
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-primary d-inline-block btn2earn" type="button"
-                                wire:click="save">{{__('validate')}}</button>
-                    </div>
-                </div>
+
+            <div class="card col-md-12">
+                <button class="btn btn-primary d-inline-block btn2earn" type="button"
+                        wire:click="save">{{__('validate')}}
+                </button>
             </div>
         </div>
     </div>
