@@ -40,12 +40,7 @@
                     @endif
                 </div>
             @endif
-            @if($event->published_at)
-                <div class="mt-2">
-                    <span class="fw-semibold">{{ __('Published at:') }}</span>
-                    <span>{{ $event->published_at }}</span>
-                </div>
-            @endif
+
             <div @if($event->mainImage) class="col-sm-12 col-md-8 col-lg-8 mt-2"
                  @else class="col-sm-12 col-md-12 col-lg-12" @endif>
                 <span class="fw-semibold">{{ __('Content:') }}</span>
@@ -65,6 +60,14 @@
                         <img src="{{ asset('uploads/' . $event->mainImage->url) }}"
                              class="img-thumbnail">
                     </div>
+                </div>
+            @endif
+            @if($event->published_at)
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <p class="float-end text-muted">
+                        <span class="fw-semibold">{{ __('Published at:') }}</span>
+                        <span>{{ $event->published_at }}</span>
+                    </p>
                 </div>
             @endif
         </div>

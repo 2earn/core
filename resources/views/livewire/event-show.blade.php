@@ -1,4 +1,15 @@
 <div class="container-fluid">
+    @section('title')
+        {{ __('Event') }} : {{ \App\Models\TranslaleModel::getTranslation($event,'title',$event->title) }}
+    @endsection
+    @component('components.breadcrumb')
+        @slot('title')
+                {{ __('Event') }} : {{ \App\Models\TranslaleModel::getTranslation($event,'title',$event->title) }}
+        @endslot
+    @endcomponent
+    <div class="row">
+        @include('layouts.flash-messages')
+    </div>
     <div class="card">
         <div class="card-header">
             <h4>{{ \App\Models\TranslaleModel::getTranslation($event,'title',$event->title) }}

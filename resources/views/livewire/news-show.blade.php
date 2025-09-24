@@ -1,18 +1,24 @@
 <div class="container-fluid">
+    @section('title')
+        {{ __('News') }} : {{ \App\Models\TranslaleModel::getTranslation($news,'title',$news->title) }}
+    @endsection
     @component('components.breadcrumb')
         @slot('title')
-            {{ \App\Models\TranslaleModel::getTranslation($news,'title',$news->title) }}
+            {{ __('News') }} : {{ \App\Models\TranslaleModel::getTranslation($news,'title',$news->title) }}
         @endslot
     @endcomponent
+    <div class="row">
+        @include('layouts.flash-messages')
+    </div>
     <div class="card">
         <div class="card-header">
-            <h3>{{ \App\Models\TranslaleModel::getTranslation($news,'title',$news->title) }}
+            <h4>{{ \App\Models\TranslaleModel::getTranslation($news,'title',$news->title) }}
             @if($news->enabled)
                 <span class="badge bg-success float-end">{{__('Enabled')}}</span>
             @else
                 <span class="badge bg-danger float-end">{{__('Disabled')}}</span>
             @endif
-            </h3>
+            </h4>
         </div>
         <div class="card-body row">
             @if($news->hashtags && $news->hashtags->count())

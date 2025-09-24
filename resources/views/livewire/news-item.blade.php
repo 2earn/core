@@ -50,17 +50,19 @@
                     </div>
                 </div>
             @endif
-            @if($news->published_at)
-                <div class="col-sm-12 col-md-12 col-lg-12 mt-2">
-                    <span class="fw-semibold">{{ __('Published at:') }}</span>
-                    <span>{{ $news->published_at }}</span>
-                </div>
-            @endif
             <div class="col-sm-12 col-md-4 col-lg-3">
                 <span class="text-muted mb-2">
             {{__('The Management Team')}}
         </span>
             </div>
+            @if($news->published_at)
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <p class="float-end text-muted">
+                        <span class="fw-semibold">{{ __('Published at:') }}</span>
+                        <span>{{ $news->published_at }}</span>
+                    </p>
+                </div>
+            @endif
         </div>
     </div>
     <div class="card-footer text-muted">
