@@ -78,10 +78,11 @@
                                     </div>
 
                                     <div class="col-sm-12 col-md-12 col-lg-12 mt-2">
-                                        <p class="float-end mt-2"><strong>{{__('Published at')}}
-                                                :</strong> {{$event->published_at}}</p>
-                                        <p><strong>{{__('Start at')}}:</strong> {{$event->start_at}} /
+                                        <p class="float-end text-muted mt-2">
+                                            <strong>{{__('Published at')}} :</strong> {{$event->published_at}}</p>
+                                            <strong>{{__('Start at')}}:</strong> {{$event->start_at}} /
                                             <strong>{{__('End at')}}:</strong> {{$event->end_at}}</p>
+                                        <p>
                                     </div>
                                 </div>
                                 @if($event->mainImage)

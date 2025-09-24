@@ -45,7 +45,9 @@
         @forelse($notifications as $notification)
             @include(\App\Helpers\NotificationHelper::getTemplate($notification) , ['notification' => $notification])
         @empty
-            <div class="p-2 text-gray-500">{{__('No notifications')}}</div>
+            <div class="p-2 text-muted">
+                <span>{{__('No notifications')}}</span>
+            </div>
         @endforelse
     </div>
 </div>
