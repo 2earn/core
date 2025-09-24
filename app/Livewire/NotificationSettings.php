@@ -7,6 +7,8 @@ use Core\Enum\SettingsEnum;
 use Core\Models\Setting;
 use Core\Services\settingsManager;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class NotificationSettings extends Component
@@ -14,7 +16,7 @@ class NotificationSettings extends Component
     private settingsManager $settingsManager;
     public $setting_notif;
     public $nbrSms;
-    public $nbrSmsPossible ;
+    public $nbrSmsPossible;
     protected $rules = [
         'setting_notif.*.value' => 'required',
     ];
@@ -24,26 +26,34 @@ class NotificationSettings extends Component
         $this->settingsManager = $settingsManager;
     }
 
+
+    public function save()
+    {
+        try {
+            foreach ($this->setting_notif as $setting) {
+                if ($setting->id == 19)
+                    $val = $this->nbrSms;
+                else
+                    $val = $setting->value;
+                DB::table('user_notification_setting')
+                    ->where('idNotification', $setting->idNotification)
+                    ->where('idUser', $setting->idUser)
+                    ->update(['value' => $val]);
+            }
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return redirect()->route('notification_settings', ['locale' => app()->getLocale()])->with('warning', Lang::get('Notifications setting saving failed'));
+        }
+        return redirect()->route('notification_settings', ['locale' => app()->getLocale()])->with('success', Lang::get('Notifications setting saved successfully'));
+    }
+
     public function render(settingsManager $settingsManager)
     {
         $this->settingsManager = $settingsManager;
         $this->setting_notif = $this->settingsManager->getNotificationSetting($this->settingsManager->getAuthUser()->idUser);
         $this->nbrSms = $this->setting_notif->where('id', '=', NotificationSettingEnum::SMSByWeek->value)->first()->value;
-        $this->nbrSmsPossible = Setting::where('idSETTINGS',SettingsEnum::NbrSmsPossible)->first()->DecimalValue;
+        $this->nbrSmsPossible = Setting::where('idSETTINGS', SettingsEnum::NbrSmsPossible)->first()->DecimalValue;
         return view('livewire.notification-settings')->extends('layouts.master')->section('content');
     }
 
-    public function save()
-    {
-        foreach ($this->setting_notif as $settig) {
-            if ($settig['id'] == 19)
-                $val = $this->nbrSms;
-            else
-                $val = $settig["value"];
-            DB::table('user_notification_setting')
-                ->where('idNotification', $settig["idNotification"])
-                ->where('idUser', $settig["idUser"])
-                ->update(['value' => $val]);
-        }
-    }
 }
