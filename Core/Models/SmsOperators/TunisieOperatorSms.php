@@ -23,7 +23,9 @@ class TunisieOperatorSms implements IOperateurSms
 
     public function send()
     {
-
+        if (app()->environment('local')) {
+            return 'No sms for local envs';
+        }
         $postParams = [
             "login" => "AHY01",
             "pass" => "NVqJr7zq",
