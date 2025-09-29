@@ -18,11 +18,11 @@ class NotificationHelper
         return 'notifications.' . Str::snake(class_basename($notification->type));
     }
 
-    public static function localizeUrl(string $url, string $currentLocale): string
+
+    public static  function localizeUrl(string $url, string $currentLocale): string
     {
-        $pattern = '#/(?:' . implode('|', config('app.available_locales')) . ')(?=/|$)#';
+        $pattern = '#/(?:' . implode('|', array_keys(config('app.available_locales'))) . ')(?=/|$)#';
+
         return preg_replace($pattern, "/{$currentLocale}", $url);
     }
-
-
 }
