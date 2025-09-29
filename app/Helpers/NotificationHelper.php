@@ -15,7 +15,13 @@ class NotificationHelper
 
     public static function getTemplate($notification)
     {
-        return 'notifications.'.Str::snake(class_basename($notification->type));
+        return 'notifications.' . Str::snake(class_basename($notification->type));
+    }
+
+    public static function localizeUrl(string $url, string $currentLocale): string
+    {
+        $pattern = '#/(?:' . implode('|', config('app.available_locales')) . ')(?=/|$)#';
+        return preg_replace($pattern, "/{$currentLocale}", $url);
     }
 
 
