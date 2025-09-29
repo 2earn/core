@@ -11,7 +11,7 @@
         <div class="flex-grow-1">
             <h5>{{ __(__('notifications.settings.share_purchase')) }}</h5>
             <p>{{ __('notifications.share_purchase.body', $notification->data['message_params'] ?? []) }}</p>
-            <a href="{{ $notification->data['url'] }}" class="btn btn-sm btn-primary">
+            <a href="{{ \App\Helpers\NotificationHelper::localizeUrl($notification->data['url'],app()->getLocale()) }}" class="btn btn-sm btn-primary">
                 {{ __('notifications.share_purchase.action') }}
             </a>
             <p class="mb-0 fs-11 fw-medium text-uppercase text-muted float-end">

@@ -12,7 +12,7 @@
         <div class="flex-grow-1">
             <h5>{{ __(__('notifications.settings.financial_request_sent')) }}</h5>
             <p>{{ __('notifications.financial_request_sent.body', $notification->data['message_params'] ?? []) }}</p>
-            <a href="{{ $notification->data['url'] }}" class="btn btn-sm btn-primary">
+            <a href="{{ \App\Helpers\NotificationHelper::localizeUrl($notification->data['url'],app()->getLocale()) }}" class="btn btn-sm btn-primary">
                 {{ __('notifications.financial_request_sent.action') }}
             </a>
             <p class="mb-0 fs-11 fw-medium text-uppercase text-muted float-end">
