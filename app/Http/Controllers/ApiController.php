@@ -1087,6 +1087,9 @@ class ApiController extends BaseController
                 break;
         }
         return datatables($this->getUserBalancesQuery($balance))
+            ->addColumn('reference', function ($balance) {
+                return view('parts.datatable.balances-references', ['balance' => $balance]);
+            })
             ->addColumn('formatted_date', function ($user) {
                 return Carbon\Carbon::parse($user->created_at)->format('Y-m-d');
             })
