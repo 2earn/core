@@ -47,22 +47,19 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/coupons/injector', [App\Http\Controllers\VoucherController::class, 'index'])->name('api_coupon_injector');
         Route::get('/user/coupons', [App\Http\Controllers\VoucherController::class, 'user'])->name('api_user_coupon_injector');
         Route::get('/coupons/user', [App\Http\Controllers\VoucherController::class, 'userCoupons'])->name('api_user_coupon');
-
-
         Route::get('/platforms', [App\Http\Controllers\PlatformController::class, 'index'])->name('api_platforms');
-
-        Route::get('/roles', 'App\Http\Controllers\ApiController@getRoles')->name('api_role');
+        Route::get('/roles', [App\Http\Controllers\RolesController::class, 'index'])->name('api_role');
         Route::get('/deals/search', [\App\Livewire\DealsIndex::class, 'filterDeals'])->name('api_deal_search');
-        Route::get('/request', 'App\Http\Controllers\ApiController@getRequest')->name('api_request');
-        Route::get('/representatives', 'App\Http\Controllers\ApiController@getRepresentatives')->name('api_representatives');
-        Route::get('/user/balancesCB', 'App\Http\Controllers\ApiController@getUserBalancesCB')->name('api_user_balances_cb');
-        Route::get('/user/invitations', 'App\Http\Controllers\ApiController@getInvitationsUser')->name('api_user_invitations');
-        Route::get('/user/purchaseBFS/{type}', 'App\Http\Controllers\ApiController@getPurchaseBFSUser')->name('api_user_bfs_purchase');
-        Route::get('/user/tree', 'App\Http\Controllers\ApiController@getTreeUser')->name('api_user_tree');
-        Route::get('/user/sms', 'App\Http\Controllers\ApiController@getSmsUser')->name('api_user_sms');
-        Route::get('/user/chance', 'App\Http\Controllers\ApiController@getChanceUser')->name('api_user_chance');
+        Route::get('/request', [App\Http\Controllers\RequestController::class, 'index'])->name('api_request');
+        Route::get('/representatives', [App\Http\Controllers\RepresentativesController::class, 'index'])->name('api_representatives');
+        Route::get('/user/invitations', [App\Http\Controllers\UserssController::class, 'invitations'])->name('api_user_invitations');
+        Route::get('/user/purchaseBFS/{type}', [App\Http\Controllers\UserssController::class, 'getPurchaseBFSUser'])->name('api_user_bfs_purchase');
+        Route::get('/user/tree', [App\Http\Controllers\UserssController::class, 'getTreeUser'])->name('api_user_tree');
+        Route::get('/user/sms', [App\Http\Controllers\UserssController::class, 'getSmsUser'])->name('api_user_sms');
+        Route::get('/user/chance', [App\Http\Controllers\UserssController::class, 'getSmsUser'])->name('api_user_chance');
         Route::post('/paytabs/notification', 'App\Http\Controllers\ApiController@handlePaymentNotification')->name('notification_from_paytabs')->withoutMiddleware('web');
         Route::get('/target/{idTarget}/data', [\App\Http\Controllers\TargetController::class, 'getTargetData'])->name('api_target_data');
+
 
         Route::get('sankey', 'App\Http\Controllers\ApiController@getSankey')->name('API_sankey');
 

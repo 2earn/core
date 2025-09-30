@@ -60,7 +60,11 @@
                         },
                         "processing": true,
                         search: {return: true},
-                        "ajax": "{{route('api_user_tree',app()->getLocale())}}",
+                        "ajax": {
+                            url: "{{route('api_user_tree',['locale'=> app()->getLocale()])}}",
+                            type: "GET",
+                            headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"}
+                        },
                         "columns": [
                             {data: 'reference'},
                             {data: 'created_at'},

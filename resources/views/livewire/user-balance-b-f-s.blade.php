@@ -150,7 +150,11 @@
                         },
                         "processing": true,
                         search: {return: true},
-                        "ajax": "{{route('api_user_bfs_purchase',['locale'=>app()->getLocale(),'type'=>$type])}}",
+                        "ajax": {
+                            url: "{{route('api_user_bfs_purchase',['locale'=> app()->getLocale(),'type'=>$type])}}",
+                            type: "GET",
+                            headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"}
+                        },
                         "columns": [
                             {data: 'ranks'},
                             {data: 'reference'},
