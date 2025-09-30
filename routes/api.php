@@ -41,12 +41,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/action/historys', [App\Http\Controllers\SharesController::class, 'index'])->name('api_action_history');
         Route::get('/user-balances/{idAmounts}', [App\Http\Controllers\UsersBalancesController::class, 'index'])->name('api_user_balances');
         Route::get('/user-balances-list/{idUser}/{idAmounts}',  [App\Http\Controllers\UsersBalancesController::class, 'list'])->name('api_user_balances_list');
-
-
         Route::get('/shares-solde-list/{idUser}',  [App\Http\Controllers\SharesController::class, 'list'])->name('api_shares_solde_list');
 
-        Route::get('/user/admin', 'App\Http\Controllers\ApiController@getUserAdmin')->name('api_user_admin');
-        Route::get('/history/notification', 'App\Http\Controllers\ApiController@getHistoryNotification')->name('api_history_notification');
+        Route::get('/history/notification', [App\Http\Controllers\NotificationsController::class, 'index'])->name('api_history_notification');
+
         Route::get('/coupons', 'App\Http\Controllers\ApiController@getCoupons')->name('api_coupon');
         Route::get('/coupons/injector', 'App\Http\Controllers\ApiController@getCouponsInjector')->name('api_coupon_injector');
         Route::get('/user/coupons', 'App\Http\Controllers\ApiController@getUserCouponsInjector')->name('api_user_coupon_injector');

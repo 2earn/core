@@ -967,41 +967,6 @@ class ApiController extends BaseController
             ->make(true);
     }
 
-    /**
-     * @throws \Yajra\DataTables\Exceptions\Exception
-     */
-    public function getUserAdmin()
-    {
-        $authorizedRoles = ['admin', 'Moderateur'];
-        $admins = User::whereHas('roles', static function ($query) use ($authorizedRoles) {
-            return
-                $query->whereIn('roles.name', $authorizedRoles)
-                    ->join('countries', 'users.idCountry', '=', 'countries.phonecode')
-                    ->select('roles.name');
-        })
-            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
-            ->join('countries', 'idCountry', '=', 'countries.phonecode')
-            ->select('users.name as userName', 'users.id', 'users.mobile', 'countries.name as countrieName', 'roles.name as roleName')
-            ->get();
-        foreach ($admins as $admin) {
-            $plateformes = DB::table('user_plateforme')
-                ->join('plateformes', 'plateformes.id', '=', 'user_plateforme.plateforme_id')
-                ->where('user_id', '=', $admin->id)
-                ->get();
-            $admin->plateformes = "";
-            foreach ($plateformes as $plateforme) {
-                $admin->plateformes = $admin->plateformes . $plateforme->name . ",";
-            }
-            $admin->plateformes = rtrim($admin->plateformes, ", ");
-        }
-        return datatables($admins)
-            ->addColumn('action', function ($admin) {
-                return view('parts.datatable.share-history-action.blade', ['admin' => $admin]);
-            })
-            ->rawColumns(['action'])
-            ->make(true);
-    }
 
     public function getHistoryNotificationModerateur()
     {
