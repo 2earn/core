@@ -178,7 +178,11 @@
                         "serverSide": true,
                         "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
                         search: {return: false},
-                        "ajax": "{{route('api_user_balances',['locale'=> app()->getLocale(), 'idAmounts'=>'cash-Balance'])}}",
+                        "ajax": {
+                            url: "{{route('api_user_balances',['locale'=> app()->getLocale(), 'idAmounts'=>'cash-Balance'])}}",
+                            type: "GET",
+                            headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"}
+                        },
                         "columns": [
                             {data: 'ranks'},
                             {data: 'reference'},

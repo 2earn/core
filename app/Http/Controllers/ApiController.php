@@ -1069,7 +1069,7 @@ class ApiController extends BaseController
             ->orderBy('ub.reference', 'desc');
     }
 
-    public function getUserBalances($locale, $typeAmounts)
+    public function getUserBalances($typeAmounts)
     {
         $balance = null;
         switch ($typeAmounts) {

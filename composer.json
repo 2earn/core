@@ -10,6 +10,9 @@
         "doctrine/dbal": "^3.0",
         "fakerphp/faker": "^1.24",
         "guzzlehttp/guzzle": "^7.0.1",
+        "illuminate/auth": "^12.0",
+        "illuminate/support": "^12.0",
+        "illuminate/validation": "^12.0",
         "ladumor/laravel-pwa": "^0.0.4",
         "laravel/framework": "^12.0",
         "laravel/passport": "^v12.4.0",
@@ -22,11 +25,8 @@
         "propaganistas/laravel-phone": "^5.1",
         "silviolleite/laravelpwa": "^2.0",
         "spatie/laravel-permission": "^6.0",
-        "yajra/laravel-datatables-oracle": "^12.0",
-        "illuminate/support": "^12.0",
-        "illuminate/auth": "^12.0",
-        "illuminate/validation": "^12.0",
-        "symfony/console": "^7.0"
+        "symfony/console": "^7.0",
+        "yajra/laravel-datatables-oracle": "^12.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",

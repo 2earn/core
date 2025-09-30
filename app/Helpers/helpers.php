@@ -620,6 +620,7 @@ if (!function_exists('generateRandomWord')) {
         return $randomWord;
     }
 }
+
 if (!function_exists('generateRandomText')) {
     function generateRandomText($wordCount, $wordLengthRange = [3, 10])
     {
@@ -631,6 +632,14 @@ if (!function_exists('generateRandomText')) {
         }
 
         return trim($randomText);
+    }
+}
+
+if (!function_exists('generateUserToken')) {
+    function generateUserToken()
+    {
+        $token = \auth()->user()->createToken('user_token');
+        return $token->plainTextToken;
     }
 }
 

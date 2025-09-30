@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
-use Laravel\Passport\HasApiTokens;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -25,15 +25,10 @@ class User extends Authenticatable
     const DEFAULT_NATIONAL_FRONT_URL = 'uploads/profiles/front-id-image.png';
     const DEFAULT_NATIONAL_BACK_URL = 'uploads/profiles/back-id-image.png';
     const DEFAULT_INTERNATIONAL_URL = 'uploads/profiles/international-id-image.png';
-    use HasApiTokens, HasFactory, Notifiable;
 
-    use HasRoles;
+    use HasApiTokens, HasFactory, Notifiable,HasRoles;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var string[]
-     */
+
     protected $fillable = [
         'name',
         'email',
