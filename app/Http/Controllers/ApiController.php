@@ -50,17 +50,10 @@ use Spatie\Permission\Models\Role;
 class ApiController extends BaseController
 {
     const DATE_FORMAT = 'd/m/Y H:i:s';
-    const CURRENCY = '$';
-    const SEPACE = ' ';
-    const SEPARATOR = ' : ';
-    const PERCENTAGE = ' % ';
 
-
-    public function __construct(private readonly settingsManager $settingsManager, private BalancesManager $balancesManager, private UserRepository $userRepository)
+    public function __construct(private readonly settingsManager $settingsManager, private UserRepository $userRepository)
     {
     }
-
-
 
     public function buyAction(Req $request, BalancesManager $balancesManager)
     {
@@ -245,10 +238,6 @@ class ApiController extends BaseController
         return response()->json($array);
     }
 
-
-
-
-
     public function getCountriStat()
     {
         return response()->json(DB::table('tableau_croise')->select('*')->get());
@@ -259,13 +248,6 @@ class ApiController extends BaseController
         $data = DB::select(getSqlFromPath('get_sankey'));
         return response()->json($data);
     }
-
-
-
-
-
-
-
 
     public function handlePaymentNotification(Req $request, settingsManager $settingsManager)
     {
@@ -358,24 +340,6 @@ class ApiController extends BaseController
         );
         return redirect()->route('user_balance_cb', app()->getLocale());
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public function getUsersListQuery()
     {
         return User::select('countries.apha2', 'countries.name as country', 'users.id', 'users.status', 'users.idUser', 'idUplineRegister',
@@ -484,9 +448,6 @@ class ApiController extends BaseController
             ->make(true);
     }
 
-
-
-
     public function getBalanceOperationsCategories()
     {
         return datatables(OperationCategory::all())
@@ -497,13 +458,6 @@ class ApiController extends BaseController
             ->toJson();
     }
 
-
-
-
-
-
-
-
     public function getHistoryNotificationModerateur()
     {
         return datatables($this->settingsManager->getHistoryForModerateur())->make(true);
@@ -513,13 +467,6 @@ class ApiController extends BaseController
     {
         return datatables($this->settingsManager->getHistory())->make(true);
     }
-
-
-
-
-
-
-
 
     public function getUserCouponsInjector()
     {
@@ -571,8 +518,6 @@ class ApiController extends BaseController
             ->rawColumns(['action', 'platform_id'])
             ->make(true);
     }
-
-
 
     public function getRequest()
     {
@@ -634,8 +579,6 @@ class ApiController extends BaseController
             ->rawColumns(['action'])
             ->make(true);
     }
-
-
 
     public function getRequestAjax()
     {

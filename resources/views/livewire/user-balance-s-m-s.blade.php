@@ -48,7 +48,12 @@
                     search: {return: true},
                     autoWidth: false,
                     bAutoWidth: false,
-                    "ajax": "<?php echo e(route('api_user_sms', ['locale' => app()->getLocale()])); ?>",
+
+                    "ajax": {
+                        url: "{{route('api_user_sms',['locale'=> app()->getLocale()])}}",
+                        type: "GET",
+                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"}
+                    },
                     "columns": [
                         {data: 'ranks'},
                         {data: 'reference'},
