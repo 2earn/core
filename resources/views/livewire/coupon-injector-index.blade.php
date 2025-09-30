@@ -79,7 +79,6 @@
                         type: "GET",
                         headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"}
                     },
-
                     "columns": [
                         {data: null, defaultContent: '<input type="checkbox" class="row-select" />', orderable: false, searchable: false},
                         datatableControlBtn,

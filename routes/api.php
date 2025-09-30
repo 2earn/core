@@ -44,13 +44,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/shares-solde-list/{idUser}',  [App\Http\Controllers\SharesController::class, 'list'])->name('api_shares_solde_list');
         Route::get('/history/notification', [App\Http\Controllers\NotificationsController::class, 'index'])->name('api_history_notification');
         Route::get('/coupons', [App\Http\Controllers\CouponsController::class, 'index'])->name('api_coupon');
-
-
         Route::get('/coupons/injector', [App\Http\Controllers\VoucherController::class, 'index'])->name('api_coupon_injector');
+        Route::get('/user/coupons', [App\Http\Controllers\VoucherController::class, 'user'])->name('api_user_coupon_injector');
+        Route::get('/coupons/user', [App\Http\Controllers\VoucherController::class, 'userCoupons'])->name('api_user_coupon');
 
 
-        Route::get('/user/coupons', 'App\Http\Controllers\ApiController@getUserCouponsInjector')->name('api_user_coupon_injector');
-        Route::get('/coupons/user', 'App\Http\Controllers\ApiController@getUserCoupons')->name('api_user_coupon');
         Route::get('/platforms', 'App\Http\Controllers\ApiController@getPlatforms')->name('api_platforms');
         Route::get('/roles', 'App\Http\Controllers\ApiController@getRoles')->name('api_role');
         Route::get('/deals/search', [\App\Livewire\DealsIndex::class, 'filterDeals'])->name('api_deal_search');

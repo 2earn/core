@@ -53,7 +53,11 @@
                     },
                     "processing": true,
                     search: {return: true},
-                    "ajax": "{{route('api_user_coupon_injector',app()->getLocale(),['locale'=>app()->getLocale()])}}",
+                    "ajax": {
+                        url: "{{route('api_user_coupon_injector',['locale'=> app()->getLocale()])}}",
+                        type: "GET",
+                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"}
+                    },
                     "columns": [
                         {
                             data: null,
