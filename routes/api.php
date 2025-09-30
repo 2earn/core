@@ -74,7 +74,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/api/share/evolution/user', [App\Http\Controllers\SharesController::class, 'getSharePriceEvolutionUser'])->name('api_share_evolution_user');
 
 
-        Route::get('/api/transfert', 'App\Http\Controllers\ApiController@getTransfert')->name('api_transfert');
+        Route::get('/api/transfert', [App\Http\Controllers\BalancesController::class, 'getTransfert'])->name('api_transfert');
+
         Route::get('/api/user/cash', 'App\Http\Controllers\ApiController@getUserCashBalance')->name('api_user_cash');
 
 

@@ -386,7 +386,11 @@
                     search: {return: true},
                     autoWidth: false,
                     bAutoWidth: false,
-                    "ajax": "{{route('api_transfert',['locale'=> app()->getLocale()])}}",
+                    "ajax": {
+                        url: "{{route('api_transfert',['locale'=> app()->getLocale()])}}",
+                        type: "GET",
+                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"}
+                    },
                     "columns": [
                         {data: 'value'},
                         {data: 'description'},
