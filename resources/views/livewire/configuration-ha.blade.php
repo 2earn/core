@@ -101,7 +101,11 @@
                         },
                         "processing": true,
                         search: {return: true},
-                        "ajax": "{{route('api_action_history',app()->getLocale())}}",
+                        "ajax": {
+                            url: "{{route('api_action_history',['locale'=> app()->getLocale()])}}",
+                            type: "GET",
+                            headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"}
+                        },
                         "columns": [
                             {data: 'title'},
                             {data: 'reponce'},

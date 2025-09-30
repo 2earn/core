@@ -889,27 +889,6 @@ class ApiController extends BaseController
     }
 
 
-
-    public function getActionHistorysQuery()
-    {
-        return DB::table('action_history')
-            ->select('id', 'title', 'reponce');
-    }
-
-    public function getActionHistorys()
-    {
-        return datatables($this->getActionHistorysQuery())
-            ->addColumn('action', function ($share) {
-                return view('parts.datatable.share-history-action', ['share' => $share]);
-            })
-            ->editColumn('reponce', function ($share) {
-                return view('parts.datatable.share-history-reponce', ['share' => $share]);
-            })
-            ->escapeColumns([])
-            ->make(true);
-    }
-
-
     public function getUserBalancesList($locale, $idUser, $idamount, $json = true)
     {
         match (intval($idamount)) {
