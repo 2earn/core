@@ -33,7 +33,9 @@ Route::middleware('auth:api')->get('/logmeout', function (Request $request) {
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::group(['prefix' => 'v1'], function () {
-        Route::get('/countries', 'App\Http\Controllers\ApiController@getCountries')->name('api_countries');
+
+        Route::get('/countries', [App\Http\Controllers\CountriesController::class, 'index'])->name('api_countries');
+
         Route::get('/settings', 'App\Http\Controllers\ApiController@getSettings')->name('api_settings');
         Route::get('/balance/operations', 'App\Http\Controllers\ApiController@getBalanceOperations')->name('api_balance_operations');
         Route::get('/balance/operations/categories', 'App\Http\Controllers\ApiController@getBalanceOperationsCategories')->name('api_operations_categories');
