@@ -46,7 +46,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/coupons', [App\Http\Controllers\CouponsController::class, 'index'])->name('api_coupon');
 
 
-        Route::get('/coupons/injector', 'App\Http\Controllers\ApiController@getCouponsInjector')->name('api_coupon_injector');
+        Route::get('/coupons/injector', [App\Http\Controllers\VoucherController::class, 'index'])->name('api_coupon_injector');
+
+
         Route::get('/user/coupons', 'App\Http\Controllers\ApiController@getUserCouponsInjector')->name('api_user_coupon_injector');
         Route::get('/coupons/user', 'App\Http\Controllers\ApiController@getUserCoupons')->name('api_user_coupon');
         Route::get('/platforms', 'App\Http\Controllers\ApiController@getPlatforms')->name('api_platforms');

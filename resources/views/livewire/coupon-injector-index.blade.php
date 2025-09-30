@@ -74,7 +74,12 @@
                     },
                     "processing": true,
                     search: {return: true},
-                    "ajax": "{{route('api_coupon_injector',app()->getLocale())}}",
+                    "ajax": {
+                        url: "{{route('api_coupon_injector',['locale'=> app()->getLocale()])}}",
+                        type: "GET",
+                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"}
+                    },
+
                     "columns": [
                         {data: null, defaultContent: '<input type="checkbox" class="row-select" />', orderable: false, searchable: false},
                         datatableControlBtn,
