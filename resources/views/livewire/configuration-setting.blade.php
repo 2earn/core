@@ -1,32 +1,32 @@
 <div class="container-fluid">
-@component('components.breadcrumb')
+    @component('components.breadcrumb')
         @slot('title')
             {{ __('Configuration Settings') }}
         @endslot
     @endcomponent
-        <div class="row">
-            @include('layouts.flash-messages')
+    <div class="row">
+        @include('layouts.flash-messages')
+    </div>
+    <div class="card" wire:ignore>
+        <div class="card-body">
+            <table
+                class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                id="SettingsTable">
+                <thead class="table-light">
+                <tr>
+                    <th>{{ __('id') }}</th>
+                    <th>{{ __('Name') }}</th>
+                    <th>{{ __('Value') }}</th>
+                    <th>{{ __('Unit') }}</th>
+                    <th>{{ __('AutoCalculated') }}</th>
+                    <th>{{ __('Actions') }}</th>
+                </tr>
+                </thead>
+                <tbody class="list form-check-all">
+                </tbody>
+            </table>
         </div>
-        <div class="card"  wire:ignore>
-            <div class="card-body">
-                <table
-                       class="table table-bordered dt-responsive nowrap table-striped align-middle"
-                       id="SettingsTable">
-                    <thead class="table-light">
-                    <tr>
-                        <th>{{ __('id') }}</th>
-                        <th>{{ __('Name') }}</th>
-                        <th>{{ __('Value') }}</th>
-                        <th>{{ __('Unit') }}</th>
-                        <th>{{ __('AutoCalculated') }}</th>
-                        <th>{{ __('Actions') }}</th>
-                    </tr>
-                    </thead>
-                    <tbody class="list form-check-all">
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    </div>
     <div wire:ignore.self class="modal fade" id="settingModal" tabindex="-1" style="z-index: 200000"
          aria-labelledby="settingsModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -90,7 +90,8 @@
                 <div class="modal-footer">
                     <button type="button" wire:click="saveSetting"
                             class="btn btn-primary">{{__('Save changes')}}</button>
-                    <button type="button" class="btn btn-light btn-close-setting" data-bs-dismiss="modal">{{__('Close')}}</button>
+                    <button type="button" class="btn btn-light btn-close-setting"
+                            data-bs-dismiss="modal">{{__('Close')}}</button>
                 </div>
             </div>
         </div>
@@ -113,7 +114,11 @@
                     search: {return: true},
                     "processing": true,
                     "aLengthMenu": [[10, 25, 50], [10, 25, 50]],
-                    "ajax": "{{route('api_settings',app()->getLocale())}}",
+                    "ajax": {
+                        url: "{{route('api_settings',['locale'=> app()->getLocale()])}}",
+                        type: "GET",
+                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"}
+                    },
                     "columns": [
                         {"data": "idSETTINGS"},
                         {"data": "ParameterName"},

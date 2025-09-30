@@ -35,9 +35,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::group(['prefix' => 'v1'], function () {
 
         Route::get('/countries', [App\Http\Controllers\CountriesController::class, 'index'])->name('api_countries');
+        Route::get('/settings', [App\Http\Controllers\SettingsController::class, 'index'])->name('api_settings');
 
-        Route::get('/settings', 'App\Http\Controllers\ApiController@getSettings')->name('api_settings');
+
         Route::get('/balance/operations', 'App\Http\Controllers\ApiController@getBalanceOperations')->name('api_balance_operations');
+
         Route::get('/balance/operations/categories', 'App\Http\Controllers\ApiController@getBalanceOperationsCategories')->name('api_operations_categories');
         Route::get('/amounts', 'App\Http\Controllers\ApiController@getAmounts')->name('api_Amounts');
         Route::get('/action/historys', 'App\Http\Controllers\ApiController@getActionHistorys')->name('api_action_history');
