@@ -40,8 +40,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/balance/operations/categories', [App\Http\Controllers\BalancesOperationsController::class, 'getCategories'])->name('api_operations_categories');
         Route::get('/action/historys', [App\Http\Controllers\SharesController::class, 'index'])->name('api_action_history');
         Route::get('/user-balances/{idAmounts}', [App\Http\Controllers\UsersBalancesController::class, 'index'])->name('api_user_balances');
-        Route::get('/user-balances-list/{idUser}/{idAmounts}',  [App\Http\Controllers\UsersBalancesController::class, 'list'])->name('api_user_balances_list');
-        Route::get('/shares-solde-list/{idUser}',  [App\Http\Controllers\SharesController::class, 'list'])->name('api_shares_solde_list');
+        Route::get('/user-balances-list/{idUser}/{idAmounts}', [App\Http\Controllers\UsersBalancesController::class, 'list'])->name('api_user_balances_list');
+        Route::get('/shares-solde-list/{idUser}', [App\Http\Controllers\SharesController::class, 'list'])->name('api_shares_solde_list');
         Route::get('/history/notification', [App\Http\Controllers\NotificationsController::class, 'index'])->name('api_history_notification');
         Route::get('/coupons', [App\Http\Controllers\CouponsController::class, 'index'])->name('api_coupon');
         Route::get('/coupons/injector', [App\Http\Controllers\VoucherController::class, 'index'])->name('api_coupon_injector');
@@ -59,20 +59,24 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/user/chance', [App\Http\Controllers\UserssController::class, 'getSmsUser'])->name('api_user_chance');
         Route::post('/paytabs/notification', 'App\Http\Controllers\ApiController@handlePaymentNotification')->name('notification_from_paytabs')->withoutMiddleware('web');
         Route::get('/target/{idTarget}/data', [\App\Http\Controllers\TargetController::class, 'getTargetData'])->name('api_target_data');
-
-
         Route::get('sankey', 'App\Http\Controllers\ApiController@getSankey')->name('API_sankey');
 
-        Route::get('/api/shares/solde', 'App\Http\Controllers\ApiController@getSharesSolde')->name('api_shares_solde');
-        Route::get('/api/shares/soldes', 'App\Http\Controllers\ApiController@getSharesSoldes')->name('api_shares_soldes');
+
+        Route::get('/api/shares/solde', [App\Http\Controllers\SharesController::class, 'getSharesSolde'])->name('api_shares_solde');
+        Route::get('/api/shares/soldes', [App\Http\Controllers\SharesController::class, 'getSharesSoldes'])->name('api_shares_soldes');
+        Route::get('/api/shares/evolution', [App\Http\Controllers\SharesController::class, 'getSharePriceEvolution'])->name('api_share_evolution');
+
+
+        Route::get('/api/share/evolution/date', [App\Http\Controllers\SharesController::class, 'getSharePriceEvolutionDate'])->name('api_share_evolution_date');
+        Route::get('/api/share/evolution/week', [App\Http\Controllers\SharesController::class, 'getSharePriceEvolutionWeek'])->name('api_share_evolution_week');
+        Route::get('/api/share/evolution/month', [App\Http\Controllers\SharesController::class, 'getSharePriceEvolutionMonth'])->name('api_share_evolution_month');
+        Route::get('/api/share/evolution/day', [App\Http\Controllers\SharesController::class, 'getSharePriceEvolutionDay'])->name('api_share_evolution_day');
+        Route::get('/api/share/evolution/user', [App\Http\Controllers\SharesController::class, 'getSharePriceEvolutionUser'])->name('api_share_evolution_user');
+
+
         Route::get('/api/transfert', 'App\Http\Controllers\ApiController@getTransfert')->name('api_transfert');
         Route::get('/api/user/cash', 'App\Http\Controllers\ApiController@getUserCashBalance')->name('api_user_cash');
-        Route::get('/api/share/evolution', 'App\Http\Controllers\ApiController@getSharePriceEvolution')->name('api_share_evolution');
-        Route::get('/api/share/evolution/date', 'App\Http\Controllers\ApiController@getSharePriceEvolutionDate')->name('api_share_evolution_date');
-        Route::get('/api/share/evolution/week', 'App\Http\Controllers\ApiController@getSharePriceEvolutionWeek')->name('api_share_evolution_week');
-        Route::get('/api/share/evolution/month', 'App\Http\Controllers\ApiController@getSharePriceEvolutionMonth')->name('api_share_evolution_month');
-        Route::get('/api/share/evolution/day', 'App\Http\Controllers\ApiController@getSharePriceEvolutionDay')->name('api_share_evolution_day');
-        Route::get('/api/share/evolution/user', 'App\Http\Controllers\ApiController@getSharePriceEvolutionUser')->name('api_share_evolution_user');
+
 
         Route::get('/api/action/values', 'App\Http\Controllers\ApiController@getActionValues')->name('api_action_values');
         Route::post('/api/coupon/delete', 'App\Http\Controllers\ApiController@deleteCoupon')->name('api_delete_coupons');
