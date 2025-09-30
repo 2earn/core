@@ -59,7 +59,11 @@
                         },
                         "processing": true,
                         search: {return: true},
-                        "ajax": "{{route('api_balance_operations' ,app()->getLocale())}}",
+                        "ajax": {
+                            url: "{{route('api_balance_operations',['locale'=> app()->getLocale()])}}",
+                            type: "GET",
+                            headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"}
+                        },
                         "columns": [
                             {"data": "id"},
                             {"data": "details"},
