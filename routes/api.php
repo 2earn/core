@@ -49,7 +49,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/coupons/user', [App\Http\Controllers\VoucherController::class, 'userCoupons'])->name('api_user_coupon');
 
 
-        Route::get('/platforms', 'App\Http\Controllers\ApiController@getPlatforms')->name('api_platforms');
+        Route::get('/platforms', [App\Http\Controllers\PlatformController::class, 'index'])->name('api_platforms');
+
         Route::get('/roles', 'App\Http\Controllers\ApiController@getRoles')->name('api_role');
         Route::get('/deals/search', [\App\Livewire\DealsIndex::class, 'filterDeals'])->name('api_deal_search');
         Route::get('/request', 'App\Http\Controllers\ApiController@getRequest')->name('api_request');

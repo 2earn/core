@@ -1,5 +1,5 @@
 <div class="container-fluid">
-@section('title')
+    @section('title')
         {{ __('Platform') }}
     @endsection
     @component('components.breadcrumb')
@@ -76,7 +76,11 @@
                     },
                     "processing": true,
                     search: {return: true},
-                    "ajax": "{{route('api_platforms', app()->getLocale())}}",
+                    "ajax": {
+                        url: "{{route('api_platforms',['locale'=> app()->getLocale()])}}",
+                        type: "GET",
+                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"}
+                    },
                     "columns": [
                         datatableControlBtn,
                         {data: 'id'},
