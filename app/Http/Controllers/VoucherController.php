@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\BalanceInjectorCoupon;
 use App\Models\Coupon;
 use Core\Enum\CouponStatusEnum;
+use Illuminate\Http\Request as Req;
+use Illuminate\Support\Facades\Log;
 
 class VoucherController extends Controller
 {
@@ -78,5 +80,20 @@ class VoucherController extends Controller
             })
             ->rawColumns(['action'])
             ->make(true);
+    }
+
+    public function deleteInjectorCoupon(Req $request)
+    {
+        $ids = $request->input('ids');
+        if (empty($ids)) {
+            return response()->json(['message' => 'No IDs provided'], 400);
+        }
+        try {
+            BalanceInjectorCoupon::whereIn('id', $ids)->where('consumed', 0)->delete();
+            return response()->json(['message' => 'Injector coupons deleted successfully (Only not consumed)']);
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['message' => 'An error occurred while deleting the coupons'], 500);
+        }
     }
 }

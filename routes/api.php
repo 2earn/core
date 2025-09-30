@@ -57,9 +57,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/user/tree', [App\Http\Controllers\UserssController::class, 'getTreeUser'])->name('api_user_tree');
         Route::get('/user/sms', [App\Http\Controllers\UserssController::class, 'getSmsUser'])->name('api_user_sms');
         Route::get('/user/chance', [App\Http\Controllers\UserssController::class, 'getSmsUser'])->name('api_user_chance');
-        Route::post('/paytabs/notification', 'App\Http\Controllers\ApiController@handlePaymentNotification')->name('notification_from_paytabs')->withoutMiddleware('web');
         Route::get('/target/{idTarget}/data', [\App\Http\Controllers\TargetController::class, 'getTargetData'])->name('api_target_data');
-        Route::get('sankey', 'App\Http\Controllers\ApiController@getSankey')->name('API_sankey');
 
 
         Route::get('/api/shares/solde', [App\Http\Controllers\SharesController::class, 'getSharesSolde'])->name('api_shares_solde');
@@ -73,23 +71,28 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/api/share/evolution/day', [App\Http\Controllers\SharesController::class, 'getSharePriceEvolutionDay'])->name('api_share_evolution_day');
         Route::get('/api/share/evolution/user', [App\Http\Controllers\SharesController::class, 'getSharePriceEvolutionUser'])->name('api_share_evolution_user');
 
-
         Route::get('/api/transfert', [App\Http\Controllers\BalancesController::class, 'getTransfert'])->name('api_transfert');
+        Route::get('/api/user/cash', [App\Http\Controllers\UsersBalancesController::class, 'getUserCashBalanceQuery'])->name('api_user_cash');
 
-        Route::get('/api/user/cash', 'App\Http\Controllers\ApiController@getUserCashBalance')->name('api_user_cash');
 
+        Route::get('/api/action/values', [App\Http\Controllers\SharesController::class, 'getActionValues'])->name('api_action_values');
+        Route::post('/api/coupon/delete', [App\Http\Controllers\CouponsController::class, 'deleteCoupon'])->name('api_delete_coupons');
+        Route::post('/api/coupon/injector/delete', [App\Http\Controllers\VoucherController::class, 'deleteInjectorCoupon'])->name('api_delete_injector_coupons');
 
-        Route::get('/api/action/values', 'App\Http\Controllers\ApiController@getActionValues')->name('api_action_values');
-        Route::post('/api/coupon/delete', 'App\Http\Controllers\ApiController@deleteCoupon')->name('api_delete_coupons');
-        Route::post('/api/coupon/injector/delete', 'App\Http\Controllers\ApiController@deleteInjectorCoupon')->name('api_delete_injector_coupons');
+        Route::get('/get-updated-card-content',  [App\Http\Controllers\UsersBalancesController::class, 'getUpdatedCardContent'])->name('get-updated-card-content');
 
-        Route::get('/get-updated-card-content', 'App\Http\Controllers\ApiController@getUpdatedCardContent')->name('get-updated-card-content');
-        Route::post('/add-cash', 'App\Http\Controllers\ApiController@addCash')->name('add_cash');
-        Route::post('/vip', 'App\Http\Controllers\ApiController@vip')->name('vip');
-        Route::post('/send-sms', 'App\Http\Controllers\ApiController@sendSMS')->name('send_sms');
-        Route::post('/update-balance-status', 'App\Http\Controllers\ApiController@updateBalanceStatus')->name('update-balance-status');
-        Route::post('/update-reserve-date', 'App\Http\Controllers\ApiController@updateReserveDate')->name('update-reserve-date');
-        Route::post('/update-balance-real', 'App\Http\Controllers\ApiController@updateBalanceReal')->name('update-balance-real');
+        Route::post('/add-cash', [App\Http\Controllers\BalancesController::class, 'addCash'])->name('add_cash');
+
+        Route::post('/vip',  [App\Http\Controllers\VipController::class, 'create'])->name('vip');
+
+        Route::post('/send-sms', [App\Http\Controllers\SmsController::class, 'sendSMS'])->name('send_sms');
+
+        Route::post('/update-balance-status', [App\Http\Controllers\UsersBalancesController::class, 'updateBalanceStatus'])->name('update-balance-status');
+        Route::post('/update-reserve-date', [App\Http\Controllers\UsersBalancesController::class, 'updateReserveDate'])->name('update-reserve-date');
+        Route::post('/update-balance-real', [App\Http\Controllers\UsersBalancesController::class, 'updateBalanceReal'])->name('update-balance-real');
+
+        Route::get('sankey', 'App\Http\Controllers\ApiController@getSankey')->name('API_sankey');
+        Route::post('/paytabs/notification', 'App\Http\Controllers\ApiController@handlePaymentNotification')->name('notification_from_paytabs')->withoutMiddleware('web');
 
     });
 });

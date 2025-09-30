@@ -60,10 +60,7 @@ class ApiController extends BaseController
     {
     }
 
-    public function SendSMS(Req $request, settingsManager $settingsManager)
-    {
-        $settingsManager->NotifyUser($request->user, TypeEventNotificationEnum::none, ['msg' => $request->msg, 'type' => TypeNotificationEnum::SMS]);
-    }
+
 
     public function buyAction(Req $request, BalancesManager $balancesManager)
     {
@@ -248,69 +245,9 @@ class ApiController extends BaseController
         return response()->json($array);
     }
 
-    public function vip(Req $request)
-    {
-        vip::where('idUser', $request->reciver)
-            ->where('closed', '=', 0)
-            ->update(['closed' => 1, 'closedDate' => now(),]);
 
-        $maxShares = Setting::find(34);
-        vip::create(
-            [
-                'idUser' => $request->reciver,
-                'flashCoefficient' => $request->coefficient,
-                'flashDeadline' => $request->periode,
-                'flashNote' => $request->note,
-                'flashMinAmount' => $request->minshares,
-                'dateFNS' => now(),
-                'maxShares' => $maxShares->IntegerValue,
-                'solde' => $maxShares->IntegerValue,
-                'declenched' => 0,
-                'closed' => 0,
-            ]
-        );
-        return "success";
 
-    }
 
-    public function addCash(Req $request, BalancesManager $balancesManager)
-    {
-        DB::beginTransaction();
-        try {
-            $old_value = Balances::getStoredUserBalances(Auth()->user()->idUser, Balances::CASH_BALANCE);
-            if (intval($old_value) < intval($request->amount)) {
-                throw new \Exception(Lang::get('Insuffisant cash solde'));
-            }
-            $ref = BalancesFacade::getReference(BalanceOperationsEnum::OLD_ID_42->value);
-            CashBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::OLD_ID_48->value,
-                'operator_id' => auth()->user()->idUser,
-                'beneficiary_id' => auth()->user()->idUser,
-                'reference' => $ref,
-                'description' => "Transfered to " . getPhoneByUser($request->input('reciver')),
-                'value' => $request->input('amount'),
-                'current_balance' => $balancesManager->getBalances(auth()->user()->idUser, -1)->soldeCB - $request->input('amount')
-            ]);
-
-            CashBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::OLD_ID_43->value,
-                'operator_id' => auth()->user()->idUser,
-                'beneficiary_id' => $request->input('reciver'),
-                'reference' => $ref,
-                'description' => "Transfered from " . getPhoneByUser(Auth()->user()->idUser),
-                'value' => $request->input('amount'),
-                'current_balance' => $balancesManager->getBalances($request->input('reciver'), -1)->soldeCB + $request->input('amount')
-            ]);
-            $message = $request->amount . ' $ ' . Lang::get('for') . ' ' . getUserDisplayedName($request->input('reciver'));
-            DB::commit();
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            Log::error($exception->getMessage());
-            return response()->json($exception->getMessage(), 500);
-        }
-        return response()->json(Lang::get('Successfully runned operation') . ' ' . $message, 200);
-
-    }
 
     public function getCountriStat()
     {
@@ -327,11 +264,7 @@ class ApiController extends BaseController
 
 
 
-    public function getUpdatedCardContent()
-    {
-        $updatedContent = number_format(getRevenuSharesReal(), 2); // Adjust this based on your logic
-        return response()->json(['value' => $updatedContent]);
-    }
+
 
 
     public function handlePaymentNotification(Req $request, settingsManager $settingsManager)
@@ -426,113 +359,22 @@ class ApiController extends BaseController
         return redirect()->route('user_balance_cb', app()->getLocale());
     }
 
-    public function updateReserveDate(Req $request)
-    {
-        try {
-            $id = $request->input('id');
-            $status = $request->input('status');
-            $successArray = ['success' => true];
-            if ($status == "true") {
-                $st = 1;
-                $dt = now();
-                DB::table('user_contacts')->where('id', $id)->update(['availablity' => $st, 'reserved_at' => $dt]);
-                return response()->json($successArray);
-            } else {
-                $st = 0;
-                DB::table('user_contacts')->where('id', $id)->update(['availablity' => $st]);
-                return response()->json($successArray);
-            }
-            DB::table('user_contacts')
-                ->where('id', $id)
-                ->update(['availablity' => $st, 'reserved_at' => $dt]);
-            return response()->json($successArray);
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return response()->json(['error' => 'Internal Server Error'], 500);
-        }
-    }
-
-    public function updateBalanceStatus(Req $request, BalancesManager $balancesManager)
-    {
-        try {
-            $id = $request->input('id');
-            $st = 0;
-            DB::table('shares_balances')->where('id', $id)->update(['payed' => $st]);
-            return response()->json(['success' => true]);
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return response()->json(['error' => 'Internal Server Error'], 500);
-        }
-    }
-
-    public function updateBalanceReal(Req $request, BalancesManager $balancesManager)
-    {
-        try {
-            $id = $request->input('id');
-            $st = $request->input('amount');
-            $total = $request->input('total');
-
-            if ($st == 0) {
-                $p = 0;
-            } else {
-                if ($st < $total) $p = 2;
-                if ($st == $total) $p = 1;
-            }
-            DB::table('shares_balances')
-                ->where('id', $id)
-                ->update(['real_amount' => floatval($st), 'payed' => $p]);
-
-            return response()->json(['success' => true]);
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return response()->json(['error' => 'Internal Server Error'], 500);
-        }
-    }
-
-
-
-
-    public function getUserCashBalanceQuery()
-    {
-        return DB::table('cash_balances')
-            ->select(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d") AS x'), DB::raw('CAST(current_balance AS DECIMAL(10,2)) AS y'))
-            ->where('beneficiary_id', auth()->user()->idUser)
-            ->orderBy('created_at', 'DESC')
-            ->get();
-    }
-
-    public function getUserCashBalance()
-    {
-        $query = $this->getUserCashBalanceQuery();
-        foreach ($query as $record) {
-            $record->Balance = (float)$record->y;
-        }
-        return response()->json($query);
-    }
 
 
 
 
 
-    public function getActionValues()
-    {
-        $limit = getSelledActions(true) * 1.05;
-        $data = [];
-        $setting = Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
-        $initial_value = $setting[0];
-        $final_value = $initial_value * 5;
-        $total_actions = $setting[2];
 
-        for ($x = 0; $x <= $limit; $x += intval($limit / 20)) {
-            $val = ($final_value - $initial_value) / ($total_actions - 1) * ($x + 1) + ($initial_value - ($final_value - $initial_value) / ($total_actions - 1));
-            $data[] = [
-                'x' => $x,
-                'y' => number_format($val, 2, '.', '') * 1
-            ];
-        }
-        return response()->json($data);
 
-    }
+
+
+
+
+
+
+
+
+
 
     public function getUsersListQuery()
     {
@@ -673,37 +515,9 @@ class ApiController extends BaseController
     }
 
 
-    public function deleteCoupon(Req $request)
-    {
-        $ids = $request->input('ids');
 
-        if (empty($ids)) {
-            return response()->json(['message' => 'No IDs provided'], 400);
-        }
 
-        try {
-            Coupon::whereIn('id', $ids)->where('consumed', 0)->delete();
-            return response()->json(['message' => 'Coupons deleted successfully (Only not consumed)']);
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return response()->json(['message' => 'An error occurred while deleting the coupons'], 500);
-        }
-    }
 
-    public function deleteInjectorCoupon(Req $request)
-    {
-        $ids = $request->input('ids');
-        if (empty($ids)) {
-            return response()->json(['message' => 'No IDs provided'], 400);
-        }
-        try {
-            BalanceInjectorCoupon::whereIn('id', $ids)->where('consumed', 0)->delete();
-            return response()->json(['message' => 'Injector coupons deleted successfully (Only not consumed)']);
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return response()->json(['message' => 'An error occurred while deleting the coupons'], 500);
-        }
-    }
 
 
 

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coupon;
+use Illuminate\Http\Request as Req;
+use Illuminate\Support\Facades\Log;
 
 class CouponsController extends Controller
 {
@@ -30,6 +32,22 @@ class CouponsController extends Controller
             })
             ->rawColumns(['action', 'platform_id'])
             ->make(true);
+    }
+    public function deleteCoupon(Req $request)
+    {
+        $ids = $request->input('ids');
+
+        if (empty($ids)) {
+            return response()->json(['message' => 'No IDs provided'], 400);
+        }
+
+        try {
+            Coupon::whereIn('id', $ids)->where('consumed', 0)->delete();
+            return response()->json(['message' => 'Coupons deleted successfully (Only not consumed)']);
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['message' => 'An error occurred while deleting the coupons'], 500);
+        }
     }
 
 }
