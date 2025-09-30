@@ -39,10 +39,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/balance/operations', [App\Http\Controllers\BalancesOperationsController::class, 'index'])->name('api_balance_operations');
         Route::get('/balance/operations/categories', [App\Http\Controllers\BalancesOperationsController::class, 'getCategories'])->name('api_operations_categories');
         Route::get('/action/historys', [App\Http\Controllers\SharesController::class, 'index'])->name('api_action_history');
+        Route::get('/user-balances/{idAmounts}', [App\Http\Controllers\UsersBalancesController::class, 'index'])->name('api_user_balances');
 
 
-        Route::get('/user/contacts', 'App\Http\Controllers\ApiController@getUserContacts')->name('api_user_contacts');
-        Route::get('/user-balances/{idAmounts}', 'App\Http\Controllers\ApiController@getUserBalances')->name('api_user_balances');
         Route::get('/user-balances-list/{idUser}/{idAmounts}', 'App\Http\Controllers\ApiController@getUserBalancesList')->name('api_user_balances_list');
         Route::get('/shares-solde-list/{idUser}', 'App\Http\Controllers\ApiController@getSharesSoldeList')->name('api_shares_solde_list');
         Route::get('/user/admin', 'App\Http\Controllers\ApiController@getUserAdmin')->name('api_user_admin');
