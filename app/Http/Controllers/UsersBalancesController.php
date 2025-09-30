@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Core\Enum\BalanceEnum;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -42,6 +43,7 @@ class UsersBalancesController extends Controller
             ->orderBy('ub.reference', 'desc');
     }
 
+
     public function index($typeAmounts)
     {
         switch ($typeAmounts) {
@@ -74,5 +76,38 @@ class UsersBalancesController extends Controller
             })
             ->rawColumns(['formatted_date'])
             ->make(true);
+    }
+
+    public function list($idUser, $idamount, $json = true)
+    {
+        match (intval($idamount)) {
+            BalanceEnum::CASH->value => $balances = "cash_balances",
+            BalanceEnum::BFS->value => $balances = "bfss_balances",
+            BalanceEnum::DB->value => $balances = "discount_balances",
+            BalanceEnum::SMS->value => $balances = "sms_balances",
+            BalanceEnum::TREE->value => $balances = "tree_balances",
+            BalanceEnum::SHARE->value => $balances = "shares_balances",
+            default => $balances = "cash_balances",
+        };
+        $results = DB::table($balances . ' as u')
+            ->select(
+                DB::raw("RANK() OVER (ORDER BY u.created_at ASC, u.reference ASC) as ranks"),
+                'u.id',
+                'u.reference',
+                'u.beneficiary_id',
+                'u.created_at',
+                'u.balance_operation_id',
+                'b.operation',
+                DB::raw("CASE WHEN b.IO = 'I' THEN u.value ELSE -u.value END AS value"),
+                'u.current_balance'
+            )
+            ->join('balance_operations as b', 'u.balance_operation_id', '=', 'b.id')
+            ->join('users as s', 'u.beneficiary_id', '=', 's.idUser')
+            ->where('u.beneficiary_id', $idUser)
+            ->orderBy('u.created_at', 'DESC')->get();
+        if (!$json) {
+            return $results;
+        }
+        return response()->json($results);
     }
 }

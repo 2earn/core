@@ -412,10 +412,11 @@
                             id="ub_table_list" style="width: 100%">
                             <thead class="table-light">
                             <tr class="head2earn  tabHeader2earn">
+                                <th>{{ __('ranks') }}</th>
+                                <th>{{ __('id') }}</th>
                                 <th>{{ __('ref') }}</th>
                                 <th>{{ __('date') }}</th>
                                 <th>{{ __('Operation Designation') }}</th>
-                                <th>{{ __('description') }}</th>
                                 <th>{{ __('Value') }}</th>
                                 <th>{{ __('Balance') }}</th>
                             </tr>
@@ -433,11 +434,10 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalgridLabelsh">{{ __('Shares balances') }}</h5>
+                    <h5 class="modal-title text-info" id="exampleModalgridLabelsh">{{ __('Shares balances') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-
                     <div class="card-body table-responsive">
                         <input id="balances-reciversh" type="hidden">
                         <input id="balances-amountsh" type="hidden">
@@ -516,9 +516,14 @@
         }
 
         function createOrUpdateDataTable(data) {
-            if ($.fn.DataTable.isDataTable('#ub_table_list')) {
-                $('#ub_table_list').DataTable().destroy();
+            try {
+                if ($.fn.DataTable.isDataTable('#ub_table_list')) {
+                    $('#ub_table_list').DataTable().destroy();
+                }
+            } catch (error) {
+                console.error('Error destroying DataTable:', error);
             }
+
             $('#ub_table_list').DataTable({
                 ordering: false,
                 retrieve: true,
@@ -527,26 +532,13 @@
                 "processing": true,
                 "data": data,
                 "columns": [
+                    {data: 'ranks'},
+                    {data: 'id'},
                     {data: 'reference'},
                     {data: 'created_at'},
                     {data: 'operation'},
-                    {data: 'description'},
                     {data: 'value', className: window.classAl},
                     {data: 'current_balance', className: window.classAl},
-                ],
-                "columnDefs": [
-                    {
-                        "targets": [4],
-                        render: function (data, type, row) {
-                            if (row.value < 0) {
-                                return '<span class="badge bg-danger text-end fs-14">' + data + '</span>';
-                            } else {
-                                return '<span class="badge bg-success text-end fs-14">' + data + '</span>';
-                            }
-                        },
-                        className: window.classAl,
-                    },
-                    {"targets": [5], className: window.classAl}
                 ],
             });
         }
@@ -564,9 +556,20 @@
                 window.url = window.url.replace('idamount1', amount);
 
                 $(document).ready(function () {
-                    $.getJSON(window.url, function (data) {
-                        $('#modalTitle').html('{{__('Cash bbalance')}}');
-                        createOrUpdateDataTable(data);
+                    $.ajax({
+                        url: window.url,
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + "{{ generateUserToken() }}"
+                        },
+                        success: function (data) {
+                            console.log(data)
+                            $('#modalTitle').html('{{__('Cash bbalance')}}');
+                            createOrUpdateDataTable(data);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching data:', error);
+                        }
                     });
                 });
             });
@@ -580,9 +583,20 @@
                 window.url = window.url.replace('idUser1', reciver);
                 window.url = window.url.replace('idamount1', amount);
                 $(document).ready(function () {
-                    $.getJSON(window.url, function (data) {
-                        $('#modalTitle').html('{{__('BFSs balance')}}');
-                        createOrUpdateDataTable(data);
+                    $.ajax({
+                        url: window.url,
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + "{{ generateUserToken() }}"
+                        },
+                        success: function (data) {
+                            console.log(data)
+                            $('#modalTitle').html('{{__('BFSs balance')}}');
+                            createOrUpdateDataTable(data);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching data:', error);
+                        }
                     });
                 });
             });
@@ -595,9 +609,20 @@
                 window.url = window.url.replace('idUser1', reciver);
                 window.url = window.url.replace('idamount1', amount);
                 $(document).ready(function () {
-                    $.getJSON(window.url, function (data) {
-                        $('#modalTitle').html('{{__('Discount balance')}}');
-                        createOrUpdateDataTable(data);
+                    $.ajax({
+                        url: window.url,
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + "{{ generateUserToken() }}"
+                        },
+                        success: function (data) {
+                            $('#modalTitle').html('{{ __("Discount balance") }}');
+                            console.log(data)
+                            createOrUpdateDataTable(data);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching data:', error);
+                        }
                     });
                 });
             });
@@ -612,10 +637,22 @@
                 window.url = window.url.replace('idamount1', amount);
 
                 $(document).ready(function () {
-                    $.getJSON(window.url, function (data) {
-                        $('#modalTitle').html('{{__('Sms balance')}}');
-                        createOrUpdateDataTable(data);
+                    $.ajax({
+                        url: window.url,
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + "{{ generateUserToken() }}"
+                        },
+                        success: function (data) {
+                            console.log(data)
+                            $('#modalTitle').html('{{ __("Sms balance") }}');
+                            createOrUpdateDataTable(data);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching data:', error);
+                        }
                     });
+
                 });
             });
         });
@@ -659,8 +696,19 @@
                 window.url = window.url.replace('amount1', amount);
 
                 $(document).ready(function () {
-                    $.getJSON(window.url, function (data) {
-                        createOrUpdateDataTablesh(data);
+                    $.ajax({
+                        url: window.url,
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + "{{ generateUserToken() }}"
+                        },
+                        success: function (data) {
+                            console.log(data)
+                            createOrUpdateDataTablesh(data);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching data:', error);
+                        }
                     });
                 });
             });
