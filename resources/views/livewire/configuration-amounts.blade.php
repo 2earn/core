@@ -139,7 +139,11 @@
                     },
                     "processing": true,
                     search: {return: true},
-                    "ajax": "{{route('api_Amounts',app()->getLocale())}}",
+                    "ajax": {
+                        url: "{{route('api_Amounts',['locale'=> app()->getLocale()])}}",
+                        type: "GET",
+                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"}
+                    },
                     "columns": [
                         {data: 'amountsname'},
                         {data: 'amountsshortname'},

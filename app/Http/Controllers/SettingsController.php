@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Core\Models\Setting;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 
 class SettingsController extends Controller
@@ -27,6 +28,37 @@ class SettingsController extends Controller
             })
             ->rawColumns(['value', 'action'])
             ->toJson();
+    }
+
+    public function getAmountsQuery()
+    {
+        return DB::table('amounts')
+            ->select('idamounts', 'amountsname', 'amountswithholding_tax', 'amountspaymentrequest', 'amountstransfer', 'amountscash', 'amountsactive', 'amountsshortname');
+    }
+
+    public function getAmounts()
+    {
+        return datatables($this->getAmountsQuery())
+            ->addColumn('action', function ($amounts) {
+                return view('parts.datatable.amounts-action', ['amounts' => $amounts]);
+            })
+            ->editColumn('amountswithholding_tax', function ($amounts) {
+                return view('parts.datatable.amounts-tax', ['amounts' => $amounts]);
+            })
+            ->editColumn('amountstransfer', function ($amounts) {
+                return view('parts.datatable.amounts-transfer', ['amounts' => $amounts]);
+            })
+            ->editColumn('amountspaymentrequest', function ($amounts) {
+                return view('parts.datatable.amounts-payment', ['amounts' => $amounts]);
+            })
+            ->editColumn('amountscash', function ($amounts) {
+                return view('parts.datatable.amounts-cash', ['amounts' => $amounts]);
+            })
+            ->editColumn('amountsactive', function ($amounts) {
+                return view('parts.datatable.amounts-active', ['amounts' => $amounts]);
+            })
+            ->escapeColumns([])
+            ->make(true);
     }
 
 }
