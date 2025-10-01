@@ -8,7 +8,8 @@ use Core\Services\BalancesManager;
 use Livewire\Component;
 
 class BuyShares extends Component
-{    const MAX_AMOUNT = 99999999;
+{
+    const MAX_AMOUNT = 99999999;
     const MAX_ACTIONS = 9999999;
     public $flash = false;
     public $cashBalance;
@@ -29,12 +30,15 @@ class BuyShares extends Component
 
     public $giftedShares = 0;
     public $targetDate = null;
+    public $vip ;
+
     public function mount()
     {
         $this->giftedShares = getSettingIntegerParam('GIFTED_SHARES', 0);
         $this->targetDate = getSettingStringParam('TARGET_DATE', 0);
-        $this->totalActions = getSettingIntegerParam('Actions Number', 0) - $this->giftedShares;}
-
+        $this->totalActions = getSettingIntegerParam('Actions Number', 0) - $this->giftedShares;
+        $this->vip = vip::Where('idUser', '=', auth()->user()->idUser)->where('closed', '=', false)->first();
+    }
 
 
     public function simulateAction()
@@ -65,7 +69,7 @@ class BuyShares extends Component
             $this->ammount = self::MAX_AMOUNT;
         }
 
-        $this->action = (string) intval(intval($this->ammount) / actualActionValue(getSelledActions(true), false));
+        $this->action = (string)intval(intval($this->ammount) / actualActionValue(getSelledActions(true), false));
         $this->getCommounSimulation();
     }
 
@@ -115,7 +119,6 @@ class BuyShares extends Component
         $this->initSoldes($balancesManager);
 
         $actualActionValue = actualActionValue(getSelledActions(true), false);
-        $this->vip = vip::Where('idUser', '=', auth()->user()->idUser)->where('closed', '=', false)->first();
         if ($this->vip) {
             $setting = Setting::WhereIn('idSETTINGS', ['20', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
             $max_bonus = $setting[0];
@@ -138,6 +141,6 @@ class BuyShares extends Component
         $params = [
             "soldeBuyShares" => $balancesManager->getBalances(auth()->user()->idUser, 2)
         ];
-        return view('livewire.buy-shares',$params);
+        return view('livewire.buy-shares', $params);
     }
 }
