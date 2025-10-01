@@ -30,7 +30,7 @@ class BuyShares extends Component
 
     public $giftedShares = 0;
     public $targetDate = null;
-    public $vip ;
+    public $vip;
 
     public function mount()
     {
@@ -138,9 +138,7 @@ class BuyShares extends Component
             $this->flashDate = $dateFlash->format('F j, Y G:i:s');
             $this->flash = $currentDateTime < $dateFlash;
         }
-        $params = [
-            "soldeBuyShares" => $balancesManager->getBalances(auth()->user()->idUser, 2)
-        ];
+        $params = ["soldeBuyShares" => $balancesManager->getBalances(auth()->user()->idUser, 2)];
         return view('livewire.buy-shares', $params);
     }
 }
