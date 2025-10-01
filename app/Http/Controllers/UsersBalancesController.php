@@ -75,7 +75,7 @@ class UsersBalancesController extends Controller
                 return self::CURRENCY . self::SEPACE . formatSolde($balance->current_balance, 2);
             })
             ->addColumn('complementary_information', function ($balance) {
-                return view('parts.datatable.ci.ci-' . $balance->balance_operation_id, ['balance' => $balance]);
+                return getBalanceCIView($balance);
             })
             ->rawColumns(['formatted_date'])
             ->make(true);

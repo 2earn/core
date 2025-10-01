@@ -55,7 +55,7 @@ class UserssController extends Controller
                 return self::CURRENCY . self::SEPACE . formatSolde($balance->current_balance, 2);
             })
             ->addColumn('complementary_information', function ($balance) {
-                return view('parts.datatable.ci.ci-' . $balance->balance_operation_id, ['balance' => $balance]);
+                return getBalanceCIView($balance);
             })
             ->rawColumns(['description'])
             ->make(true);
@@ -71,7 +71,7 @@ class UserssController extends Controller
                 return formatSolde($balcene->current_balance, 2) . ' ' . self::PERCENTAGE;
             })
             ->addColumn('complementary_information', function ($balance) {
-                return view('parts.datatable.ci.ci-' . $balance->balance_operation_id, ['balance' => $balance]);
+                return getBalanceCIView($balance);
             })
             ->make(true);
     }
@@ -80,7 +80,7 @@ class UserssController extends Controller
     {
         return datatables($this->getUserBalancesList(app()->getLocale(), auth()->user()->idUser, BalanceEnum::SMS->value, false))
             ->addColumn('complementary_information', function ($balance) {
-                return view('parts.datatable.ci.ci-' . $balance->balance_operation_id, ['balance' => $balance]);
+                return getBalanceCIView($balance);
             })
             ->make(true);
     }
@@ -153,7 +153,7 @@ class UserssController extends Controller
                 return formatSolde($balance->current_balance, 2);
             })
             ->addColumn('complementary_information', function ($balance) {
-                return view('parts.datatable.ci.ci-' . $balance->balance_operation_id, ['balance' => $balance]);
+                return getBalanceCIView($balance);
             })
             ->rawColumns(['description'])
             ->make(true);

@@ -77,7 +77,7 @@ class SharesController extends Controller
                 return number_format($sharesBalances->value, 0);
             })
             ->addColumn('complementary_information', function ($balance) {
-                return view('parts.datatable.ci.ci-' . $balance->balance_operation_id, ['balance' => $balance]);
+                return getBalanceCIView($balance);
             })
             ->rawColumns(['total_price', 'share_price', 'formatted_created_at', 'total_shares', 'present_value', 'current_earnings', 'value_format'])
             ->make(true);

@@ -252,6 +252,7 @@ return [
         'Ordering' => \App\Services\Orders\OrderingFacade::class,
         'OrderingSimulation' => \App\Services\Orders\OrderingSimulationFacade::class,
         'Carts' => \App\Services\Carts\Carts::class,
+        'UserToken' => App\Services\Users\UserToken::class,
         'Vite' => \Illuminate\Support\Facades\Vite::class,
     ],
     'available_locales' => [

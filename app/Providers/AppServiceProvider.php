@@ -6,6 +6,8 @@ use App\Services\Balances\Balances;
 use App\Services\Communication\Communication;
 use App\Services\Sponsorship\Sponsorship;
 use App\Services\Targeting\Targeting;
+use App\Services\Users\UserToken;
+use App\Services\Users\UserTokenService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -26,14 +28,15 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('Targeting', function ($app) {
             return new Targeting($app->make('App\DAL\UserRepository'), $app->make('Core\Services\BalancesManager'));
         });
-        $this->app->bind('Communication', function ($app) {
+        $this->app->bind('Communication', function () {
             return new Communication();
         });
-
-        $this->app->bind('Balances', function ($app) {
+        $this->app->bind('Balances', function () {
             return new Balances();
         });
-
+        $this->app->bind('UserToken', function () {
+            return new UserToken();
+        });
     }
 
 

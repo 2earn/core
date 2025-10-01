@@ -3,6 +3,7 @@
 use App\Models\SharesBalances;
 use App\Models\User;
 use App\Services\Balances\BalancesFacade;
+use App\Services\Users\UserTokenFacade;
 use Carbon\Carbon;
 use Core\Models\countrie;
 use Core\Models\Setting;
@@ -638,8 +639,18 @@ if (!function_exists('generateRandomText')) {
 if (!function_exists('generateUserToken')) {
     function generateUserToken()
     {
-        $token = \auth()->user()->createToken('user_token');
-        return $token->plainTextToken;
+        return UserTokenFacade::getOrCreateToken();
+    }
+}
+if (!function_exists('getBalanceCIView')) {
+    function getBalanceCIView($balance)
+    {
+        if (!is_null($balance)) {
+            return view('parts.datatable.ci.ci-' . $balance->balance_operation_id, ['balance' => $balance]);
+        } else {
+         dd($balance);
+         return view('parts.datatable.ci.ci-default');
+        }
     }
 }
 
