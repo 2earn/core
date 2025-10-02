@@ -184,13 +184,7 @@
                             type: "GET",
                             headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
                             error: function (xhr, error, thrown) {
-                                $('#ub_table_processing').hide();
-                                $('#ub_table tbody').html(
-                                    '<tr><td colspan="7" class="text-center text-danger fw-bold">@lang("An error suppressed")</td></tr>'
-                                );
-                                $('#ub_table').DataTable().clear();
-                                let modal = new bootstrap.Modal(document.getElementById('errorModal'));
-                                modal.show();
+                                loadDatatableModalError('ub_table')
                             }
                         },
                         "columns": [

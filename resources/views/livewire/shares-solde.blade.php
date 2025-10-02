@@ -97,28 +97,28 @@
                 var request1 = $.ajax({
                     url: url1,
                     method: 'GET',
-                    headers: { 'Authorization': 'Bearer ' + token },
+                    headers: {'Authorization': 'Bearer ' + token},
                     dataType: 'json'
                 });
 
                 var request2 = $.ajax({
                     url: url2,
                     method: 'GET',
-                    headers: { 'Authorization': 'Bearer ' + token },
+                    headers: {'Authorization': 'Bearer ' + token},
                     dataType: 'json'
                 });
 
                 var request3 = $.ajax({
                     url: url3,
                     method: 'GET',
-                    headers: { 'Authorization': 'Bearer ' + token },
+                    headers: {'Authorization': 'Bearer ' + token},
                     dataType: 'json'
                 });
 
                 $.when(request1, request2, request3).then(function (response1, response2, response3) {
-                    var series1 = { name: '{{ __("Sales") }}', type: 'area', data: response1[0] };
-                    var series2 = { name: '{{ __("Function") }}', type: 'line', data: response2[0] };
-                    var series3 = { name: '{{ __("My Shares") }}', type: 'area', data: response3[0] };
+                    var series1 = {name: '{{ __("Sales") }}', type: 'area', data: response1[0]};
+                    var series2 = {name: '{{ __("Function") }}', type: 'line', data: response2[0]};
+                    var series3 = {name: '{{ __("My Shares") }}', type: 'area', data: response3[0]};
                     chart1.updateSeries([series1, series2, series3]);
                 });
             }
@@ -138,7 +138,10 @@
                 "ajax": {
                     url: "{{route('api_shares_solde',['locale'=> app()->getLocale()])}}",
                     type: "GET",
-                    headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"}
+                    headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
+                    error: function (xhr, error, thrown) {
+                        loadDatatableModalError('shares-solde')
+                    }
                 },
                 "columns": [
                     {data: 'id'},

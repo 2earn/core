@@ -200,8 +200,10 @@
                 "ajax": {
                     url: "{{route('api_shares_solde',['locale'=> app()->getLocale()])}}",
                     type: "GET",
-                    headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"}
-                },
+                    headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
+                    error: function (xhr, error, thrown) {
+                        loadDatatableModalError('shares-solde')
+                    }                },
                 "columns": [
                     {data: 'id'},
                     {data: 'formatted_created_at'},

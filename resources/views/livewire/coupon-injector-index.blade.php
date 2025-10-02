@@ -77,10 +77,18 @@
                     "ajax": {
                         url: "{{route('api_coupon_injector',['locale'=> app()->getLocale()])}}",
                         type: "GET",
-                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"}
+                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
+                        error: function (xhr, error, thrown) {
+                            loadDatatableModalError('Coupon_table')
+                        }
                     },
                     "columns": [
-                        {data: null, defaultContent: '<input type="checkbox" class="row-select" />', orderable: false, searchable: false},
+                        {
+                            data: null,
+                            defaultContent: '<input type="checkbox" class="row-select" />',
+                            orderable: false,
+                            searchable: false
+                        },
                         datatableControlBtn,
                         {data: 'category'},
                         {data: 'pin'},

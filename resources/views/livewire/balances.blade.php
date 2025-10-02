@@ -62,7 +62,10 @@
                         "ajax": {
                             url: "{{route('api_balance_operations',['locale'=> app()->getLocale()])}}",
                             type: "GET",
-                            headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"}
+                            headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
+                            error: function (xhr, error, thrown) {
+                                loadDatatableModalError('BalanceOperationsTable')
+                            }
                         },
                         "columns": [
                             {"data": "id"},

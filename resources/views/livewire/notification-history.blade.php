@@ -63,8 +63,10 @@
                         "ajax": {
                             url: "{{route('api_history_notification',['locale'=> app()->getLocale()])}}",
                             type: "GET",
-                            headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"}
-                        },
+                            headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
+                            error: function (xhr, error, thrown) {
+                                loadDatatableModalError('HistoryNotificationTable')
+                            }                        },
                         "columns": [
                             datatableControlBtn,
                             {data: 'reference'},

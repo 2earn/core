@@ -79,7 +79,10 @@
                     "ajax": {
                         url: "{{route('api_platforms',['locale'=> app()->getLocale()])}}",
                         type: "GET",
-                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"}
+                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
+                        error: function (xhr, error, thrown) {
+                            loadDatatableModalError('PlatformTable')
+                        }
                     },
                     "columns": [
                         datatableControlBtn,

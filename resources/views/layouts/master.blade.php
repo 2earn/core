@@ -144,7 +144,22 @@
     });
 </script>
 @stack('scripts')
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        window.loadDatatableModalError = function (datatableID) {
+            $('#' + datatableID).hide();
+            $('#ub_table tbody').html(
+                '<tr><td colspan="7" class="text-center text-danger fw-bold">@lang("An error suppressed")</td></tr>'
+            );
+            $('#ub_table').DataTable().clear();
+            let modal = new bootstrap.Modal(document.getElementById('errorModal'));
+            modal.show();
+        };
+    });
+</script>
+
 <script type="module">
+
     document.addEventListener("DOMContentLoaded", function () {
 
         var select2_array = [];

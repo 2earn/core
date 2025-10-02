@@ -389,7 +389,10 @@
                     "ajax": {
                         url: "{{route('api_transfert',['locale'=> app()->getLocale()])}}",
                         type: "GET",
-                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"}
+                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
+                        error: function (xhr, error, thrown) {
+                            loadDatatableModalError('transfert')
+                        }
                     },
                     "columns": [
                         {data: 'value'},
@@ -529,10 +532,10 @@
                         'Authorization': 'Bearer ' + token
                     },
                     dataType: 'json',
-                    success: function(response) {
-                        chart.updateSeries([{ name: 'Balance', data: response }]);
+                    success: function (response) {
+                        chart.updateSeries([{name: 'Balance', data: response}]);
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         console.error('Error fetching user cash data:', error);
                     }
                 });

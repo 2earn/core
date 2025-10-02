@@ -1,19 +1,20 @@
 <div class="container-fluid">
     <div>
-    @section('title')
-        {{ __('sms balance') }}
-    @endsection
-    @component('components.breadcrumb')
-        @slot('li_1')@endslot
-        @slot('title')
+        @section('title')
             {{ __('sms balance') }}
-        @endslot
-    @endcomponent
+        @endsection
+        @component('components.breadcrumb')
+            @slot('li_1')@endslot
+            @slot('title')
+                {{ __('sms balance') }}
+            @endslot
+        @endcomponent
         <div class="row card">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                           id="userBalanceSMS_table" style="width: 100%">
+                    <table
+                        class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                        id="userBalanceSMS_table" style="width: 100%">
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">
                             <th>{{__('Ranks')}}</th>
@@ -52,7 +53,10 @@
                     "ajax": {
                         url: "{{route('api_user_sms',['locale'=> app()->getLocale()])}}",
                         type: "GET",
-                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"}
+                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
+                        error: function (xhr, error, thrown) {
+                            loadDatatableModalError('userBalanceSMS_table')
+                        }
                     },
                     "columns": [
                         {data: 'ranks'},

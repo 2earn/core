@@ -171,6 +171,7 @@ class UsersBalancesController extends Controller
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
+
     public function updateBalanceReal(Req $request, BalancesManager $balancesManager)
     {
         try {

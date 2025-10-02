@@ -1,17 +1,18 @@
 <div class="container-fluid">
-@component('components.breadcrumb')
+    @component('components.breadcrumb')
         @slot('title')
             {{ __('Configuration amounts') }}
         @endslot
     @endcomponent
-        <div class="row">
-            @include('layouts.flash-messages')
-        </div>
-        <div class="row">
+    <div class="row">
+        @include('layouts.flash-messages')
+    </div>
+    <div class="row">
         <div class="card">
             <div class="card-body">
-                <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                       id="amountsTable">
+                <table
+                    class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                    id="amountsTable">
                     <thead class="table-light">
                     <tr>
                         <th>{{ __('Name') }}</th>
@@ -36,7 +37,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="AmountsModalLabel">{{__('Edit amounts')}}</h5>
-                    <button type="button" class="btn-close btn-close-amount" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-amount" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form action="" method="POST" enctype="multipart/form-data">
@@ -46,7 +48,7 @@
                             <div class="col-xl-4">
                                 <label class="me-sm-2">{{ __('Amount Name') }}</label>
                                 <input wire:model="amountsnameAm" type="text" class="form-control"
-                                   disabled    placeholder="amountsname" name="amountsname">
+                                       disabled placeholder="amountsname" name="amountsname">
                             </div>
                             <div class="col-xl-4">
                                 <label class="me-sm-2">{{ __('Amount Short Name') }}</label>
@@ -142,7 +144,10 @@
                     "ajax": {
                         url: "{{route('api_Amounts',['locale'=> app()->getLocale()])}}",
                         type: "GET",
-                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"}
+                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
+                        error: function (xhr, error, thrown) {
+                            loadDatatableModalError('ub_table_processing')
+                        }
                     },
                     "columns": [
                         {data: 'amountsname'},
