@@ -133,6 +133,7 @@
         </div>
     </div>
 </div>
+@include('parts.error-modal')
 @include('layouts.footer', ['pageName' => 'master'])
 @vite('resources/js/pages/crypto-kyc.init.js')
 <script type="module">
