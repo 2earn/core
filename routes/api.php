@@ -56,7 +56,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/user/purchaseBFS/{type}', [App\Http\Controllers\UserssController::class, 'getPurchaseBFSUser'])->name('api_user_bfs_purchase');
         Route::get('/user/tree', [App\Http\Controllers\UserssController::class, 'getTreeUser'])->name('api_user_tree');
         Route::get('/user/sms', [App\Http\Controllers\UserssController::class, 'getSmsUser'])->name('api_user_sms');
-        Route::get('/user/chance', [App\Http\Controllers\UserssController::class, 'getSmsUser'])->name('api_user_chance');
+        Route::get('/user/chance', [App\Http\Controllers\UserssController::class, 'getChanceUser'])->name('api_user_chance');
         Route::get('/target/{idTarget}/data', [\App\Http\Controllers\TargetController::class, 'getTargetData'])->name('api_target_data');
 
 

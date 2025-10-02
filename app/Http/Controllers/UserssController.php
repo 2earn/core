@@ -48,6 +48,9 @@ class UserssController extends Controller
             $query->where('percentage', $type);
         };
         return datatables($query->orderBy('created_at')->orderBy('percentage')->get())
+            ->addColumn('reference', function ($balance) {
+                return view('parts.datatable.balances-references', ['balance' => $balance]);
+            })
             ->editColumn('description', function ($row) {
                 return Balances::generateDescriptionById($row->id, BalanceEnum::BFS->value);
             })
@@ -64,6 +67,9 @@ class UserssController extends Controller
     public function getTreeUser()
     {
         return datatables($this->getUserBalancesList(app()->getLocale(), auth()->user()->idUser, BalanceEnum::TREE->value, false))
+            ->addColumn('reference', function ($balance) {
+                return view('parts.datatable.balances-references', ['balance' => $balance]);
+            })
             ->editColumn('value', function ($balcene) {
                 return formatSolde($balcene->value, 2) . ' ' . self::PERCENTAGE;
             })
@@ -79,6 +85,9 @@ class UserssController extends Controller
     public function getSmsUser()
     {
         return datatables($this->getUserBalancesList(app()->getLocale(), auth()->user()->idUser, BalanceEnum::SMS->value, false))
+            ->addColumn('reference', function ($balance) {
+                return view('parts.datatable.balances-references', ['balance' => $balance]);
+            })
             ->addColumn('complementary_information', function ($balance) {
                 return getBalanceCIView($balance);
             })
@@ -143,6 +152,9 @@ class UserssController extends Controller
             ->orderBy('created_at')->get();
 
         return datatables($userData)
+            ->addColumn('reference', function ($balance) {
+                return view('parts.datatable.balances-references', ['balance' => $balance]);
+            })
             ->editColumn('value', function ($balance) {
                 return formatSolde($balance->value, 2);
             })
