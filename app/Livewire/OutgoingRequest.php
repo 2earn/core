@@ -25,6 +25,11 @@ class OutgoingRequest extends Component
 
     public function mount($filter, Request $request)
     {
+        if ($request->get('ShowCancel') != null) {
+            $this->showCanceled = $request->get('ShowCancel');
+        } else {
+            $this->showCanceled = 0;
+        }
         $this->filter = $filter;
     }
 
@@ -48,7 +53,7 @@ class OutgoingRequest extends Component
     {
         $this->showCanceled = $val;
         $this->fromTab = 'fromRequestOut';
-        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 4, 'ShowCancel' => $val])->with('info', 'sdf');
+        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 4, 'ShowCancel' => $val]);
     }
 
     public function AcceptRequest($numeroRequste)
@@ -61,9 +66,7 @@ class OutgoingRequest extends Component
 
     public function render(settingsManager $settingsManager)
     {
-        if ($this->showCanceled == null || $this->showCanceled == "") {
-            $this->showCanceled = 0;
-        }
+
         $userAuth = $settingsManager->getAuthUser();
         if ($this->showCanceled == '1') {
             $requestFromMee = FinancialRequest::where('financial_request.idSender', $userAuth->idUser)

@@ -438,35 +438,6 @@ class ApiController extends BaseController
         }
     }
 
-    public function getCountries()
-    {
-        $query = countrie::all('id', 'name', 'phonecode', 'langage');
-        return datatables($query)
-            ->addColumn('action', function ($country) {
-                return view('parts.datatable.countries-action', ['country' => $country]);
-            })
-            ->make(true);
-    }
-
-    public function getBalanceOperationsCategories()
-    {
-        return datatables(OperationCategory::all())
-            ->addColumn('action', function ($operationCategory) {
-                return view('parts.datatable.balances-categories-actions', ['operationCategory' => $operationCategory]);
-            })
-            ->escapeColumns([])
-            ->toJson();
-    }
-
-    public function getHistoryNotificationModerateur()
-    {
-        return datatables($this->settingsManager->getHistoryForModerateur())->make(true);
-    }
-
-    public function getHistoryNotification()
-    {
-        return datatables($this->settingsManager->getHistory())->make(true);
-    }
 
     public function getUserCouponsInjector()
     {
@@ -542,13 +513,6 @@ class ApiController extends BaseController
 
         $request = DB::select(getSqlFromPath('get_request') . $condition . "  ? ", [$idUser]);
         return datatables($request)
-            ->make(true);
-    }
-
-    public function getRepresentatives()
-    {
-        $representatives = DB::table('representatives')->get();
-        return datatables($representatives)
             ->make(true);
     }
 
