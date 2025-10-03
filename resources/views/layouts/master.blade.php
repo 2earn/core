@@ -126,7 +126,7 @@
 @show
 <div id="layout-wrapper">
     <livewire:top-bar :currentRoute="Route::currentRouteName()"/>
-    @include('layouts.sidebar',['currentRoute'=>Route::currentRouteName()])
+    <livewire:sidebar />
     <div class="main-content">
         <div class="page-content">
             @yield('content')
