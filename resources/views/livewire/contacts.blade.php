@@ -326,7 +326,79 @@
                     window.Livewire.dispatch('deleteContact', [contactId]);
                 }
             });
+
+
         }
+    </script>
+    <script type="module">
+        document.addEventListener("DOMContentLoaded", function () {
+
+            $('#contacts_table').DataTable({
+                retrieve: true,
+                searching: true,
+                "bLengthChange": false,
+                "processing": true,
+                paging: true,
+                "pageLength": 100,
+                "aLengthMenu": [[100, 500, 1000], [100, 500, 1000]],
+                "columns": [
+                    {"data": "name"},
+                    {"data": "lastName"},
+                    {"data": "mobile"},
+                    {"data": "flag"},
+                    {"data": "status"},
+                    {"data": "availablity"},
+                    {data: 'action', name: 'action', orderable: false, searchable: false},
+                ],
+                "columnDefs":
+                    [
+                        {
+                            "targets": [5],
+                            render: function (data, type, row) {
+                                var givenDate = new Date(row.reserved_at);
+                                var delai = (Date.now() - givenDate) / (1000 * 60 * 60);
+                                if (Number(row.idUpline) !== 0) {
+                                    if (row.idUpline == row.idUser)
+                                        return '<span class="badge bg-info-subtle text-info fs-14" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                            '">{{__('i am his sponsor')}}</span>';
+                                    else
+                                        return '<span class="badge bg-danger-subtle text-danger" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                            '">{{__('Already has a sponsor')}}</span>';
+                                } else {
+                                    if (Number(row.availablity) === 0)
+                                        return '<span class="badge bg-success-subtle text-success" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                            '">{{__('Available')}}</span>';
+                                    else {
+                                        if (row.reserved_by == row.idUser) {
+                                            if (delai < 72) {
+                                                var reste = 72 - delai;
+                                                return '<span class="badge bg-warning-subtle text-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                                    '">{{__('reserved for')}} ' + reste.toFixed(0) + ' {{__('hours')}}</span>';
+                                            } else {
+                                                var reste = 72 + 168 - delai;
+                                                return '<span class="badge bg-primary-subtle text-primary" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                                    '">{{__('blocked for')}} ' + reste.toFixed(0) + ' {{__('hours')}}</span>';
+                                            }
+
+                                        } else {
+                                            if (delai < 72) {
+                                                var reste = 72 - delai;
+                                                return '<span class="badge bg-warning-subtle text-warning" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                                    '">{{__('reserved by other user for')}} ' + reste.toFixed(0) + ' {{__('hours')}}</span>';
+                                            } else {
+                                                return '<span class="badge bg-success-subtle text-success" data-id="' + row.id + '" data-phone="' + row.mobile +
+                                                    '">{{__('Available')}}</span>';
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                        },
+                    ],
+                "language": {"url": urlLang},
+            });
+        });
+
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.0.2/list.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/list.pagination.js/0.1.1/list.pagination.min.js"></script>
