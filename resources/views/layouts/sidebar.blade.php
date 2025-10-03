@@ -1,7 +1,7 @@
 @php use App\Models\User; @endphp
 <div>
     <div class="app-menu navbar-menu">
-        <div class="navbar-brand-box">
+        <div class="navbar-brand-box" title="{{__('Version') . ' : '.config('app.version')}}">
             <a href="{{route('home',app()->getLocale(),false)}}" class="logo logo-dark">
             <span class="logo-sm">
                 <img src="{{ Vite::asset('resources/images/logo-sm.png') }}" alt="" height="22">
