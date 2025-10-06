@@ -8,6 +8,11 @@
             {{ __('User Guides') }}
         @endslot
     @endcomponent
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <input type="text" class="form-control" placeholder="{{ __('Search user guides...') }}" wire:model.live="search">
+        </div>
+    </div>
     <div class="row card">
         <div class="col-md-12 mb-4 card-body">
             @forelse($userGuides as $guide)

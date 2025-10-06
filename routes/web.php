@@ -188,6 +188,8 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         Route::prefix('/user-guides')->name('user_guides_')->group(function () {
             Route::get('/index', \App\Livewire\UserGuideIndex::class)->name('index');
+            Route::get('/create', \App\Livewire\UserGuideCreateUpdate::class)->name('create');
+            Route::get('/{id}/edit', \App\Livewire\UserGuideCreateUpdate::class)->name('edit');
         });
 
 
@@ -362,4 +364,3 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 });
 
 Route::get('/oauth/callback', [\App\Http\Controllers\OAuthController::class, 'callback']);
-

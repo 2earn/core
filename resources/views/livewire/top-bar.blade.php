@@ -254,7 +254,7 @@
                                <span class="text-muted"> {{ __('Frequently asked questions') }}</span>
                             </a>
                             <a class="dropdown-item" href="{{ route('user_guides_index', app()->getLocale()) }}">
-                               <span class="text-muted">{{ __('User Guides') }}</span>
+                                <span class="text-muted">{{ __('User Guides') }}</span>
                             </a>
                             <a class="dropdown-item" href="{{route('coupon_history',['locale'=>app()->getLocale()])}}">
                                <span class="text-muted"> {{ __('Coupons History') }}</span>
