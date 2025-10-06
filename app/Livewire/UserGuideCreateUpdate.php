@@ -40,7 +40,24 @@ class UserGuideCreateUpdate extends Component
     public function save()
     {
         $this->validate();
-        $filePath = $this->file ? $this->file->store('guides', 'public') : $this->file_path;
+        $filePath = $this->file_path;
+        if ($this->file) {
+            if ($this->file->isValid()) {
+                $filename = uniqid('guide_') . '.' . $this->file->getClientOriginalExtension();
+                try {
+                    $saved = $this->file->storeAs('uploads/guides', $filename, ['disk' => 'public']);
+                    if ($saved) {
+                        $filePath = 'uploads/guides/' . $filename;
+                    } else {
+                        session()->flash('error', __('File could not be saved.'));
+                    }
+                } catch (\Exception $e) {
+                    session()->flash('error', __('File upload error: ') . $e->getMessage());
+                }
+            } else {
+                session()->flash('error', __('Uploaded file is not valid.'));
+            }
+        }
         if ($this->userGuideId) {
             $guide = UserGuide::findOrFail($this->userGuideId);
             $guide->update([
@@ -59,11 +76,11 @@ class UserGuideCreateUpdate extends Component
             session()->flash('success', __('User guide created successfully.'));
             $this->reset(['title', 'description', 'file']);
         }
-        return redirect()->route('user-guides.index', app()->getLocale());
+        return redirect()->route('user_guides_index', app()->getLocale());
     }
 
     public function render()
     {
-        return view('livewire.user-guide-create-update');
+        return view('livewire.user-guide-create-update')->extends('layouts.master')->section('content');
     }
 }

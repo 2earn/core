@@ -13,6 +13,7 @@ class UserGuide extends Model
         'description',
         'file_path',
         'user_id',
+        'route',
     ];
 
     public function user()

@@ -11,11 +11,30 @@ class UserGuideIndex extends Component
     use WithPagination;
 
     public $search = '';
+    public $deleteId = null;
     protected $queryString = ['search'];
 
     public function updatingSearch()
     {
         $this->resetPage();
+    }
+
+    public function confirmDelete($id)
+    {
+        $this->deleteId = $id;
+        $this->dispatch('show-delete-modal');
+    }
+
+    public function delete()
+    {
+        if ($this->deleteId) {
+            $guide = UserGuide::findOrFail($this->deleteId);
+            $guide->delete();
+            session()->flash('success', __('User guide deleted successfully.'));
+            $this->deleteId = null;
+            $this->resetPage();
+            $this->dispatch('hide-delete-modal');
+        }
     }
 
     public function render()
