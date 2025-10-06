@@ -31,10 +31,24 @@
             @forelse($userGuides as $guide)
                 <div class="card mb-3">
                     <div class="card-title">
-                        <h5 class="text-info m-2">{{ $guide->title }}</h5>
+                        <h5 class="text-info m-2">{{\App\Models\TranslaleModel::getTranslation($guide,'title',$guide->title)}}</h5>
+                        @if(\App\Models\User::isSuperAdmin())
+                            <p class="mx-2 float-end">
+                                <a class="link-info"
+                                   href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($guide,'title')])}}">{{__('See or update Translation')}}</a>
+                            </p>
+                        @endif
                     </div>
                     <div class="card-body">
-                        <p class="card-text">{{ $guide->description }}</p>
+                        <blockquote class="text-muted">
+                            {!! \App\Models\TranslaleModel::getTranslation($guide,'description',$guide->description) !!}
+                        </blockquote>
+                        @if(\App\Models\User::isSuperAdmin())
+                            <p class="mx-2 float-end">
+                                <a class="link-info"
+                                   href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($guide,'description')])}}">{{__('See or update Translation')}}</a>
+                            </p>
+                        @endif
                         @if($guide->routes && is_array($guide->routes))
                             <div class="mb-2">
                                 <strong>{{ __('Routes:') }}</strong>

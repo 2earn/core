@@ -19,7 +19,7 @@
             <form wire:submit.prevent="save" class="row" enctype="multipart/form-data">
                 <div class="form-group col-6">
                     <label for="title" class="form-label">{{ __('Title') }}</label>
-                    <input type="text" id="title" class="form-control" wire:model.defer="title">
+                    <input type="text" id="title" class="form-control" wire:model.defer="title" @if($userGuideId) disabled @endif>
                     @error('title') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
 
@@ -35,7 +35,7 @@
                 </div>
                 <div class="form-group col-6">
                     <label for="description" class="form-label">{{ __('Description') }}</label>
-                    <textarea id="description" class="form-control" wire:model.defer="description"></textarea>
+                    <textarea id="description" class="form-control" wire:model.defer="description" @if($userGuideId) disabled @endif></textarea>
                     @error('description') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
                 <div class="form-group col-6">

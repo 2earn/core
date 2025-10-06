@@ -8,7 +8,13 @@
         <div class="col-lg-12">
             <div class="card mb-4">
                 <div class="card-header border-info d-flex justify-content-between align-items-center">
-                    <h6 class="card-title mb-0">{{ $guide->title }}</h6>
+                    <h6 class="card-title mb-0">{{\App\Models\TranslaleModel::getTranslation($guide,'title',$guide->title)}}</h6>
+                    @if(\App\Models\User::isSuperAdmin())
+                        <p class="mx-2 float-end">
+                            <a class="link-info"
+                               href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($guide,'title')])}}">{{__('See or update Translation')}}</a>
+                        </p>
+                    @endif
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -22,7 +28,15 @@
                         </div>
                         <div class="col-md-6">
                             <p><strong>{{ __('Description:') }}</strong></p>
-                            <div class="bg-light p-2 rounded">{{ $guide->description }}</div>
+                            <blockquote class="text-muted">
+                                {!! \App\Models\TranslaleModel::getTranslation($guide,'description',$guide->description) !!}
+                            </blockquote>
+                            @if(\App\Models\User::isSuperAdmin())
+                                <p class="mx-2 float-end">
+                                    <a class="link-info"
+                                       href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($guide,'description')])}}">{{__('See or update Translation')}}</a>
+                                </p>
+                            @endif
                         </div>
                     </div>
                     @if($routeDetails && count($routeDetails))

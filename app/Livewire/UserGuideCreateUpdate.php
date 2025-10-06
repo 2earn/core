@@ -2,10 +2,11 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
+use App\Models\TranslaleModel;
 use App\Models\UserGuide;
-use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class UserGuideCreateUpdate extends Component
 {
@@ -27,6 +28,7 @@ class UserGuideCreateUpdate extends Component
             'routes' => 'required|array|min:1',
         ];
     }
+
     public function mount($id = null)
     {
         if ($id) {
@@ -67,7 +69,7 @@ class UserGuideCreateUpdate extends Component
                 'routes' => $this->routes,
             ]);
         } else {
-            UserGuide::create([
+            $userGuide = UserGuide::create([
                 'title' => $this->title,
                 'description' => $this->description,
                 'file_path' => $filePath,
@@ -75,6 +77,19 @@ class UserGuideCreateUpdate extends Component
                 'routes' => $this->routes,
             ]);
             $this->reset(['title', 'description', 'file', 'routes']);
+            $translations = ['title', 'content'];
+            foreach ($translations as $translation) {
+                TranslaleModel::create([
+                    'name' => TranslaleModel::getTranslateName($userGuide, $translation),
+                    'value' => $this->{$translation} . ' AR',
+                    'valueFr' => $this->{$translation} . ' FR',
+                    'valueEn' => $this->{$translation} . ' EN',
+                    'valueTr' => $this->{$translation} . ' TR',
+                    'valueEs' => $this->{$translation} . ' ES',
+                    'valueRu' => $this->{$translation} . ' Ru',
+                    'valueDe' => $this->{$translation} . ' De',
+                ]);
+            }
         }
         return redirect()->route('user_guides_index', app()->getLocale());
     }
