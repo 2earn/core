@@ -185,6 +185,14 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/index', \App\Livewire\FaqIndex::class)->name('index');
         });
 
+        Route::prefix('/user-guides')->name('user_guides_')->group(function () {
+            Route::get('/index', \App\Livewire\UserGuideIndex::class)->name('index');
+            Route::get('/create', \App\Livewire\UserGuideCreateUpdate::class)->name('create');
+            Route::get('/{id}/edit', \App\Livewire\UserGuideCreateUpdate::class)->name('edit');
+            Route::get('/{id}/show', \App\Livewire\UserGuideShow::class)->name('show');
+        });
+
+
         Route::prefix('/coupon')->name('coupon_')->group(function () {
             Route::get('/history', \App\Livewire\CouponHistory::class)->name('history');
         });
@@ -356,4 +364,3 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 });
 
 Route::get('/oauth/callback', [\App\Http\Controllers\OAuthController::class, 'callback']);
-

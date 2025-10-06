@@ -245,17 +245,19 @@
                             <div class="dropdown-divider">
                             </div>
                             <a class="dropdown-item" href="{{route('notification_history',app()->getLocale())}}">
-                                <span class=""> {{ __('Notification history') }}</span>
+                                <span class="text-muted"> {{ __('Notification history') }}</span>
                             </a>
                             <a class="dropdown-item" href="{{route('notification_settings',app()->getLocale())}}">
-                                <span class=""> {{ __('Notification Settings') }}</span>
+                               <span class="text-muted"> {{ __('Notification Settings') }}</span>
                             </a>
                             <a class="dropdown-item" href="{{route('faq_index',app()->getLocale())}}">
-                                <span class=""> {{ __('Frequently asked questions') }}</span>
+                               <span class="text-muted"> {{ __('Frequently asked questions') }}</span>
                             </a>
-                            <a class="dropdown-item"
-                               href="{{route('coupon_history',['locale'=>app()->getLocale()])}}">
-                                <span class=""> {{ __('Coupons History') }}</span>
+                            <a class="dropdown-item" href="{{ route('user_guides_index', app()->getLocale()) }}">
+                                <span class="text-muted">{{ __('User Guides') }}</span>
+                            </a>
+                            <a class="dropdown-item" href="{{route('coupon_history',['locale'=>app()->getLocale()])}}">
+                               <span class="text-muted"> {{ __('Coupons History') }}</span>
                             </a>
                             <div class="dropdown-divider">
                             </div>
