@@ -39,7 +39,7 @@ class UserGuideIndex extends Component
 
     public function render()
     {
-        $userGuides = UserGuide::with('user')
+        $userGuides = UserGuide::query()
             ->where(function($query) {
                 $query->where('title', 'like', '%'.$this->search.'%')
                       ->orWhere('description', 'like', '%'.$this->search.'%');

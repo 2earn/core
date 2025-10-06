@@ -13,7 +13,11 @@ class UserGuide extends Model
         'description',
         'file_path',
         'user_id',
-        'route',
+        'routes',
+    ];
+
+    protected $casts = [
+        'routes' => 'array',
     ];
 
     public function user()

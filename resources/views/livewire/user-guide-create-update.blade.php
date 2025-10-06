@@ -15,20 +15,15 @@
                 </h6>
             </div>
         </div>
-        <div class="card-body">
-            <form wire:submit.prevent="save" enctype="multipart/form-data">
-                <div class="mb-3">
+        <div class="card-body ">
+            <form wire:submit.prevent="save" class="row" enctype="multipart/form-data">
+                <div class="form-group col-6">
                     <label for="title" class="form-label">{{ __('Title') }}</label>
                     <input type="text" id="title" class="form-control" wire:model.defer="title">
                     @error('title') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
-                <div class="mb-3">
-                    <label for="description" class="form-label">{{ __('Description') }}</label>
-                    <textarea id="description" class="form-control" wire:model.defer="description"></textarea>
-                    @error('description') <span class="text-danger">{{ $message }}</span> @enderror
-                </div>
-                <div class="mb-3">
-                    <label for="file" class="form-label">{{ __('Attachment') }}</label>
+
+                <div class="form-group col-6"><label for="file" class="form-label">{{ __('File') }}</label>
                     <input type="file" id="file" class="form-control" wire:model="file">
                     @error('file') <span class="text-danger">{{ $message }}</span> @enderror
                     @if($file_path)
@@ -38,10 +33,27 @@
                         </div>
                     @endif
                 </div>
-                <button type="submit" class="btn btn-primary">{{ $userGuideId ? __('Update') : __('Create') }}</button>
-                <a href="{{ route('user_guides_index', app()->getLocale()) }}"
-                   class="btn btn-secondary">{{ __('Cancel') }}</a>
+                <div class="form-group col-6">
+                    <label for="description" class="form-label">{{ __('Description') }}</label>
+                    <textarea id="description" class="form-control" wire:model.defer="description"></textarea>
+                    @error('description') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
+                <div class="form-group col-6">
+                    <label for="routes" class="form-label">{{ __('Routes') }}</label>
+                    <select id="routes" class="form-control" wire:model="routes" multiple>
+                        @foreach($allRoutes as $route)
+                            <option value="{{ $route['name'] }}">{{ $route['name'] }} ({{ $route['uri'] }})</option>
+                        @endforeach
+                    </select>
+                    @error('routes') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
+                <div class="mt-3">
+                    <button type="submit"
+                            class="btn btn-primary">{{ $userGuideId ? __('Update') : __('Create') }}</button>
+                    <a href="{{ route('user_guides_index', app()->getLocale()) }}"
+                       class="btn btn-secondary">{{ __('Cancel') }}</a>
+                </div>
             </form>
         </div>
-</div>
+    </div>
 </div>

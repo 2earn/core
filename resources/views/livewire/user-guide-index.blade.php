@@ -11,18 +11,20 @@
     <div class="row ">
         @include('layouts.flash-messages')
     </div>
-    <div class="row mb-3">
-        <div class="col-md-6">
-            <input type="text" class="form-control" placeholder="{{ __('Search user guides...') }}"
-                   wire:model.live="search">
-        </div>
-        <div class="col-md-6 text-end">
-            <a href="{{ route('user_guides_create', app()->getLocale()) }}" class="btn btn-success">
-                <i class="fa fa-plus"></i> {{ __('Add User Guide') }}
-            </a>
-        </div>
-    </div>
     <div class="row card">
+        <div class="card mb-3">
+            <div class="card-body row">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" placeholder="{{ __('Search user guides...') }}"
+                           wire:model.live="search">
+                </div>
+                <div class="col-md-6 text-end">
+                    <a href="{{ route('user_guides_create', app()->getLocale()) }}" class="btn btn-success">
+                        <i class="fa fa-plus"></i> {{ __('Add User Guide') }}
+                    </a>
+                </div>
+            </div>
+        </div>
         <div class="col-md-12 mb-4 card-body">
             @forelse($userGuides as $guide)
                 <div class="card mb-3">
@@ -31,15 +33,37 @@
                     </div>
                     <div class="card-body">
                         <p class="card-text">{{ $guide->description }}</p>
+                        @if($guide->routes && is_array($guide->routes))
+                            <div class="mb-2">
+                                <strong>{{ __('Routes:') }}</strong>
+                                <ul class="mb-0">
+                                    @foreach($guide->routes as $routeName)
+                                        @php
+                                            $route = Route::getRoutes()->getByName($routeName);
+                                        @endphp
+                                        @if($route)
+                                            <li>{{ $routeName }} ({{ $route->uri() }})</li>
+                                        @else
+                                            <li>{{ $routeName }}</li>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         @if($guide->file_path && \Illuminate\Support\Facades\Storage::disk('public')->exists($guide->file_path))
-                            <a href="{{ asset('storage/' . $guide->file_path) }}" target="_blank">Download Attachment</a>
+                            <a href="{{ asset('storage/' . $guide->file_path) }}" target="_blank">Download
+                                Attachment</a>
                         @endif
                     </div>
                     <div class="card-footer d-flex justify-content-between align-items-center">
-                        <p class="text-muted mb-0">Created by: {{ $guide->user->name ?? __('Unknown') }}</p>
                         <div>
-                            <a href="{{ route('user_guides_edit', [app()->getLocale(), $guide->id]) }}"
-                               class="btn btn-sm btn-warning me-2">{{ __('Edit') }}</a>
+                             <span class="text-muted m-1">Created by: {{ $guide->user->name ?? __('Unknown') }}</span>
+                            <span class="text-muted m-1">{{ __('Created at:') }} {{ $guide->created_at ? $guide->created_at->format('Y-m-d H:i') : __('N/A') }}</span>
+                             <span class="text-muted m-1">{{ __('Updated at:') }} {{ $guide->updated_at ? $guide->updated_at->format('Y-m-d H:i') : __('N/A') }}</span>
+                        </div>
+                        <div>
+                            <a href="{{ route('user_guides_show', [app()->getLocale(), $guide->id]) }}" class="btn btn-sm btn-info me-2">{{ __('Details') }}</a>
+                            <a href="{{ route('user_guides_edit', [app()->getLocale(), $guide->id]) }}" class="btn btn-sm btn-warning me-2">{{ __('Edit') }}</a>
                             <button type="button" class="btn btn-sm btn-danger"
                                     wire:click="confirmDelete({{ $guide->id }})">{{ __('Delete') }}</button>
                         </div>
