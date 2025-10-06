@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\UserGuideController;
 use App\Livewire\AcceptFinancialRequest;
 use App\Livewire\Account;
 use App\Livewire\ConfigurationHA;
