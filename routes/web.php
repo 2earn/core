@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserGuideController;
 use App\Livewire\AcceptFinancialRequest;
 use App\Livewire\Account;
 use App\Livewire\ConfigurationHA;
@@ -184,6 +185,11 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::prefix('/faq')->name('faq_')->group(function () {
             Route::get('/index', \App\Livewire\FaqIndex::class)->name('index');
         });
+
+        Route::prefix('/user-guides')->name('user_guides_')->group(function () {
+            Route::get('/index', \App\Livewire\UserGuideIndex::class)->name('index');
+        });
+
 
         Route::prefix('/coupon')->name('coupon_')->group(function () {
             Route::get('/history', \App\Livewire\CouponHistory::class)->name('history');

@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
             BalanceOperationsMappingSeeder::class,
             UsersWithStatusMinusTwoAfterAttackSeeder::class,
             TruncateNotificationsTableSeeder::class,
-            HashtagSeeder::class
+            HashtagSeeder::class,
+            UserGuideSeeder::class
         ]);
     }
 }
-
