@@ -1,1 +1,0 @@
-Livewire component not controller

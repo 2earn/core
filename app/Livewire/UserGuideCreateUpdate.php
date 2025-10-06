@@ -77,7 +77,7 @@ class UserGuideCreateUpdate extends Component
                 'routes' => $this->routes,
             ]);
             $this->reset(['title', 'description', 'file', 'routes']);
-            $translations = ['title', 'content'];
+            $translations = ['title', 'description'];
             foreach ($translations as $translation) {
                 TranslaleModel::create([
                     'name' => TranslaleModel::getTranslateName($userGuide, $translation),
