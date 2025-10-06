@@ -37,11 +37,13 @@
                         </div>
                     @endif
                 </div>
+                @if(\App\Models\User::isSuperAdmin())
                 <div class="card-footer text-end">
                     <a href="{{ route('user_guides_index', app()->getLocale()) }}" class="btn btn-secondary">{{ __('Back to list') }}</a>
                     <a href="{{ route('user_guides_edit', [app()->getLocale(), $guide->id]) }}" class="btn btn-warning ms-2">{{ __('Edit') }}</a>
                     <button type="button" class="btn btn-danger ms-2" wire:click="confirmDelete({{ $guide->id }})">{{ __('Delete') }}</button>
                 </div>
+                @endif
             </div>
         </div>
     </div>

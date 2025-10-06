@@ -18,11 +18,13 @@
                     <input type="text" class="form-control" placeholder="{{ __('Search user guides...') }}"
                            wire:model.live="search">
                 </div>
+                @if(\App\Models\User::isSuperAdmin())
                 <div class="col-md-6 text-end">
                     <a href="{{ route('user_guides_create', app()->getLocale()) }}" class="btn btn-success">
                         <i class="fa fa-plus"></i> {{ __('Add User Guide') }}
                     </a>
                 </div>
+                @endif
             </div>
         </div>
         <div class="col-md-12 mb-4 card-body">
@@ -63,9 +65,11 @@
                         </div>
                         <div>
                             <a href="{{ route('user_guides_show', [app()->getLocale(), $guide->id]) }}" class="btn btn-sm btn-info me-2">{{ __('Details') }}</a>
+                            @if(\App\Models\User::isSuperAdmin())
                             <a href="{{ route('user_guides_edit', [app()->getLocale(), $guide->id]) }}" class="btn btn-sm btn-warning me-2">{{ __('Edit') }}</a>
                             <button type="button" class="btn btn-sm btn-danger"
                                     wire:click="confirmDelete({{ $guide->id }})">{{ __('Delete') }}</button>
+                            @endif
                         </div>
                     </div>
                 </div>
