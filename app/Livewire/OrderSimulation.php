@@ -66,7 +66,6 @@ class OrderSimulation extends Component
 
     public function render()
     {
-        $params = [];
-        return view('livewire.order-simulation', $params)->extends('layouts.master')->section('content');
+        return view('livewire.order-simulation')->extends('layouts.master')->section('content');
     }
 }
