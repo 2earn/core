@@ -23,7 +23,7 @@ class OrderSimulation extends Component
         'makeOrderReady' => 'makeOrderReady'
     ];
 
-    public function mount(Request $request)
+    public function mount()
     {
         $this->idOrder = Route::current()->parameter('id');
         $this->currentRouteName = Route::currentRouteName();
