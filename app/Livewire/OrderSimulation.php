@@ -23,7 +23,7 @@ class OrderSimulation extends Component
         'makeOrderReady' => 'makeOrderReady'
     ];
 
-    public function mount(Request $request)
+    public function mount()
     {
         $this->idOrder = Route::current()->parameter('id');
         $this->currentRouteName = Route::currentRouteName();
@@ -66,7 +66,6 @@ class OrderSimulation extends Component
 
     public function render()
     {
-        $params = [];
-        return view('livewire.order-simulation', $params)->extends('layouts.master')->section('content');
+        return view('livewire.order-simulation')->extends('layouts.master')->section('content');
     }
 }
