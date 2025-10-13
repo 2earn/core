@@ -63,7 +63,7 @@ class BfssObserver
     public function created(BFSsBalances $bFSsBalances)
     {
         $balanceOperation = BalanceOperation::find($bFSsBalances->balance_operation_id);
-        if ($bFSsBalances->percentage == "100.00" && $balanceOperation->io == 'I') {
+        if ($bFSsBalances->percentage == "100.00" && $balanceOperation->direction == 'IN') {
             $this->checkDiscountFromGiftedBFs($bFSsBalances);
             $this->checkSharesFromGiftedBFs($bFSsBalances);
         }

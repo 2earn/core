@@ -371,7 +371,7 @@ class ApiController extends BaseController
             ->select(
                 'u.reference',
                 'u.created_at',
-                DB::raw("CASE WHEN b.IO = 'I' THEN u.value ELSE -u.value END AS value"),
+                DB::raw("CASE WHEN b.direction = 'IN' THEN u.value ELSE -u.value END AS value"),
                 'u.beneficiary_id',
                 'u.balance_operation_id',
                 'u.real_amount',
@@ -898,7 +898,7 @@ class ApiController extends BaseController
     {
         $select = ['balance_operations.id',
             'balance_operations.operation',
-            'balance_operations.io',
+            'balance_operations.direction',
             'balance_operations.ref',
             'balance_operations.source',
             'balance_operations.amounts_id',
@@ -1024,7 +1024,7 @@ class ApiController extends BaseController
                 'u.created_at',
                 'u.balance_operation_id',
                 'b.operation',
-                DB::raw("CASE WHEN b.IO = 'I' THEN u.value ELSE -u.value END AS value"),
+                DB::raw("CASE WHEN b.direction = 'IN' THEN u.value ELSE -u.value END AS value"),
                 'u.current_balance'
             )
             ->join('balance_operations as b', 'u.balance_operation_id', '=', 'b.id')
@@ -1059,9 +1059,9 @@ class ApiController extends BaseController
                   WHERE mu.idUser = ub.operator_id)
         END as source,
         CASE
-            WHEN bo.IO = "I" THEN CONCAT("+", "$", FORMAT(ub.value, 3))
-            WHEN bo.IO = "O" THEN CONCAT("-", "$", FORMAT(ub.value, 3))
-            WHEN bo.IO = "IO" THEN "IO"
+            WHEN bo.direction = "IN" THEN CONCAT("+", "$", FORMAT(ub.value, 3))
+            WHEN bo.direction = "OUT" THEN CONCAT("-", "$", FORMAT(ub.value, 3))
+            WHEN bo.direction = "IO" THEN "IO"
         END as value
     ')
             ->where('ub.beneficiary_id', auth()->user()->idUser)
@@ -1145,7 +1145,7 @@ class ApiController extends BaseController
                 'ub.current_balance',
                 'ub.balance_operation_id',
                 DB::raw(" CASE WHEN ub.beneficiary_id = '11111111' THEN 'system' ELSE (SELECT CONCAT(IFNULL(enfirstname, ''), ' ', IFNULL(enlastname, '')) FROM metta_users mu WHERE mu.idUser = ub.beneficiary_id) END AS source "),
-                'bo.IO as sensP'
+                'bo.direction as sensP'
             )
             ->join('balance_operations as bo', 'ub.balance_operation_id', '=', 'bo.id')
             ->where('ub.beneficiary_id', $user->idUser)
@@ -1177,8 +1177,8 @@ class ApiController extends BaseController
                 DB::raw('RANK() OVER (ORDER BY ub.created_at ASC) as ranks'),
                 'ub.beneficiary_id', 'ub.id', 'ub.operator_id', 'ub.reference', 'ub.created_at', 'bo.operation', 'ub.description',
                 DB::raw(" CASE WHEN ub.operator_id = '11111111' THEN 'system' ELSE (SELECT CONCAT(IFNULL(enfirstname, ''), ' ', IFNULL(enlastname, '')) FROM metta_users mu WHERE mu.idUser = ub.beneficiary_id) END AS source "),
-                DB::raw(" CASE WHEN bo.IO = 'I' THEN CONCAT('+', '$', FORMAT(ub.value, 2)) WHEN bo.IO = 'O' THEN CONCAT('-', '$', FORMAT(ub.value , 2)) WHEN bo.IO = 'IO' THEN 'IO' END AS value "),
-                'bo.IO as sensP',
+                DB::raw(" CASE WHEN bo.direction = 'IN' THEN CONCAT('+', '$', FORMAT(ub.value, 2)) WHEN bo.direction = 'OUT' THEN CONCAT('-', '$', FORMAT(ub.value , 2)) WHEN bo.direction = 'IO' THEN 'IO' END AS value "),
+                'bo.direction as sensP',
                 'ub.percentage as percentage',
                 'ub.current_balance',
                 'ub.balance_operation_id'

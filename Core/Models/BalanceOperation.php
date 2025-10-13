@@ -73,7 +73,6 @@ class BalanceOperation extends Model
 
     public static function getMultiplicator($balanceOperationID): int
     {
-        return strtoupper(BalanceOperation::where('id', $balanceOperationID)->pluck('io')->first()) == 'I' ? 1 : -1;
+        return strtoupper(BalanceOperation::where('id', $balanceOperationID)->pluck('direction')->first()) == "IN" ? 1 : -1;
     }
-
 }

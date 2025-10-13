@@ -14,6 +14,10 @@ return new class extends Migration {
             $table->string('name')->unique();
             $table->string('code')->unique();
             $table->string('description')->nullable();
+            $table->string('color')->nullable();
+            $table->string('bg_color')->nullable();
+            $table->string('border_color')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
