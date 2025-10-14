@@ -1,4 +1,4 @@
-Date: 2025-10-14 08:38:23
+Date: 2025-10-14 08:41:43
 Stratégie: Multiplication par 1000 pour éviter les croisements
 
 === ÉTAPE 1: Suppression des contraintes FK ===
@@ -105,4 +105,4 @@ shares_balances       : ✅  535 migrés
 chance_balances       : ✅ 1240 migrés
 
 ✅ Migration terminée
-Date: 2025-10-14 08:38:24
+Date: 2025-10-14 08:41:43
