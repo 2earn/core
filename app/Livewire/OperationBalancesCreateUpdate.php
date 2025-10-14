@@ -41,7 +41,7 @@ class OperationBalancesCreateUpdate extends Component
         $this->allAmounts = Amount::all();
         $this->allParent = BalanceOperation::all();
         $this->allCategory = OperationCategory::all();
-        $this->allIO = ['I', 'O', 'IO'];
+        $this->allIO = ['IN', 'OUT', 'IO'];
         $this->allModify = [['name' => 'No', 'value' => 0], ['name' => 'yes', 'value' => 1]];
     }
 
@@ -49,7 +49,7 @@ class OperationBalancesCreateUpdate extends Component
     {
         $balance = BalanceOperation::find($idOperation);
         $this->operation = $balance->operation;
-        $this->io = $balance->io;
+        $this->direction = $balance->direction;
         $this->ref = $balance->ref;
         $this->source = $balance->source;
         $this->mode = $balance->mode;
@@ -74,7 +74,7 @@ class OperationBalancesCreateUpdate extends Component
                 throw new \Exception(Lang::get('No Balances'));
             }
             $balance->operation = $this->operation;
-            $balance->io = $this->io;
+            $balance->direction = $this->direction;
             $balance->ref = $this->ref;
             $balance->source = $this->source;
             $balance->mode = $this->mode;

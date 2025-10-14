@@ -11,9 +11,9 @@ class BalanceOperationsCouponSeeder extends Seeder
     public function run()
     {
         $balanceOperations = array(
-            array('id' => '61', 'operation' => 'COUPONS DISCOUNT', 'io' => 'I', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '3', 'parent_id' => null, 'note' => 'DISCOUNT COUPONS', 'modify_amount' => '1'),
-            array('id' => '62', 'operation' => 'COUPONS BFS', 'io' => 'I', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '2', 'parent_id' => null, 'note' => 'BFS COUPONS', 'modify_amount' => '1'),
-            array('id' => '63', 'operation' => 'COUPONS CASH', 'io' => 'I', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '1', 'parent_id' => null, 'note' => 'CASH COUPONS', 'modify_amount' => '1'),
+            array('operation' => 'COUPONS DISCOUNT', 'direction' => 'IN', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '3', 'parent_id' => null, 'note' => 'DISCOUNT COUPONS', 'modify_amount' => '1'),
+            array('operation' => 'COUPONS BFS', 'direction' => 'IN', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '2', 'parent_id' => null, 'note' => 'BFS COUPONS', 'modify_amount' => '1'),
+            array('operation' => 'COUPONS CASH', 'direction' => 'IN', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '1', 'parent_id' => null, 'note' => 'CASH COUPONS', 'modify_amount' => '1'),
         );
 
         foreach ($balanceOperations as $operation) {

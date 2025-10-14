@@ -1,5 +1,5 @@
 <h5 class="text-muted">{{$balance->operation}}
-    <span class="badge bg-primary float-end fs-14">{{$balance->io}}</span>
+    <span class="badge bg-primary float-end fs-14">{{$balance->direction}}</span>
 </h5>
 
 <span class="text-info">{{__('Source')}}:</span><span class="text-muted float-end ">{{$balance->source}}</span>

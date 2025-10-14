@@ -1,0 +1,258 @@
+{
+    "success": true,
+    "date": "2025-10-13 16:13:47",
+    "step2_migrations": {
+        "cash_balances": {
+            "16": {
+                "temp_id": 23000,
+                "count": 3
+            },
+            "42": {
+                "temp_id": 22000,
+                "count": 180
+            },
+            "43": {
+                "temp_id": 21000,
+                "count": 185
+            },
+            "48": {
+                "temp_id": 15000,
+                "count": 208
+            },
+            "49": {
+                "temp_id": 59000,
+                "count": 104
+            },
+            "51": {
+                "temp_id": 61000,
+                "count": 25
+            },
+            "60": {
+                "temp_id": 16000,
+                "count": 2
+            },
+            "18": {
+                "temp_id": 62000,
+                "count": 8
+            }
+        },
+        "bfss_balances": {
+            "13": {
+                "temp_id": 24000,
+                "count": 3
+            },
+            "46": {
+                "temp_id": 27000,
+                "count": 110
+            },
+            "50": {
+                "temp_id": 60000,
+                "count": 104
+            },
+            "57": {
+                "temp_id": 41000,
+                "count": 4
+            },
+            "59": {
+                "temp_id": 17000,
+                "count": 1
+            },
+            "38": {
+                "temp_id": 17000,
+                "count": 2
+            }
+        },
+        "discount_balances": {
+            "6": {
+                "temp_id": 3000,
+                "count": 1240
+            },
+            "47": {
+                "temp_id": 28000,
+                "count": 198
+            },
+            "58": {
+                "temp_id": 18000,
+                "count": 2
+            }
+        },
+        "tree_balances": {
+            "1": {
+                "temp_id": 4000,
+                "count": 1240
+            }
+        },
+        "sms_balances": {
+            "39": {
+                "temp_id": 19000,
+                "count": 2
+            }
+        },
+        "shares_balances": {
+            "44": {
+                "temp_id": 20000,
+                "count": 206
+            },
+            "52": {
+                "temp_id": 58000,
+                "count": 88
+            },
+            "53": {
+                "temp_id": 30000,
+                "count": 65
+            },
+            "54": {
+                "temp_id": 31000,
+                "count": 161
+            },
+            "55": {
+                "temp_id": 32000,
+                "count": 15
+            }
+        },
+        "chance_balances": {
+            "56": {
+                "temp_id": 7000,
+                "count": 1240
+            }
+        }
+    },
+    "step3_non_migrated": [],
+    "step4_finalizations": {
+        "cash_balances": [
+            {
+                "temp_id": 15000,
+                "final_id": 15,
+                "count": 208
+            },
+            {
+                "temp_id": 16000,
+                "final_id": 16,
+                "count": 2
+            },
+            {
+                "temp_id": 21000,
+                "final_id": 21,
+                "count": 185
+            },
+            {
+                "temp_id": 22000,
+                "final_id": 22,
+                "count": 180
+            },
+            {
+                "temp_id": 23000,
+                "final_id": 23,
+                "count": 3
+            },
+            {
+                "temp_id": 59000,
+                "final_id": 59,
+                "count": 104
+            },
+            {
+                "temp_id": 61000,
+                "final_id": 61,
+                "count": 25
+            },
+            {
+                "temp_id": 62000,
+                "final_id": 62,
+                "count": 8
+            }
+        ],
+        "bfss_balances": [
+            {
+                "temp_id": 17000,
+                "final_id": 17,
+                "count": 3
+            },
+            {
+                "temp_id": 24000,
+                "final_id": 24,
+                "count": 3
+            },
+            {
+                "temp_id": 27000,
+                "final_id": 27,
+                "count": 110
+            },
+            {
+                "temp_id": 41000,
+                "final_id": 41,
+                "count": 4
+            },
+            {
+                "temp_id": 60000,
+                "final_id": 60,
+                "count": 104
+            }
+        ],
+        "discount_balances": [
+            {
+                "temp_id": 3000,
+                "final_id": 3,
+                "count": 1240
+            },
+            {
+                "temp_id": 18000,
+                "final_id": 18,
+                "count": 2
+            },
+            {
+                "temp_id": 28000,
+                "final_id": 28,
+                "count": 198
+            }
+        ],
+        "tree_balances": [
+            {
+                "temp_id": 4000,
+                "final_id": 4,
+                "count": 1240
+            }
+        ],
+        "sms_balances": [
+            {
+                "temp_id": 19000,
+                "final_id": 19,
+                "count": 2
+            }
+        ],
+        "shares_balances": [
+            {
+                "temp_id": 20000,
+                "final_id": 20,
+                "count": 206
+            },
+            {
+                "temp_id": 30000,
+                "final_id": 30,
+                "count": 65
+            },
+            {
+                "temp_id": 31000,
+                "final_id": 31,
+                "count": 161
+            },
+            {
+                "temp_id": 32000,
+                "final_id": 32,
+                "count": 15
+            },
+            {
+                "temp_id": 58000,
+                "final_id": 58,
+                "count": 88
+            }
+        ],
+        "chance_balances": [
+            {
+                "temp_id": 7000,
+                "final_id": 7,
+                "count": 1240
+            }
+        ]
+    },
+    "total_non_migrated": 0
+}

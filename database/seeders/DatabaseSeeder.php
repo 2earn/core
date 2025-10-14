@@ -10,11 +10,14 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            BalanceOperationsCouponSeeder::class,
-            BalanceOperationsBFSShareSeeder::class,
             OperationCategorySeeder::class,
             BalanceOperationsMappingSeeder::class,
+
             BalanceOperationsMigrateSeeder::class,
+
+            BalanceOperationsCouponSeeder::class,
+            BalanceOperationsBFSShareSeeder::class,
+
             UsersWithStatusMinusTwoAfterAttackSeeder::class,
             TruncateNotificationsTableSeeder::class,
         ]);
