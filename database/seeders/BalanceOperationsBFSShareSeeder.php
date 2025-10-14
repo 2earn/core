@@ -12,7 +12,17 @@ class BalanceOperationsBFSShareSeeder extends Seeder
     public function run()
     {
         $balanceOperations = array(
-            array('operation' => 'SHARE FROM BFS 100', 'direction' => 'IN', 'source' => '11111111', 'mode' => NULL, 'amounts_id' => '6', 'parent_id' => null, 'note' => 'SHARE FROM BFS 100', 'modify_amount' => '1'),
+            array(
+                'operation' => 'SHARE FROM BFS 100',
+                'direction' => 'IN',
+                'balance_id' => 6,
+                'parent_operation_id' => null,
+                'ref' => 'BAL06-CAT010-NUM003',
+                'operation_category_id' => 11,
+                'relateble' => false,
+                'relateble_model' => null,
+                'relateble_types' => null
+            ),
         );
 
         foreach ($balanceOperations as $operation) {
