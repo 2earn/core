@@ -1,0 +1,108 @@
+Date: 2025-10-14 08:41:43
+Stratégie: Multiplication par 1000 pour éviter les croisements
+
+=== ÉTAPE 1: Suppression des contraintes FK ===
+✅ cash_balances: FK 'fk_balance_operation' supprimée
+
+=== ÉTAPE 2: Migration avec facteur 1000 ===
+cash_balances:
+   16 → 23000 (3)
+   42 → 22000 (180)
+   43 → 21000 (185)
+   48 → 15000 (208)
+   49 → 59000 (104)
+   51 → 61000 (25)
+   60 → 16000 (2)
+   18 → 62000 (8)
+   Total: 715
+
+bfss_balances:
+   13 → 24000 (3)
+   46 → 27000 (110)
+   50 → 60000 (104)
+   57 → 41000 (4)
+   59 → 17000 (1)
+   38 → 17000 (2)
+   Total: 224
+
+discount_balances:
+   6 → 3000 (1240)
+   47 → 28000 (198)
+   58 → 18000 (2)
+   Total: 1440
+
+tree_balances:
+   1 → 4000 (1240)
+   Total: 1240
+
+sms_balances:
+   39 → 19000 (2)
+   Total: 2
+
+shares_balances:
+   44 → 20000 (206)
+   52 → 58000 (88)
+   53 → 30000 (65)
+   54 → 31000 (161)
+   55 → 32000 (15)
+   Total: 535
+
+chance_balances:
+   56 → 7000 (1240)
+   Total: 1240
+
+=== ÉTAPE 3: IDs non migrés (< 1000) ===
+✅ Aucun ID non migré
+
+=== ÉTAPE 4: Division par 1000 ===
+cash_balances:
+   15000 → 15 (208)
+   16000 → 16 (2)
+   21000 → 21 (185)
+   22000 → 22 (180)
+   23000 → 23 (3)
+   59000 → 59 (104)
+   61000 → 61 (25)
+   62000 → 62 (8)
+
+bfss_balances:
+   17000 → 17 (3)
+   24000 → 24 (3)
+   27000 → 27 (110)
+   41000 → 41 (4)
+   60000 → 60 (104)
+
+discount_balances:
+   3000 → 3 (1240)
+   18000 → 18 (2)
+   28000 → 28 (198)
+
+tree_balances:
+   4000 → 4 (1240)
+
+sms_balances:
+   19000 → 19 (2)
+
+shares_balances:
+   20000 → 20 (206)
+   30000 → 30 (65)
+   31000 → 31 (161)
+   32000 → 32 (15)
+   58000 → 58 (88)
+
+chance_balances:
+   7000 → 7 (1240)
+
+=== RAPPORT FINAL ===
+
+État des migrations:
+cash_balances         : ✅  715 migrés
+bfss_balances         : ✅  224 migrés
+discount_balances     : ✅ 1440 migrés
+tree_balances         : ✅ 1240 migrés
+sms_balances          : ✅    2 migrés
+shares_balances       : ✅  535 migrés
+chance_balances       : ✅ 1240 migrés
+
+✅ Migration terminée
+Date: 2025-10-14 08:41:43

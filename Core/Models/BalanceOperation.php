@@ -71,9 +71,55 @@ class BalanceOperation extends Model
         return $this->belongsTo(BalanceOperation::class, 'parent_id');
     }
 
-    public static function getMultiplicator($balanceOperationID): int
+
+    public function getIoAttribute(): ?string
     {
-        return strtoupper(BalanceOperation::where('id', $balanceOperationID)->pluck('io')->first()) == 'I' ? 1 : -1;
+        $direction = $this->attributes['direction'] ?? 'IN';
+        return match (strtoupper($direction)) {
+            'IN'  => 'I',
+            'OUT' => 'O',
+            default => 'I',
+        };
     }
 
+    public function setIoAttribute($value): void
+    {
+        $this->attributes['direction'] = strtoupper($value) === 'O' ? 'OUT' : 'IN';
+    }
+
+
+    public function getAmountsIdAttribute(): ?int
+    {
+        return $this->attributes['balance_id'] ?? null;
+    }
+
+    public function setAmountsIdAttribute($value): void
+    {
+        $this->attributes['balance_id'] = $value;
+    }
+
+    public function getSourceAttribute(): ?string
+    {
+        return $this->attributes['relateble_model'] ?? null;
+    }
+
+    public function setSourceAttribute($value): void
+    {
+        $this->attributes['relateble_model'] = $value;
+    }
+
+    public function getModeAttribute(): ?string
+    {
+        return $this->attributes['relateble_types'] ?? null;
+    }
+
+    public function setModeAttribute($value): void
+    {
+        $this->attributes['relateble_types'] = $value;
+    }
+
+    public static function getMultiplicator($balanceOperationID): int
+    {
+        return strtoupper(BalanceOperation::where('id', $balanceOperationID)->pluck('direction')->first()) == "IN" ? 1 : -1;
+    }
 }
