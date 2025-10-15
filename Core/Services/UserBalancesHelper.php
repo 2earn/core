@@ -225,14 +225,14 @@ class  UserBalancesHelper
 
                     $balances = Balances::getStoredUserBalances($params['recipient']);
                     BFSsBalances::addLine([
-                        'balance_operation_id' => BalanceOperationsEnum::OLD_ID_34->value,
+                        'balance_operation_id' => BalanceOperationsEnum::OLD_ID_14->value,
                         'operator_id' => $idUser,
                         'beneficiary_id' => $params['recipient'],
                         'reference' => $ref,
                         'percentage' => BFSsBalances::BFS_100,
-                        'description' => BalanceOperationsEnum::OLD_ID_34->name,
+                        'description' => BalanceOperationsEnum::OLD_ID_14->name,
                         'value' => $params["montant"],
-                        'current_balance' => $balances->getBfssBalance(BFSsBalances::BFS_100) + BalanceOperation::getMultiplicator(BalanceOperationsEnum::OLD_ID_34->value) * $newSoldeBFSRecipient
+                        'current_balance' => $balances->getBfssBalance(BFSsBalances::BFS_100) + BalanceOperation::getMultiplicator(BalanceOperationsEnum::OLD_ID_14->value) * $newSoldeBFSRecipient
                     ]);
 
                     DB::commit();
