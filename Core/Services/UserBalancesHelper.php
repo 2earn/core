@@ -151,21 +151,21 @@ class  UserBalancesHelper
 
                 DB::beginTransaction();
                 try {
-                    $ref = BalancesFacade::getReference(BalanceOperationsEnum::OLD_ID_38->value);
+                    $ref = BalancesFacade::getReference(BalanceOperationsEnum::OLD_ID_59->value);
                     $oldSMSSOLD = Balances::getStoredUserBalances($idUser, "sms_balance");
                     $seting = DB::table('settings')->where("idSETTINGS", "=", SettingsEnum::Prix_SMS->value)->first();
                     $prix_sms = $seting->DecimalValue ?? 1.5;
                     $balances = Balances::getStoredUserBalances($idUser);;
 
                     BFSsBalances::addLine([
-                        'balance_operation_id' => BalanceOperationsEnum::OLD_ID_38->value,
+                        'balance_operation_id' => BalanceOperationsEnum::OLD_ID_59->value,
                         'operator_id' => $idUser,
                         'beneficiary_id' => $idUser,
                         'reference' => $ref,
                         'percentage' => BFSsBalances::BFS_100,
                         'description' => 'perchase of ' . $params["montant"] . ' SMS',
                         'value' => $params["montant"],
-                        'current_balance' => $balances->getBfssBalance(BFSsBalances::BFS_100) + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::OLD_ID_38->value) * $params["montant"])
+                        'current_balance' => $balances->getBfssBalance(BFSsBalances::BFS_100) + (BalanceOperation::getMultiplicator(BalanceOperationsEnum::OLD_ID_59->value) * $params["montant"])
                     ]);
                     $value = intdiv($params["montant"], $prix_sms);
                     SMSBalances::addLine([
