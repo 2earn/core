@@ -211,14 +211,14 @@ class  UserBalancesHelper
 
                 DB::beginTransaction();
                 try {
-                    $ref = BalancesFacade::getReference(BalanceOperationsEnum::OLD_ID_31->value);
+                    $ref = BalancesFacade::getReference(BalanceOperationsEnum::OLD_ID_42->value);
 
                     CashBalances::addLine([
-                        'balance_operation_id' => BalanceOperationsEnum::OLD_ID_31->value,
+                        'balance_operation_id' => BalanceOperationsEnum::OLD_ID_42->value,
                         'operator_id' => $idUser,
                         'beneficiary_id' => $idUser,
                         'reference' => $ref,
-                        'description' => BalanceOperationsEnum::OLD_ID_31->name,
+                        'description' => BalanceOperationsEnum::OLD_ID_42->name,
                         'value' => $params["montant"],
                         'current_balance' => $newSoldeCashSender
                     ]);

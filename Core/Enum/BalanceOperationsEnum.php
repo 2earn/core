@@ -54,7 +54,6 @@ enum BalanceOperationsEnum: int
     case OLD_ID_26 = 1026;
     case OLD_ID_27 = 1027;
     case OLD_ID_29 = 1029;
-    case OLD_ID_31 = 1031;
     case OLD_ID_32 = 1032;
     case OLD_ID_33 = 1033;
     case OLD_ID_34 = 1034;
