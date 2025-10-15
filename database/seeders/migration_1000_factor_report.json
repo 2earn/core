@@ -1,6 +1,6 @@
 {
     "success": true,
-    "date": "2025-10-14 08:41:43",
+    "date": "2025-10-15 08:50:47",
     "step2_migrations": {
         "cash_balances": {
             "16": {
@@ -65,7 +65,7 @@
         "discount_balances": {
             "6": {
                 "temp_id": 3000,
-                "count": 1240
+                "count": 1241
             },
             "47": {
                 "temp_id": 28000,
@@ -79,7 +79,7 @@
         "tree_balances": {
             "1": {
                 "temp_id": 4000,
-                "count": 1240
+                "count": 1241
             }
         },
         "sms_balances": {
@@ -113,7 +113,7 @@
         "chance_balances": {
             "56": {
                 "temp_id": 7000,
-                "count": 1240
+                "count": 1241
             }
         }
     },
@@ -192,7 +192,7 @@
             {
                 "temp_id": 3000,
                 "final_id": 3,
-                "count": 1240
+                "count": 1241
             },
             {
                 "temp_id": 18000,
@@ -209,7 +209,7 @@
             {
                 "temp_id": 4000,
                 "final_id": 4,
-                "count": 1240
+                "count": 1241
             }
         ],
         "sms_balances": [
@@ -250,7 +250,7 @@
             {
                 "temp_id": 7000,
                 "final_id": 7,
-                "count": 1240
+                "count": 1241
             }
         ]
     },
