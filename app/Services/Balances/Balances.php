@@ -50,7 +50,7 @@ class Balances
     public static function getSoldMainQuery($balances)
     {
         return DB::table($balances . ' as u')
-            ->select('u.beneficiary_id', DB::raw('SUM(CASE WHEN b.io = "I" THEN u.value ELSE -u.value END) as value'))
+            ->select('u.beneficiary_id', DB::raw('SUM(CASE WHEN b.direction = "IN" THEN u.value ELSE -u.value END) as value'))
             ->join('balance_operations as b', 'u.balance_operation_id', '=', 'b.id')
             ->join('users as s', 'u.beneficiary_id', '=', 's.idUser');
     }
@@ -165,7 +165,7 @@ class Balances
             $var = true;
         }
         return DB::table(function ($query) use ($type, $sumColomn, $var) {
-            $query->select('beneficiary_id', 'u.created_at', 'u.balance_operation_id', 'b.operation', DB::raw('CASE WHEN b.io = "I" THEN ' . $sumColomn . ' ELSE -' . $sumColomn . ' END as value'))
+            $query->select('beneficiary_id', 'u.created_at', 'u.balance_operation_id', 'b.operation', DB::raw('CASE WHEN b.direction = "IN" THEN ' . $sumColomn . ' ELSE -' . $sumColomn . ' END as value'))
                 ->from($type . ' as u')
                 ->join('balance_operations as b', 'u.balance_operation_id', '=', 'b.id');
             if ($var) {

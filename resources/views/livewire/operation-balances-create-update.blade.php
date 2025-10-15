@@ -43,7 +43,7 @@
                     </div>
                     <div class="form-group col-6 mt-2">
                         <label class="me-sm-2">{{ __('I/O') }}</label>
-                        <select wire:model="io" class="form-control" name="io">
+                        <select wire:model="direction" class="form-control" name="direction">
                             @foreach($allIO as $ioItem)
                                 <option value="{{$ioItem}}">{{$ioItem}}</option>
                             @endforeach

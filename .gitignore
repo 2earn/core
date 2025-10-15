@@ -35,3 +35,7 @@ public/uploads/*
 .idea/*
 .idea/2earn.iml
 .idea/workspace.xml
+
+
+database/seeders/migration_1000_factor_log.txt
+database/seeders/migration_1000_factor_report.json
