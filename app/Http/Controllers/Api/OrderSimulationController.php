@@ -8,17 +8,21 @@ use App\Services\Orders\Ordering;
 use Core\Enum\OrderEnum;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class OrderSimulationController extends Controller
 {
     public function processOrder(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->query(), [
+        Log::info('Incoming order processing request', ['request' => $request->all()]);
+
+        $validator = Validator::make($request->all(), [
             'order_id' => 'required|integer|exists:orders,id'
         ]);
 
         if ($validator->fails()) {
+            Log::error('Validation failed', ['errors' => $validator->errors()]);
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
@@ -26,11 +30,14 @@ class OrderSimulationController extends Controller
             ], 422);
         }
 
-        $orderId = $request->query('order_id');
+        Log::info('Validation passed');
+
+        $orderId = $request->input('order_id');
 
         try {
             $order = Order::findOrFail($orderId);
             if (!in_array($order->status->value, [OrderEnum::Simulated->value, OrderEnum::Ready->value])) {
+                Log::warning('Order status not eligible for simulation', ['order_id' => $orderId, 'status' => $order->status->value]);
                 return response()->json([
                     'success' => false,
                     'message' => 'Order status is not eligible for simulation.',
@@ -44,7 +51,7 @@ class OrderSimulationController extends Controller
             $order->refresh();
 
             if ($order->status->value === OrderEnum::Dispatched->value) {
-                return response()->json([
+                $responseData = [
                     'order_id' => (string)$order->id,
                     'status' => 'success',
                     'amount' => $order->total_order,
@@ -56,15 +63,19 @@ class OrderSimulationController extends Controller
                     'transaction_id' => 'TXN-' . $order->id,
                     'message' => 'Payment successfully completed',
                     'timestamp' => $order->updated_at->toIso8601String(),
-                ]);
+                ];
+                Log::info('Order processed successfully', $responseData);
+                return response()->json($responseData);
             }
 
+            Log::warning('Order processing failed after simulation', ['order_id' => $orderId, 'status' => $order->status->value]);
             return response()->json([
                 'success' => false,
                 'order' => $order->load('orderDetails')
             ]);
 
         } catch (\Exception $e) {
+            Log::error('An exception occurred during order processing', ['error' => $e->getMessage()]);
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage()
