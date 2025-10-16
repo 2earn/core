@@ -14,9 +14,13 @@
         <a href="{{route('contact_us',app()->getLocale())}}" class="link-info link-footer">
             {{__('Contact us')}}
         </a>
-        <i class="mdi mdi-circle-medium"></i>
-        <a href="/api/documentation" class="link-info link-footer" target="_blank">
-            {{__('API Documentation')}}
-        </a>
+        @auth
+            @if(Auth::user()->isSuperAdmin())
+                <i class="mdi mdi-circle-medium"></i>
+                <a href="/api/documentation" class="link-info link-footer" target="_blank">
+                    {{__('API Documentation')}}
+                </a>
+            @endif
+        @endauth
     </div>
 </div>
