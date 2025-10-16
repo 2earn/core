@@ -34,7 +34,6 @@ class OrderSimulationController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'Order status is not eligible for simulation.',
-                    'order' => $order
                 ], 400);
             }
 
@@ -49,13 +48,13 @@ class OrderSimulationController extends Controller
                     'order_id' => (string)$order->id,
                     'status' => 'success',
                     'amount' => $order->total_order,
-                    'currency' => 'USD', // Assuming USD, adjust if currency is stored elsewhere
+                    'currency' => 'USD',
                     'Discount-available' => $order->total_final_discount,
                     'Lost-Discount' => $order->total_lost_discount,
-                    'paid-with-BFS' => $order->total_order - $order->paid_cash, // Assuming this is the remainder
+                    'paid-with-BFS' => $order->total_order - $order->paid_cash,
                     'paid-with-Cash' => $order->paid_cash,
-                    'transaction_id' => 'TXN-' . $order->id, // Assuming a transaction ID format
-                    'message' => 'Paiement effectué avec succès',
+                    'transaction_id' => 'TXN-' . $order->id,
+                    'message' => 'Payment successfully completed',
                     'timestamp' => $order->updated_at->toIso8601String(),
                 ]);
             }
