@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\Api\OrderSimulationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,3 +33,4 @@ Route::middleware('auth:api')->get('/logmeout', function (Request $request) {
         'session' => session()->all()
     ]);
 });
+Route::post('/order/process', [OrderSimulationController::class, 'processOrder']);
