@@ -36,4 +36,5 @@ Route::middleware('auth:api')->get('/logmeout', function (Request $request) {
 
 Route::post('/order/process', [OrderSimulationController::class, 'processOrder'])
     ->withoutMiddleware([\App\Http\Middleware\Authenticate::class])
+    ->middleware('check.url')
     ->name('api_ext_order_process');
