@@ -13,16 +13,17 @@ use Illuminate\Support\Facades\Validator;
 
 class OrderSimulationController extends Controller
 {
+    private const LOG_PREFIX = '[OrderSimulationController] ';
     public function processOrder(Request $request): JsonResponse
     {
-        Log::info('Incoming order processing request', ['request' => $request->all()]);
+        Log::info(self::LOG_PREFIX . 'Incoming order processing request', ['request' => $request->all()]);
 
         $validator = Validator::make($request->all(), [
             'order_id' => 'required|integer|exists:orders,id'
         ]);
 
         if ($validator->fails()) {
-            Log::error('Validation failed', ['errors' => $validator->errors()]);
+            Log::error(self::LOG_PREFIX . 'Validation failed', ['errors' => $validator->errors()]);
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
@@ -30,14 +31,14 @@ class OrderSimulationController extends Controller
             ], 422);
         }
 
-        Log::info('Validation passed');
+        Log::info(self::LOG_PREFIX . 'Validation passed');
 
         $orderId = $request->input('order_id');
 
         try {
             $order = Order::findOrFail($orderId);
             if (!in_array($order->status->value, [OrderEnum::Simulated->value, OrderEnum::Ready->value])) {
-                Log::warning('Order status not eligible for simulation', ['order_id' => $orderId, 'status' => $order->status->value]);
+                Log::warning(self::LOG_PREFIX . 'Order status not eligible for simulation', ['order_id' => $orderId, 'status' => $order->status->value]);
                 return response()->json([
                     'success' => false,
                     'message' => 'Order status is not eligible for simulation.',
@@ -64,18 +65,18 @@ class OrderSimulationController extends Controller
                     'message' => 'Payment successfully completed',
                     'timestamp' => $order->updated_at->toIso8601String(),
                 ];
-                Log::info('Order processed successfully', $responseData);
+                Log::info(self::LOG_PREFIX . 'Order processed successfully', $responseData);
                 return response()->json($responseData);
             }
 
-            Log::warning('Order processing failed after simulation', ['order_id' => $orderId, 'status' => $order->status->value]);
+            Log::warning(self::LOG_PREFIX . 'Order processing failed after simulation', ['order_id' => $orderId, 'status' => $order->status->value]);
             return response()->json([
                 'success' => false,
                 'order' => $order->load('orderDetails')
             ]);
 
         } catch (\Exception $e) {
-            Log::error('An exception occurred during order processing', ['error' => $e->getMessage()]);
+            Log::error(self::LOG_PREFIX . 'An exception occurred during order processing', ['error' => $e->getMessage()]);
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage()
