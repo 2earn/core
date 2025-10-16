@@ -8,20 +8,28 @@ use App\Services\Orders\Ordering;
 use Core\Enum\OrderEnum;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class OrderSimulationController extends Controller
 {
     public function processOrder(Request $request): JsonResponse
     {
-        $request->validate([
+        $validator = Validator::make($request->query(), [
             'order_id' => 'required|integer|exists:orders,id'
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
 
         $orderId = $request->query('order_id');
 
         try {
             $order = Order::findOrFail($orderId);
-
             if (!in_array($order->status->value, [OrderEnum::Simulated->value, OrderEnum::Ready->value])) {
                 return response()->json([
                     'success' => false,
