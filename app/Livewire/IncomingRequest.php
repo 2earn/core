@@ -17,7 +17,8 @@ class IncomingRequest extends Component
     public $filter;
 
     protected $listeners = [
-        'RejectRequest' => 'RejectRequest'
+        'RejectRequest' => 'RejectRequest',
+        'AcceptRequest' => 'AcceptRequest',
     ];
 
     public function mount($filter, Request $request)
@@ -43,7 +44,7 @@ class IncomingRequest extends Component
             return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 5])->with('danger', Lang::get('Invalid details financial request'));
         }
 
-         detail_financial_request::where('numeroRequest', '=', $numeroRequste)
+        detail_financial_request::where('numeroRequest', '=', $numeroRequste)
             ->update(['response' => 2, 'dateResponse' => date(self::DATE_FORMAT)]);
 
         $detailRest = detail_financial_request::where('numeroRequest', '=', $numeroRequste)
@@ -56,6 +57,17 @@ class IncomingRequest extends Component
         }
 
         return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 5])->with('success', Lang::get('Financial request rejected successfully'));
+    }
+
+    public function AcceptRequest($numeroRequste)
+    {
+        $financialRequest = FinancialRequest::where('numeroReq', '=', $numeroRequste)->first();
+
+        if (!$financialRequest || $financialRequest->status != 0) {
+            return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 5])->with('danger', Lang::get('Invalid details financial request'));
+        }
+
+        return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $numeroRequste]);
     }
 
     public function render(settingsManager $settingsManager)
