@@ -1,10 +1,10 @@
 <div>
     @section('title')
-        {{ __('Card Summary') }}
+        {{ __('Cart Summary') }}
     @endsection
     @component('components.breadcrumb')
         @slot('title')
-            {{ __('Card Summary') }}
+            {{ __('Cart Summary') }}
         @endslot
     @endcomponent
     <div class="row">
@@ -17,7 +17,7 @@
             <div class="card-header">
                 <div class="d-flex">
                     <div class="flex-grow-1">
-                        <h5 class="card-title mb-0">{{__('Card Summary')}}</h5>
+                        <h5 class="card-title mb-0">{{__('Cart Summary')}}</h5>
                     </div>
                 </div>
             </div>

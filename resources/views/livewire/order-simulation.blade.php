@@ -9,18 +9,26 @@
         @endslot
     @endcomponent
     <div class="card">
+
         <div class="card-header">
             <h3>{{__('Order simulation')}}</h3>
         </div>
+        @if(!$this->simulation)
+            <div class="card-body">
+                <div class="alert alert-warning material-shadow" role="alert">
+                    {{__('Simulation Error')}}
+                </div>
+            </div>
+        @endif
         <div class="card-body">
             @include('livewire.order-item', ['order' => $order])
         </div>
         @if($order->status->value ==\Core\Enum\OrderEnum::New->value)
             <div class="card-body">
                 @if($order->orderDetails->count() > 0)
-                <div class="alert alert-info material-shadow" role="alert">
-                    {{__('Order not ready for simulation')}}
-                </div>
+                    <div class="alert alert-info material-shadow" role="alert">
+                        {{__('Order not ready for simulation')}}
+                    </div>
                 @endif
                 @if($order->orderDetails->count() > 0)
                     <button wire:click="makeOrderReady()"
@@ -34,7 +42,7 @@
             </div>
 
         @else
-            @if(!$this->validated)
+            @if(!$this->validated&&$this->simulation)
                 <div class="card-footer">
                     <button wire:click="validateOrder()"
                             class="btn btn-soft-success mx-2 float-end">{{__('Complete Order')}}</button>
