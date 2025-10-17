@@ -14,6 +14,65 @@ use Illuminate\Support\Facades\Validator;
 class OrderSimulationController extends Controller
 {
     private const LOG_PREFIX = '[OrderSimulationController] ';
+
+    /**
+     * @OA\Post(
+     *     path="/api/order/process",
+     *     summary="Process an order simulation",
+     *     tags={"Order Simulation"},
+     *     operationId="api_ext_order_process",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Pass order ID to process",
+     *         @OA\JsonContent(
+     *             required={"order_id"},
+     *             @OA\Property(property="order_id", type="integer", format="int64", example=1)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful simulation",
+     *         @OA\JsonContent(
+     *              @OA\Property(property="order_id", type="string", example="1"),
+     *              @OA\Property(property="status", type="string", example="success"),
+     *              @OA\Property(property="amount", type="number", format="float", example=150.75),
+     *              @OA\Property(property="currency", type="string", example="USD"),
+     *              @OA\Property(property="Discount-available", type="number", format="float", example=10.00),
+     *              @OA\Property(property="Lost-Discount", type="number", format="float", example=0.00),
+     *              @OA\Property(property="paid-with-BFS", type="number", format="float", example=140.75),
+     *              @OA\Property(property="paid-with-Cash", type="number", format="float", example=10.00),
+     *              @OA\Property(property="transaction_id", type="string", example="TXN-1"),
+     *              @OA\Property(property="message", type="string", example="Payment successfully completed"),
+     *              @OA\Property(property="timestamp", type="string", format="date-time", example="2023-10-17T10:00:00.000000Z")
+     *         )
+     *     ),
+     *      @OA\Response(
+     *         response=400,
+     *         description="Bad Request - Order not eligible",
+     *         @OA\JsonContent(
+     *              @OA\Property(property="success", type="boolean", example=false),
+     *              @OA\Property(property="message", type="string", example="Order status is not eligible for simulation.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *              @OA\Property(property="success", type="boolean", example=false),
+     *              @OA\Property(property="message", type="string", example="Validation failed"),
+     *              @OA\Property(property="errors", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Server error",
+     *         @OA\JsonContent(
+     *              @OA\Property(property="success", type="boolean", example=false),
+     *              @OA\Property(property="message", type="string", example="An exception occurred during order processing")
+     *         )
+     *     )
+     * )
+     */
     public function processOrder(Request $request): JsonResponse
     {
         Log::info(self::LOG_PREFIX . 'Incoming order processing request', ['request' => $request->all()]);
