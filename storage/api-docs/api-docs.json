@@ -1,10 +1,10 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "2earn API Documentation",
-        "description": "API documentation for 2earn",
+        "title": "2earn API",
+        "description": "API for 2earn",
         "contact": {
-            "email": "admin@2earn.com"
+            "email": "support@2earn.com"
         },
         "license": {
             "name": "Apache 2.0",
@@ -16,12 +16,12 @@
         "/api/order/process": {
             "post": {
                 "tags": [
-                    "Order Processing"
+                    "Order Simulation"
                 ],
-                "summary": "Process an order simulation and payment",
-                "description": "Takes an order ID, runs the simulation and payment, and returns the result.",
-                "operationId": "processOrder",
+                "summary": "Process an order simulation",
+                "operationId": "api_ext_order_process",
                 "requestBody": {
+                    "description": "Pass order ID to process",
                     "required": true,
                     "content": {
                         "application/json": {
@@ -31,8 +31,8 @@
                                 ],
                                 "properties": {
                                     "order_id": {
-                                        "description": "The ID of the order to process.",
                                         "type": "integer",
+                                        "format": "int64",
                                         "example": 1
                                     }
                                 },
@@ -43,14 +43,14 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
+                        "description": "Successful simulation",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "order_id": {
                                             "type": "string",
-                                            "example": "12345"
+                                            "example": "1"
                                         },
                                         "status": {
                                             "type": "string",
@@ -59,7 +59,7 @@
                                         "amount": {
                                             "type": "number",
                                             "format": "float",
-                                            "example": 120.5
+                                            "example": 150.75
                                         },
                                         "currency": {
                                             "type": "string",
@@ -68,35 +68,55 @@
                                         "Discount-available": {
                                             "type": "number",
                                             "format": "float",
-                                            "example": 20
+                                            "example": 10
                                         },
                                         "Lost-Discount": {
                                             "type": "number",
                                             "format": "float",
-                                            "example": 5
+                                            "example": 0
                                         },
                                         "paid-with-BFS": {
                                             "type": "number",
                                             "format": "float",
-                                            "example": 85
+                                            "example": 140.75
                                         },
                                         "paid-with-Cash": {
                                             "type": "number",
                                             "format": "float",
-                                            "example": 15
+                                            "example": 10
                                         },
                                         "transaction_id": {
                                             "type": "string",
-                                            "example": "TXN-999001"
+                                            "example": "TXN-1"
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Paiement effectué avec succès"
+                                            "example": "Payment successfully completed"
                                         },
                                         "timestamp": {
                                             "type": "string",
                                             "format": "date-time",
-                                            "example": "2025-10-09T12:34:56Z"
+                                            "example": "2023-10-17T10:00:00.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request - Order not eligible",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Order status is not eligible for simulation."
                                         }
                                     },
                                     "type": "object"
@@ -120,22 +140,6 @@
                                         },
                                         "errors": {
                                             "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "error": {
-                                            "type": "string",
-                                            "example": "Unauthorized. Invalid IP."
                                         }
                                     },
                                     "type": "object"
@@ -169,8 +173,8 @@
     },
     "tags": [
         {
-            "name": "Order Processing",
-            "description": "API Endpoints for Order Processing"
+            "name": "Order Simulation",
+            "description": "Order Simulation"
         }
     ]
 }
