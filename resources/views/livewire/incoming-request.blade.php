@@ -40,10 +40,10 @@
                         </td>
                         <td>
                             @if($value->status == 0)
-                                <i onclick="acceptRequst('{{$value->numeroReq}}')"
+                                <i onclick="acceptRequest('{{$value->numeroReq}}')"
                                    style="cursor:pointer; color: #51A351;font-size: 20px;margin: 5px 5px"
                                    class="fa-regular fa-circle-check"></i>
-                                <i onclick="rejectRequst('{{$value->numeroReq}}')"
+                                <i onclick="rejectRequest('{{$value->numeroReq}}')"
                                    style="cursor:pointer; color: #BD362F;font-size: 20px;margin: 5px 5px"
                                    class="fa-regular fa-circle-xmark"></i>
                             @endif
@@ -55,7 +55,7 @@
         </div>
     </div>
     <script>
-        function rejectRequst(numeroRequest) {
+        function rejectRequest(numeroRequest) {
             Swal.fire({
                 title: `{{trans('reject_request')}}`,
                 confirmButtonText: '{{trans('Yes')}}',
@@ -67,6 +67,22 @@
                     window.Livewire.dispatch('RejectRequest', [numeroRequest]);
                 }
             })
+        }
+
+        function acceptRequest(numeroRequest) {
+            Swal.fire({
+                title: `{{trans('Accept request')}}`,
+                confirmButtonText: '{{trans('Yes')}}',
+                showCancelButton: true,
+                cancelButtonText: '{{trans('No')}}',
+                customClass: {actions: 'my-actions', confirmButton: 'order-2', denyButton: 'order-3',}
+            }).then((result) => {
+                console.log(result)
+                if (result.isConfirmed) {
+                    window.Livewire.dispatch('AcceptRequest', [numeroRequest]);
+                }
+            })
+
         }
     </script>
 </div>
