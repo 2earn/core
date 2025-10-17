@@ -427,6 +427,7 @@ class Ordering
     {
         DB::beginTransaction();
         try {
+            dd($simulation);
             $balances = Balances::getStoredUserBalances($simulation['order']->user()->first()->idUser);
             Ordering::runDiscount($simulation['order'], $simulation['order_deal'], $balances);
             $balances = Balances::getStoredUserBalances($simulation['order']->user()->first()->idUser);
