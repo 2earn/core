@@ -6,7 +6,6 @@ use App\Models\Order;
 use App\Services\Carts\Carts;
 use App\Services\Orders\Ordering;
 use Core\Enum\OrderEnum;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
@@ -40,7 +39,7 @@ class OrderSimulation extends Component
         if ($this->order->status->value == OrderEnum::New->value && $this->order->orderDetails->count() > 0) {
             $this->order->updateStatus(OrderEnum::Ready);
         }
-        return redirect()->route('orders_simulation', ['locale' => app()->getLocale(), 'id' =>  $this->order->id])->with('danger', trans('Empty order'));
+        return redirect()->route('orders_simulation', ['locale' => app()->getLocale(), 'id' => $this->order->id])->with('danger', trans('Empty order'));
 
     }
 
@@ -56,6 +55,14 @@ class OrderSimulation extends Component
                 return redirect()->route('orders_detail', ['locale' => app()->getLocale(), 'id' => $this->idOrder])->with('warning', Lang::get('Ordering Failed') . ' : ' . Lang::get($status->name));
             }
         }
+    }
+
+    public function cancelOrder()
+    {
+        $this->clearCart();
+        $this->order = Order::findOrFail($this->idOrder);
+        $this->order->delete();
+        return redirect()->route('home', ['locale' => app()->getLocale()])->with('info', Lang::get('Order canceled successfully'));
     }
 
     public function clearCart()
