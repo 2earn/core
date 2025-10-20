@@ -36,6 +36,12 @@
                         title="{{__('Platform')}}">
                     {{__($order->OrderDetails()->first()?->item()->first()?->platform()->first()?->name)}}
                 </button>
+                @if($order->status->value == \Core\Enum\OrderEnum::Dispatched->value && $currentRouteName=="orders_detail")
+                    <button type="button" class="btn btn-soft-success material-shadow-none btn-sm mx-2 float-end"
+                            onclick="window.print()" title="{{__('Print')}}">
+                        <i class="ri-printer-line"></i> {{ __('Print') }}
+                    </button>
+                @endif
             </div>
         </div>
         <div class="card-body">
@@ -562,8 +568,9 @@
                     @endif
                     @if($currentRouteName=="orders_index" || $currentRouteName=="orders_previous"|| $currentRouteName=="orders_summary" )
                         <a href="{{route('orders_detail', ['locale'=>app()->getLocale(),'id'=>$order->id])}}"
-                           class=float-end">{{__('More details')}}</a>
+                           class="float-end">{{__('More details')}}</a>
                     @endif
                 </div>
         </div>
     </div>
+</div>
