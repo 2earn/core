@@ -365,6 +365,8 @@
                                                         title="{{$order->total_lost_discount_percentage}}   {{config('app.percentage')}}">
                                                         <strong>{{__('Total lost discount')}}</strong><span
                                                             class="float-end text-muted">{{$order->total_lost_discount}}  {{config('app.currency')}}</span>
+                                                        <hr>
+                                                        <span class="text-warning float-end">{{__('You can top up your discount with')}} {{$order->total_lost_discount}}   {{config('app.currency')}}</span>
                                                     </li>
                                                 @endif
                                             </ul>
