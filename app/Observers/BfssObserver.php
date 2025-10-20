@@ -42,7 +42,7 @@ class BfssObserver
     public function checkSharesFromGiftedBFs(BFSsBalances $bFSsBalances)
     {
         $minBfs = getSettingIntegerParam('MIN_BFSS_TO_GET_ACTION', self::MIN_BFSS_TO_GET_ACTION);
-        if ($minBfs < $bFSsBalances->value) {
+        if ($minBfs <= $bFSsBalances->value) {
             $actualActionValue = actualActionValue(getSelledActions(true), false);
             $ref = BalancesFacade::getReference(BalanceOperationsEnum::OLD_ID_64->value);
             $numberOfActions = intval($bFSsBalances->value / $actualActionValue);
