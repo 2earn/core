@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use App\DAL\UserRepository;
 use App\Models\BalanceInjectorCoupon;
 use App\Models\BFSsBalances;
-use App\Models\BusinessSector;
 use App\Models\CashBalances;
 use App\Models\Coupon;
-use App\Models\OperationCategory;
 use App\Models\SharesBalances;
 use App\Models\User;
 use App\Models\vip;
@@ -17,18 +15,14 @@ use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
 use App\Services\Sponsorship\SponsorshipFacade;
 use carbon;
-use Core\Enum\BalanceEnum;
 use Core\Enum\BalanceOperationsEnum;
 use Core\Enum\CouponStatusEnum;
-use Core\Enum\PlatformType;
 use Core\Enum\StatusRequest;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
 use Core\Models\BalanceOperation;
-use Core\Models\countrie;
 use Core\Models\detail_financial_request;
 use Core\Models\FinancialRequest;
-use Core\Models\Platform;
 use Core\Models\Setting;
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
@@ -44,7 +38,6 @@ use Illuminate\Validation\Rule;
 use Paytabscom\Laravel_paytabs\Facades\paypage;
 use phpDocumentor\Reflection\Types\Collection;
 use Propaganistas\LaravelPhone\PhoneNumber;
-use Spatie\Permission\Models\Role;
 
 
 class ApiController extends BaseController
@@ -249,6 +242,11 @@ class ApiController extends BaseController
         return response()->json($data);
     }
 
+    public function getFormatedFlagResourceName($flagName)
+    {
+        return Vite::asset("resources/images/flags/" . strtolower($flagName) . ".svg");
+    }
+
     public function handlePaymentNotification(Req $request, settingsManager $settingsManager)
     {
         $mnt = 0;
@@ -340,6 +338,7 @@ class ApiController extends BaseController
         );
         return redirect()->route('user_balance_cb', app()->getLocale());
     }
+
     public function getUsersListQuery()
     {
         return User::select('countries.apha2', 'countries.name as country', 'users.id', 'users.status', 'users.idUser', 'idUplineRegister',
