@@ -35,8 +35,8 @@ class UserssController extends Controller
                 DB::raw('RANK() OVER (ORDER BY ub.created_at ASC) as ranks'),
                 'ub.beneficiary_id', 'ub.id', 'ub.operator_id', 'ub.reference', 'ub.created_at', 'bo.operation', 'ub.description',
                 DB::raw(" CASE WHEN ub.operator_id = '11111111' THEN 'system' ELSE (SELECT CONCAT(IFNULL(enfirstname, ''), ' ', IFNULL(enlastname, '')) FROM metta_users mu WHERE mu.idUser = ub.beneficiary_id) END AS source "),
-                DB::raw(" CASE WHEN bo.IO = 'I' THEN CONCAT('+', '$', FORMAT(ub.value, 2)) WHEN bo.IO = 'O' THEN CONCAT('-', '$', FORMAT(ub.value , 2)) WHEN bo.IO = 'IO' THEN 'IO' END AS value "),
-                'bo.IO as sensP',
+                DB::raw(" CASE WHEN bo.direction = 'IN' THEN CONCAT('+', '$', FORMAT(ub.value, 2)) WHEN bo.direction = 'OUT' THEN CONCAT('-', '$', FORMAT(ub.value , 2)) END AS value "),
+                'bo.direction as sensP',
                 'ub.percentage as percentage',
                 'ub.current_balance',
                 'ub.balance_operation_id'
@@ -114,7 +114,7 @@ class UserssController extends Controller
                 'u.created_at',
                 'u.balance_operation_id',
                 'b.operation',
-                DB::raw("CASE WHEN b.IO = 'I' THEN u.value ELSE -u.value END AS value"),
+                DB::raw("CASE WHEN b.direction = 'IN' THEN u.value ELSE -u.value END AS value"),
                 'u.current_balance'
             )
             ->join('balance_operations as b', 'u.balance_operation_id', '=', 'b.id')
@@ -145,7 +145,7 @@ class UserssController extends Controller
                 'ub.current_balance',
                 'ub.balance_operation_id',
                 DB::raw(" CASE WHEN ub.beneficiary_id = '11111111' THEN 'system' ELSE (SELECT CONCAT(IFNULL(enfirstname, ''), ' ', IFNULL(enlastname, '')) FROM metta_users mu WHERE mu.idUser = ub.beneficiary_id) END AS source "),
-                'bo.IO as sensP'
+                'bo.direction as sensP'
             )
             ->join('balance_operations as bo', 'ub.balance_operation_id', '=', 'bo.id')
             ->where('ub.beneficiary_id', $user->idUser)

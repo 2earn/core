@@ -36,9 +36,8 @@ class UsersBalancesController extends Controller
                   WHERE mu.idUser = ub.operator_id)
         END as source,
         CASE
-            WHEN bo.IO = "I" THEN CONCAT("+", "$", FORMAT(ub.value, 3))
-            WHEN bo.IO = "O" THEN CONCAT("-", "$", FORMAT(ub.value, 3))
-            WHEN bo.IO = "IO" THEN "IO"
+            WHEN bo.direction = "IN" THEN CONCAT("+", "$", FORMAT(ub.value, 3))
+            WHEN bo.direction = "OUT" THEN CONCAT("-", "$", FORMAT(ub.value, 3))
         END as value
     ')
             ->where('ub.beneficiary_id', auth()->user()->idUser)
@@ -101,7 +100,7 @@ class UsersBalancesController extends Controller
                 'u.created_at',
                 'u.balance_operation_id',
                 'b.operation',
-                DB::raw("CASE WHEN b.IO = 'I' THEN u.value ELSE -u.value END AS value"),
+                DB::raw("CASE WHEN b.direction = 'IN' THEN u.value ELSE -u.value END AS value"),
                 'u.current_balance'
             )
             ->join('balance_operations as b', 'u.balance_operation_id', '=', 'b.id')

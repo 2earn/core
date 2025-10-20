@@ -22,7 +22,7 @@ class SharesController extends Controller
             ->select(
                 'u.reference',
                 'u.created_at',
-                DB::raw("CASE WHEN b.IO = 'I' THEN u.value ELSE -u.value END AS value"),
+                DB::raw("CASE WHEN b.direction = 'IN' THEN u.value ELSE -u.value END AS value"),
                 'u.beneficiary_id',
                 'u.balance_operation_id',
                 'u.real_amount',
