@@ -157,7 +157,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/{id}/show', \App\Livewire\EventShow::class)->name('show');
         });
 
-        Route::get('/accept/request', AcceptFinancialRequest::class)->name('accept_financial_request')->middleware('CloseAuth');
+        Route::get('/accept/request', AcceptFinancialRequest::class)->name('accept_financial_request');
 
         Route::prefix('/surveys')->name('surveys_')->group(function () {
             Route::middleware(['IsSuperAdmin'])->group(function () {

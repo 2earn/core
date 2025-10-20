@@ -34,7 +34,7 @@
                 </button>
                 <button type="button" class="btn btn-soft-warning material-shadow-none btn-sm"
                         title="{{__('Platform')}}">
-                    {{__($order->OrderDetails()->first()?->item()->first()?->platform()->first()->name)}}
+                    {{__($order->OrderDetails()->first()?->item()->first()?->platform()->first()?->name)}}
                 </button>
             </div>
         </div>

@@ -31,7 +31,6 @@ class FinancialTransaction extends Component
     protected $listeners = [
         'exchangeSms' => 'exchangeSms',
         'redirectPay', 'redirectPay',
-        'AcceptRequest' => 'AcceptRequest',
         'redirectToTransfertCash' => 'redirectToTransfertCash',
         'ShowCanceled' => 'ShowCanceled',
         'RejectRequest' => 'RejectRequest', 'refreshChildren' => '$refresh'
@@ -56,6 +55,7 @@ class FinancialTransaction extends Component
         }
     }
 
+
     public function ShowCanceled($val)
     {
         $this->showCanceled = $val;
@@ -68,14 +68,6 @@ class FinancialTransaction extends Component
         return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'montant' => $mnt, 'FinRequestN' => $req]);
     }
 
-
-    public function AcceptRequest($numeroRequste)
-    {
-        $financialRequest = FinancialRequest::where('numeroReq', '=', $numeroRequste)->first();
-        if (!$financialRequest) return;
-        if ($financialRequest->status != 0) return;
-        return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $numeroRequste]);
-    }
 
     public function getRequestIn()
     {
