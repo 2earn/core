@@ -36,6 +36,12 @@
                         title="{{__('Platform')}}">
                     {{__($order->OrderDetails()->first()?->item()->first()?->platform()->first()?->name)}}
                 </button>
+                @if($order->status->value == \Core\Enum\OrderEnum::Dispatched->value && $currentRouteName=="orders_detail")
+                    <button type="button" class="btn btn-soft-success material-shadow-none btn-sm mx-2 float-end"
+                            onclick="window.print()" title="{{__('Print')}}">
+                        <i class="ri-printer-line"></i> {{ __('Print') }}
+                    </button>
+                @endif
             </div>
         </div>
         <div class="card-body">
@@ -360,6 +366,8 @@
                                                         title="{{$order->total_lost_discount_percentage}}   {{config('app.percentage')}}">
                                                         <strong>{{__('Total lost discount')}}</strong><span
                                                             class="float-end text-muted">{{$order->total_lost_discount}}  {{config('app.currency')}}</span>
+                                                        <hr>
+                                                        <span class="text-warning float-end">{{__('You can top up your discount with')}} {{$order->total_lost_discount}}   {{config('app.currency')}}</span>
                                                     </li>
                                                 @endif
                                             </ul>
@@ -563,8 +571,9 @@
                     @endif
                     @if($currentRouteName=="orders_index" || $currentRouteName=="orders_previous"|| $currentRouteName=="orders_summary" )
                         <a href="{{route('orders_detail', ['locale'=>app()->getLocale(),'id'=>$order->id])}}"
-                           class=float-end">{{__('More details')}}</a>
+                           class="float-end">{{__('More details')}}</a>
                     @endif
                 </div>
         </div>
     </div>
+</div>

@@ -42,10 +42,13 @@
             </div>
 
         @else
-            @if(!$this->validated&&$this->simulation)
+            @if(!$this->validated && $this->simulation)
                 <div class="card-footer">
                     <button wire:click="validateOrder()"
                             class="btn btn-soft-success mx-2 float-end">{{__('Complete Order')}}</button>
+
+                    <button wire:click="cancelOrder()"
+                            class="btn btn-soft-warning mx-2 float-end">{{__('Cancel Order')}}</button>
                 </div>
             @endif
         @endif
