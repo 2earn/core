@@ -807,7 +807,7 @@ class settingsManager
         return $this->userRepository->initNewUser();
     }
 
-    public function createNewUser($mobile, $fullphone_number, $id_phone, $idUplineRegister, $status)
+    public function createNewUser($mobile, $fullphone_number, $id_phone, $idUplineRegister, $status = null)
     {
         $user = $this->userRepository->createNewUser($mobile, $fullphone_number, $id_phone, $idUplineRegister, $status ?? StatusRequest::ContactRegistred->value);
         $this->createMettaUser($user);
