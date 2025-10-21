@@ -21,14 +21,6 @@
                         </span>
                         </a>
                     </div>
-                    <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger"
-                            id="topnav-hamburger-icon">
-                    <span class="hamburger-icon">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </span>
-                    </button>
                     <div class="ms-1 header-item d-none  d-xl-flex me-5">
                         <div class="d-flex align-items-end justify-content-between logoTopCash"
                              title="{{__('Soldes calculated at')}} : {{Carbon\Carbon::now()->toDateTimeString()}}">

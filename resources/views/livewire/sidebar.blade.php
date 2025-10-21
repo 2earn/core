@@ -1,5 +1,5 @@
 @php use App\Models\User; @endphp
-<div>
+<div class="d-none">
     <div class="app-menu navbar-menu">
         <div class="navbar-brand-box" title="{{__('Version') . ' : '.config('app.version')}}">
             <a href="{{route('home',app()->getLocale(),false)}}" class="logo logo-dark">
