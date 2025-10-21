@@ -95,7 +95,7 @@ union
 select ifnull(concat(ifnull(`meta1`.`arFirstName`, `meta1`.`enFirstName`), ' ',
                      ifnull(`meta1`.`arLastName`, `meta1`.`enLastName`)), `s1`.`fullphone_number`) AS `from`,
        'Representative Cash Balance'                                                               AS `to`,
-       sum(case when `b`.`io` = 'I' then `u`.`value` else -`u`.`value` end)                        AS `weight`
+       sum(case when `b`.`direction` = 'IN' then `u`.`value` else -`u`.`value` end)                        AS `weight`
 from ((((`database_name`.`cash_balances` `u` join `database_name`.`users` `s1`
          on (`u`.`beneficiary_id` = `s1`.`idUser`)) join `database_name`.`metta_users` `meta1`
         on (`u`.`beneficiary_id` = `meta1`.`idUser`)) join `database_name`.`countries` `c1`
@@ -107,7 +107,7 @@ group by ifnull(concat(ifnull(`meta1`.`arFirstName`, `meta1`.`enFirstName`), ' '
 union
 select `c1`.`name`                                                          AS `from`,
        'Users Cash Balance'                                                 AS `to`,
-       sum(case when `b`.`io` = 'I' then `u`.`value` else -`u`.`value` end) AS `weight`
+       sum(case when `b`.`direction` = 'IN' then `u`.`value` else -`u`.`value` end) AS `weight`
 from ((((`database_name`.`cash_balances` `u` join `database_name`.`users` `s1`
          on (`u`.`beneficiary_id` = `s1`.`idUser`)) join `database_name`.`metta_users` `meta1`
         on (`u`.`beneficiary_id` = `meta1`.`idUser`)) join `database_name`.`countries` `c1`
