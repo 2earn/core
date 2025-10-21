@@ -16105,3 +16105,28 @@ span.flatpickr-weekday {
     object-fit: cover;
     border-radius: 0;
 }
+#page-title-box .icon-square {
+    width: 25px;
+    height: 25px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(108, 117, 125, 0.35);
+    background-color: rgba(108, 117, 125, 0.06);
+    color: inherit;
+    text-decoration: none;
+    line-height: 1;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+#page-title-box .icon-square:hover,
+#page-title-box .icon-square:focus {
+    background-color: rgba(108, 117, 125, 0.12);
+    border-color: rgba(108, 117, 125, 0.5);
+    text-decoration: none;
+}
+
+#page-title-box .icon-square i {
+    pointer-events: none;
+}

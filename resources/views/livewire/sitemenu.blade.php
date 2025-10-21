@@ -1,5 +1,15 @@
 @php use App\Models\User; @endphp
+
 <div class="container overflow-auto">
+    @section('title')
+        {{ __('Site menu') }}
+    @endsection
+    @component('components.breadcrumb')
+        @slot('li_1')@endslot
+        @slot('title')
+            {{ __('Site menu') }}
+        @endslot
+    @endcomponent
     <div class="row">
         <div class="card col-sm-12 col-md-6 col-lg-6">
             <div class="card-body">
@@ -132,7 +142,7 @@
                                 <li class="nav-item d-none  cool-link {{$currentRouteName==$sidebarBiographyArray[3]? 'active' : ''}}">
                                     <a href="{{route($sidebarBiographyArray[3], app()->getLocale(),false)}}"
                                        class="nav-link ">
-                                        {{ __('Soft Skills') }}
+                                        {{ __('Site menus') }}
                                     </a>
                                 </li>
                                 <li class="nav-item d-none  cool-link {{$currentRouteName==$sidebarBiographyArray[4]? 'active' : ''}}">

@@ -1,15 +1,14 @@
-<div id="page-title-box" class="row page-title-box m-1 p-1">
+<div id="page-title-box" class="page-title-box p-1">
     <nav class="col d-flex align-items-center text-white" aria-label="{{ __('Breadcrumb') }}">
         <ol class="breadcrumb m-0 flex-grow-1">
             <li class="breadcrumb-item">
-                <a href="{{ route('home', app()->getLocale()) }}" title="{{ __('To Home') }}" class="text-muted">
-                    <i class="ri-home-7-line" aria-hidden="true"></i>
+                <a href="{{ route('home', app()->getLocale()) }}" title="{{ __('To Home') }}" class="text-muted icon-square">
+                    <i class="ri-home-7-line fs-5 align-middle" aria-hidden="true"></i>
                     <span class="visually-hidden">{{ __('Home') }}</span>
                 </a>
             </li>
 
             @php
-                // Normalize provided items: expect an array of ['label' => string, 'url' => string|null]
                 $crumbs = null;
                 if (isset($items) && is_array($items) && count($items)) {
                     $crumbs = [];
@@ -20,7 +19,6 @@
                                 'url' => $it['url'] ?? ($it['href'] ?? null),
                             ];
                         } else {
-                            // If a plain string is provided, treat it as the current page label
                             $crumbs[] = ['label' => (string)$it, 'url' => null];
                         }
                     }
@@ -40,23 +38,26 @@
                 @endforeach
             @else
                 @if(($pageTitle ?? '') !== 'Home' && !empty($pageTitle))
-                    <li class="breadcrumb-item active" aria-current="page">{!! $pageTitle !!}</li>
+                    <li class="breadcrumb-item fs-16 text-muted" aria-current="page">
+                        {!! $pageTitle !!}
+                    </li>
                 @endif
             @endif
         </ol>
 
         @if(!empty($helpUrl ?? null) && $helpUrl !== '#')
             <a href="{{ $helpUrl }}" title="{{ __('Check the help page') }}"
-               class="ms-auto float-end m2 badge badge-outline-light">
-                <i class="ri-question-line text-muted" aria-hidden="true"></i>
+               class="ms-auto float-end m-2 icon-square text-muted">
+                <i class="ri-question-line fs-5 align-middle" aria-hidden="true"></i>
                 <span class="visually-hidden">{{ __('Help') }}</span>
             </a>
         @endif
 
         <a href="{{ route('site_menu',['locale'=>app()->getLocale()]) }}" title="{{ __('Site menu') }}"
-           class="ms-auto float-end m2 badge badge-outline-light">
-            <i class="ri-menu-line text-muted" aria-hidden="true"></i>
+           class="ms-auto float-end m-2 icon-square text-muted">
+            <i class="ri-menu-line fs-5 align-middle" aria-hidden="true"></i>
             <span class="visually-hidden">{{ __('Menu') }}</span>
         </a>
     </nav>
 </div>
+
