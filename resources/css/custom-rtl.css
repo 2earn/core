@@ -37,7 +37,7 @@
     color: #464fed !important
 }
 
-.logoTopCash span, .page-title-box {
+.logoTopCash span {
     background-color: #464fed !important
 }
 
@@ -367,7 +367,7 @@ label, h1, h2, h3, h4, h5, h6, a, button, p, i, span, strong, .btn, div {
     color: red !important
 }
 
-.logoTopCashDanger span, .page-title-box {
+.logoTopCashDanger span {
     background-color: red !important
 }
 
