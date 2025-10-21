@@ -39,7 +39,7 @@ class EditUserContact extends Component
         $type = $request->input('UserContact');
         if ($type) {
             $this->userCOntact = $this->userCOntact = ContactUser::where('id', $type)->where('idUser', auth()->user()->idUser)->first();
-            if(is_null($this->userCOntact)){
+            if (is_null($this->userCOntact)) {
                 return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('You are not allowed to edit this user contact'));
             }
             $this->nameUserContact = $this->userCOntact->name;
@@ -102,7 +102,7 @@ class EditUserContact extends Component
             if ($validatedPhone) {
                 $user = $settingsManager->getUserByFullNumber($fullphone_number);
                 if (!$user) {
-                    $user = $settingsManager->createNewUser($mobile, $fullphone_number, $code, auth()->user()->idUser);
+                    $user = $settingsManager->createNewUser($mobile, $fullphone_number, $code, auth()->user()->idUser, null);
                 } else {
                     if ($fullphone_number != $user->fullphone_number) {
                         $user = $settingsManager->updateUser($user, $mobile, $fullphone_number, $code, auth()->user()->idUser);
