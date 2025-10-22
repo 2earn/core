@@ -25,7 +25,9 @@ class EditAdmin extends Component
     public $allRoles = [];
     public $platformes = [];
     protected $rules = [
-        'platformes.*.selected' => 'required',
+        //'platformes.*.selected' => 'required',
+        // Use is_selected to avoid conflict with Platform::selected() method
+        'platformes.*.is_selected' => 'required',
     ];
     public $currentId;
 
@@ -38,12 +40,12 @@ class EditAdmin extends Component
     {
         try {
             DB::table('user_plateforme')->where('user_id', $idUser)->delete();
-            foreach ($this->platformes->where('selected', 1) as $platformUser) {
+            // Use filter with the non-conflicting transient flag is_selected
+            foreach ($this->platformes->filter(function($p) { return isset($p->is_selected) && $p->is_selected == 1; }) as $platformUser) {
                 UserPlatforms::create(['user_id' => $idUser, 'plateforme_id' => $platformUser->id]);
             }
             if ($this->userRole == "") {
-                dd("pas de role ");
-                return;
+                return redirect()->route('role_assign', app()->getLocale())->with('danger', Lang::get('Please choose a role'));
             }
             $user = User::find($idUser);
             $user->syncRoles($this->userRole);
@@ -54,6 +56,27 @@ class EditAdmin extends Component
         }
     }
 
+
+    public function edit($idUser)
+    {
+        $this->allRoles = Role::all();
+        $user = User::find($idUser);
+        if (!$user->hasAnyRole(Role::all())) {
+            $user->syncRoles('user');
+        }
+        $this->userRole = $user->getRoleNames()[0];
+        $this->name = $user->name;
+        $this->mobile = $user->mobile;
+        $this->currentId = $user->id;
+        $this->platformes = Platform::all();
+        foreach ($this->platformes as $p) {
+            // initialize a transient flag that doesn't collide with model methods
+            $p->is_selected = 0;
+            if ($p->selected($idUser)) {
+                $p->is_selected = 1;
+            }
+        }
+    }
     public function render()
     {
 
@@ -69,23 +92,4 @@ class EditAdmin extends Component
         return view('livewire.edit-admin', ['userRoles' => $userRoles])->extends('layouts.master')->section('content');
     }
 
-    public function edit($idUser)
-    {
-        $this->allRoles = Role::all();
-        $user = User::find($idUser);
-        if (!$user->hasAnyRole(Role::all())) {
-            $user->syncRoles('user');
-        }
-        $this->userRole = $user->getRoleNames()[0];
-        $this->name = $user->name;
-        $this->mobile = $user->mobile;
-        $this->currentId = $user->id;
-        $this->platformes = Platform::all();
-        foreach ($this->platformes as $p) {
-            $p->selected = 0;
-            if ($p->selected($idUser)) {
-                $p->selected = 1;
-            }
-        }
-    }
 }

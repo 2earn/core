@@ -109,7 +109,7 @@
                                 <div class="col-4 form-check form-switch form-switch-custom form-switch-primary mb-3 ">
                                     <input class="form-check-input" type="checkbox" role="switch"
                                            id="flexSwitchCheckDefault"
-                                           wire:model="platformes.{{$key}}.selected">
+                                           wire:model="platformes.{{$key}}.is_selected">
 
                                     <label
                                         class="form-check-label font-weight-bold"> {{ __( $platform->name ) }}  </label>
