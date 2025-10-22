@@ -67,7 +67,7 @@
                             </div>
 
                         </a>
-                        <a href="{{route('surveys_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$target->id] )}}"
+                        <a href="{{route('surveys_create_update', ['locale'=> app()->getLocale(),'idTarget'=>$target->id] )}}"
                            title="{{__('Create matched target Survey')}}"
                            class="btn btn-soft-primary material-shadow-none">
                             {{__('Create Survey')}}
@@ -115,7 +115,7 @@
                                     </div>
                                     <div class="col-sm-12 col-md-6 col-lg-5 mt-2">
                                         <div class="btn-group" role="group">
-                                            <a href="{{route('target_condition_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$condition->target_id,'idCondition'=>$condition->id] )}}"
+                                            <a href="{{route('target_condition_create_update', ['locale'=> app()->getLocale(),'idTarget'=>$condition->target_id,'idCondition'=>$condition->id] )}}"
                                                title="{{__('Edit Condition')}}"
                                                class="btn btn-soft-info material-shadow-none">
                                                 {{__('Edit')}}
@@ -160,7 +160,7 @@
                                     @if($currentRouteName=="target_show")
                                         <div class="col-sm-12 col-md-6 col-lg-5">
                                             <div class="btn-group" role="group">
-                                                <a href="{{route('target_group_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idGroup'=>$group->id] )}}"
+                                                <a href="{{route('target_group_create_update', ['locale'=> app()->getLocale(),'idTarget'=>$group->target_id,'idGroup'=>$group->id] )}}"
                                                    title="{{__('Edit Group')}}"
                                                    class="btn btn-soft-info material-shadow-none">
                                                     {{__('Edit')}}
@@ -180,7 +180,7 @@
                                                 </a>
                                             </div>
                                             <div class="btn-group" role="group">
-                                                <a href="{{route('target_condition_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idGroup'=>$group->id] )}}"
+                                                <a href="{{route('target_condition_create_update', ['locale'=> app()->getLocale(),'idTarget'=>$group->target_id,'idGroup'=>$group->id] )}}"
                                                    title="{{__('Add Condition')}}"
                                                    class="btn btn-soft-info material-shadow-none">
                                                     {{__('Add Condition')}}
@@ -212,7 +212,7 @@
                                                                 <div class="col-sm-12 col-md-6 col-lg-5 mt-2">
                                                                     <div class="btn-group" role="group"
                                                                     >
-                                                                        <a href="{{route('target_condition_create_update', ['locale'=> request()->route("locale"),'idTarget'=>$group->target_id,'idGroup'=>$conditionItem->target_group_id,'idCondition'=>$conditionItem->id] )}}"
+                                                                        <a href="{{route('target_condition_create_update', ['locale'=> app()->getLocale(),'idTarget'=>$group->target_id,'idGroup'=>$conditionItem->target_group_id,'idCondition'=>$conditionItem->id] )}}"
                                                                            title="{{__('Edit Condition')}}"
                                                                            class="btn btn-soft-info material-shadow-none">
                                                                             {{__('Edit')}}

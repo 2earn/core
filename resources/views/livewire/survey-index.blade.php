@@ -19,7 +19,7 @@
                            placeholder="{{__('Search Survey')}}">
                 </div>
                 <div class="col-6">
-                    <a href="{{route('surveys_create_update', ['locale'=> request()->route("locale")] )}}"
+                    <a href="{{route('surveys_create_update', ['locale'=> app()->getLocale()] )}}"
                        title="{{__('Create matched target Survey')}}"
                        class="btn btn-soft-secondary material-shadow-none mb-2 float-end">
                         {{__('Create Survey')}}
