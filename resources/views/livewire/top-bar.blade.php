@@ -4,98 +4,72 @@
             <div class="navbar-header">
                 <div class="d-flex">
                     <div class="navbar-brand-box horizontal-logo">
-                        <a href="index" class="logo logo-dark">
+                        <a href="{{ route('home', app()->getLocale()) }}" class="logo logo-dark" title="{{ __('To Home') }}">
                         <span class="logo-sm">
-                            <img src="{{ Vite::asset('resources/images/logo-sm.png') }}" height="22">
+                            <img src="{{ Vite::asset('resources/images/logo-sm.png') }}" height="22" alt="{{ config('app.name') }}">
                         </span>
                             <span class="logo-lg">
-                            <img src="{{ Vite::asset('resources/images/logo-dark.png') }}" height="17">
+                            <img src="{{ Vite::asset('resources/images/logo-dark.png') }}" height="17" alt="{{ config('app.name') }}">
                         </span>
                         </a>
-                        <a href="index" class="logo logo-light">
+                        <a href="{{ route('home', app()->getLocale()) }}" class="logo logo-light" title="{{ __('To Home') }}">
                         <span class="logo-sm">
-                            <img src="{{ Vite::asset('resources/images/logo-sm.png') }}" height="22">
+                            <img src="{{ Vite::asset('resources/images/logo-sm.png') }}" height="22" alt="{{ config('app.name') }}">
                         </span>
                             <span class="logo-lg">
-                            <img src="{{ Vite::asset('resources/images/logo-light.png') }}" height="17">
+                            <img src="{{ Vite::asset('resources/images/logo-light.png') }}" height="17" alt="{{ config('app.name') }}">
                         </span>
                         </a>
                     </div>
-                    <div class="ms-1 header-item d-none  d-xl-flex me-5">
-                        <div class="d-flex align-items-end justify-content-between logoTopCash"
-                             title="{{__('Soldes calculated at')}} : {{Carbon\Carbon::now()->toDateTimeString()}}">
-                            <a href="{{route('user_balance_cb',app()->getLocale())}}">
-                                <div class="avatar-sm flex-shrink-0">
-                                    <span class="avatar-title bg-soft-info rounded fs-3">
-                                       <i class="bx bx-dollar-circle text-info"></i>
+                    @php
+                        $topBalances = [
+                            [
+                                'route' => route('user_balance_cb', app()->getLocale()),
+                                'title' => __('Cash Balance'),
+                                'value' => __('DPC') . ' ' . formatSolde(intval($cash), 0),
+                                'icon'  => 'bx bx-dollar-circle',
+                                'iconBg'=> 'bg-soft-info',
+                                'iconColor' => 'text-info',
+                                'textClass' => '',
+                                'labelClass'=> 'text-muted'
+                            ],
+                            [
+                                'route' => route('user_balance_bfs', app()->getLocale()),
+                                'title' => __('Balance For Shopping'),
+                                'value' => __('DPC') . formatSolde(intval($bfs), 0),
+                                'icon'  => 'ri-shopping-cart-2-line',
+                                'iconBg'=> 'bg-soft-success',
+                                'iconColor' => 'text-success',
+                                'textClass' => 'text-success',
+                                'labelClass'=> 'text-muted'
+                            ],
+                            [
+                                'route' => route('user_balance_db', app()->getLocale()),
+                                'title' => __('Discounts Balance'),
+                                'value' => __('DPC') . formatSolde(intval($db), 0),
+                                'icon'  => 'ri-coupon-4-line',
+                                'iconBg'=> 'bg-soft-secondary',
+                                'iconColor' => 'text-secondary',
+                                'textClass' => 'text-secondary',
+                                'labelClass'=> 'text-muted'
+                            ]
+                        ];
+                    @endphp
+                    @foreach($topBalances as $bal)
+                        <div class="ms-1 header-item d-none d-xl-flex me-4" title="{{__('Soldes calculated at')}} : {{Carbon\Carbon::now()->toDateTimeString()}}">
+                            <a href="{{ $bal['route'] }}" class="d-flex align-items-center text-decoration-none topbar-balance-link" aria-label="{{ $bal['title'] }}">
+                                <div class="avatar-sm flex-shrink-0 me-2">
+                                    <span class="avatar-title {{ $bal['iconBg'] }} rounded fs-3">
+                                        <i class="{{ $bal['icon'] }} {{ $bal['iconColor'] }}"></i>
                                     </span>
+                                </div>
+                                <div class="d-flex flex-column overflow-hidden">
+                                    <p class="text-uppercase fw-medium mb-0 small {{ $bal['labelClass'] }}">{{ $bal['title'] }}</p>
+                                    <h5 class="fs-14 mb-0 {{ $bal['textClass'] }}" aria-hidden="true">{{ $bal['value'] }}</h5>
                                 </div>
                             </a>
                         </div>
-                        <div class="d-flex align-items-center logoTopCashLabel">
-                            <div class="flex-grow-1 overflow-hidden">
-                                <a href="{{route('user_balance_cb',app()->getLocale())}}">
-                                    <p class="text-uppercase fw-medium     mb-0 ms-2">
-                                        {{ __('Cash Balance') }}</p>
-                                    <h5 class="fs-14 mb-0 ms-2">
-                                        {{__('DPC')}} {{formatSolde(intval($cash),0)}}
-                                    </h5>
-                                </a>
-                            </div>
-                            <div class="flex-shrink-0">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ms-1 header-item d-none d-xl-flex me-5"
-                         title="{{__('Soldes calculated at')}} : {{Carbon\Carbon::now()->toDateTimeString()}}">
-                        <div class="d-flex align-items-end justify-content-between logoTopBFS">
-                            <a href="{{route('user_balance_bfs',app()->getLocale())}}">
-                                <div class="avatar-sm flex-shrink-0">
-                                    <span class="avatar-title bg-soft-success rounded fs-3">
-                                        <i class="ri-shopping-cart-2-line text-success"></i>
-                                    </span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="d-flex align-items-center logoTopBFSLabel">
-                            <div class="flex-grow-1 overflow-hidden">
-                                <a href="{{route('user_balance_bfs',app()->getLocale())}}">
-                                    <p class="text-uppercase fw-medium     mb-0 ms-2">
-                                        {{ __('Balance For Shopping') }}</p>
-                                    <h5 class="text-success fs-14 mb-0  ms-2">
-                                        {{__('DPC')}}{{formatSolde(intval($bfs),0)}}
-                                    </h5>
-                                </a>
-                            </div>
-                            <div class="flex-shrink-0">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ms-1 header-item d-none d-xl-flex me-5"
-                         title="{{__('Soldes calculated at')}} : {{Carbon\Carbon::now()->toDateTimeString()}}">
-                        <div class="d-flex align-items-end justify-content-between logoTopDB">
-                            <a href="{{route('user_balance_db',app()->getLocale())}}">
-                                <div class="avatar-sm flex-shrink-0">
-                                    <span class="avatar-title bg-soft-secondary rounded fs-3">
-                                        <i class=" ri-coupon-4-line text-secondary"></i>
-                                    </span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="d-flex align-items-center logoTopDBLabel">
-                            <div class="flex-grow-1 overflow-hidden">
-                                <a href="{{route('user_balance_db',app()->getLocale())}}">
-                                    <p class="text-uppercase fw-medium     mb-0 ms-2">
-                                        {{ __('Discounts Balance') }}</p>
-                                    <h5 class="text-secondary fs-14 mb-0 ms-2">
-                                        {{__('DPC')}}{{formatSolde(intval($db),0)}}
-                                    </h5>
-                                </a>
-                            </div>
-                            <div class="flex-shrink-0">
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
                 <div class="d-flex align-items-center">
                     <div class="dropdown topbar-head-dropdown header-item">
@@ -153,17 +127,15 @@
                             <div class="p-2">
                                 <div class="row g-0">
                                     @foreach($sectors as $sector)
+                                        @php
+                                            $logoUrl = empty($sector->logoImage)
+                                                ? Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_LOGO)
+                                                : asset('uploads/' . $sector->logoImage->url);
+                                        @endphp
                                         <div class="col">
                                             <a class="dropdown-icon-item"
                                                href="{{route('business_sector_show',['locale'=>app()->getLocale(),'id'=>$sector->id] )}}">
-                                                @if (!$sector->logoImage)
-                                                    <img
-                                                        src="{{Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_LOGO)}}"
-                                                        alt="Move2earn">
-                                                @else
-                                                    <img src="{{ asset('uploads/' . $sector->logoImage->url) }}"
-                                                         alt="Move2earn">
-                                                @endif
+                                                <img src="{{ $logoUrl }}" alt="{{ \App\Models\TranslaleModel::getTranslation($sector,'name',$sector->name) }}">
                                                 <span>
                                                     {{\App\Models\TranslaleModel::getTranslation($sector,'name',$sector->name)}}
                                                 </span>
@@ -192,8 +164,8 @@
                         <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
-                            <img class="rounded-circle header-profile-user mx-2" alt="Header Avatar"
-                                 src="{{ URL::asset($userProfileImage) }}">
+                            <img class="rounded-circle header-profile-user mx-2"
+                                 src="{{ URL::asset($userProfileImage) }}" alt="{{ getUserDisplayedName() }}">
                             <span class="text-center ms-xl-2">
                                 <span class="d-none d-xl-inline-block mx-2 fw-medium user-name-text"
                                       title="{{$userStatus}}">
@@ -224,7 +196,7 @@
                         <div class="dropdown-menu dropdown-menu-end">
                             <a class="dropdown-item" href="{{route('account',app()->getLocale() )}}">
                                 <img class="rounded-circle header-profile-user"
-                                     src="{{ URL::asset($userProfileImage) }}">
+                                     src="{{ URL::asset($userProfileImage) }}" alt="{{ getUserDisplayedName() }}">
                                 <strong
                                     class="align-middle mx-2 text-muted font-weight-bold">{{ __('Account') }}</strong>
                             </a>
@@ -266,7 +238,7 @@
         </div>
     </header>
     <script>
-        window.addEventListener('updateNotifications', event => {
+        window.addEventListener('updateNotifications', () => {
             $("#page-header-notifications-dropdown").click();
         })
     </script>
