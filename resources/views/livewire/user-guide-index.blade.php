@@ -20,80 +20,79 @@
                 </div>
                 @if(\App\Models\User::isSuperAdmin())
                 <div class="col-md-6 text-end">
-                    <a href="{{ route('user_guides_create', app()->getLocale()) }}" class="btn btn-success">
-                        <i class="fa fa-plus"></i> {{ __('Add User Guide') }}
+                    <a href="{{ route('user_guides_create', app()->getLocale()) }}" class="btn btn-outline-info">
+                       {{ __('Add User Guide') }}
                     </a>
                 </div>
                 @endif
             </div>
         </div>
-        <div class="col-md-12 mb-4 card-body">
-            @forelse($userGuides as $guide)
-                <div class="card mb-3">
-                    <div class="card-title">
-                        <h5 class="text-info m-2">{{\App\Models\TranslaleModel::getTranslation($guide,'title',$guide->title)}}</h5>
-                        @if(\App\Models\User::isSuperAdmin())
-                            <p class="mx-2 float-end">
-                                <a class="link-info"
-                                   href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($guide,'title')])}}">{{__('See or update Translation')}}</a>
-                            </p>
-                        @endif
-                    </div>
-                    <div class="card-body">
-                        <blockquote class="text-muted">
-                            {!! \App\Models\TranslaleModel::getTranslation($guide,'description',$guide->description) !!}
-                        </blockquote>
-                        @if(\App\Models\User::isSuperAdmin())
-                            <p class="mx-2 float-end">
-                                <a class="link-info"
-                                   href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($guide,'description')])}}">{{__('See or update Translation')}}</a>
-                            </p>
-                        @endif
-                        @if($guide->routes && is_array($guide->routes))
-                            <div class="mb-2">
-                                <strong>{{ __('Routes:') }}</strong>
-                                <ul class="mb-0">
-                                    @foreach($guide->routes as $routeName)
-                                        @php
-                                            $route = Route::getRoutes()->getByName($routeName);
-                                        @endphp
-                                        @if($route)
-                                            <li>{{ $routeName }} ({{ $route->uri() }})</li>
-                                        @else
-                                            <li>{{ $routeName }}</li>
-                                        @endif
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                        @if($guide->file_path && \Illuminate\Support\Facades\Storage::disk('public')->exists($guide->file_path))
-                            <a href="{{ asset('storage/' . $guide->file_path) }}" target="_blank">Download
-                                Attachment</a>
-                        @endif
-                    </div>
-                    <div class="card-footer d-flex justify-content-between align-items-center">
-                        <div>
-                             <span class="text-muted m-1">Created by: {{ $guide->user->name ?? __('Unknown') }}</span>
-                            <span class="text-muted m-1">{{ __('Created at:') }} {{ $guide->created_at ? $guide->created_at->format('Y-m-d H:i') : __('N/A') }}</span>
-                             <span class="text-muted m-1">{{ __('Updated at:') }} {{ $guide->updated_at ? $guide->updated_at->format('Y-m-d H:i') : __('N/A') }}</span>
-                        </div>
-                        <div>
-                            <a href="{{ route('user_guides_show', [app()->getLocale(), $guide->id]) }}" class="btn btn-sm btn-info me-2">{{ __('Details') }}</a>
-                            @if(\App\Models\User::isSuperAdmin())
-                            <a href="{{ route('user_guides_edit', [app()->getLocale(), $guide->id]) }}" class="btn btn-sm btn-warning me-2">{{ __('Edit') }}</a>
-                            <button type="button" class="btn btn-sm btn-danger"
-                                    wire:click="confirmDelete({{ $guide->id }})">{{ __('Delete') }}</button>
-                            @endif
-                        </div>
-                    </div>
+        <div class="col-12 mb-4 card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="small text-muted">{{ __('Showing') }} {{ $userGuides->count() }} / {{ $userGuides->total() }} {{ __('user guides') }}</div>
+                <div class="d-flex align-items-center">
+                    <input type="text" class="form-control form-control-sm me-2 d-md-none" placeholder="{{ __('Search...') }}" wire:model.live="search">
+                    <!-- Primary create button retained in the header; no duplicate here -->
                 </div>
-            @empty
-                <p class="text-muted">No user guides found.</p>
-            @endforelse
-            <div class="mt-3">
-                {{ $userGuides->onEachSide(1)->links('pagination::bootstrap-4') }}
             </div>
-        </div>
+
+            @if($userGuides->count())
+                <div class="row gx-3 gy-3">
+                    @foreach($userGuides as $guide)
+                        <div class="col-12 col-md-6 col-lg-6">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body d-flex flex-column">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h5 class="mb-0 text-truncate" title="{{ \App\Models\TranslaleModel::getTranslation($guide,'title',$guide->title) }}">{{ \App\Models\TranslaleModel::getTranslation($guide,'title',$guide->title) }}</h5>
+                                        @if(\App\Models\User::isSuperAdmin())
+                                            <a href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($guide,'title')])}}" class="ms-2 small text-muted">{{__('Translate')}}</a>
+                                        @endif
+                                    </div>
+
+                                    <p class="text-muted mb-2 small">{!! \Illuminate\Support\Str::limit(strip_tags(\App\Models\TranslaleModel::getTranslation($guide,'description',$guide->description)), 180) !!}</p>
+
+                                    @if($guide->routes && is_array($guide->routes))
+                                        <div class="mb-2">
+                                            @foreach($guide->routes as $routeName)
+                                                <span class="badge bg-light text-muted me-1">{{ $routeName }}</span>
+                                            @endforeach
+                                        </div>
+                                    @endif
+
+                                    @if($guide->file_path && \Illuminate\Support\Facades\Storage::disk('public')->exists($guide->file_path))
+                                        <div class="mb-2">
+                                            <i class="ri-attachment-line"></i>
+                                            <a href="{{ asset('storage/' . $guide->file_path) }}" target="_blank" class="small">{{ __('Download attachment') }}</a>
+                                        </div>
+                                    @endif
+
+                                    <div class="mt-auto d-flex justify-content-between align-items-center">
+                                        <div class="small text-muted">
+                                            <div>{{ __('Created by') }}: {{   getUserDisplayedName($guide->user->idUser) ?? __('Unknown') }}</div>
+                                            <div>{{ $guide->created_at ? $guide->created_at->format('Y-m-d') : __('N/A') }}</div>
+                                        </div>
+                                        <div class="btn-group ms-2" role="group" aria-label="{{ __('Guide actions') }}">
+                                            <a href="{{ route('user_guides_show', [app()->getLocale(), $guide->id]) }}" class="btn btn-sm btn-outline-info me-1">{{ __('Details') }}</a>
+                                            @if(\App\Models\User::isSuperAdmin())
+                                                <a href="{{ route('user_guides_edit', [app()->getLocale(), $guide->id]) }}" class="btn btn-sm btn-outline-warning me-1">{{ __('Edit') }}</a>
+                                                <button type="button" class="btn btn-sm btn-outline-danger" wire:click="confirmDelete({{ $guide->id }})">{{ __('Delete') }}</button>
+                                            @endif
+                                        </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                    @endforeach
+                 </div>
+
+                 <div class="mt-3">{{ $userGuides->onEachSide(1)->links('pagination::bootstrap-4') }}</div>
+            @else
+                  <div class="py-5 text-center w-100">
+                      <h5 class="text-muted">{{ __('No user guides found.') }}</h5>
+                      <p class="text-muted">{{ __('There are no guides yet. Use the Add User Guide button to create one.') }}</p>
+                  </div>
+            @endif
+         </div>
     </div>
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">

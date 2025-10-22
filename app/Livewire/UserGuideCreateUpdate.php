@@ -43,6 +43,7 @@ class UserGuideCreateUpdate extends Component
 
     public function save()
     {
+        $userGuide = null;
         $this->validate();
         $filePath = $this->file_path;
         if ($this->file) {
@@ -62,7 +63,7 @@ class UserGuideCreateUpdate extends Component
         }
         if ($this->userGuideId) {
             $guide = UserGuide::findOrFail($this->userGuideId);
-            $guide->update([
+            $userGuide = $guide->update([
                 'title' => $this->title,
                 'description' => $this->description,
                 'file_path' => $filePath,
@@ -77,18 +78,21 @@ class UserGuideCreateUpdate extends Component
                 'routes' => $this->routes,
             ]);
             $this->reset(['title', 'description', 'file', 'routes']);
+
+
             $translations = ['title', 'description'];
             foreach ($translations as $translation) {
-                TranslaleModel::create([
-                    'name' => TranslaleModel::getTranslateName($userGuide, $translation),
-                    'value' => $this->{$translation} . ' AR',
-                    'valueFr' => $this->{$translation} . ' FR',
-                    'valueEn' => $this->{$translation} . ' EN',
-                    'valueTr' => $this->{$translation} . ' TR',
-                    'valueEs' => $this->{$translation} . ' ES',
-                    'valueRu' => $this->{$translation} . ' Ru',
-                    'valueDe' => $this->{$translation} . ' De',
-                ]);
+                TranslaleModel::create(
+                    [
+                        'name' => TranslaleModel::getTranslateName($userGuide, $translation),
+                        'value' => $this->{$translation} . ' AR',
+                        'valueFr' => $this->{$translation} . ' FR',
+                        'valueEn' => $this->{$translation} . ' EN',
+                        'valueTr' => $this->{$translation} . ' TR',
+                        'valueEs' => $this->{$translation} . ' ES',
+                        'valueRu' => $this->{$translation} . ' Ru',
+                        'valueDe' => $this->{$translation} . ' De',
+                    ]);
             }
         }
         return redirect()->route('user_guides_index', app()->getLocale());

@@ -29,7 +29,7 @@
                     @if(\App\Models\User::isSuperAdmin())
                         <div class="col-sm-12 col-md-3  col-lg-6">
                             <a href="{{route('faq_create_update', app()->getLocale())}}"
-                               class="btn btn-info add-btn float-end"
+                               class="btn btn-outline-info add-btn float-end"
                                id="create-btn">
                                 {{__('Create new faq')}}
                             </a>
@@ -39,72 +39,48 @@
             </div>
 
             <div class="card-body row">
-                @forelse($faqs as $faq)
-                    <div class="col-sm-12 col-lg-12">
-                        <div class="card border card-border-light">
-                            <div class="card-header">
-                                <h5 class="card-title mb-1">
-                                    - {!! \App\Models\TranslaleModel::getTranslation($faq,'question',$faq->question) !!}
-                                </h5>
-                                @if(\App\Models\User::isSuperAdmin())
-                                    <p class="mx-2 float-end">
-                                        <a class="link-info"
-                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($faq,'question')])}}">{{__('See or update Translation')}}</a>
-                                    </p>
-                                @endif
-                            </div>
-                            <div class="card-body">
-                                <blockquote class="blockquote">
-                                    <p class="card-text">
-                                        {!! \App\Models\TranslaleModel::getTranslation($faq,'answer',$faq->answer) !!}
-                                    </p>
-                                </blockquote>
-                                @if(\App\Models\User::isSuperAdmin())
+                <div class="col-12 mb-2 d-flex justify-content-between align-items-center">
+                    <div class="small text-muted">{{ __('Showing') }} {{ $faqs->count() }} / {{ $faqs->total() }} {{ __('faqs') }}</div>
+                    <div></div>
+                </div>
 
-                                    <a wire:click="deleteFaq('{{$faq->id}}')"
-                                       title="{{__('Delete Faq')}}"
-                                       class="btn btn-soft-danger material-shadow-none float-end">
-                                        {{__('Delete')}}
-                                        <div wire:loading wire:target="deleteFaq('{{$faq->id}}')">
-                                                <span class="spinner-border spinner-border-sm" role="status"
-                                                      aria-hidden="true"></span>
-                                            <span class="sr-only">{{__('Loading')}}...</span>
+                @if($faqs->count())
+                    <div class="col-12">
+                        @foreach($faqs as $faq)
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h5 class="mb-0">{!! \App\Models\TranslaleModel::getTranslation($faq,'question',$faq->question) !!}</h5>
+                                    @if(\App\Models\User::isSuperAdmin())
+                                        <a href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($faq,'question')])}}" class="me-2 link-info">{{__('See or update Translation')}}</a>
+                                    @endif
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">{!! \App\Models\TranslaleModel::getTranslation($faq,'answer',$faq->answer) !!}</div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="small text-muted">{{__('Created at')}}: {{ $faq->created_at }}</div>
+                                        <div>
+                                            @if(\App\Models\User::isSuperAdmin())
+                                                <a href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($faq,'answer')])}}" class="me-2 link-info">{{__('See or update Translation')}}</a>
+                                                <a href="{{route('faq_create_update',['locale'=> app()->getLocale(),'idFaq'=>$faq->id])}}" class="btn btn-sm btn-soft-primary me-2">{{__('Edit')}}</a>
+                                                <button wire:click="deleteFaq('{{ $faq->id }}')" class="btn btn-sm btn-soft-danger" title="{{__('Delete Faq')}}">
+                                                    {{__('Delete')}}
+                                                    <span wire:loading wire:target="deleteFaq('{{ $faq->id }}')" class="spinner-border spinner-border-sm ms-1" role="status" aria-hidden="true"></span>
+                                                </button>
+                                            @endif
                                         </div>
-                                    </a>
-                                    <a
-                                        href="{{route('faq_create_update',['locale'=> app()->getLocale(),'idFaq'=>$faq->id])}}"
-                                        title="{{__('Edit Faq')}}"
-                                        class="btn btn-soft-primary material-shadow-none float-end mx-2">
-                                        {{__('Edit')}}
-
-                                    </a>
-                                    <p class="mx-2 float-end">
-                                        <a class="link-info"
-                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($faq,'answer')])}}">{{__('See or update Translation')}}</a>
-                                    </p>
-                                @endif
-                            </div>
-                            <div class="card-footer">
-                                <div class="row">
-                                    <div class="col">
-                                        <p class="card-text float-end">{{__('Created at')}}: <small
-                                                class="text-muted">{{$faq->created_at}}</small>
-                                        </p>
-                                    </div>
-                                    <div class="col">
-                                        @if(\App\Models\User::isSuperAdmin())
-                                            <p class="card-text  float-end">{{__('Updated at')}}: <small
-                                                    class="text-muted">{{$faq->updated_at}}</small></p>
-                                        @endif
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endforeach
                     </div>
-                @empty
-                    <p class="text-muted">{{__('No faqs')}}.</p>
-                @endforelse
-                {{ $faqs->links() }}
+                    <div class="col-12 mt-3">{{ $faqs->links() }}</div>
+                @else
+                    <div class="col-12 py-5 text-center">
+                        <h5 class="text-muted">{{ __('No faqs') }}</h5>
+                        <p class="text-muted">{{ __('There are no frequently asked questions yet.') }}</p>
+                        <p class="text-muted">{{ __('Use the "Create new faq" button above to add FAQs.') }}</p>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

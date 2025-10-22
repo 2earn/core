@@ -22,7 +22,8 @@ class UserGuideIndex extends Component
     public function confirmDelete($id)
     {
         $this->deleteId = $id;
-        $this->dispatch('show-delete-modal');
+        // dispatch a browser event so JS listeners can open the modal
+        $this->dispatchBrowserEvent('show-delete-modal');
     }
 
     public function delete()
@@ -33,13 +34,14 @@ class UserGuideIndex extends Component
             session()->flash('success', __('User guide deleted successfully.'));
             $this->deleteId = null;
             $this->resetPage();
-            $this->dispatch('hide-delete-modal');
+            // hide the modal in the browser
+            $this->dispatchBrowserEvent('hide-delete-modal');
         }
     }
 
     public function render()
     {
-        $userGuides = UserGuide::query()
+        $userGuides = UserGuide::with('user')
             ->where(function($query) {
                 $query->where('title', 'like', '%'.$this->search.'%')
                       ->orWhere('description', 'like', '%'.$this->search.'%');

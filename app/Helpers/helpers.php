@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\SharesBalances;
+use App\Models\TranslaleModel;
 use App\Models\User;
 use App\Services\Balances\BalancesFacade;
 use App\Services\Users\UserTokenFacade;
@@ -648,9 +649,8 @@ if (!function_exists('getBalanceCIView')) {
         if (!is_null($balance)) {
             return view('parts.datatable.ci.ci-' . $balance->balance_operation_id, ['balance' => $balance]);
         } else {
-         dd($balance);
-         return view('parts.datatable.ci.ci-default');
+            dd($balance);
+            return view('parts.datatable.ci.ci-default');
         }
     }
 }
-
