@@ -73,10 +73,6 @@
     color: #009fe3 !important
 }
 
-[data-layout-mode=dark] .page-title-box {
-    background-color: #3c4257 !important
-}
-
 [data-layout-mode=dark] .tab2earn > li > a {
     color: #fff !important
 }

@@ -30,7 +30,7 @@
                                 'icon'  => 'bx bx-dollar-circle',
                                 'iconBg'=> 'bg-soft-info',
                                 'iconColor' => 'text-info',
-                                'textClass' => '',
+                                'textClass' => 'text-info',
                                 'labelClass'=> 'text-muted'
                             ],
                             [

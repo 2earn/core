@@ -32,10 +32,12 @@
                 <button type="button" class="btn btn-soft-secondary material-shadow-none btn-sm">
                     {{__($order->status->name)}}
                 </button>
-                <button type="button" class="btn btn-soft-warning material-shadow-none btn-sm"
-                        title="{{__('Platform')}}">
-                    {{__($order->OrderDetails()->first()?->item()->first()?->platform()->first()?->name)}}
-                </button>
+                @if($order->OrderDetails()->first()?->item()->first()?->platform()->first()?->name)
+                    <button type="button" class="btn btn-soft-warning material-shadow-none btn-sm"
+                            title="{{__('Platform')}}">
+                        {{__($order->OrderDetails()->first()?->item()->first()?->platform()->first()?->name)}}
+                    </button>
+                @endif
                 @if($order->status->value == \Core\Enum\OrderEnum::Dispatched->value && $currentRouteName=="orders_detail")
                     <button type="button" class="btn btn-soft-success material-shadow-none btn-sm mx-2 float-end"
                             onclick="window.print()" title="{{__('Print')}}">
@@ -60,7 +62,8 @@
                                         </div>
                                         <div class="card-body">
                                             <blockquote class="text-muted mt-2">
-                                                <span class="text-muted">{{__('This is only for admin / not translatable note')}}</span>
+                                                <span
+                                                    class="text-muted">{{__('This is only for admin / not translatable note')}}</span>
                                                 <strong>{{__('Note')}}: </strong><br>{{$order->note}}
                                             </blockquote>
                                         </div>
@@ -117,7 +120,7 @@
 
                                                                     <li class="list-group-item">
                                                                         <strong>{{__('Platform')}}</strong><span
-                                                                            class="float-end">  {{__($orderDetail->item()->first()?->platform()->first()->name)}}</span>
+                                                                            class="float-end">  {{__($orderDetail->item()->first()?->platform()->first()?->name)}}</span>
                                                                     </li>
 
                                                                     @if($orderDetail->item()->first()->deal()->exists())
@@ -367,7 +370,8 @@
                                                         <strong>{{__('Total lost discount')}}</strong><span
                                                             class="float-end text-muted">{{$order->total_lost_discount}}  {{config('app.currency')}}</span>
                                                         <hr>
-                                                        <span class="text-warning float-end">{{__('You can top up your discount with')}} {{$order->total_lost_discount}}   {{config('app.currency')}}</span>
+                                                        <span
+                                                            class="text-warning float-end">{{__('You can top up your discount with')}} {{$order->total_lost_discount}}   {{config('app.currency')}}</span>
                                                     </li>
                                                 @endif
                                             </ul>
