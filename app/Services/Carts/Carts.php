@@ -106,13 +106,13 @@ class Carts
         if ($existingCartItem) {
             $existingCartItem->qty += $qty;
             $existingCartItem->total_amount = $existingCartItem->qty * $existingCartItem->unit_price;
-            $existingCartItem->shipping = $existingCartItem->price * mt_rand(5, 15) / 100;
+            $existingCartItem->shipping = 0;
             $existingCartItem->save();
         } else {
             $cartItem = CartItem::create([
                 'item_id' => $item->id,
                 'qty' => $qty,
-                'shipping' => $item->price * mt_rand(5, 15) / 100,
+                'shipping' => 0,
                 'unit_price' => $item->price,
                 'total_amount' => $item->price,
             ]);

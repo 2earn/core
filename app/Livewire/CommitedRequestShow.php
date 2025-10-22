@@ -14,6 +14,7 @@ class CommitedRequestShow extends Component
     public $note;
     public $note_message;
     public $userProfileImage;
+    public $CommitedRequestId;
 
     public function mount()
     {
@@ -33,7 +34,6 @@ class CommitedRequestShow extends Component
             ]);
         User::find($committedInvestorRequest->user_id)->update(['commited_investor' => true]);
         return redirect()->route('requests_commited_investors', app()->getLocale())->with('success', trans('Committed investor request is validated'));
-
     }
 
     public function initRejectRequest()
