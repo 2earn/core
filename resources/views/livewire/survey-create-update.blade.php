@@ -268,12 +268,14 @@
                         <div class="row mt-2">
                             <div class="form-group col-md-4 mt-2">
                                 <label for="startDate">{{__('Start Date')}}:</label>
-                                <input class="form-control" wire:model.live="startDate" type="date"
+                                <input class="form-control" wire:model.live="startDate"
+                                       type="datetime-local"
                                        id="startDate" placeholder="{{__('Start Date')}}">
                             </div>
                             <div class="form-group col-md-4 mt-2">
                                 <label for="endDate">{{__('End Date')}}:</label>
-                                <input class="form-control" wire:model.live="endDate" type="date"
+                                <input class="form-control" wire:model.live="endDate"
+                                       type="datetime-local"
                                        id="endDate" placeholder="{{__('End Date')}}">
                             </div>
                             <div class="form-group col-md-4 mt-2">

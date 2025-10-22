@@ -299,7 +299,7 @@
                             </a>
                         </li>
                         <li class="nav-item cool-link {{$currentRouteName=='platform_index'? 'active' : ''}}">
-                            <a href="{{route('platform_index',['locale'=>request()->route("locale")],false )}}"
+                            <a href="{{route('platform_index',['locale'=>app()->getLocale()],false )}}"
                                class="nav-link menu-link {{$currentRouteName=='platform_index'? 'active' : ''}}"
                                role="button">
                                 <i class="ri-git-repository-private-fill"></i>
@@ -323,7 +323,7 @@
                             </a>
                         </li>
                         <li class="nav-item cool-link {{$currentRouteName=='orders_index'? 'active' : ''}}">
-                            <a href="{{route('orders_index',['locale'=>request()->route("locale")],false )}}"
+                            <a href="{{route('orders_index',['locale'=>app()->getLocale()],false )}}"
                                class="nav-link menu-link {{$currentRouteName=='orders_index'? 'active' : ''}}"
                                role="button">
                                 <i class="ri-shopping-cart-fill"></i>
@@ -331,7 +331,7 @@
                             </a>
                         </li>
                         <li class="nav-item cool-link {{$currentRouteName=='items_index'? 'active' : ''}}">
-                            <a href="{{route('items_index',['locale'=>request()->route("locale")],false )}}"
+                            <a href="{{route('items_index',['locale'=>app()->getLocale()],false )}}"
                                class="nav-link menu-link {{$currentRouteName=='items_index'? 'active' : ''}}"
                                role="button">
                                 <i class="ri-shopping-bag-fill"></i>
@@ -339,7 +339,7 @@
                             </a>
                         </li>
                         <li class="nav-item cool-link {{$currentRouteName=='target_index'? 'active' : ''}}">
-                            <a href="{{route('target_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
+                            <a href="{{route('target_index',['locale'=>app()->getLocale(),'idSurvey'=>request()->route("idSurvey")],false )}}"
                                class="nav-link menu-link {{$currentRouteName=='target_index'? 'active' : ''}}"
                                role="button">
                                 <i class="ri-pushpin-fill"></i>
@@ -347,7 +347,7 @@
                             </a>
                         </li>
                         <li class="nav-item cool-link {{$currentRouteName=='hashtags_index'? 'active' : ''}}">
-                            <a href="{{route('hashtags_index',['locale'=>request()->route("locale")],false )}}"
+                            <a href="{{route('hashtags_index',['locale'=>app()->getLocale()],false )}}"
                                class="nav-link menu-link {{$currentRouteName=='hashtags_index'? 'active' : ''}}"
                                role="button">
                                 <i class="ri-hashtag"></i>
@@ -355,7 +355,7 @@
                             </a>
                         </li>
                         <li class="nav-item cool-link {{$currentRouteName=='balances_index'? 'active' : ''}}">
-                            <a href="{{route('balances_index',['locale'=>request()->route("locale")],false )}}"
+                            <a href="{{route('balances_index',['locale'=>app()->getLocale()],false )}}"
                                class="nav-link menu-link {{$currentRouteName=='balances_index'? 'active' : ''}}"
                                role="button">
                                 <i class="ri-wallet-fill"></i>
@@ -363,7 +363,7 @@
                             </a>
                         </li>
                         <li class="nav-item cool-link {{$currentRouteName=='balances_categories_index'? 'active' : ''}}">
-                            <a href="{{route('balances_categories_index',['locale'=>request()->route("locale")],false )}}"
+                            <a href="{{route('balances_categories_index',['locale'=>app()->getLocale()],false )}}"
                                class="nav-link menu-link {{$currentRouteName=='balances_categories_index'? 'active' : ''}}"
                                role="button">
                                 <i class="ri-wallet-3-fill"></i>
@@ -397,7 +397,7 @@
                             </div>
                         </li>
                         <li class="nav-item cool-link {{$currentRouteName=='surveys_index'? 'active' : ''}}">
-                            <a href="{{route('surveys_index',['locale'=>request()->route("locale"),'idSurvey'=>request()->route("idSurvey")],false )}}"
+                            <a href="{{route('surveys_index',['locale'=>app()->getLocale(),'idSurvey'=>request()->route("idSurvey")],false )}}"
                                class="nav-link menu-link {{$currentRouteName=='target_index'? 'active' : ''}}"
                                role="button">
                                 <i class="ri-bookmark-fill"></i>

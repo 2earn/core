@@ -118,10 +118,12 @@
                                                                         {{$orderDetail->unit_price}}  {{config('app.currency')}}</span>
                                                                     </li>
 
+                                                                    @if($orderDetail->item()->first()?->platform()->exists())
                                                                     <li class="list-group-item">
                                                                         <strong>{{__('Platform')}}</strong><span
                                                                             class="float-end">  {{__($orderDetail->item()->first()?->platform()->first()?->name)}}</span>
                                                                     </li>
+                                                                    @endif
 
                                                                     @if($orderDetail->item()->first()->deal()->exists())
                                                                         <li class="list-group-item list-group-item-success">
@@ -415,7 +417,6 @@
                             @endif
                         </div>
                     </div>
-                    @endif
                     @if($currentRouteName=="orders_detail" && $order->status->value >= \Core\Enum\OrderEnum::Paid->value &&(!is_null($discount) ||!is_null($bfss)||!is_null($cash)))
                         <div class="col-md-12">
                             <div class="card mt-2">
@@ -566,18 +567,20 @@
                         @endif
                     @endif
                 </div>
-                <div class="card-footer">
+            @endif
+
+            <div class="card-footer">
             <span class="badge bg-info-subtle text-info badge-border">
             {{__('Updated at')}} : {{$order->updated_at}}</span>
-                    @if($currentRouteName=="orders_detail")
-                        <span class="badge bg-info-subtle text-info badge-border">
+                @if($currentRouteName=="orders_detail")
+                    <span class="badge bg-info-subtle text-info badge-border">
                 {{__('Created at')}} : {{$order->created_at}}</span>
-                    @endif
-                    @if($currentRouteName=="orders_index" || $currentRouteName=="orders_previous"|| $currentRouteName=="orders_summary" )
-                        <a href="{{route('orders_detail', ['locale'=>app()->getLocale(),'id'=>$order->id])}}"
-                           class="float-end">{{__('More details')}}</a>
-                    @endif
-                </div>
+                @endif
+                @if($currentRouteName=="orders_index" || $currentRouteName=="orders_previous"|| $currentRouteName=="orders_summary" )
+                    <a href="{{route('orders_detail', ['locale'=>app()->getLocale(),'id'=>$order->id])}}"
+                       class="float-end">{{__('More details')}}</a>
+                @endif
+            </div>
         </div>
     </div>
 </div>

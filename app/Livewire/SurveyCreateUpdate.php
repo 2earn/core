@@ -168,6 +168,8 @@ class SurveyCreateUpdate extends Component
         $this->showAttchivementChrono = $survey->showAttchivementChrono;
         $this->showAfterArchiving = $survey->showAfterArchiving;
         $this->showAttchivementGool = $survey->showAttchivementGool;
+        Log::info('Survey Start Date: ' . $survey->startDate);
+        Log::info('Survey end Date: ' . $survey->endDate);
         $this->startDate = !is_null($survey->startDate) ? getValidCurrentDateTime($survey->startDate) : null;
         $this->endDate = !is_null($survey->endDate) ? getValidCurrentDateTime($survey->endDate) : null;
         $this->goals = $survey->goals;
