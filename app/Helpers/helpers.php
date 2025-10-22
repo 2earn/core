@@ -649,8 +649,25 @@ if (!function_exists('getBalanceCIView')) {
         if (!is_null($balance)) {
             return view('parts.datatable.ci.ci-' . $balance->balance_operation_id, ['balance' => $balance]);
         } else {
-            dd($balance);
             return view('parts.datatable.ci.ci-default');
         }
     }
 }
+
+if (!function_exists('createTranslaleModel')) {
+    function createTranslaleModel($model, $translation, $value)
+    {
+        TranslaleModel::create(
+            [
+                'name' => TranslaleModel::getTranslateName($model, $translation),
+                'value' => $value . ' AR',
+                'valueFr' => $value . ' FR',
+                'valueEn' => $value . ' EN',
+                'valueTr' => $value . ' TR',
+                'valueEs' => $value . ' ES',
+                'valueRu' => $value . ' Ru',
+                'valueDe' => $value . ' De',
+            ]);
+    }
+}
+

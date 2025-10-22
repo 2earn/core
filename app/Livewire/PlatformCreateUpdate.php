@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use App\Models\BusinessSector;
 use App\Models\Item;
-use App\Models\TranslaleModel;
 use Core\Enum\DealStatus;
 use Core\Enum\DealTypeEnum;
 use Core\Enum\PlatformType;
@@ -193,19 +192,10 @@ class PlatformCreateUpdate extends Component
                     'type' => Platform::IMAGE_TYPE_LOGO,
                 ]);
             }
-            foreach (['name', 'description'] as $translation) {
-                TranslaleModel::create(
-                    [
-                        'name' => TranslaleModel::getTranslateName($platform, $translation),
-                        'value' => $this->{$translation} . ' AR',
-                        'valueFr' => $this->{$translation} . ' FR',
-                        'valueEn' => $this->{$translation} . ' EN',
-                        'valueEs' => $this->{$translation} . ' ES',
-                        'valueTr' => $this->{$translation} . ' TR',
-                        'valueRu' => $this->{$translation} . ' Ru',
-                        'valueDe' => $this->{$translation} . ' De',
-                    ]);
-            }
+
+            createTranslaleModel($platform, 'name', $this->name);
+            createTranslaleModel($platform, 'description', $this->description);
+
             if ($this->useCoupons) {
                 $this->createProduct($platform);
             }

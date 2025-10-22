@@ -137,20 +137,11 @@ class SurveyCreateUpdate extends Component
                 $survey->targets()->attach([$this->target]);
             }
 
-            $translations = ['name', 'description', 'disabledResult', 'disabledComment', 'disabledLike'];
-            foreach ($translations as $translation) {
-                TranslaleModel::create(
-                    [
-                        'name' => TranslaleModel::getTranslateName($survey, $translation),
-                        'value' => $this->{$translation} . ' AR',
-                        'valueFr' => $this->{$translation} . ' FR',
-                        'valueEn' => $this->{$translation} . ' EN',
-                        'valueEs' => $this->{$translation} . ' ES',
-                        'valueTr' => $this->{$translation} . ' TR',
-                        'valueRu' => $this->{$translation} . ' Ru',
-                        'valueDe' => $this->{$translation} . ' De',
-                    ]);
-            }
+            createTranslaleModel($survey, 'name', $this->name);
+            createTranslaleModel($survey, 'description', $this->description);
+            createTranslaleModel($survey, 'disabledResult', $this->disabledResult);
+            createTranslaleModel($survey, 'disabledComment', $this->disabledComment);
+            createTranslaleModel($survey, 'disabledLike', $this->disabledLike);
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());

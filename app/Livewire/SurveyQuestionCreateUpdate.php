@@ -119,18 +119,7 @@ class SurveyQuestionCreateUpdate extends Component
                 'maxResponse' => $this->maxResponse != "" ? $this->maxResponse : 0,
                 'survey_id' => $this->idSurvey,
             ]);
-
-            TranslaleModel::create(
-                [
-                    'name' => TranslaleModel::getTranslateName($surveyQuestion, 'content'),
-                    'value' => $this->content . ' AR',
-                    'valueFr' => $this->content . ' FR',
-                    'valueEn' => $this->content . ' EN',
-                    'valueEs' => $this->content . ' ES',
-                    'valueTr' => $this->content . ' Tr',
-                    'valueRu' => $this->content . ' RU',
-                    'valueDe' => $this->content . ' DE',
-                ]);
+            createTranslaleModel($surveyQuestion, 'content', $this->content);
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());

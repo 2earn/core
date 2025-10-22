@@ -586,11 +586,13 @@
 
             </ul>
         </div>
-        <div class="col-sm-12 col-md-12 col-lg-12">
+        @if($survey->openDate)
+            <div class="col-sm-12 col-md-12 col-lg-12">
         <span class="mb-0 text-muted float-end">
           {{__('Opening date')}}:  {{$survey->openDate}}
         </span>
-        </div>
+            </div>
+        @endif
     </div>
     <div class="card-footer text-muted">
 

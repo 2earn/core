@@ -105,20 +105,10 @@ class NewsCreateUpdate extends Component
         try {
             $createdNews = News::create($news);
             $createdNews->hashtags()->sync($this->selectedHashtags);
-            $translations = ['title', 'content'];
-            foreach ($translations as $translation) {
-                TranslaleModel::create(
-                    [
-                        'name' => TranslaleModel::getTranslateName($createdNews, $translation),
-                        'value' => $this->{$translation} . ' AR',
-                        'valueFr' => $this->{$translation} . ' FR',
-                        'valueEn' => $this->{$translation} . ' EN',
-                        'valueTr' => $this->{$translation} . ' TR',
-                        'valueEs' => $this->{$translation} . ' ES',
-                        'valueRu' => $this->{$translation} . ' Ru',
-                        'valueDe' => $this->{$translation} . ' De',
-                    ]);
-            }
+
+            createTranslaleModel($createdNews, 'title', $this->title);
+            createTranslaleModel($createdNews, 'content', $this->content);
+            
             if ($this->mainImage) {
                 $imagePath = $this->mainImage->store('news/' . News::IMAGE_TYPE_MAIN, 'public2');
                 $createdNews->mainImage()->create([

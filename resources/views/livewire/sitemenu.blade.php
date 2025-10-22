@@ -225,6 +225,14 @@
                                 <span>{{__('Targets')}}</span>
                             </a>
                         </li>
+                        <li class="nav-item cool-link {{$currentRouteName=='surveys_index'? 'active' : ''}}">
+                            <a href="{{route('surveys_index',['locale'=>request()->route("locale")],false )}}"
+                               class="nav-link menu-link {{$currentRouteName=='surveys_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-pushpin-fill mx-2"></i>
+                                <span>{{__('Surveys')}}</span>
+                            </a>
+                        </li>
                         <li class="nav-item cool-link {{$currentRouteName=='hashtags_index'? 'active' : ''}}">
                             <a href="{{route('hashtags_index',['locale'=>request()->route("locale")],false )}}"
                                class="nav-link menu-link {{$currentRouteName=='hashtags_index'? 'active' : ''}}"

@@ -1,5 +1,5 @@
 <div class="container-fluid">
-@component('components.breadcrumb')
+    @component('components.breadcrumb')
         @slot('title')
             {{ __('Survey Create') }}
         @endslot
@@ -19,8 +19,8 @@
         <div class="card-body row ">
             @include('layouts.flash-messages')
             <div class="card mb-2 ml-4">
-                <div class="card-body">
-                    <form>
+                <form>
+                    <div class="card-body">
                         <input type="hidden" wire:model.live="id">
                         <div class="row">
                             <div class="form-group col-sm-12 col-md-6 mb-3">
@@ -35,7 +35,8 @@
 
                             <div class="form-group  col-sm-4 col-md-2">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" role="switch" wire:model.live="enabled" type="checkbox"
+                                    <input class="form-check-input" role="switch" wire:model.live="enabled"
+                                           type="checkbox"
                                            id="Enabled" placeholder="{{__('enabled')}}" checked>
                                     <label class="form-check-label" for="Enabled">{{__('Enabled')}}</label>
                                 </div>
@@ -43,7 +44,8 @@
 
                             <div class="form-group  col-sm-4 col-md-2">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" role="switch" wire:model.live="published" type="checkbox"
+                                    <input class="form-check-input" role="switch" wire:model.live="published"
+                                           type="checkbox"
                                            id="published" placeholder="{{__('published')}}" checked>
                                     <label class="form-check-label" for="published">{{__('Published')}}</label>
                                 </div>
@@ -51,23 +53,29 @@
 
                             <div class="form-group  col-sm-4 col-md-2">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" role="switch" wire:model.live="updatable" type="checkbox"
+                                    <input class="form-check-input" role="switch" wire:model.live="updatable"
+                                           type="checkbox"
                                            id="updatable" placeholder="{{__('updatable')}}" checked>
                                     <label class="form-check-label" for="updatable">{{__('Updatable')}}</label>
                                 </div>
                             </div>
                             <div class="form-group  col-sm-4 col-md-2">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" role="switch" wire:model.live="showResultsAsNumber" type="checkbox"
+                                    <input class="form-check-input" role="switch" wire:model.live="showResultsAsNumber"
+                                           type="checkbox"
                                            id="showResultsAsNumber" placeholder="{{__('showResultsAsNumber')}}" checked>
-                                    <label class="form-check-label" for="showResultsAsNumber">{{__('Show results as number')}}</label>
+                                    <label class="form-check-label"
+                                           for="showResultsAsNumber">{{__('Show results as number')}}</label>
                                 </div>
                             </div>
                             <div class="form-group  col-sm-4 col-md-2">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" role="switch" wire:model.live="showResultsAsPercentage" type="checkbox"
-                                           id="showResultsAsPercentage" placeholder="{{__('showResultsAsPercentage')}}" checked>
-                                    <label class="form-check-label" for="showResultsAsPercentage">{{__('Show results as percentage')}}</label>
+                                    <input class="form-check-input" role="switch"
+                                           wire:model.live="showResultsAsPercentage" type="checkbox"
+                                           id="showResultsAsPercentage" placeholder="{{__('showResultsAsPercentage')}}"
+                                           checked>
+                                    <label class="form-check-label"
+                                           for="showResultsAsPercentage">{{__('Show results as percentage')}}</label>
                                 </div>
                             </div>
                             <div class="form-group mb-3">
@@ -274,23 +282,22 @@
                                        id="goals" placeholder="{{__('Goals')}}">
                             </div>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col-md-2">
-                                @if($update)
-                                    <button wire:click.prevent="updateSurvey()"
-                                            class="btn btn-success btn-block">{{__('Update')}}</button>
-                                @else
-                                    <button wire:click.prevent="store()"
-                                            class="btn btn-success btn-block">{{__('Save')}}</button>
-                                @endif
-                            </div>
-                            <div class="col-md-2">
-                                <button wire:click.prevent="cancel()"
-                                        class="btn btn-danger">{{__('Cancel')}}</button>
-                            </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="my-2">
+                            @if($update)
+                                <button wire:click.prevent="updateSurvey()"
+                                        class="btn btn-outline-success float-end m-1">{{__('Update')}}</button>
+                            @else
+                                <button wire:click.prevent="store()"
+                                        class="btn btn-outline-success float-end m-1">{{__('Save')}}</button>
+                            @endif
+                            <button wire:click.prevent="cancel()"
+                                    class="btn btn-outline-warning float-end m-1">{{__('Cancel')}}</button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>

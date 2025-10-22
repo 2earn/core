@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-use App\Models\TranslaleModel;
 use App\Models\UserGuide;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -78,22 +77,8 @@ class UserGuideCreateUpdate extends Component
                 'routes' => $this->routes,
             ]);
             $this->reset(['title', 'description', 'file', 'routes']);
-
-
-            $translations = ['title', 'description'];
-            foreach ($translations as $translation) {
-                TranslaleModel::create(
-                    [
-                        'name' => TranslaleModel::getTranslateName($userGuide, $translation),
-                        'value' => $this->{$translation} . ' AR',
-                        'valueFr' => $this->{$translation} . ' FR',
-                        'valueEn' => $this->{$translation} . ' EN',
-                        'valueTr' => $this->{$translation} . ' TR',
-                        'valueEs' => $this->{$translation} . ' ES',
-                        'valueRu' => $this->{$translation} . ' Ru',
-                        'valueDe' => $this->{$translation} . ' De',
-                    ]);
-            }
+            createTranslaleModel($userGuide, 'title', $this->title);
+            createTranslaleModel($userGuide, 'description', $this->description);
         }
         return redirect()->route('user_guides_index', app()->getLocale());
     }

@@ -136,21 +136,8 @@ class BusinessSectorCreateUpdate extends Component
                     'type' => BusinessSector::IMAGE_TYPE_LOGO,
                 ]);
             }
-
-            $translations = ['name', 'description'];
-            foreach ($translations as $translation) {
-                TranslaleModel::create(
-                    [
-                        'name' => TranslaleModel::getTranslateName($businessSector, $translation),
-                        'value' => $this->{$translation} . ' AR',
-                        'valueFr' => $this->{$translation} . ' FR',
-                        'valueEn' => $this->{$translation} . ' EN',
-                        'valueEs' => $this->{$translation} . ' ES',
-                        'valueTr' => $this->{$translation} . ' TR',
-                        'valueRu' => $this->{$translation} . ' Ru',
-                        'valueDe' => $this->{$translation} . ' De',
-                    ]);
-            }
+            createTranslaleModel($businessSector, 'name', $this->name);
+            createTranslaleModel($businessSector, 'description', $this->description);
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());

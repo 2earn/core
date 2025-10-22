@@ -91,18 +91,7 @@ class SurveyQuestionChoiceCreateUpdate extends Component
                     'title' => $this->title,
                     'question_id' => $this->idQuestion
                 ]);
-
-            TranslaleModel::create(
-                [
-                    'name' => TranslaleModel::getTranslateName($surveyQuestionChoice, 'title'),
-                    'value' => $this->title . ' AR',
-                    'valueFr' => $this->title . ' FR',
-                    'valueEn' => $this->title . ' EN',
-                    'valueEs' => $this->title . ' ES',
-                    'valueTr' => $this->title . ' Tr',
-                    'valueRu' => $this->title . ' Ru',
-                    'valueDe' => $this->title . ' De',
-                ]);
+            createTranslaleModel($surveyQuestionChoice, 'title', $this->title);
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
