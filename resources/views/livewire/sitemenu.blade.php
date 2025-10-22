@@ -1,6 +1,6 @@
 @php use App\Models\User; @endphp
 
-<div class="container overflow-auto">
+<div class="container-fluid">
     @section('title')
         {{ __('Site menu') }}
     @endsection
@@ -207,6 +207,14 @@
                                role="button">
                                 <i class="ri-shopping-cart-fill mx-2"></i>
                                 <span>{{__('Orders')}}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item cool-link {{$currentRouteName=='user_list'? 'active' : ''}}">
+                            <a href="{{route('user_list',['locale'=>request()->route("locale")],false )}}"
+                               class="nav-link menu-link {{$currentRouteName=='user_list'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-user-2-fill mx-2"></i>
+                                <span>{{__('User list')}}</span>
                             </a>
                         </li>
                         <li class="nav-item cool-link {{$currentRouteName=='items_index'? 'active' : ''}}">
