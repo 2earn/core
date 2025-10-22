@@ -193,8 +193,11 @@
                             </div>
                             <div class="row align-items-end g-0">
                                 <div class="col-6">
-                                    <h5 class="mb-1 mt-4">{{number_format(getGiftedShares()/getSelledActions()*100,2)}}
-                                        %</h5>
+                                    @if(getSelledActions()>0)
+                                        <h5 class="mb-1 mt-4">{{number_format(getGiftedShares()/getSelledActions()*100,2)}}
+                                            %</h5>
+                                    @endif
+
                                     <p class="text-danger fw-medium mb-0"><span
                                             class="text-muted ms-2 fs-12"></span></p>
                                 </div>
