@@ -47,12 +47,12 @@ class Platform extends Model
 
     public function financialManager(): HasOne
     {
-        return $this->hasOne(User::class,);
+        return $this->hasOne(User::class);
     }
 
     public function businessSector(): HasOne
     {
-        return $this->hasOne(BusinessSector::class,'id', 'business_sector_id');
+        return $this->hasOne(BusinessSector::class, 'id', 'business_sector_id');
     }
 
     public function productDealHistory(): HasMany
@@ -80,8 +80,12 @@ class Platform extends Model
         return $this->morphOne(Image::class, 'imageable')->where('type', '=', self::IMAGE_TYPE_LOGO);
     }
 
-    public function selected($idUser)
+    public function selected($idUser = null)
     {
+        if (is_null($idUser)) {
+            return false;
+        }
+
         $platforms = DB::table('user_plateforme')->where('user_id', $idUser)->get();
         if (is_null($platforms)) {
             return false;
@@ -90,7 +94,8 @@ class Platform extends Model
     }
 
 
-    public static function canCheckDeals($id)
+    public
+    static function canCheckDeals($id)
     {
         if (User::isSuperAdmin()) {
             return true;
