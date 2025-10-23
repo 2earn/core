@@ -10,7 +10,7 @@
             class="position-absolute topbar-badge cart-item-badge fs-10 translate-middle badge rounded-pill bg-info">{{$cart->total_cart_quantity}}</span>
     </button>
     <div class="dropdown-menu dropdown-menu-xl dropdown-menu-end p-0 dropdown-menu-cart"
-         aria-labelledby="page-header-cart-dropdown"
+         aria-labelledby="page-header-cart-dropdown" wire:ignore.self
          style="position: absolute; inset: 0 0 auto auto; margin: 0; transform: translate(0px, 58px);"
          data-popper-placement="bottom-end"
     >
