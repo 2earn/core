@@ -111,11 +111,11 @@ class SurveyCreateUpdate extends Component
             $survey = Survey::create([
                 'name' => $this->name,
                 'description' => $this->description,
-                'enabled' => $this->enabled,
-                'published' => $this->published,
-                'updatable' => $this->updatable,
-                'show_results_as_number' => $this->showResultsAsNumber,
-                'show_results_as_percentage' => $this->showResultsAsPercentage,
+                'enabled' => $this->enabled ? 1 : 0,
+                'published' => $this->published ? 1 : 0,
+                'updatable' => $this->updatable ? 1 : 0,
+                'show_results_as_number' => $this->showResultsAsNumber ? 1 : 0,
+                'show_results_as_percentage' => $this->showResultsAsPercentage ? 1 : 0,
                 'show' => $this->show,
                 'showResult' => $this->showResult,
                 'commentable' => $this->commentable,
@@ -165,11 +165,11 @@ class SurveyCreateUpdate extends Component
         $this->name = $survey->name;
         $this->description = $survey->description;
         $this->idSurvey = $survey->id;
-        $this->enabled = $survey->enabled;
-        $this->published = $survey->published;
-        $this->updatable = $survey->updatable;
-        $this->showResultsAsNumber = $this->showResultsAsNumber;
-        $this->showResultsAsPercentage = $this->showResultsAsPercentage;
+        $this->enabled = $survey->enabled == 1 ? true : false;
+        $this->published = $survey->published == 1 ? true : false;
+        $this->updatable = $survey->updatable == 1 ? true : false;
+        $this->showResultsAsNumber = $survey->show_results_as_number == 1 ? true : false;
+        $this->showResultsAsPercentage = $survey->show_results_as_percentage == 1 ? true : false;
         $this->commentable = $survey->commentable;
         $this->likable = $survey->likable;
         $this->show = $survey->show;
@@ -206,11 +206,11 @@ class SurveyCreateUpdate extends Component
             $paramsToUpdate = [
                 'name' => $this->name,
                 'description' => $this->description,
-                'enabled' => $this->enabled,
-                'published' => $this->published,
-                'updatable' => $this->updatable,
-                'show_results_as_number' => $this->showResultsAsNumber,
-                'show_results_as_percentage' => $this->showResultsAsPercentage,
+                'enabled' => $this->enabled ? 1 : 0,
+                'published' => $this->published ? 1 : 0,
+                'updatable' => $this->updatable ? 1 : 0,
+                'show_results_as_number' => $this->showResultsAsNumber ? 1 : 0,
+                'show_results_as_percentage' => $this->showResultsAsPercentage ? 1 : 0,
                 'show' => $this->show,
                 'showResult' => $this->showResult,
                 'commentable' => $this->commentable,
