@@ -1,4 +1,10 @@
-<div  class="container" >
+<div
+    @if(in_array($currentRouteName,["surveys_show","home","surveys_results"]))
+        class="container-fluid"
+    @else
+        class="container"
+    @endif
+>
     <div class="row">
         <div class="col-12">
             @include('layouts.flash-messages')

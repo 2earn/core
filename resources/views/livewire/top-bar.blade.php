@@ -3,22 +3,9 @@
         <div class="layout-width">
             <div class="navbar-header">
                 <div class="d-flex">
-                    <div class="navbar-brand-box horizontal-logo">
-                        <a href="{{ route('home', app()->getLocale()) }}" class="logo logo-dark" title="{{ __('To Home') }}">
-                        <span class="logo-sm">
-                            <img src="{{ Vite::asset('resources/images/logo-sm.png') }}" height="22" alt="{{ config('app.name') }}">
-                        </span>
-                            <span class="logo-lg">
-                            <img src="{{ Vite::asset('resources/images/logo-dark.png') }}" height="17" alt="{{ config('app.name') }}">
-                        </span>
-                        </a>
-                        <a href="{{ route('home', app()->getLocale()) }}" class="logo logo-light" title="{{ __('To Home') }}">
-                        <span class="logo-sm">
-                            <img src="{{ Vite::asset('resources/images/logo-sm.png') }}" height="22" alt="{{ config('app.name') }}">
-                        </span>
-                            <span class="logo-lg">
-                            <img src="{{ Vite::asset('resources/images/logo-light.png') }}" height="17" alt="{{ config('app.name') }}">
-                        </span>
+                    <div class="ms-1 header-item d-flex me-4">
+                    <a href="{{ route('home', app()->getLocale()) }}" class="m-2"  title="{{ __('To Home') }}">
+                            <img src="{{ Vite::asset('resources/images/logo2earn.png') }}" height="54px" alt="{{ config('app.name') }}">
                         </a>
                     </div>
                     @php

@@ -370,7 +370,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-12" style="padding-right: 0;padding-left: 0;">
-                        <div class="card" style="height: 480px;">
+                        <div class="card border-0 " style="height: 480px;box-shadow: none">
                             <div class="card-body">
                                 <div id="any4"></div>
                             </div>
@@ -387,7 +387,7 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="card" style="height: 480px;">
+                    <div class="card border-0 " style="height: 480px;box-shadow: none">
                         <div class="card-body">
                             <div id="any5"></div>
                         </div>
