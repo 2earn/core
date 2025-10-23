@@ -45,15 +45,33 @@ class BusinessSectorShow extends Component
 
     public function render()
     {
-        $businessSector = BusinessSector::find($this->idBusinessSector);
+        $businessSector = BusinessSector::with(['logoImage', 'thumbnailsImage', 'thumbnailsHomeImage'])
+            ->find($this->idBusinessSector);
 
         if (is_null($businessSector)) {
             redirect()->route('business_sector_index', ['locale' => app()->getLocale()]);
         }
 
+        // Eager load all relationships to avoid N+1 queries
+        $platforms = Platform::with([
+            'logoImage',
+            'deals' => function($query) {
+                $query->where('start_date', '<=', now())
+                      ->where('end_date', '>=', now());
+            },
+            'deals.items' => function($query) {
+                $query->where('ref', '!=', '#0001');
+            },
+            'deals.items.thumbnailsImage'
+        ])
+        ->where('enabled', true)
+        ->where('business_sector_id', $this->idBusinessSector)
+        ->orderBy('created_at')
+        ->get();
+
         $params = [
             'businessSector' => $businessSector,
-            'platforms' => Platform::where('enabled', true)->where('business_sector_id', $this->idBusinessSector)->orderBy('created_at')->get(),
+            'platforms' => $platforms,
         ];
         $this->items = $this->loadItems();
         return view('livewire.business-sector-show', $params)->extends('layouts.master')->section('content');
