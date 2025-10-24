@@ -49,7 +49,7 @@
                                     dir="ltr">
                                     <input wire:model="setting_notif.{{$key}}.value" type="checkbox"
                                            class="form-check-input @if($setting->payer==0) toggle-checkboxFree @else toggle-checkboxPay @endif"
-                                           id="flexSwitchCheckDefault" checked="">
+                                           id="flexSwitchCheckDefault" @checked($setting->value)>
                                     <label class="form-check-label"
                                            for="customSwitchsizesm">{{ __( $setting->libelle ) }}  </label>
 
@@ -138,7 +138,7 @@
                                     dir="ltr">
                                     <input wire:model="setting_notif.{{$key}}.value" type="checkbox"
                                            class="form-check-input @if($setting->payer==0) toggle-checkboxFree @else toggle-checkboxPay @endif"
-                                           id="flexSwitchCheckDefault" checked="">
+                                           id="flexSwitchCheckDefault" @checked($setting->value)>
                                     <label class="form-check-label"
                                            for="customSwitchsizesm">{{ __( $setting->libelle ) }}  </label>
 
