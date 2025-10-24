@@ -401,7 +401,7 @@
                 <a href="{{route('surveys_show', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id] )}}"
                    class="btn btn-soft-info material-shadow-none  mt-1">{{__('Details')}}</a>
             @endif
-            @if(\App\Models\User::isSuperAdmin())
+            @if(\App\Models\User::isSuperAdmin() && $survey->status != 4)
                 <button type="button" class="btn btn-info"
                         wire:click="duplicateSurvey({{$survey->id}})"><span>{{__('Duplicate')}}</span></button>
 
