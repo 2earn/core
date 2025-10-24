@@ -70,7 +70,7 @@
                                 @endif
                                 <div class="form-check form-switch mt-3" dir="ltr">
                                     <input wire:model="user.is_public" type="checkbox" class="form-check-input"
-                                           id="customSwitchsizesm" checked="">
+                                           id="customSwitchsizesm" @checked($user['is_public']??false)>
                                     <label class="form-check-label" for="customSwitchsizesm">
                                         {{ __('I agree to receive funding requests') }}
                                     </label>
