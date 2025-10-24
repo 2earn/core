@@ -110,7 +110,7 @@ class BusinessSectorCreateUpdate extends Component
     public function storeBU()
     {
         $this->validate();
-        $businessSectorData = ['name' => $this->name, 'description' => $this->description];
+        $businessSectorData = ['name' => $this->name, 'description' => $this->description ,'color' => $this->color];
         try {
             $businessSector = BusinessSector::create($businessSectorData);
             if ($this->thumbnailsImage) {
