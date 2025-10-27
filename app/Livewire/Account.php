@@ -60,6 +60,7 @@ class Account extends Component
     public $personaltitles;
     public $genders;
     public $languages;
+    public $activeTab = 'personalDetails';
 
     protected $listeners = [
         'PreChangePass' => 'PreChangePass',
@@ -150,6 +151,8 @@ class Account extends Component
         UserNotificationSettings::where('idUser', $settingManager->getAuthUser()->idUser)
             ->where('idNotification', NotificationSettingEnum::change_pwd_sms->value)
             ->update(['value' => $this->sendPassSMS]);
+
+        $this->activeTab = 'changePassword';  
     }
 
 
