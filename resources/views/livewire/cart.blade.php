@@ -1,5 +1,5 @@
 <div class="dropdown topbar-head-dropdown ms-1 header-item">
-    <button
+    <button wire:ignore.self
         type="button"
         class="btn btn-icon btn-topbar material-shadow-none btn-ghost-secondary"
         id="page-header-cart-dropdown"
