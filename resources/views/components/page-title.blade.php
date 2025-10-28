@@ -63,7 +63,7 @@
         </a>
     </nav>
 
-    <div class="container-fluid text-muted" id="sidebar-menu-container">
+    <div class="container-fluid text-muted" id="sidebar-menu-container" style="display: none">
         <div class="menu-content">
             <div class="row menu-content-row">
                 <div class="card border card-border-light col-12 col-md-6"
@@ -420,76 +420,6 @@
     </div>
 </div>
 
-<style>
-    #sidebar-menu-container {
-        -webkit-overflow-scrolling: touch;
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100vh;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 9999;
-        overflow: hidden;
-        padding: 10px;
-    }
-
-    .menu-content-row {
-        flex: 1;
-        overflow-x: hidden;
-        overflow-y: hidden;
-        margin: 0;
-        min-height: 0;
-        padding: 10px;
-    }
-
-    .menu-content {
-        background-color: white;
-        border-radius: 8px;
-        max-width: 1400px;
-        height: calc(100% - 20px);
-        margin: 0 auto;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-    }
-
-    @media (max-width: 768px) {
-        #sidebar-menu-container {
-            padding: 5px !important;
-        }
-
-        .menu-content {
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-
-        .menu-content-row {
-            overflow-y: auto;
-        }
-
-        #sidebar-menu-container > div {
-            height: calc(100% - 10px) !important;
-            border-radius: 4px !important;
-        }
-
-        #sidebar-menu-container .card {
-            margin-bottom: 10px;
-        }
-
-        #sidebar-menu-container .card-body {
-            padding: 0.75rem;
-        }
-    }
-
-    body.modal-open {
-        overflow: hidden;
-        position: fixed;
-        width: 100%;
-        height: 100vh;
-    }
-</style>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -500,7 +430,6 @@
         if (siteMenuBtn && sidebarMenuContainer) {
             siteMenuBtn.addEventListener('click', function (e) {
                 e.preventDefault();
-
                 if (sidebarMenuContainer.style.display === 'none') {
                     sidebarMenuContainer.style.display = 'block';
                     document.body.classList.add('modal-open');
