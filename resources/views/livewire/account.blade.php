@@ -1107,11 +1107,16 @@
                 <script type="module">
                     document.addEventListener("DOMContentLoaded", function () {
 
-                      $("#soonExpireIIC, #goToIdentification").click(function () {
-                            const tabTrigger = new bootstrap.Tab($('#identificationsTab a')[0]);
-                            tabTrigger.show();
-                            $('#identificationModalbtn').trigger('click');
-                       });
+                    $("#soonExpireIIC, #goToIdentification").click(function () {
+                        $('.nav-link').removeClass('active').attr('aria-selected', false);
+                        $('.tab-pane').removeClass('active show');
+
+                        $('#identificationsTab a').addClass('active').attr('aria-selected', true);
+
+                        $('#experience').addClass('active show');
+
+                        $('#identificationModalbtn').trigger('click');
+                    });
 
                     });
                 </script>
