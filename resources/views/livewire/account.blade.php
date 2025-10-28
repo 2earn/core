@@ -1124,7 +1124,7 @@
                     document.addEventListener("DOMContentLoaded", function () {
 
                       $("#btnPlus").click(function () {
-                        var child = parseInt($("#inputChild").val()) || 1;
+                        var child = parseInt($("#inputChild").val()) || 0;
                         child = child + 1;
                         if (child <= 20)
                             $("#inputChild").val(child);
@@ -1132,14 +1132,14 @@
                             $("#inputChild").val(20);
                     });
 
-                    $("#btnMinus").click(function () {
-                        var child = parseInt($("#inputChild").val()) || 1;
-                        child = child - 1;
-                        if (child >= 1)
-                            $("#inputChild").val(child);
-                        else
-                            $("#inputChild").val(1);
-                    });
+                     $("#btnMinus").click(function () {
+                            var child = parseInt($("#inputChild").val()) || 0;
+                            child = child - 1;
+                            if (child >= 0)
+                                $("#inputChild").val(child);
+                            else
+                                $("#inputChild").val(0);
+                        });
 
                         $('#send').change(function () {
                             if (this.checked && !{{$soldeSms}} > 0) {
