@@ -1,4 +1,10 @@
 <div class="container-fluid">
+    <style>
+        .preview-img {
+            max-width: 200px;
+            height: auto;
+        }
+    </style>
     @component('components.breadcrumb')
         @slot('title')
             @if($update)
@@ -60,8 +66,8 @@
                     @error('thumbnailsImage') <span class="error">{{ $message }}</span> @enderror
                     @if ($thumbnailsImage)
                         <div class="mt-3 position-relative d-inline-block">
-                            <img src="{{ $thumbnailsImage->temporaryUrl() }}" alt="Preview" class="img-thumbnail" style="max-width: 200px;">
-                            <button type="button" wire:click="removeThumbnailsImage"
+                            <img src="{{ $thumbnailsImage->temporaryUrl() }}" alt="Preview" class="img-thumbnail preview-img">
+                            <button type="button" wire:click="removeImage('thumbnailsImage')"
                                     class="btn btn-sm btn-danger position-absolute top-0 end-0">
                                 ×
                             </button>
@@ -69,7 +75,7 @@
                     @elseif ($businessSector?->thumbnailsImage)
                             <div class="mt-3 position-relative d-inline-block">
                                 <img src="{{ asset('uploads/' . $businessSector->thumbnailsImage->url) }}"
-                                    alt="Business Sector thumbnailsImage" class="img-thumbnail" style="max-width: 200px;">
+                                    alt="Business Sector thumbnailsImage" class="img-thumbnail preview-img">
                             </div>
                     @endif
                     </div>
@@ -81,8 +87,8 @@
 
                     @if ($thumbnailsHomeImage)
                         <div class="mt-3 position-relative d-inline-block">
-                            <img src="{{ $thumbnailsHomeImage->temporaryUrl() }}" alt="Preview" class="img-thumbnail" style="max-width: 200px;">
-                            <button type="button" wire:click="removeThumbnailsHomeImage"
+                            <img src="{{ $thumbnailsHomeImage->temporaryUrl() }}" alt="Preview" class="img-thumbnail preview-img">
+                            <button type="button" wire:click="removeImage('thumbnailsHomeImage')"
                                     class="btn btn-sm btn-danger position-absolute top-0 end-0">
                                 ×
                             </button>
@@ -90,7 +96,7 @@
                     @elseif ($businessSector?->thumbnailsHomeImage)
                         <div class="mt-3">
                             <img src="{{ asset('uploads/' . $businessSector->thumbnailsHomeImage->url) }}"
-                                alt="Business Sector thumbnailsHomeImage" class="img-thumbnail" style="max-width: 200px;">
+                                alt="Business Sector thumbnailsHomeImage" class="img-thumbnail preview-img">
                         </div>
                     @endif
                 </div>
@@ -102,8 +108,8 @@
 
                     @if ($logoImage)
                         <div class="mt-3 position-relative d-inline-block">
-                            <img src="{{ $logoImage->temporaryUrl() }}" alt="Preview" class="img-thumbnail" style="max-width: 200px;">
-                            <button type="button" wire:click="removeLogoImage"
+                            <img src="{{ $logoImage->temporaryUrl() }}" alt="Preview" class="img-thumbnail preview-img">
+                            <button type="button" wire:click="removeImage('logoImage')"
                                     class="btn btn-sm btn-danger position-absolute top-0 end-0">
                                 ×
                             </button>
@@ -111,7 +117,7 @@
                     @elseif ($businessSector?->logoImage)
                         <div class="mt-3">
                             <img src="{{ asset('uploads/' . $businessSector->logoImage->url) }}"
-                                alt="Business Sector logoImage" class="img-thumbnail" style="max-width: 200px;">
+                                alt="Business Sector logoImage" class="img-thumbnail preview-img">
                         </div>
                     @endif
                 </div>

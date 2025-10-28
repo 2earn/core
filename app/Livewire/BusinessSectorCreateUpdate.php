@@ -53,20 +53,12 @@ class BusinessSectorCreateUpdate extends Component
     {
         return redirect()->route('business_sector_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Business sector operation cancelled'));
     }
-    public function removeThumbnailsImage()
+    public function removeImage($property)
     {
-        $this->reset('thumbnailsImage');
+        if (property_exists($this, $property)) {
+            $this->reset($property);
+        }
     }
-    public function removeThumbnailsHomeImage()
-    {
-        $this->reset('thumbnailsHomeImage');
-    }
-
-    public function removeLogoImage()
-    {
-        $this->reset('logoImage');
-    }
-
     public function updateBU()
     {
         $this->validate();
@@ -110,12 +102,14 @@ class BusinessSectorCreateUpdate extends Component
                     'type' => BusinessSector::IMAGE_TYPE_LOGO,
                 ]);
             }
+
         } catch (\Exception $exception) {
             $this->cancel();
             Log::error($exception->getMessage());
             return redirect()->route('business_sector_index', ['locale' => app()->getLocale(), 'idBusinessSector' => $this->idBusinessSector])->with('danger', Lang::get('Something goes wrong while updating Business sector'));
         }
         return redirect()->route('business_sector_index', ['locale' => app()->getLocale(), 'idBusinessSector' => $this->idBusinessSector])->with('success', Lang::get('Business sector Updated Successfully'));
+
     }
 
     public function storeBU()
@@ -160,8 +154,7 @@ class BusinessSectorCreateUpdate extends Component
                         'valueTr' => $this->{$translation} . ' TR',
                         'valueRu' => $this->{$translation} . ' Ru',
                         'valueDe' => $this->{$translation} . ' De',
-                    ]
-                );
+                    ]);
             }
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
