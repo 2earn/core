@@ -1,10 +1,4 @@
 <div class="container-fluid">
-    <style>
-        .preview-img {
-            max-width: 200px;
-            height: auto;
-        }
-    </style>
     @component('components.breadcrumb')
         @slot('title')
             @if($update)
