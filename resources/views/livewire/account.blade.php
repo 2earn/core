@@ -440,7 +440,7 @@
                                                     <div class="input-step form-control full-width light">
                                                         <button id="btnMinus" type="button" class="minus">–</button>
                                                         <input wire:model="usermetta_info.childrenCount" type="number"
-                                                               class="product-quantity form-control" value="2"
+                                                               class="product-quantity form-control"
                                                                min="0"
                                                                max="100" id="inputChild" readonly>
                                                         <button id="btnPlus" type="button" class="plus">+</button>
@@ -1107,32 +1107,33 @@
                 <script type="module">
                     document.addEventListener("DOMContentLoaded", function () {
 
-                        $("#soonExpireIIC, #goToIdentification").click(function () {
-                            $('#personalDetailsTab a').removeClass('active')
-                            $('#personalDetails').removeClass('active')
-                            $('#personalDetailsTab a').attr('aria-selected', false)
+                    $("#soonExpireIIC, #goToIdentification").click(function () {
+                        $('.nav-link').not('#identificationModal .nav-link').removeClass('active').attr('aria-selected', false);
+                        $('.tab-pane').not('#identificationModal .tab-pane').removeClass('active show');
 
-                            $('#identificationsTab a').addClass('active')
-                            $('#experience').addClass('active')
-                            $('#identificationsTab a').attr('aria-selected', true)
+                        $('#identificationsTab a').addClass('active').attr('aria-selected', true);
 
-                            $('#identificationModalbtn').trigger('click');
-                        });
+                        $('#experience').addClass('active show');
+
+                        $('#identificationModalbtn').trigger('click');
+                    });
+
                     });
                 </script>
                 <script type="module">
                     document.addEventListener("DOMContentLoaded", function () {
 
-                        $("#btnPlus").click(function () {
-                            var child = parseInt($("#inputChild").val());
-                            child = child + 1;
-                            if (child <= 20)
-                                $("#inputChild").val(child);
-                            else
-                                $("#inputChild").val(20);
-                        });
-                        $("#btnMinus").click(function () {
-                            var child = parseInt($("#inputChild").val());
+                      $("#btnPlus").click(function () {
+                        var child = parseInt($("#inputChild").val()) || 0;
+                        child = child + 1;
+                        if (child <= 20)
+                            $("#inputChild").val(child);
+                        else
+                            $("#inputChild").val(20);
+                    });
+
+                     $("#btnMinus").click(function () {
+                            var child = parseInt($("#inputChild").val()) || 0;
                             child = child - 1;
                             if (child >= 0)
                                 $("#inputChild").val(child);

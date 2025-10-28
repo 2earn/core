@@ -64,12 +64,13 @@ class EventCreateUpdate extends Component
         $this->idEvent = $idEvent;
         $this->title = $event->title;
         $this->content = $event->content;
-        $this->enabled = $event->enabled;
+        $this->enabled = $event->enabled == 1 ? true : false;
         $this->published_at = $event->published_at ? $event->published_at->format('Y-m-d\TH:i') : null;
         $this->start_at = $event->start_at ? $event->start_at->format('Y-m-d\TH:i') : null;
         $this->end_at = $event->end_at ? $event->end_at->format('Y-m-d\TH:i') : null;
         $this->location = $event->location;
         $this->selectedHashtags = $event->hashtags()->get()->pluck('id')->toArray();
+
     }
 
     public function save()
