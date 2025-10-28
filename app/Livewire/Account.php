@@ -444,6 +444,9 @@ class Account extends Component
         $this->numberActif = $settingsManager->getidCountryForSms($userAuth->id)->fullNumber;
 
         $usermetta_info = collect(DB::table('metta_users')->where('idUser', $userAuth->idUser)->first());
+        if (is_null($usermetta_info->get('childrenCount'))) {
+            $usermetta_info->put('childrenCount', 0);
+        }
         $user = DB::table('users')->where('idUser', $userAuth->idUser)->first();
         $this->countryUser = Lang::get($settingsManager->getCountrieById($user->idCountry)->name);
         $this->usermetta_info = $usermetta_info;
