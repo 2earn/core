@@ -4,6 +4,7 @@
             {{__('Create Coupon')}}
         @endslot
     @endcomponent
+    @include('layouts.flash-messages')
     <div class="row card">
         <div class="card-body row ">
             <p class="text-muted">
@@ -48,7 +49,7 @@
                                   id="pins"
                                   wire:model.live="pins"
                                   placeholder="{{__('Enter pins')}}"></textarea>
-                        @error('description') <span class="text-danger">{{ $message }}</span>@enderror
+                        @error('pins') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>
                     <div class="form-group col-md-6 mt-2">
@@ -57,7 +58,7 @@
                                   id="sn"
                                   wire:model.live="sn"
                                   placeholder="{{__('Enter SN')}}"></textarea>
-                        @error('description') <span class="text-danger">{{ $message }}</span>@enderror
+                        @error('sn') <span class="text-danger">{{ $message }}</span>@enderror
                         <div class="form-text">{{__('Required field')}}</div>
                     </div>
                 </div>
