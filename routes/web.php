@@ -81,8 +81,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/notification/history', NotificationHistory::class)->name('notification_history');
         Route::get('/notification/settings', NotificationSettings::class)->name('notification_settings');
 
-        Route::get('/site-menu', \App\Livewire\Sitemenu::class)->name('site_menu');
-
         Route::prefix('/business-hub')->name('business_hub_')->group(function () {
             Route::get('/trading', \App\Livewire\Trading::class)->name('trading');
             Route::get('/additional-income', \App\Livewire\AdditionalIncome::class)->name('additional_income');
