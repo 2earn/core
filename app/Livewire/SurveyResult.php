@@ -27,32 +27,32 @@ class SurveyResult extends Component
     public function render()
     {
         $params ['survey'] = Survey::findOrFail($this->idSurvey);
-        $params ['question'] = SurveyQuestion::find($params ['survey']->question->id);
-        $params ['responses'] = $params ['question']->serveyQuestionChoice()->get();
+        $params ['question'] = SurveyQuestion::find($params ['survey']->question?->id);
+        $params ['responses'] = $params ['question']?->serveyQuestionChoice()->get();
         $participation = SurveyResponse::where('survey_id', $this->idSurvey)->count();
         $stats = [];
         $totalChoosen = 0;
         $totalParticipation = 0;
-        $totalChoiceChoosen = SurveyResponseItem::where('surveyQuestion_id', $params ['survey']->question->id)->count();
+        $totalChoiceChoosen = SurveyResponseItem::where('surveyQuestion_id', $params ['survey']->question?->id)->count();
+        if (!is_null($params ['responses'])) {
+            foreach ($params ['responses'] as $response) {
+                $choosen = SurveyResponseItem::where('surveyQuestion_id', $params ['survey']->question->id)
+                    ->where('surveyQuestionChoice_id', $response->id)->count();
 
-        foreach ($params ['responses'] as $response) {
-            $choosen = SurveyResponseItem::where('surveyQuestion_id', $params ['survey']->question->id)
-                ->where('surveyQuestionChoice_id', $response->id)->count();
-
-            $stats[$response->id] = [
-                'title' => TranslaleModel::getTranslation($response, 'title', $response->title),
-                'choosen' => $choosen . ' / ' . $participation,
-                'choosenK' => $choosen . ' / ' . $totalChoiceChoosen,
-                'persontage' => $participation > 0 ? (($choosen / $participation) * 100) : 0,
-                'persontageK' => $participation > 0 ? (($choosen / $totalChoiceChoosen) * 100) : 0
-            ];
-            $totalChoosen += $choosen;
-            $totalParticipation += $participation;
+                $stats[$response->id] = [
+                    'title' => TranslaleModel::getTranslation($response, 'title', $response->title),
+                    'choosen' => $choosen . ' / ' . $participation,
+                    'choosenK' => $choosen . ' / ' . $totalChoiceChoosen,
+                    'persontage' => $participation > 0 ? (($choosen / $participation) * 100) : 0,
+                    'persontageK' => $participation > 0 ? (($choosen / $totalChoiceChoosen) * 100) : 0
+                ];
+                $totalChoosen += $choosen;
+                $totalParticipation += $participation;
+            }
+            $params['stats'] = $stats;
+            $params['totalChoosen'] = $totalChoosen;
+            $params['participation'] = $participation;
         }
-        $params['stats'] = $stats;
-        $params['totalChoosen'] = $totalChoosen;
-        $params['participation'] = $participation;
-
         return view('livewire.survey-result', $params)->extends('layouts.master')->section('content');
     }
 }
