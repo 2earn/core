@@ -66,15 +66,35 @@
     <div class="container-fluid text-muted" id="sidebar-menu-container" style="display: none">
         <div class="menu-content">
             <div class="row menu-content-row">
-                <div class="card border card-border-light col-12 col-md-6"
+                <div class="card border card-border-light col-12"
                      style="display: flex; flex-direction: column; max-height: 100%;">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h6 class="card-title mb-0">{{ __('User MENU') }}</h6>
-                        <button class="btn btn-sm btn-close close-menu-btn" title="{{ __('Close menu') }}"
+                        <ul class="nav nav-pills card-header-pills" id="menu-tabs" role="tablist">
+                            <li class="nav-item text-muted" role="presentation">
+                                <button class="nav-link p-2 active" id="user-menu-tab" data-bs-toggle="tab"
+                                        data-bs-target="#user-menu-pane" type="button" role="tab"
+                                        aria-controls="user-menu-pane" aria-selected="true">
+                                    <i class="ri-user-line me-1 m-1"></i>{{ __('User') }}
+                                </button>
+                            </li>
+                            @if(User::isSuperAdmin())
+                                <li class="nav-item text-muted" role="presentation">
+                                <button class="nav-link p-2" id="admin-menu-tab" data-bs-toggle="tab"
+                                        data-bs-target="#admin-menu-pane" type="button" role="tab"
+                                        aria-controls="admin-menu-pane" aria-selected="false">
+                                    <i class="ri-admin-line me-1 m-1"></i>{{ __('SUPER ADMIN') }}
+                                </button>
+                            </li>
+                            @endif
+                        </ul>
+                        <button class="btn btn-sm btn-close close-menu-btn ms-2" title="{{ __('Close menu') }}"
                                 aria-label="{{ __('Close') }}"></button>
                     </div>
                     <div class="card-body" style="flex: 1; overflow-y: auto; overflow-x: hidden;">
-                        <ul class="navbar-nav" id="navbar-nav-1">
+                        <div class="tab-content" id="menu-tabs-content">
+                            <div class="tab-pane fade show active" id="user-menu-pane" role="tabpanel"
+                                 aria-labelledby="user-menu-tab" tabindex="0">
+                                <ul class="navbar-nav" id="navbar-nav-1">
                             <li class="nav-item cool-link {{$currentRouteName=='home'? 'active' : ''}}">
                                 <a data-name="home" href="{{route('home',app()->getLocale(),false)}}"
                                    class="nav-link menu-link {{$currentRouteName=='home'? 'active' : ''}}"
@@ -212,18 +232,11 @@
                                 </a>
                             </li>
                         </ul>
-                    </div>
-                </div>
-                @if(User::isSuperAdmin())
-                    <div class="card border card-border-light col-12 col-md-6"
-                         style="display: flex; flex-direction: column; max-height: 100%;">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h6 class="card-title mb-0">{{ __('SUPER ADMIN MENU') }}</h6>
-                            <button class="btn btn-sm btn-close close-menu-btn" title="{{ __('Close menu') }}"
-                                    aria-label="{{ __('Close') }}"></button>
-                        </div>
-                        <div class="card-body" style="flex: 1; overflow-y: auto; overflow-x: hidden;">
-                            <ul class="navbar-nav " id="navbar-nav-2">
+                            </div>
+                            @if(User::isSuperAdmin())
+                            <div class="tab-pane fade" id="admin-menu-pane" role="tabpanel"
+                                 aria-labelledby="admin-menu-tab" tabindex="0">
+                                <ul class="navbar-nav" id="navbar-nav-2">
                                 <li class="nav-item cool-link {{$currentRouteName=='business_sector_index'? 'active' : ''}}">
                                     <a href="{{route('business_sector_index',app()->getLocale(),false )}}"
                                        class="nav-link menu-link {{$currentRouteName=='business_sector_index'? 'active' : ''}}"
@@ -412,9 +425,11 @@
                                     </a>
                                 </li>
                             </ul>
+                            </div>
+                            @endif
                         </div>
                     </div>
-                @endif
+                </div>
             </div>
         </div>
     </div>
