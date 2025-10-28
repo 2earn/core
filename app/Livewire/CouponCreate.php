@@ -20,13 +20,12 @@ class CouponCreate extends Component
     public $platform_id;
     public $selectPlatforms;
 
-    protected $rules = [
-        'pins' => 'required',
-        'sn' => 'required',
+      protected $rules = [
+        'pins' => 'required|unique:coupons,pin',
+        'sn' => 'required|unique:coupons,sn',
         'platform_id' => 'required',
         'attachment_date' => ['required', 'after_or_equal:today'],
     ];
-
     public function mount()
     {
         $platforms = Platform::whereHas('deals', function ($query) {
