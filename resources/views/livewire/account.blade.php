@@ -1107,17 +1107,17 @@
                 <script type="module">
                     document.addEventListener("DOMContentLoaded", function () {
 
-                        $("#soonExpireIIC, #goToIdentification").click(function () {
-                            $('#personalDetailsTab a').removeClass('active')
-                            $('#personalDetails').removeClass('active')
-                            $('#personalDetailsTab a').attr('aria-selected', false)
+                    $("#soonExpireIIC, #goToIdentification").click(function () {
+                        $('.nav-link').not('#identificationModal .nav-link').removeClass('active').attr('aria-selected', false);
+                        $('.tab-pane').not('#identificationModal .tab-pane').removeClass('active show');
 
-                            $('#identificationsTab a').addClass('active')
-                            $('#experience').addClass('active')
-                            $('#identificationsTab a').attr('aria-selected', true)
+                        $('#identificationsTab a').addClass('active').attr('aria-selected', true);
 
-                            $('#identificationModalbtn').trigger('click');
-                        });
+                        $('#experience').addClass('active show');
+
+                        $('#identificationModalbtn').trigger('click');
+                    });
+
                     });
                 </script>
                 <script type="module">
