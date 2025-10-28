@@ -1108,8 +1108,8 @@
                     document.addEventListener("DOMContentLoaded", function () {
 
                     $("#soonExpireIIC, #goToIdentification").click(function () {
-                        $('.nav-link').removeClass('active').attr('aria-selected', false);
-                        $('.tab-pane').removeClass('active show');
+                        $('.nav-link').not('#identificationModal .nav-link').removeClass('active').attr('aria-selected', false);
+                        $('.tab-pane').not('#identificationModal .tab-pane').removeClass('active show');
 
                         $('#identificationsTab a').addClass('active').attr('aria-selected', true);
 
