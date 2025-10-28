@@ -20,13 +20,12 @@ class CouponCreate extends Component
     public $platform_id;
     public $selectPlatforms;
 
-    protected $rules = [
-        'pins' => 'required',
-        'sn' => 'required',
+      protected $rules = [
+        'pins' => 'required|unique:coupons,pin',
+        'sn' => 'required|unique:coupons,sn',
         'platform_id' => 'required',
         'attachment_date' => ['required', 'after_or_equal:today'],
     ];
-
     public function mount()
     {
         $platforms = Platform::whereHas('deals', function ($query) {
@@ -62,13 +61,7 @@ class CouponCreate extends Component
             }
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Coupons created Successfully'));
         } catch (\Exception $exception) {
-            $messageKey = str_contains($exception->getMessage(), 'Duplicate entry')
-                ? 'translation.duplicate_coupon'
-                : 'translation.coupon_failed';
-
-            return redirect()
-                ->route('coupon_create', ['locale' => app()->getLocale()])
-                ->with('danger', __($messageKey));
+            return redirect()->route('coupon_create', ['locale' => app()->getLocale()])->with('danger', Lang::get('Coupons creation Failed') . ' ' . $exception->getMessage());
         }
     }
 

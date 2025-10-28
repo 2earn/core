@@ -210,6 +210,4 @@ return [
     "file-manager" => "File Manager",
     "to-do" => "To Do",
     "crypto-svg" => "Crypto SVG",
-    'duplicate_coupon' => 'A coupon with this Serial Number (SN) and PIN already exists. Please check and try again.',
-    'coupon_failed' => 'Coupon creation failed. Please try again or contact support.',
 ];

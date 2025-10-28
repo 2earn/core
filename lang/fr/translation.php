@@ -210,7 +210,4 @@ return [
     "file-manager" => "Gestionnaire de fichiers",
     "to-do" => "Faire",
     "crypto-svg" => "Crypto SVG",
-    'duplicate_coupon' => 'Un coupon avec ce numéro de série (SN) et ce code PIN existe déjà. Veuillez vérifier et réessayer.',
-    'coupon_failed' => 'La création du coupon a échoué. Veuillez réessayer ou contacter le support.',
-
 ];
