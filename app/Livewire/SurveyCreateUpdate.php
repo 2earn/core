@@ -111,11 +111,11 @@ class SurveyCreateUpdate extends Component
             $survey = Survey::create([
                 'name' => $this->name,
                 'description' => $this->description,
-                'enabled' => $this->enabled,
-                'published' => $this->published,
-                'updatable' => $this->updatable,
-                'show_results_as_number' => $this->showResultsAsNumber,
-                'show_results_as_percentage' => $this->showResultsAsPercentage,
+                'enabled' => $this->enabled ? 1 : 0,
+                'published' => $this->published ? 1 : 0,
+                'updatable' => $this->updatable ? 1 : 0,
+                'show_results_as_number' => $this->showResultsAsNumber ? 1 : 0,
+                'show_results_as_percentage' => $this->showResultsAsPercentage ? 1 : 0,
                 'show' => $this->show,
                 'showResult' => $this->showResult,
                 'commentable' => $this->commentable,
@@ -145,7 +145,7 @@ class SurveyCreateUpdate extends Component
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect()->route('surveys_create_update', app()->getLocale())->with('danger', Lang::get('Something goes wrong while creating Survey'));
+            return redirect()->route('surveys_create_update', app()->getLocale())->with('danger', Lang::get('Something goes wrong while creating Survey') . ' | ' . $exception->getMessage());
         }
         return redirect()->route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $survey->id])->with('success', Lang::get('Survey Created Successfully'));
     }
@@ -156,11 +156,11 @@ class SurveyCreateUpdate extends Component
         $this->name = $survey->name;
         $this->description = $survey->description;
         $this->idSurvey = $survey->id;
-        $this->enabled = $survey->enabled;
-        $this->published = $survey->published;
-        $this->updatable = $survey->updatable;
-        $this->showResultsAsNumber = $this->showResultsAsNumber;
-        $this->showResultsAsPercentage = $this->showResultsAsPercentage;
+        $this->enabled = $survey->enabled == 1 ? true : false;
+        $this->published = $survey->published == 1 ? true : false;
+        $this->updatable = $survey->updatable == 1 ? true : false;
+        $this->showResultsAsNumber = $survey->show_results_as_number == 1 ? true : false;
+        $this->showResultsAsPercentage = $survey->show_results_as_percentage == 1 ? true : false;
         $this->commentable = $survey->commentable;
         $this->likable = $survey->likable;
         $this->show = $survey->show;
@@ -197,11 +197,11 @@ class SurveyCreateUpdate extends Component
             $paramsToUpdate = [
                 'name' => $this->name,
                 'description' => $this->description,
-                'enabled' => $this->enabled,
-                'published' => $this->published,
-                'updatable' => $this->updatable,
-                'show_results_as_number' => $this->showResultsAsNumber,
-                'show_results_as_percentage' => $this->showResultsAsPercentage,
+                'enabled' => $this->enabled ? 1 : 0,
+                'published' => $this->published ? 1 : 0,
+                'updatable' => $this->updatable ? 1 : 0,
+                'show_results_as_number' => $this->showResultsAsNumber ? 1 : 0,
+                'show_results_as_percentage' => $this->showResultsAsPercentage ? 1 : 0,
                 'show' => $this->show,
                 'showResult' => $this->showResult,
                 'commentable' => $this->commentable,
@@ -247,7 +247,7 @@ class SurveyCreateUpdate extends Component
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect()->route('surveys_create_update', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while updating Survey'));
+            return redirect()->route('surveys_create_update', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('danger', Lang::get('Something goes wrong while updating Survey') . ' | ' . $exception->getMessage());
         }
         return redirect()->route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('success', Lang::get('Survey Updated Successfully'));
 

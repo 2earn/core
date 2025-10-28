@@ -115,7 +115,7 @@
                                 <input aria-describedby="simulateAmmount" type="number"
                                        max="{{round($cashBalance)}}"
                                        wire:keyup.debounce="simulateAmmount()" wire:model.lazy="ammount"
-                                       id="ammount"
+                                       id="ammount" oninput="if(this.value !== '' && Number(this.value) < 1) this.value = 1"
                                        class="form-control @if($flash) flash @endif">
                             </div>
                         </div>

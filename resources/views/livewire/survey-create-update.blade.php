@@ -182,7 +182,6 @@
                                     <label for="disabledResult">{{__('Disabled show result explanation')}}</label>
                                     <textarea class="form-control @error('disabledResult') is-invalid @enderror"
                                               id="disabledResult"
-                                              @if($update) disabled @endif
                                               wire:model.live="disabledResult"
                                               placeholder="{{__('Enter Description for disabled show result')}}"></textarea>
                                     @error('disabledResult') <span class="text-danger">{{ $message }}</span>@enderror
@@ -210,7 +209,6 @@
                                     <label for="disabledComment">{{__('Disabled comment explanation')}}</label>
                                     <textarea class="form-control @error('disabledComment') is-invalid @enderror"
                                               id="disabledComment"
-                                              @if($update) disabled @endif
                                               wire:model.live="disabledComment"
                                               placeholder="{{__('Enter Description for disabled comment')}}"></textarea>
                                     @error('disabledComment') <span class="text-danger">{{ $message }}</span>@enderror
@@ -238,7 +236,6 @@
                                     <label for="disabledLike">{{__('Disabled show like explanation')}}</label>
                                     <textarea class="form-control @error('disabledLike') is-invalid @enderror"
                                               id="disabledLike"
-                                              @if($update) disabled @endif
                                               wire:model.live="disabledLike"
                                               placeholder="{{__('Enter Description for disabled like')}}"></textarea>
                                     @error('disabledLike') <span class="text-danger">{{ $message }}</span>@enderror

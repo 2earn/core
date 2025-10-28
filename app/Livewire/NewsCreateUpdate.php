@@ -52,11 +52,11 @@ class NewsCreateUpdate extends Component
         $news = News::findOrFail($idNews);
         $this->idNews = $idNews;
         $this->title = $news->title;
-        $this->enabled = $news->enabled;
+        $this->enabled = $news->enabled == 1 ? true : false;
         $this->content = $news->content;
         $this->published_at = $news->published_at;
         $this->update = true;
-        $this->selectedHashtags = $news->hashtags()->get()->toArray();
+        $this->selectedHashtags = $news->hashtags()->pluck('hashtags.id')->toArray();
     }
 
     public function updateNews()
