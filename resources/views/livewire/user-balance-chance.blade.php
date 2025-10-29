@@ -17,6 +17,7 @@
                         id="ub_table_chance" style="width: 100%">
                         <thead class="table-light">
                         <tr class=" tabHeader2earn">
+                            <th>{{__('Details')}}</th>
                             <th>{{__('Num')}}</th>
                             <th>{{ __('ref') }}</th>
                             <th>{{ __('date') }}</th>
@@ -41,6 +42,7 @@
                 var select2_array = [];
                 $('#ub_table_chance').DataTable(
                     {
+                        responsive: true,
                         retrieve: true,
                         "colReorder": true,
                         "orderCellsTop": true,
@@ -68,8 +70,10 @@
                             headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
                             error: function (xhr, error, thrown) {
                                 loadDatatableModalError('ub_table_processing')
-                            }                        },
+                            }
+                        },
                         "columns": [
+                            datatableControlBtn,
                             {data: 'ranks'},
                             {data: 'reference'},
                             {data: 'created_at'},

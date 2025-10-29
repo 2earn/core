@@ -17,6 +17,7 @@
                         id="ub_table_tree" style="width: 100%">
                         <thead class="table-light">
                         <tr class=" tabHeader2earn">
+                            <th>{{__('Details')}}</th>
                             <th>{{__('reference')}}</th>
                             <th>{{ __('Created at') }}</th>
                             <th>{{ __('Operation Designation') }}</th>
@@ -39,6 +40,7 @@
             document.addEventListener("DOMContentLoaded", function () {
                 $('#ub_table_tree').DataTable(
                     {
+                        responsive: true,
                         retrieve: true,
                         "colReorder": true,
                         "orderCellsTop": true,
@@ -69,6 +71,7 @@
                             }
                         },
                         "columns": [
+                            datatableControlBtn,
                             {data: 'reference'},
                             {data: 'created_at'},
                             {data: 'operation'},

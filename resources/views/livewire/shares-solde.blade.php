@@ -30,6 +30,7 @@
                            style="width:100%">
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">
+                            <th>{{__('Details')}}</th>
                             <th>{{__('id')}}</th>
                             <th>{{__('formatted_created_at')}}</th>
                             <th>{{__('value_format')}}</th>
@@ -123,6 +124,7 @@
                 });
             }
             $('#shares-solde').DataTable({
+                responsive: true,
                 "ordering": true,
                 retrieve: true,
                 "colReorder": false,
@@ -144,6 +146,7 @@
                     }
                 },
                 "columns": [
+                    datatableControlBtn,
                     {data: 'id'},
                     {data: 'formatted_created_at'},
                     {data: 'value_format'},

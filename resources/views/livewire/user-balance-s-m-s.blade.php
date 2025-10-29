@@ -17,6 +17,7 @@
                         id="userBalanceSMS_table" style="width: 100%">
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">
+                            <th>{{__('Details')}}</th>
                             <th>{{__('Ranks')}}</th>
                             <th>{{__('reference')}}</th>
                             <th>{{ __('Created at') }}</th>
@@ -37,6 +38,7 @@
         document.addEventListener("DOMContentLoaded", function () {
             $('#userBalanceSMS_table').DataTable(
                 {
+                    responsive: true,
                     "ordering": false,
                     retrieve: true,
                     "colReorder": false,
@@ -49,7 +51,6 @@
                     search: {return: true},
                     autoWidth: false,
                     bAutoWidth: false,
-
                     "ajax": {
                         url: "{{route('api_user_sms',['locale'=> app()->getLocale()])}}",
                         type: "GET",
@@ -59,6 +60,7 @@
                         }
                     },
                     "columns": [
+                        datatableControlBtn,
                         {data: 'ranks'},
                         {data: 'reference'},
                         {data: 'created_at'},

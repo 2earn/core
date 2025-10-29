@@ -70,6 +70,7 @@
                                id="ub_table" style="width: 100%">
                             <thead class="table-light">
                             <tr class="head2earn tabHeader2earn">
+                                <th>{{__('Details')}}</th>
                                 <th>{{ __('Operation order') }}</th>
                                 <th>{{ __('ref') }}</th>
                                 <th>{{ __('date') }}</th>
@@ -211,6 +212,7 @@
             // Initialize DataTable
             document.addEventListener('DOMContentLoaded', function () {
                 $('#ub_table').DataTable({
+                    responsive: true,
                     ordering: true,
                     retrieve: true,
                     searching: false,
@@ -221,6 +223,8 @@
                     serverSide: true,
                     aLengthMenu: [[10, 30, 50], [10, 30, 50]],
                     search: { return: false },
+                    autoWidth: false,
+                    bAutoWidth: false,
                     ajax: {
                         url: balancesApiUrl,
                         type: 'GET',
@@ -228,6 +232,7 @@
                         error: function () { loadDatatableModalError('ub_table'); }
                     },
                     columns: [
+                        datatableControlBtn,
                         { data: 'ranks' },
                         { data: 'reference' },
                         { data: 'created_at' },

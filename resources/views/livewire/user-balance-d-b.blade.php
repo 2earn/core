@@ -17,6 +17,7 @@
                         id="userBalanceDB_table" style="width: 100%">
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">
+                            <th>{{__('Details')}}</th>
                             <th>{{ __('Operation order') }}</th>
                             <th>{{ __('ref') }}</th>
                             <th>{{ __('date') }}</th>
@@ -37,6 +38,7 @@
                     $('#page-title-box').addClass('page-title-box-db');
                     $('#userBalanceDB_table').DataTable(
                         {
+                            "responsive": true,
                             "ordering": true,
                             retrieve: true,
                             "colReorder": false,
@@ -62,9 +64,9 @@
                             "processing": true,
                             "serverSide": true,
                             "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                            search: {
-                                return: true
-                            },
+                            search: {return: true},
+                            autoWidth: false,
+                            bAutoWidth: false,
                             "ajax": {
                                 url: "{{route('api_user_balances',['locale'=> app()->getLocale(), 'idAmounts'=>'Discounts-Balance'])}}",
                                 type: "GET",
@@ -74,6 +76,7 @@
                                 }
                             },
                             "columns": [
+                                datatableControlBtn,
                                 {data: 'ranks'},
                                 {data: 'reference'},
                                 {data: 'created_at'},
