@@ -93,8 +93,8 @@ class OrderSimulationController extends Controller
         Log::info(self::LOG_PREFIX . 'Validation passed');
 
         $orderId = $request->input('order_id');
-
         try {
+
             $order = Order::findOrFail($orderId);
             if (!in_array($order->status->value, [OrderEnum::Simulated->value, OrderEnum::Ready->value])) {
                 Log::warning(self::LOG_PREFIX . 'Order status not eligible for simulation', ['order_id' => $orderId, 'status' => $order->status->value]);
@@ -106,6 +106,12 @@ class OrderSimulationController extends Controller
 
             $simulation = Ordering::simulate($order);
 
+            if (!$simulation) {
+                return response()->json([
+                    'status' => 'Failed',
+                    'message' => 'Simulation Failed.',
+                ], 422);
+            }
             Ordering::run($simulation);
 
             $order->refresh();
