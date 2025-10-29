@@ -91,8 +91,9 @@ if (!function_exists('getUsertransaction')) {
         if ($count > 0) {
             $value = DB::table('user_transactions')->select('autorised', 'cause', 'mnt')->where('idUser', $user)->get();
             $value = [$value[0]->autorised, $value[0]->cause, $value[0]->mnt];
-        } else
+        } else {
             $value = ["null", "null", "null"];
+        }
         return $value;
     }
 }
@@ -648,8 +649,8 @@ if (!function_exists('getBalanceCIView')) {
         if (!is_null($balance)) {
             return view('parts.datatable.ci.ci-' . $balance->balance_operation_id, ['balance' => $balance]);
         } else {
-         dd($balance);
-         return view('parts.datatable.ci.ci-default');
+            dd($balance);
+            return view('parts.datatable.ci.ci-default');
         }
     }
 }
