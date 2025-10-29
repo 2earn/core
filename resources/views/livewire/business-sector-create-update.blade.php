@@ -55,40 +55,75 @@
                     </div>
 
                     <div class="form-group col-sm-12 col-md-4 mb-3">
-                        <label for="thumbnailsImage">{{__('Thumbnails Image')}}</label>
-                        <input type="file" id="thumbnailsImage" wire:model.live="thumbnailsImage" class="form-control">
-                        @error('thumbnailsImage') <span class="error">{{ $message }}</span> @enderror
-                        @if ($businessSector?->thumbnailsImage)
-                            <div class="mt-3">
+                    <label for="thumbnailsImage">{{__('Thumbnails Image')}}</label>
+                    <input type="file" id="thumbnailsImage" wire:model="thumbnailsImage" class="form-control">
+                    @error('thumbnailsImage') <span class="error">{{ $message }}</span> @enderror
+                    @if ($thumbnailsImage)
+                        <div class="mt-3 position-relative d-inline-block">
+                            <img src="{{ $thumbnailsImage->temporaryUrl() }}" alt="Preview" class="img-thumbnail">
+                            <button type="button" wire:click="removeImage('thumbnailsImage')"
+                                    class="btn btn-sm btn-danger position-absolute top-0 end-0">
+                                ×
+                            </button>
+                        </div>
+                    @elseif ($businessSector?->thumbnailsImage)
+                            <div class="mt-3 position-relative d-inline-block">
                                 <img src="{{ asset('uploads/' . $businessSector->thumbnailsImage->url) }}"
-                                     alt="Business Sector thumbnailsImage" class="img-thumbnail">
+                                    alt="Business Sector thumbnailsImage" class="img-thumbnail">
+                                <button type="button" wire:click="deleteExistingImage('thumbnailsImage')"
+                                        class="btn btn-sm btn-danger position-absolute top-0 end-0">
+                                    ×
+                                </button>
                             </div>
-                        @endif
+                    @endif
                     </div>
 
-                    <div class="form-group col-sm-12 col-md-4 mb-3">
-                        <label for="thumbnailsHomeImage">{{__('Thumbnails Home Image')}}</label>
-                        <input type="file" id="thumbnailsHomeImage" wire:model.live="thumbnailsHomeImage" class="form-control">
-                        @error('thumbnailsHomeImage') <span class="error">{{ $message }}</span> @enderror
-                        @if ($businessSector?->thumbnailsHomeImage)
-                            <div class="mt-3">
-                                <img src="{{ asset('uploads/' . $businessSector->thumbnailsHomeImage->url) }}"
-                                     alt="Business Sector thumbnailsHomeImage" class="img-thumbnail">
-                            </div>
-                        @endif
-                    </div>
-                    
-                    <div class="form-group col-sm-12 col-md-4 mb-3">
-                        <label for="logoImage">{{__('Logo Image')}}</label>
-                        <input type="file" id="logoImage" wire:model.live="logoImage" class="form-control">
-                        @error('logoImage') <span class="error">{{ $message }}</span> @enderror
-                        @if ($businessSector?->logoImage)
-                            <div class="mt-3">
-                                <img src="{{ asset('uploads/' . $businessSector->logoImage->url) }}"
-                                     alt="Business Sector logoImage" class="img-thumbnail">
-                            </div>
-                        @endif
-                    </div>
+                  <div class="form-group col-sm-12 col-md-4 mb-3">
+                    <label for="thumbnailsHomeImage">{{ __('Thumbnails Home Image') }}</label>
+                    <input type="file" id="thumbnailsHomeImage" wire:model="thumbnailsHomeImage" class="form-control">
+                    @error('thumbnailsHomeImage') <span class="error">{{ $message }}</span> @enderror
+
+                    @if ($thumbnailsHomeImage)
+                        <div class="mt-3 position-relative d-inline-block">
+                            <img src="{{ $thumbnailsHomeImage->temporaryUrl() }}" alt="Preview" class="img-thumbnail">
+                            <button type="button" wire:click="removeImage('thumbnailsHomeImage')"
+                                    class="btn btn-sm btn-danger position-absolute top-0 end-0">
+                                ×
+                            </button>
+                        </div>
+                    @elseif ($businessSector?->thumbnailsHomeImage)
+                        <div class="mt-3 position-relative d-inline-block">
+                            <img src="{{ asset('uploads/' . $businessSector->thumbnailsHomeImage->url) }}"
+                                alt="Business Sector thumbnailsHomeImage" class="img-thumbnail">
+                            <button type="button" wire:click="deleteExistingImage('thumbnailsHomeImage')"
+                                class="btn btn-sm btn-danger position-absolute top-0 end-0">×</button>
+                        </div>
+                    @endif
+                </div>
+
+                <div class="form-group col-sm-12 col-md-4 mb-3">
+                    <label for="logoImage">{{ __('Logo Image') }}</label>
+                    <input type="file" id="logoImage" wire:model="logoImage" class="form-control">
+                    @error('logoImage') <span class="error">{{ $message }}</span> @enderror
+
+                    @if ($logoImage)
+                        <div class="mt-3 position-relative d-inline-block">
+                            <img src="{{ $logoImage->temporaryUrl() }}" alt="Preview" class="img-thumbnail">
+                            <button type="button" wire:click="removeImage('logoImage')"
+                                    class="btn btn-sm btn-danger position-absolute top-0 end-0">
+                                ×
+                            </button>
+                        </div>
+                    @elseif ($businessSector?->logoImage)
+                        <div class="mt-3 position-relative d-inline-block">
+                            <img src="{{ asset('uploads/' . $businessSector->logoImage->url) }}"
+                                alt="Business Sector logoImage" class="img-thumbnail">
+                            <button type="button" wire:click="deleteExistingImage('logoImage')"
+                                   class="btn btn-sm btn-danger position-absolute top-0 end-0">×</button>
+                        </div>
+                    @endif
+                </div>
+
                     <div class="row mt-3">
                         <div class="col-12">
                             @if($update)
