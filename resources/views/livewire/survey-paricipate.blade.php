@@ -1,4 +1,9 @@
-<div @if($showDetail) class="container-fluid" @endif>
+<div  class="container" >
+    <div class="row">
+        <div class="col-12">
+            @include('layouts.flash-messages')
+        </div>
+    </div>
     @if($showDetail)
         @component('components.breadcrumb')
             @slot('title')

@@ -70,7 +70,7 @@
                                 @endif
                                 <div class="form-check form-switch mt-3" dir="ltr">
                                     <input wire:model="user.is_public" type="checkbox" class="form-check-input"
-                                           id="customSwitchsizesm" checked="">
+                                           id="customSwitchsizesm" @checked($user['is_public']??false)>
                                     <label class="form-check-label" for="customSwitchsizesm">
                                         {{ __('I agree to receive funding requests') }}
                                     </label>
@@ -298,7 +298,7 @@
                             <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0"
                                 role="tablist">
                                 <li class="nav-item" id="personalDetailsTab">
-                                    <a class="nav-link active" data-bs-toggle="tab"
+                                    <a class="nav-link {{ $activeTab == 'personalDetails' ? 'show active' : '' }}" data-bs-toggle="tab"
                                        href="#personalDetails" role="tab">
                                         <i class="fas fa-home-user"></i>
                                         {{__('Edit profile')}}
@@ -312,7 +312,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#changePassword" role="tab"
+                                    <a class="nav-link {{ $activeTab == 'changePassword' ? 'show active' : '' }}" data-bs-toggle="tab" href="#changePassword" role="tab"
                                        id="tabEditPass">
                                         <i class="fas fa-user"></i>
                                         {{__('Change password')}}
@@ -328,7 +328,7 @@
                         </div>
                         <div class="card-body p-4">
                             <div class="tab-content">
-                                <div class="tab-pane active" id="personalDetails" role="tabpanel">
+                                <div class="tab-pane {{ $activeTab == 'personalDetails' ? 'show active' : '' }}" id="personalDetails" role="tabpanel">
 
                                     <form action="javascript:void(0);">
                                         <div class="row">
@@ -440,7 +440,7 @@
                                                     <div class="input-step form-control full-width light">
                                                         <button id="btnMinus" type="button" class="minus">–</button>
                                                         <input wire:model="usermetta_info.childrenCount" type="number"
-                                                               class="product-quantity form-control" value="2"
+                                                               class="product-quantity form-control"
                                                                min="0"
                                                                max="100" id="inputChild" readonly>
                                                         <button id="btnPlus" type="button" class="plus">+</button>
@@ -600,7 +600,7 @@
                                     </form>
                                 </div>
                                 <div
-                                        class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
+                                        class="tab-pane {{ $activeTab == 'changePassword' ? 'show active' : '' }} @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
                                         id="changePassword" role="tabpanel">
                                     <form action="">
                                         <div class="row g-2">
@@ -1107,32 +1107,33 @@
                 <script type="module">
                     document.addEventListener("DOMContentLoaded", function () {
 
-                        $("#soonExpireIIC, #goToIdentification").click(function () {
-                            $('#personalDetailsTab a').removeClass('active')
-                            $('#personalDetails').removeClass('active')
-                            $('#personalDetailsTab a').attr('aria-selected', false)
+                    $("#soonExpireIIC, #goToIdentification").click(function () {
+                        $('.nav-link').not('#identificationModal .nav-link').removeClass('active').attr('aria-selected', false);
+                        $('.tab-pane').not('#identificationModal .tab-pane').removeClass('active show');
 
-                            $('#identificationsTab a').addClass('active')
-                            $('#experience').addClass('active')
-                            $('#identificationsTab a').attr('aria-selected', true)
+                        $('#identificationsTab a').addClass('active').attr('aria-selected', true);
 
-                            $('#identificationModalbtn').trigger('click');
-                        });
+                        $('#experience').addClass('active show');
+
+                        $('#identificationModalbtn').trigger('click');
+                    });
+
                     });
                 </script>
                 <script type="module">
                     document.addEventListener("DOMContentLoaded", function () {
 
-                        $("#btnPlus").click(function () {
-                            var child = parseInt($("#inputChild").val());
-                            child = child + 1;
-                            if (child <= 20)
-                                $("#inputChild").val(child);
-                            else
-                                $("#inputChild").val(20);
-                        });
-                        $("#btnMinus").click(function () {
-                            var child = parseInt($("#inputChild").val());
+                      $("#btnPlus").click(function () {
+                        var child = parseInt($("#inputChild").val()) || 0;
+                        child = child + 1;
+                        if (child <= 20)
+                            $("#inputChild").val(child);
+                        else
+                            $("#inputChild").val(20);
+                    });
+
+                     $("#btnMinus").click(function () {
+                            var child = parseInt($("#inputChild").val()) || 0;
                             child = child - 1;
                             if (child >= 0)
                                 $("#inputChild").val(child);
