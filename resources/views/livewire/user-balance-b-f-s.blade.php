@@ -104,6 +104,7 @@
                         id="ub_table_bfs" style="width: 100%">
                         <thead class="table-light">
                         <tr class=" tabHeader2earn">
+                            <th>{{__('Details')}}</th>
                             <th>{{ __('Operation order') }}</th>
                             <th>{{ __('ref')}}</th>
                             <th>{{ __('date')}}</th>
@@ -129,6 +130,7 @@
                 var select2_array = [];
                 $('#ub_table_bfs').DataTable(
                     {
+                        responsive: true,
                         retrieve: true,
                         "colReorder": true,
                         "orderCellsTop": true,
@@ -150,6 +152,8 @@
                         },
                         "processing": true,
                         search: {return: true},
+                        autoWidth: false,
+                        bAutoWidth: false,
                         "ajax": {
                             url: "{{route('api_user_bfs_purchase',['locale'=> app()->getLocale(),'type'=>$type])}}",
                             type: "GET",
@@ -159,6 +163,7 @@
                             }
                         },
                         "columns": [
+                            datatableControlBtn,
                             {data: 'ranks'},
                             {data: 'reference'},
                             {data: 'created_at'},
