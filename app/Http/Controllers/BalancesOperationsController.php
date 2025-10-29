@@ -10,24 +10,7 @@ class BalancesOperationsController extends Controller
 {
     public function getBalanceOperationsQuery()
     {
-        $select = ['balance_operations.id',
-            'balance_operations.operation',
-            'balance_operations.io',
-            'balance_operations.ref',
-            'balance_operations.source',
-            'balance_operations.amounts_id',
-            'balance_operations.note',
-            'balance_operations.parent_id',
-            'balance_operations.operation_category_id',
-            'balance_operations.modify_amount',
-            'balance_operations.relatable',
-            'balance_operations.relatable_model',
-            'balance_operations.relatable_type',
-            'amounts.amountsshortname'
-        ];
-        return DB::table('balance_operations')
-            ->leftJoin('amounts', 'balance_operations.amounts_id', '=', 'amounts.idamounts')
-            ->select($select);
+        return BalanceOperation::all();
     }
 
     public function index()
@@ -47,9 +30,6 @@ class BalancesOperationsController extends Controller
             })
             ->editColumn('operation_category_id', function ($balance) {
                 return view('parts.datatable.balances-category', ['category' => OperationCategory::find($balance->operation_category_id)]);
-            })
-            ->editColumn('amounts_id', function ($balance) {
-                return view('parts.datatable.balances-amounts-id', ['ammount' => $balance->amounts_id]);
             })
             ->addColumn('others', function ($balance) {
                 return view('parts.datatable.balances-others', ['balance' => $balance]);
