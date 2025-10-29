@@ -14,10 +14,10 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-7">
+        <div class="col-sm-12 col-md-12 col-lg-12">
             <livewire:buy-shares/>
         </div>
-        <div class="col-sm-12 col-md-12 col-lg-5">
+        <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex align-items-center">
@@ -90,6 +90,7 @@
                            style="width:100%">
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">
+                            <th>{{__('Details')}}</th>
                             <th>{{__('id')}}</th>
                             <th>{{__('Date purchase')}}</th>
                             <th>{{__('Number of shares')}}</th>
@@ -186,6 +187,7 @@
                 });
             }
             $('#shares-solde').DataTable({
+                responsive: true,
                 retrieve: true,
                 "colReorder": false,
                 "orderCellsTop": true,
@@ -205,6 +207,7 @@
                         loadDatatableModalError('shares-solde')
                     }                },
                 "columns": [
+                    datatableControlBtn,
                     {data: 'id'},
                     {data: 'formatted_created_at'},
                     {data: 'value_format'},

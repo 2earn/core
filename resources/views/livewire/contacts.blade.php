@@ -1,4 +1,4 @@
-<div>
+<div class="{{getContainerType()}}">
     <style>
         .iti {
             width: 100% !important;
