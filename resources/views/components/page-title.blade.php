@@ -68,8 +68,8 @@
             <div class="row menu-content-row">
                 <div class="card border card-border-light col-12"
                      style="display: flex; flex-direction: column; max-height: 100%;">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <ul class="nav nav-pills card-header-pills" id="menu-tabs" role="tablist">
+                    <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center py-3">
+                        <ul class="nav nav-pills mb-0" id="menu-tabs" role="tablist">
                             <li class="nav-item text-muted" role="presentation">
                                 <button class="nav-link p-2 active" id="user-menu-tab" data-bs-toggle="tab"
                                         data-bs-target="#user-menu-pane" type="button" role="tab"
@@ -365,7 +365,7 @@
                                     <a href="{{route($sidebarDashboardsArray[2], app()->getLocale(),false)}}"
                                        class="nav-link menu-link">
                                         <i class="ri-coins-line mx-2"></i>
-                                        <span>{{ __('HA amount Settings') }}</span>
+                                        <span>{{ __('H.A. amount Settings') }}</span>
                                     </a>
                                 </li>
                                 <li class="nav-item cool-link {{$currentRouteName==$sidebarShareSoldArray[0]? 'active' : ''}}">
