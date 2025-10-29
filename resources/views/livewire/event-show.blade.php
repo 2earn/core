@@ -227,18 +227,49 @@
                     </div>
                 @endguest
                 @if(auth()->check() && \App\Models\User::isSuperAdmin() && count($unvalidatedComments) > 0)
-                    <hr>
-                    <div class="row">
-                        <h5 class="text-danger">{{__('Comments awaiting validation')}}</h5>
+                    <div class="mt-4 pt-4 border-top">
+                        <div class="alert alert-warning border-0 shadow-sm mb-4">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-warning bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px; min-width: 50px;">
+                                    <i class="fa fa-exclamation-triangle fa-2x text-warning"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h5 class="alert-heading mb-1">{{__('Comments awaiting validation')}}</h5>
+                                    <small class="text-muted">{{__('Review and approve pending comments')}}</small>
+                                </div>
+                                <span class="badge bg-warning text-dark fs-6 px-3 py-2">{{ count($unvalidatedComments) }}</span>
+                            </div>
+                        </div>
+
                         @foreach($unvalidatedComments as $comment)
-                            <div class="border rounded p-2 mb-2 bg-warning-subtle">
-                                <strong>{{ getUserDisplayedName($comment->user->idUser) }}</strong>
-                                <span class="text-muted small">{{ $comment->created_at->diffForHumans() }}</span>
-                                <div>{!! nl2br(e($comment->content)) !!}</div>
-                                <button wire:click="validateComment({{ $comment->id }})"
-                                        class="btn btn-success btn-sm m-2 float-end">{{__('Validate')}}</button>
-                                <button wire:click="deleteComment({{ $comment->id }})"
-                                        class="btn btn-danger btn-sm m-2 float-end">{{__('Delete')}}</button>
+                            <div class="card border-warning border-2 mb-3 shadow-sm">
+                                <div class="card-body p-3">
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="bg-warning bg-opacity-10 text-warning rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                            <div>
+                                                <strong class="text-dark d-block">{{ getUserDisplayedName($comment->user->idUser) }}</strong>
+                                                <span class="badge bg-warning text-dark small">{{__('Pending')}}</span>
+                                            </div>
+                                        </div>
+                                        <small class="text-muted">
+                                            <i class="fa fa-clock me-1"></i>{{ $comment->created_at->diffForHumans() }}
+                                        </small>
+                                    </div>
+                                    <div class="ms-5 ps-2 text-secondary lh-lg mb-3">{!! nl2br(e($comment->content)) !!}</div>
+                                    <div class="ms-5 ps-2 d-flex gap-2">
+                                        <button wire:click="validateComment({{ $comment->id }})"
+                                                class="btn btn-sm btn-success">
+                                            <i class="fa fa-check me-1"></i>{{__('Validate')}}
+                                        </button>
+                                        <button wire:click="deleteComment({{ $comment->id }})"
+                                                class="btn btn-sm btn-danger">
+                                            <i class="fa fa-trash me-1"></i>{{__('Delete')}}
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         @endforeach
                     </div>
