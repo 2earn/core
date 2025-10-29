@@ -145,6 +145,7 @@
             // Show transaction result if available
             window.addEventListener('load', function () {
                 try {
+                    console.log(userTransaction)
                     if (userTransaction && userTransaction[0] !== null && userTransaction[0] !== undefined) {
                         if (Number(userTransaction[0]) === 1) {
                             Swal.fire({
@@ -152,16 +153,10 @@
                                 text: String(userTransaction[2]) + " $ {{ __('Transferred') }}",
                                 icon: "success"
                             });
-                        } else {
-                            Swal.fire({
-                                title: "{{ __('Transaction declined') }}",
-                                text: String(userTransaction[1] ?? ''),
-                                icon: "error"
-                            });
                         }
                     }
                 } catch (e) {
-                    // ignore display errors
+                    console.log(e)
                 }
             });
 

@@ -92,8 +92,9 @@ if (!function_exists('getUsertransaction')) {
         if ($count > 0) {
             $value = DB::table('user_transactions')->select('autorised', 'cause', 'mnt')->where('idUser', $user)->get();
             $value = [$value[0]->autorised, $value[0]->cause, $value[0]->mnt];
-        } else
+        } else {
             $value = ["null", "null", "null"];
+        }
         return $value;
     }
 }
