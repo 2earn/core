@@ -330,23 +330,23 @@
                         </div>
                         <div class="mt-auto">
                             <div class="row">
-                                <div class="col-6">
-                                    <h3 class="mb-1 fs-20 fw-bold ff-secondary col-6"
+                                <div class="col-7">
+                                    <h3 class="mb-1 fs-16 fw-bold ff-secondary col-6"
                                         aria-label="{{ __('Actions (Shares)') }}: {{ formatSolde($userSelledAction,0) }}">
                                     <span class="counter-value"
                                           data-target="{{$userSelledAction}}">{{formatSolde($userSelledAction,0)}}</span>
-                                        <small class="text-muted fs-13">({{$actionsValues}}) <span
+                                        <small class="text-muted fs-10">({{$actionsValues}}) <span
                                                 class="text-muted">{{config('app.currency')}}</span></small>
                                     </h3>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-5">
                                                <span class="badge bg-light text-success ms-2"> <i
                                                        class="ri-arrow-up-line align-middle"></i> {{$userActualActionsProfit}} <span
                                                        class="text-muted">{{config('app.currency')}}</span></span>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-12">
                                     <a href="{{route('business_hub_trading',app()->getLocale())}}"
-                                       class="btn btn-sm @if($flash) btn-flash @else btn-soft-secondary @endif">{{ __('Buy Shares') }}</a>
+                                       class="btn btn-sm float-end @if($flash) btn-flash @else btn-soft-secondary @endif">{{ __('Buy Shares') }}</a>
                                 </div>
                             </div>
                         </div>
