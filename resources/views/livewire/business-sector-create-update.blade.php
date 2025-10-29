@@ -60,7 +60,7 @@
                     @error('thumbnailsImage') <span class="error">{{ $message }}</span> @enderror
                     @if ($thumbnailsImage)
                         <div class="mt-3 position-relative d-inline-block">
-                            <img src="{{ $thumbnailsImage->temporaryUrl() }}" alt="Preview" class="img-thumbnail preview-img">
+                            <img src="{{ $thumbnailsImage->temporaryUrl() }}" alt="Preview" class="img-thumbnail">
                             <button type="button" wire:click="removeImage('thumbnailsImage')"
                                     class="btn btn-sm btn-danger position-absolute top-0 end-0">
                                 ×
@@ -69,7 +69,11 @@
                     @elseif ($businessSector?->thumbnailsImage)
                             <div class="mt-3 position-relative d-inline-block">
                                 <img src="{{ asset('uploads/' . $businessSector->thumbnailsImage->url) }}"
-                                    alt="Business Sector thumbnailsImage" class="img-thumbnail preview-img">
+                                    alt="Business Sector thumbnailsImage" class="img-thumbnail">
+                                <button type="button" wire:click="deleteExistingImage('thumbnailsImage')"
+                                        class="btn btn-sm btn-danger position-absolute top-0 end-0">
+                                    ×
+                                </button>
                             </div>
                     @endif
                     </div>
@@ -81,16 +85,18 @@
 
                     @if ($thumbnailsHomeImage)
                         <div class="mt-3 position-relative d-inline-block">
-                            <img src="{{ $thumbnailsHomeImage->temporaryUrl() }}" alt="Preview" class="img-thumbnail preview-img">
+                            <img src="{{ $thumbnailsHomeImage->temporaryUrl() }}" alt="Preview" class="img-thumbnail">
                             <button type="button" wire:click="removeImage('thumbnailsHomeImage')"
                                     class="btn btn-sm btn-danger position-absolute top-0 end-0">
                                 ×
                             </button>
                         </div>
                     @elseif ($businessSector?->thumbnailsHomeImage)
-                        <div class="mt-3">
+                        <div class="mt-3 position-relative d-inline-block">
                             <img src="{{ asset('uploads/' . $businessSector->thumbnailsHomeImage->url) }}"
-                                alt="Business Sector thumbnailsHomeImage" class="img-thumbnail preview-img">
+                                alt="Business Sector thumbnailsHomeImage" class="img-thumbnail">
+                            <button type="button" wire:click="deleteExistingImage('thumbnailsHomeImage')"
+                                class="btn btn-sm btn-danger position-absolute top-0 end-0">×</button>
                         </div>
                     @endif
                 </div>
@@ -102,16 +108,18 @@
 
                     @if ($logoImage)
                         <div class="mt-3 position-relative d-inline-block">
-                            <img src="{{ $logoImage->temporaryUrl() }}" alt="Preview" class="img-thumbnail preview-img">
+                            <img src="{{ $logoImage->temporaryUrl() }}" alt="Preview" class="img-thumbnail">
                             <button type="button" wire:click="removeImage('logoImage')"
                                     class="btn btn-sm btn-danger position-absolute top-0 end-0">
                                 ×
                             </button>
                         </div>
                     @elseif ($businessSector?->logoImage)
-                        <div class="mt-3">
+                        <div class="mt-3 position-relative d-inline-block">
                             <img src="{{ asset('uploads/' . $businessSector->logoImage->url) }}"
-                                alt="Business Sector logoImage" class="img-thumbnail preview-img">
+                                alt="Business Sector logoImage" class="img-thumbnail">
+                            <button type="button" wire:click="deleteExistingImage('logoImage')"
+                                   class="btn btn-sm btn-danger position-absolute top-0 end-0">×</button>
                         </div>
                     @endif
                 </div>

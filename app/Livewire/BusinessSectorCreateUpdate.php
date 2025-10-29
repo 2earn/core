@@ -59,6 +59,20 @@ class BusinessSectorCreateUpdate extends Component
             $this->reset($property);
         }
     }
+
+    public function deleteExistingImage($field)
+    {
+        $businessSector = BusinessSector::find($this->idBusinessSector);
+
+        if ($businessSector && $businessSector->{$field}) {
+            Storage::disk('public2')->delete($businessSector->{$field}->url);
+
+            $businessSector->{$field}()->delete();
+        }
+
+        $this->{$field} = null;
+    }
+
     public function updateBU()
     {
         $this->validate();
