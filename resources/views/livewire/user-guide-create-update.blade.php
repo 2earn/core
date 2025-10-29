@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="{{getContainerType()}}">
     @component('components.breadcrumb')
         @slot('title')
             {{ $userGuideId ? __('Update User Guide') : __('Create User Guide') }}

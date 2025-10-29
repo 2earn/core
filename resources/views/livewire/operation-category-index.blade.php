@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="{{getContainerType()}}">
     <div>
         @component('components.breadcrumb')
             @slot('title')

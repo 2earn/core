@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="{{getContainerType()}}">
     <div>
         @component('components.breadcrumb')
             @slot('title')
@@ -148,7 +148,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                wire:model.live="search"/>
                                     </div>
                                     <div class="col-md-4">
-                                        <a class="btn btn-outline-secondary btn-label waves-effect float-end waves-light"
+                                        <a class="btn btn-outline-secondary btn-label waves-effect float-end waves-light mt-2"
                                            type="button"
                                            wire:click="PreAjout">
                                             <i class="ri-file-add-fill label-icon align-middle fs-16 ms-2"></i>
@@ -169,7 +169,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                         <tbody>
                                         @foreach ($translates as $value)
                                             <tr>
-                                                <td><span> {{$value->id}}</span></td>
+                                                <td><span class="text-muted"> {{$value->id}}</span></td>
                                                 <td class="d-sm-block d-md-none">
                                                     <ul class="list-group list-group-horizontal-md">
                                                         <li class="list-group-item"><a
@@ -349,7 +349,6 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
 
                                                     </div>
                                                 </td>
-
                                                 <td class="w-25">
                                                     <a type="btn" wire:click="initTranslate({{$value->id}})"
                                                        data-bs-toggle="modal" data-bs-target="#editTranslationModal"
@@ -358,11 +357,9 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                     <a type="btn" onclick="confirmDelete({{$value->id}})"
                                                        class="btn btn-soft-danger float-end mt-1">{{__('Delete')}}
                                                     </a>
-                                                    <hr class="my-3 text-muted">
                                                     <span class="text-muted mt-4">
                                                 <i class="fa-solid fa-plus mx-2"></i> {{ \Carbon\Carbon::parse($value->created_at)->format('d M Y, H:i') }}
                                             </span>
-                                                    <hr class="my-3 text-muted">
                                                     <span class="text-muted mt-4">
                                                 <i class="fa-solid fa-pen-to-square mx-2"></i> {{ \Carbon\Carbon::parse($value->updated_at)->format('d M Y, H:i') }}
                                             </span>

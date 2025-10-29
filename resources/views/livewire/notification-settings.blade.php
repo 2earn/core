@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="{{getContainerType()}}">
     <style>
         .custom-range::-webkit-slider-thumb {
             background: #f02602;

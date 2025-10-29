@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="{{getContainerType()}}">
     @section('title')
         {{ __('News') }} : {{ \App\Models\TranslaleModel::getTranslation($news,'title',$news->title) }}
     @endsection

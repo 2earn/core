@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="{{getContainerType()}}">
     <div>
         @if($currentRouteName=="target_index")
             @component('components.breadcrumb')

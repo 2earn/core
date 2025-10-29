@@ -671,4 +671,10 @@ if (!function_exists('createTranslaleModel')) {
             ]);
     }
 }
+if (!function_exists('getContainerType')) {
+    function getContainerType()
+    {
+        return getSettingStringParam('container-type', 'container');
+    }
+}
 

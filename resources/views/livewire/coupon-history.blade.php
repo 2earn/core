@@ -1,5 +1,5 @@
-<div class="container-fluid">
-    <div class="container-fluid">
+<div class="{{getContainerType()}}">
+    <div class="{{getContainerType()}}">
         @component('components.breadcrumb')
             @slot('title')
                 {{ __('Coupon history') }}

@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="{{getContainerType()}}">
     @component('components.breadcrumb')
         @slot('title')
             @if($update)
@@ -77,7 +77,7 @@
                             </div>
                         @endif
                     </div>
-                    
+
                     <div class="form-group col-sm-12 col-md-4 mb-3">
                         <label for="logoImage">{{__('Logo Image')}}</label>
                         <input type="file" id="logoImage" wire:model.live="logoImage" class="form-control">

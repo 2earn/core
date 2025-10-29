@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="{{getContainerType()}}">
     @component('components.breadcrumb')
         @slot('title')
             {{ __('Home') }}
@@ -103,7 +103,6 @@
                 </div>
             </div>
 
-            <!-- Balance for Shopping -->
             <div class="col-md-4 col-lg-4 solde-bfs">
                 <div class="card card-animate h-100 shadow-sm hover-scale">
                     <div class="card-body d-flex flex-column">
@@ -159,7 +158,6 @@
                 </div>
             </div>
 
-            <!-- Discounts Balance -->
             <div class="col-md-4 col-lg-4 solde-discount">
                 <div class="card card-animate h-100 shadow-sm hover-scale">
                     <div class="card-body d-flex flex-column">
@@ -214,7 +212,6 @@
                 </div>
             </div>
 
-            <!-- SMS Solde -->
             <div class="col-xl-3 col-md-6 solde-sms">
                 <div class="card card-animate h-100 shadow-sm hover-scale">
                     <div class="card-body d-flex flex-column">
@@ -247,7 +244,6 @@
                 </div>
             </div>
 
-            <!-- Tree Solde -->
             <div class="col-xl-3 col-md-6 solde-tree">
                 <div class="card card-animate h-100 shadow-sm hover-scale">
                     <div class="card-body d-flex flex-column">
@@ -278,56 +274,7 @@
                 </div>
             </div>
 
-            <!-- Chance Sold -->
             <div class="col-xl-3 col-md-6 solde-chance">
-                <div class="card card-animate h-100 shadow-sm hover-scale">
-                    <div class="card-body d-flex flex-column">
-                        <div class="d-flex align-items-start justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <div
-                                    class="me-3 avatar-sm bg-light rounded-circle d-flex align-items-center justify-content-center">
-                                    <lord-icon src="{{ URL::asset('build/icons/wired-gradient-751-share.json') }}"
-                                               trigger="loop"
-                                               colors="primary:#464fed,secondary:#bc34b6"
-                                               style="width:40px;height:40px"></lord-icon>
-                                </div>
-                                <div class="overflow-hidden">
-                                    <h6 class="text-uppercase text-muted mb-1 small">{{ __('Actions (Shares)') }}</h6>
-                                    <a href="{{route('shares_solde' , app()->getLocale() )}}"
-                                       class="text-decoration-none small text-muted">{{ __('see_details') }}</a>
-                                </div>
-                            </div>
-                            <div class="text-success small">{{$actualActionValue['int']}}
-                                .{{$actualActionValue['2Fraction']}}<small
-                                    class="action_fraction">{{$actualActionValue['3_2Fraction']}}</small></div>
-                        </div>
-                        <div class="mt-auto">
-                            <div class="row">
-                                <div class="col-5">
-                                    <h3 class="mb-1 fs-20 fw-bold ff-secondary col-6"
-                                        aria-label="{{ __('Actions (Shares)') }}: {{ formatSolde($userSelledAction,0) }}">
-                                    <span class="counter-value"
-                                          data-target="{{$userSelledAction}}">{{formatSolde($userSelledAction,0)}}</span>
-                                        <small class="text-muted fs-13">({{$actionsValues}}) <span
-                                                class="text-muted">{{config('app.currency')}}</span></small>
-                                    </h3>
-                                </div>
-                                <div class="col-3">
-                                               <span class="badge bg-light text-success ms-2"> <i
-                                                       class="ri-arrow-up-line align-middle"></i> {{$userActualActionsProfit}} <span
-                                                       class="text-muted">{{config('app.currency')}}</span></span>
-                                </div>
-                                <div class="col-4">
-                                    <a href="{{route('business_hub_trading',app()->getLocale())}}"
-                                       class="btn btn-sm @if($flash) btn-flash @else btn-soft-secondary @endif">{{ __('Buy Shares') }}</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-3 col-md-6 solde-actions">
                 <div class="card card-animate h-100 shadow-sm hover-scale">
                     <div class="card-body d-flex flex-column">
                         <div class="d-flex align-items-start justify-content-between">
@@ -353,6 +300,54 @@
                                     <span class="counter-value"
                                           data-target="{{$chanceBalance}}">{{$chanceBalance}}</span>
                                 </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 solde-action">
+                <div class="card card-animate h-100 shadow-sm hover-scale">
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex align-items-start justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <div
+                                    class="me-3 avatar-sm bg-light rounded-circle d-flex align-items-center justify-content-center">
+                                    <lord-icon src="{{ URL::asset('build/icons/wired-gradient-751-share.json') }}"
+                                               trigger="loop"
+                                               colors="primary:#464fed,secondary:#bc34b6"
+                                               style="width:40px;height:40px"></lord-icon>
+                                </div>
+                                <div class="overflow-hidden">
+                                    <h6 class="text-uppercase text-muted mb-1 small">{{ __('Actions (Shares)') }}</h6>
+                                    <a href="{{route('shares_solde' , app()->getLocale() )}}"
+                                       class="text-decoration-none small text-muted">{{ __('see_details') }}</a>
+                                </div>
+                            </div>
+                            <div class="text-success small">{{$actualActionValue['int']}}
+                                .{{$actualActionValue['2Fraction']}}<small
+                                    class="action_fraction">{{$actualActionValue['3_2Fraction']}}</small></div>
+                        </div>
+                        <div class="mt-auto">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h3 class="mb-1 fs-20 fw-bold ff-secondary col-6"
+                                        aria-label="{{ __('Actions (Shares)') }}: {{ formatSolde($userSelledAction,0) }}">
+                                    <span class="counter-value"
+                                          data-target="{{$userSelledAction}}">{{formatSolde($userSelledAction,0)}}</span>
+                                        <small class="text-muted fs-13">({{$actionsValues}}) <span
+                                                class="text-muted">{{config('app.currency')}}</span></small>
+                                    </h3>
+                                </div>
+                                <div class="col-3">
+                                               <span class="badge bg-light text-success ms-2"> <i
+                                                       class="ri-arrow-up-line align-middle"></i> {{$userActualActionsProfit}} <span
+                                                       class="text-muted">{{config('app.currency')}}</span></span>
+                                </div>
+                                <div class="col-3">
+                                    <a href="{{route('business_hub_trading',app()->getLocale())}}"
+                                       class="btn btn-sm @if($flash) btn-flash @else btn-soft-secondary @endif">{{ __('Buy Shares') }}</a>
+                                </div>
                             </div>
                         </div>
                     </div>

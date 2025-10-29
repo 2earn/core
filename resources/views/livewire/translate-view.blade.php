@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="{{getContainerType()}}">
     <div>
         @component('components.breadcrumb')
             @slot('title')
@@ -126,17 +126,13 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 form-row">
+                    <div class="col-12 ">
                         <div class="btn-group material-shadow" role="group" aria-label="Basic example">
                             <a class="btn btn-outline-warning btn-label waves-effect right waves-light" type="button"
                                wire:click="PreImport('mergeToData')">
                                 <i class="ri-database-2-fill label-icon align-middle fs-16 ms-2"></i>
                                 {{__('Merge field To base')}}
                             </a>
-                        </div>
-                    </div>
-                    <div class="col-md-6 form-row float-end">
-                        <div class="btn-group material-shadow" role="group" aria-label="Basic example">
                             <a class="btn btn-outline-success btn-label waves-effect right waves-light float-end"
                                wire:click="PreImport('databaseToFile')">
                                 <i class="ri-file-2-line label-icon align-middle fs-16 ms-2"></i>
@@ -149,7 +145,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                     <div class="card-header headerTranslate">
                         <div class="row">
                             <div class="col-md-4 form-row">
-                                <select wire:model.live="nbrPagibation" class="form-control col-5"
+                                <select wire:model.live="nbrPagibation" class="form-control col-5 mt-2"
                                         id="nbrPagibation">
                                     @foreach ($nbrPagibationArray as $nbrPagibationItem)
                                         <option
@@ -158,13 +154,13 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                 </select>
                             </div>
                             <div class="col-md-4 form-row">
-                                <input type="text" class="form-control col-7"
+                                <input type="text" class="form-control col-7 mt-2"
                                        placeholder="{{__('Search')}}..."
                                        id="search"
                                        wire:model.live="search"/>
                             </div>
                             <div class="col-md-4 form-row">
-                                <a class="btn btn-outline-secondary btn-label waves-effect right waves-light float-end"
+                                <a class="btn btn-outline-secondary btn-label waves-effect right waves-light float-end mt-2"
                                    wire:click="PreAjout">
                                     <i class="ri-file-add-fill label-icon align-middle fs-16 ms-2"></i>
                                     {{__('Add a new')}}
@@ -186,7 +182,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                 <tbody>
                                 @foreach ($translates as $value)
                                     <tr>
-                                        <td><span> {{$value->id}}</span></td>
+                                        <td><span class="text-muted"> {{$value->id}}</span></td>
                                         <td class="d-sm-block d-md-none">
                                             <ul class="list-group col-md-12 mb-2">
                                                 <li class="list-group-item list-group-item-action list-group-item-primary">
@@ -308,11 +304,9 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                             <a type="btn" onclick="confirmDelete({{$value->id}})"
                                                class="btn btn-soft-danger mt-1 float-end">{{__('Delete')}}
                                             </a>
-                                            <hr class="my-3 text-muted">
                                             <span class="text-muted mt-4">
                                                 <i class="fa-solid fa-plus mx-2"></i> {{ \Carbon\Carbon::parse($value->created_at)->format('d M Y, H:i') }}
                                             </span>
-                                            <hr class="my-3 text-muted">
                                             <span class="text-muted mt-4">
                                                 <i class="fa-solid fa-pen-to-square mx-2"></i> {{ \Carbon\Carbon::parse($value->updated_at)->format('d M Y, H:i') }}
                                             </span>

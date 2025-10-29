@@ -1,10 +1,10 @@
-<div>
+<div class="{{getContainerType()}}">
     @component('components.breadcrumb')
         @slot('title')
             {{ __('Hobbies') }}
         @endslot
     @endcomponent
-    <div class="container-fluid">
+    <div class="{{getContainerType()}}">
         <div class="card">
             <div class="card-body">
                 @livewire('page-timer', ['deadline'=>'hobbies_cs'])

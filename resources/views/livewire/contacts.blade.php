@@ -9,7 +9,7 @@
             {{ __('You Contacts') }}
         @endslot
     @endcomponent
-    <div class="container-fluid">
+    <div class="{{getContainerType()}}">
         <div class="row">
             @include('layouts.flash-messages')
         </div>

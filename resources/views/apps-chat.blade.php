@@ -7,7 +7,7 @@
 @section('content')
 
 <div class="page-content">
-    <div class="container-fluid">
+    <div class="{{getContainerType()}}">
         <div class="chat-wrapper d-lg-flex gap-1 mx-n4 mt-n4 p-1">
             <div class="chat-leftsidebar">
                 <div class="px-4 pt-4 mb-4">
