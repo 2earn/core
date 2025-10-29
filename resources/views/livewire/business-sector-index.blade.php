@@ -32,7 +32,7 @@
                     @if(\App\Models\User::isSuperAdmin())
                         <div class="col-sm-12 col-md-6 col-lg-6 text-end">
                             <a href="{{route('business_sector_create_update', app()->getLocale())}}"
-                               class="btn btn-info waves-effect waves-light"
+                               class="btn btn-outline-info waves-effect waves-light"
                                id="create-btn">
                                 <i class="ri-add-line align-middle me-1"></i>
                                 {{__('Create new business sector')}}
