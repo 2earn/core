@@ -53,6 +53,25 @@ class BusinessSectorCreateUpdate extends Component
     {
         return redirect()->route('business_sector_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Business sector operation cancelled'));
     }
+    public function removeImage($property)
+    {
+        if (property_exists($this, $property)) {
+            $this->reset($property);
+        }
+    }
+
+    public function deleteExistingImage($field)
+    {
+        $businessSector = BusinessSector::find($this->idBusinessSector);
+
+        if ($businessSector && $businessSector->{$field}) {
+            Storage::disk('public2')->delete($businessSector->{$field}->url);
+
+            $businessSector->{$field}()->delete();
+        }
+
+        $this->{$field} = null;
+    }
 
     public function updateBU()
     {
@@ -151,7 +170,6 @@ class BusinessSectorCreateUpdate extends Component
                         'valueDe' => $this->{$translation} . ' De',
                     ]);
             }
-
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('business_sector_index', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while creating Business sector'));
