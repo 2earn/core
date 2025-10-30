@@ -5,7 +5,6 @@ Framework : Laravel 12 - Livewire 3
 
 # Current MEP
 
-php artisan db:seed --class=BalanceOperationsCouponSeeder
-php artisan db:seed --class=BalanceOperationsBFSShareSeeder
-php artisan db:seed --class=OperationCategorySeeder
-php artisan db:seed --class=BalanceOperationsMappingSeeder
+php artisan db:seed --class=OrderingSeeder
+php artisan db:seed --class=OrdersTableSeeder
+php artisan db:seed --class=AddCashSeeder
