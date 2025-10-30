@@ -101,7 +101,7 @@ class OrderSimulationController extends Controller
                 return response()->json([
                     'status' => 'Failed',
                     'message' => 'Order status is not eligible for simulation.',
-                ], 400);
+                ], 423);
             }
 
             $simulation = Ordering::simulate($order);
