@@ -32,8 +32,8 @@
                                        class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
                                     <thead class="table-light">
                                     <tr class="head2earn tabHeader2earn">
-                                        <th><input type="checkbox" id="selectAll"/></th>
                                         <th>{{__('Details')}}</th>
+                                        <th><input type="checkbox" id="selectAll"/></th>
                                         <th>{{__('Pin')}}</th>
                                         <th>{{__('sn')}}</th>
                                         <th>{{__('Dates')}}</th>
@@ -82,13 +82,13 @@
                             loadDatatableModalError('Coupon_table')
                         }                    },
                     "columns": [
+                        datatableControlBtn,
                         {
                             data: null,
                             defaultContent: '<input type="checkbox" class="row-select" />',
                             orderable: false,
                             searchable: false
                         },
-                        datatableControlBtn,
                         {data: 'pin'},
                         {data: 'sn'},
                         {data: 'dates'},
