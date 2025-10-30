@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-sm-12 col-md-12  col-lg-12">
                     <button id="deleteAll"
-                            class="btn btn-soft-danger material-shadow-none mt-1">{{__('Delete All')}}</button>
+                            class="btn btn-soft-danger material-shadow-none mt-1">{{__('Delete')}}</button>
                     <a href="{{route('coupon_injector_create',['locale'=>app()->getLocale()])}}"
                        class="btn btn-soft-info material-shadow-none mt-1 float-end"
                        id="create-btn">
@@ -134,6 +134,7 @@
                                 $.ajax({
                                     url: "{{route('api_delete_injector_coupons',app()->getLocale())}}",
                                     method: "POST",
+                                    headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
                                     data: {
                                         ids: ids,
                                         _token: "{{ csrf_token() }}"

@@ -800,6 +800,7 @@
             if (minshares && periode && coefficient) {
                 $.ajax({
                     url: "{{ route('vip',app()->getLocale()) }}",
+                    headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
                     type: "POST",
                     data: {
                         reciver: reciver,
