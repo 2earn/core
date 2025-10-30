@@ -17,16 +17,6 @@
         <div class="card-body">
             <div class="card-header border-info">
                 <div class="row">
-                    <div class="float-end col-sm-12 col-md-6 col-lg-6">
-                        <form class="items-center">
-                            <label for="simple-search" class="sr-only">{{__('Search')}}</label>
-                            <div class="w-full">
-                                <input wire:model.live="search" type="text" id="simple-search"
-                                       class="form-control float-end"
-                                       placeholder="{{__('Search Orders')}}">
-                            </div>
-                        </form>
-                    </div>
                     @if(\App\Models\User::isSuperAdmin())
                         <div class="col-sm-12 col-md-3 d-none col-lg-6">
                             <a class="btn btn-soft-info material-shadow-none mt-1 float-end"
