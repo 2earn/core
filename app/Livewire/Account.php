@@ -34,6 +34,7 @@ class Account extends Component
 
     public $nbrChild = 9;
     public $photoFront;
+    public $noteReject;
     public $photoBack;
     public $user;
     public $newMail;
@@ -152,7 +153,7 @@ class Account extends Component
             ->where('idNotification', NotificationSettingEnum::change_pwd_sms->value)
             ->update(['value' => $this->sendPassSMS]);
 
-        $this->activeTab = 'changePassword';  
+        $this->activeTab = 'changePassword';
     }
 
 
