@@ -438,11 +438,6 @@ body {
     top: 4px !important
 }
 
-@media (min-width: 768px) {
-    .topbar-user {
-        background-color: var(--vz-topbar-user-bg)
-    }
-}
 
 .topbar-user .dropdown-menu {
     top: 6px !important
