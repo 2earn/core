@@ -3,7 +3,7 @@
         <div class="layout-width">
             <div class="navbar-header">
                 <div class="d-flex">
-                    <div class="ms-1 header-item d-flex me-4">
+                    <div class="ms-1 header-item d-flex">
                         <a href="{{ route('home', app()->getLocale()) }}" class="m-2" title="{{ __('To Home') }}">
                             <img src="{{ Vite::asset('resources/images/logo2earn.png') }}" height="54px"
                                  alt="{{ config('app.name') }}">
@@ -11,38 +11,6 @@
                     </div>
                 </div>
                 <div class="d-flex align-items-center">
-                    <div class="dropdown topbar-head-dropdown header-item">
-                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary"
-                                data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="true">
-                            <img
-                                src="{{ Vite::asset('resources/images/flags/'.config('app.available_locales')[app()->getLocale()]['flag'].'.svg') }}"
-                                class="rounded" alt="Header Language"
-                                height="22">
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            @foreach (config('app.available_locales') as  $locale => $value )
-                                @if(strpos(Request::url(), '/'.app()->getLocale().'/'))
-                                    <a href="{{str_replace('/'.app()->getLocale().'/', '/'.$value['name'].'/', Request::url())}}"
-                                       class="dropdown-item notify-item language py-2"
-                                       data-lang="{{$locale}}"
-                                       title="{{ __('lang'.$locale)  }}">
-                                        <img src="{{ Vite::asset('resources/images/flags/'.$value['flag'].'.svg') }}"
-                                             alt="user-image" class="me-2 rounded" height="20">
-                                        <span class="align-middle">{{ __('lang'.$locale)  }}</span>
-                                    </a>
-                                @else
-                                    <a href="{{str_replace('/'.app()->getLocale(), '/'.$value['name'].'/', Request::url())}}"
-                                       class="dropdown-item notify-item language py-2 "
-                                       data-lang="{{$locale}}"
-                                       title="{{ __('lang'.$locale)  }}">
-                                        <img src="{{ Vite::asset('resources/images/flags/'.$value['flag'].'.svg') }}"
-                                             alt="user-image" class="me-2 rounded" height="20">
-                                        <span class="align-middle">{{ __('lang'.$locale)  }}</span>
-                                    </a>
-                                @endif
-                            @endforeach
-                        </div>
-                    </div>
                     <div class="dropdown topbar-head-dropdown ms-1 header-item">
                         <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -177,7 +145,7 @@
             </div>
 
             <div class="navbar-header border-top ">
-                <div class="d-flex w-100 py-2">
+                <div class="d-flex w-100 py-2 align-items-center">
                     @php
                         $topBalances = [
                             [
@@ -213,7 +181,7 @@
                         ];
                     @endphp
                     @foreach($topBalances as $bal)
-                        <div class="mx-2"
+                        <div class="mx-1"
                              title="{{__('Soldes calculated at')}} : {{Carbon\Carbon::now()->toDateTimeString()}}">
                             <a href="{{ $bal['route'] }}"
                                class="d-flex align-items-center text-decoration-none topbar-balance-link"
@@ -231,6 +199,39 @@
                             </a>
                         </div>
                     @endforeach
+                    <div class="dropdown topbar-head-dropdown header-item me-1 ms-auto">
+                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary"
+                                data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="true">
+                            <img
+                                src="{{ Vite::asset('resources/images/flags/'.config('app.available_locales')[app()->getLocale()]['flag'].'.svg') }}"
+                                class="rounded" alt="{{__('Header Language')}}"
+                                height="22">
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            @foreach (config('app.available_locales') as  $locale => $value )
+                                @if(strpos(Request::url(), '/'.app()->getLocale().'/'))
+                                    <a href="{{str_replace('/'.app()->getLocale().'/', '/'.$value['name'].'/', Request::url())}}"
+                                       class="dropdown-item notify-item language py-2"
+                                       data-lang="{{$locale}}"
+                                       title="{{ __('lang'.$locale)  }}">
+                                        <img src="{{ Vite::asset('resources/images/flags/'.$value['flag'].'.svg') }}"
+                                             alt="user-image" class="me-2 rounded" height="20">
+                                        <span class="align-middle">{{ __('lang'.$locale)  }}</span>
+                                    </a>
+                                @else
+                                    <a href="{{str_replace('/'.app()->getLocale(), '/'.$value['name'].'/', Request::url())}}"
+                                       class="dropdown-item notify-item language py-2 "
+                                       data-lang="{{$locale}}"
+                                       title="{{ __('lang'.$locale)  }}">
+                                        <img src="{{ Vite::asset('resources/images/flags/'.$value['flag'].'.svg') }}"
+                                             alt="user-image" class="me-2 rounded" height="20">
+                                        <span class="align-middle">{{ __('lang'.$locale)  }}</span>
+                                    </a>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

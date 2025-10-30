@@ -306,6 +306,11 @@
     --vz-twocolumn-menu-bg-dark: var(--vz-primary)
 }
 
+body {
+    background: linear-gradient(135deg, color-mix(in srgb, rgb(188, 52, 182) 5%, white) 0%, color-mix(in srgb, rgb(24, 37, 170) 15%, white) 100%);
+    background-attachment: fixed;
+}
+
 #page-topbar {
     position: fixed;
     top: 0;
@@ -3490,8 +3495,8 @@ code {
 
 #back-to-top {
     position: fixed;
-    bottom: 100px;
-    right: 28px;
+    bottom: 50px;
+    right: 18px;
     transition: all .5s ease;
     display: none;
     z-index: 1000

@@ -43,10 +43,13 @@
                         {{__('Copyright')}} {{ date('Y') }}
                         <span class="fw-semibold">2Earn.cash</span>
                     </p>
+                    <div class="mt-3">
+                        <button type="button" title="{{ __('Back to Top') }}" class="btn btn-soft-primary btn-sm" id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                            <i class="mdi mdi-arrow-up"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
-
-
         </div>
     </div>
 </footer>
