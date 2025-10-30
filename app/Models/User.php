@@ -60,7 +60,8 @@ class User extends Authenticatable
         $requestIdentification = identificationuserrequest::where('idUser', $this->idUser);
         $requestIdentification = $requestIdentification->where(function ($query) {
             $query->where('status', '=', StatusRequest::InProgressNational->value)
-                ->orWhere('status', '=', StatusRequest::InProgressInternational->value);
+                ->orWhere('status', '=', StatusRequest::InProgressInternational->value)
+                ->orWhere('status', '=', StatusRequest::InProgressGlobal->value);
         });
 
         return is_null($requestIdentification->get()->first()) ? false : true;
