@@ -192,7 +192,7 @@
                             ],
                             [
                                 'route' => route('user_balance_bfs', app()->getLocale()),
-                                'title' => __('Shopping'),
+                                'title' => __('BFS s'),
                                 'value' => __('DPC') . formatSolde(intval($bfs), 0),
                                 'icon'  => 'ri-shopping-cart-2-line',
                                 'iconBg'=> 'bg-soft-success',
@@ -202,7 +202,7 @@
                             ],
                             [
                                 'route' => route('user_balance_db', app()->getLocale()),
-                                'title' => __('Discounts'),
+                                'title' => __('Discount'),
                                 'value' => __('DPC') . formatSolde(intval($db), 0),
                                 'icon'  => 'ri-coupon-4-line',
                                 'iconBg'=> 'bg-soft-secondary',
