@@ -70,6 +70,7 @@
                 'resources/anychart/anychart-table.min.js',
     ])
     <link rel="shortcut icon" href="{{ Vite::asset('resources/images/favicon.ico')}}">
+    @vite(['resources/css/menu-modals.css'])
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.all.min.js"></script>
     @include('layouts.vendor-scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>

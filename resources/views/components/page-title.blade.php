@@ -1,5 +1,6 @@
 @php use App\Models\User; @endphp
 
+
 <div id="page-title-box" class="page-title-box p-1">
     <nav class="col d-flex align-items-center text-white" aria-label="{{ __('Breadcrumb') }}">
         <ol class="breadcrumb m-0 flex-grow-1">
@@ -56,45 +57,35 @@
             </a>
         @endif
 
+        @if(User::isSuperAdmin())
+            <a href="#" id="admin-menu-btn" title="{{ __('Admin menu') }}"
+               class="ms-auto float-end m-2 icon-square text-muted">
+                <i class="ri-admin-line fs-5 align-middle" aria-hidden="true"></i>
+                <span class="visually-hidden">{{ __('Admin Menu') }}</span>
+            </a>
+        @endif
+
         <a href="#" id="site-menu-btn" title="{{ __('Site menu') }}"
-           class="ms-auto float-end m-2 icon-square text-muted">
+           class="float-end m-2 icon-square text-muted">
             <i class="ri-menu-line fs-5 align-middle" aria-hidden="true"></i>
             <span class="visually-hidden">{{ __('Menu') }}</span>
         </a>
     </nav>
 
-    <div class="container-fluid text-muted" id="sidebar-menu-container" style="display: none">
+    <div class="container-fluid text-muted" id="user-menu-container" style="display: none">
         <div class="menu-content">
-            <div class="row menu-content-row">
-                <div class="card border card-border-light col-12"
-                     style="display: flex; flex-direction: column; max-height: 100%;">
-                    <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center py-3">
-                        <ul class="nav nav-pills mb-0" id="menu-tabs" role="tablist">
-                            <li class="nav-item text-muted" role="presentation">
-                                <button class="nav-link p-2 active" id="user-menu-tab" data-bs-toggle="tab"
-                                        data-bs-target="#user-menu-pane" type="button" role="tab"
-                                        aria-controls="user-menu-pane" aria-selected="true">
-                                    <i class="ri-user-line me-1 m-1"></i>{{ __('User') }}
-                                </button>
-                            </li>
-                            @if(User::isSuperAdmin())
-                                <li class="nav-item text-muted" role="presentation">
-                                <button class="nav-link p-2" id="admin-menu-tab" data-bs-toggle="tab"
-                                        data-bs-target="#admin-menu-pane" type="button" role="tab"
-                                        aria-controls="admin-menu-pane" aria-selected="false">
-                                    <i class="ri-admin-line me-1 m-1"></i>{{ __('SUPER ADMIN') }}
-                                </button>
-                            </li>
-                            @endif
-                        </ul>
-                        <button class="btn btn-sm btn-close close-menu-btn ms-2" title="{{ __('Close menu') }}"
+            <div class="menu-content-row">
+                <div class="card border card-border-light">
+                    <div
+                        class="card-header bg-white border-bottom d-flex justify-content-between align-items-center py-3">
+                        <h5 class="mb-0">
+                            <i class="ri-user-line me-2"></i>{{ __('User Menu') }}
+                        </h5>
+                        <button class="btn btn-sm btn-close close-user-menu-btn ms-2" title="{{ __('Close menu') }}"
                                 aria-label="{{ __('Close') }}"></button>
                     </div>
-                    <div class="card-body" style="flex: 1; overflow-y: auto; overflow-x: hidden;">
-                        <div class="tab-content" id="menu-tabs-content">
-                            <div class="tab-pane fade show active" id="user-menu-pane" role="tabpanel"
-                                 aria-labelledby="user-menu-tab" tabindex="0">
-                                <ul class="navbar-nav" id="navbar-nav-1">
+                    <div class="card-body">
+                        <ul class="navbar-nav" id="navbar-nav-1">
                             <li class="nav-item cool-link {{$currentRouteName=='home'? 'active' : ''}}">
                                 <a data-name="home" href="{{route('home',app()->getLocale(),false)}}"
                                    class="nav-link menu-link {{$currentRouteName=='home'? 'active' : ''}}"
@@ -232,11 +223,28 @@
                                 </a>
                             </li>
                         </ul>
-                            </div>
-                            @if(User::isSuperAdmin())
-                            <div class="tab-pane fade" id="admin-menu-pane" role="tabpanel"
-                                 aria-labelledby="admin-menu-tab" tabindex="0">
-                                <ul class="navbar-nav" id="navbar-nav-2">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if(User::isSuperAdmin())
+        <div class="container-fluid text-muted" id="admin-menu-container" style="display: none">
+            <div class="menu-content">
+                <div class="menu-content-row">
+                    <div class="card border card-border-light">
+                        <div
+                            class="card-header bg-white border-bottom d-flex justify-content-between align-items-center py-3">
+                            <h5 class="mb-0">
+                                <i class="ri-admin-line me-2"></i>{{ __('Admin Menu') }}
+                            </h5>
+                            <button class="btn btn-sm btn-close close-admin-menu-btn ms-2"
+                                    title="{{ __('Close menu') }}"
+                                    aria-label="{{ __('Close') }}"></button>
+                        </div>
+                        <div class="card-body">
+                            <ul class="navbar-nav" id="navbar-nav-2">
                                 <li class="nav-item cool-link {{$currentRouteName=='business_sector_index'? 'active' : ''}}">
                                     <a href="{{route('business_sector_index',app()->getLocale(),false )}}"
                                        class="nav-link menu-link {{$currentRouteName=='business_sector_index'? 'active' : ''}}"
@@ -425,50 +433,106 @@
                                     </a>
                                 </li>
                             </ul>
-                            </div>
-                            @endif
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
 </div>
 
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const siteMenuBtn = document.getElementById('site-menu-btn');
-        const closeMenuBtns = document.querySelectorAll('.close-menu-btn');
-        const sidebarMenuContainer = document.getElementById('sidebar-menu-container');
+        const adminMenuBtn = document.getElementById('admin-menu-btn');
+        const userMenuContainer = document.getElementById('user-menu-container');
+        const adminMenuContainer = document.getElementById('admin-menu-container');
+        const closeUserMenuBtn = document.querySelector('.close-user-menu-btn');
+        const closeAdminMenuBtn = document.querySelector('.close-admin-menu-btn');
 
-        if (siteMenuBtn && sidebarMenuContainer) {
+        function openUserMenu() {
+            if (userMenuContainer) {
+                if (adminMenuContainer) {
+                    adminMenuContainer.style.display = 'none';
+                }
+                userMenuContainer.style.display = 'block';
+                document.body.classList.add('modal-open');
+            }
+        }
+
+        function closeUserMenu() {
+            if (userMenuContainer) {
+                userMenuContainer.style.display = 'none';
+                document.body.classList.remove('modal-open');
+            }
+        }
+
+        function openAdminMenu() {
+            if (adminMenuContainer) {
+                if (userMenuContainer) {
+                    userMenuContainer.style.display = 'none';
+                }
+                adminMenuContainer.style.display = 'block';
+                document.body.classList.add('modal-open');
+            }
+        }
+
+        function closeAdminMenu() {
+            if (adminMenuContainer) {
+                adminMenuContainer.style.display = 'none';
+                document.body.classList.remove('modal-open');
+            }
+        }
+
+        if (siteMenuBtn && userMenuContainer) {
             siteMenuBtn.addEventListener('click', function (e) {
                 e.preventDefault();
-                if (sidebarMenuContainer.style.display === 'none') {
-                    sidebarMenuContainer.style.display = 'block';
-                    document.body.classList.add('modal-open');
+                if (userMenuContainer.style.display === 'none' || userMenuContainer.style.display === '') {
+                    openUserMenu();
                 } else {
-                    sidebarMenuContainer.style.display = 'none';
-                    document.body.classList.remove('modal-open');
+                    closeUserMenu();
                 }
             });
+        }
 
-            if (closeMenuBtns.length > 0) {
-                closeMenuBtns.forEach(function (btn) {
-                    btn.addEventListener('click', function (e) {
-                        e.preventDefault();
-                        sidebarMenuContainer.style.display = 'none';
-                        document.body.classList.remove('modal-open');
-                    });
-                });
-            }
+        if (adminMenuBtn && adminMenuContainer) {
+            adminMenuBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                if (adminMenuContainer.style.display === 'none' || adminMenuContainer.style.display === '') {
+                    openAdminMenu();
+                } else {
+                    closeAdminMenu();
+                }
+            });
+        }
 
-            // Close menu when clicking on the overlay (dark background)
-            sidebarMenuContainer.addEventListener('click', function (e) {
-                if (e.target === sidebarMenuContainer) {
-                    sidebarMenuContainer.style.display = 'none';
-                    document.body.classList.remove('modal-open');
+        if (closeUserMenuBtn) {
+            closeUserMenuBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                closeUserMenu();
+            });
+        }
+
+        if (closeAdminMenuBtn) {
+            closeAdminMenuBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                closeAdminMenu();
+            });
+        }
+
+        if (userMenuContainer) {
+            userMenuContainer.addEventListener('click', function (e) {
+                if (e.target === userMenuContainer) {
+                    closeUserMenu();
+                }
+            });
+        }
+
+        if (adminMenuContainer) {
+            adminMenuContainer.addEventListener('click', function (e) {
+                if (e.target === adminMenuContainer) {
+                    closeAdminMenu();
                 }
             });
         }
