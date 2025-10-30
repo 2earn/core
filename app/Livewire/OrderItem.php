@@ -57,6 +57,5 @@ class OrderItem extends Component
             }
             return view('livewire.order-item', $params)->extends('layouts.master')->section('content');
         }
-        return view('');
     }
 }

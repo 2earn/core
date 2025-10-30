@@ -438,11 +438,6 @@ body {
     top: 4px !important
 }
 
-@media (min-width: 768px) {
-    .topbar-user {
-        background-color: var(--vz-topbar-user-bg)
-    }
-}
 
 .topbar-user .dropdown-menu {
     top: 6px !important
@@ -2609,7 +2604,6 @@ body {
 
 .avatar-title {
     align-items: center;
-    background-color: #5ea3cb;
     color: #fff;
     display: flex;
     font-weight: 500;
