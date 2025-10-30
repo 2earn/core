@@ -1,62 +1,14 @@
-<div>
+<div class="{{getContainerType()}} mb-3">
     <header id="page-topbar">
         <div class="layout-width">
             <div class="navbar-header">
                 <div class="d-flex">
                     <div class="ms-1 header-item d-flex me-4">
-                    <a href="{{ route('home', app()->getLocale()) }}" class="m-2"  title="{{ __('To Home') }}">
-                            <img src="{{ Vite::asset('resources/images/logo2earn.png') }}" height="54px" alt="{{ config('app.name') }}">
+                        <a href="{{ route('home', app()->getLocale()) }}" class="m-2" title="{{ __('To Home') }}">
+                            <img src="{{ Vite::asset('resources/images/logo2earn.png') }}" height="54px"
+                                 alt="{{ config('app.name') }}">
                         </a>
                     </div>
-                    @php
-                        $topBalances = [
-                            [
-                                'route' => route('user_balance_cb', app()->getLocale()),
-                                'title' => __('Cash Balance'),
-                                'value' => __('DPC') . ' ' . formatSolde(intval($cash), 0),
-                                'icon'  => 'bx bx-dollar-circle',
-                                'iconBg'=> 'bg-soft-info',
-                                'iconColor' => 'text-info',
-                                'textClass' => 'text-info',
-                                'labelClass'=> 'text-muted'
-                            ],
-                            [
-                                'route' => route('user_balance_bfs', app()->getLocale()),
-                                'title' => __('Balance For Shopping'),
-                                'value' => __('DPC') . formatSolde(intval($bfs), 0),
-                                'icon'  => 'ri-shopping-cart-2-line',
-                                'iconBg'=> 'bg-soft-success',
-                                'iconColor' => 'text-success',
-                                'textClass' => 'text-success',
-                                'labelClass'=> 'text-muted'
-                            ],
-                            [
-                                'route' => route('user_balance_db', app()->getLocale()),
-                                'title' => __('Discounts Balance'),
-                                'value' => __('DPC') . formatSolde(intval($db), 0),
-                                'icon'  => 'ri-coupon-4-line',
-                                'iconBg'=> 'bg-soft-secondary',
-                                'iconColor' => 'text-secondary',
-                                'textClass' => 'text-secondary',
-                                'labelClass'=> 'text-muted'
-                            ]
-                        ];
-                    @endphp
-                    @foreach($topBalances as $bal)
-                        <div class="ms-1 header-item d-none d-xl-flex me-4" title="{{__('Soldes calculated at')}} : {{Carbon\Carbon::now()->toDateTimeString()}}">
-                            <a href="{{ $bal['route'] }}" class="d-flex align-items-center text-decoration-none topbar-balance-link" aria-label="{{ $bal['title'] }}">
-                                <div class="avatar-sm flex-shrink-0 me-2">
-                                    <span class="avatar-title {{ $bal['iconBg'] }} rounded fs-3">
-                                        <i class="{{ $bal['icon'] }} {{ $bal['iconColor'] }}"></i>
-                                    </span>
-                                </div>
-                                <div class="d-flex flex-column overflow-hidden">
-                                    <p class="text-uppercase fw-medium mb-0 small {{ $bal['labelClass'] }}">{{ $bal['title'] }}</p>
-                                    <h5 class="fs-14 mb-0 {{ $bal['textClass'] }}" aria-hidden="true">{{ $bal['value'] }}</h5>
-                                </div>
-                            </a>
-                        </div>
-                    @endforeach
                 </div>
                 <div class="d-flex align-items-center">
                     <div class="dropdown topbar-head-dropdown header-item">
@@ -122,7 +74,8 @@
                                         <div class="col">
                                             <a class="dropdown-icon-item"
                                                href="{{route('business_sector_show',['locale'=>app()->getLocale(),'id'=>$sector->id] )}}">
-                                                <img src="{{ $logoUrl }}" alt="{{ \App\Models\TranslaleModel::getTranslation($sector,'name',$sector->name) }}">
+                                                <img src="{{ $logoUrl }}"
+                                                     alt="{{ \App\Models\TranslaleModel::getTranslation($sector,'name',$sector->name) }}">
                                                 <span>
                                                     {{\App\Models\TranslaleModel::getTranslation($sector,'name',$sector->name)}}
                                                 </span>
@@ -190,7 +143,7 @@
                             <div class="dropdown-divider">
                             </div>
                             <a class="dropdown-item" href="{{route('user_balance_cb',app()->getLocale())}}"><i
-                                    class="mdi mdi-wallet text-muted fs-16 align-middle me-1"></i> <span>  <b> {{ __('Cash Balance') }} : {{__('DPC')}}  {{formatSolde($cash,3)}}</b>
+                                    class="mdi mdi-wallet text-muted fs-14 align-middle me-1"></i> <span>  <b> {{ __('Cash Balance') }} : {{__('DPC')}}  {{formatSolde($cash,3)}}</b>
                                 </span>
                             </a>
                             <div class="dropdown-divider">
@@ -199,16 +152,16 @@
                                 <span class="text-muted"> {{ __('Notification history') }}</span>
                             </a>
                             <a class="dropdown-item" href="{{route('notification_settings',app()->getLocale())}}">
-                               <span class="text-muted"> {{ __('Notification Settings') }}</span>
+                                <span class="text-muted"> {{ __('Notification Settings') }}</span>
                             </a>
                             <a class="dropdown-item" href="{{route('faq_index',app()->getLocale())}}">
-                               <span class="text-muted"> {{ __('Frequently asked questions') }}</span>
+                                <span class="text-muted"> {{ __('Frequently asked questions') }}</span>
                             </a>
                             <a class="dropdown-item" href="{{ route('user_guides_index', app()->getLocale()) }}">
                                 <span class="text-muted">{{ __('User Guides') }}</span>
                             </a>
                             <a class="dropdown-item" href="{{route('coupon_history',['locale'=>app()->getLocale()])}}">
-                               <span class="text-muted"> {{ __('Coupons History') }}</span>
+                                <span class="text-muted"> {{ __('Coupons History') }}</span>
                             </a>
                             <div class="dropdown-divider">
                             </div>
@@ -220,6 +173,64 @@
                             </a>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="navbar-header border-top ">
+                <div class="d-flex w-100 py-2">
+                    @php
+                        $topBalances = [
+                            [
+                                'route' => route('user_balance_cb', app()->getLocale()),
+                                'title' => __('Cash Balance'),
+                                'value' => __('DPC') . ' ' . formatSolde(intval($cash), 0),
+                                'icon'  => 'bx bx-dollar-circle',
+                                'iconBg'=> 'bg-soft-info',
+                                'iconColor' => 'text-info',
+                                'textClass' => 'text-info',
+                                'labelClass'=> 'text-muted'
+                            ],
+                            [
+                                'route' => route('user_balance_bfs', app()->getLocale()),
+                                'title' => __('Shopping'),
+                                'value' => __('DPC') . formatSolde(intval($bfs), 0),
+                                'icon'  => 'ri-shopping-cart-2-line',
+                                'iconBg'=> 'bg-soft-success',
+                                'iconColor' => 'text-success',
+                                'textClass' => 'text-success',
+                                'labelClass'=> 'text-muted'
+                            ],
+                            [
+                                'route' => route('user_balance_db', app()->getLocale()),
+                                'title' => __('Discounts'),
+                                'value' => __('DPC') . formatSolde(intval($db), 0),
+                                'icon'  => 'ri-coupon-4-line',
+                                'iconBg'=> 'bg-soft-secondary',
+                                'iconColor' => 'text-secondary',
+                                'textClass' => 'text-secondary',
+                                'labelClass'=> 'text-muted'
+                            ]
+                        ];
+                    @endphp
+                    @foreach($topBalances as $bal)
+                        <div class="mx-2"
+                             title="{{__('Soldes calculated at')}} : {{Carbon\Carbon::now()->toDateTimeString()}}">
+                            <a href="{{ $bal['route'] }}"
+                               class="d-flex align-items-center text-decoration-none topbar-balance-link"
+                               aria-label="{{ $bal['title'] }}">
+                                <div class="avatar-xs flex-shrink-0 me-2">
+                                    <span class="avatar-title {{ $bal['iconBg'] }} rounded fs-3">
+                                        <i class="{{ $bal['icon'] }} {{ $bal['iconColor'] }}"></i>
+                                    </span>
+                                </div>
+                                <div class="d-flex flex-column overflow-hidden">
+                                    <p class="text-uppercase fw-medium mb-0 small {{ $bal['labelClass'] }}">{{ $bal['title'] }}</p>
+                                    <h5 class="fs-10 mb-0 {{ $bal['textClass'] }}"
+                                        aria-hidden="true">{{ $bal['value'] }}</h5>
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
