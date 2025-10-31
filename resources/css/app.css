@@ -311,6 +311,11 @@ body {
     background-attachment: fixed;
 }
 
+[data-layout-mode="dark"] body {
+    background: linear-gradient(135deg, color-mix(in srgb, rgb(188, 52, 182) 25%, black) 0%, color-mix(in srgb, rgb(24, 37, 170) 35%, black) 100%);
+    background-attachment: fixed;
+}
+
 #page-topbar {
     position: fixed;
     top: 0;
@@ -733,7 +738,8 @@ body {
 }
 
 .main-content {
-    transition: all .1s ease-out;min-height: 820px;
+    transition: all .1s ease-out;
+    min-height: 820px;
 }
 
 .page-content {
@@ -16106,6 +16112,7 @@ span.flatpickr-weekday {
     object-fit: cover;
     border-radius: 0;
 }
+
 #page-title-box .icon-square {
     width: 25px;
     height: 25px;
