@@ -24,7 +24,7 @@
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 order-1 order-md-2 text-end">
                         <a href="{{route('event_create_update', app()->getLocale())}}"
-                           class="btn btn-outline-info text-white">
+                           class="btn btn-outline-info">
                             <i class="fa fa-plus me-2"></i>{{__('Create new event')}}
                         </a>
                     </div>

@@ -7,7 +7,7 @@ use App\Services\Targeting\Targeting;
 
 class TargetController extends Controller
 {
-    public function getTargetData($locale, $idTarget)
+    public function getTargetData($idTarget)
     {
         return datatables(Targeting::getTargetQuery(Target::find($idTarget), true))
             ->addColumn('detail', function ($query) {

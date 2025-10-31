@@ -73,7 +73,6 @@
             <span class="visually-hidden">{{ __('Menu') }}</span>
         </a>
     </nav>
-
     <div class="menu-fade-container" id="user-menu-container">
         <div class="card border-0 shadow-lg mt-2">
             <div
@@ -81,7 +80,7 @@
                 <h6 class="mb-0">
                     <i class="ri-user-line me-2"></i>{{ __('User Menu') }}
                 </h6>
-                <button type="button" class="btn btn-sm text-white close-user-menu-btn"
+                <button type="button" class="btn btn-sm text-danger close-user-menu-btn"
                         style="background: none; border: none; font-size: 1.5rem; line-height: 1; opacity: 0.8;"
                         title="{{ __('Close menu') }}" aria-label="{{ __('Close') }}">
                     <i class="ri-close-line"></i>
@@ -224,7 +223,6 @@
             </div>
         </div>
     </div>
-
     @if(User::isSuperAdmin())
         <div class="menu-fade-container" id="admin-menu-container">
             <div class="card border-0 shadow-lg mt-2">
@@ -233,7 +231,7 @@
                     <h6 class="mb-0">
                         <i class="ri-admin-line me-2"></i>{{ __('Admin Menu') }}
                     </h6>
-                    <button type="button" class="btn btn-sm text-white close-admin-menu-btn"
+                    <button type="button" class="btn btn-sm text-danger close-admin-menu-btn"
                             style="background: none; border: none; font-size: 1.5rem; line-height: 1; opacity: 0.8;"
                             title="{{ __('Close menu') }}" aria-label="{{ __('Close') }}">
                         <i class="ri-close-line"></i>
@@ -433,8 +431,6 @@
             </div>
         </div>
     @endif
-
-
 </div>
 
 <script>
