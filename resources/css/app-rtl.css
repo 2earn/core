@@ -310,6 +310,11 @@ body {
     background-attachment: fixed;
 }
 
+[data-layout-mode="dark"] body {
+    background: linear-gradient(135deg, color-mix(in srgb, rgb(188, 52, 182) 25%, black) 0%, color-mix(in srgb, rgb(24, 37, 170) 35%, black) 100%);
+    background-attachment: fixed;
+}
+
 #page-topbar {
     position: fixed;
     top: 0;
@@ -717,7 +722,6 @@ body {
 }
 
 
-
 .app-content {
     overflow: hidden
 }
@@ -728,7 +732,8 @@ body {
 }
 
 .main-content {
-    transition: all .1s ease-out;min-height: 820px;
+    transition: all .1s ease-out;
+    min-height: 820px;
 }
 
 .page-content {
@@ -854,7 +859,7 @@ body {
 }
 
 .navbar-menu .navbar-nav .nav-sm .nav-link:hover {
-    color:var(--vz-vertical-menu-item-hover-color);
+    color: var(--vz-vertical-menu-item-hover-color);
     background-color: rgba(247, 247, 253, 0.8);
 }
 
@@ -16003,14 +16008,16 @@ span.flatpickr-weekday {
     width: 20px;
     transform: translate(2%, -40%) !important;
 }
+
 @media (min-width: 768px) {
     [data-layout=vertical][data-sidebar-size=sm-hover] #page-topbar, [data-layout=vertical][data-sidebar-size=sm] #page-topbar {
-         left: 0px;
+        left: 0px;
     }
 }
+
 @media (min-width: 768px) {
     [data-layout=vertical][data-sidebar-size=sm] .main-content {
-         margin-left: 0px;
+        margin-left: 0px;
     }
 }
 
@@ -16089,6 +16096,7 @@ span.flatpickr-weekday {
     letter-spacing: 2px;
     text-transform: uppercase;
 }
+
 .cool-link
 .cool-link {
     color: var(--vz-vertical-menu-title-color);
@@ -16132,6 +16140,7 @@ span.flatpickr-weekday {
     object-fit: cover;
     border-radius: 0;
 }
+
 #page-title-box .icon-square {
     width: 25px;
     height: 25px;

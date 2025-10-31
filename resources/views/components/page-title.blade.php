@@ -1,13 +1,15 @@
-@php use App\Models\User; @endphp
+@php
+    use App\Models\User;
+
+ @endphp
 
 
-<div id="page-title-box" class="page-title-box mb-2 p-1">
-    <nav class="col d-flex align-items-center text-white" aria-label="{{ __('Breadcrumb') }}">
+<div id="page-title-box" class="page-title-box my-2 p-1 px-3 rounded-3">
+    <nav id="nav-breadcrumb" class="col d-flex align-items-center" aria-label="{{ __('Breadcrumb') }}">
         <ol class="breadcrumb m-0 flex-grow-1">
             <li class="breadcrumb-item">
-                <a href="{{ route('home', app()->getLocale()) }}" title="{{ __('To Home') }}"
-                   class="text-muted icon-square">
-                    <i class="ri-home-7-line fs-5 align-middle" aria-hidden="true"></i>
+                <a href="{{ route('home', app()->getLocale()) }}" title="{{ __('To Home') }}">
+                    <i class="ri-home-7-line align-middle" aria-hidden="true"></i>
                     <span class="visually-hidden">{{ __('Home') }}</span>
                 </a>
             </li>
@@ -42,7 +44,7 @@
                 @endforeach
             @else
                 @if(($pageTitle ?? '') !== 'Home' && !empty($pageTitle))
-                    <li class="breadcrumb-item fs-16 text-muted" aria-current="page">
+                    <li class="breadcrumb-item active" aria-current="page">
                         {!! $pageTitle !!}
                     </li>
                 @endif
@@ -51,23 +53,23 @@
 
         @if(!empty($helpUrl ?? null) && $helpUrl !== '#')
             <a href="{{ $helpUrl }}" title="{{ __('Check the help page') }}"
-               class="ms-auto float-end m-2 icon-square text-muted">
-                <i class="ri-question-line fs-5 align-middle" aria-hidden="true"></i>
+               class="ms-2 icon-square">
+                <i class="ri-question-line align-middle" aria-hidden="true"></i>
                 <span class="visually-hidden">{{ __('Help') }}</span>
             </a>
         @endif
 
         @if(User::isSuperAdmin())
             <a href="#" id="admin-menu-btn" title="{{ __('Admin menu') }}"
-               class="ms-auto float-end m-2 icon-square text-muted">
-                <i class="ri-admin-line fs-5 align-middle" aria-hidden="true"></i>
+               class="ms-2 icon-square">
+                <i class="ri-admin-line align-middle" aria-hidden="true"></i>
                 <span class="visually-hidden">{{ __('Admin Menu') }}</span>
             </a>
         @endif
 
         <a href="#" id="site-menu-btn" title="{{ __('Site menu') }}"
-           class="float-end m-2 icon-square text-muted">
-            <i class="ri-menu-line fs-5 align-middle" aria-hidden="true"></i>
+           class="ms-2 icon-square">
+            <i class="ri-menu-line align-middle" aria-hidden="true"></i>
             <span class="visually-hidden">{{ __('Menu') }}</span>
         </a>
     </nav>

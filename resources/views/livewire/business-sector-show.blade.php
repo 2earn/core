@@ -9,7 +9,7 @@
     @endcomponent
 
     {{-- Header Section with Banner --}}
-    <div class="card mt-4 mb-3 overflow-hidden">
+    <div class="card mb-3 overflow-hidden">
         <div class="profile-foreground position-relative">
             <div class="profile-wid-bg">
                 @if ($businessSector?->thumbnailsImage)
