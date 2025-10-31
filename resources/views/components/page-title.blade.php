@@ -1,7 +1,7 @@
 @php use App\Models\User; @endphp
 
 
-<div id="page-title-box" class="page-title-box p-1">
+<div id="page-title-box" class="page-title-box mb-2 p-1">
     <nav class="col d-flex align-items-center text-white" aria-label="{{ __('Breadcrumb') }}">
         <ol class="breadcrumb m-0 flex-grow-1">
             <li class="breadcrumb-item">
@@ -79,7 +79,7 @@
                 <h6 class="mb-0">
                     <i class="ri-user-line me-2"></i>{{ __('User Menu') }}
                 </h6>
-                <button type="button" class="btn btn-sm text-white close-user-menu-btn"
+                <button type="button" class="btn btn-sm text-danger close-user-menu-btn"
                         style="background: none; border: none; font-size: 1.5rem; line-height: 1; opacity: 0.8;"
                         title="{{ __('Close menu') }}" aria-label="{{ __('Close') }}">
                     <i class="ri-close-line"></i>
@@ -231,7 +231,7 @@
                     <h6 class="mb-0">
                         <i class="ri-admin-line me-2"></i>{{ __('Admin Menu') }}
                     </h6>
-                    <button type="button" class="btn btn-sm text-white close-admin-menu-btn"
+                    <button type="button" class="btn btn-sm text-danger close-admin-menu-btn"
                             style="background: none; border: none; font-size: 1.5rem; line-height: 1; opacity: 0.8;"
                             title="{{ __('Close menu') }}" aria-label="{{ __('Close') }}">
                         <i class="ri-close-line"></i>
@@ -444,7 +444,6 @@
         const closeUserMenuBtn = document.querySelector('.close-user-menu-btn');
         const closeAdminMenuBtn = document.querySelector('.close-admin-menu-btn');
 
-        // Function to close all menus
         function closeAllMenus() {
             if (userMenuContainer) {
                 userMenuContainer.classList.remove('show');
@@ -454,37 +453,26 @@
             }
         }
 
-        // Toggle user menu when site-menu-btn is clicked
         if (siteMenuBtn && userMenuContainer) {
             siteMenuBtn.addEventListener('click', function(e) {
                 e.preventDefault();
-
-                // Close admin menu if open
                 if (adminMenuContainer && adminMenuContainer.classList.contains('show')) {
                     adminMenuContainer.classList.remove('show');
                 }
-
-                // Toggle user menu
                 userMenuContainer.classList.toggle('show');
             });
         }
 
-        // Toggle admin menu when admin-menu-btn is clicked
         if (adminMenuBtn && adminMenuContainer) {
             adminMenuBtn.addEventListener('click', function(e) {
                 e.preventDefault();
-
-                // Close user menu if open
                 if (userMenuContainer && userMenuContainer.classList.contains('show')) {
                     userMenuContainer.classList.remove('show');
                 }
-
-                // Toggle admin menu
                 adminMenuContainer.classList.toggle('show');
             });
         }
 
-        // Close user menu when close button is clicked
         if (closeUserMenuBtn) {
             closeUserMenuBtn.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -494,7 +482,6 @@
             });
         }
 
-        // Close admin menu when close button is clicked
         if (closeAdminMenuBtn) {
             closeAdminMenuBtn.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -504,7 +491,6 @@
             });
         }
 
-        // Close menus when clicking outside
         document.addEventListener('click', function(e) {
             const isClickInside = e.target.closest('#user-menu-container') ||
                                  e.target.closest('#admin-menu-container') ||
@@ -516,7 +502,6 @@
             }
         });
 
-        // Close menus on escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeAllMenus();
