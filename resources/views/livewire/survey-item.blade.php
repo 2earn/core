@@ -1,5 +1,5 @@
 <div class="card ribbon-box right border shadow-sm overflow-hidden material-shadow mb-4">
-    <div class="card-header bg-light border-bottom border-info">
+    <div class="card-header bg-light border-bottom mt-2 border-info">
         @if(!in_array($currentRouteName,["surveys_show","surveys_participate","surveys_results"]))
             <div class="ribbon ribbon-success ribbon-shape trending-ribbon" title="{{__('Survey')}}">
                 <i class="ri-bookmark-fill text-white align-bottom float-start me-1"></i>
