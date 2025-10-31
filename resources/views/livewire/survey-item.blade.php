@@ -499,27 +499,27 @@
             <div class="d-flex flex-wrap gap-2 align-items-center">
                 @if($currentRouteName!="survey_show")
                     <a href="{{route('surveys_show', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id] )}}"
-                       class="btn btn-info">
+                       class="btn btn-outline-info">
                         <i class="ri-eye-line me-1"></i>{{__('Details')}}
                     </a>
                 @endif
 
                 @if(\App\Models\User::isSuperAdmin() && $survey->status != \Core\Enum\StatusSurvey::ARCHIVED->value)
-                    <button type="button" class="btn btn-primary"
+                    <button type="button" class="btn btn-outline-primary"
                             wire:click="duplicateSurvey({{$survey->id}})">
                         <i class="ri-file-copy-line me-1"></i>{{__('Duplicate')}}
                     </button>
 
                     @if(intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
                         <a href="{{route('surveys_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id] )}}"
-                           class="btn btn-warning">
+                           class="btn btn-outline-warning">
                             <i class="ri-edit-line me-1"></i>{{__('Edit')}}
                         </a>
                     @endif
 
                     @if($survey->status==\Core\Enum\StatusSurvey::NEW->value)
                         <a wire:click="open('{{$survey->id}}')"
-                           class="btn btn-success">
+                           class="btn btn-outline-success">
                             <i class="ri-door-open-line me-1"></i>{{__('Open')}}
                         </a>
                     @endif
@@ -946,7 +946,7 @@
                 <div class="modal-footer">
                     <button type="button" wire:click="disable('{{$survey->id}}')"
                             class="btn btn-primary">{{__('Disable Survey')}}</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
                 </div>
             </div>
         </div>
