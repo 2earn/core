@@ -192,6 +192,20 @@
     opacity: 1;
 }
 
+/* Menu container animations */
+.menu-fade-container {
+    display: none;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.menu-fade-container.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
 @media (max-width: 768px) {
     #user-menu-container .card-body,
     #admin-menu-container .card-body {

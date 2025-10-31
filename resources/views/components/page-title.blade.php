@@ -434,3 +434,94 @@
 
 
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const siteMenuBtn = document.getElementById('site-menu-btn');
+        const adminMenuBtn = document.getElementById('admin-menu-btn');
+        const userMenuContainer = document.getElementById('user-menu-container');
+        const adminMenuContainer = document.getElementById('admin-menu-container');
+        const closeUserMenuBtn = document.querySelector('.close-user-menu-btn');
+        const closeAdminMenuBtn = document.querySelector('.close-admin-menu-btn');
+
+        // Function to close all menus
+        function closeAllMenus() {
+            if (userMenuContainer) {
+                userMenuContainer.classList.remove('show');
+            }
+            if (adminMenuContainer) {
+                adminMenuContainer.classList.remove('show');
+            }
+        }
+
+        // Toggle user menu when site-menu-btn is clicked
+        if (siteMenuBtn && userMenuContainer) {
+            siteMenuBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // Close admin menu if open
+                if (adminMenuContainer && adminMenuContainer.classList.contains('show')) {
+                    adminMenuContainer.classList.remove('show');
+                }
+
+                // Toggle user menu
+                userMenuContainer.classList.toggle('show');
+            });
+        }
+
+        // Toggle admin menu when admin-menu-btn is clicked
+        if (adminMenuBtn && adminMenuContainer) {
+            adminMenuBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // Close user menu if open
+                if (userMenuContainer && userMenuContainer.classList.contains('show')) {
+                    userMenuContainer.classList.remove('show');
+                }
+
+                // Toggle admin menu
+                adminMenuContainer.classList.toggle('show');
+            });
+        }
+
+        // Close user menu when close button is clicked
+        if (closeUserMenuBtn) {
+            closeUserMenuBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (userMenuContainer) {
+                    userMenuContainer.classList.remove('show');
+                }
+            });
+        }
+
+        // Close admin menu when close button is clicked
+        if (closeAdminMenuBtn) {
+            closeAdminMenuBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (adminMenuContainer) {
+                    adminMenuContainer.classList.remove('show');
+                }
+            });
+        }
+
+        // Close menus when clicking outside
+        document.addEventListener('click', function(e) {
+            const isClickInside = e.target.closest('#user-menu-container') ||
+                                 e.target.closest('#admin-menu-container') ||
+                                 e.target.closest('#site-menu-btn') ||
+                                 e.target.closest('#admin-menu-btn');
+
+            if (!isClickInside) {
+                closeAllMenus();
+            }
+        });
+
+        // Close menus on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeAllMenus();
+            }
+        });
+    });
+</script>
+
