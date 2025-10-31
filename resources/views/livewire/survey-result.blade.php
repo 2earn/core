@@ -82,7 +82,7 @@
                                         class="float-end">{{__('Total')}} {{__('participations / participants')}}</h5>
                                 </td>
                                 <td>
-                                    @if($participation>0)
+                                    @if(isset($participation)&&$participation>0)
                                         @if($survey->show_results_as_number)
                                             {{ $totalChoosen}} / {{$participation}} {{__('times')}} -
                                         @endif
