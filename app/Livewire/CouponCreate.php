@@ -25,6 +25,8 @@ class CouponCreate extends Component
         'sn' => 'required|unique:coupons,sn',
         'platform_id' => 'required',
         'attachment_date' => ['required', 'after_or_equal:today'],
+        'value' => 'required|numeric|min:0.01',
+
     ];
     public function mount()
     {
