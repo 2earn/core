@@ -560,6 +560,7 @@
             var chartOrigin = document.querySelector('#chart');
             var chart1Origin = document.querySelector('#chart1');
             var chart2Origin = document.querySelector('#chart2');
+
             if (chartOrigin) {
                 var chart = new ApexCharts(document.querySelector("#chart"), options);
                 chart.render();
@@ -592,7 +593,7 @@
                     }
                 });
             }
-            if (chart2Origin && chart1Origin) {
+            if (chart2Origin) {
                 var url3 = '{{ route('api_share_evolution_date', ['locale' => app()->getLocale()]) }}';
                 var token = "{{ generateUserToken() }}";
 
@@ -690,9 +691,7 @@
                     $.ajax({
                         url: url3,
                         method: 'GET',
-                        headers: {
-                            'Authorization': 'Bearer ' + token
-                        },
+                        headers: {                            'Authorization': 'Bearer ' + token                        },
                         dataType: 'json',
                         success: function (response) {
                             var series1 = {name: 'Sales-bar', type: 'bar', data: response};
@@ -715,18 +714,14 @@
                 var request1 = $.ajax({
                     url: url1,
                     method: 'GET',
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    },
+                    headers: {'Authorization': 'Bearer ' + token},
                     dataType: 'json'
                 });
 
                 var request2 = $.ajax({
                     url: url2,
                     method: 'GET',
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    },
+                    headers: {'Authorization': 'Bearer ' + token},
                     dataType: 'json'
                 });
 

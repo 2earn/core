@@ -30,16 +30,15 @@
                         <span class="badge bg-secondary me-2">{{$survey->id}}</span>
                     @endif
                     {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}
-                </h5>
-            </div>
-
-            <span class="badge fs-6 px-3 py-2
+                        <span class="badge fs-6 px-3 py-2
                 {{ $survey->status==\Core\Enum\StatusSurvey::NEW->value ? 'bg-primary' : ''  }}
                 {{ $survey->status==\Core\Enum\StatusSurvey::OPEN->value ? 'bg-success' : ''  }}
                 {{ $survey->status==\Core\Enum\StatusSurvey::CLOSED->value ? 'bg-warning' : ''  }}
                 {{ $survey->status==\Core\Enum\StatusSurvey::ARCHIVED->value ? 'bg-dark' : ''  }}">
                 {{ __(\Core\Enum\StatusSurvey::tryFrom($survey->status)->name)}}
             </span>
+                </h5>
+            </div>
         </div>
         @if(\App\Models\User::isSuperAdmin())
             <div class="mt-2">
