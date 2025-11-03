@@ -1,10 +1,12 @@
 @php
     $balanceModel=\App\Models\SMSBalances::find($balance->id);
-    $smsModels=\App\Models\SMSBalances::where('beneficiary_id_auto',$balanceModel->beneficiary_id_auto)
+       if(is_null($balanceModel)){return;}
+ $smsModels=\App\Models\SMSBalances::where('beneficiary_id_auto',$balanceModel->beneficiary_id_auto)
    ->limit(3)->get();
 @endphp
 @if (App::environment(['local', 'dev']))
-    <span class="text-muted">{{$balance->id}}:</span>/51/{{$balance->balance_operation_id}}<hr>
+    <span class="text-muted">{{$balance->id}}:</span>/51/{{$balance->balance_operation_id}}
+    <hr>
 @endif
 
 @if($smsModels->count())

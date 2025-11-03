@@ -106,7 +106,13 @@
                     search: {return: true},
                     autoWidth: false,
                     bAutoWidth: false,
-                    "ajax": "{{route('api_shares_soldes',['locale'=> app()->getLocale()])}}",
+                    "ajax": {
+                        url: "{{route('api_shares_soldes',['locale'=> app()->getLocale()])}}",
+                        type: "GET",
+                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
+                        error: function (xhr, error, thrown) {
+                            loadDatatableModalError('shares-sold')
+                        }                    },
                     "columns": [
                         {data: 'created_at'},
                         {data: 'flag'},

@@ -62,7 +62,13 @@
                         },
                         "processing": true,
                         search: {return: true},
-                        "ajax": "{{route('api_user_chance',app()->getLocale())}}",
+                        "ajax": {
+                            url: "{{route('api_user_chance',['locale'=> app()->getLocale()])}}",
+                            type: "GET",
+                            headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
+                            error: function (xhr, error, thrown) {
+                                loadDatatableModalError('ub_table_processing')
+                            }                        },
                         "columns": [
                             {data: 'ranks'},
                             {data: 'reference'},

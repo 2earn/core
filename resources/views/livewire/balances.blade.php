@@ -24,8 +24,6 @@
                                 <th>{{ __('Balance') }}</th>
                                 <th>{{ __('Parent') }}</th>
                                 <th>{{ __('Operation category') }}</th>
-                                <th>{{ __('Others') }}</th>
-                                <th>{{ __('Actions') }}</th>
                             </tr>
                             </thead>
                             <tbody class="list form-check-all">
@@ -35,51 +33,43 @@
                 </div>
             </div>
         </div>
+            <script type="module">
+                document.addEventListener("DOMContentLoaded", function () {
+                    $('#BalanceOperationsTable').DataTable(
+                        {
+                            "ordering": false,
+                            retrieve: true,
+                            "colReorder": false,
+                            "orderCellsTop": true,
+                            "fixedHeader": true,
+                            "order": [[1, 'asc']],
+                            "processing": true,
+                            "serverSide": false,
+                            "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
+                            search: {return: true},
+                            autoWidth: false,
+                            bAutoWidth: false,
 
-        <script type="module">
-            document.addEventListener("DOMContentLoaded", function () {
+                            "ajax": {
+                                url: "{{route('api_balance_operations',['locale'=> app()->getLocale()])}}",
+                                type: "GET",
+                                headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
+                                error: function (xhr, error, thrown) {
+                                    loadDatatableModalError('BalanceOperationsTable')
+                                }
+                            },
+                            "columns": [
+                                {data: 'id'},
+                                {data: 'details'},
+                                {data: 'balance_id'},
+                                {data: 'parent_id'},
+                                {data: 'operation_category_id', className: classAl},
+                            ],
+                            "language": {"url": urlLang}
+                        }
+                    );
+                });
+            </script>
 
-                $('#BalanceOperationsTable').DataTable(
-                    {
-                        retrieve: true,
-                        "colReorder": true,
-                        "orderCellsTop": true,
-                        "fixedHeader": true,
-                        initComplete: function () {
-                            this.api()
-                                .columns()
-                                .every(function () {
-                                    var that = $('#BalanceOperationsTable').DataTable();
-                                    $('input', this.footer()).on('keydown', function (ev) {
-                                        if (ev.keyCode == 13) {
-                                            that.search(this.value).draw();
-                                        }
-                                    });
-                                });
-                        },
-                        "processing": true,
-                        search: {return: true},
-                        "ajax": "{{route('api_balance_operations' ,app()->getLocale())}}",
-                        "columns": [
-                            {"data": "id"},
-                            {"data": "details"},
-                            {"data": "amounts_id"},
-                            {"data": "parent_id"},
-                            {"data": "operation_category_id"},
-                            {"data": "others"},
-                            {data: 'action', name: 'action', orderable: false, searchable: false},
-                        ],
-                        "language": {"url": urlLang},
-                        "drawCallback": function (settings, json) {
-                            $(".edit-bo-btn").each(function () {
-                                $(this).on("click", function () {
-                                    emitBO($(this).attr('data-id'))
-                                });
-                            });
-                        },
-                    }
-                );
-            });
-        </script>
     </div>
 </div>

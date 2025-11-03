@@ -19,7 +19,7 @@
     <div id="layout-wrapper">
 
      @include('layouts.topbar')
-     @include('layouts.sidebar')
+     <livewire:sidebar />
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->

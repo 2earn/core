@@ -7,6 +7,7 @@ use App\Models\Survey;
 use App\Models\SurveyQuestion;
 use App\Models\SurveyQuestionChoice;
 use App\Services\Communication\Communication;
+use Core\Enum\StatusSurvey;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -183,6 +184,10 @@ class SurveyShow extends Component
     public function duplicateSurvey($id)
     {
         try {
+            $survey = Survey::findOrFail($id);
+            if ($survey->status <= StatusSurvey::OPEN->value) {
+                return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('danger', Lang::get('Only Opned surveys can be duplicated'));
+            }
             $duplicate = Communication::duplicateSurvey($id);
             $this->routeRedirectionParams = ['locale' => app()->getLocale(), 'idSurvey' => $duplicate->id];
             return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('success', Lang::get('Survey duplicated Successfully'));

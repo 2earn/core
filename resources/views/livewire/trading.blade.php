@@ -151,14 +151,37 @@
                 }
                 var chart1 = new ApexCharts(document.querySelector("#chart1"), options1);
                 chart1.render();
-                var url1 = '{{route('api_share_evolution',['locale'=> app()->getLocale()])}}';
-                var url2 = '{{route('api_action_values',['locale'=> app()->getLocale()])}}';
-                var url3 = '{{route('api_share_evolution_user',['locale'=> app()->getLocale()])}}';
-                $.when($.getJSON(url1), $.getJSON(url2), $.getJSON(url3)
-                ).then(function (response1, response2, response3) {
-                    var series1 = {name: '{{__('Sales')}}', type: 'area', data: response1[0],};
-                    var series2 = {name: '{{__('Function')}}', type: 'line', data: response2[0]};
-                    var series3 = {name: '{{__('My Shares')}}', type: 'area', data: response3[0]};
+                var token = "{{ generateUserToken() }}";
+
+                var url1 = '{{ route('api_share_evolution', ['locale' => app()->getLocale()]) }}';
+                var url2 = '{{ route('api_action_values', ['locale' => app()->getLocale()]) }}';
+                var url3 = '{{ route('api_share_evolution_user', ['locale' => app()->getLocale()]) }}';
+
+                var request1 = $.ajax({
+                    url: url1,
+                    method: 'GET',
+                    headers: {'Authorization': 'Bearer ' + token},
+                    dataType: 'json'
+                });
+
+                var request2 = $.ajax({
+                    url: url2,
+                    method: 'GET',
+                    headers: {'Authorization': 'Bearer ' + token},
+                    dataType: 'json'
+                });
+
+                var request3 = $.ajax({
+                    url: url3,
+                    method: 'GET',
+                    headers: {'Authorization': 'Bearer ' + token},
+                    dataType: 'json'
+                });
+
+                $.when(request1, request2, request3).then(function (response1, response2, response3) {
+                    var series1 = {name: '{{ __("Sales") }}', type: 'area', data: response1[0]};
+                    var series2 = {name: '{{ __("Function") }}', type: 'line', data: response2[0]};
+                    var series3 = {name: '{{ __("My Shares") }}', type: 'area', data: response3[0]};
                     chart1.updateSeries([series1, series2, series3]);
                 });
             }
@@ -174,7 +197,13 @@
                 search: {return: true},
                 autoWidth: false,
                 bAutoWidth: false,
-                "ajax": "{{route('api_shares_solde',['locale'=> app()->getLocale()])}}",
+                "ajax": {
+                    url: "{{route('api_shares_solde',['locale'=> app()->getLocale()])}}",
+                    type: "GET",
+                    headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
+                    error: function (xhr, error, thrown) {
+                        loadDatatableModalError('shares-solde')
+                    }                },
                 "columns": [
                     {data: 'id'},
                     {data: 'formatted_created_at'},

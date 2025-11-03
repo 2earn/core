@@ -1,10 +1,12 @@
 @php
     $balanceModel=\App\Models\BFSsBalances::find($balance->id);
+    if(is_null($balanceModel)){return;}
     $bfsModels=\App\Models\BFSsBalances::where('beneficiary_id_auto',$balanceModel->beneficiary_id_auto)
    ->limit(3)->get();
 @endphp
 @if (App::environment(['local', 'dev']))
-    <span class="text-muted">{{$balance->id}}:</span>/48/{{$balance->balance_operation_id}}<hr>
+    <span class="text-muted">{{$balance->id}}:</span>/48/{{$balance->balance_operation_id}}
+    <hr>
 @endif
 
 @if($bfsModels->count())

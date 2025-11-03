@@ -57,7 +57,14 @@
                         },
                         "processing": true,
                         search: {return: true},
-                        "ajax": "{{route('api_operations_categories' ,app()->getLocale())}}",
+                        "ajax": {
+                            url: "{{route('api_operations_categories',['locale'=> app()->getLocale()])}}",
+                            type: "GET",
+                            headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
+                            error: function (xhr, error, thrown) {
+                                loadDatatableModalError('OperationsTable')
+                            }
+                        },
                         "columns": [
                             {"data": "id"},
                             {"data": "code"},

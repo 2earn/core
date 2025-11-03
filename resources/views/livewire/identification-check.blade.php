@@ -29,6 +29,7 @@
                                         disabled
                                     title="Status 4 + moreThanSixMonths"
                                     @endif
+
                                     @if($hasRequest) data-bs-target="#accountValidationModal"
                                     @else data-bs-target="#identificationModal" @endif
 

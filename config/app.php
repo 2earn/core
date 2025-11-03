@@ -14,6 +14,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'version' => env('APP_VERSION', '5.0.0.0'),
 
     /*
     |--------------------------------------------------------------------------
@@ -252,6 +253,7 @@ return [
         'Ordering' => \App\Services\Orders\OrderingFacade::class,
         'OrderingSimulation' => \App\Services\Orders\OrderingSimulationFacade::class,
         'Carts' => \App\Services\Carts\Carts::class,
+        'UserToken' => App\Services\Users\UserToken::class,
         'Vite' => \Illuminate\Support\Facades\Vite::class,
     ],
     'available_locales' => [

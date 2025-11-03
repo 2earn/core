@@ -1,1 +1,1 @@
-<span class="badge bg-success">{{$balance->id}}</span>
+<span class="text-muted">{{__('No complementary infos')}}</span>

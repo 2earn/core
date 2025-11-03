@@ -102,7 +102,23 @@
 
                 $('#countries_table').DataTable(
                     {
-                        "ajax": "{{route('api_countries',app()->getLocale())}}",
+                        ordering: true,
+                        retrieve: true,
+                        searching: false,
+                        "orderCellsTop": true,
+                        "fixedHeader": true,
+                        "order": [[1, 'desc']],
+                        "processing": true,
+                        "serverSide": true,
+                        "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
+                        search: {return: false},
+                        "ajax": {
+                            url: "{{route('api_countries',['locale'=> app()->getLocale()])}}",
+                            type: "GET",
+                            headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
+                            error: function (xhr, error, thrown) {
+                                loadDatatableModalError('countries_table')
+                            }                        },
                         "columns": [
                             {"data": "id"},
                             {"data": "name"},

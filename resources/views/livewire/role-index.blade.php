@@ -75,7 +75,14 @@
                         },
                         "processing": true,
                         search: {return: true},
-                        "ajax": "{{route('api_role',app()->getLocale())}}",
+                        "ajax": {
+                            url: "{{route('api_role',['locale'=> app()->getLocale()])}}",
+                            type: "GET",
+                            headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
+                            error: function (xhr, error, thrown) {
+                                loadDatatableModalError('ub_table_processing')
+                            }
+                        },
                         "columns": [
                             datatableControlBtn,
                             {data: 'id'},

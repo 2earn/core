@@ -60,7 +60,13 @@
                         },
                         "processing": true,
                         search: {return: true},
-                        "ajax": "{{route('api_history_notification',app()->getLocale())}}",
+                        "ajax": {
+                            url: "{{route('api_history_notification',['locale'=> app()->getLocale()])}}",
+                            type: "GET",
+                            headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
+                            error: function (xhr, error, thrown) {
+                                loadDatatableModalError('HistoryNotificationTable')
+                            }                        },
                         "columns": [
                             datatableControlBtn,
                             {data: 'reference'},

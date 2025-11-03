@@ -52,11 +52,7 @@ class OrdersIndex extends Component
 
     public function render()
     {
-        if (!is_null($this->search) && !empty($this->search)) {
-            $params['orders'] = Order::orderBy('created_at', 'desc')->paginate(self::PAGE_SIZE);
-        } else {
-            $params['orders'] = Order::orderBy('created_at', 'desc')->paginate(self::PAGE_SIZE);
-        }
+        $params['orders'] = Order::orderBy('created_at', 'desc')->paginate(self::PAGE_SIZE);
         return view('livewire.orders-index', $params)->extends('layouts.master')->section('content');
     }
 }

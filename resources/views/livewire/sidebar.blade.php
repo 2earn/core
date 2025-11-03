@@ -1,7 +1,7 @@
 @php use App\Models\User; @endphp
 <div>
     <div class="app-menu navbar-menu">
-        <div class="navbar-brand-box">
+        <div class="navbar-brand-box" title="{{__('Version') . ' : '.config('app.version')}}">
             <a href="{{route('home',app()->getLocale(),false)}}" class="logo logo-dark">
             <span class="logo-sm">
                 <img src="{{ Vite::asset('resources/images/logo-sm.png') }}" alt="" height="22">
@@ -27,18 +27,6 @@
             <div class="container-fluid">
                 <div id="two-column-menu">
                 </div>
-                @php
-                    $currentRouteName = Route::currentRouteName();
-                    $sidebarBusinessArray=['business_hub_trading','business_hub_additional_income','business_hub_be_influencer','business_hub_job_opportunities'];
-                    $sidebarSavingsArray=['savings_user_purchase','savings_recuperation_history'];
-                    $sidebarBiographyArray=['biography_academic_background','biography_career_experience','biography_hard_skills','biography_soft_skills','biography_personal_characterization','biography_NCDPersonality','biography_sensory_representation_system','biography_MBTI','biography_e_business_card','biography_generating_pdf_report'];
-                    $sidebarArchiveArray=['surveys_archive','deals_archive'];
-                    $sidebarRoleArray=['role_index','role_assign'];
-                    $sidebarDashboardsArray=['configuration_setting','configuration_amounts','configuration_ha'];
-                    $sidebarShareSoldArray=['shares_sold_dashboard','shares_sold_market_status','shares_sold_recent_transaction'];
-                    $sidebarTranslateArray=['translate','translate_model_data'];
-                    $sidebarRequestsArray=['requests_commited_investors','requests_instructor','requests_identification'];
-                @endphp
                 <ul class="navbar-nav" id="navbar-nav">
                     <li class="nav-item cool-link {{$currentRouteName=='home'? 'active' : ''}}">
                         <a data-name="home" href="{{route('home',app()->getLocale(),false)}}"

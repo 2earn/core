@@ -1,7 +1,8 @@
 @php
     $idOrder=0;
           $balanceModel=\App\Models\CashBalances::find($balance->id);
-        $idOrder=$balanceModel->order_id;
+              if(is_null($balanceModel)or is_null($balanceModel->order_id)){return;}
+    $idOrder=$balanceModel->order_id;
 @endphp
 @if (App::environment(['local', 'dev']))
     <span class="text-muted">{{$balance->id}}:</span>/16/{{$balance->balance_operation_id}}

@@ -15,7 +15,7 @@
 <body>
 <div id="layout-wrapper">
     @include('layouts.topbar')
-    @include('layouts.sidebar')
+    <livewire:sidebar />
     <div class="main-content">
         <div class="page-content">
             <div class="container-fluid">

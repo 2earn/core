@@ -65,7 +65,14 @@
                             search: {
                                 return: true
                             },
-                            "ajax": "{{route('api_user_balances',['locale'=> app()->getLocale(), 'idAmounts'=>'Discounts-Balance'])}}",
+                            "ajax": {
+                                url: "{{route('api_user_balances',['locale'=> app()->getLocale(), 'idAmounts'=>'Discounts-Balance'])}}",
+                                type: "GET",
+                                headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
+                                error: function (xhr, error, thrown) {
+                                    loadDatatableModalError('userBalanceDB_table')
+                                }
+                            },
                             "columns": [
                                 {data: 'ranks'},
                                 {data: 'reference'},

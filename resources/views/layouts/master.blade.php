@@ -126,13 +126,14 @@
 @show
 <div id="layout-wrapper">
     <livewire:top-bar :currentRoute="Route::currentRouteName()"/>
-    @include('layouts.sidebar',['currentRoute'=>Route::currentRouteName()])
+    <livewire:sidebar />
     <div class="main-content">
         <div class="page-content">
             @yield('content')
         </div>
     </div>
 </div>
+@include('parts.error-modal')
 @include('layouts.footer', ['pageName' => 'master'])
 @vite('resources/js/pages/crypto-kyc.init.js')
 <script type="module">
@@ -143,7 +144,22 @@
     });
 </script>
 @stack('scripts')
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        window.loadDatatableModalError = function (datatableID) {
+            $('#' + datatableID).hide();
+            $('#ub_table tbody').html(
+                '<tr><td colspan="7" class="text-center text-danger fw-bold">@lang("An error suppressed")</td></tr>'
+            );
+            $('#ub_table').DataTable().clear();
+            let modal = new bootstrap.Modal(document.getElementById('errorModal'));
+            modal.show();
+        };
+    });
+</script>
+
 <script type="module">
+
     document.addEventListener("DOMContentLoaded", function () {
 
         var select2_array = [];

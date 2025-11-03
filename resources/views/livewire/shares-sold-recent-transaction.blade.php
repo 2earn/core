@@ -44,7 +44,13 @@
                     search: {return: true},
                     autoWidth: false,
                     bAutoWidth: false,
-                    "ajax": "{{route('api_transfert',['locale'=> app()->getLocale()])}}",
+                    "ajax": {
+                        url: "{{route('api_transfert',['locale'=> app()->getLocale()])}}",
+                        type: "GET",
+                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
+                        error: function (xhr, error, thrown) {
+                            loadDatatableModalError('transfert')
+                        }                    },
                     "columns": [
                         {data: 'value'},
                         {data: 'description'},
@@ -138,31 +144,70 @@
             });
             $(document).on("click", "#week", function () {
                 if (chart2Origin && chart1Origin) {
-                    var url3 = '{{route('api_share_evolution_week',['locale'=> app()->getLocale()])}}';
-                    $.getJSON(url3, function (response) {
-                        var series1 = {name: 'Sales-bar', type: 'bar', data: response};
-                        var series2 = {name: 'sales-line', type: 'line', data: response};
-                        chart2.updateSeries([series1, series2]);
+                    var url3 = '{{ route('api_share_evolution_week', ['locale' => app()->getLocale()]) }}';
+                    var token = "{{ generateUserToken() }}";
+
+                    $.ajax({
+                        url: url3,
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            var series1 = { name: 'Sales-bar', type: 'bar', data: response };
+                            var series2 = { name: 'sales-line', type: 'line', data: response };
+                            chart2.updateSeries([series1, series2]);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error fetching weekly evolution data:', error);
+                        }
                     });
                 }
             });
             $(document).on("click", "#month", function () {
                 if (chart2Origin && chart1Origin) {
-                    var url3 = '{{route('api_share_evolution_month',['locale'=> app()->getLocale()])}}';
-                    $.getJSON(url3, function (response) {
-                        var series1 = {name: 'Sales-bar', type: 'bar', data: response};
-                        var series2 = {name: 'sales-line', type: 'line', data: response};
-                        chart2.updateSeries([series1, series2]);
+                    var url3 = '{{ route('api_share_evolution_month', ['locale' => app()->getLocale()]) }}';
+                    var token = "{{ generateUserToken() }}";
+
+                    $.ajax({
+                        url: url3,
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            var series1 = { name: 'Sales-bar', type: 'bar', data: response };
+                            var series2 = { name: 'sales-line', type: 'line', data: response };
+                            chart2.updateSeries([series1, series2]);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error fetching monthly evolution data:', error);
+                        }
                     });
                 }
             });
             $(document).on("click", "#day", function () {
                 if (chart2Origin && chart1Origin) {
-                    var url3 = '{{route('api_share_evolution_day',['locale'=> app()->getLocale()])}}';
-                    $.getJSON(url3, function (response) {
-                        var series1 = {name: 'Sales-bar', type: 'bar', data: response};
-                        var series2 = {name: 'sales-line', type: 'line', data: response};
-                        chart2.updateSeries([series1, series2]);
+                    var url3 = '{{ route('api_share_evolution_day', ['locale' => app()->getLocale()]) }}';
+                    var token = "{{ generateUserToken() }}";
+
+                    $.ajax({
+                        url: url3,
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            var series1 = { name: 'Sales-bar', type: 'bar', data: response };
+                            var series2 = { name: 'sales-line', type: 'line', data: response };
+                            chart2.updateSeries([series1, series2]);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error fetching daily evolution data:', error);
+                        }
                     });
                 }
             });

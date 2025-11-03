@@ -3,6 +3,7 @@
 use App\Models\SharesBalances;
 use App\Models\User;
 use App\Services\Balances\BalancesFacade;
+use App\Services\Users\UserTokenFacade;
 use Carbon\Carbon;
 use Core\Models\countrie;
 use Core\Models\Setting;
@@ -90,8 +91,9 @@ if (!function_exists('getUsertransaction')) {
         if ($count > 0) {
             $value = DB::table('user_transactions')->select('autorised', 'cause', 'mnt')->where('idUser', $user)->get();
             $value = [$value[0]->autorised, $value[0]->cause, $value[0]->mnt];
-        } else
+        } else {
             $value = ["null", "null", "null"];
+        }
         return $value;
     }
 }
@@ -620,6 +622,7 @@ if (!function_exists('generateRandomWord')) {
         return $randomWord;
     }
 }
+
 if (!function_exists('generateRandomText')) {
     function generateRandomText($wordCount, $wordLengthRange = [3, 10])
     {
@@ -631,6 +634,24 @@ if (!function_exists('generateRandomText')) {
         }
 
         return trim($randomText);
+    }
+}
+
+if (!function_exists('generateUserToken')) {
+    function generateUserToken()
+    {
+        return UserTokenFacade::getOrCreateToken();
+    }
+}
+if (!function_exists('getBalanceCIView')) {
+    function getBalanceCIView($balance)
+    {
+        if (!is_null($balance)) {
+            return view('parts.datatable.ci.ci-' . $balance->balance_operation_id, ['balance' => $balance]);
+        } else {
+            dd($balance);
+            return view('parts.datatable.ci.ci-default');
+        }
     }
 }
 

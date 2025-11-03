@@ -160,6 +160,7 @@ class  UserRepository implements IUserRepository
 
     public function logoutUser()
     {
+        Auth::user()->tokens()->delete();
         Auth::logout();
         Cache::flush();
     }

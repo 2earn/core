@@ -1,5 +1,5 @@
 <div class="container-fluid">
-@section('title')
+    @section('title')
         {{ __('Shares Sold :  Dashboard') }}
     @endsection
     @component('components.breadcrumb')
@@ -389,7 +389,14 @@
                     search: {return: true},
                     autoWidth: false,
                     bAutoWidth: false,
-                    "ajax": "{{route('api_transfert',['locale'=> app()->getLocale()])}}",
+                    "ajax": {
+                        url: "{{route('api_transfert',['locale'=> app()->getLocale()])}}",
+                        type: "GET",
+                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
+                        error: function (xhr, error, thrown) {
+                            loadDatatableModalError('transfert')
+                        }
+                    },
                     "columns": [
                         {data: 'value'},
                         {data: 'description'},
@@ -518,71 +525,164 @@
             }
 
             if (chartOrigin) {
-                var url = '{{route('api_user_cash',['locale'=> app()->getLocale()])}}';
-                $.getJSON(url, function (response) {
-                    chart.updateSeries([{name: 'Balance', data: response}])
+                var url = '{{ route('api_user_cash', ['locale' => app()->getLocale()]) }}';
+                var token = "{{ generateUserToken() }}";
+
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        chart.updateSeries([{name: 'Balance', data: response}]);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching user cash data:', error);
+                    }
                 });
             }
             if (chart2Origin && chart1Origin) {
-                var url3 = '{{route('api_share_evolution_date',['locale'=> app()->getLocale()])}}';
-                $.getJSON(url3, function (response) {
-                    var series1 = {name: 'Sales-bar', type: 'bar', data: response};
-                    var series2 = {name: 'sales-line', type: 'line', data: response};
-                    chart2.updateSeries([series1, series2]);
+                var url3 = '{{ route('api_share_evolution_date', ['locale' => app()->getLocale()]) }}';
+                var token = "{{ generateUserToken() }}";
+
+                $.ajax({
+                    url: url3,
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        var series1 = {name: 'Sales-bar', type: 'bar', data: response};
+                        var series2 = {name: 'sales-line', type: 'line', data: response};
+                        chart2.updateSeries([series1, series2]);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching data:', error);
+                    }
                 });
             }
             $(document).on("click", "#date", function () {
                 if (chart2Origin) {
-                    var url3 = '{{route('api_share_evolution_date',['locale'=> app()->getLocale()])}}';
-                    $.getJSON(url3, function (response) {
-                        var series1 = {name: 'Sales-bar', type: 'bar', data: response};
-                        var series2 = {name: 'sales-line', type: 'line', data: response};
+                    var url3 = '{{ route('api_share_evolution_date', ['locale' => app()->getLocale()]) }}';
+                    var token = "{{ generateUserToken() }}";
 
-                        chart2.updateSeries([series1, series2]);
+                    $.ajax({
+                        url: url3,
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        },
+                        dataType: 'json',
+                        success: function (response) {
+                            var series1 = {name: 'Sales-bar', type: 'bar', data: response};
+                            var series2 = {name: 'sales-line', type: 'line', data: response};
+                            chart2.updateSeries([series1, series2]);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Failed to fetch evolution data:', error);
+                        }
                     });
                 }
             });
             $(document).on("click", "#week", function () {
                 if (chart2Origin && chart1Origin) {
-                    var url3 = '{{route('api_share_evolution_week',['locale'=> app()->getLocale()])}}';
-                    $.getJSON(url3, function (response) {
-                        var series1 = {name: 'Sales-bar', type: 'bar', data: response};
-                        var series2 = {name: 'sales-line', type: 'line', data: response};
-                        chart2.updateSeries([series1, series2]);
+                    var url3 = '{{ route('api_share_evolution_week', ['locale' => app()->getLocale()]) }}';
+                    var token = "{{ generateUserToken() }}";
+
+                    $.ajax({
+                        url: url3,
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        },
+                        dataType: 'json',
+                        success: function (response) {
+                            var series1 = {name: 'Sales-bar', type: 'bar', data: response};
+                            var series2 = {name: 'sales-line', type: 'line', data: response};
+                            chart2.updateSeries([series1, series2]);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching weekly evolution data:', error);
+                        }
                     });
                 }
             });
             $(document).on("click", "#month", function () {
                 if (chart2Origin && chart1Origin) {
-                    var url3 = '{{route('api_share_evolution_month',['locale'=> app()->getLocale()])}}';
-                    $.getJSON(url3, function (response) {
-                        var series1 = {name: 'Sales-bar', type: 'bar', data: response};
-                        var series2 = {name: 'sales-line', type: 'line', data: response};
-                        chart2.updateSeries([series1, series2]);
+                    var url3 = '{{ route('api_share_evolution_month', ['locale' => app()->getLocale()]) }}';
+                    var token = "{{ generateUserToken() }}";
+
+                    $.ajax({
+                        url: url3,
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        },
+                        dataType: 'json',
+                        success: function (response) {
+                            var series1 = {name: 'Sales-bar', type: 'bar', data: response};
+                            var series2 = {name: 'sales-line', type: 'line', data: response};
+                            chart2.updateSeries([series1, series2]);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching monthly evolution data:', error);
+                        }
                     });
                 }
             });
             $(document).on("click", "#day", function () {
                 if (chart2Origin && chart1Origin) {
-                    var url3 = '{{route('api_share_evolution_day',['locale'=> app()->getLocale()])}}';
-                    $.getJSON(url3, function (response) {
-                        var series1 = {name: 'Sales-bar', type: 'bar', data: response};
-                        var series2 = {name: 'sales-line', type: 'line', data: response};
-                        chart2.updateSeries([series1, series2]);
+                    var url3 = '{{ route('api_share_evolution_day', ['locale' => app()->getLocale()]) }}';
+                    var token = "{{ generateUserToken() }}";
+
+                    $.ajax({
+                        url: url3,
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        },
+                        dataType: 'json',
+                        success: function (response) {
+                            var series1 = {name: 'Sales-bar', type: 'bar', data: response};
+                            var series2 = {name: 'sales-line', type: 'line', data: response};
+                            chart2.updateSeries([series1, series2]);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching daily evolution data:', error);
+                        }
                     });
                 }
             });
             if (chart2Origin && chart1Origin) {
                 chart2.render();
-                var url1 = '{{route('api_share_evolution',['locale'=> app()->getLocale()])}}';
-                var url2 = '{{route('api_action_values',['locale'=> app()->getLocale()])}}';
 
-                $.when(
-                    $.getJSON(url1),
-                    $.getJSON(url2)
-                ).then(function (response1, response2) {
+                var token = "{{ generateUserToken() }}";
+                var url1 = '{{ route('api_share_evolution', ['locale' => app()->getLocale()]) }}';
+                var url2 = '{{ route('api_action_values', ['locale' => app()->getLocale()]) }}';
+
+                var request1 = $.ajax({
+                    url: url1,
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    dataType: 'json'
+                });
+
+                var request2 = $.ajax({
+                    url: url2,
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    dataType: 'json'
+                });
+
+                $.when(request1, request2).then(function (response1, response2) {
                     var series1 = {name: 'Sales', type: 'area', data: response1[0]};
-
                     var series2 = {name: 'Function', type: 'line', data: response2[0]};
                     chart1.updateSeries([series1, series2]);
                 });

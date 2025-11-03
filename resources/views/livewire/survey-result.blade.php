@@ -56,31 +56,33 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach ($stats as $statsItem)
-                                <tr>
-                                    <td>
-                                        {{$loop->index+1}}
-                                    </td>
-                                    <td>
-                                        {{$statsItem['title']}}
-                                    </td>
-                                    <td>
-                                        @if($survey->show_results_as_number)
-                                            {{$statsItem['choosenK']}} {{__('times')}}
-                                        @endif
-                                        @if($survey->show_results_as_percentage)
-                                            - {{formatSolde($statsItem['persontageK'],2)}}%
-                                        @endif
+                            @if(!empty($stats))
+                                @foreach ($stats as $statsItem)
+                                    <tr>
+                                        <td>
+                                            {{$loop->index+1}}
+                                        </td>
+                                        <td>
+                                            {{$statsItem['title']}}
+                                        </td>
+                                        <td>
+                                            @if($survey->show_results_as_number)
+                                                {{$statsItem['choosenK']}} {{__('times')}}
+                                            @endif
+                                            @if($survey->show_results_as_percentage)
+                                                - {{formatSolde($statsItem['persontageK'],2)}}%
+                                            @endif
 
-                                    </td>
-                                </tr>
-                            @endforeach
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
                             <tr>
                                 <td colspan="2"><h5
                                         class="float-end">{{__('Total')}} {{__('participations / participants')}}</h5>
                                 </td>
                                 <td>
-                                    @if($participation>0)
+                                    @if(isset($participation)&&$participation>0)
                                         @if($survey->show_results_as_number)
                                             {{ $totalChoosen}} / {{$participation}} {{__('times')}} -
                                         @endif

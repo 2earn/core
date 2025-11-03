@@ -341,7 +341,6 @@
                 paging: true,
                 "pageLength": 100,
                 "aLengthMenu": [[100, 500, 1000], [100, 500, 1000]],
-                "ajax": "{{route('api_user_contacts',app()->getLocale())}}",
                 "columns": [
                     {"data": "name"},
                     {"data": "lastName"},

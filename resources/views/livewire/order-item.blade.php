@@ -60,6 +60,7 @@
                                         </div>
                                         <div class="card-body">
                                             <blockquote class="text-muted mt-2">
+                                                <span class="text-muted">{{__('This is only for admin / not translatable note')}}</span>
                                                 <strong>{{__('Note')}}: </strong><br>{{$order->note}}
                                             </blockquote>
                                         </div>
@@ -358,7 +359,7 @@
                                                         title="{{$order->total_final_discount_percentage}}   {{config('app.percentage')}}">
                                                         <strong>{{__('Total final discount')}}</strong>
                                                         <span
-                                                            class="float-end text-muted">
+                                                            class="float-end text-info">
                                                  {{$order->total_final_discount}}  {{config('app.currency')}}</span>
                                                     </li>
                                                 @endif

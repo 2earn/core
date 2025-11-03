@@ -60,7 +60,7 @@ class FinancialTransaction extends Component
     {
         $this->showCanceled = $val;
         $this->fromTab = 'fromRequestOut';
-        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'ShowCancel' => $val])->with('info', 'sdf');
+        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'ShowCancel' => $val])->with('info', trans('Show cancelled requests'));
     }
 
     public function redirectToTransfertCash($mnt, $req)

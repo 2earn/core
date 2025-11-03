@@ -57,7 +57,13 @@
                         },
                         "processing": true,
                         search: {return: true},
-                        "ajax": "{{route('api_user_coupon',app()->getLocale())}}",
+                        "ajax": {
+                            url: "{{route('api_user_coupon',['locale'=> app()->getLocale()])}}",
+                            type: "GET",
+                            headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
+                            error: function (xhr, error, thrown) {
+                                loadDatatableModalError('Coupon_table')
+                            }                        },
                         "columns": [
                             {data: null, defaultContent: '<input type="checkbox" class="row-select" />'},
                             datatableControlBtn,
