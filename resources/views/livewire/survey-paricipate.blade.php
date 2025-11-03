@@ -123,7 +123,7 @@
 
                         <div class="card-footer bg-light">
                             <div class="d-flex justify-content-end">
-                                <button class="btn btn-success waves-effect waves-light"
+                                <button class="btn btn-outline-success waves-effect waves-light"
                                         type="submit"
                                         wire:loading.attr="disabled">
                                     <i class="ri-send-plane-fill me-1 align-bottom"></i>

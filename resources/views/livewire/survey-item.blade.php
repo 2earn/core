@@ -525,14 +525,14 @@
 
                     @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
                         <a wire:click="close('{{$survey->id}}')"
-                           class="btn btn-warning">
+                           class="btn btn-outline-warning">
                             <i class="ri-door-close-line me-1"></i>{{__('Close')}}
                         </a>
                     @endif
 
                     @if($survey->status==\Core\Enum\StatusSurvey::CLOSED->value)
                         <a wire:click="archive('{{$survey->id}}')"
-                           class="btn btn-secondary">
+                           class="btn btn-outline-secondary">
                             <i class="ri-archive-line me-1"></i>{{__('Send to archive')}}
                         </a>
                     @endif
