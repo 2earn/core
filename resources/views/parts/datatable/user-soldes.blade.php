@@ -1,30 +1,62 @@
-<ol class="list-group list-group-flush">
-    <li class="list-group-item" title="{{__('SoldeCB')}}">
-        <a data-bs-toggle="modal" data-bs-target="#detail" data-amount="1"
-           data-reciver="{{$idUser}}" class="btn btn-ghost-secondary waves-effect waves-light cb">
-            <i class="glyphicon glyphicon-add"></i>$ {{number_format(getUserBalanceSoldes($idUser, 1), 2)}}
-        </a>
-    </li>
-    <li class="list-group-item" title="{{__('SoldeBFS')}}">
-        <a data-bs-toggle="modal" data-bs-target="#detail" data-amount="2" data-reciver="{{$idUser}}"
-           class="btn btn-ghost-danger waves-effect waves-light bfs">
-            <i class="glyphicon glyphicon-add"></i>${{number_format(getUserBalanceSoldes($idUser, 2), 2)}}
-        </a>
-    </li>
-    <li class="list-group-item" title="{{__('SoldeDB')}}">
-        <a data-bs-toggle="modal" data-bs-target="#detail" data-amount="3" data-reciver="{{$idUser}}"
-           class="btn btn-ghost-info waves-effect waves-light db">
-            <i class="glyphicon glyphicon-add"></i>${{number_format(getUserBalanceSoldes($idUser, 3), 2) }}</a>
-    </li>
-    <li class="list-group-item" title="{{__('SoldeSMS')}}">
-        <a data-bs-toggle="modal" data-bs-target="#detail" data-amount="5" data-reciver="{{$idUser}}"
-           class="btn btn-ghost-warning waves-effect waves-light smsb">
-            <i class="glyphicon glyphicon-add"></i>{{number_format(getUserBalanceSoldes($idUser, 5), 0)}}</a>
-    </li>
-    <li class="list-group-item" title="{{__('SoldeSHARES')}}">
-        <a data-bs-toggle="modal" data-bs-target="#detailsh" data-amount="6" data-reciver="{{ $idUser}}"
-           class="btn btn-ghost-success waves-effect waves-light sh">
-            <i class="glyphicon glyphicon-add"></i> {{ number_format(getUserSelledActions($idUser), 0) }}</a>
-    </li>
-</ol>
+<div class="d-flex flex-wrap gap-2 align-items-center justify-content-center">
+    {{-- Cash Balance --}}
+    <button type="button"
+            class="btn btn-soft-info btn-sm d-flex align-items-center shadow-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#detail"
+            data-amount="1"
+            data-reciver="{{$idUser}}"
+            title="{{__('SoldeCB')}}">
+        <i class="ri-money-dollar-circle-line me-1 fs-5" aria-hidden="true"></i>
+        <span class="fw-semibold">{{number_format(getUserBalanceSoldes($idUser, 1), 2)}}</span>
+    </button>
+
+    {{-- BFS Balance --}}
+    <button type="button"
+            class="btn btn-soft-secondary btn-sm d-flex align-items-center shadow-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#detail"
+            data-amount="2"
+            data-reciver="{{$idUser}}"
+            title="{{__('SoldeBFS')}}">
+        <i class="ri-shopping-cart-line me-1 fs-5" aria-hidden="true"></i>
+        <span class="fw-semibold">{{number_format(getUserBalanceSoldes($idUser, 2), 2)}}</span>
+    </button>
+
+    {{-- Discount Balance --}}
+    <button type="button"
+            class="btn btn-soft-primary btn-sm d-flex align-items-center shadow-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#detail"
+            data-amount="3"
+            data-reciver="{{$idUser}}"
+            title="{{__('SoldeDB')}}">
+        <i class="ri-percent-line me-1 fs-5" aria-hidden="true"></i>
+        <span class="fw-semibold">{{number_format(getUserBalanceSoldes($idUser, 3), 2)}}</span>
+    </button>
+
+    {{-- SMS Balance --}}
+    <button type="button"
+            class="btn btn-soft-warning btn-sm d-flex align-items-center shadow-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#detail"
+            data-amount="5"
+            data-reciver="{{$idUser}}"
+            title="{{__('SoldeSMS')}}">
+        <i class="ri-message-3-line me-1 fs-5" aria-hidden="true"></i>
+        <span class="fw-semibold">{{number_format(getUserBalanceSoldes($idUser, 5), 0)}}</span>
+    </button>
+
+    {{-- Shares Balance --}}
+    <button type="button"
+            class="btn btn-soft-success btn-sm d-flex align-items-center shadow-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#detailsh"
+            data-amount="6"
+            data-reciver="{{$idUser}}"
+            title="{{__('SoldeSHARES')}}">
+        <i class="ri-line-chart-line me-1 fs-5" aria-hidden="true"></i>
+        <span class="fw-semibold">{{number_format(getUserSelledActions($idUser), 0)}}</span>
+    </button>
+</div>
 

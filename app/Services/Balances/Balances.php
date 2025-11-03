@@ -169,9 +169,9 @@ class Balances
                 ->from($type . ' as u')
                 ->join('balance_operations as b', 'u.balance_operation_id', '=', 'b.id');
             if ($var) {
-                $query->where('u.balance_operation_id', 44);
+                $query->where('u.balance_operation_id', 20);
             }
-        }, 'a')->get(DB::raw('sum(value) as somme'))->pluck('somme')->first();
+        }, 'a')->get(DB::raw('sum(value) as somme'))->pluck('somme')->first() ?? 0;
     }
 
     public static function updateCalculatedHorisental($idUser, $type, $value)
