@@ -14,6 +14,8 @@ class InstructorRequestShow extends Component
     public $note;
     public $note_message;
     public $instructorRequest;
+    public $InstructorRequestId;
+    public $userProfileImage;
 
     public function mount()
     {
