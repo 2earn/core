@@ -20,13 +20,6 @@
 
         <div class="card-body bg-light" id="users-stats">
             <div class="row g-4 mb-4">
-                <!-- Primary Stats Section -->
-                <div class="col-12">
-                    <h4 class="text-uppercase fw-bold text-muted mb-3 border-bottom border-3 border-primary pb-2">
-                        <i class="ri-funds-line me-2"></i>{{__('Primary Balances')}}
-                    </h4>
-                </div>
-
                 <div class="col-xl-4 col-md-6">
                     <article class="card border-0 shadow-lg h-100 overflow-hidden rounded-3">
                         <div class="card-body p-4 bg-gradient position-relative" style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.05) 0%, rgba(13, 110, 253, 0.15) 100%);">
@@ -132,14 +125,7 @@
             </div>
 
             <div class="row g-4">
-                <!-- Secondary Stats Section -->
-                <div class="col-12">
-                    <h4 class="text-uppercase fw-bold text-muted mb-3 border-bottom border-3 border-secondary pb-2">
-                        <i class="ri-bar-chart-line me-2"></i>{{__('Additional Metrics')}}
-                    </h4>
-                </div>
-
-                <div class="col-xl-3 col-md-6">
+                     <div class="col-xl-3 col-md-6">
                     <article class="card border border-info border-opacity-25 shadow h-100 overflow-hidden rounded-3 hover-lift">
                         <div class="card-body p-4">
                             <div class="d-flex align-items-center mb-3">
