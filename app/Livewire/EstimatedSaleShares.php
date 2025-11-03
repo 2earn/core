@@ -30,17 +30,17 @@ class EstimatedSaleShares extends Component
 
         $this->numberSharesSale = $this->totalActions - $this->giftedShares;
         $this->precentageOfSharesSale = round($this->selledActions / $this->numberSharesSale, 3) * 100;
-        $this->userSelledActionNumber = round(SharesBalances::where('balance_operation_id', 44)->where('beneficiary_id', Auth()->user()->idUser)->selectRaw('SUM(value) as total_sum')->first()->total_sum);
-
+        $this->userSelledActionNumber = round(SharesBalances::where('balance_operation_id', 20)->where('beneficiary_id', Auth()->user()->idUser)->selectRaw('SUM(value) as total_sum')->first()->total_sum);
         $this->selledActionCursor = $this->selledActions;
-        $this->totalPaied = round(SharesBalances::where('balance_operation_id', 44)->where('beneficiary_id', Auth()->user()->idUser)->selectRaw('SUM(total_amount) as total_sum')->first()->total_sum, 3);
+        $this->totalPaied = round(SharesBalances::where('balance_operation_id', 20)->where('beneficiary_id', Auth()->user()->idUser)->selectRaw('SUM(total_amount) as total_sum')->first()->total_sum, 3);
     }
 
     public function simulateGain()
     {
         $this->actionValue = round(actualActionValue($this->selledActionCursor, false), 3);
         $this->estimatedGain = round(($this->userSelledActionNumber * actualActionValue($this->selledActionCursor, false)) - $this->totalPaied, 3);
-        if ($this->estimatedGain < 0) {
+
+    if ($this->estimatedGain < 0) {
             $this->estimatedGain = 0;
         }
     }

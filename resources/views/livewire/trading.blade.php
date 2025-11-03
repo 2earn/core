@@ -8,108 +8,144 @@
             {{ __('Trading') }}
         @endslot
     @endcomponent
-    <div class="row">
+    <div class="row mb-3">
         <div class="col-12">
             @include('layouts.flash-messages')
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12">
+    <div class="row g-3">
+        <div class="col-12">
             <livewire:buy-shares/>
         </div>
-        <div class="col-sm-12 col-md-12 col-lg-12">
-            <div class="card">
-                <div class="card-header">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light border-bottom">
                     <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0 me-3">
+                            <div class="avatar-sm">
+                                <div class="avatar-title bg-info-subtle text-info rounded-circle fs-18">
+                                    <i class="ri-stock-line"></i>
+                                </div>
+                            </div>
+                        </div>
                         <div class="flex-grow-1">
-                            <h5 class="card-title mb-0 text-info">{{__('Sale Shares')}}</h5>
+                            <h5 class="card-title mb-0 fw-semibold text-dark">{{__('Sale Shares')}}</h5>
+                            @if(\App\Models\User::isSuperAdmin())
+                                <p class="text-muted small mb-0">{{$selledActions}} / {{$totalActions}} {{__('shares sold')}}</p>
+                            @endif
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="d-flex align-items-center pb-2"
+                    <div class="d-flex align-items-center gap-3"
                          @if(\App\Models\User::isSuperAdmin())
                              title="{{$selledActions." / ".$totalActions}}"
                         @endif
                     >
-                        <div class="flex-shrink-0 me-3">
-                            <div class="avatar-xs">
-                                <div class="avatar-title bg-light rounded-circle text-muted fs-16">
-                                    <i class=" ri-creative-commons-nc-fill"></i>
+                        <div class="flex-shrink-0">
+                            <div class="avatar-md">
+                                <div class="avatar-title bg-primary-subtle text-primary rounded fs-24">
+                                    <i class="ri-pie-chart-2-line"></i>
                                 </div>
                             </div>
                         </div>
                         <div class="flex-grow-1">
-                            <div class="progress animated-progress custom-progress progress-label">
-                                <div class="progress-bar bg-primary" role="progressbar"
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h6 class="mb-0 text-muted">{{__('Sales Progress')}}</h6>
+                                <h5 class="mb-0 text-primary fw-bold">{{$precentageOfActions}}%</h5>
+                            </div>
+                            <div class="progress animated-progress custom-progress progress-label" style="height: 24px;">
+                                <div class="progress-bar bg-gradient bg-primary" role="progressbar"
                                      style="width: {{$precentageOfActions}}%"
                                      aria-valuenow="{{$selledActions}}" aria-valuemin="0"
                                      aria-valuemax="{{$totalActions}}">
-                                    <div class="label">{{$precentageOfActions}}%</div>
+                                    <div class="label fw-semibold">{{$precentageOfActions}}%</div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
                 @if(!is_null($targetDate))
-                    <div class="card-footer">
-                        <div class="flex-grow-1">
-                            <span class="btn text-muted"> {{__('Shares exchange estimated date')}}</span>
-                            <span class="btn btn-soft-success float-end">{{$targetDate}}</span>
+                    <div class="card-footer bg-light border-top">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="ri-calendar-event-line text-success fs-18"></i>
+                                <span class="text-muted fw-medium">{{__('Shares exchange estimated date')}}</span>
+                            </div>
+                            <span class="badge bg-success-subtle text-success fs-13 px-3 py-2">
+                                <i class="ri-time-line me-1"></i>{{$targetDate}}
+                            </span>
                         </div>
                     </div>
                 @endif
             </div>
         </div>
-        <div class="col-sm-12 col-md-12 col-lg-12">
-            <div class="card">
-                <div class="card-header">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light border-bottom">
                     <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0 me-3">
+                            <div class="avatar-sm">
+                                <div class="avatar-title bg-success-subtle text-success rounded-circle fs-18">
+                                    <i class="ri-line-chart-line"></i>
+                                </div>
+                            </div>
+                        </div>
                         <div class="flex-grow-1">
-                            <h5 class="card-title mb-0 text-info">{{__('Share Price Evolution')}}</h5>
+                            <h5 class="card-title mb-0 fw-semibold text-dark">{{__('Share Price Evolution')}}</h5>
+                            <p class="text-muted small mb-0">{{__('Track your investment performance')}}</p>
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div id="chart1" wire:ignore>
+                <div class="card-body p-4">
+                    <div id="chart1" wire:ignore style="min-height: 350px;">
                     </div>
                 </div>
             </div>
-            <div class="card">
-                <div class="card-header">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <h5 class="card-title mb-0 text-info">{{__('Table of my shares purchases')}}</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body table-responsive">
-                    <table id="shares-solde" wire:ignore wire:key="{{uniqid()}}"
-                           class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                           style="width:100%">
-                        <thead class="table-light">
-                        <tr class="head2earn  tabHeader2earn">
-                            <th>{{__('Details')}}</th>
-                            <th>{{__('id')}}</th>
-                            <th>{{__('Date purchase')}}</th>
-                            <th>{{__('Number of shares')}}</th>
-                            <th>{{__('Total shares')}}</th>
-                            <th>{{__('Total price')}}</th>
-                            <th>{{__('Present value')}}</th>
-                            <th>{{__('Current_earnings')}}</th>
-                            <th>{{ __('Complementary information') }}</th>
-                        </tr>
-                        </thead>
-                        <tbody class="body2earn">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
         </div>
-
-        <div class="col-sm-12 col-md-12 col-lg-12">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light border-bottom">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0 me-3">
+                            <div class="avatar-sm">
+                                <div class="avatar-title bg-warning-subtle text-warning rounded-circle fs-18">
+                                    <i class="ri-table-line"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5 class="card-title mb-0 fw-semibold text-dark">{{__('Table of my shares purchases')}}</h5>
+                            <p class="text-muted small mb-0">{{__('Complete history of your transactions')}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table id="shares-solde" wire:ignore wire:key="{{uniqid()}}"
+                               class="table table-striped table-bordered table-hover align-middle nowrap mb-0"
+                               style="width:100%">
+                            <thead class="table-light">
+                            <tr>
+                                <th class="fw-semibold">{{__('Details')}}</th>
+                                <th class="fw-semibold">{{__('id')}}</th>
+                                <th class="fw-semibold">{{__('Date purchase')}}</th>
+                                <th class="fw-semibold">{{__('Number of shares')}}</th>
+                                <th class="fw-semibold">{{__('Total shares')}}</th>
+                                <th class="fw-semibold">{{__('Total price')}}</th>
+                                <th class="fw-semibold">{{__('Present value')}}</th>
+                                <th class="fw-semibold">{{__('Current_earnings')}}</th>
+                                <th class="fw-semibold">{{ __('Complementary information') }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
             <livewire:estimated-sale-shares/>
         </div>
     </div>

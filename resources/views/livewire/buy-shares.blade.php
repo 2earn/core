@@ -1,210 +1,262 @@
-<div class="card">
-    <div class="card-header">
-        <div class="d-flex align-items-center">
-            <div class="flex-grow-1">
-                <h5 class="card-title mb-2 text-info">{{ __('Buy Shares') }}</h5>
-                @if($flash)
-                    <div class="flash-background float-end">{{__('V I P')}}</div>
-                @endif
+<div class="card shadow-sm">
+    <div class="card-header bg-light border-bottom">
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-3">
+                <div class="flex-shrink-0">
+                    <div class="avatar-sm">
+                        <div class="avatar-title bg-primary-subtle text-primary rounded-circle fs-18">
+                            <i class="ri-shopping-cart-line"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-grow-1">
+                    <h5 class="card-title mb-0 fw-semibold text-dark">{{ __('Buy Shares') }}</h5>
+                    <p class="text-muted small mb-0">{{ __('Invest in your future') }}</p>
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="card-body">
-        <div class="modal-body">
             @if($flash)
-                <div class="row pink col-12" role="alert">
-                    <p>{{__('A mode for a')}}
-                        <span class="pinkbold col-auto">
-                                        {{$flashTimes}}</span>
-                        {{__('times bonus over')}}
-                        <span class="pinkbold col-auto">
-                                        {{$flashPeriod}} {{__('hours')}}</span>
-                        {{__('with a minimum of')}}
-                        <span class="pinkbold col-auto">
-                                        {{$flashMinShares}} {{__('Shares')}}
-                                    </span>
-                    </p>
+                <div class="badge bg-gradient bg-warning text-dark fs-14 px-3 py-2 flash-background">
+                    <i class="ri-vip-crown-line me-1"></i>{{__('V I P')}}
                 </div>
             @endif
-            <div class="row @if($flash) alert-flash @else alert  @endif alert-info" role="alert">
-                <strong>{{ __('Notice') }}: </strong>{{ __('buy_shares_notice') }}
-            </div>
-            <a href="{{route('user_balance_cb',app()->getLocale())}}"
-               class="@if($cashBalance < $ammount) logoTopCashDanger  @else logoTopCash  @endif">
-                <div class="row d-flex mt-1">
-                    <div class="col-4 avatar-xs flex-shrink-1 ">
-                                <span class="avatar-title bg-soft-info custom rounded fs-3">
-                                    <i class="bx bx-dollar-circle text-info"></i>
-                                </span>
+        </div>
+    </div>
+    <div class="card-body p-4">
+            @if($flash)
+                <div class="alert alert-warning border-warning bg-warning-subtle mb-3" role="alert">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="flex-shrink-0">
+                            <div class="avatar-sm">
+                                <div class="avatar-title bg-warning text-white rounded-circle fs-20">
+                                    <i class="ri-vip-crown-fill"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5 class="alert-heading text-warning fw-bold mb-2">
+                                <i class="ri-flashlight-fill"></i> {{__('VIP Flash Mode Active!')}}
+                            </h5>
+                            <p class="mb-0 text-dark">
+                                {{__('A mode for a')}}
+                                <span class="badge bg-warning text-dark fw-bold mx-1">{{$flashTimes}}x</span>
+                                {{__('times bonus over')}}
+                                <span class="badge bg-warning text-dark fw-bold mx-1">{{$flashPeriod}} {{__('hours')}}</span>
+                                {{__('with a minimum of')}}
+                                <span class="badge bg-warning text-dark fw-bold mx-1">{{$flashMinShares}} {{__('Shares')}}</span>
+                            </p>
+                        </div>
                     </div>
-                    <div class="col-8 text-primary text-uppercase fs-16 pt-1 ms-5">
-                        <h5 class="@if($cashBalance < $ammount) logoTopCashDanger  @else logoTopCashLabel  @endif">  {{ __('Cash Balance') }}
-                            : {{__('DPC')}}{{$soldeBuyShares->soldeCB}}</h5>
+                </div>
+            @endif
+            <div class="alert @if($flash) alert-warning border-warning bg-warning-subtle @else alert-info border-info bg-info-subtle @endif mb-3" role="alert">
+                <div class="d-flex align-items-start gap-2">
+                    <i class="ri-information-line fs-18 @if($flash) text-warning @else text-info @endif mt-1"></i>
+                    <div>
+                        <strong class="@if($flash) text-warning @else text-info @endif">{{ __('Notice') }}: </strong>
+                        <span class="text-dark">{{ __('buy_shares_notice') }}</span>
+                    </div>
+                </div>
+            </div>
+            <a href="{{route('user_balance_cb',app()->getLocale())}}" class="text-decoration-none">
+                <div class="card @if($cashBalance < $ammount) border-danger bg-danger-subtle @else border-info bg-info-subtle @endif mb-3">
+                    <div class="card-body p-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="flex-shrink-0">
+                                <div class="avatar-md">
+                                    <div class="avatar-title @if($cashBalance < $ammount) bg-danger-subtle text-danger @else bg-info-subtle text-info @endif rounded-circle fs-24">
+                                        <i class="bx bx-dollar-circle"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <p class="text-muted text-uppercase fw-medium mb-1 small">{{ __('Cash Balance') }}</p>
+                                <h4 class="mb-0 @if($cashBalance < $ammount) text-danger @else text-info @endif fw-bold">
+                                    {{__('DPC')}} {{$soldeBuyShares->soldeCB}}
+                                </h4>
+                            </div>
+                            <div class="flex-shrink-0">
+                                <i class="ri-arrow-right-s-line fs-24 @if($cashBalance < $ammount) text-danger @else text-info @endif"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </a>
-            <div class="row d-flex">
+            <div class="row">
                 <form class="needs-validation" novalidate>
-                    <div class="row mt-2 ml-1 @if($flash) alert-flash @else alert  @endif alert-light">
-                        <h5 class="ml-3">
-                            <span class="form-label">{{ __('Buy For') }}:</span>
-                        </h5>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item list-group-item-light">
-                                <div class="form-check form-check-inline">
+                    <div class="card @if($flash) border-warning bg-warning-subtle @else border-light bg-light @endif mb-3">
+                        <div class="card-body p-3">
+                            <h6 class="card-title mb-3 fw-semibold">
+                                <i class="ri-user-line me-1"></i>{{ __('Buy For') }}:
+                            </h6>
+                            <div class="d-flex gap-4 mb-3">
+                                <div class="form-check">
                                     <input class="form-check-input" type="radio"
                                            name="inlineRadioOptions"
                                            checked
                                            id="inlineRadio1" value="me">
-                                    <label class="form-check-label"
+                                    <label class="form-check-label fw-medium"
                                            for="inlineRadio1">{{ __('me') }}</label>
                                 </div>
-                            </li>
-                            <li class="list-group-item list-group-item-light">
-                                <div class="form-check form-check-inline">
+                                <div class="form-check">
                                     <input class="form-check-input" type="radio"
                                            name="inlineRadioOptions"
                                            id="inlineRadio2" value="other" disabled>
-                                    <label class="form-check-label"
+                                    <label class="form-check-label fw-medium"
                                            for="inlineRadio2">{{ __('other') }}</label>
                                 </div>
-                            </li>
-
-                        </ul>
-                        <div class="col-6 d-none" id="contact-select">
-                            <div>
-                                <label for="phone" class="form-label">{{ __('Mobile_Number') }}</label>
-                                <input type="tel"
-                                       class="@if($flash) form-control-flash @else form-control  @endif"
-                                       name="mobile" id="phone" required>
                             </div>
-                        </div>
-                        <div class="col-6 d-none" id="bfs-select">
-                            <span class="form-label mb-3">{{ __('BFS bonuses  for') }} </span>
-                            <div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="bfs-for"
-                                           id="bfs-for-1"
-                                           value="me">
-                                    <label for="bfs-for-1"
-                                           class="form-check-label">{{ __('me') }}</label>
+                            <div class="row g-3">
+                                <div class="col-md-6 d-none" id="contact-select">
+                                    <label for="phone" class="form-label fw-medium">
+                                        <i class="ri-phone-line me-1"></i>{{ __('Mobile_Number') }}
+                                    </label>
+                                    <input type="tel"
+                                           class="form-control"
+                                           name="mobile" id="phone" required>
                                 </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="bfs-for"
-                                           id="bfs-for-2"
-                                           value="other">
-                                    <label for="bfs-for-2"
-                                           class="form-check-label">{{ __('The chosen user') }}</label>
+                                <div class="col-md-6 d-none" id="bfs-select">
+                                    <label class="form-label fw-medium mb-2">
+                                        <i class="ri-gift-line me-1"></i>{{ __('BFS bonuses  for') }}
+                                    </label>
+                                    <div class="d-flex gap-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="bfs-for"
+                                                   id="bfs-for-1"
+                                                   value="me">
+                                            <label for="bfs-for-1"
+                                                   class="form-check-label">{{ __('me') }}</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="bfs-for"
+                                                   id="bfs-for-2"
+                                                   value="other">
+                                            <label for="bfs-for-2"
+                                                   class="form-check-label">{{ __('The chosen user') }}</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div id="simulator" class="row mt-3 mb-3">
+                    <div id="simulator">
                         @if($flash)
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <div class="discount-time text-center">
-                                    <h5 id="flash-timer1" class="mb-0 text-black"></h5>
+                            <div class="card border-warning bg-warning-subtle mb-3">
+                                <div class="card-body p-3 text-center">
+                                    <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
+                                        <i class="ri-timer-flash-line fs-20 text-warning"></i>
+                                        <h6 class="mb-0 fw-semibold text-warning">{{__('VIP Flash Sale Ends In')}}</h6>
+                                    </div>
+                                    <h5 id="flash-timer1" class="mb-0 text-dark fw-bold"></h5>
                                 </div>
                             </div>
                         @endif
-                        <div class="col-6  @if($flash) ribbon-box right overflow-hidden @endif ">
-                            <label for="ammount" class="col-form-label">{{ __('Amount_pay') }}
-                                ( {{config('app.currency')}}
-                                )</label>
-                            <div class="input-group mb-3">
-                                <input aria-describedby="simulateAmmount" type="number"
-                                       max="{{round($cashBalance)}}"
-                                       wire:keyup.debounce="simulateAmmount()" wire:model.lazy="ammount"
-                                       id="ammount" oninput="if(this.value !== '' && Number(this.value) < 1) this.value = 1"
-                                       class="form-control @if($flash) flash @endif">
-                            </div>
-                        </div>
-                        <div class="col-6 @if($flash) ribbon-box right overflow-hidden @endif ">
-                            <label for="action" class="col-form-label">
-                                {{ __('Number of shares') }}
-                            </label>
-                            <div class="input-group mb-3">
-                                <input aria-describedby="simulateAction" type="number"
-                                       max="{{$maxActions}}"
-                                       wire:keyup.debounce="simulateAction()" wire:model.lazy="action"
-                                       id="action"
-                                       class="form-control @if($flash) flash @endif">
+                        <div class="card border-primary bg-primary-subtle mb-3">
+                            <div class="card-body p-3">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="ammount" class="form-label fw-semibold">
+                                            <i class="ri-money-dollar-circle-line me-1"></i>{{ __('Amount_pay') }} ({{config('app.currency')}})
+                                        </label>
+                                        <input aria-describedby="simulateAmmount" type="number"
+                                               max="{{round($cashBalance)}}"
+                                               wire:keyup.debounce="simulateAmmount()" wire:model.lazy="ammount"
+                                               id="ammount"
+                                               oninput="if(this.value !== '' && Number(this.value) < 1) this.value = 1"
+                                               class="form-control form-control @if($flash) border-warning @endif"
+                                               placeholder="0.00">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="action" class="form-label fw-semibold">
+                                            <i class="ri-stock-line me-1"></i>{{ __('Number of shares') }}
+                                        </label>
+                                        <input aria-describedby="simulateAction" type="number"
+                                               max="{{$maxActions}}"
+                                               wire:keyup.debounce="simulateAction()" wire:model.lazy="action"
+                                               id="action"
+                                               class="form-control form-control @if($flash) border-warning @endif"
+                                               placeholder="0">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         @if($ammount)
-                            <div class="col-12 text-muted">
-                                <div
-                                    class="alert alert-success alert-top-border alert-dismissible fade show material-shadow"
-                                    role="alert">
-                                    <i class="ri-notification-fill me-3 align-middle fs-16 text-success"></i><strong>{{__('Simulation Result')}}</strong>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                            aria-label="Close"></button>
-                                    <label
-                                        class="col-form-label">
-                                        {{__('You pay')}}</label>
-                                    <strong id="amount_val" class="col-form-label">
-                                        {{$ammount}}
-                                    </strong>
-                                    <label
-                                        class="col-form-label">{{config('app.currency')}} {{__('To buy')}}</label>
-                                    <strong id="action_val" class="col-form-label">
-                                        {{$action}}
-                                    </strong>
-                                    <label class="col-form-label">{{__('Actions')}}</label>
+                            <div class="card border-success bg-success-subtle">
+                                <div class="card-body p-3">
+                                    <div class="d-flex align-items-center gap-2 mb-3">
+                                        <i class="ri-calculator-line fs-18 text-success"></i>
+                                        <h6 class="mb-0 fw-semibold text-success">{{__('Simulation Result')}}</h6>
+                                    </div>
+                                    <div class="row g-2 mb-3">
+                                        <div class="col-md-6">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="text-muted">{{__('You pay')}}:</span>
+                                                <span class="fw-bold text-dark" id="amount_val">{{$ammount}}</span>
+                                                <span class="text-muted">{{config('app.currency')}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="text-muted">{{__('To buy')}}:</span>
+                                                <span class="fw-bold text-dark" id="action_val">{{$action}}</span>
+                                                <span class="text-muted">{{__('Actions')}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                     @if($gift&&$profit && $profit>0)
-                                        <table
-                                            class="table table-success table-striped align-middle table-nowrap mb-0 table-sm">
-                                            <thead>
-                                            <tr>
-                                                @if($gift)
-                                                    <th scope="col">{{ __('Gifted Shares') }}</th>
-                                                @endif
-                                                @if($gift)
-                                                    <td>
-                                                        {{$gift}}
-                                                    </td>
-                                                @endif
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                @if($profit && $profit>0)
-                                                    <th scope="col">{{ __('Profit') }}</th>
-                                                @endif
-                                                @if($profit && $profit>0)
-                                                    <td>
-                                                        {{formatSolde($profit, 2)}} ( {{config('app.currency')}})
-                                                    </td>
-                                                @endif
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                                        <div class="table-responsive">
+                                            <table class="table table-sm table-bordered mb-0 bg-white">
+                                                <thead class="table-success">
+                                                    <tr>
+                                                        @if($gift)
+                                                            <th class="fw-semibold">
+                                                                <i class="ri-gift-line me-1"></i>{{ __('Gifted Shares') }}
+                                                            </th>
+                                                        @endif
+                                                        @if($profit && $profit>0)
+                                                            <th class="fw-semibold">
+                                                                <i class="ri-money-dollar-circle-line me-1"></i>{{ __('Profit') }}
+                                                            </th>
+                                                        @endif
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        @if($gift)
+                                                            <td class="fw-bold text-success">{{$gift}}</td>
+                                                        @endif
+                                                        @if($profit && $profit>0)
+                                                            <td class="fw-bold text-success">
+                                                                {{formatSolde($profit, 2)}} {{config('app.currency')}}
+                                                            </td>
+                                                        @endif
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     @endif
                                 </div>
                             </div>
                         @endif
-                        <div class="col-lg-12 mt-3">
+                        <div class="col-12 mt-3">
                             <div class="hstack gap-2 justify-content-end">
                                 @if($flash)
-                                    <button type="button" class="btn btn-outline-gold">
-                                        {{__('Flash gift')}}
-
-                                        {{$flashGift}}
-                                        <span class="flash-background">{{$flashGift}}</span>
+                                    <button type="button" class="btn btn-outline-warning d-flex align-items-center gap-2">
+                                        <i class="ri-gift-line"></i>
+                                        <span>{{__('Flash gift')}}: <strong class="flash-background ms-1">{{$flashGift}}</strong></span>
                                     </button>
-                                    <button type="button" class="btn btn-outline-gold">
-                                        {{__('Flash gain')}}
-                                        <span class="flash-background">{{$flashGain}}$</span>
+                                    <button type="button" class="btn btn-outline-warning d-flex align-items-center gap-2">
+                                        <i class="ri-money-dollar-circle-line"></i>
+                                        <span>{{__('Flash gain')}}: <strong class="flash-background ms-1">{{$flashGain}}$</strong></span>
                                     </button>
                                 @endif
-                                          <button type="button" id="buy-action-submit"
+                                <button type="button" id="buy-action-submit"
                                         wire:loading.attr="disabled"
                                         wire:target="simulate"
-                                        class="btn @if($flash) btn-flash @else btn-soft-primary  @endif swal2-styled d-inline-flex">
-                                    {{ __('Confirm the purchase of shares') }}
-                                    <div
-                                        class="spinner-border spinner-border-sm mx-2 mt-1 buy-action-submit-spinner"
-                                        role="status"></div>
+                                        class="btn @if($flash) btn-warning text-white @else btn-primary @endif btn d-flex align-items-center gap-2">
+                                    <i class="ri-shopping-cart-2-line"></i>
+                                    <span>{{ __('Confirm the purchase of shares') }}</span>
+                                    <div class="spinner-border spinner-border-sm buy-action-submit-spinner"
+                                         role="status" style="display: none;"></div>
                                 </button>
                             </div>
                         </div>
