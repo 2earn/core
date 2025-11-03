@@ -486,11 +486,17 @@
                 $.ajax({
                     url: "{{ route('add_cash', app()->getLocale()) }}",
                     type: "POST",
+                    headers: {
+                        'Authorization': 'Bearer ' + "{{ generateUserToken() }}"
+                    },
                     data: {amount: ammount, reciver: reciver, "_token": "{{ csrf_token() }}"},
                     success: function (dataTransfert) {
                         $.ajax({
                             url: "{{ route('send_sms',app()->getLocale()) }}",
                             type: "POST",
+                            headers: {
+                                'Authorization': 'Bearer ' + "{{ generateUserToken() }}"
+                            },
                             data: {user: user, msg: msg, "_token": "{{ csrf_token() }}"},
                             success: function (dataMessage) {
                                 fireSwalInformMessage('success', '{{__('Transfer success')}}', dataTransfert + ' ' + dataMessage);
