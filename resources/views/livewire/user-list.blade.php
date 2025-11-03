@@ -8,279 +8,322 @@
             {{ __('Users List') }}
         @endslot
     @endcomponent
-    <div class="card">
-        <div class="card-body row">
-            <div class="col-12">
-                @include('layouts.flash-messages')
-            </div>
-        </div>
-        <div class="card-body row">
-            <div class="col-xl-4 col-md-6">
-                <div class="card border border-muted card-animate">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-grow-1 overflow-hidden">
-                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
-                                    {{__('Cash Balance')}}
-                                </p>
-                            </div>
-                            <p class=" text-info mb-0">
-                                                <span class="ms-2">
-                                                    <i
-                                                        class="ri-building-line align-bottom"></i>
-                                                    {{number_format(getAdminCash()[0],2)}}</span>
-                                <span class="ms-2"><i class="ri-map-pin-2-line align-bottom"></i>
-                                                {{number_format(\App\Services\Balances\Balances::sommeSold('cash_balances')-floatval(getAdminCash()[0]),2)}}
-                                            </span>
-                            </p>
-                        </div>
-                        <div class="d-flex align-items-end justify-content-between mt-4">
-                            <div>
-                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                    {{config('app.currency')}}
-                                    <span>
-                                                    {{formatSolde(\App\Services\Balances\Balances::sommeSold('cash_balances'))}}</span>
-                                </h4>
 
-                            </div>
-                            <div class="avatar-sm flex-shrink-0">
-                                                        <span class=" bg-info-subtle rounded fs-3">
-                                                          <i class="ri-exchange-dollar-line display-6 bx-dollar-circle   text-info"></i>
-                                                        </span>
-                            </div>
+    <section class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12">
+                    @include('layouts.flash-messages')
+                </div>
+            </div>
+        </div>
 
+        <div class="card-body bg-light" id="users-stats">
+            <div class="row g-4 mb-4">
+                <!-- Primary Stats Section -->
+                <div class="col-12">
+                    <h4 class="text-uppercase fw-bold text-muted mb-3 border-bottom border-3 border-primary pb-2">
+                        <i class="ri-funds-line me-2"></i>{{__('Primary Balances')}}
+                    </h4>
+                </div>
+
+                <div class="col-xl-4 col-md-6">
+                    <article class="card border-0 shadow-lg h-100 overflow-hidden rounded-3">
+                        <div class="card-body p-4 bg-gradient position-relative" style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.05) 0%, rgba(13, 110, 253, 0.15) 100%);">
+                            <div class="d-flex align-items-start justify-content-between mb-3">
+                                <div class="flex-grow-1">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="avatar-lg me-3">
+                                            <div class="avatar-title bg-primary text-white rounded-circle fs-1 shadow">
+                                                <i class="ri-exchange-dollar-line" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h5 class="text-uppercase fw-bold text-primary mb-1 fs-6">
+                                                {{__('Cash Balance')}}
+                                            </h5>
+                                            <div class="d-flex flex-wrap gap-2">
+                                                <span class="badge rounded-pill bg-primary fs-7 px-3 py-2" title="{{ __('Admin') }}">
+                                                    <i class="ri-building-line align-bottom me-1" aria-hidden="true"></i>
+                                                    {{number_format(getAdminCash()[0], 2)}}
+                                                </span>
+                                                <span class="badge rounded-pill bg-info fs-7 px-3 py-2" title="{{ __('Users') }}">
+                                                    <i class="ri-user-line align-bottom me-1" aria-hidden="true"></i>
+                                                    {{number_format(\App\Services\Balances\Balances::sommeSold('cash_balances') - floatval(getAdminCash()[0]), 2)}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-auto pt-3 border-top border-primary border-opacity-25">
+                                <div class="d-flex align-items-baseline">
+                                    <h2 class="mb-0 display-5 fw-bold text-primary me-2">
+                                        {{formatSolde(\App\Services\Balances\Balances::sommeSold('cash_balances'))}}
+                                    </h2>
+                                    <span class="text-muted fs-5 fw-semibold">{{config('app.currency')}}</span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </article>
+                </div>
+
+                <div class="col-xl-4 col-md-6">
+                    <article class="card border-0 shadow-lg h-100 overflow-hidden rounded-3">
+                        <div class="card-body p-4 bg-gradient position-relative" style="background: linear-gradient(135deg, rgba(25, 135, 84, 0.05) 0%, rgba(25, 135, 84, 0.15) 100%);">
+                            <div class="d-flex align-items-start justify-content-between mb-3">
+                                <div class="flex-grow-1">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="avatar-lg me-3">
+                                            <div class="avatar-title bg-success text-white rounded-circle fs-1 shadow">
+                                                <i class="ri-shopping-cart-2-line" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h5 class="text-uppercase fw-bold text-success mb-0 fs-6">
+                                                {{__('BFS')}}
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-auto pt-3 border-top border-success border-opacity-25">
+                                <div class="d-flex align-items-baseline">
+                                    <h2 class="mb-0 display-5 fw-bold text-success me-2">
+                                        {{\App\Services\Balances\Balances::sommeSold('bfss_balances')}}
+                                    </h2>
+                                    <span class="text-muted fs-5 fw-semibold">{{config('app.currency')}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="col-xl-4 col-md-6">
+                    <article class="card border-0 shadow-lg h-100 overflow-hidden rounded-3">
+                        <div class="card-body p-4 bg-gradient position-relative" style="background: linear-gradient(135deg, rgba(255, 193, 7, 0.05) 0%, rgba(255, 193, 7, 0.15) 100%);">
+                            <div class="d-flex align-items-start justify-content-between mb-3">
+                                <div class="flex-grow-1">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="avatar-lg me-3">
+                                            <div class="avatar-title bg-warning text-white rounded-circle fs-1 shadow">
+                                                <i class="ri-percent-line" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h5 class="text-uppercase fw-bold text-warning mb-0 fs-6">
+                                                {{__('Discount Balance')}}
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-auto pt-3 border-top border-warning border-opacity-25">
+                                <div class="d-flex align-items-baseline">
+                                    <h2 class="mb-0 display-5 fw-bold text-warning me-2">
+                                        {{\App\Services\Balances\Balances::sommeSold('discount_balances')}}
+                                    </h2>
+                                    <span class="text-muted fs-5 fw-semibold">{{config('app.currency')}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
                 </div>
             </div>
-            <div class="col-xl-4 col-md-6">
-                <div class="card border border-muted card-animate">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-grow-1 overflow-hidden">
-                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
-                                    {{__('BFS')}}
-                                </p>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-end justify-content-between mt-4">
-                            <div>
-                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                    {{config('app.currency')}}
-                                    <span class="counter-value"
-                                          data-target="{{\App\Services\Balances\Balances::sommeSold('bfss_balances')}}">
-                                                      {{\App\Services\Balances\Balances::sommeSold('bfss_balances')}}</span>
-                                </h4>
-                            </div>
-                            <div class="avatar-sm flex-shrink-0">
-                                                        <span class=" bg-info-subtle rounded fs-3">
-                                                           <i class="ri-shopping-cart-2-line display-6  text-info"></i>
-                                                        </span>
-                            </div>
-                        </div>
-                    </div>
+
+            <div class="row g-4">
+                <!-- Secondary Stats Section -->
+                <div class="col-12">
+                    <h4 class="text-uppercase fw-bold text-muted mb-3 border-bottom border-3 border-secondary pb-2">
+                        <i class="ri-bar-chart-line me-2"></i>{{__('Additional Metrics')}}
+                    </h4>
                 </div>
-            </div>
-            <div class="col-xl-4 col-md-6">
-                <div class="card border border-muted card-animate">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-grow-1 overflow-hidden">
-                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
-                                    {{__('Discount Balance')}}
-                                </p>
+
+                <div class="col-xl-3 col-md-6">
+                    <article class="card border border-info border-opacity-25 shadow h-100 overflow-hidden rounded-3 hover-lift">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="avatar-md me-3">
+                                    <div class="avatar-title bg-info bg-opacity-10 text-info rounded-3 fs-2">
+                                        <i class="ri-message-line" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <p class="text-uppercase fw-semibold text-info mb-1 fs-7 lh-sm">
+                                        {{__('sms balance')}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="mt-3 pt-3 border-top border-info border-opacity-10">
+                                <h3 class="mb-0 fs-2 fw-bold text-dark">
+                                    {{\App\Services\Balances\Balances::sommeSold('sms_balances')}}
+                                </h3>
                             </div>
                         </div>
-                        <div class="d-flex align-items-end justify-content-between mt-4">
-                            <div>
-                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                    {{config('app.currency')}}
-                                    <span class="counter-value"
-                                          data-target="{{\App\Services\Balances\Balances::sommeSold('discount_balances')}}">
-                                                 {{\App\Services\Balances\Balances::sommeSold('discount_balances')}}</span>
-                                </h4>
-                            </div>
-                            <div class="avatar-sm flex-shrink-0">
-                                                        <span class=" bg-info-subtle rounded fs-3">
-                                                          <i class=" ri-percent-line display-6  text-info"></i>
-                                                        </span>
-                            </div>
-                        </div>
-                    </div>
+                    </article>
                 </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card border border-muted card-animate">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-grow-1 overflow-hidden">
-                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
-                                    {{__('sms balance')}}
-                                </p>
+
+                <div class="col-xl-3 col-md-6">
+                    <article class="card border border-danger border-opacity-25 shadow h-100 overflow-hidden rounded-3 hover-lift">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="avatar-md me-3">
+                                    <div class="avatar-title bg-danger bg-opacity-10 text-danger rounded-3 fs-2">
+                                        <i class="ri-stackshare-line" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <p class="text-uppercase fw-semibold text-danger mb-1 fs-7 lh-sm">
+                                        {{__('Shares Sold')}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="mt-3 pt-3 border-top border-danger border-opacity-10">
+                                <div class="d-flex align-items-baseline">
+                                    <h3 class="mb-0 fs-2 fw-bold text-dark me-2">
+                                        {{\App\Services\Balances\Balances::sommeSold('shares_balances')}}
+                                    </h3>
+                                    <small class="text-muted fw-semibold">{{config('app.currency')}}</small>
+                                </div>
                             </div>
                         </div>
-                        <div class="d-flex align-items-end justify-content-between mt-4">
-                            <div>
-                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                                <span class="counter-value"
-                                                      data-target="{{\App\Services\Balances\Balances::sommeSold('sms_balances')}}">
-                                                   {{\App\Services\Balances\Balances::sommeSold('sms_balances')}}</span>
-                                </h4>
-                            </div>
-                            <div class="avatar-sm flex-shrink-0">
-                                                        <span class=" bg-info-subtle rounded fs-3">
-                                                           <i class="ri-message-line display-6  text-info"></i>
-                                                        </span>
-                            </div>
-                        </div>
-                    </div>
+                    </article>
                 </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card border border-muted card-animate">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-grow-1 overflow-hidden">
-                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
-                                    {{__('Shares Sold')}}
-                                </p>
+
+                <div class="col-xl-3 col-md-6">
+                    <article class="card border border-secondary border-opacity-25 shadow h-100 overflow-hidden rounded-3 hover-lift">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="avatar-md me-3">
+                                    <div class="avatar-title bg-secondary bg-opacity-10 text-secondary rounded-3 fs-2">
+                                        <i class="ri-swap-line" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <p class="text-uppercase fw-semibold text-secondary mb-1 fs-7 lh-sm">
+                                        {{__('Shares Revenue')}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="mt-3 pt-3 border-top border-secondary border-opacity-10">
+                                <div class="d-flex align-items-baseline">
+                                    <h3 class="mb-0 fs-2 fw-bold text-dark me-2">
+                                        {{\App\Services\Balances\Balances::sommeSold('shares_balances','amount')}}
+                                    </h3>
+                                    <small class="text-muted fw-semibold">{{config('app.currency')}}</small>
+                                </div>
                             </div>
                         </div>
-                        <div class="d-flex align-items-end justify-content-between mt-4">
-                            <div>
-                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                    {{config('app.currency')}}
-                                    <span class="counter-value"
-                                          data-target="   {{\App\Services\Balances\Balances::sommeSold('shares_balances')}}">
-                                                       {{\App\Services\Balances\Balances::sommeSold('shares_balances')}}</span>
-                                </h4>
-                            </div>
-                            <div class="avatar-sm flex-shrink-0">
-                                                        <span class=" bg-info-subtle rounded fs-3">
-                                                            <i class="ri-stackshare-line display-6  text-info"></i>
-                                                        </span>
-                            </div>
-                        </div>
-                    </div>
+                    </article>
                 </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card border border-muted card-animate">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-grow-1 overflow-hidden">
-                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
-                                    {{__('Shares Revenue')}}
-                                </p>
+
+                <div class="col-xl-3 col-md-6">
+                    <article class="card border border-dark border-opacity-25 shadow h-100 overflow-hidden rounded-3 hover-lift">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="avatar-md me-3">
+                                    <div class="avatar-title bg-dark bg-opacity-10 text-dark rounded-3 fs-2">
+                                        <i class="ri-exchange-funds-line" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <p class="text-uppercase fw-semibold text-dark mb-1 fs-7 lh-sm">
+                                        {{__('Cash Flow')}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="mt-3 pt-3 border-top border-dark border-opacity-10">
+                                <div class="d-flex align-items-baseline">
+                                    <h3 class="mb-0 fs-2 fw-bold text-dark me-2">
+                                        {{floatval(\App\Services\Balances\Balances::sommeSold('shares_balances','amount')) + floatval(\App\Services\Balances\Balances::sommeSold('cash_balances'))}}
+                                    </h3>
+                                    <small class="text-muted fw-semibold">{{config('app.currency')}}</small>
+                                </div>
                             </div>
                         </div>
-                        <div class="d-flex align-items-end justify-content-between mt-4">
-                            <div>
-                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                    {{config('app.currency')}}
-                                    <span class="counter-value"
-                                          data-target=" {{\App\Services\Balances\Balances::sommeSold('shares_balances','amount')}}">
-                                                    {{\App\Services\Balances\Balances::sommeSold('shares_balances','amount')}}</span>
-                                </h4>
-                            </div>
-                            <div class="avatar-sm flex-shrink-0">
-                                                        <span class=" bg-info-subtle rounded fs-3">
-                                                        <i class="ri-swap-line display-6  text-info"></i>
-                                                        </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card border border-muted card-animate">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-grow-1 overflow-hidden">
-                                <p class="text-uppercase fw-medium  text-info text-truncate mb-0">
-                                    {{__('Cash Flow')}}
-                                </p>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-end justify-content-between mt-4">
-                            <div>
-                                <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                    {{config('app.currency')}}
-                                    <span class="counter-value"
-                                          data-target="{{\App\Services\Balances\Balances::sommeSold('shares_balances','amount')+\App\Services\Balances\Balances::sommeSold('cash_balances')}}">
-                                                    {{\App\Services\Balances\Balances::sommeSold('shares_balances','amount')+\App\Services\Balances\Balances::sommeSold('cash_balances')}}</span>
-                                </h4>
-                            </div>
-                            <div class="avatar-sm flex-shrink-0">
-                                                        <span class=" rounded fs-3">
-<i class="ri-exchange-funds-line display-6  text-info"></i>
-                                                        </span>
-                            </div>
-                        </div>
-                    </div>
+                    </article>
                 </div>
             </div>
         </div>
-        <div class="card-body table-responsive">
-            <table id="users-list"
-                   class="table table-striped table-bordered  display nowrap">
-                <thead class="table-light">
-                <tr class="head2earn  tabHeader2earn">
-                    <th>{{__('Details')}}</th>
-                    <th>{{__('created at')}}</th>
-                    <th>{{__('pays')}}</th>
-                    <th>{{__('Name')}}</th>
-                    <th>{{__('Mobile')}}</th>
-                    <th>{{__('Status')}}</th>
-                    <th>{{__('Soldes')}}</th>
-                    <th>{{__('Action')}}</th>
-                    <th>{{__('More details')}}</th>
-                    <th>{{__('VIP history')}}</th>
-                    <th>{{__('Password')}}</th>
-                    <th>{{__('Uplines')}}</th>
-                </tr>
-                </thead>
-                <tbody class="body2earn">
-                </tbody>
-            </table>
+
+        {{-- Users Table --}}
+        <div class="card-body">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="users-list" class="table table-striped table-bordered display nowrap" style="width: 100%">
+                                <thead class="table-light">
+                                <tr class="head2earn tabHeader2earn">
+                                    <th scope="col">{{__('Details')}}</th>
+                                    <th scope="col">{{__('created at')}}</th>
+                                    <th scope="col">{{__('pays')}}</th>
+                                    <th scope="col">{{__('Name')}}</th>
+                                    <th scope="col">{{__('Mobile')}}</th>
+                                    <th scope="col">{{__('Status')}}</th>
+                                    <th scope="col">{{__('Soldes')}}</th>
+                                    <th scope="col">{{__('Action')}}</th>
+                                    <th scope="col">{{__('More details')}}</th>
+                                    <th scope="col">{{__('VIP history')}}</th>
+                                    <th scope="col">{{__('Password')}}</th>
+                                    <th scope="col">{{__('Uplines')}}</th>
+                                </tr>
+                                </thead>
+                                <tbody class="body2earn">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
         </div>
-    </div>
-    <div class="modal fade" id="AddCash" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
+    </section>
+
+    {{-- Transfer Cash Modal --}}
+    <div class="modal fade" id="AddCash" tabindex="-1" aria-labelledby="AddCashModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Transfert Cash') }}</h5>
+                    <h2 class="modal-title h5" id="AddCashModalLabel">{{ __('Transfert Cash') }}</h2>
                     <button type="button" class="btn-close btn-vip-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                            aria-label="{{ __('Close') }}"></button>
                 </div>
                 <div class="modal-body">
                     <form action="javascript:void(0);">
                         <div class="row g-3">
-                            <div class="col-lg-12">
+                            <div class="col-12">
                                 <label class="form-label" for="userlist-phone">
                                     {{__('Phone')}}
                                 </label>
                                 <div class="input-group">
-                                        <span class="input-group-text">
-                                            <img id="userlist-country" class="avatar-xxs me-2"/></span>
-                                    <input type="text" class="form-control" disabled id="userlist-phone"
-                                           aria-describedby="basic-addon1">
+                                    <span class="input-group-text">
+                                        <img id="userlist-country"
+                                             class="avatar-xxs me-2"
+                                             src=""
+                                             alt="{{ __('Country flag') }}"
+                                             loading="lazy">
+                                    </span>
+                                    <input type="text"
+                                           class="form-control"
+                                           disabled
+                                           id="userlist-phone"
+                                           aria-describedby="userlist-phone-help">
                                 </div>
                             </div>
-                            <div class="col-lg-12">
+                            <div class="col-12">
                                 <input id="userlist-reciver" type="hidden">
-                                <div class="form-group">
-                                    <label class="form-label" for="ammount">
-                                        {{__('Amount')}}
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <div class="input-group">
-                                        <input type="number" class="form-control" id="ammount">
-                                        <span class="input-group-text"> {{config('app.currency')}}</span>
-                                    </div>
+                                <label class="form-label" for="ammount">
+                                    {{__('Amount')}}
+                                    <span class="text-danger" aria-label="{{ __('required') }}">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <input type="number"
+                                           class="form-control"
+                                           id="ammount"
+                                           required
+                                           min="0"
+                                           step="0.01"
+                                           aria-describedby="ammount-currency">
+                                    <span class="input-group-text" id="ammount-currency">{{config('app.currency')}}</span>
                                 </div>
                             </div>
-                            <div class="col-lg-12">
+                            <div class="col-12">
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-light"
                                             data-bs-dismiss="modal">{{ __('Cancel') }}
@@ -296,98 +339,41 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="updatePassword" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalgridLabel">{{ __('Update Password for') }}: <span
-                            class="text-warning mx-2"
-                            id="userIdMark"></span></h5>
-                    <button type="button" class="btn-close btn-vip-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="javascript:void(0);">
-                        <div class="row g-3">
 
-                            <div class="input-group mt-2">
-                                <div class="col-sm-12 col-md-12">
-                                    <label class="form-label">{{__('New Password')}}<span
-                                            class="text-danger">*</span></label>
-                                </div>
-                                <div class="col-sm-12 col-md-12">
-                                    <input type="password" class="form-control" id="updatePasswordInput">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-12 mt-2">
-                            <div class="hstack gap-2 justify-content-end">
-                                <button type="button" class="btn btn-light"
-                                        data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                                <button type="button" id="password-update-submit"
-                                        class="btn btn-soft-danger">{{ __('Update Password') }}</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="vip" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
+    {{-- Update Password Modal --}}
+    <div class="modal fade" id="updatePassword" tabindex="-1" aria-labelledby="updatePasswordModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalgridLabel">{{ __('VIP') }}</h5>
+                    <h2 class="modal-title h5" id="updatePasswordModalLabel">
+                        {{ __('Update Password for') }}:
+                        <span class="text-warning mx-2" id="userIdMark"></span>
+                    </h2>
                     <button type="button" class="btn-close btn-vip-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                            aria-label="{{ __('Close') }}"></button>
                 </div>
                 <div class="modal-body">
                     <form action="javascript:void(0);">
                         <div class="row g-3">
-                            <div class="col-sm-12 col-md-12">
-                                <div class="input-group">
-                                        <span class="input-group-text">
-                                            <img id="vip-country" class="avatar-xxs me-2"/></span>
-                                    <input type="text" class="form-control" disabled id="vip-phone"
-                                           aria-describedby="basic-addon1">
-                                </div>
+                            <div class="col-12">
+                                <label class="form-label" for="updatePasswordInput">
+                                    {{__('New Password')}}
+                                    <span class="text-danger" aria-label="{{ __('required') }}">*</span>
+                                </label>
+                                <input type="password"
+                                       class="form-control"
+                                       id="updatePasswordInput"
+                                       required
+                                       minlength="6"
+                                       autocomplete="new-password">
                             </div>
-                            <div class="col-sm-12 col-md-6">
-                                <div class="input-group mt-2">
-                                    <input id="vip-reciver" type="hidden">
-                                    <input type="hidden" id="created_at">
-                                    <label class="form-label">{{__('Minshares')}}<span
-                                            class="text-danger">*</span></label>
-                                    <input type="number" class="form-control-flash" id="minshares">
+                            <div class="col-12">
+                                <div class="hstack gap-2 justify-content-end">
+                                    <button type="button" class="btn btn-light"
+                                            data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                                    <button type="button" id="password-update-submit"
+                                            class="btn btn-soft-danger">{{ __('Update Password') }}</button>
                                 </div>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <div class="input-group mt-2">
-                                    <label class="form-label">{{__('Periode')}}<span
-                                            class="text-danger">*</span></label>
-                                    <input type="number" class="form-control-flash" id="periode">
-                                </div>
-                            </div>
-                            <div class="col-sm-12 col-md-12">
-                                <div class="input-group mt-2">
-                                    <label class="form-label">{{__('Coefficient')}}<span
-                                            class="text-danger">*</span></label>
-                                    <input type="number" class="form-control-flash" id="coefficient">
-                                </div>
-                            </div>
-                            <div class="col-sm-12 col-md-12">
-                                <div class="input-group mt-2">
-                                    <label class="form-label">{{__('Note')}}</label>
-                                    <textarea type="text" class="form-control-flash" id="note"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-12 mt-2">
-                            <div class="hstack gap-2 justify-content-end">
-                                <button type="button" class="btn btn-light"
-                                        data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                                <button type="button" id="vip-submit"
-                                        class="btn btn-flash">{{ __('Submit') }}</button>
                             </div>
                         </div>
                     </form>
@@ -395,30 +381,115 @@
             </div>
         </div>
     </div>
-    <div class="modal fade modal-xl" id="detail" tabindex="-1" aria-labelledby="exampleModalgridLabel"
-         aria-modal="true">
+
+    {{-- VIP Modal --}}
+    <div class="modal fade" id="vip" tabindex="-1" aria-labelledby="vipModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title text-info" id="modalTitle">{{ __('Transfert Cash') }}</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h2 class="modal-title h5" id="vipModalLabel">{{ __('VIP') }}</h2>
+                    <button type="button" class="btn-close btn-vip-close" data-bs-dismiss="modal"
+                            aria-label="{{ __('Close') }}"></button>
                 </div>
                 <div class="modal-body">
-                    <div class=" table-responsive">
+                    <form action="javascript:void(0);">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <img id="vip-country"
+                                             class="avatar-xxs me-2"
+                                             src=""
+                                             alt="{{ __('Country flag') }}"
+                                             loading="lazy">
+                                    </span>
+                                    <input type="text"
+                                           class="form-control"
+                                           disabled
+                                           id="vip-phone"
+                                           aria-describedby="vip-phone-help">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <input id="vip-reciver" type="hidden">
+                                <input type="hidden" id="created_at">
+                                <label class="form-label" for="minshares">
+                                    {{__('Minshares')}}
+                                    <span class="text-danger" aria-label="{{ __('required') }}">*</span>
+                                </label>
+                                <input type="number"
+                                       class="form-control-flash form-control"
+                                       id="minshares"
+                                       required
+                                       min="0">
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="periode">
+                                    {{__('Periode')}}
+                                    <span class="text-danger" aria-label="{{ __('required') }}">*</span>
+                                </label>
+                                <input type="number"
+                                       class="form-control-flash form-control"
+                                       id="periode"
+                                       required
+                                       min="0">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" for="coefficient">
+                                    {{__('Coefficient')}}
+                                    <span class="text-danger" aria-label="{{ __('required') }}">*</span>
+                                </label>
+                                <input type="number"
+                                       class="form-control-flash form-control"
+                                       id="coefficient"
+                                       required
+                                       min="0"
+                                       step="0.01">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" for="note">{{__('Note')}}</label>
+                                <textarea class="form-control-flash form-control"
+                                          id="note"
+                                          rows="3"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <div class="hstack gap-2 justify-content-end">
+                                    <button type="button" class="btn btn-light"
+                                            data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                                    <button type="button" id="vip-submit"
+                                            class="btn btn-flash">{{ __('Submit') }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Balance Details Modal --}}
+    <div class="modal fade modal-xl" id="detail" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title text-info h4" id="modalTitle">{{ __('Transfert Cash') }}</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
                         <input id="balances-reciver" type="hidden">
                         <input id="balances-amount" type="hidden">
-                        <table
-                            class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                            id="ub_table_list" style="width: 100%">
+                        <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                               id="ub_table_list" style="width: 100%">
                             <thead class="table-light">
-                            <tr class="head2earn  tabHeader2earn">
-                                <th>{{ __('ranks') }}</th>
-                                <th>{{ __('id') }}</th>
-                                <th>{{ __('ref') }}</th>
-                                <th>{{ __('date') }}</th>
-                                <th>{{ __('Operation Designation') }}</th>
-                                <th>{{ __('Value') }}</th>
-                                <th>{{ __('Balance') }}</th>
+                            <tr class="head2earn tabHeader2earn">
+                                <th scope="col">{{ __('ranks') }}</th>
+                                <th scope="col">{{ __('id') }}</th>
+                                <th scope="col">{{ __('ref') }}</th>
+                                <th scope="col">{{ __('date') }}</th>
+                                <th scope="col">{{ __('Operation Designation') }}</th>
+                                <th scope="col">{{ __('Value') }}</th>
+                                <th scope="col">{{ __('Balance') }}</th>
                             </tr>
                             </thead>
                             <tbody class="body2earn">
@@ -429,30 +500,30 @@
             </div>
         </div>
     </div>
-    <div class="modal fade modal-xl" id="detailsh" tabindex="-1" aria-labelledby="exampleModalgridLabel"
-         aria-modal="true">
+
+    {{-- Shares Balance Details Modal --}}
+    <div class="modal fade modal-xl" id="detailsh" tabindex="-1" aria-labelledby="detailshModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-info" id="exampleModalgridLabelsh">{{ __('Shares balances') }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h2 class="modal-title text-info h5" id="detailshModalLabel">{{ __('Shares balances') }}</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="card-body table-responsive">
+                    <div class="table-responsive">
                         <input id="balances-reciversh" type="hidden">
                         <input id="balances-amountsh" type="hidden">
-                        <table
-                            class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                            id="ub_table_listsh" style="width: 100%">
+                        <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                               id="ub_table_listsh" style="width: 100%">
                             <thead class="table-light">
-                            <tr class="head2earn  tabHeader2earn">
-                                <th>{{__('Reference')}}</th>
-                                <th>{{__('Created_at')}}</th>
-                                <th>{{__('Value')}}</th>
-                                <th>{{__('Real amount')}}</th>
-                                <th>{{__('Current balance')}}</th>
-                                <th>{{__('Unit price')}}</th>
-                                <th>{{__('Total amount')}}</th>
+                            <tr class="head2earn tabHeader2earn">
+                                <th scope="col">{{__('Reference')}}</th>
+                                <th scope="col">{{__('Created_at')}}</th>
+                                <th scope="col">{{__('Value')}}</th>
+                                <th scope="col">{{__('Real amount')}}</th>
+                                <th scope="col">{{__('Current balance')}}</th>
+                                <th scope="col">{{__('Unit price')}}</th>
+                                <th scope="col">{{__('Total amount')}}</th>
                             </tr>
                             </thead>
                             <tbody class="body2earn">
@@ -463,6 +534,7 @@
             </div>
         </div>
     </div>
+
     <script type="module">
         var ammount = 0;
 
@@ -728,7 +800,6 @@
                 "colReorder": false,
                 "orderCellsTop": true,
                 "fixedHeader": true,
-                "order": [[0, 'desc']],
                 "processing": true,
                 "serverSide": true,
                 "aLengthMenu": [[20, 100, 500, 1000], [20, 100, 500, 1000]],
@@ -750,7 +821,6 @@
                     {data: 'pass'},
                     {data: 'uplines'},
                 ],
-                "columnDefs": [{"targets": [10], searchable: true, visible: false},],
                 "language": {"url": urlLang}
             });
         });

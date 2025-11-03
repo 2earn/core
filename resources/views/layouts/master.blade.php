@@ -170,61 +170,65 @@
         var url = '';
     });
     document.addEventListener("DOMContentLoaded", function () {
-        $.ajax({
-            url: "{{ route('get_request_ajax') }}",
-            type: 'GET',
-            dataType: "json",
-            success: function (result) {
-                try {
-                    document.getElementById("NotificationRequest").innerHTML = "";
-                    var resultData = result.data;
+        const elementNotificationRequest = document.getElementById("yourElementId");
+        if (elementNotificationRequest) {
+            $.ajax({
+                url: "{{ route('get_request_ajax') }}",
+                type: 'GET',
+                headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
+                dataType: "json",
+                success: function (result) {
+                    try {
+                        document.getElementById("NotificationRequest").innerHTML = "";
+                        var resultData = result.data;
 
-                    if (resultData['requestInOpen'] > 0) {
-                        var tag = document.createElement("span");
-                        tag.id = "sideNotIn"
-                        tag.classList.add("badge")
-                        tag.classList.add("badge-pill")
-                        tag.style.backgroundColor = "#3fc3ee"
-                        var text = document.createTextNode(resultData['requestInOpen']);
-                        tag.appendChild(text);
-                        var element = document.getElementById("NotificationRequest");
-                        element.appendChild(tag);
+                        if (resultData['requestInOpen'] > 0) {
+                            var tag = document.createElement("span");
+                            tag.id = "sideNotIn"
+                            tag.classList.add("badge")
+                            tag.classList.add("badge-pill")
+                            tag.style.backgroundColor = "#3fc3ee"
+                            var text = document.createTextNode(resultData['requestInOpen']);
+                            tag.appendChild(text);
+                            var element = document.getElementById("NotificationRequest");
+                            element.appendChild(tag);
+                        }
+                        if (resultData['requestOutAccepted'] > 0) {
+                            var tag = document.createElement("span");
+                            tag.id = "sideNotOutAccepted"
+                            tag.classList.add("badge")
+                            tag.classList.add("badge-pill")
+                            tag.style.backgroundColor = "#198C48"
+                            var text = document.createTextNode(resultData['requestOutAccepted']);
+                            tag.appendChild(text);
+                            var element = document.getElementById("NotificationRequest");
+                            element.appendChild(tag);
+                        }
+                        if (resultData['requestOutRefused'] > 0) {
+                            var tag = document.createElement("span");
+                            tag.id = "sideNotOutRefused"
+                            tag.classList.add("badge")
+                            tag.classList.add("badge-pill")
+                            tag.style.backgroundColor = "#dc3741"
+                            var text = document.createTextNode(resultData['requestOutRefused']);
+                            tag.appendChild(text);
+                            var element = document.getElementById("NotificationRequest");
+                            element.appendChild(tag);
+                        }
+                    } catch (e) {
+                        console.error(e)
                     }
-                    if (resultData['requestOutAccepted'] > 0) {
-                        var tag = document.createElement("span");
-                        tag.id = "sideNotOutAccepted"
-                        tag.classList.add("badge")
-                        tag.classList.add("badge-pill")
-                        tag.style.backgroundColor = "#198C48"
-                        var text = document.createTextNode(resultData['requestOutAccepted']);
-                        tag.appendChild(text);
-                        var element = document.getElementById("NotificationRequest");
-                        element.appendChild(tag);
+                    try {
+                        var element = document.getElementById('SReqIn');
+                        if (typeof (element) != 'undefined' && element != null) {
+                            element.innerHTML = "";
+                        }
+                    } catch (e) {
+                        console.error(e)
                     }
-                    if (resultData['requestOutRefused'] > 0) {
-                        var tag = document.createElement("span");
-                        tag.id = "sideNotOutRefused"
-                        tag.classList.add("badge")
-                        tag.classList.add("badge-pill")
-                        tag.style.backgroundColor = "#dc3741"
-                        var text = document.createTextNode(resultData['requestOutRefused']);
-                        tag.appendChild(text);
-                        var element = document.getElementById("NotificationRequest");
-                        element.appendChild(tag);
-                    }
-                } catch (e) {
-                    console.error(e)
                 }
-                try {
-                    var element = document.getElementById('SReqIn');
-                    if (typeof (element) != 'undefined' && element != null) {
-                        element.innerHTML = "";
-                    }
-                } catch (e) {
-                    console.error(e)
-                }
-            }
-        });
+            });
+        }
     });
 </script>
 </body>
