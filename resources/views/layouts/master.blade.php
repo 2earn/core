@@ -70,7 +70,6 @@
                 'resources/anychart/anychart-table.min.js',
     ])
     <link rel="shortcut icon" href="{{ Vite::asset('resources/images/favicon.ico')}}">
-    @vite(['resources/css/menu-modals.css'])
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.all.min.js"></script>
     @include('layouts.vendor-scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
@@ -117,7 +116,7 @@
 <body>
 @section('body')
     @livewireScripts
-    @vite(['resources/css/select2.min.css','resources/css/dataTables.bootstrap.css','resources/css/material-components-web.min.css','resources/js/layout.js'])
+    @vite(['resources/css/menu-modals.css','resources/css/select2.min.css','resources/css/dataTables.bootstrap.css','resources/css/material-components-web.min.css','resources/js/layout.js'])
     @vite(['resources/css/intlTelInput.min.css','resources/fontawesome/all.min.css','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/intlTelInput.js'])
     <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PMK39HQQ"
