@@ -62,6 +62,7 @@ export default defineConfig({
                 'resources/js/intlTelInput.js',
                 'resources/js/turbo.js',
                 'resources/js/sweetalert2@11.js',
+                'resources/css/menumodals.css',
                 'resources/css/select2.min.css',
                 'resources/fontawesome/all.min.css',
                 'resources/css/intlTelInput.min.css',
