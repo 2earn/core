@@ -23,6 +23,7 @@ class CouponInjectorCreate extends Component
         'numberOfCoupons' => 'required|numeric|min:1|max:100',
         'category_id' => 'required',
         'attachment_date' => ['required', 'after_or_equal:today'],
+        'value' => 'required|numeric|min:0.01',
     ];
 
     public function mount()
