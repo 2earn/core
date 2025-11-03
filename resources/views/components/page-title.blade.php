@@ -73,7 +73,7 @@
             <span class="visually-hidden">{{ __('Menu') }}</span>
         </a>
     </nav>
-    <div class="menu-fade-container" id="user-menu-container">
+    <div class="menu-fade-container mb-2" id="user-menu-container">
         <div class="card border-0 shadow-lg mt-2">
             <div
                 class="card-header bg-gradient bg-primary text-white d-flex justify-content-between align-items-center py-2">
@@ -224,7 +224,7 @@
         </div>
     </div>
     @if(User::isSuperAdmin())
-        <div class="menu-fade-container" id="admin-menu-container">
+        <div class="menu-fade-container mb-2" id="admin-menu-container">
             <div class="card border-0 shadow-lg mt-2">
                 <div
                     class="card-header bg-gradient bg-danger text-white d-flex justify-content-between align-items-center py-2">

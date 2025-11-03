@@ -171,7 +171,7 @@ class Balances
             if ($var) {
                 $query->where('u.balance_operation_id', 20);
             }
-        }, 'a')->get(DB::raw('sum(value) as somme'))->pluck('somme')->first();
+        }, 'a')->get(DB::raw('sum(value) as somme'))->pluck('somme')->first() ?? 0;
     }
 
     public static function updateCalculatedHorisental($idUser, $type, $value)

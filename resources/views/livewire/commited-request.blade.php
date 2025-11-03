@@ -22,7 +22,8 @@
                                      alt="{{getUserDisplayedName($commitedRequest->user->idUser)}}"
                                      class="avatar-lg rounded-circle border border-3 border-light shadow-sm"
                                      onerror="this.src='{{asset('images/users/default-avatar.png')}}'"/>
-                                <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-light rounded-circle">
+                                <span
+                                    class="position-absolute bottom-0 end-0 p-1 bg-success border border-light rounded-circle">
                                     <span class="visually-hidden">{{__('Active')}}</span>
                                 </span>
                             </div>
@@ -37,16 +38,21 @@
                         </div>
 
                         <div class="border-top pt-3 mt-3">
-                            <div class="d-flex align-items-center mb-2">
-                                <i class="ri-phone-line text-primary me-2"></i>
-                                <span class="text-muted small">{{__('Phone')}}</span>
-                                <span class="ms-auto fw-medium">{{$commitedRequest->fullphone_number}}</span>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <i class="ri-calendar-line text-primary me-2"></i>
-                                <span class="text-muted small">{{__('Request Date')}}</span>
-                                <span class="ms-auto fw-medium">{{$commitedRequest->request_date}}</span>
-                            </div>
+
+                            @if($commitedRequest->fullphone_number)
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="ri-phone-line text-primary me-2"></i>
+                                    <span class="text-muted small">{{__('Phone')}}</span>
+                                    <span class="ms-auto fw-medium">{{$commitedRequest->fullphone_number}}</span>
+                                </div>
+                            @endif
+                            @if($commitedRequest->request_date)
+                                <div class="d-flex align-items-center">
+                                    <i class="ri-calendar-line text-primary me-2"></i>
+                                    <span class="text-muted small">{{__('Request Date')}}</span>
+                                    <span class="ms-auto fw-medium">{{$commitedRequest->request_date}}</span>
+                                </div>
+                            @endif
                         </div>
                     </div>
                     <div class="card-footer bg-transparent border-top-0">
