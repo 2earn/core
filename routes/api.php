@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\DealPartnerController;
 use App\Http\Controllers\Api\OrderSimulationController;
 use App\Http\Controllers\Api\PlatformPartnerController;
 use Illuminate\Http\Request;
@@ -111,5 +112,7 @@ Route::prefix('/partner/')->name('api_partner_')
     ->group(function () {
         Route::middleware(['check.url'])->group(function () {
             Route::apiResource('platforms', PlatformPartnerController::class)->except('destroy');
+            Route::apiResource('deals', DealPartnerController::class)->except('destroy');
+            Route::patch('deals/{deal}/status', [DealPartnerController::class, 'changeStatus'])->name('deals.change_status');
         });
     });
