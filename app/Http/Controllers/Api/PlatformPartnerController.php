@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 class PlatformPartnerController extends Controller
 {
     private const LOG_PREFIX = '[PlatformPartnerController] ';
-    private const PAGINATION_LIMIT = 10;
+    private const PAGINATION_LIMIT = 5;
 
     public function __construct()
     {
@@ -57,7 +57,6 @@ class PlatformPartnerController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'link' => 'required|url',
             'enabled' => 'required|boolean',
             'type' => 'required|string',
             'show_profile' => 'boolean',
@@ -86,15 +85,13 @@ class PlatformPartnerController extends Controller
         ], Response::HTTP_CREATED);
     }
 
-    public function show(Request $request)
+    public function show(Request $request, $platformId)
     {
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|integer|exists:users,id',
-            'platform_id' => 'required|integer|exists:platform,id'
+            'user_id' => 'required|integer|exists:users,id'
         ]);
 
         $userId = $request->input('user_id');
-        $platformId = $request->input('platform_id');
 
         if ($validator->fails()) {
             Log::error(self::LOG_PREFIX . 'Validation failed', ['errors' => $validator->errors()]);
@@ -105,10 +102,12 @@ class PlatformPartnerController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $platform = Platform::where('marketing_manager_id', $userId)
-            ->orWhere('financial_manager_id', $userId)
-            ->orWhere('owner_id', $userId)
-            ->andWhere('id', $platformId)
+        $platform = Platform::where('id', $platformId)
+            ->where(function ($q) use ($userId) {
+                $q->where('marketing_manager_id', $userId)
+                  ->orWhere('financial_manager_id', $userId)
+                  ->orWhere('owner_id', $userId);
+            })
             ->first();
 
         if (!$platform) {
