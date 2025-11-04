@@ -8,6 +8,7 @@ use App\Services\Orders\Ordering;
 use Core\Enum\OrderEnum;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -87,7 +88,7 @@ class OrderSimulationController extends Controller
                 'status' => 'Failed',
                 'message' => 'Validation failed',
                 'errors' => $validator->errors()
-            ], 422);
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         Log::info(self::LOG_PREFIX . 'Validation passed');
@@ -101,7 +102,7 @@ class OrderSimulationController extends Controller
                 return response()->json([
                     'status' => 'Failed',
                     'message' => 'Order status is not eligible for simulation.',
-                ], 423);
+                ], Response::HTTP_LOCKED);
             }
 
             $simulation = Ordering::simulate($order);
@@ -110,7 +111,7 @@ class OrderSimulationController extends Controller
                 return response()->json([
                     'status' => 'Failed',
                     'message' => 'Simulation Failed.',
-                ], 422);
+                ], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
             Ordering::run($simulation);
 
@@ -145,7 +146,7 @@ class OrderSimulationController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage()
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

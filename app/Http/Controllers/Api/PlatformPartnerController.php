@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 class PlatformPartnerController extends Controller
 {
     private const LOG_PREFIX = '[PlatformPartnerController] ';
+    private const PAGINATION_LIMIT = 10;
 
     public function __construct()
     {
@@ -21,10 +22,12 @@ class PlatformPartnerController extends Controller
     public function index(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|integer|exists:users,id'
+            'user_id' => 'required|integer|exists:users,id',
+            'page' => 'nullable|integer|min:1'
         ]);
 
         $userId = $request->input('user_id');
+        $page = $request->input('page', 1);
 
         if ($validator->fails()) {
             Log::error(self::LOG_PREFIX . 'Validation failed', ['errors' => $validator->errors()]);
@@ -32,17 +35,20 @@ class PlatformPartnerController extends Controller
                 'status' => 'Failed',
                 'message' => 'Validation failed',
                 'errors' => $validator->errors()
-            ], 422);
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $platforms = Platform::where('marketing_manager_id', $userId)
+        $query = Platform::where('marketing_manager_id', $userId)
             ->orWhere('financial_manager_id', $userId)
-            ->orWhere('owner_id', $userId)
-            ->paginate(10);
+            ->orWhere('owner_id', $userId);
+
+        $totalCount = $query->count();
+        $platforms = $query->paginate(self::PAGINATION_LIMIT, ['*'], 'page', $page);
 
         return response()->json([
             'status' => true,
-            'data' => $platforms
+            'data' => $platforms,
+            'total_platforms' => $totalCount
         ]);
     }
 
@@ -96,7 +102,7 @@ class PlatformPartnerController extends Controller
                 'status' => 'Failed',
                 'message' => 'Validation failed',
                 'errors' => $validator->errors()
-            ], 422);
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $platform = Platform::where('marketing_manager_id', $userId)
