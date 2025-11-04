@@ -206,4 +206,52 @@ class DealPartnerController extends Controller
             'data' => $deal
         ]);
     }
+
+    public function changeStatus(Request $request, Deal $deal)
+    {
+        $validator = Validator::make($request->all(), [
+            'status' => 'required|integer',
+            'user_id' => 'required|integer|exists:users,id'
+        ]);
+
+        if ($validator->fails()) {
+            Log::error(self::LOG_PREFIX . 'Deal status change validation failed', ['errors' => $validator->errors()]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $userId = $request->input('user_id');
+
+        // Check if user has permission through platform
+        $hasPermission = $deal->platform()
+            ->where(function ($query) use ($userId) {
+                $query->where('marketing_manager_id', $userId)
+                    ->orWhere('financial_manager_id', $userId)
+                    ->orWhere('owner_id', $userId);
+            })
+            ->exists();
+
+        if (!$hasPermission) {
+            Log::error(self::LOG_PREFIX . 'User does not have permission to change deal status', [
+                'deal_id' => $deal->id,
+                'user_id' => $userId
+            ]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'You do not have permission to change this deal status'
+            ], Response::HTTP_FORBIDDEN);
+        }
+
+        $deal->status = $request->input('status');
+        $deal->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Deal status updated successfully',
+            'data' => $deal
+        ]);
+    }
 }
