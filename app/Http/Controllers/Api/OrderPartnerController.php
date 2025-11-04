@@ -62,30 +62,18 @@ class OrderPartnerController extends Controller
     public function store(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'out_of_deal_amount' => 'required|numeric',
-            'deal_amount_before_discount' => 'required|numeric',
-            'total_order' => 'required|numeric',
-            'total_order_quantity' => 'required|integer',
-            'deal_amount_after_discounts' => 'required|numeric',
-            'amount_after_discount' => 'required|numeric',
-            'paid_cash' => 'required|numeric',
-            'commission_2_earn' => 'required|numeric',
-            'deal_amount_for_partner' => 'required|numeric',
-            'commission_for_camembert' => 'required|numeric',
-            'total_final_discount' => 'required|numeric',
-            'total_final_discount_percentage' => 'required|numeric',
-            'total_lost_discount' => 'required|numeric',
-            'total_lost_discount_percentage' => 'required|numeric',
             'note' => 'nullable|string',
-            'status' => 'required|string'
+            'user_id' => 'required|integer|exists:users,id',
+            'status' => 'string'
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
+        $userId = $request->input('user_id');
 
         $data = $validator->validated();
-        $data['user_id'] = Auth::id(); // Always use the authenticated user's ID
+        $data['user_id'] = $userId;
 
         $order = Order::create($data);
         return response()->json($order, Response::HTTP_CREATED);
@@ -132,9 +120,6 @@ class OrderPartnerController extends Controller
      */
     public function update(Request $request, Order $order): JsonResponse
     {
-        if ($order->user_id !== Auth::id()) {
-            return response()->json(['message' => 'Unauthorized'], Response::HTTP_FORBIDDEN);
-        }
 
         $validator = Validator::make($request->all(), [
             'out_of_deal_amount' => 'numeric',
@@ -152,11 +137,18 @@ class OrderPartnerController extends Controller
             'total_lost_discount' => 'numeric',
             'total_lost_discount_percentage' => 'numeric',
             'note' => 'nullable|string',
+            'user_id' => 'required|integer|exists:users,id',
             'status' => 'string'
         ]);
 
+        $userId = $request->input('user_id');
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], Response::HTTP_UNPROCESSABLE_ENTITY);
+            Log::error(self::LOG_PREFIX . 'Validation failed', ['errors' => $validator->errors()]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], \Illuminate\Http\Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $data = $validator->validated();
