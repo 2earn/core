@@ -48,7 +48,7 @@ class PlatformPartnerController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'link' => 'required|url',
@@ -62,7 +62,16 @@ class PlatformPartnerController extends Controller
             'business_sector_id' => 'nullable|exists:business_sectors,id'
         ]);
 
-        $platform = Platform::create($validated);
+        if ($validator->fails()) {
+            Log::error(self::LOG_PREFIX . 'Platform creation validation failed', ['errors' => $validator->errors()]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $platform = Platform::create($validator->validated());
 
         return response()->json([
             'status' => true,
@@ -71,8 +80,39 @@ class PlatformPartnerController extends Controller
         ], Response::HTTP_CREATED);
     }
 
-    public function show(Platform $platform)
+    public function show(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|integer|exists:users,id',
+            'platform_id' => 'required|integer|exists:platform,id'
+        ]);
+
+        $userId = $request->input('user_id');
+        $platformId = $request->input('platform_id');
+
+        if ($validator->fails()) {
+            Log::error(self::LOG_PREFIX . 'Validation failed', ['errors' => $validator->errors()]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $platform = Platform::where('marketing_manager_id', $userId)
+            ->orWhere('financial_manager_id', $userId)
+            ->orWhere('owner_id', $userId)
+            ->andWhere('id', $platformId)
+            ->first();
+
+        if (!$platform) {
+            Log::error(self::LOG_PREFIX . 'Platform not found', ['platform_id' => $platformId, 'user_id' => $userId]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Failed to fetch platform'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
         return response()->json([
             'status' => true,
             'data' => $platform
@@ -81,7 +121,7 @@ class PlatformPartnerController extends Controller
 
     public function update(Request $request, Platform $platform)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'sometimes|string|max:255',
             'description' => 'nullable|string',
             'link' => 'sometimes|url',
@@ -95,7 +135,16 @@ class PlatformPartnerController extends Controller
             'business_sector_id' => 'nullable|exists:business_sectors,id'
         ]);
 
-        $platform->update($validated);
+        if ($validator->fails()) {
+            Log::error(self::LOG_PREFIX . 'Platform update validation failed', ['errors' => $validator->errors()]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $platform->update($validator->validated());
 
         return response()->json([
             'status' => true,
