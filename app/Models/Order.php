@@ -30,8 +30,18 @@ class Order extends Model
         'user_id',
         'note',
         'status',
+        'simulation_datetime',
+        'simulation_result',
+        'simulation_details',
+        'payment_datetime',
+        'payment_result',
+        'payment_details',
     ];
-    protected $casts = ['status' => OrderEnum::class];
+    protected $casts = [
+        'status' => OrderEnum::class,
+        'simulation_result' => 'boolean',
+        'payment_result' => 'boolean',
+    ];
 
     public function OrderDetails(): HasMany
     {

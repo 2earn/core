@@ -13,10 +13,14 @@
         <div class="card-header">
             <h3>{{__('Order simulation')}}</h3>
         </div>
-        @if(!$this->simulation)
+        @if($order->simulation_datetime)
             <div class="card-body">
-                <div class="alert alert-warning material-shadow" role="alert">
-                    {{__('Simulation Error')}}
+                <div class="alert alert-warning material-shadow" t role="alert">
+                    <strong> {{__('Simulation Error')}} | {{__("At")}}
+                        :</strong> {{__($order->simulation_datetime->toDateTimeString())}}
+                    <hr>
+                    <strong>{{__("Details")}}:</strong> {{__($order->simulation_details)}}
+                    <br>
                 </div>
             </div>
         @endif
@@ -49,8 +53,18 @@
 
                     <button wire:click="cancelOrder()"
                             class="btn btn-soft-warning mx-2 float-end">{{__('Cancel Order')}}</button>
+
+
+                    <button wire:click="cancelOrder()"
+                            class="btn btn-soft-warning mx-2 float-end">{{__('Cancel Order')}}</button>
                 </div>
             @endif
+        @endif
+        @if(!$this->validated && !$this->simulation)
+            <div class="card-footer">
+                <a href="{{route('orders_simulation', ['locale' => app()->getLocale(), 'id' => $order->id])}}"
+                   class="btn btn-soft-primary mx-2 float-end">{{__('Re-run Simulation ')}}</a>
+            </div>
         @endif
     </div>
 </div>
