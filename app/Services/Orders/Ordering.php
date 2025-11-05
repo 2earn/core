@@ -85,8 +85,16 @@ class Ordering
         $orderTotal = $out_of_deal_amount + $deal_amount_before_discount;
 
         if ($orderTotal <= $balances->cash_balance + $balances->discount_balance + Balances::getTotalBfs($balances)) {
+            $order->update(['simulation_datetime' => now(), 'simulation_result' => true]);
             return true;
         }
+        $order->update(
+            [
+                'simulation_datetime' => now(),
+                'simulation_result' => false,
+                'simulation_details' => 'Simulation failed due to insufficient funds in the account balances'
+            ]
+        );
         return false;
     }
 
@@ -437,10 +445,22 @@ class Ordering
             Ordering::runPartition($simulation['order'], $simulation['order_deal']);
             DB::commit();
             $simulation['order']->user()->first()->notify(new OrderCompleted($simulation['order']));
+
+            $simulation['order']->update([
+                'payment_datetime' => now(),
+                'payment_result' => true,
+                'payment_details' => 'Payment successful'
+            ]);
+
             return $simulation['order']->updateStatus(OrderEnum::Dispatched);
 
         } catch (Exception $exception) {
             DB::rollBack();
+            $simulation['order']->update([
+                'payment_datetime' => now(),
+                'payment_result' => false,
+                'payment_details' => 'Payment failed: ' . $exception->getMessage()
+            ]);
             Log::error($exception->getMessage());
             return $simulation['order']->updateStatus(OrderEnum::Failed);
         }
