@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use Core\Enum\OrderEnum;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
@@ -62,9 +62,23 @@ class OrderPartnerController extends Controller
     public function store(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
+            'out_of_deal_amount' => 'nullable|numeric',
+            'deal_amount_before_discount' => 'nullable|numeric',
+            'total_order' => 'nullable|numeric',
+            'total_order_quantity' => 'nullable|integer',
+            'deal_amount_after_discounts' => 'nullable|numeric',
+            'amount_after_discount' => 'nullable|numeric',
+            'paid_cash' => 'nullable|numeric',
+            'commission_2_earn' => 'nullable|numeric',
+            'deal_amount_for_partner' => 'nullable|numeric',
+            'commission_for_camembert' => 'nullable|numeric',
+            'total_final_discount' => 'nullable|numeric',
+            'total_final_discount_percentage' => 'nullable|numeric',
+            'total_lost_discount' => 'nullable|numeric',
+            'total_lost_discount_percentage' => 'nullable|numeric',
             'note' => 'nullable|string',
             'user_id' => 'required|integer|exists:users,id',
-            'status' => 'string'
+            'status' => 'nullable|string'
         ]);
 
         if ($validator->fails()) {
@@ -74,6 +88,7 @@ class OrderPartnerController extends Controller
 
         $data = $validator->validated();
         $data['user_id'] = $userId;
+        $data['status'] = OrderEnum::New;
 
         $order = Order::create($data);
         return response()->json($order, Response::HTTP_CREATED);
@@ -118,30 +133,27 @@ class OrderPartnerController extends Controller
     /**
      * Update the specified order.
      */
-    public function update(Request $request, Order $order): JsonResponse
+    public function update(Request $request, $orderId): JsonResponse
     {
-
-        $validator = Validator::make($request->all(), [
-            'out_of_deal_amount' => 'numeric',
-            'deal_amount_before_discount' => 'numeric',
-            'total_order' => 'numeric',
-            'total_order_quantity' => 'integer',
-            'deal_amount_after_discounts' => 'numeric',
-            'amount_after_discount' => 'numeric',
-            'paid_cash' => 'numeric',
-            'commission_2_earn' => 'numeric',
-            'deal_amount_for_partner' => 'numeric',
-            'commission_for_camembert' => 'numeric',
-            'total_final_discount' => 'numeric',
-            'total_final_discount_percentage' => 'numeric',
-            'total_lost_discount' => 'numeric',
-            'total_lost_discount_percentage' => 'numeric',
+        $validator = Validator::make($request->all() + ['order_id' => $orderId], [
+            'order_id' => 'required|integer|exists:orders,id',
+            'out_of_deal_amount' => 'nullable|numeric',
+            'deal_amount_before_discount' => 'nullable|numeric',
+            'total_order' => 'nullable|numeric',
+            'total_order_quantity' => 'nullable|integer',
+            'deal_amount_after_discounts' => 'nullable|numeric',
+            'amount_after_discount' => 'nullable|numeric',
+            'paid_cash' => 'nullable|numeric',
+            'commission_2_earn' => 'nullable|numeric',
+            'deal_amount_for_partner' => 'nullable|numeric',
+            'commission_for_camembert' => 'nullable|numeric',
+            'total_final_discount' => 'nullable|numeric',
+            'total_final_discount_percentage' => 'nullable|numeric',
+            'total_lost_discount' => 'nullable|numeric',
+            'total_lost_discount_percentage' => 'nullable|numeric',
             'note' => 'nullable|string',
-            'user_id' => 'required|integer|exists:users,id',
-            'status' => 'string'
         ]);
 
-        $userId = $request->input('user_id');
         if ($validator->fails()) {
             Log::error(self::LOG_PREFIX . 'Validation failed', ['errors' => $validator->errors()]);
             return response()->json([
@@ -151,11 +163,26 @@ class OrderPartnerController extends Controller
             ], \Illuminate\Http\Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
+        $order = Order::find( $orderId) ;
+
+        if (!$order) {
+            Log::error(self::LOG_PREFIX . 'Order not found or does not belong to user',
+                ['order_id' => $orderId]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Order not found or access denied'
+            ], \Illuminate\Http\Response::HTTP_NOT_FOUND);
+        }
+
         $data = $validator->validated();
-        // Ensure user_id cannot be changed
+        unset($data['order_id']);
         unset($data['user_id']);
+        unset($data['status']);
 
         $order->update($data);
-        return response()->json($order);
+        return response()->json([
+            'status' => true,
+            'data' => $order
+        ]);
     }
 }
