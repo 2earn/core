@@ -38,7 +38,6 @@ class ItemsPartnerController extends Controller
         }
 
         $data = $request->all();
-        // Set default stock to 0 if not provided
         if (!isset($data['stock'])) {
             $data['stock'] = 0;
         }
