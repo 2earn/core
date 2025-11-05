@@ -3,6 +3,8 @@
 use App\Http\Controllers\Api\DealPartnerController;
 use App\Http\Controllers\Api\OrderSimulationController;
 use App\Http\Controllers\Api\PlatformPartnerController;
+use App\Http\Controllers\Api\OrderPartnerController;
+use App\Http\Controllers\Api\OrderDetailsPartnerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -113,6 +115,8 @@ Route::prefix('/partner/')->name('api_partner_')
         Route::middleware(['check.url'])->group(function () {
             Route::apiResource('platforms', PlatformPartnerController::class)->except('destroy');
             Route::apiResource('deals', DealPartnerController::class)->except('destroy');
+            Route::apiResource('orders', OrderPartnerController::class)->except('destroy');
+            Route::apiResource('order-details', OrderDetailsPartnerController::class)->only(['store', 'update']);
             Route::patch('deals/{deal}/status', [DealPartnerController::class, 'changeStatus'])->name('deals.change_status');
         });
     });

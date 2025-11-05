@@ -59,7 +59,7 @@ class DealPartnerController extends Controller
         return response()->json([
             'status' => true,
             'data' => $deals,
-            'total_deals' => $totalCount
+            'total' => $totalCount
         ]);
     }
 
