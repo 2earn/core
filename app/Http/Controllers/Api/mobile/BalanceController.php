@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 
 class BalanceController extends Controller
 {
-    private const LOG_PREFIX = '[DealPartnerController] ';
+    private const LOG_PREFIX = '[BalanceController] ';
 
     public function getBalances(Request $request): JsonResponse
     {
@@ -44,37 +44,6 @@ class BalanceController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to fetch balances',
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-    /**
-     * Update user balance
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function updateBalance(Request $request): JsonResponse
-    {
-        try {
-            $request->validate([
-                'amount' => 'required|numeric'
-            ]);
-
-            $user = auth()->user();
-            $user->balance = $request->amount;
-            $user->save();
-
-            return response()->json([
-                'success' => true,
-                'balance' => $user->balance,
-                'message' => 'Balance updated successfully'
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to update balance',
                 'error' => $e->getMessage()
             ], 500);
         }
