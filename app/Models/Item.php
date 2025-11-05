@@ -23,6 +23,11 @@ class Item extends Model
         'deal_id',
         'platform_id',
     ];
+
+    protected $attributes = [
+        'stock' => 0,
+    ];
+
     const IMAGE_TYPE_THUMBNAILS = 'thumbnails';
     const DEFAULT_IMAGE_TYPE_THUMB = 'resources/images/items/item-thumbnail.png';
 

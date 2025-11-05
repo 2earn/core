@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\OrderSimulationController;
 use App\Http\Controllers\Api\PlatformPartnerController;
 use App\Http\Controllers\Api\OrderPartnerController;
 use App\Http\Controllers\Api\OrderDetailsPartnerController;
+use App\Http\Controllers\Api\ItemsPartnerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -118,5 +119,7 @@ Route::prefix('/partner/')->name('api_partner_')
             Route::apiResource('orders', OrderPartnerController::class)->except('destroy');
             Route::apiResource('order-details', OrderDetailsPartnerController::class)->only(['store', 'update']);
             Route::patch('deals/{deal}/status', [DealPartnerController::class, 'changeStatus'])->name('deals.change_status');
+            Route::post('items', [ItemsPartnerController::class, 'store']);
+            Route::put('items/{id}', [ItemsPartnerController::class, 'update']);
         });
     });
