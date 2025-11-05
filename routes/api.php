@@ -1,10 +1,14 @@
 <?php
 
+use App\Http\Controllers\Api\DealPartnerController;
+use App\Http\Controllers\Api\OrderSimulationController;
+use App\Http\Controllers\Api\PlatformPartnerController;
+use App\Http\Controllers\Api\OrderPartnerController;
+use App\Http\Controllers\Api\OrderDetailsPartnerController;
+use App\Http\Controllers\Api\ItemsPartnerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
-use App\Http\Controllers\Api\OrderSimulationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,11 +85,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/api/coupon/delete', [App\Http\Controllers\CouponsController::class, 'deleteCoupon'])->name('api_delete_coupons');
         Route::post('/api/coupon/injector/delete', [App\Http\Controllers\VoucherController::class, 'deleteInjectorCoupon'])->name('api_delete_injector_coupons');
 
-        Route::get('/get-updated-card-content',  [App\Http\Controllers\UsersBalancesController::class, 'getUpdatedCardContent'])->name('get-updated-card-content');
+        Route::get('/get-updated-card-content', [App\Http\Controllers\UsersBalancesController::class, 'getUpdatedCardContent'])->name('get-updated-card-content');
 
         Route::post('/add-cash', [App\Http\Controllers\BalancesController::class, 'addCash'])->name('add_cash');
 
-        Route::post('/vip',  [App\Http\Controllers\VipController::class, 'create'])->name('vip');
+        Route::post('/vip', [App\Http\Controllers\VipController::class, 'create'])->name('vip');
 
         Route::post('/send-sms', [App\Http\Controllers\SmsController::class, 'sendSMS'])->name('send_sms');
 
@@ -96,6 +100,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('sankey', 'App\Http\Controllers\ApiController@getSankey')->name('API_sankey');
         Route::post('/paytabs/notification', 'App\Http\Controllers\ApiController@handlePaymentNotification')->name('notification_from_paytabs')->withoutMiddleware('web');
 
+
     });
 });
 
@@ -104,3 +109,17 @@ Route::post('/order/process', [OrderSimulationController::class, 'processOrder']
     ->withoutMiddleware([\App\Http\Middleware\Authenticate::class])
     ->middleware('check.url')
     ->name('api_ext_order_process');
+
+Route::prefix('/partner/')->name('api_partner_')
+    ->withoutMiddleware([\App\Http\Middleware\Authenticate::class])
+    ->group(function () {
+        Route::middleware(['check.url'])->group(function () {
+            Route::apiResource('platforms', PlatformPartnerController::class)->except('destroy');
+            Route::apiResource('deals', DealPartnerController::class)->except('destroy');
+            Route::apiResource('orders', OrderPartnerController::class)->except('destroy');
+            Route::apiResource('order-details', OrderDetailsPartnerController::class)->only(['store', 'update']);
+            Route::patch('deals/{deal}/status', [DealPartnerController::class, 'changeStatus'])->name('deals.change_status');
+            Route::post('items', [ItemsPartnerController::class, 'store']);
+            Route::put('items/{id}', [ItemsPartnerController::class, 'update']);
+        });
+    });
