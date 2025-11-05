@@ -185,4 +185,5 @@ class OrderPartnerController extends Controller
             'data' => $order
         ]);
     }
+
 }
