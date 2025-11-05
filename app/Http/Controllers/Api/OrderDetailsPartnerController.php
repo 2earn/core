@@ -71,7 +71,6 @@ class OrderDetailsPartnerController extends Controller
 
         $data = $request->all();
 
-        // Recalculate total amount if qty, unit_price, or shipping is changed
         if (isset($data['qty']) || isset($data['unit_price']) || isset($data['shipping'])) {
             $qty = $data['qty'] ?? $orderDetail->qty;
             $unitPrice = $data['unit_price'] ?? $orderDetail->unit_price;
