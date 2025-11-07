@@ -24,7 +24,8 @@ class DealPartnerController extends Controller
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|integer|exists:users,id',
             'platform_id' => 'nullable|integer|exists:platforms,id',
-            'page' => 'nullable|integer|min:1'
+            'page' => 'nullable|integer|min:1',
+            'search' => 'nullable|string|max:255'
         ]);
 
         if ($validator->fails()) {
@@ -39,19 +40,29 @@ class DealPartnerController extends Controller
         $userId = $request->input('user_id');
         $platformId = $request->input('business_sector_id');
         $page = $request->input('page');
+        $search = $request->input('search');
 
-        $query = Deal::with('platform')
-            ->whereHas('platform', function ($query) use ($userId, $platformId) {
-                $query->where(function ($q) use ($userId) {
-                    $q->where('marketing_manager_id', $userId)
-                        ->orWhere('financial_manager_id', $userId)
-                        ->orWhere('owner_id', $userId);
-                });
-
-                if ($platformId) {
-                    $query->where('platform_id', $platformId);
-                }
+        $query = Deal::with('platform');
+        if (!is_null($search) && $search !== '') {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                    ->orWhereHas('platform', function ($platformQuery) use ($search) {
+                        $platformQuery->where('name', 'like', '%' . $search . '%');
+                    });
             });
+        }
+        $query->whereHas('platform', function ($query) use ($userId, $platformId) {
+            $query->where(function ($q) use ($userId) {
+                $q->where('marketing_manager_id', $userId)
+                    ->orWhere('financial_manager_id', $userId)
+                    ->orWhere('owner_id', $userId);
+            });
+
+            if ($platformId) {
+                $query->where('platform_id', $platformId);
+            }
+        });
+
 
         $totalCount = $query->count();
 

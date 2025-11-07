@@ -23,11 +23,14 @@ class PlatformPartnerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|integer|exists:users,id',
-            'page' => 'nullable|integer|min:1'
+            'page' => 'nullable|integer|min:1',
+            'search' => 'nullable|string|max:255'
         ]);
 
         $userId = $request->input('user_id');
         $page = $request->input('page');
+        $search = $request->input('search');
+
         if ($validator->fails()) {
             Log::error(self::LOG_PREFIX . 'Validation failed', ['errors' => $validator->errors()]);
             return response()->json([
@@ -40,6 +43,10 @@ class PlatformPartnerController extends Controller
         $query = Platform::where('marketing_manager_id', $userId)
             ->orWhere('financial_manager_id', $userId)
             ->orWhere('owner_id', $userId);
+
+        if (!is_null($search) && $search !== '') {
+            $query->where('name', 'like', '%' . $search . '%');
+        }
 
         $totalCount = $query->count();
         $platforms = !is_null($page) ? $query->paginate(self::PAGINATION_LIMIT, ['*'], 'page', $page) : $query->get();
