@@ -23,11 +23,13 @@ class PlatformPartnerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|integer|exists:users,id',
-            'page' => 'nullable|integer|min:1'
+            'page' => 'nullable|integer|min:1',
+            'search' => 'nullable|string|max:255'
         ]);
 
         $userId = $request->input('user_id');
-        $page = $request->input('page', 1);
+        $page = $request->input('page');
+        $search = $request->input('search');
 
         if ($validator->fails()) {
             Log::error(self::LOG_PREFIX . 'Validation failed', ['errors' => $validator->errors()]);
@@ -42,8 +44,12 @@ class PlatformPartnerController extends Controller
             ->orWhere('financial_manager_id', $userId)
             ->orWhere('owner_id', $userId);
 
+        if (!is_null($search) && $search !== '') {
+            $query->where('name', 'like', '%' . $search . '%');
+        }
+
         $totalCount = $query->count();
-        $platforms = $query->paginate(self::PAGINATION_LIMIT, ['*'], 'page', $page);
+        $platforms = !is_null($page) ? $query->paginate(self::PAGINATION_LIMIT, ['*'], 'page', $page) : $query->get();
 
         return response()->json([
             'status' => true,
@@ -105,8 +111,8 @@ class PlatformPartnerController extends Controller
         $platform = Platform::where('id', $platformId)
             ->where(function ($q) use ($userId) {
                 $q->where('marketing_manager_id', $userId)
-                  ->orWhere('financial_manager_id', $userId)
-                  ->orWhere('owner_id', $userId);
+                    ->orWhere('financial_manager_id', $userId)
+                    ->orWhere('owner_id', $userId);
             })
             ->first();
 

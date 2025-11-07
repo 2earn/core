@@ -40,14 +40,14 @@ class OrderPartnerController extends Controller
 
         $userId = $request->input('user_id');
 
-        $page = $request->input('page', 1);
+        $page = $request->input('page');
 
-        $orders = Order::with(['user', 'OrderDetails'])
-            ->where('user_id', $userId)
-            ->paginate(self::PAGINATION_LIMIT, ['*'], 'page', $page);
+        $query = Order::with(['user', 'OrderDetails'])
+            ->where('user_id', $userId);
 
-        $totalCount = Order::with(['user', 'OrderDetails'])
-            ->where('user_id', $userId)->count();
+        $totalCount = $query->count();
+        $orders = !is_null($page) ? $query->paginate(self::PAGINATION_LIMIT, ['*'], 'page', $page) : $query->get();
+
 
         return response()->json([
             'status' => true,
@@ -163,7 +163,7 @@ class OrderPartnerController extends Controller
             ], \Illuminate\Http\Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $order = Order::find( $orderId) ;
+        $order = Order::find($orderId);
 
         if (!$order) {
             Log::error(self::LOG_PREFIX . 'Order not found or does not belong to user',
