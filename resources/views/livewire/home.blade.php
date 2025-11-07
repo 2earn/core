@@ -1,4 +1,7 @@
 <div class="{{getContainerType()}}">
+    @section('title')
+        {{ __('Home') }}
+    @endsection
     @component('components.breadcrumb')
         @slot('title')
             {{ __('Home') }}
