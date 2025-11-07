@@ -3,18 +3,17 @@
         {{ __('Trading') }}
     @endsection
     @component('components.breadcrumb')
-        @slot('li_1')@endslot
         @slot('title')
             {{ __('Trading') }}
         @endslot
     @endcomponent
-    <div class="row mb-3">
+    <div class="row mb-1">
         <div class="col-12">
             @include('layouts.flash-messages')
         </div>
     </div>
-    <div class="row g-3">
-        <div class="col-12">
+    <div class="row">
+        <div class="col-sm-12">
             <livewire:buy-shares/>
         </div>
         <div class="col-12">

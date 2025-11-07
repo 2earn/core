@@ -8,8 +8,7 @@
             {{ __('Be influencer') }}
         @endslot
     @endcomponent
-
-    <section class="row mt-2 g-3">
+    <div class="row">
         {{-- Tree Evolution Card --}}
         <div class="col-xxl-4 col-lg-6 col-md-6">
             <article class="card h-100 shadow-sm">
@@ -81,5 +80,5 @@
                 </div>
             </article>
         </div>
-    </section>
+    </div>
 </div>

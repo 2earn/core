@@ -15,7 +15,7 @@
                     }
                 }
 @endphp
-<div id="page-title-box" class="page-title-box my-2 p-1 px-3 rounded-3">
+<div id="page-title-box" class="col-12 page-title-box  my-2 p-1 px-3 rounded-3">
     <nav id="nav-breadcrumb" class="col d-flex align-items-center" aria-label="{{ __('Breadcrumb') }}">
         <ol class="breadcrumb m-0 flex-grow-1">
             <li class="breadcrumb-item">

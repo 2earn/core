@@ -5,7 +5,7 @@
         @endslot
     @endcomponent
     @include('layouts.flash-messages')
-    <div class="card shadow-sm">
+    <div class="row card shadow-sm">
         <div class="card-header bg-light border-bottom">
             <div class="row align-items-center g-3">
                 @if(\App\Models\User::isSuperAdmin())
