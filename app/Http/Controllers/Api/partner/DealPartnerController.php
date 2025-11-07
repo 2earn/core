@@ -38,14 +38,14 @@ class DealPartnerController extends Controller
 
         $userId = $request->input('user_id');
         $platformId = $request->input('business_sector_id');
-        $page = $request->input('page', 1);
+        $page = $request->input('page');
 
         $query = Deal::with('platform')
             ->whereHas('platform', function ($query) use ($userId, $platformId) {
                 $query->where(function ($q) use ($userId) {
                     $q->where('marketing_manager_id', $userId)
-                      ->orWhere('financial_manager_id', $userId)
-                      ->orWhere('owner_id', $userId);
+                        ->orWhere('financial_manager_id', $userId)
+                        ->orWhere('owner_id', $userId);
                 });
 
                 if ($platformId) {
@@ -54,7 +54,8 @@ class DealPartnerController extends Controller
             });
 
         $totalCount = $query->count();
-        $deals = $query->paginate(self::PAGINATION_LIMIT, ['*'], 'page', $page);
+
+        $deals = !is_null($page) ? $query->paginate(self::PAGINATION_LIMIT, ['*'], 'page', $page) : $query->get();
 
         return response()->json([
             'status' => true,
@@ -135,8 +136,8 @@ class DealPartnerController extends Controller
             ->whereHas('platform', function ($query) use ($userId) {
                 $query->where(function ($q) use ($userId) {
                     $q->where('marketing_manager_id', $userId)
-                      ->orWhere('financial_manager_id', $userId)
-                      ->orWhere('owner_id', $userId);
+                        ->orWhere('financial_manager_id', $userId)
+                        ->orWhere('owner_id', $userId);
                 });
             })
             ->first();

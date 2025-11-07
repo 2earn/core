@@ -27,8 +27,7 @@ class PlatformPartnerController extends Controller
         ]);
 
         $userId = $request->input('user_id');
-        $page = $request->input('page', 1);
-
+        $page = $request->input('page');
         if ($validator->fails()) {
             Log::error(self::LOG_PREFIX . 'Validation failed', ['errors' => $validator->errors()]);
             return response()->json([
@@ -43,7 +42,7 @@ class PlatformPartnerController extends Controller
             ->orWhere('owner_id', $userId);
 
         $totalCount = $query->count();
-        $platforms = $query->paginate(self::PAGINATION_LIMIT, ['*'], 'page', $page);
+        $platforms = !is_null($page) ? $query->paginate(self::PAGINATION_LIMIT, ['*'], 'page', $page) : $query->get();
 
         return response()->json([
             'status' => true,
@@ -105,8 +104,8 @@ class PlatformPartnerController extends Controller
         $platform = Platform::where('id', $platformId)
             ->where(function ($q) use ($userId) {
                 $q->where('marketing_manager_id', $userId)
-                  ->orWhere('financial_manager_id', $userId)
-                  ->orWhere('owner_id', $userId);
+                    ->orWhere('financial_manager_id', $userId)
+                    ->orWhere('owner_id', $userId);
             })
             ->first();
 
