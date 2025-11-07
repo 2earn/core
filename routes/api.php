@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\mobile\BalanceController;
+use App\Http\Controllers\Api\mobile\CashBalanceController;
 use App\Http\Controllers\Api\mobile\UserController;
 use App\Http\Controllers\Api\partner\DealPartnerController;
 use App\Http\Controllers\Api\partner\ItemsPartnerController;
@@ -133,5 +134,7 @@ Route::prefix('/mobile/')->name('api_mobile_')
         Route::middleware(['check.url'])->group(function () {
             Route::get('/balances', [BalanceController::class, 'getBalances']);
             Route::get('/user', [UserController::class, 'getUser']);
+            Route::post('/cash-balance', [CashBalanceController::class, 'store']);
+            Route::get('/cash-balance', [CashBalanceController::class, 'getCashBalance']);
         });
     });
