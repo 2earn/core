@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Lang;
+use App\Traits\HasAuditing;
 
 class Survey extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     const DELAY_AFTER_CLOSED = 10;
     const DELAY_AFTER_ARCHIVED = 100;

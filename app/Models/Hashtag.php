@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\TranslaleModel;
+use App\Traits\HasAuditing;
 
 class Hashtag extends Model
 {
+    use HasAuditing;
+
     protected $fillable = ['name', 'slug'];
 
     public function news()

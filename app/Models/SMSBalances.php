@@ -8,10 +8,11 @@ use Core\Models\BalanceOperation;
 use Core\Models\Platform;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class SMSBalances extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $table = 'sms_balances';
 

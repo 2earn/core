@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class TranslaleModel extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $fillable = ['name', 'value', 'valueFr', 'valueEn', 'valueTr', 'valueEs', 'valueRu', 'valueDe'];
 

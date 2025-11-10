@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class vip extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $table = 'vip';
     public $timestamps = false;

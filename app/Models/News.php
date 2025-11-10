@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasAuditing;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,7 +10,7 @@ class News extends Model
 {
     const IMAGE_TYPE_MAIN = 'main';
 
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $fillable = ['title', 'enabled', 'content', 'published_at'];
     protected $casts = ['published_at' => 'datetime'];

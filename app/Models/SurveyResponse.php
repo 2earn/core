@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class SurveyResponse extends Model
 {
@@ -12,7 +13,7 @@ class SurveyResponse extends Model
         'user_id',
     ];
 
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     public function survey()
     {

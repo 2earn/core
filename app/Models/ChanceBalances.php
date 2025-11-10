@@ -7,10 +7,11 @@ use App\Services\Balances\Balances;
 use Core\Models\BalanceOperation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class ChanceBalances extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $fillable = [
         'value',

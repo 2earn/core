@@ -7,10 +7,11 @@ use App\Services\Balances\Balances;
 use Core\Models\Platform;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class BFSsBalances extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $table = 'bfss_balances';
 

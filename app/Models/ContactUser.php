@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class ContactUser extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $table = 'contact_users';
     public $timestamps = true;
