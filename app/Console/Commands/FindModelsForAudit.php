@@ -1,0 +1,231 @@
+<?php
+
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
+
+class FindModelsForAudit extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'auditing:find-models {--missing : Show only models missing the trait}';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Find all models and check which ones have the HasAuditing trait';
+
+    /**
+     * Tables that need auditing
+     *
+     * @var array
+     */
+    protected $auditingTables = [
+        'user_contacts' => 'UserContact',
+        'vip' => 'vip',
+        'user_earns' => 'user_earn',
+        'user_balances' => 'user_balance',
+        'usercontactnumber' => 'UserContactNumber',
+        'translatetab' => 'translatetabs',
+        'transactions' => null,
+        'targetables' => null,
+        'states' => null,
+        'sms_balances' => 'SMSBalances',
+        'settings' => 'Setting',
+        'role_has_permissions' => null,
+        'roles' => null,
+        'representatives' => null,
+        'pool' => 'Pool',
+        'platforms' => 'Platform',
+        'metta_users' => 'metta_user',
+        'financial_request' => 'FinancialRequest',
+        'detail_financial_request' => 'detail_financial_request',
+        'countries' => 'countrie',
+        'balance_operations' => 'BalanceOperation',
+    ];
+
+    /**
+     * Execute the console command.
+     */
+    public function handle()
+    {
+        $this->info('=== Scanning Models for HasAuditing Trait ===');
+        $this->newLine();
+
+        $results = [
+            'app' => $this->scanDirectory(app_path('Models'), 'App\\Models'),
+            'core' => $this->scanDirectory(base_path('Core/Models'), 'Core\\Models'),
+        ];
+
+        $showMissingOnly = $this->option('missing');
+
+        // Display App\Models
+        $this->info('📁 App\Models Directory:');
+        $this->displayResults($results['app'], $showMissingOnly);
+        $this->newLine();
+
+        // Display Core\Models
+        $this->info('📁 Core\Models Directory:');
+        $this->displayResults($results['core'], $showMissingOnly);
+        $this->newLine();
+
+        // Summary
+        $totalApp = count($results['app']);
+        $withTraitApp = count(array_filter($results['app'], fn($r) => $r['has_trait']));
+        $totalCore = count($results['core']);
+        $withTraitCore = count(array_filter($results['core'], fn($r) => $r['has_trait']));
+
+        $this->info('📊 Summary:');
+        $this->line("  App\\Models: {$withTraitApp}/{$totalApp} models have HasAuditing trait");
+        $this->line("  Core\\Models: {$withTraitCore}/{$totalCore} models have HasAuditing trait");
+        $this->line("  Total: " . ($withTraitApp + $withTraitCore) . "/" . ($totalApp + $totalCore) . " models");
+
+        $this->newLine();
+
+        // Show tables without models
+        $this->info('📋 Tables Without Models:');
+        $missingModels = array_filter($this->auditingTables, fn($model) => $model === null);
+        if (!empty($missingModels)) {
+            foreach (array_keys($missingModels) as $table) {
+                $this->line("  ⚠️  {$table} - No model found (may be package-managed)");
+            }
+        } else {
+            $this->line('  ✅ All auditing tables have models');
+        }
+
+        $this->newLine();
+        $this->comment('Tip: Use --missing flag to show only models without the trait');
+        $this->comment('Example: php artisan auditing:find-models --missing');
+
+        return 0;
+    }
+
+    /**
+     * Scan a directory for models
+     *
+     * @param string $path
+     * @param string $namespace
+     * @return array
+     */
+    protected function scanDirectory($path, $namespace)
+    {
+        $results = [];
+
+        if (!File::exists($path)) {
+            return $results;
+        }
+
+        $files = File::files($path);
+
+        foreach ($files as $file) {
+            $filename = $file->getFilename();
+            $modelName = pathinfo($filename, PATHINFO_FILENAME);
+            $className = $namespace . '\\' . $modelName;
+
+            try {
+                // Suppress errors during class loading
+                if (@class_exists($className, false) || @class_exists($className)) {
+                    $reflection = new \ReflectionClass($className);
+
+                    // Check if it's actually a model
+                    if (!$reflection->isSubclassOf('Illuminate\Database\Eloquent\Model')) {
+                        continue;
+                    }
+
+                    $traits = $this->getAllTraits($reflection);
+                    $hasTrait = in_array('App\Traits\HasAuditing', $traits);
+                    $hasTimestamps = $this->checkTimestamps($reflection);
+
+                    $results[$modelName] = [
+                        'class' => $className,
+                        'file' => $filename,
+                        'has_trait' => $hasTrait,
+                        'timestamps' => $hasTimestamps,
+                    ];
+                }
+            } catch (\Throwable $e) {
+                // Skip problematic classes silently
+                continue;
+            }
+        }
+
+        return $results;
+    }
+
+    /**
+     * Get all traits used by a class including parent classes
+     *
+     * @param \ReflectionClass $class
+     * @return array
+     */
+    protected function getAllTraits(\ReflectionClass $class)
+    {
+        $traits = [];
+
+        do {
+            $traits = array_merge($traits, $class->getTraitNames());
+        } while ($class = $class->getParentClass());
+
+        return array_unique($traits);
+    }
+
+    /**
+     * Check if timestamps are enabled in the model
+     *
+     * @param \ReflectionClass $reflection
+     * @return string
+     */
+    protected function checkTimestamps(\ReflectionClass $reflection)
+    {
+        try {
+            if ($reflection->hasProperty('timestamps')) {
+                $property = $reflection->getProperty('timestamps');
+                $property->setAccessible(true);
+                $instance = $reflection->newInstanceWithoutConstructor();
+                $value = $property->getValue($instance);
+                return $value ? 'enabled' : 'disabled';
+            }
+        } catch (\Throwable $e) {
+            // Could not determine
+        }
+
+        return 'unknown';
+    }
+
+    /**
+     * Display results in a formatted way
+     *
+     * @param array $results
+     * @param bool $showMissingOnly
+     */
+    protected function displayResults($results, $showMissingOnly)
+    {
+        if (empty($results)) {
+            $this->line('  No models found');
+            return;
+        }
+
+        foreach ($results as $modelName => $info) {
+            if ($showMissingOnly && $info['has_trait']) {
+                continue;
+            }
+
+            $icon = $info['has_trait'] ? '✅' : '❌';
+            $timestampInfo = $info['timestamps'] === 'enabled' ? 'TS:✓' :
+                           ($info['timestamps'] === 'disabled' ? 'TS:✗' : 'TS:?');
+
+            if ($info['has_trait']) {
+                $this->line("  {$icon} <info>{$modelName}</info> [{$timestampInfo}]");
+            } else {
+                $this->line("  {$icon} <comment>{$modelName}</comment> [{$timestampInfo}] - Missing HasAuditing trait");
+            }
+        }
+    }
+}
+
