@@ -8,10 +8,11 @@ use Core\Models\BalanceOperation;
 use Core\Models\Platform;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class SMSBalances extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $table = 'sms_balances';
 
@@ -27,6 +28,8 @@ class SMSBalances extends Model
         'beneficiary_id',
         'operator_id',
         'order_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function deal()

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class Image extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $table = 'images';
 
@@ -22,7 +23,9 @@ class Image extends Model
 
     protected $fillable = [
         'type',
-        'url'
+        'url',
+        'created_by',
+        'updated_by',
     ];
 
     public static function validateImage($image)

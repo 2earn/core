@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="{{getContainerType()}}">
     @section('title')
         {{ __('Shares Sold : market status') }}
     @endsection
@@ -16,6 +16,7 @@
                            class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
                         <thead class="table-light">
                         <tr class="head2earn  tabHeader2earn">
+                            <th>{{__('Details')}}</th>
                             <th>{{__('Date transaction')}}</th>
                             <th>{{__('Country')}}</th>
                             <th>{{__('mobile')}}</th>
@@ -90,6 +91,7 @@
             $('#shares-sold').DataTable(
                 {
                     "order": [[0, "desc"]],
+                    responsive: true,
                     retrieve: true,
                     dom: 'Bfrtip',
                     buttons: [
@@ -114,6 +116,7 @@
                             loadDatatableModalError('shares-sold')
                         }                    },
                     "columns": [
+                        datatableControlBtn,
                         {data: 'created_at'},
                         {data: 'flag'},
                         {data: 'mobile'},

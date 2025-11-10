@@ -181,22 +181,9 @@ class SurveyIndex extends Component
         $duplicate->created_at = now();
         $duplicate->updated_at = now();
         $duplicate->save();
-        $translations = ['name', 'description'];
 
-        foreach ($translations as $translation) {
-            TranslaleModel::create(
-                [
-                    'name' => TranslaleModel::getTranslateName($duplicate, $translation),
-                    'value' => $duplicate->{$translation} . ' AR',
-                    'valueFr' => $duplicate->{$translation} . ' FR',
-                    'valueEn' => $duplicate->{$translation} . ' EN',
-                    'valueTr' => $duplicate->{$translation} . ' TR',
-                    'valueEs' => $duplicate->{$translation} . ' ES',
-                    'valueRu' => $duplicate->{$translation} . ' Ru',
-                    'valueDe' => $duplicate->{$translation} . ' De',
-                ]);
-        }
-
+        createTranslaleModel($duplicate, 'name', $duplicate->name);
+        createTranslaleModel($duplicate, 'description', $duplicate->description);
 
         if ($duplicate->targets->isEmpty()) {
             $duplicate->targets()->attach([$original->targets->first()]);
@@ -208,17 +195,7 @@ class SurveyIndex extends Component
         $duplicateQuestion->content = $originalQuestion->content;
         $duplicateQuestion->save();
 
-        TranslaleModel::create(
-            [
-                'name' => TranslaleModel::getTranslateName($duplicateQuestion, 'content'),
-                'value' => $duplicateQuestion->content . ' AR',
-                'valueFr' => $duplicateQuestion->content . ' FR',
-                'valueEn' => $duplicateQuestion->content . ' EN',
-                'valueEs' => $duplicateQuestion->content . ' ES',
-                'valueTr' => $duplicateQuestion->content . ' Tr',
-                'valueRu' => $duplicateQuestion->content . ' RU',
-                'valueDe' => $duplicateQuestion->content . ' DE',
-            ]);
+        createTranslaleModel($duplicateQuestion, 'content', $duplicateQuestion->content);
 
         $originalQuestionChoices = $originalQuestion->serveyQuestionChoice()->get();
         foreach ($originalQuestionChoices as $originalQuestionChoice) {
@@ -226,17 +203,7 @@ class SurveyIndex extends Component
             $duplicateQuestionChoice->title = $originalQuestionChoice->title;
             $duplicateQuestionChoice->question_id = $duplicateQuestion->id;
             $duplicateQuestionChoice->save();
-            TranslaleModel::create(
-                [
-                    'name' => TranslaleModel::getTranslateName($duplicateQuestionChoice, 'title'),
-                    'value' => $duplicateQuestionChoice->title . ' AR',
-                    'valueFr' => $duplicateQuestionChoice->title . ' FR',
-                    'valueEn' => $duplicateQuestionChoice->title . ' EN',
-                    'valueEs' => $duplicateQuestionChoice->title . ' ES',
-                    'valueTr' => $duplicateQuestionChoice->title . ' Tr',
-                    'valueRu' => $duplicateQuestionChoice->title . ' Ru',
-                    'valueDe' => $duplicateQuestionChoice->title . ' De',
-                ]);
+            createTranslaleModel($duplicateQuestionChoice, 'title', $duplicateQuestionChoice->title);
         }
 
         $this->routeRedirectionParams = ['locale' => app()->getLocale(), 'idSurvey' => $duplicate->id];

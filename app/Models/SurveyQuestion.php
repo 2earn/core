@@ -4,16 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class SurveyQuestion extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $fillable = [
         'content',
         'selection',
         'maxResponse',
         'survey_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function serveyQuestionChoice()

@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use App\Models\Event;
 use App\Models\Hashtag;
-use App\Models\TranslaleModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -46,6 +45,9 @@ class EventCreateUpdate extends Component
             $this->update = true;
             $this->edit($this->idEvent);
         } else {
+            $this->published_at = date('Y-m-d\TH:i');
+            $this->start_at = date('Y-m-d\TH:i');
+            $this->end_at = date('Y-m-d\TH:i');
             $this->update = false;
             $this->enabled = false;
         }
@@ -103,19 +105,11 @@ class EventCreateUpdate extends Component
                 $event = Event::create($data);
                 $this->idEvent = $event->id;
                 $event->hashtags()->sync($this->selectedHashtags);
-                $translations = ['title', 'content','location'];
-                foreach ($translations as $translation) {
-                    TranslaleModel::create([
-                        'name' => TranslaleModel::getTranslateName($event, $translation),
-                        'value' => $this->{$translation} . ' AR',
-                        'valueFr' => $this->{$translation} . ' FR',
-                        'valueEn' => $this->{$translation} . ' EN',
-                        'valueTr' => $this->{$translation} . ' TR',
-                        'valueEs' => $this->{$translation} . ' ES',
-                        'valueRu' => $this->{$translation} . ' Ru',
-                        'valueDe' => $this->{$translation} . ' De',
-                    ]);
-                }
+
+                createTranslaleModel($event, 'title', $this->title);
+                createTranslaleModel($event, 'content', $this->content);
+                createTranslaleModel($event, 'location', $this->location);
+
                 if ($this->mainImage) {
                     $imagePath = $this->mainImage->store('events/' . Event::IMAGE_TYPE_MAIN, 'public2');
                     $event->mainImage()->create([

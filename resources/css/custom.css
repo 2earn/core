@@ -41,7 +41,7 @@
     color: red !important
 }
 
-.logoTopCash span, .page-title-box, #buy-action .logoTopCashLabel p {
+.logoTopCash span, #buy-action .logoTopCashLabel p {
     background-color: #464fed !important;
     color: #464fed !important;
 }
@@ -54,11 +54,11 @@
     color: red !important
 }
 
-.logoTopCash span, .page-title-box {
+.logoTopCash span {
     background-color: #464fed !important;
 }
 
-.logoTopCashDanger span, .page-title-box {
+.logoTopCashDanger span {
     background-color: red !important
 }
 
@@ -80,10 +80,6 @@
 
 .logoTopDBLabel a, .logoTopDBLabel h5, [data-layout-mode=dark] .logoTopDB span > i {
     color: #009fe3 !important
-}
-
-[data-layout-mode=dark] .page-title-box {
-    background-color: #3c4257 !important
 }
 
 [data-layout-mode=dark] .logoTopBFS span, [data-layout-mode=dark] .logoTopCash span, [data-layout-mode=dark] .logoTopDB span {
@@ -175,9 +171,8 @@ input[type=range]::-ms-fill-upper {
 }
 
 .footer.master {
-    position: absolute;
+    position: relative;
     bottom: 0;
-    height: 80px
 }
 
 .footer.login, .footer.register {

@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="{{getContainerType()}}">
 @section('title')
         {{ __('Soft skill') }}
     @endsection

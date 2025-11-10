@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class OrderDetail extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $fillable = [
         'qty',
@@ -33,6 +34,8 @@ class OrderDetail extends Model
         'item_id',
 
         'note',
+        'created_by',
+        'updated_by',
     ];
 
     public function item()

@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="{{getContainerType()}}">
     <div>
         <div>
             <div class="row">

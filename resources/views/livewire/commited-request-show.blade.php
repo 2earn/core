@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="{{getContainerType()}}">
     @section('title')
         {{ __('Committed investor request examination') }}
     @endsection

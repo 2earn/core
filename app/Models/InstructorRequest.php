@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class InstructorRequest extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $fillable = [
         'status',
@@ -15,7 +16,9 @@ class InstructorRequest extends Model
         'request_date',
         'examination_date',
         'user_id',
-        'examiner_id'
+        'examiner_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function user()

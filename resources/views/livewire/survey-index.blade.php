@@ -1,4 +1,4 @@
-<div>
+<div class="{{getContainerType()}}">
     @if($currentRouteName=="surveys_index")
         @component('components.breadcrumb')
             @slot('title')

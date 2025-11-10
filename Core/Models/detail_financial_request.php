@@ -4,14 +4,23 @@ namespace Core\Models;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class detail_financial_request extends Model
 {
+    use HasAuditing;
+
     protected $table = 'detail_financial_request';
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
-        'response', 'dateResponse'
+        'numeroRequest',
+        'idUser',
+        'response',
+        'dateResponse',
+        'vu',
+        'created_by',
+        'updated_by',
     ];
 
     public function FinancialRequest()

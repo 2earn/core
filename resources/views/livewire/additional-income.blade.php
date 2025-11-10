@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="{{getContainerType()}}">
     @section('title')
         {{ __('Additional income') }}
     @endsection
@@ -8,244 +8,314 @@
             {{ __('Additional income') }}
         @endslot
     @endcomponent
+
     <div class="row">
         <div class="col-12">
             @include('layouts.flash-messages')
         </div>
     </div>
-    <div class="card">
+
+    {{-- Committed Investor Section --}}
+    <article class="card">
         <div class="card-body">
-            <div class="row mt-2">
-                <div class="col-sm-12 col-md-3 col-lg-3 d-flex align-items-center justify-content-center">
-                    <img src="{{ Vite::asset('resources/images/logos/2earn.png') }}" alt="logo 2earn"
-                         class="d-block img-fluid img-business mx-auto rounded float-left">
+            <div class="row mt-2 align-items-center">
+                <div class="col-sm-12 col-md-3 col-lg-3 text-center mb-3 mb-md-0">
+                    <img src="{{ Vite::asset('resources/images/logos/2earn.png') }}"
+                         alt="2Earn Logo"
+                         class="img-fluid img-business rounded"
+                         loading="lazy">
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-6 my-2">
-                    <div
-                        class="form-check form-switch form-switch-lg  form-switch-success d-block img-fluid text-center mx-auto">
-                        <input type="checkbox" class="form-check-input" wire:model.live="isCommitedInvestor"
-                               wire:click="sendCommitedInvestorRequest()" id="be_commited_investor"
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="form-check form-switch form-switch-lg form-switch-success text-center mb-3">
+                        <input type="checkbox"
+                               class="form-check-input"
+                               wire:model.live="isCommitedInvestor"
+                               wire:click="sendCommitedInvestorRequest()"
+                               id="be_committed_investor"
+                               aria-describedby="committed_investor_status"
                                @if($isCommitedInvestorDisabled) disabled @endif>
-                        <label class="form-check-label"
-                               for="be_commited_investor">{{__('Be commited Investor')}}</label>
-
+                        <label class="form-check-label" for="be_committed_investor">
+                            {{ __('Be committed Investor') }}
+                        </label>
                     </div>
-                    <br>
-                    @if(auth()->user()->commited_investor)
-                        <div class="alert alert-success material-shadow text-center" role="alert">
-                            {{__('You are committed investor')}}
-                        </div>
-                    @else
-                        @if($soldesAction >= $beCommitedInvestorMinActions)
-                            @if(is_null($lastCommittedInvestorRequest)||$lastCommittedInvestorRequest?->status == \Core\Enum\RequestStatus::Rejected->value)
+
+                    <div id="committed_investor_status">
+                        @if(auth()->user()->commited_investor)
+                            <div class="alert alert-success material-shadow text-center" role="status">
+                                <strong>✓</strong> {{ __('You are committed investor') }}
+                            </div>
+                        @else
+                            @if($soldesAction >= $beCommitedInvestorMinActions)
+                                @if(is_null($lastCommittedInvestorRequest) || $lastCommittedInvestorRequest?->status == \Core\Enum\RequestStatus::Rejected->value)
+                                    <div class="alert alert-danger material-shadow text-center" role="alert">
+                                        <p class="mb-2">{{ __('To benefit from this privilege please activate the option') }}</p>
+                                        @if(!is_null($lastCommittedInvestorRequest))
+                                            @if(!is_null($lastCommittedInvestorRequest?->note) || $lastCommittedInvestorRequest?->status == \Core\Enum\RequestStatus::Rejected->value)
+                                                <hr>
+                                                <small class="d-block mt-2">
+                                                    <strong>{{ __('Latest request rejection reason') }}:</strong>
+                                                    {{ $lastCommittedInvestorRequest?->note }}
+                                                </small>
+                                            @endif
+                                        @endif
+                                    </div>
+                                @endif
+
+                                @if($lastCommittedInvestorRequest?->status == \Core\Enum\RequestStatus::InProgress->value)
+                                    <div class="alert alert-warning material-shadow text-center" role="status">
+                                        <strong>⏳</strong> {{ __('Your request is currently being processed...') }}
+                                    </div>
+                                @endif
+                            @else
                                 <div class="alert alert-danger material-shadow text-center" role="alert">
-                                    {{__('To benefit from this privilege please activate the option')}}
-                                    @if(!is_null($lastCommittedInvestorRequest))
-                                        @if(!is_null($lastCommittedInvestorRequest?->note||$lastCommittedInvestorRequest?->status == \Core\Enum\RequestStatus::Rejected->value))
-                                            <hr class="text-muted">
-                                            <span class="mt-2 text-muted">
-                                        <strong>{{__('Latest request rejection raison')}} :</strong> {{$lastCommittedInvestorRequest?->note}}
-                                    </span>
-                                        @endif
-                                    @endif
+                                    <p class="mb-2">
+                                        {{ __('You must hold a minimum of') }}
+                                        <strong>{{ formatSolde($beCommitedInvestorMinActions, 0) }}</strong>
+                                        {{ __('shares to be considered a committed investor') }}
+                                    </p>
+                                    <a href="{{ route('business_hub_trading', app()->getLocale()) }}" class="btn btn-sm btn-danger">
+                                        {{ __('Go to trading page, To buy more actions') }}
+                                    </a>
                                 </div>
                             @endif
-
-                            @if($lastCommittedInvestorRequest?->status == \Core\Enum\RequestStatus::InProgress->value)
-                                <div class="alert alert-warning material-shadow text-center" role="alert">
-                                    {{__('Your request is currently being processes...')}}
-                                </div>
-                            @endif
-                        @else
-                            <div class="alert alert-danger material-shadow text-center" role="alert">
-                                {{__('You must hold a minimum of')}} {{formatSolde($beCommitedInvestorMinActions,0)}} {{__('shares to be considered a committed investor')}}
-                                <a href="{{route('business_hub_trading',app()->getLocale() )}}">{{__('Go to trading page, To buy more actions')}}</a>
-                            </div>
                         @endif
-                    @endif
-
+                    </div>
                 </div>
-                <div class="col-sm-12 col-md-3 col-lg-3">
+                <div class="col-sm-12 col-md-3 col-lg-3 text-center mt-3 mt-md-0">
                     <img src="{{ Vite::asset('resources/images/business-hub/be-commited-investor.png') }}"
-                         alt="be-commited-investor"
-                         class="d-block img-fluid img-business-square mx-auto rounded float-left">
+                         alt="Committed Investor Badge"
+                         class="img-fluid img-business-square rounded"
+                         loading="lazy">
                 </div>
             </div>
         </div>
-    </div>
-    <div class="card">
+    </article>
+
+    {{-- Instructor Section --}}
+    <article class="card">
         <div class="card-body">
-            <div class="row mt-2">
-                <div class="col-sm-12 col-md-3 col-lg-3 d-flex align-items-center justify-content-center">
-                    <img src="{{ Vite::asset('resources/images/logos/learn.png') }}" alt="logo learn"
-                         class="d-block img-fluid img-business mx-auto rounded float-left">
+            <div class="row mt-2 align-items-center">
+                <div class="col-sm-12 col-md-3 col-lg-3 text-center mb-3 mb-md-0">
+                    <img src="{{ Vite::asset('resources/images/logos/learn.png') }}"
+                         alt="Learn2Earn Logo"
+                         class="img-fluid img-business rounded"
+                         loading="lazy">
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-6 my-2">
-                    <div
-                        class="form-check form-switch form-switch-lg form-switch-success d-block img-fluid  text-center mx-auto">
-
-                        <input type="checkbox" class="form-check-input" id="be_instructor"
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="form-check form-switch form-switch-lg form-switch-success text-center mb-3">
+                        <input type="checkbox"
+                               class="form-check-input"
+                               id="be_instructor"
                                wire:model.live="isInstructor"
-                               wire:click="sendInstructorRequest()" @if($isInstructorDisabled) disabled @endif>
-                        <label class="form-check-label"
-                               for="be_instructor">{{__('Be Instructor')}}</label>
+                               wire:click="sendInstructorRequest()"
+                               aria-describedby="instructor_status"
+                               @if($isInstructorDisabled) disabled @endif>
+                        <label class="form-check-label" for="be_instructor">
+                            {{ __('Be Instructor') }}
+                        </label>
                     </div>
-                    <br>
 
-                    @if(auth()->user()->instructor==\Core\Enum\BeInstructorRequestStatus::Validated->value)
-                        <div class="alert alert-success material-shadow text-center" role="alert">
-                            {{__('You are Instructor')}}
-                        </div>
-                    @endif
-
-                    @if(auth()->user()->instructor==\Core\Enum\BeInstructorRequestStatus::Validated2earn->value)
-                        <div class="alert alert-info material-shadow text-center" role="alert">
-                            {{__('Waiting for Learn2earn platform validation')}}
-                        </div>
-                    @endif
-
-                    @if(auth()->user()->instructor<\Core\Enum\BeInstructorRequestStatus::Validated2earn->value)
-                        @if($validatedUser)
-                            @if(is_null($lastInstructorRequest)||$lastInstructorRequest?->status == \Core\Enum\BeInstructorRequestStatus::Rejected->value)
-                                <div class="alert alert-danger material-shadow  text-center" role="alert">
-                                    {{__('To benefit from this privilege please activate the option')}}
-
-                                    @if(!is_null($lastInstructorRequest))
-                                        @if(!is_null($lastInstructorRequest?->note||$lastInstructorRequest?->status == \Core\Enum\BeInstructorRequestStatus::Rejected->value))
-                                            <hr class="text-muted">
-                                            <span class="mt-2 text-muted">
-                                        <strong>{{__('Latest request rejection raison')}} :</strong> {{$lastInstructorRequest?->note}}
-                                    </span>
-                                        @endif
-                                    @endif
-                                </div>
-                            @endif
-
-                            @if($lastInstructorRequest?->status == \Core\Enum\BeInstructorRequestStatus::InProgress->value)
-                                <div class="alert alert-warning material-shadow text-center" role="alert">
-                                    {{__('Your request is currently being processes...')}}
-                                </div>
-                            @endif
-                        @else
-                            <div class="alert alert-info material-shadow text-center" role="alert">
-                                {{__('You must be validated user')}}
-                                <hr>
-                                <a href="{{route('account',app()->getLocale() )}}">{{__('Go to Account, To validate your account')}}</a>
+                    <div id="instructor_status">
+                        @if(auth()->user()->instructor == \Core\Enum\BeInstructorRequestStatus::Validated->value)
+                            <div class="alert alert-success material-shadow text-center" role="status">
+                                <strong>✓</strong> {{ __('You are Instructor') }}
                             </div>
                         @endif
-                    @endif
-                </div>
-                <div class="col-sm-12 col-md-3 col-lg-3 d-flex align-items-center justify-content-center">
-                    <img src="{{ Vite::asset('resources/images/business-hub/be-instructor.png') }}" alt="be-instructor"
-                         class="d-block img-fluid img-business-square mx-auto rounded float-left">
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <div class="row mt-2">
-                <div class="col-sm-12 col-md-3 col-lg-3 d-flex align-items-center justify-content-center">
-                    <img src="{{ Vite::asset('resources/images/logos/move.png') }}" alt="logo move"
-                         class="d-block img-fluid img-business mx-auto rounded float-left">
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-6 my-2">
-                    <div
-                        class="form-check form-switch  form-switch-lg form-switch-success d-block img-fluid  text-center mx-auto">
 
-                        <input type="checkbox" class="form-check-input" id="be_PHV_driver" disabled>
-                        <label class="form-check-label"
-                               for="be_PHV_driver">{{__('Be PHV (Private Hire Vehicle)')}}</label>
+                        @if(auth()->user()->instructor == \Core\Enum\BeInstructorRequestStatus::Validated2earn->value)
+                            <div class="alert alert-info material-shadow text-center" role="status">
+                                <strong>⏳</strong> {{ __('Waiting for Learn2earn platform validation') }}
+                            </div>
+                        @endif
 
-                    </div>
-                    <br>
-                    <div class="alert alert-info material-shadow  text-center" role="alert">
-                        {{__('Comming soon')}}
+                        @if(auth()->user()->instructor < \Core\Enum\BeInstructorRequestStatus::Validated2earn->value)
+                            @if($validatedUser)
+                                @if(is_null($lastInstructorRequest) || $lastInstructorRequest?->status == \Core\Enum\BeInstructorRequestStatus::Rejected->value)
+                                    <div class="alert alert-danger material-shadow text-center" role="alert">
+                                        <p class="mb-2">{{ __('To benefit from this privilege please activate the option') }}</p>
+                                        @if(!is_null($lastInstructorRequest))
+                                            @if(!is_null($lastInstructorRequest?->note) || $lastInstructorRequest?->status == \Core\Enum\BeInstructorRequestStatus::Rejected->value)
+                                                <hr>
+                                                <small class="d-block mt-2">
+                                                    <strong>{{ __('Latest request rejection reason') }}:</strong>
+                                                    {{ $lastInstructorRequest?->note }}
+                                                </small>
+                                            @endif
+                                        @endif
+                                    </div>
+                                @endif
+
+                                @if($lastInstructorRequest?->status == \Core\Enum\BeInstructorRequestStatus::InProgress->value)
+                                    <div class="alert alert-warning material-shadow text-center" role="status">
+                                        <strong>⏳</strong> {{ __('Your request is currently being processed...') }}
+                                    </div>
+                                @endif
+                            @else
+                                <div class="alert alert-info material-shadow text-center" role="alert">
+                                    <p class="mb-2">{{ __('You must be validated user') }}</p>
+                                    <a href="{{ route('account', app()->getLocale()) }}" class="btn btn-sm btn-info">
+                                        {{ __('Go to Account, To validate your account') }}
+                                    </a>
+                                </div>
+                            @endif
+                        @endif
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-3 col-lg-3 d-flex align-items-center justify-content-center">
-                    <img src="{{ Vite::asset('resources/images/business-hub/be-phv.png') }}" alt="be-phv"
-                         class="d-block img-fluid img-business-square mx-auto rounded float-left">
+                <div class="col-sm-12 col-md-3 col-lg-3 text-center mt-3 mt-md-0">
+                    <img src="{{ Vite::asset('resources/images/business-hub/be-instructor.png') }}"
+                         alt="Instructor Badge"
+                         class="img-fluid img-business-square rounded"
+                         loading="lazy">
                 </div>
             </div>
         </div>
-    </div>
-    <div class="card">
+    </article>
+
+
+    {{-- PHV (Private Hire Vehicle) Section --}}
+    <article class="card">
         <div class="card-body">
-            <div class="row mt-2">
-                <div class="col-sm-12 col-md-3 col-lg-3 align-items-center justify-content-center">
-                    <img src="{{ Vite::asset('resources/images/logos/belegant.png') }}" alt="logo belegant"
-                         class="d-block img-fluid img-business mx-auto rounded float-left my-1">
+            <div class="row mt-2 align-items-center">
+                <div class="col-sm-12 col-md-3 col-lg-3 text-center mb-3 mb-md-0">
+                    <img src="{{ Vite::asset('resources/images/logos/move.png') }}"
+                         alt="Move2Earn Logo"
+                         class="img-fluid img-business rounded"
+                         loading="lazy">
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-6 my-2">
-                    <div
-                        class="form-check form-switch  form-switch-lg form-switch-success d-block img-fluid  text-center mx-auto">
-                        <input type="checkbox" class="form-check-input" id="be_seller" disabled>
-                        <label class="form-check-label"
-                               for="be_seller">{{__('Be Seller')}}</label>
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="form-check form-switch form-switch-lg form-switch-success text-center mb-3">
+                        <input type="checkbox"
+                               class="form-check-input"
+                               id="be_phv_driver"
+                               disabled
+                               aria-describedby="phv_status">
+                        <label class="form-check-label" for="be_phv_driver">
+                            {{ __('Be PHV (Private Hire Vehicle)') }}
+                        </label>
                     </div>
-                    <br>
-                    <div class="alert alert-info material-shadow  text-center" role="alert">
-                        {{__('Comming soon')}}
+
+                    <div id="phv_status" class="alert alert-info material-shadow text-center" role="status">
+                        <strong>🚀</strong> {{ __('Coming soon') }}
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-3 col-lg-3 d-flex align-items-center justify-content-center">
-                    <img src="{{ Vite::asset('resources/images/business-hub/be-seller-be.png') }}" alt="be-seller"
-                         class="d-block img-fluid img-business-square mx-auto rounded float-left">
+                <div class="col-sm-12 col-md-3 col-lg-3 text-center mt-3 mt-md-0">
+                    <img src="{{ Vite::asset('resources/images/business-hub/be-phv.png') }}"
+                         alt="PHV Driver Badge"
+                         class="img-fluid img-business-square rounded"
+                         loading="lazy">
                 </div>
             </div>
         </div>
-    </div>
-    <div class="card">
+    </article>
+
+
+    {{-- BeElegant Seller Section --}}
+    <article class="card">
         <div class="card-body">
-            <div class="row mt-2">
-                <div class="col-sm-12 col-md-3 col-lg-3 align-items-center justify-content-center">
-                    <img src="{{ Vite::asset('resources/images/logos/shop.png') }}" alt="logo shop"
-                         class="d-block img-fluid img-business mx-auto rounded float-left my-1">
+            <div class="row mt-2 align-items-center">
+                <div class="col-sm-12 col-md-3 col-lg-3 text-center mb-3 mb-md-0">
+                    <img src="{{ Vite::asset('resources/images/logos/belegant.png') }}"
+                         alt="BeElegant Logo"
+                         class="img-fluid img-business rounded"
+                         loading="lazy">
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-6 my-2">
-                    <div
-                        class="form-check form-switch  form-switch-lg form-switch-success d-block img-fluid  text-center mx-auto">
-                        <input type="checkbox" class="form-check-input" id="be_seller" disabled>
-                        <label class="form-check-label"
-                               for="be_seller">{{__('Be Seller')}}</label>
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="form-check form-switch form-switch-lg form-switch-success text-center mb-3">
+                        <input type="checkbox"
+                               class="form-check-input"
+                               id="be_seller_belegant"
+                               disabled
+                               aria-describedby="belegant_seller_status">
+                        <label class="form-check-label" for="be_seller_belegant">
+                            {{ __('Be Seller') }}
+                        </label>
                     </div>
-                    <br>
-                    <div class="alert alert-info material-shadow  text-center" role="alert">
-                        {{__('Comming soon')}}
+
+                    <div id="belegant_seller_status" class="alert alert-info material-shadow text-center" role="status">
+                        <strong>🚀</strong> {{ __('Coming soon') }}
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-3 col-lg-3 d-flex align-items-center justify-content-center">
-                    <img src="{{ Vite::asset('resources/images/business-hub/be-seller-s.png') }}" alt="be-seller"
-                         class="d-block img-fluid img-business-square mx-auto rounded float-left">
+                <div class="col-sm-12 col-md-3 col-lg-3 text-center mt-3 mt-md-0">
+                    <img src="{{ Vite::asset('resources/images/business-hub/be-seller-be.png') }}"
+                         alt="BeElegant Seller Badge"
+                         class="img-fluid img-business-square rounded"
+                         loading="lazy">
                 </div>
             </div>
         </div>
-    </div>
-    <div class="card">
+    </article>
+
+
+    {{-- Shop2Earn Seller Section --}}
+    <article class="card">
         <div class="card-body">
-            <div class="row mt-2">
-                <div class="col-sm-12 col-md-3 col-lg-3 align-items-center justify-content-center">
-                    <img src="{{ Vite::asset('resources/images/logos/takecare.png') }}" alt="logo takecare"
-                         class="d-block img-fluid img-business mx-auto rounded float-left my-1">
+            <div class="row mt-2 align-items-center">
+                <div class="col-sm-12 col-md-3 col-lg-3 text-center mb-3 mb-md-0">
+                    <img src="{{ Vite::asset('resources/images/logos/shop.png') }}"
+                         alt="Shop2Earn Logo"
+                         class="img-fluid img-business rounded"
+                         loading="lazy">
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-6 my-2">
-                    <div
-                        class="form-check form-switch  form-switch-lg form-switch-success d-block img-fluid  text-center mx-auto">
-                        <input type="checkbox" class="form-check-input" id="be_seller" disabled>
-                        <label class="form-check-label"
-                               for="be_seller">{{__('Be Seller')}}</label>
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="form-check form-switch form-switch-lg form-switch-success text-center mb-3">
+                        <input type="checkbox"
+                               class="form-check-input"
+                               id="be_seller_shop"
+                               disabled
+                               aria-describedby="shop_seller_status">
+                        <label class="form-check-label" for="be_seller_shop">
+                            {{ __('Be Seller') }}
+                        </label>
                     </div>
-                    <br>
-                    <div class="alert alert-info material-shadow  text-center" role="alert">
-                        {{__('Comming soon')}}
+
+                    <div id="shop_seller_status" class="alert alert-info material-shadow text-center" role="status">
+                        <strong>🚀</strong> {{ __('Coming soon') }}
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-3 col-lg-3 d-flex align-items-center justify-content-center">
-                    <img src="{{ Vite::asset('resources/images/business-hub/be-seller-tc.png') }}" alt="be-seller"
-                         class="d-block img-fluid img-business-square mx-auto rounded float-left">
+                <div class="col-sm-12 col-md-3 col-lg-3 text-center mt-3 mt-md-0">
+                    <img src="{{ Vite::asset('resources/images/business-hub/be-seller-s.png') }}"
+                         alt="Shop2Earn Seller Badge"
+                         class="img-fluid img-business-square rounded"
+                         loading="lazy">
                 </div>
             </div>
         </div>
-    </div>
+    </article>
+
+
+    {{-- TakeCare Seller Section --}}
+    <article class="card">
+        <div class="card-body">
+            <div class="row mt-2 align-items-center">
+                <div class="col-sm-12 col-md-3 col-lg-3 text-center mb-3 mb-md-0">
+                    <img src="{{ Vite::asset('resources/images/logos/takecare.png') }}"
+                         alt="TakeCare Logo"
+                         class="img-fluid img-business rounded"
+                         loading="lazy">
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="form-check form-switch form-switch-lg form-switch-success text-center mb-3">
+                        <input type="checkbox"
+                               class="form-check-input"
+                               id="be_seller_takecare"
+                               disabled
+                               aria-describedby="takecare_seller_status">
+                        <label class="form-check-label" for="be_seller_takecare">
+                            {{ __('Be Seller') }}
+                        </label>
+                    </div>
+
+                    <div id="takecare_seller_status" class="alert alert-info material-shadow text-center" role="status">
+                        <strong>🚀</strong> {{ __('Coming soon') }}
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-3 col-lg-3 text-center mt-3 mt-md-0">
+                    <img src="{{ Vite::asset('resources/images/business-hub/be-seller-tc.png') }}"
+                         alt="TakeCare Seller Badge"
+                         class="img-fluid img-business-square rounded"
+                         loading="lazy">
+                </div>
+            </div>
+        </div>
+    </article>
 </div>

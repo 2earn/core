@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="{{getContainerType()}}">
     <div>
         <div>
             @component('components.breadcrumb')
@@ -25,168 +25,242 @@
             </div>
             <div class="row">
                 <div class="col-xxl-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title mb-2 text-info">{{ __('Your Profile Picture') }}</h5>
+                    <div class="card shadow-sm" id="profile">
+                        <div class="card-header bg-transparent border-bottom">
+                            <div class="d-flex align-items-center">
+                                <i class="ri-user-3-line fs-4 text-info me-2"></i>
+                                <h5 class="card-title mb-0 text-info">{{ __('Your Profile Picture') }}</h5>
+                            </div>
                         </div>
                         <div class="card-body p-4">
                             <div class="text-center">
-                                <div class="profile-user position-relative d-inline-block mx-auto  mb-4">
-                            <span
-                                    class="text-muted">{{__('The photo must be in PNG, JPG or JPEG format and must not exceed 8 Mb in size')}}</span>
+                                <div class="profile-user position-relative d-inline-block mx-auto mb-4">
                                     @if ($imageProfil)
-                                        <img class="rounded-circle" width="70" height="70"
-                                             src="{{ $imageProfil->temporaryUrl() }}?={{Str::random(16)}}" alt="">
-                                        <br>
+                                        <div class="mb-2">
+                                            <img class="rounded-circle shadow-sm" width="70" height="70"
+                                                 src="{{ $imageProfil->temporaryUrl() }}?={{Str::random(16)}}"
+                                                 alt="{{ __('Preview image') }}">
+                                        </div>
                                     @endif
-                                    <br>
-                                    <div wire:loading wire:target="imageProfil">{{__('Uploading')}}...</div>
                                     <img src="{{ URL::asset($userProfileImage) }}?={{Str::random(16)}}"
-                                         class="rounded-circle avatar-xl img-thumbnail user-profile-image"
-                                         alt="user-profile-image">
+                                         class="rounded-circle avatar-xl img-thumbnail user-profile-image shadow"
+                                         alt="{{ __('Profile picture of') }} {{$dispalyedUserCred}}">
 
-                                    <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
+                                    <div class="avatar-xs p-0 rounded-circle profile-photo-edit" title="{{ __('Change profile picture') }}">
                                         <input id="profile-img-file-input" type="file" class="profile-img-file-input"
-                                               accept="image/png, image/jpeg"
-                                               wire:model.live="imageProfil">
+                                               accept="image/png, image/jpeg, image/jpg"
+                                               wire:model.live="imageProfil"
+                                               aria-label="{{ __('Upload profile picture') }}">
                                         <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
-                                    <span class="avatar-title rounded-circle bg-light text-body">
-                                        <i class="ri-camera-fill"></i>
-                                    </span>
+                                            <span class="avatar-title rounded-circle bg-light text-body">
+                                                <i class="ri-camera-fill"></i>
+                                            </span>
                                         </label>
                                     </div>
                                 </div>
-                                <h2>
+
+                                <div wire:loading wire:target="imageProfil" class="alert alert-info border-0 py-2 mb-2" role="alert">
+                                    <i class="ri-upload-cloud-line me-1"></i>
+                                    <small>{{__('Uploading')}}...</small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <small class="text-muted d-block">
+                                        <i class="ri-information-line"></i>
+                                        {{__('The photo must be in PNG, JPG or JPEG format and must not exceed 8 Mb in size')}}
+                                    </small>
+                                </div>
+
+                                <h2 class="mb-2 fw-semibold">
                                     {{$dispalyedUserCred}}
                                 </h2>
-                                <h4>
-                                    <span class="badge text-bg-secondary">[{{$user['idUser']}}]</span>
-                                </h4>
+                                <div class="mb-2">
+                                    <span class="badge bg-secondary-subtle text-secondary fs-6">{{ __('ID') }}: {{$user['idUser']}}</span>
+                                </div>
 
                                 @if($user['status']==\Core\Enum\StatusRequest::ValidNational->value||$user['status']==\Core\Enum\StatusRequest::ValidInternational->value)
-                                    <h3>
-                                        <span class="badge text-bg-success">[{{__('Identified')}}]</span>
-                                    </h3>
+                                    <div class="mb-3">
+                                        <span class="badge bg-success-subtle text-success fs-6">
+                                            <i class="ri-verified-badge-line me-1"></i>{{__('Identified')}}
+                                        </span>
+                                    </div>
                                 @endif
-                                <div class="form-check form-switch mt-3" dir="ltr">
-                                    <input wire:model="user.is_public" type="checkbox" class="form-check-input"
-                                           id="customSwitchsizesm" @checked($user['is_public']??false)>
-                                    <label class="form-check-label" for="customSwitchsizesm">
-                                        {{ __('I agree to receive funding requests') }}
-                                    </label>
+
+                                <div class="card bg-light border-0 mt-4">
+                                    <div class="card-body p-3">
+                                        <div class="form-check form-switch d-flex justify-content-center align-items-center" dir="ltr">
+                                            <input wire:model="user.is_public" type="checkbox" class="form-check-input me-2"
+                                                   id="customSwitchsizesm" @checked($user['is_public']??false)
+                                                   role="switch" aria-checked="{{$user['is_public']??false}}">
+                                            <label class="form-check-label mb-0" for="customSwitchsizesm">
+                                                <i class="ri-hand-heart-line me-1"></i>
+                                                {{ __('I agree to receive funding requests') }}
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title mb-2 text-info">{{ __('National identities cards') }}</h5>
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-transparent border-bottom">
+                            <div class="d-flex align-items-center">
+                                <i class="ri-bank-card-line fs-4 text-info me-2"></i>
+                                <h5 class="card-title mb-0 text-info">{{ __('National identities cards') }}</h5>
+                            </div>
                         </div>
-                        <div class="card-body row">
-                            <div class="col-12">
-                                <table class="table table-bordered">
-                                    <tbody>
-                                    <tr>
-                                        <th scope="row">{{ __('Front ID') }}</th>
-                                        <td>
-                                            <img class="img-thumbnail" width="150" height="100" id="front-id-image"
-                                                 title="{{__('Front id image')}}"
-                                                 src="{{asset($userNationalFrontImage)}}?={{Str::random(16)}}" alt="">
-                                            <button type="button" class="btn btn-outline-primary mt-1"
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="border rounded p-3 bg-light">
+                                        <div class="d-flex align-items-center justify-content-between mb-3">
+                                            <h6 class="mb-0 fw-semibold">
+                                                <i class="ri-id-card-line me-2 text-primary"></i>{{ __('Front ID') }}
+                                            </h6>
+                                            <button type="button" class="btn btn-sm btn-outline-primary"
                                                     data-toggle="modal"
                                                     id="show-identity-front"
-                                                    data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                        <span class="align-middle">{{ __('Back ID') }}
-                                        </span>
-                                        </th>
-                                        <td>
-                                            <img class="img-thumbnail" width="150" height="100" id="back-id-image"
-                                                 title="{{__('Back id image')}}"
-                                                 src="{{asset($userNationalBackImage)}}?={{Str::random(16)}}" alt="">
-                                            <button type="button" class="btn btn-outline-primary mt-1"
+                                                    data-target=".bd-example-modal-lg"
+                                                    aria-label="{{ __('View full size front ID') }}">
+                                                <i class="ri-eye-line me-1"></i>{{__('Show Identity')}}
+                                            </button>
+                                        </div>
+                                        <div class="text-center">
+                                            <img class="img-thumbnail shadow-sm" width="200" height="auto" id="front-id-image"
+                                                 title="{{__('Front id image')}}"
+                                                 src="{{asset($userNationalFrontImage)}}?={{Str::random(16)}}"
+                                                 alt="{{__('Front ID card')}}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="border rounded p-3 bg-light">
+                                        <div class="d-flex align-items-center justify-content-between mb-3">
+                                            <h6 class="mb-0 fw-semibold">
+                                                <i class="ri-id-card-line me-2 text-primary"></i>{{ __('Back ID') }}
+                                            </h6>
+                                            <button type="button" class="btn btn-sm btn-outline-primary"
                                                     data-toggle="modal"
                                                     id="show-identity-back"
-                                                    data-target=".bd-example-modal-lg">{{__('Show Identity')}}</button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                                    data-target=".bd-example-modal-lg"
+                                                    aria-label="{{ __('View full size back ID') }}">
+                                                <i class="ri-eye-line me-1"></i>{{__('Show Identity')}}
+                                            </button>
+                                        </div>
+                                        <div class="text-center">
+                                            <img class="img-thumbnail shadow-sm" width="200" height="auto" id="back-id-image"
+                                                 title="{{__('Back id image')}}"
+                                                 src="{{asset($userNationalBackImage)}}?={{Str::random(16)}}"
+                                                 alt="{{__('Back ID card')}}">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title mb-2 text-info">{{ __('International identity card') }}</h5>
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-transparent border-bottom">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center">
+                                    <i class="ri-passport-line fs-4 text-info me-2"></i>
+                                    <h5 class="card-title mb-0 text-info">{{ __('International identity card') }}</h5>
+                                </div>
+                            </div>
                             @if(auth()->user()->status == 2 && $justExpired)
-                                <button type="button" id="soonExpireIIC"
-                                        class="btn btn-danger mt-2">{{__('Your International identity is expired')}}</button>
+                                <div class="alert alert-danger d-inline-flex align-items-center mt-3 mb-0" role="alert">
+                                    <i class="ri-error-warning-line fs-5 me-2"></i>
+                                    <div>
+                                        <strong>{{__('Your International identity is expired')}}</strong>
+                                        <button type="button" id="soonExpireIIC" class="btn btn-sm btn-danger ms-2">
+                                            {{__('Update Now')}}
+                                        </button>
+                                    </div>
+                                </div>
                             @elseif(auth()->user()->status == 4 && $lessThanSixMonths)
-                                <button type="button" id="soonExpireIIC"
-                                        class="btn btn-warning mt-2">{{__('Your International identity will soon expire')}}</button>
+                                <div class="alert alert-warning d-inline-flex align-items-center mt-3 mb-0" role="alert">
+                                    <i class="ri-alarm-warning-line fs-5 me-2"></i>
+                                    <div>
+                                        <strong>{{__('Your International identity will soon expire')}}</strong>
+                                        <button type="button" id="soonExpireIIC" class="btn btn-sm btn-warning ms-2">
+                                            {{__('Renew Now')}}
+                                        </button>
+                                    </div>
+                                </div>
                             @endif
                         </div>
-                        <div class="card-body row">
+                        <div class="card-body">
                             <div class="col-12">
                                 @if($user['internationalID'])
-                                    <table class="table table-bordered">
-                                        <tbody>
-                                        <tr>
-                                            <th scope="row">{{ __('Identity card') }}</th>
-                                            <td>
-                                                <img class="img-thumbnail" width="150" height="100"
-                                                     id="international-id-image"
-                                                     title="{{__('International identity card')}}"
-                                                     src="{{asset($userInternationalImage)}}?={{Str::random(16)}}">
-                                                <button type="button" class="btn btn-outline-primary mt-1"
-                                                        data-toggle="modal"
-                                                        id="show-identity-international"
-                                                        data-target=".bd-example-modal-lg">
-                                                    {{__('Show Identity')}}
-                                                </button>
-                                            </td>
-                                        <tr>
-                                        <tr>
-                                            <th scope="row">{{__('InternationalId ID identificatdion modal')}}</th>
-                                            <td>
-                                                @if($user['internationalID'])
-                                                    {{$user['internationalID']}}
-                                                @endif
-                                            </td>
-                                        <tr>
-                                        <tr>
-                                            <th scope="row">{{__('Expiry date identificatdion modal')}}</th>
-                                            <td>
-                                                @if($user['internationalID'])
-                                                    {{$user['expiryDate']}}
-                                                @endif
-                                            </td>
-                                        <tr>
-                                    </table>
-                                @else
-                                    <div
-                                            class="alert alert-warning alert-dismissible alert-additional fade show mb-0 material-shadow"
-                                            role="alert">
-                                        <div class="alert-body">
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                    aria-label="Close"></button>
-                                            <div class="d-flex">
-                                                <div class="flex-shrink-0 me-3">
-                                                    <i class="ri-alert-line fs-16 align-middle"></i>
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            <div class="border rounded p-3 bg-light">
+                                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                                    <h6 class="mb-0 fw-semibold">
+                                                        <i class="ri-passport-line me-2 text-primary"></i>{{ __('Identity card') }}
+                                                    </h6>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary"
+                                                            data-toggle="modal"
+                                                            id="show-identity-international"
+                                                            data-target=".bd-example-modal-lg"
+                                                            aria-label="{{ __('View full size international ID') }}">
+                                                        <i class="ri-eye-line me-1"></i>{{__('Show Identity')}}
+                                                    </button>
                                                 </div>
-                                                <div class="flex-grow-1">
-                                                    <h5 class="alert-heading">{{__('No international identities data information')}}</h5>
-                                                    <p class="mb-0">{{__('Please log in to benefit from many advantages')}} </p>
+                                                <div class="text-center">
+                                                    <img class="img-thumbnail shadow-sm" width="200" height="auto"
+                                                         id="international-id-image"
+                                                         title="{{__('International identity card')}}"
+                                                         src="{{asset($userInternationalImage)}}?={{Str::random(16)}}"
+                                                         alt="{{__('International identity card')}}">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="card border bg-light mb-0">
+                                                <div class="card-body p-3">
+                                                    <div class="row g-3">
+                                                        <div class="col-md-6">
+                                                            <div class="d-flex align-items-start">
+                                                                <i class="ri-profile-line fs-5 text-primary me-2 mt-1"></i>
+                                                                <div>
+                                                                    <label class="text-muted small mb-1">{{__('InternationalId ID identificatdion modal')}}</label>
+                                                                    <p class="mb-0 fw-semibold">{{$user['internationalID']}}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="d-flex align-items-start">
+                                                                <i class="ri-calendar-line fs-5 text-primary me-2 mt-1"></i>
+                                                                <div>
+                                                                    <label class="text-muted small mb-1">{{__('Expiry date identificatdion modal')}}</label>
+                                                                    <p class="mb-0 fw-semibold">{{$user['expiryDate']}}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <button
-                                            class="my-2 float-end btn btn-info" id="goToIdentification"
-                                    >{{__('Open identification tab')}}</button>
+                                @else
+                                    <div class="alert alert-warning alert-dismissible fade show mb-0" role="alert">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0 me-3">
+                                                <i class="ri-alert-line fs-3 align-middle"></i>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <h5 class="alert-heading mb-2">
+                                                    <i class="ri-information-line me-1"></i>{{__('No international identities data information')}}
+                                                </h5>
+                                                <p class="mb-3">{{__('Please log in to benefit from many advantages')}}</p>
+                                                <button class="btn btn-warning" id="goToIdentification">
+                                                    <i class="ri-arrow-right-line me-1"></i>{{__('Open identification tab')}}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @endif
                             </div>
                         </div>
@@ -194,98 +268,134 @@
                 </div>
                 <div class="col-xxl-8">
                     @if(!$disabled)
-                        <div class="card @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif">
-                            <div class="card-header">
-                                <h5 class="card-title mb-2 text-info">{{ __('Complete_Profile') }}</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="d-flex align-items-center mb-3">
-                                    <div
-                                            class="flex-shrink-0 @if(Route::getCurrentRoute()->getName()!="validate_account") d-none   @endif">
+                        <div class="card shadow-sm @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif">
+                            <div class="card-header bg-transparent border-bottom">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center">
+                                        <i class="ri-file-user-line fs-4 text-info me-2"></i>
+                                        <h5 class="card-title mb-0 text-info">{{ __('Complete_Profile') }}</h5>
+                                    </div>
+                                    <div class="@if(Route::getCurrentRoute()->getName()!="validate_account") d-none   @endif">
                                         <a style="color: #009fe3!important" data-bs-toggle="modal"
                                            data-bs-target="#modalEditProf"
                                            href="javascript:void(0);"
-                                           class="badge bg-light text-primary fs-12"><i
-                                                    class="ri-edit-box-line align-bottom me-1"></i> {{__('Edit')}}</a>
+                                           class="btn btn-sm btn-outline-primary"
+                                           aria-label="{{ __('Edit profile') }}">
+                                            <i class="ri-edit-box-line align-bottom me-1"></i> {{__('Edit')}}
+                                        </a>
                                     </div>
                                 </div>
-                                <div class="progress progress-label" style="height: 20px;">
-                                    @if($PercentComplete>=20)
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated   bg-danger"
-                                             role="progressbar"
-                                             style="width: 20%" aria-valuenow="10" aria-valuemin="0"
-                                             aria-valuemax="20">
-                                            @if($PercentComplete==20)
-                                                {{$PercentComplete}}%
-                                            @endif
-                                        </div>
-                                    @endif
-                                    @if($PercentComplete>=40)
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated  bg-danger"
-                                             role="progressbar"
-                                             style="width:20%" aria-valuenow="25" aria-valuemin="0"
-                                             aria-valuemax="40">
-                                            @if($PercentComplete==40)
-                                                {{$PercentComplete}}%
-                                            @endif
-                                        </div>
-                                    @endif
-                                    @if($PercentComplete>=60)
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated  bg-warning"
-                                             role="progressbar"
-                                             style="width: 20%" aria-valuenow="60" aria-valuemin="0"
-                                             aria-valuemax="60">
-                                            @if($PercentComplete==60)
-                                                {{$PercentComplete}}%
-                                            @endif
-                                        </div>
-                                    @endif
-                                    @if($PercentComplete>=80)
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated  bg-warning"
-                                             role="progressbar" style="width: 20%"
-                                             aria-valuenow="80" aria-valuemin="0" aria-valuemax="80">
-                                            @if($PercentComplete==80)
-                                                {{$PercentComplete}}%
-                                            @endif
-                                        </div>
-                                    @endif
-                                    @if($PercentComplete==100)
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated  bg-success"
-                                             role="progressbar"
-                                             style="width: 20%" aria-valuenow="100" aria-valuemin="0"
-                                             aria-valuemax="100">
-                                            @if($PercentComplete==100)
-                                                {{$PercentComplete}}%
-                                            @endif
-                                        </div>
-                                    @endif
-                                </div>
-                                <br>
-                                @if($PercentComplete==100)
-                                    @if($hasRequest)
-                                        <button class="btn btn-outline-warning" type="button" disabled>
-                                        <span class="spinner-grow spinner-grow-sm" role="status"
-                                              aria-hidden="true"></span>
-                                            {{__('voter_demande_déja_en_cours')}}...
-                                        </button>
-                                    @else
-                                        @if($user['status'] == 2)
-                                            <h6>{{__('Your account is already national validated')}}</h6>
-                                        @elseif($user['status'] == 4)
-                                            <h6>{{__('your account is already international validated')}}</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-muted small">
+                                            <i class="ri-user-settings-line me-1"></i>{{ __('Profile Completion') }}
+                                        </span>
+                                        <span class="badge bg-primary-subtle text-primary">{{$PercentComplete}}%</span>
+                                    </div>
+                                    <div class="progress" style="height: 24px;">
+                                        @if($PercentComplete>=20)
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
+                                                 role="progressbar"
+                                                 style="width: 20%"
+                                                 aria-valuenow="20"
+                                                 aria-valuemin="0"
+                                                 aria-valuemax="100"
+                                                 aria-label="{{ __('Profile completion progress') }}">
+                                                @if($PercentComplete==20)
+                                                    <span class="fw-semibold">{{$PercentComplete}}%</span>
+                                                @endif
+                                            </div>
                                         @endif
-                                    @endif
+                                        @if($PercentComplete>=40)
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
+                                                 role="progressbar"
+                                                 style="width:20%" aria-valuenow="40" aria-valuemin="0"
+                                                 aria-valuemax="100">
+                                                @if($PercentComplete==40)
+                                                    <span class="fw-semibold">{{$PercentComplete}}%</span>
+                                                @endif
+                                            </div>
+                                        @endif
+                                        @if($PercentComplete>=60)
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning"
+                                                 role="progressbar"
+                                                 style="width: 20%" aria-valuenow="60" aria-valuemin="0"
+                                                 aria-valuemax="100">
+                                                @if($PercentComplete==60)
+                                                    <span class="fw-semibold">{{$PercentComplete}}%</span>
+                                                @endif
+                                            </div>
+                                        @endif
+                                        @if($PercentComplete>=80)
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-info"
+                                                 role="progressbar" style="width: 20%"
+                                                 aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+                                                @if($PercentComplete==80)
+                                                    <span class="fw-semibold">{{$PercentComplete}}%</span>
+                                                @endif
+                                            </div>
+                                        @endif
+                                        @if($PercentComplete==100)
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                                                 role="progressbar"
+                                                 style="width: 20%" aria-valuenow="100" aria-valuemin="0"
+                                                 aria-valuemax="100">
+                                                <span class="fw-semibold">
+                                                    <i class="ri-check-line me-1"></i>{{$PercentComplete}}%
+                                                </span>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                @if($PercentComplete==100)
+                                    <div class="alert alert-success border-0 mb-0" role="alert">
+                                        <div class="d-flex align-items-center">
+                                            <i class="ri-checkbox-circle-line fs-3 me-3"></i>
+                                            <div>
+                                                @if($hasRequest)
+                                                    <h6 class="alert-heading mb-1">
+                                                        <span class="spinner-grow spinner-grow-sm me-2" role="status" aria-hidden="true"></span>
+                                                        {{__('voter_demande_déja_en_cours')}}
+                                                    </h6>
+                                                    <p class="mb-0 small">{{ __('Your request is being processed') }}</p>
+                                                @else
+                                                    @if($user['status'] == 2)
+                                                        <h6 class="alert-heading mb-0">
+                                                            <i class="ri-verified-badge-line me-1"></i>
+                                                            {{__('Your account is already national validated')}}
+                                                        </h6>
+                                                    @elseif($user['status'] == 4)
+                                                        <h6 class="alert-heading mb-0">
+                                                            <i class="ri-verified-badge-line me-1"></i>
+                                                            {{__('your account is already international validated')}}
+                                                        </h6>
+                                                    @endif
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
                                 @else
                                     @if(!empty($errors_array))
-                                        <div class="alert alert-warning material-shadow mt-2" role="alert">
-                                            <h4 class="alert-heading"> {{ __('Please fill in the missing fields profile') }}
-                                                :</h4>
-                                            <div class="mx-4">
-                                                <ul class="list-group list-group-flush">
-                                                    @foreach ($errors_array as $error)
-                                                        <li>{{ $error }}.</li>
-                                                    @endforeach
-                                                </ul>
+                                        <div class="alert alert-warning border-0 mb-0" role="alert">
+                                            <div class="d-flex">
+                                                <i class="ri-error-warning-line fs-3 me-3 flex-shrink-0"></i>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="alert-heading mb-2">
+                                                        <i class="ri-information-line me-1"></i>
+                                                        {{ __('Please fill in the missing fields profile') }}
+                                                    </h6>
+                                                    <ul class="list-unstyled mb-0">
+                                                        @foreach ($errors_array as $error)
+                                                            <li class="mb-1">
+                                                                <i class="ri-arrow-right-s-line text-warning"></i>
+                                                                <span class="fw-medium">{{ $error }}</span>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     @endif
@@ -293,34 +403,57 @@
                             </div>
                         </div>
                     @endif
-                    <div class="card">
-                        <div class="card-header">
-                            <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0"
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-transparent border-bottom p-0">
+                            <ul class="nav nav-tabs-custom card-header-tabs border-bottom-0 m-0"
                                 role="tablist">
-                                <li class="nav-item" id="personalDetailsTab">
-                                    <a class="nav-link {{ $activeTab == 'personalDetails' ? 'show active' : '' }}" data-bs-toggle="tab"
-                                       href="#personalDetails" role="tab">
-                                        <i class="fas fa-home-user"></i>
+                                <li class="nav-item" id="personalDetailsTab" role="presentation">
+                                    <a class="nav-link {{ $activeTab == 'personalDetails' ? 'show active' : '' }}"
+                                       data-bs-toggle="tab"
+                                       href="#personalDetails"
+                                       role="tab"
+                                       aria-controls="personalDetails"
+                                       aria-selected="{{ $activeTab == 'personalDetails' ? 'true' : 'false' }}">
+                                        <i class="ri-user-settings-line me-1"></i>
                                         {{__('Edit profile')}}
                                     </a>
                                 </li>
                                 <li id="identificationsTab"
-                                    class="nav-item @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#experience" role="tab">
-                                        <i class="fas fa-contact-card"></i>
+                                    class="nav-item @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
+                                    role="presentation">
+                                    <a class="nav-link"
+                                       data-bs-toggle="tab"
+                                       href="#experience"
+                                       role="tab"
+                                       aria-controls="experience"
+                                       aria-selected="false">
+                                        <i class="ri-shield-check-line me-1"></i>
                                         {{__('Identifications')}}
                                     </a>
                                 </li>
-                                <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif">
-                                    <a class="nav-link {{ $activeTab == 'changePassword' ? 'show active' : '' }}" data-bs-toggle="tab" href="#changePassword" role="tab"
+                                <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
+                                    role="presentation">
+                                    <a class="nav-link {{ $activeTab == 'changePassword' ? 'show active' : '' }}"
+                                       data-bs-toggle="tab"
+                                       href="#changePassword"
+                                       role="tab"
+                                       aria-controls="changePassword"
+                                       aria-selected="{{ $activeTab == 'changePassword' ? 'true' : 'false' }}"
                                        id="tabEditPass">
-                                        <i class="fas fa-user"></i>
+                                        <i class="ri-lock-password-line me-1"></i>
                                         {{__('Change password')}}
                                     </a>
                                 </li>
-                                <li class="nav-item  @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif d-none ">
-                                    <a class="nav-link disabled" data-bs-toggle="tab" href="#privacy" role="tab">
-                                        <i class="far fa-envelope"></i>
+                                <li class="nav-item  @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif d-none "
+                                    role="presentation">
+                                    <a class="nav-link disabled"
+                                       data-bs-toggle="tab"
+                                       href="#privacy"
+                                       role="tab"
+                                       aria-controls="privacy"
+                                       aria-selected="false"
+                                       tabindex="-1">
+                                        <i class="ri-phone-line me-1"></i>
                                         {{__('Update phone number')}}
                                     </a>
                                 </li>
@@ -332,82 +465,129 @@
 
                                     <form action="javascript:void(0);">
                                         <div class="row">
+                                            <div class="col-12 mb-3">
+                                                <div class="alert alert-info border-0 mb-0" role="alert">
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="ri-information-line fs-5 me-2"></i>
+                                                        <small>{{ __('Fields marked with') }} <span class="text-danger fw-bold">*</span> {{ __('are required for account validation') }}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
-                                                    <label for="firstnameInput"
-                                                           class="form-label">{{__('Enter your ar firstname label')}}</label>
+                                                    <label for="arLastNameInput" class="form-label fw-semibold">
+                                                        <i class="ri-user-line text-primary me-1"></i>
+                                                        {{__('Enter your ar firstname label')}}
+                                                    </label>
                                                     <input wire:model="usermetta_info.arLastName" type="text"
-                                                           class="form-control" id="firstnameInput"
-                                                           placeholder="{{__('Enter your ar firstname')}}" value="">
+                                                           class="form-control" id="arLastNameInput"
+                                                           placeholder="{{__('Enter your ar firstname')}}"
+                                                           aria-label="{{__('Enter your ar firstname label')}}">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
-                                                    <label for="lastnameInput"
-                                                           class="form-label">{{__('Enter your ar last label')}}</label>
+                                                    <label for="arFirstNameInput" class="form-label fw-semibold">
+                                                        <i class="ri-user-line text-primary me-1"></i>
+                                                        {{__('Enter your ar last label')}}
+                                                    </label>
                                                     <input wire:model="usermetta_info.arFirstName" type="text"
-                                                           class="form-control" id="lastnameInput"
-                                                           placeholder="{{__('Enter your ar last')}}" value="">
+                                                           class="form-control" id="arFirstNameInput"
+                                                           placeholder="{{__('Enter your ar last')}}"
+                                                           aria-label="{{__('Enter your ar last label')}}">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
-                                                    <label for="firstnameInput" class="form-label">
+                                                    <label for="enLastNameInput" class="form-label fw-semibold">
+                                                        <i class="ri-user-3-line text-primary me-1"></i>
                                                         {{__('Last name label')}}
+                                                        <span class="text-danger">*</span>
                                                     </label>
                                                     <input type="text" class="form-control"
                                                            {{ $disabled ? 'disabled' : ''  }}
                                                            wire:model="usermetta_info.enLastName"
-                                                           placeholder="{{__('Last Name')}}" value="">
-                                                    <div
-                                                            class="form-text">{{__('Required for account validation')}}</div>
+                                                           id="enLastNameInput"
+                                                           placeholder="{{__('Last Name')}}"
+                                                           aria-label="{{__('Last name label')}}"
+                                                           aria-required="true">
+                                                    <div class="form-text">
+                                                        <i class="ri-information-line"></i>
+                                                        {{__('Required for account validation')}}
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
-                                                    <label for="firstnameInput"
-                                                           class="form-label">{{__('First name label')}}</label>
+                                                    <label for="enFirstNameInput" class="form-label fw-semibold">
+                                                        <i class="ri-user-3-line text-primary me-1"></i>
+                                                        {{__('First name label')}}
+                                                        <span class="text-danger">*</span>
+                                                    </label>
                                                     <input
                                                             {{ $disabled ? 'disabled' : ''  }}
                                                             wire:model="usermetta_info.enFirstName"
-                                                            placeholder="{{__('First name')}}" class="form-control">
-                                                    <div
-                                                            class="form-text">{{__('Required for account validation')}}</div>
+                                                            id="enFirstNameInput"
+                                                            placeholder="{{__('First name')}}"
+                                                            class="form-control"
+                                                            aria-label="{{__('First name label')}}"
+                                                            aria-required="true">
+                                                    <div class="form-text">
+                                                        <i class="ri-information-line"></i>
+                                                        {{__('Required for account validation')}}
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
-                                                    <label for="phonenumberInput"
-                                                           class="form-label">{{ __('Your Contact number') }}</label>
-                                                    <div class="input-group form-icon">
+                                                    <label for="phonenumberInput" class="form-label fw-semibold">
+                                                        <i class="ri-phone-line text-primary me-1"></i>
+                                                        {{ __('Your Contact number') }}
+                                                    </label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text bg-light">
+                                                            <i class="ri-phone-fill text-muted"></i>
+                                                        </span>
                                                         <input disabled wire:model="numberActif" type="text"
-                                                               class="form-control inputtest form-control-icon"
-                                                               aria-label=""
-                                                               placeholder="">
-                                                        <i style="font-size: 20px;" class="ri-phone-line"></i>
-
+                                                               class="form-control"
+                                                               aria-label="{{ __('Contact number') }}"
+                                                               placeholder="{{ __('Your phone number') }}">
                                                         <a href="{{ !empty($user['email']) ? route('contact_number', app()->getLocale()) : '#' }}"
-                                                           id="update_tel" class="btn btn-info" type="button"
+                                                           id="update_tel"
+                                                           class="btn btn-outline-info"
+                                                           type="button"
                                                            @if(empty($user['email']))
                                                                data-bs-toggle="modal"
-                                                           data-bs-target="#topmodal" @endif>
-                                                            {{ __('Change') }}
+                                                               data-bs-target="#topmodal"
+                                                           @endif
+                                                           aria-label="{{ __('Change phone number') }}">
+                                                            <i class="ri-pencil-line me-1"></i>{{ __('Change') }}
                                                         </a>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
-                                                    <label for="emailInput"
-                                                           class="form-label">{{ __('Your Email') }}</label>
-                                                    <div class="input-group form-icon">
+                                                    <label for="emailInput" class="form-label fw-semibold">
+                                                        <i class="ri-mail-line text-primary me-1"></i>
+                                                        {{ __('Your Email') }}
+                                                        <span class="text-danger">*</span>
+                                                    </label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text bg-light">
+                                                            <i class="ri-mail-fill text-muted"></i>
+                                                        </span>
                                                         <input disabled wire:model="user.email" type="email"
-                                                               class="form-control form-control-icon"
-                                                               name="email" placeholder="">
-                                                        <i style="font-size: 20px;" class="ri-mail-unread-line"></i>
-                                                        <button data-bs-toggle="modal" data-bs-target="#modalMail"
-                                                                class="btn btn-info"
-                                                                type="button">
+                                                               class="form-control"
+                                                               name="email"
+                                                               placeholder="{{ __('your@email.com') }}"
+                                                               aria-label="{{ __('Email address') }}">
+                                                        <button data-bs-toggle="modal"
+                                                                data-bs-target="#modalMail"
+                                                                class="btn btn-outline-info"
+                                                                type="button"
+                                                                aria-label="{{ __('Change email') }}">
+                                                            <i class="ri-pencil-line me-1"></i>
                                                             @if($user['email']=="")
                                                                 {{__('add')}}
                                                             @else
@@ -415,86 +595,118 @@
                                                             @endif
                                                         </button>
                                                     </div>
-                                                    <div
-                                                            class="form-text">{{__('Required for account validation')}}</div>
-
+                                                    <div class="form-text">
+                                                        <i class="ri-information-line"></i>
+                                                        {{__('Required for account validation')}}
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
-                                                    <label for="JoiningdatInput" class="form-label">
-                                                        {{__('Date of birth')  }}
+                                                    <label for="JoiningdatInput" class="form-label fw-semibold">
+                                                        <i class="ri-calendar-line text-primary me-1"></i>
+                                                        {{__('Date of birth')}}
+                                                        <span class="text-danger">*</span>
                                                     </label>
                                                     <input
                                                             {{ $disabled ? 'disabled' : ''  }}
-                                                            wire:model="usermetta_info.birthday" type="date"
-                                                            class="form-control" id="JoiningdatInput"/>
-                                                    <div
-                                                            class="form-text">{{__('Required for account validation')}}</div>
+                                                            wire:model="usermetta_info.birthday"
+                                                            type="date"
+                                                            class="form-control"
+                                                            id="JoiningdatInput"
+                                                            aria-label="{{__('Date of birth')}}"
+                                                            aria-required="true"/>
+                                                    <div class="form-text">
+                                                        <i class="ri-information-line"></i>
+                                                        {{__('Required for account validation')}}
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
-                                                    <label for="websiteInput1"
-                                                           class="form-label">{{ __('Number Of Children') }}</label>
-                                                    <div class="input-step form-control full-width light">
-                                                        <button id="btnMinus" type="button" class="minus">–</button>
-                                                        <input wire:model="usermetta_info.childrenCount" type="number"
-                                                               class="product-quantity form-control"
+                                                    <label for="websiteInput1" class="form-label fw-semibold">
+                                                        <i class="ri-parent-line text-primary me-1"></i>
+                                                        {{ __('Number Of Children') }}
+                                                    </label>
+                                                    <div class="input-group input-step">
+                                                        <button id="btnMinus" type="button" class="btn btn-outline-secondary minus" aria-label="{{ __('Decrease children count') }}">
+                                                            <i class="ri-subtract-line"></i>
+                                                        </button>
+                                                        <input wire:model="usermetta_info.childrenCount"
+                                                               type="number"
+                                                               class="form-control text-center"
                                                                min="0"
-                                                               max="100" id="inputChild" readonly>
-                                                        <button id="btnPlus" type="button" class="plus">+</button>
+                                                               max="100"
+                                                               id="inputChild"
+                                                               readonly
+                                                               aria-label="{{ __('Number Of Children') }}">
+                                                        <button id="btnPlus" type="button" class="btn btn-outline-secondary plus" aria-label="{{ __('Increase children count') }}">
+                                                            <i class="ri-add-line"></i>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="mb-3">
-                                                    <label for="designationInput"
-                                                           class="form-label">{{ __('Personal Title') }}</label>
-                                                    <select class="form-select mb-3"
-                                                            wire:model="usermetta_info.personaltitle">
+:                                                    <label for="designationInput" class="form-label fw-semibold">
+                                                        <i class="ri-user-star-line text-primary me-1"></i>
+                                                        {{ __('Personal Title') }}
+                                                    </label>
+                                                    <select class="form-select"
+                                                            wire:model="usermetta_info.personaltitle"
+                                                            id="designationInput"
+                                                            aria-label="{{ __('Personal Title') }}">
                                                         <option value="">{{__('no selected value')}}</option>
                                                         @foreach($personaltitles as $personaltitle)
-                                                            <option
-                                                                    value="{{$personaltitle->id}}">{{__($personaltitle->name)}}</option>
+                                                            <option value="{{$personaltitle->id}}">{{__($personaltitle->name)}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="mb-3">
-                                                    <label for="websiteInput1"
-                                                           class="form-label">{{ __('Gender') }}</label>
-                                                    <select class="form-select mb-3" aria-label=" "
-                                                            wire:model="usermetta_info.gender">
-                                                        <
+                                                    <label for="genderInput" class="form-label fw-semibold">
+                                                        <i class="ri-user-heart-line text-primary me-1"></i>
+                                                        {{ __('Gender') }}
+                                                    </label>
+                                                    <select class="form-select"
+                                                            id="genderInput"
+                                                            wire:model="usermetta_info.gender"
+                                                            aria-label="{{ __('Gender') }}">
                                                         <option value="">{{__('no selected value')}}</option>
                                                         @foreach($genders as $gender)
-                                                            <option
-                                                                    value="{{$gender->id}}">{{__($gender->name)}}</option>
+                                                            <option value="{{$gender->id}}">{{__($gender->name)}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="mb-3">
-                                                    <label for="websiteInput1"
-                                                           class="form-label">{{ __('Your Preferred Language') }}</label>
-                                                    <select class="form-select mb-3" aria-label=" "
-                                                            wire:model="usermetta_info.idLanguage">
-                                                        <option value="" selected>{{__('no selected value')}}</option>
+                                                    <label for="languageInput" class="form-label fw-semibold">
+                                                        <i class="ri-global-line text-primary me-1"></i>
+                                                        {{ __('Your Preferred Language') }}
+                                                    </label>
+                                                    <select class="form-select"
+                                                            id="languageInput"
+                                                            wire:model="usermetta_info.idLanguage"
+                                                            aria-label="{{ __('Your Preferred Language') }}">
+                                                        <option value="">{{__('no selected value')}}</option>
                                                         @foreach($languages as $language)
-                                                            <option
-                                                                    value="{{$language->id}}">{{__($language->name)}}</option>
+                                                            <option value="{{$language->id}}">{{__($language->name)}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="mb-3">
-                                                    <label for="cityInput" class="form-label">{{ __('State') }}</label>
-                                                    <select class="form-select mb-3" aria-label=" "
-                                                            wire:model="usermetta_info.idState">
+                                                    <label for="cityInput" class="form-label fw-semibold">
+                                                        <i class="ri-map-pin-line text-primary me-1"></i>
+                                                        {{ __('State') }}
+                                                    </label>
+                                                    <select class="form-select"
+                                                            id="cityInput"
+                                                            wire:model="usermetta_info.idState"
+                                                            aria-label="{{ __('State') }}">
                                                         <option value="">{{__('Choose')}}</option>
                                                         @foreach($states as $state)
                                                             <option value="{{$state->id}}">{{__($state->name)}}</option>
@@ -504,93 +716,112 @@
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="mb-3">
-                                                    <label for="countryInput"
-                                                           class="form-label">{{ __('Country') }}</label>
-                                                    <input readonly wire:model="countryUser" type="text"
-                                                           class="form-control"
+                                                    <label for="countryInput" class="form-label fw-semibold">
+                                                        <i class="ri-earth-line text-primary me-1"></i>
+                                                        {{ __('Country') }}
+                                                    </label>
+                                                    <input readonly
+                                                           wire:model="countryUser"
+                                                           type="text"
+                                                           class="form-control bg-light"
                                                            id="countryInput"
                                                            {{ $disabled ? 'disabled' : ''  }}
-
-                                                           value="United States"/>
+                                                           value="United States"
+                                                           aria-label="{{ __('Country') }}"/>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="mb-3">
-                                                    <label for="zipcodeInput1"
-                                                           class="form-label">{{ __('National ID') }}</label>
-                                                    <input type="text" class="form-control" minlength="5" maxlength="50"
+                                                    <label for="zipcodeInput1" class="form-label fw-semibold">
+                                                        <i class="ri-bank-card-2-line text-primary me-1"></i>
+                                                        {{ __('National ID') }}
+                                                        <span class="text-danger">*</span>
+                                                    </label>
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           minlength="5"
+                                                           maxlength="50"
                                                            wire:model="usermetta_info.nationalID"
-                                                           id="zipcodeInput1" {{ $disabled ? 'disabled' : ''  }}
-                                                    >
-                                                    <div
-                                                            class="form-text">{{__('Required for account validation')}}</div>
+                                                           id="zipcodeInput1"
+                                                           {{ $disabled ? 'disabled' : ''  }}
+                                                           placeholder="{{ __('Enter your national ID') }}"
+                                                           aria-label="{{ __('National ID') }}"
+                                                           aria-required="true">
+                                                    <div class="form-text">
+                                                        <i class="ri-information-line"></i>
+                                                        {{__('Required for account validation')}}
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-12">
                                                 <div class="mb-3 pb-2">
-                                                    <label for="exampleFormControlTextarea"
-                                                           class="form-label">{{ __('Address') }}</label>
-                                                    <textarea wire:model="usermetta_info.adresse" class="form-control"
+                                                    <label for="exampleFormControlTextarea" class="form-label fw-semibold">
+                                                        <i class="ri-map-pin-user-line text-primary me-1"></i>
+                                                        {{ __('Address') }}
+                                                    </label>
+                                                    <textarea wire:model="usermetta_info.adresse"
+                                                              class="form-control"
                                                               id="exampleFormControlTextarea"
                                                               placeholder="{{__('Address')}}"
-                                                              rows="3">
-                                                    </textarea>
+                                                              rows="3"
+                                                              aria-label="{{ __('Address') }}"></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                         @if($paramIdUser =="")
                                             <div class="col-lg-12">
-                                                <button type="button" id="btnsaveUser"
-                                                        class="btn btn-soft-primary float-end">{{ __('Save') }}</button>
+                                                <div class="text-end pt-3 border-top">
+                                                    <button type="button" id="btnsaveUser"
+                                                            class="btn btn-primary px-4">
+                                                        <i class="ri-save-line me-1"></i>{{ __('Save') }}
+                                                    </button>
+                                                </div>
                                             </div>
                                         @else
                                             <div class="row">
                                                 <div class="col-lg-12">
-                                                    <div class="form-inline" x-data="{ open: false }">
-                                                        <div class="form-group mb-2">
-                                                            <button x-show="!open" type="button" @click="open = true"
-                                                                    class="btn btn-secondary ps-5 pe-5" id="reject">
-                                                                {{ __('Reject') }}
-                                                            </button>
-                                                            <button x-show="!open" class="btn btn-success ps-5 pe-5"
-                                                                    wire:click="approuve({{$paramIdUser}})"
-                                                                    id="validate">
-                                                                <div wire:loading
-                                                                     wire:target="approuve({{$paramIdUser}})">
-                                                <span class="spinner-border spinner-border-sm" role="status"
-                                                      aria-hidden="true"></span>
-                                                                    <span class="sr-only">{{__('Loading')}}...</span>
-                                                                </div>
-                                                                {{ __('Approve') }}
-                                                            </button>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="form-group mb-2">
-                                                                <label x-show="open">{{ __('Libele_Note') }}</label>
-                                                                <textarea class="form-control" wire:model="noteReject"
-                                                                          name="Text1" cols="80"
-                                                                          rows="5"
-                                                                          x-show="open">
-                                                        </textarea>
-                                                            </div>
-                                                            <div class="form-group mb-2">
-                                                                <button type="button" x-show="open"
-                                                                        wire:click="reject({{$paramIdUser}})"
-                                                                        class="btn btn-secondary ps-5 pe-5">
-                                                                    <div wire:loading
-                                                                         wire:target="reject({{$paramIdUser}})">
-                                                <span class="spinner-border spinner-border-sm" role="status"
-                                                      aria-hidden="true"></span>
-                                                                        <span
-                                                                                class="sr-only">{{__('Loading')}}...</span>
+                                                    <div class="border-top pt-4">
+                                                        <div class="form-inline" x-data="{ open: false }">
+                                                            <div class="d-flex gap-2 mb-3">
+                                                                <button x-show="!open" type="button" @click="open = true"
+                                                                        class="btn btn-danger px-4" id="reject">
+                                                                    <i class="ri-close-circle-line me-1"></i>{{ __('Reject') }}
+                                                                </button>
+                                                                <button x-show="!open" class="btn btn-success px-4"
+                                                                        wire:click="approuve({{$paramIdUser}})"
+                                                                        id="validate">
+                                                                    <div wire:loading wire:target="approuve({{$paramIdUser}})">
+                                                                        <span class="spinner-border spinner-border-sm me-1" role="status"
+                                                                              aria-hidden="true"></span>
                                                                     </div>
-                                                                    {{ __('Reject') }}
+                                                                    <i class="ri-checkbox-circle-line me-1"></i>{{ __('Approve') }}
                                                                 </button>
-                                                                <button type="button" x-show="open"
-                                                                        class="btn btn-danger ps-5 pe-5"
-                                                                        @click="open = false">
-                                                                    {{ __('canceled !') }}
+                                                            </div>
+                                                            <div class="row" x-show="open">
+                                                                <div class="col-12">
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label fw-semibold">
+                                                                            <i class="ri-file-text-line me-1"></i>{{ __('Libele_Note') }}
+                                                                        </label>
+                                                                        <textarea class="form-control"
+                                                                                  wire:model="noteReject"
+                                                                                  name="Text1"
+                                                                                  cols="80"
+                                                                                  rows="5"
+                                                                                  placeholder="{{ __('Enter rejection reason') }}"
+                                                                                  aria-label="{{ __('Rejection note') }}"></textarea>
+                                                                    </div>
+                                                                    <div class="d-flex gap-2">
+                                                                        <button type="button"
+                                                                                wire:click="reject({{$paramIdUser}})"
+                                                                                class="btn btn-danger px-4">
                                                                 </button>
+                                                                                <span class="spinner-border spinner-border-sm me-1" role="status"
+                                                                                      aria-hidden="true"></span>
+                                                                            </div>
+                                                                            <i class="ri-close-circle-line me-1"></i>{{ __('Reject') }}
+                                                                        </button>
+                                                                        <button type="button"
                                                             </div>
                                                         </div>
                                                     </div>
@@ -603,73 +834,114 @@
                                         class="tab-pane {{ $activeTab == 'changePassword' ? 'show active' : '' }} @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
                                         id="changePassword" role="tabpanel">
                                     <form action="">
-                                        <div class="row g-2">
+                                        <div class="alert alert-info border-0 mb-4" role="alert">
+                                            <div class="d-flex align-items-center">
+                                                <i class="ri-lock-password-line fs-4 me-2"></i>
+                                                <div>
+                                                    <h6 class="alert-heading mb-1">{{ __('Password Security') }}</h6>
+                                                    <small class="mb-0">{{ __('Please use a strong password with at least 8 characters') }}</small>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-3">
                                             <div class="col-lg-4">
-                                                <label for="oldpasswordInput" class="form-label">
+                                                <label for="oldpasswordInput" class="form-label fw-semibold">
+                                                    <i class="ri-lock-unlock-line text-primary me-1"></i>
                                                     {{ __('Current Password') }}
                                                     <span class="text-danger">*</span>
                                                 </label>
-                                                <div class="position-relative auth-p
-                                        ass-inputgroup mb-3">
-                                                    <input wire:model="oldPassword" type="password"
-                                                           class="form-control pe-5" name="password"
+                                                <div class="position-relative auth-pass-inputgroup">
+                                                    <input wire:model="oldPassword"
+                                                           type="password"
+                                                           class="form-control pe-5"
+                                                           name="password"
                                                            placeholder="{{__('Old password')}}"
-                                                           id="oldpasswordInput">
+                                                           id="oldpasswordInput"
+                                                           aria-label="{{__('Current Password')}}"
+                                                           aria-required="true">
                                                     <button
                                                             class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
-                                                            type="button" id="toggleOldPassword"><i
-                                                                class="ri-eye-fill align-middle"></i></button>
+                                                            type="button"
+                                                            id="toggleOldPassword"
+                                                            aria-label="{{__('Toggle password visibility')}}">
+                                                        <i class="ri-eye-fill align-middle"></i>
+                                                    </button>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
-                                                <label for="newpasswordInput" class="form-label">
+                                                <label for="newpasswordInput" class="form-label fw-semibold">
+                                                    <i class="ri-lock-line text-primary me-1"></i>
                                                     {{ __('New Password') }}
                                                     <span class="text-danger">*</span>
                                                 </label>
-                                                <div class="position-relative auth-pass-inputgroup mb-3">
-                                                    <input wire:model="newPassword" type="password"
-                                                           class="form-control pe-5  "
-                                                           name="password" placeholder="{{__('New password please')}}"
-                                                           id="newpasswordInput">
+                                                <div class="position-relative auth-pass-inputgroup">
+                                                    <input wire:model="newPassword"
+                                                           type="password"
+                                                           class="form-control pe-5"
+                                                           name="password"
+                                                           placeholder="{{__('New password please')}}"
+                                                           id="newpasswordInput"
+                                                           aria-label="{{__('New Password')}}"
+                                                           aria-required="true">
                                                     <button
                                                             class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
-                                                            type="button" id="toggleNewPassword">
+                                                            type="button"
+                                                            id="toggleNewPassword"
+                                                            aria-label="{{__('Toggle password visibility')}}">
                                                         <i class="ri-eye-fill align-middle"></i>
                                                     </button>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
                                                 <div>
-                                                    <label for="confirmpasswordInput" class="form-label">
+                                                    <label for="confirmpasswordInput" class="form-label fw-semibold">
+                                                        <i class="ri-lock-line text-primary me-1"></i>
                                                         {{ __('New Confirm Password') }}
                                                         <span class="text-danger">*</span>
                                                     </label>
-                                                    <div class="position-relative auth-pass-inputgroup mb-3">
-                                                        <input wire:model="confirmedPassword" type="password"
-                                                               class="form-control" id="confirmpasswordInput"
-                                                               placeholder="{{__('Confirm password')}}">
+                                                    <div class="position-relative auth-pass-inputgroup">
+                                                        <input wire:model="confirmedPassword"
+                                                               type="password"
+                                                               class="form-control pe-5"
+                                                               id="confirmpasswordInput"
+                                                               placeholder="{{__('Confirm password')}}"
+                                                               aria-label="{{__('New Confirm Password')}}"
+                                                               aria-required="true">
                                                         <button
                                                                 class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
-                                                                type="button" id="toggleConfirmPassword">
+                                                                type="button"
+                                                                id="toggleConfirmPassword"
+                                                                aria-label="{{__('Toggle password visibility')}}">
                                                             <i class="ri-eye-fill align-middle"></i>
                                                         </button>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div style="" class="col-lg-12">
-                                                <div class="form-check form-switch ms-5 me-5 mb-3" dir="ltr">
-                                                    <input wire:model="sendPassSMS" type="checkbox" id="send"
-                                                           class="form-check-input" id="flexSwitchCheckDefault"
-                                                           checked="">
-                                                    <label class="form-check-label" for="customSwitchsizesm">
-                                                        {{ __('I want to receive my password by SMS') }}
-                                                    </label>
+                                            <div class="col-lg-12">
+                                                <div class="card bg-light border-0">
+                                                    <div class="card-body p-3">
+                                                        <div class="form-check form-switch">
+                                                            <input wire:model="sendPassSMS"
+                                                                   type="checkbox"
+                                                                   id="send"
+                                                                   class="form-check-input"
+                                                                   role="switch"
+                                                                   aria-checked="false">
+                                                            <label class="form-check-label" for="send">
+                                                                <i class="ri-message-2-line me-1"></i>
+                                                                {{ __('I want to receive my password by SMS') }}
+                                                            </label>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-12">
-                                                <div class="text-end">
-                                                    <button wire:click="PreChangePass" type="button"
-                                                            class="btn btn-soft-success">
+                                                <div class="text-end border-top pt-3">
+                                                    <button wire:click="PreChangePass"
+                                                            type="button"
+                                                            class="btn btn-success px-4">
+                                                        <i class="ri-key-2-line me-1"></i>
                                                         {{ __('Change password') }}
                                                     </button>
                                                 </div>

@@ -108,7 +108,6 @@ class  UserBalancesHelper
 
                     DB::commit();
                 } catch (\Exception $exception) {
-                    dd($exception);
                     DB::rollBack();
                     Log::error($exception->getMessage());
                 }

@@ -703,7 +703,6 @@
     position: absolute;
     right: 0;
     color: var(--vz-footer-color);
-    left: 250px;
     height: 60px;
     background-color: var(--vz-footer-bg)
 }

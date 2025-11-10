@@ -151,7 +151,7 @@ class SharesController extends Controller
     {
         return DB::table('shares_balances')
             ->select(DB::raw('DATE(created_at) as x'), DB::raw('SUM(value) as y'))
-            ->where('balance_operation_id', 44)
+            ->where('balance_operation_id', 20)
             ->groupBy('x')
             ->get();
     }

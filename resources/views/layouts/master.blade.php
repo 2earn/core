@@ -108,15 +108,15 @@
     <link rel="manifest" href="{{ asset('/manifest.json') }}">
     @laravelPWA
     @if(config('app.available_locales')[app()->getLocale()]['direction'] === 'rtl')
-        @vite(['resources/css/bootstrap-rtl.css','resources/css/icons-rtl.css','resources/css/app-rtl.css','resources/css/custom-rtl.css'])
+        @vite(['resources/css/tailwind.css','resources/css/bootstrap-rtl.css','resources/css/icons-rtl.css','resources/css/app-rtl.css','resources/css/custom-rtl.css'])
     @else
-        @vite(['resources/css/bootstrap.min.css','resources/css/icons.css','resources/css/app.css','resources/css/custom.css'])
+        @vite(['resources/css/tailwind.css','resources/css/bootstrap.min.css','resources/css/icons.css','resources/css/app.css','resources/css/custom.css'])
     @endif
 </head>
 <body>
 @section('body')
     @livewireScripts
-    @vite(['resources/css/select2.min.css','resources/css/dataTables.bootstrap.css','resources/css/material-components-web.min.css','resources/js/layout.js'])
+    @vite(['resources/css/menumodals.css','resources/css/select2.min.css','resources/css/dataTables.bootstrap.css','resources/css/material-components-web.min.css','resources/js/layout.js'])
     @vite(['resources/css/intlTelInput.min.css','resources/fontawesome/all.min.css','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/intlTelInput.js'])
     <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PMK39HQQ"
@@ -126,7 +126,6 @@
 @show
 <div id="layout-wrapper">
     <livewire:top-bar :currentRoute="Route::currentRouteName()"/>
-    <livewire:sidebar />
     <div class="main-content">
         <div class="page-content">
             @yield('content')
@@ -171,61 +170,65 @@
         var url = '';
     });
     document.addEventListener("DOMContentLoaded", function () {
-        $.ajax({
-            url: "{{ route('get_request_ajax') }}",
-            type: 'GET',
-            dataType: "json",
-            success: function (result) {
-                try {
-                    document.getElementById("NotificationRequest").innerHTML = "";
-                    var resultData = result.data;
+        const elementNotificationRequest = document.getElementById("yourElementId");
+        if (elementNotificationRequest) {
+            $.ajax({
+                url: "{{ route('get_request_ajax') }}",
+                type: 'GET',
+                headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
+                dataType: "json",
+                success: function (result) {
+                    try {
+                        document.getElementById("NotificationRequest").innerHTML = "";
+                        var resultData = result.data;
 
-                    if (resultData['requestInOpen'] > 0) {
-                        var tag = document.createElement("span");
-                        tag.id = "sideNotIn"
-                        tag.classList.add("badge")
-                        tag.classList.add("badge-pill")
-                        tag.style.backgroundColor = "#3fc3ee"
-                        var text = document.createTextNode(resultData['requestInOpen']);
-                        tag.appendChild(text);
-                        var element = document.getElementById("NotificationRequest");
-                        element.appendChild(tag);
+                        if (resultData['requestInOpen'] > 0) {
+                            var tag = document.createElement("span");
+                            tag.id = "sideNotIn"
+                            tag.classList.add("badge")
+                            tag.classList.add("badge-pill")
+                            tag.style.backgroundColor = "#3fc3ee"
+                            var text = document.createTextNode(resultData['requestInOpen']);
+                            tag.appendChild(text);
+                            var element = document.getElementById("NotificationRequest");
+                            element.appendChild(tag);
+                        }
+                        if (resultData['requestOutAccepted'] > 0) {
+                            var tag = document.createElement("span");
+                            tag.id = "sideNotOutAccepted"
+                            tag.classList.add("badge")
+                            tag.classList.add("badge-pill")
+                            tag.style.backgroundColor = "#198C48"
+                            var text = document.createTextNode(resultData['requestOutAccepted']);
+                            tag.appendChild(text);
+                            var element = document.getElementById("NotificationRequest");
+                            element.appendChild(tag);
+                        }
+                        if (resultData['requestOutRefused'] > 0) {
+                            var tag = document.createElement("span");
+                            tag.id = "sideNotOutRefused"
+                            tag.classList.add("badge")
+                            tag.classList.add("badge-pill")
+                            tag.style.backgroundColor = "#dc3741"
+                            var text = document.createTextNode(resultData['requestOutRefused']);
+                            tag.appendChild(text);
+                            var element = document.getElementById("NotificationRequest");
+                            element.appendChild(tag);
+                        }
+                    } catch (e) {
+                        console.error(e)
                     }
-                    if (resultData['requestOutAccepted'] > 0) {
-                        var tag = document.createElement("span");
-                        tag.id = "sideNotOutAccepted"
-                        tag.classList.add("badge")
-                        tag.classList.add("badge-pill")
-                        tag.style.backgroundColor = "#198C48"
-                        var text = document.createTextNode(resultData['requestOutAccepted']);
-                        tag.appendChild(text);
-                        var element = document.getElementById("NotificationRequest");
-                        element.appendChild(tag);
+                    try {
+                        var element = document.getElementById('SReqIn');
+                        if (typeof (element) != 'undefined' && element != null) {
+                            element.innerHTML = "";
+                        }
+                    } catch (e) {
+                        console.error(e)
                     }
-                    if (resultData['requestOutRefused'] > 0) {
-                        var tag = document.createElement("span");
-                        tag.id = "sideNotOutRefused"
-                        tag.classList.add("badge")
-                        tag.classList.add("badge-pill")
-                        tag.style.backgroundColor = "#dc3741"
-                        var text = document.createTextNode(resultData['requestOutRefused']);
-                        tag.appendChild(text);
-                        var element = document.getElementById("NotificationRequest");
-                        element.appendChild(tag);
-                    }
-                } catch (e) {
-                    console.error(e)
                 }
-                try {
-                    var element = document.getElementById('SReqIn');
-                    if (typeof (element) != 'undefined' && element != null) {
-                        element.innerHTML = "";
-                    }
-                } catch (e) {
-                    console.error(e)
-                }
-            }
-        });
+            });
+        }
     });
 </script>
 </body>

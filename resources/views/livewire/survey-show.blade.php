@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="{{getContainerType()}}">
 @component('components.breadcrumb')
         @slot('title')
             {{ __('Survey Show') }} : {{ $survey->id }} - {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}

@@ -44,6 +44,7 @@ export default defineConfig({
         }),
         laravel({
             input: [
+                'resources/css/tailwind.css',
                 'resources/sass/app.scss',
                 'resources/css/dataTables.bootstrap.css',
                 'resources/css/rowReorder.bootstrap.css',
@@ -61,6 +62,7 @@ export default defineConfig({
                 'resources/js/intlTelInput.js',
                 'resources/js/turbo.js',
                 'resources/js/sweetalert2@11.js',
+                'resources/css/menumodals.css',
                 'resources/css/select2.min.css',
                 'resources/fontawesome/all.min.css',
                 'resources/css/intlTelInput.min.css',
@@ -140,6 +142,24 @@ export default defineConfig({
         }),
         {
             name: 'copy-specific-packages',
+            async buildStart() {
+                // Copy assets during dev mode
+                try {
+                    await fs.ensureDir(folder.dist_assets);
+                    await Promise.all([
+                        fs.copy(folder.src_assets + 'fonts', folder.dist_assets + 'fonts'),
+                        fs.copy(folder.src_assets + 'images', folder.dist_assets + 'images'),
+                        fs.copy(folder.src_assets + 'json', folder.dist_assets + 'json'),
+                        fs.copy(folder.src_assets + 'img', folder.dist_assets + 'img'),
+                        fs.copy(folder.src_assets + 'icons', folder.dist_assets + 'icons'),
+                        fs.copy(folder.src_assets + 'fontawesome', folder.dist_assets + 'fontawesome'),
+                        fs.copy(folder.src_assets + 'webfonts', folder.dist_assets + 'webfonts'),
+                    ]);
+                    console.log('✓ Static assets copied successfully');
+                } catch (error) {
+                    console.error('Error copying assets during buildStart:', error);
+                }
+            },
             async writeBundle() {
                 try {
                     await Promise.all([

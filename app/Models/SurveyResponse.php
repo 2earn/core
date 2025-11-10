@@ -4,15 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class SurveyResponse extends Model
 {
     protected $fillable = [
         'survey_id',
         'user_id',
+        'created_by',
+        'updated_by',
     ];
 
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     public function survey()
     {

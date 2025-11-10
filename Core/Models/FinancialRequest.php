@@ -3,12 +3,28 @@
 namespace Core\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class FinancialRequest extends Model
 {
-    protected $table = 'financial_request';
+    use HasAuditing;
 
-    public $timestamps = false;
+    protected $table = 'financial_request';
+    public $timestamps = true;
+
+    protected $fillable = [
+        'idSender',
+        'date',
+        'amount',
+        'status',
+        'idUserAccepted',
+        'dateAccepted',
+        'typeReq',
+        'securityCode',
+        'vu',
+        'created_by',
+        'updated_by',
+    ];
 
     protected $casts = [
         'amount' => 'decimal:2',

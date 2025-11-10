@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class Condition extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     public static $simpleOperands = ['=', '!=', '<', '>', '<=', '>='];
     public static $complexOperands = ['END WITH', 'START WITH', 'CONTAIN'];
@@ -72,6 +73,8 @@ class Condition extends Model
         'value',
         'group_id',
         'target_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function target()

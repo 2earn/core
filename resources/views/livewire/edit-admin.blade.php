@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="{{getContainerType()}}">
     <div>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
@@ -49,11 +49,7 @@
                                         <tr>
                                             <td>{{$userRole->id}}</td>
                                             <td>
-                                                @if($userRole->name)
-                                                    {{$userRole->name}}
-                                                @else
-                                                    <span class="text-muted">{{__('Not filled')}}</span>
-                                                @endif
+                                               <span class="text-danger">{{getUserDisplayedName($userRole->idUser)}}</span>
                                             </td>
                                             <td>{{$userRole->mobile}}</td>
                                             <td>{{__($userRole->role)}}</td>
@@ -91,7 +87,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <div><label><span>{{__('userRole')}}:</span> <span>{{$name}}</span> </label></div>
+                            <div><label><span>{{__('User')}}:</span> <span>{{$name}}</span> </label></div>
                             <p>{{ __('Mobile_Number') }}: {{$mobile}}</p>
                         </div>
                         <div class="form-group">
@@ -102,19 +98,6 @@
                                     <option value="{{$role->name}}">{{__($role->name)}}</option>
                                 @endforeach
                             </select>
-                        </div>
-                        <div class="form-group row mt-2 p-2">
-                            <label>{{ __('Platforms') }}</label>
-                            @foreach($platformes   as $key => $platform)
-                                <div class="col-4 form-check form-switch form-switch-custom form-switch-primary mb-3 ">
-                                    <input class="form-check-input" type="checkbox" role="switch"
-                                           id="flexSwitchCheckDefault"
-                                           wire:model="platformes.{{$key}}.is_selected">
-
-                                    <label
-                                        class="form-check-label font-weight-bold"> {{ __( $platform->name ) }}  </label>
-                                </div>
-                            @endforeach
                         </div>
                     </div>
                     <div class="modal-footer">

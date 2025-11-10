@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="{{getContainerType()}}">
     @component('components.breadcrumb')
         @slot('title')
             {{ $userGuideId ? __('Update User Guide') : __('Create User Guide') }}
@@ -49,9 +49,9 @@
                 </div>
                 <div class="mt-3">
                     <button type="submit"
-                            class="btn btn-primary">{{ $userGuideId ? __('Update') : __('Create') }}</button>
+                            class="btn btn-outline-success float-end mx-1">{{ $userGuideId ? __('Update') : __('Create') }}</button>
                     <a href="{{ route('user_guides_index', app()->getLocale()) }}"
-                       class="btn btn-secondary">{{ __('Cancel') }}</a>
+                       class="btn btn-outline-danger float-end">{{ __('Cancel') }}</a>
                 </div>
             </form>
         </div>

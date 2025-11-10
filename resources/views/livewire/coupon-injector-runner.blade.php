@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="{{getContainerType()}}">
     @section('title')
         {{ __('Coupon injector runner') }}
     @endsection
@@ -7,32 +7,59 @@
         @slot('title')
             {{ __('Coupon injector runner') }}
         @endslot
-    @endcomponent
-    <div class="row">
-        <div class="col-xl-12">
+    @endcomponent  <div class="row">
+        <div class="col-12 mb-3">
             @include('layouts.flash-messages')
         </div>
-        <div class="col-xl-12">
-            <div class="card">
-                <div class="card-header align-items-center border-0 d-flex">
-                    <h4 class="card-title mb-0 flex-grow-1">{{__('Coupon runner')}}</h4>
-                </div>
-                <div class="card-body p-0">
-                    <div class="p-3">
-                        <div class="input-group mb-0">
-                            <label class="input-group-text">{{__('Pin code')}}</label>
-                            <input type="text" wire:model.live="pin" class="form-control"
-                                   placeholder="{{__('Pin code')}}">
+    </div>
+    <div class="row g-3">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light border-bottom">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0 me-3">
+                            <div class="avatar-sm">
+                                <div class="avatar-title bg-primary-subtle text-primary rounded-circle fs-18">
+                                    <i class="ri-coupon-3-line"></i>
+                                </div>
+                            </div>
                         </div>
-                        <div class="pt-2">
-                            <button type="button" wire:click="runCoupon()"
-                                    class="btn btn-primary w-100">{{__('Run coupon')}}</button>
+                        <div class="flex-grow-1">
+                            <h5 class="card-title mb-0 fw-semibold text-dark">{{__('Coupon runner')}}</h5>
+                            <p class="text-muted small mb-0">{{__('Enter your pin code to redeem coupon')}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="pinCode" class="form-label fw-semibold">
+                                <i class="ri-lock-password-line me-1 text-primary"></i>{{__('Pin code')}}
+                            </label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-primary-subtle border-primary">
+                                    <i class="ri-key-2-line text-primary"></i>
+                                </span>
+                                <input type="text"
+                                       wire:model.live="pin"
+                                       id="pinCode"
+                                       class="form-control form-control-lg border-primary"
+                                       placeholder="{{__('Enter your pin code')}}">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="button"
+                                    wire:click="runCoupon()"
+                                    class="btn btn-primary btn-lg w-100 d-flex align-items-center justify-content-center gap-2">
+                                <i class="ri-play-circle-line fs-18"></i>
+                                <span>{{__('Run coupon')}}</span>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-xl-12">
+        <div class="col-12">
             @livewire('coupon-injector-user-index')
         </div>
     </div>

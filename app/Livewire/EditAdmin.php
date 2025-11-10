@@ -3,8 +3,6 @@
 namespace App\Livewire;
 
 use App\Models\User;
-use Core\Models\Platform;
-use Core\Models\UserPlatforms;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -23,12 +21,6 @@ class EditAdmin extends Component
     public $name;
     public $userRole;
     public $allRoles = [];
-    public $platformes = [];
-    protected $rules = [
-        //'platformes.*.selected' => 'required',
-        // Use is_selected to avoid conflict with Platform::selected() method
-        'platformes.*.is_selected' => 'required',
-    ];
     public $currentId;
 
     public function updatingSearch(): void
@@ -39,11 +31,6 @@ class EditAdmin extends Component
     public function changeRole($idUser)
     {
         try {
-            DB::table('user_plateforme')->where('user_id', $idUser)->delete();
-            // Use filter with the non-conflicting transient flag is_selected
-            foreach ($this->platformes->filter(function($p) { return isset($p->is_selected) && $p->is_selected == 1; }) as $platformUser) {
-                UserPlatforms::create(['user_id' => $idUser, 'plateforme_id' => $platformUser->id]);
-            }
             if ($this->userRole == "") {
                 return redirect()->route('role_assign', app()->getLocale())->with('danger', Lang::get('Please choose a role'));
             }
@@ -65,17 +52,9 @@ class EditAdmin extends Component
             $user->syncRoles('user');
         }
         $this->userRole = $user->getRoleNames()[0];
-        $this->name = $user->name;
+        $this->name =getUserDisplayedName($user->idUser);
         $this->mobile = $user->mobile;
         $this->currentId = $user->id;
-        $this->platformes = Platform::all();
-        foreach ($this->platformes as $p) {
-            // initialize a transient flag that doesn't collide with model methods
-            $p->is_selected = 0;
-            if ($p->selected($idUser)) {
-                $p->is_selected = 1;
-            }
-        }
     }
     public function render()
     {
@@ -84,7 +63,7 @@ class EditAdmin extends Component
             ->leftjoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->leftjoin('roles', 'model_has_roles.role_id', '=', 'roles.id')
             ->leftjoin('countries', 'users.idCountry', '=', 'countries.id')
-            ->selectRaw('users.id,users.name,users.mobile,users.idCountry,ifnull(model_has_roles.model_id,0) as idrole, ifnull(roles.name,\'sansRole\') role ,countries.name countrie ,countries.apha2 apha2')
+            ->selectRaw('users.id, users.idUser, users.name,users.mobile,users.idCountry,ifnull(model_has_roles.model_id,0) as idrole, ifnull(roles.name,\'sansRole\') role ,countries.name countrie ,countries.apha2 apha2')
             ->where('users.name', 'like', '%' . $this->search . '%')
             ->orWhere('users.mobile', 'like', '%' . $this->search . '%')
             ->orWhere('countries.name', 'like', '%' . $this->search . '%')

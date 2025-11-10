@@ -37,7 +37,7 @@
     color: #464fed !important
 }
 
-.logoTopCash span, .page-title-box {
+.logoTopCash span {
     background-color: #464fed !important
 }
 
@@ -71,10 +71,6 @@
 
 .logoTopDBLabel a, .logoTopDBLabel h5 {
     color: #009fe3 !important
-}
-
-[data-layout-mode=dark] .page-title-box {
-    background-color: #3c4257 !important
 }
 
 [data-layout-mode=dark] .tab2earn > li > a {
@@ -367,7 +363,7 @@ label, h1, h2, h3, h4, h5, h6, a, button, p, i, span, strong, .btn, div {
     color: red !important
 }
 
-.logoTopCashDanger span, .page-title-box {
+.logoTopCashDanger span {
     background-color: red !important
 }
 

@@ -8,10 +8,11 @@ use Core\Models\BalanceOperation;
 use Core\Models\Platform;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class DiscountBalances extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $fillable = [
         'value',
@@ -23,6 +24,8 @@ class DiscountBalances extends Model
         'beneficiary_id',
         'operator_id',
         'order_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function item()

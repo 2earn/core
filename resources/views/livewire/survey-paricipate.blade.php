@@ -1,4 +1,10 @@
-<div  class="container" >
+<div
+    @if(in_array($currentRouteName,["surveys_show","home","surveys_results"]))
+        class="container-fluid"
+    @else
+        class="container"
+    @endif
+>
     <div class="row">
         <div class="col-12">
             @include('layouts.flash-messages')
@@ -17,31 +23,59 @@
             @include('livewire.survey-item', ['survey' => $survey])
         </div>
     @endif
-    <div class="card-body row">
+    <div class="row">
         @if($survey->question)
-            <div class="card">
-                <form wire:submit="participate()">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
-                                                       <span
-                                                           class="badge btn {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'btn-success' : 'btn-danger'  }}">
-                          {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? __('Multiple') : __('Unique')  }}                                      </span>
-                                @if($survey->question->selection== \Core\Enum\Selection::MULTIPLE->value )
-                                    <span class="badge btn btn-info"> {{$survey->question->maxResponse}}</span>
-                                @endif
-                                <h6 class="card-header border-muted mb-0 flex-grow-1">{{__('Question statement')}}
-                                    :</h6>
-                                {{\App\Models\TranslaleModel::getTranslation($survey->question,'content',$survey->question->content)}}
+            <div class="col-12">
+                <div class="card border shadow-none material-shadow mb-3">
+                    <form wire:submit="participate()">
+                        <div class="card-header bg-light">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <h5 class="card-title mb-0">
+                                    <i class="ri-question-answer-line me-2 text-success"></i>
+                                    {{__('Survey Question')}}
+                                </h5>
+                                <div class="d-flex gap-2 align-items-center">
+                                    <span class="badge {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger'  }}">
+                                        <i class="{{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'ri-checkbox-multiple-line' : 'ri-radio-button-line' }} me-1"></i>
+                                        {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? __('Multiple') : __('Unique')  }}
+                                    </span>
+                                    @if($survey->question->selection== \Core\Enum\Selection::MULTIPLE->value )
+                                        <span class="badge bg-info-subtle text-info">
+                                            <i class="ri-list-check me-1"></i>
+                                            {{__('Max')}} {{$survey->question->maxResponse}}
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
-                            <div class="col-sm-12 col-md-6 col-lg-6">
-                                <h6 class="card-header border-muted mx-2 flex-grow-1">                                            {{__('Response')}}
-                                    :</h6>
-                                <ul class="list-group">
-                                    @forelse ($survey->question->serveyQuestionChoice as $choice)
-                                        <li class="list-group-item mt-2">
-                                            <div class="row">
-                                                <div class="col-sm-12 col-md-12 col-lg-12 text-muted">
+                        </div>
+
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12 mb-4">
+                                    <div class="alert alert-info border-0 material-shadow" role="alert">
+                                        <div class="d-flex align-items-start">
+                                            <div class="flex-shrink-0">
+                                                <i class="ri-question-line fs-20"></i>
+                                            </div>
+                                            <div class="flex-grow-1 ms-3">
+                                                <h6 class="alert-heading mb-2">{{__('Question statement')}}</h6>
+                                                <p class="mb-0 text-muted">
+                                                    {{\App\Models\TranslaleModel::getTranslation($survey->question,'content',$survey->question->content)}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <h6 class="mb-3">
+                                        <i class="ri-list-check-2 me-2 text-primary"></i>
+                                        {{__('Response')}}
+                                    </h6>
+                                    <div class="row g-3">
+                                        @forelse ($survey->question->serveyQuestionChoice as $choice)
+                                            <div class="col-12">
+                                                <div class="card card-body border shadow-none bg-light mb-0">
                                                     @if($survey->question->selection == \Core\Enum\Selection::UNIQUE->value)
                                                         <div class="form-check">
                                                             <input
@@ -52,10 +86,9 @@
                                                                 name="flexRadioDefault"
                                                                 id="flexRadio_{{$survey->question->id}}_{{$choice->id}}"
                                                             >
-                                                            <label class="form-check-label"
-                                                                   for="flexRadio_{{$survey->question->id}}_{{$choice->id}}">
-                                                                {{$loop->index+1}}
-                                                                - {{\App\Models\TranslaleModel::getTranslation($choice,'title',$choice->title)}}
+                                                            <label class="form-check-label fw-medium" for="flexRadio_{{$survey->question->id}}_{{$choice->id}}">
+                                                                <span class="badge bg-primary-subtle text-primary me-2">{{$loop->index+1}}</span>
+                                                                {{\App\Models\TranslaleModel::getTranslation($choice,'title',$choice->title)}}
                                                             </label>
                                                         </div>
                                                     @else
@@ -67,38 +100,40 @@
                                                                 value="{{$choice->id}}"
                                                                 id="flexCheck_{{$survey->question->id}}_{{$choice->id}}"
                                                             >
-                                                            <label class="form-check-label"
-                                                                   for="flexCheck_{{$survey->question->id}}_{{$choice->id}}">
-                                                                {{$loop->index+1}}
-                                                                - {{\App\Models\TranslaleModel::getTranslation($choice,'title',$choice->title)}}
+                                                            <label class="form-check-label fw-medium" for="flexCheck_{{$survey->question->id}}_{{$choice->id}}">
+                                                                <span class="badge bg-primary-subtle text-primary me-2">{{$loop->index+1}}</span>
+                                                                {{\App\Models\TranslaleModel::getTranslation($choice,'title',$choice->title)}}
                                                             </label>
                                                         </div>
                                                     @endif
                                                 </div>
                                             </div>
-                                        </li>
-                                    @empty
-                                        <li class="list-group-item mt-2">
-                                            {{__('No Choices')}}
-                                        </li>
-                                    @endforelse
-                                </ul>
+                                        @empty
+                                            <div class="col-12">
+                                                <div class="alert alert-warning material-shadow" role="alert">
+                                                    <i class="ri-alert-line me-2"></i>
+                                                    {{__('No Choices')}}
+                                                </div>
+                                            </div>
+                                        @endforelse
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-footer">
-                        <button class="btn btn-info add-btn float-end mb-2"
-                                type="submit"
-                                wire:loading.attr="disabled">
-                            {{__('Participate')}}
-                            <div wire:loading>
-                                                <span class="spinner-border spinner-border-sm" role="status"
-                                                      aria-hidden="true"></span>
-                                <span class="sr-only">{{__('Loading')}}...</span>
+
+                        <div class="card-footer bg-light">
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-outline-success waves-effect waves-light"
+                                        type="submit"
+                                        wire:loading.attr="disabled">
+                                    <i class="ri-send-plane-fill me-1 align-bottom"></i>
+                                    {{__('Participate')}}
+                                    <span wire:loading class="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span>
+                                </button>
                             </div>
-                        </button>
-                    </div>
-                </form>
+                        </div>
+                    </form>
+                </div>
             </div>
         @endif
     </div>

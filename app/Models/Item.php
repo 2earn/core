@@ -6,10 +6,11 @@ use App\Livewire\PlatformIndex;
 use Core\Models\Platform;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class Item extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $fillable = [
         'name',
@@ -22,6 +23,8 @@ class Item extends Model
         'stock',
         'deal_id',
         'platform_id',
+        'created_by',
+        'updated_by',
     ];
 
     protected $attributes = [

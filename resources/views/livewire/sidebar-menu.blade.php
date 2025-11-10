@@ -21,7 +21,7 @@
         </button>
     </div>
     <div id="scrollbar" class="sidebar-scroll">
-        <div class="container-fluid">
+        <div class="{{getContainerType()}}">
             <ul class="navbar-nav" id="navbar-nav">
                 @foreach($menuItems as $item)
                     @if(isset($item['super_admin']) && $item['super_admin'])

@@ -1,45 +1,153 @@
 <div class="tab-pane   @if($filter=="3" ) active show @endif" id="bfs_sms" role="tabpanel">
-    <div class="card">
-        <div class="card-header">
-            <h4 class="card-title">
-                {{ __('backand_BFS_Account_Funding') }}
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-gradient bg-warning-subtle align-items-center d-flex">
+            <h4 class="card-title mb-0 flex-grow-1">
+                <i class="ri-message-3-line text-warning me-2"></i>{{ __('backand_BFS_Account_Funding') }}
             </h4>
+            <span class="badge bg-warning-subtle text-warning">
+                <i class="ri-arrow-right-line me-1"></i>BFS >> SMS
+            </span>
         </div>
-        <div class="card-body">
-            <div
-                class="alert alert-info material-shadow border-0 rounded-top rounded-0 m-0 d-flex align-items-center mb-3">
-                <div class="flex-grow-1 text-truncate ">
-                    {{ __('SMS price') }} <strong>{{ $prix_sms}} </strong> {{__('DPC')}}
-                </div>
-            </div>
-            <div class="row gy-4">
-                <div class="col-xxl-8 mx-auto ">
-                    <div class="input-group">
-                        <span class="input-group-text" id="inputGroup-sizing-default">
-                            {{ __('Enter number of SMS') }}
-                        </span>
-                        <input type="number"
-                               oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"                               name="NSMS" id="NSMS"                    class="form-control text-center" placeholder="" onpaste="handlePaste(event)">
-                        <span class="input-group-text"
-                              id="inputGroup-sizing-default">{{ __('Enter your amount') }}</span>
-                        <input type="number" name="soldeSMS" id="soldeSMS"
-                               disabled                               class="form-control text-center"                               placeholder="{{ __('Enter your amount') }}"                               onpaste="handlePaste(event)">
+        <div class="card-body p-4">
+            <div class="alert alert-info border-0 shadow-sm mb-4">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="avatar-xs">
+                            <div class="avatar-title bg-info text-white rounded-circle">
+                                <i class="ri-information-line"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="mb-0">
+                            {{ __('SMS price') }}: <strong class="text-info">{{ $prix_sms}} {{__('DPC')}}</strong>
+                        </h6>
                     </div>
                 </div>
-                <div class="col-xxl-8 mx-auto text-center ">
-                    <div class="input-group">
-                        <span class="input-group-text" id="inputGroup-sizing-default">{{ __('Balance For Shopping') }} : (100.00%)</span>
-                        <input type="number" name="soldeBFSSMS" id="soldeBFSSMS"                               class="form-control text-center" disabled>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-xxl-5 mx-auto">
+                    <div class="card border border-warning h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="flex-shrink-0">
+                                    <div class="avatar-sm">
+                                        <div class="avatar-title bg-warning-subtle text-warning rounded">
+                                            <i class="ri-message-2-line fs-4"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h5 class="card-title mb-1">{{ __('Enter number of SMS') }}</h5>
+                                    <p class="text-muted mb-0 small">How many SMS do you need?</p>
+                                </div>
+                            </div>
+                            <div class="input-group input-group-lg mb-3">
+                                <span class="input-group-text bg-light">
+                                    <i class="ri-hashtag text-warning"></i>
+                                </span>
+                                <input type="number"
+                                       oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"
+                                       name="NSMS" id="NSMS"
+                                       class="form-control form-control-lg text-center fw-bold"
+                                       placeholder="0"
+                                       onpaste="handlePaste(event)">
+                                <span class="input-group-text bg-light text-muted">SMS</span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label small text-muted mb-1">
+                                    <i class="ri-money-dollar-circle-line me-1"></i>{{ __('Enter your amount') }}
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light">
+                                        <i class="ri-coins-line text-warning"></i>
+                                    </span>
+                                    <input type="number" name="soldeSMS" id="soldeSMS"
+                                           disabled
+                                           class="form-control text-center bg-light"
+                                           placeholder="0.00"
+                                           onpaste="handlePaste(event)">
+                                    <span class="input-group-text bg-light text-muted">
+                                        {{config('app.currency')}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
+                <div class="col-xxl-2 d-none d-xxl-flex align-items-center justify-content-center">
+                    <div class="text-center">
+                        <div class="avatar-sm mx-auto mb-2">
+                            <div class="avatar-title bg-success-subtle text-success rounded-circle">
+                                <i class="ri-arrow-right-line fs-4"></i>
+                            </div>
+                        </div>
+                        <small class="text-muted d-block">{{ __('Exchange') }}</small>
+                    </div>
+                </div>
+                <div class="col-12 d-xxl-none text-center my-2">
+                    <div class="avatar-sm mx-auto">
+                        <div class="avatar-title bg-success-subtle text-success rounded-circle">
+                            <i class="ri-arrow-down-line fs-4"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xxl-5 mx-auto">
+                    <div class="card border border-success h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="flex-shrink-0">
+                                    <div class="avatar-sm">
+                                        <div class="avatar-title bg-success-subtle text-success rounded">
+                                            <i class="ri-shopping-bag-line fs-4"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h5 class="card-title mb-1">{{ __('Balance For Shopping') }}</h5>
+                                    <p class="text-muted mb-0 small">BFS 100.00%</p>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label small text-muted mb-1">
+                                    <i class="ri-wallet-2-line me-1"></i>{{ __('Remaining BFS Balance') }}
+                                </label>
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-text bg-light">
+                                        <i class="ri-wallet-3-line text-success"></i>
+                                    </span>
+                                    <input type="number" name="soldeBFSSMS" id="soldeBFSSMS"
+                                           class="form-control form-control-lg text-center bg-light fw-bold"
+                                           disabled>
+                                    <span class="input-group-text bg-light text-muted">
+                                        {{config('app.currency')}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="alert alert-success mb-0">
+                                <div class="d-flex align-items-center">
+                                    <i class="ri-checkbox-circle-line fs-18 me-2"></i>
+                                    <small>Your BFS balance after exchange will be updated automatically</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="card-footer">
-            <button class="btn btn-soft-primary float-end mt-3" id="submitExchangeSms"
-                    onclick="ConfirmExchangeSms()">
-                {{ __('Exchange Now') }}
-            </button>
+        <div class="card-footer bg-light">
+            <div class="d-flex justify-content-end gap-2">
+                <button class="btn btn-warning btn-lg" id="submitExchangeSms"
+                        onclick="ConfirmExchangeSms()">
+                    <i class="ri-exchange-line me-2"></i>{{ __('Exchange Now') }}
+                </button>
+            </div>
         </div>
     </div>
     <script>

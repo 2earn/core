@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="{{getContainerType()}}">
     @section('title')
         {{ __('Hashtags') }} {{ $hashtagId ? 'Edit' : 'Create' }}
     @endsection

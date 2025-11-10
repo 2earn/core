@@ -10,7 +10,6 @@ use Livewire\Component;
 class PageTimer extends Component
 {
     const FROM_DATE = "2024/10/10";
-    const DEFAULT_DATE = "2025/04/01";
     public $timeRemaining;
     public $imagePath;
     public $targetDate;
@@ -21,9 +20,9 @@ class PageTimer extends Component
     {
         if (!is_null($deadline)) {
             $dateValue = DB::table('settings')->where('ParameterName', $deadline)->value('StringValue');
-            $this->targetDate = $dateValue ? new Datetime($dateValue) : new Datetime(self::DEFAULT_DATE);
+            $this->targetDate = $dateValue ? new Datetime($dateValue) :(new DateTime())->add(new \DateInterval('P30D'));
         } else {
-            $this->targetDate = new Datetime(self::DEFAULT_DATE);
+            $this->targetDate = (new DateTime())->add(new \DateInterval('P30D'));
         }
         $this->updateTimeRemaining($this->targetDate);
     }

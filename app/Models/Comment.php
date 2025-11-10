@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use App\Traits\HasAuditing;
 
 class Comment extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $fillable = [
         'content',
@@ -16,6 +17,8 @@ class Comment extends Model
         'validatedBy_id',
         'validatedAt',
         'user_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function validatedBy()

@@ -128,7 +128,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/user/edit-contact', EditUserContact::class)->name('user_contact_edit');
         Route::get('/balances/exchange/funding/RequestPulicUser', RequestPublicUser::class)->name('user_request_public');
         Route::get('/balances/exchange/funding/strip', stripView::class)->name('payment_strip');
-        Route::get('/paytabs', '\App\Livewire\Pay@test')->name('paytabs');
+        Route::get('/paytabs', '\\App\\Livewire\\Pay@test')->name('paytabs');
         Route::get('/hobbies', Hobbies::class)->name('hobbies');
 
         Route::prefix('/orders')->name('orders_')->group(function () {
@@ -229,6 +229,13 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
                 Route::get('/{id}/html/{lang}', \App\Livewire\TranslationHtmlEditor::class)->name('translate_html');
             });
 
+            // SMS Management
+            Route::prefix('/sms')->name('sms_')->group(function () {
+                Route::get('/', \App\Livewire\SmsIndex::class)->name('index');
+                Route::get('/data', [App\Http\Controllers\SmsController::class, 'getSmsData'])->name('data');
+                Route::get('/statistics', [App\Http\Controllers\SmsController::class, 'getStatistics'])->name('statistics');
+                Route::get('/{id}', [App\Http\Controllers\SmsController::class, 'show'])->name('show');
+            });
             Route::prefix('/target')->name('target_')->group(function () {
                 Route::get('/index', \App\Livewire\TargetIndex::class)->name('index');
                 Route::get('/', \App\Livewire\TargetCreateUpdate::class)->name('create_update');
@@ -312,18 +319,18 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         Route::get('/shares/solde', \App\Livewire\SharesSolde::class)->name('shares_solde');
 
-        Route::get('/stat-countries', 'App\Http\Controllers\ApiController@getCountriStat')->name('api_stat_countries');
-        Route::post('/validate-phone', 'App\Http\Controllers\ApiController@validatePhone')->name('validate_phone');
-        Route::post('/buy-action', 'App\Http\Controllers\ApiController@buyAction')->name('buy_action');
-        Route::get('/action-by-ammount', 'App\Http\Controllers\ApiController@actionByAmmount')->name('action_by_ammount');
-        Route::post('/gift-action-by-ammount', 'App\Http\Controllers\ApiController@giftActionByAmmount')->name('gift_action_by_ammount');
+        Route::get('/stat-countries', 'App\\Http\\Controllers\\ApiController@getCountriStat')->name('api_stat_countries');
+        Route::post('/validate-phone', 'App\\Http\\Controllers\\ApiController@validatePhone')->name('validate_phone');
+        Route::post('/buy-action', 'App\\Http\\Controllers\\ApiController@buyAction')->name('buy_action');
+        Route::get('/action-by-ammount', 'App\\Http\\Controllers\\ApiController@actionByAmmount')->name('action_by_ammount');
+        Route::post('/gift-action-by-ammount', 'App\\Http\\Controllers\\ApiController@giftActionByAmmount')->name('gift_action_by_ammount');
     });
 
     Route::prefix('/business/sector')->name('business_sector_')->group(function () {
         Route::get('/{id}/show', \App\Livewire\BusinessSectorShow::class)->name('show');
     });
 
-    Route::get('/users/list', 'App\Http\Controllers\ApiController@getUsersList')->name('api_users_list');
+    Route::get('/users/list', 'App\\Http\\Controllers\\ApiController@getUsersList')->name('api_users_list');
 
     Route::get('/login', Login::class)->name('login')->middleware('setLocalLogin');
 
@@ -331,22 +338,22 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
 });
 
-Route::get('/reset-not', 'App\Http\Controllers\FinancialRequestController@resetInComingNotification')->name('reset_incoming_notification');
-Route::get('/reset-not-out', 'App\Http\Controllers\FinancialRequestController@resetOutGoingNotification')->name('reset_out_going_notification');
+Route::get('/reset-not', 'App\\Http\\Controllers\\FinancialRequestController@resetInComingNotification')->name('reset_incoming_notification');
+Route::get('/reset-not-out', 'App\\Http\\Controllers\\FinancialRequestController@resetOutGoingNotification')->name('reset_out_going_notification');
 Route::get('/', function () {
     return redirect(app()->getLocale());
 });
 
-Route::get('/store-form', 'App\Http\Controllers\PostController@store')->name('save_ph');
-Route::get('/mail-verif', 'App\Http\Controllers\PostController@verifyMail')->name('mailVerif');
-Route::get('/mail-verif-Opt', 'App\Http\Controllers\PostController@mailVerifOpt')->name('mail_verif_opt');
-Route::get('/mail-verif-New', 'App\Http\Controllers\PostController@mailVerifNew')->name('mail_verif_New');
+Route::get('/store-form', 'App\\Http\\Controllers\\PostController@store')->name('save_ph');
+Route::get('/mail-verif', 'App\\Http\\Controllers\\PostController@verifyMail')->name('mailVerif');
+Route::get('/mail-verif-Opt', 'App\\Http\\Controllers\\PostController@mailVerifOpt')->name('mail_verif_opt');
+Route::get('/mail-verif-New', 'App\\Http\\Controllers\\PostController@mailVerifNew')->name('mail_verif_New');
 
-Route::get('/send-mail-notification', 'App\Http\Controllers\PostController@sendMail')->name('sendMail');
-Route::get('/members', 'App\Http\Controllers\PostController@getMember')->name('members');
+Route::get('/send-mail-notification', 'App\\Http\\Controllers\\PostController@sendMail')->name('sendMail');
+Route::get('/members', 'App\\Http\\Controllers\\PostController@getMember')->name('members');
 
-Route::get('/get-request-ajax', 'App\Http\Controllers\ApiController@getRequestAjax')->name('get_request_ajax');
-Route::get('/logout-sso', 'App\Http\Controllers\ApiController@logoutSSo')->name('logout_sso')->middleware('auth:api');
+Route::get('/get-request-ajax', 'App\\Http\\Controllers\\ApiController@getRequestAjax')->name('get_request_ajax');
+Route::get('/logout-sso', 'App\\Http\\Controllers\\ApiController@logoutSSo')->name('logout_sso')->middleware('auth:api');
 Route::view('/tests', 'tests');
 
 Route::get('/', function () {
