@@ -9,12 +9,15 @@ use App\Models\OperationCategory;
 use App\Models\SharesBalances;
 use App\Models\SMSBalances;
 use App\Models\TreeBalances;
+use App\Traits\HasAuditing;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class BalanceOperation extends Model
 {
+    use HasAuditing;
+
     protected $table = 'balance_operations';
 
     protected $fillable = [
@@ -29,6 +32,8 @@ class BalanceOperation extends Model
         'operation_category_id',
         'ref',
         'direction',
+        'created_by',
+        'updated_by',
     ];
 
     public function cashBalance(): HasMany

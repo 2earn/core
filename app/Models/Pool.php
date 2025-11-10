@@ -15,6 +15,8 @@ class Pool extends Model
         'name',
         'value',
         'max',
+        'created_by',
+        'updated_by',
     ];
 
     public function country()

@@ -11,7 +11,7 @@ class vip extends Model
     use HasFactory, HasAuditing;
 
     protected $table = 'vip';
-    public $timestamps = false;
+    public $timestamps = true;
     protected $fillable = [
         'idUser',
         'flashCoefficient',
@@ -25,6 +25,8 @@ class vip extends Model
         'declenchedDate',
         'closed',
         'closedDate',
+        'created_by',
+        'updated_by',
     ];
 
 }
