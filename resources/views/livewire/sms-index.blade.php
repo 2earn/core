@@ -1,14 +1,11 @@
 
 <div class="{{getContainerType()}}">
     @section('title')
-        {{ __('SMS Management') }}
+        {{ __('SMS') }}
     @endsection
 @component('components.breadcrumb')
-        @slot('li_1')
-            {{ __('SMS') }}
-        @endslot
         @slot('title')
-            {{ __('SMS Management') }}
+            {{ __('SMS') }}
         @endslot
     @endcomponent
     <div class="row mb-3">
