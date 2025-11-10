@@ -7,9 +7,22 @@
             {{ __('Home') }}
         @endslot
     @endcomponent
+
     <div class="row">
         @include('layouts.flash-messages')
     </div>
+    <div class="row mb-3 pb-1">
+        <div class="col-12">
+            <div class="d-flex align-items-lg-center flex-lg-row flex-column">
+                <div class="flex-grow-1">
+                    <h4 class="fs-16 mb-1">{{__('We\'re glad to see you again') }}
+                        , {{getUserDisplayedName(auth()->user()->idUser)}}!</h4>
+                    <p class="text-muted mb-0">{{__(getSettingStringParam('Welcome back', __('Everything’s set—let’s get started')))}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @if($flash)
         <div class="row justify-content-center">
             <div class="col-12">
