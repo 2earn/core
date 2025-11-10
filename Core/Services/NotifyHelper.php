@@ -2,6 +2,7 @@
 
 namespace Core\Services;
 
+use App\Models\Sms;
 use Core\Enum\OperateurSmsEnum;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
@@ -14,6 +15,7 @@ use Core\Models\Notification\SmsNotification;
 use Core\Models\SmsOperators\InternationalOperatorSms;
 use Core\Models\SmsOperators\SaSmsOperator;
 use Core\Models\SmsOperators\TunisieOperatorSms;
+use Illuminate\Support\Facades\Log;
 
 
 class NotifyHelper
@@ -50,6 +52,8 @@ class NotifyHelper
         switch ($typeNotificationEnum) {
             case TypeNotificationEnum::SMS:
                 if ($operateurSms == null) return;
+
+
                 $this->notifiable = match ($operateurSms) {
                     OperateurSmsEnum::Tunisie => new SmsNotification(
                         new TunisieOperatorSms($params["fullNumber"], $params["msg"], $typeEvent)
@@ -59,7 +63,21 @@ class NotifyHelper
                     ),
                     OperateurSmsEnum::international => new SmsNotification(new InternationalOperatorSms($params["fullNumber"], $params["msg"], $typeEvent)),
                     default => new  DefaultNotification(),
+
                 };
+
+                try {
+                    Sms::create([
+                        'message' => $params["msg"] ?? '',
+                        'destination_number' => $params["fullNumber"] ?? '',
+                        'source_number' => '2earn.cash',
+                        'created_by' => $params["userId"] ?? null,
+                        'updated_by' => $params["userId"] ?? null,
+                    ]);
+                    Log::info("NotifyHelper: SMS record created for " . ($params["fullNumber"] ?? 'unknown'));
+                } catch (\Exception $e) {
+                    Log::error("NotifyHelper: Failed to create SMS record: " . $e->getMessage());
+                }
                 break;
             case
             TypeNotificationEnum::MAIL:
