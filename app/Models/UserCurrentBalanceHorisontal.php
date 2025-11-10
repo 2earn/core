@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class UserCurrentBalanceHorisontal extends Model
 {
@@ -17,9 +18,11 @@ class UserCurrentBalanceHorisontal extends Model
         'sms_balance',
         'share_balance',
         'chances_balance',
+        'created_by',
+        'updated_by',
     ];
 
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $casts = ['bfss_balance' => 'array', 'chances_balance' => 'array'];
 

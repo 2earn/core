@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasAuditing;
 use Core\Enum\DealStatus;
 use Core\Models\Platform;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Log;
 class Deal extends Model
 {
     const INDEX_ROUTE_NAME = 'deals_index';
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $fillable = [
         'name',
@@ -41,6 +42,8 @@ class Deal extends Model
         'cash_jackpot',
         'cash_tree',
         'cash_cashback',
+        'created_by',
+        'updated_by',
     ];
 
 

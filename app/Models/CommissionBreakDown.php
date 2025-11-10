@@ -5,10 +5,11 @@ namespace App\Models;
 use Core\Enum\CommissionTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class CommissionBreakDown extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $fillable = [
         'trigger',
@@ -26,7 +27,9 @@ class CommissionBreakDown extends Model
         'cash_cashback',
         'camembert',
         'deal_paid_amount',
-        'additional_amount'
+        'additional_amount',
+        'created_by',
+        'updated_by',
     ];
     protected $casts = ['type' => CommissionTypeEnum::class];
 

@@ -10,10 +10,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Traits\HasAuditing;
 
 class TreeBalances extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $fillable = [
         'value',
@@ -25,6 +26,8 @@ class TreeBalances extends Model
         'beneficiary_id',
         'operator_id',
         'order_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function deal()

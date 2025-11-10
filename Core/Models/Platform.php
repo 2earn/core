@@ -8,6 +8,7 @@ use App\Models\Image;
 use App\Models\Item;
 use App\Models\ProductDealHistory;
 use App\Models\User;
+use App\Traits\HasAuditing;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\DB;
 
 class Platform extends Model
 {
+    use HasAuditing;
+
     protected $fillable = [
         'name',
         'description',
@@ -27,7 +30,9 @@ class Platform extends Model
         'owner_id',
         'marketing_manager_id',
         'financial_manager_id',
-        'business_sector_id'
+        'business_sector_id',
+        'created_by',
+        'updated_by',
     ];
 
     public $timestamps = true;

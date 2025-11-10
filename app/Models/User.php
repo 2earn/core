@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use App\Traits\HasAuditing;
 
 class User extends Authenticatable
 {
@@ -26,7 +27,7 @@ class User extends Authenticatable
     const DEFAULT_NATIONAL_BACK_URL = 'uploads/profiles/back-id-image.png';
     const DEFAULT_INTERNATIONAL_URL = 'uploads/profiles/international-id-image.png';
 
-    use HasApiTokens, HasFactory, Notifiable,HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasAuditing;
 
 
     protected $fillable = [
@@ -39,6 +40,8 @@ class User extends Authenticatable
         'idReservedUpline',
         'commited_investor',
         'instructor',
+        'created_by',
+        'updated_by',
     ];
 
     /**
@@ -95,6 +98,11 @@ class User extends Authenticatable
     public function currentBalances()
     {
         return $this->hasMany(CashBalances::class);
+    }
+
+    public function mettaUser()
+    {
+        return $this->hasOne(\Core\Models\metta_user::class, 'idUser', 'idUser');
     }
 
     public function profileImage()

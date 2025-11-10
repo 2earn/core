@@ -3,9 +3,12 @@
 namespace Core\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class translatetabs extends Model
 {
+    use HasAuditing;
+
     protected $table = 'translatetab';
 
     protected $fillable = [
@@ -16,8 +19,10 @@ class translatetabs extends Model
         'valueTr',
         'valueEs',
         'valueRu',
-        'valueDe'
+        'valueDe',
+        'created_by',
+        'updated_by',
     ];
 
-    public $timestamps = false;
+    public $timestamps = true;
 }

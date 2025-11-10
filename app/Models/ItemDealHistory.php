@@ -4,16 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class ItemDealHistory extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $fillable = [
         'start_date',
         'end_date',
         'item_id',
-        'deal_id'
+        'deal_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function Item()

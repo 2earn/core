@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class OrderDeal extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $fillable = [
         'total_amount',
@@ -25,6 +26,8 @@ class OrderDeal extends Model
         'final_discount',
         'deal_id',
         'order_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function deals()

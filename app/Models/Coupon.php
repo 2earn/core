@@ -5,10 +5,11 @@ namespace App\Models;
 use Core\Models\Platform;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class Coupon extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $fillable = [
         'pin',
@@ -22,6 +23,8 @@ class Coupon extends Model
         'reserved_until',
         'platform_id',
         'user_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function platform()

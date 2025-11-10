@@ -7,10 +7,11 @@ use App\Services\Balances\Balances;
 use Core\Models\BalanceOperation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class ChanceBalances extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $fillable = [
         'value',
@@ -22,6 +23,8 @@ class ChanceBalances extends Model
         'beneficiary_id',
         'operator_id',
         'pool_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function item()

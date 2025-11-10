@@ -5,15 +5,18 @@ namespace App\Models;
 use Core\Models\Platform;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class BusinessSector extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $fillable = [
         'name',
         'description',
-        'color'
+        'color',
+        'created_by',
+        'updated_by',
     ];
     const IMAGE_TYPE_THUMBNAILS = 'thumbnails';
     const IMAGE_TYPE_THUMBNAILS_HOME = 'thumbnails-home';

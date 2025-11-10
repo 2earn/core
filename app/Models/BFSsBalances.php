@@ -7,10 +7,11 @@ use App\Services\Balances\Balances;
 use Core\Models\Platform;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasAuditing;
 
 class BFSsBalances extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $table = 'bfss_balances';
 
@@ -28,6 +29,8 @@ class BFSsBalances extends Model
         'beneficiary_id',
         'operator_id',
         'order_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function item()

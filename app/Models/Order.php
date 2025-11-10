@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasAuditing;
 use Core\Enum\OrderEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use InvalidArgumentException;
 
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory, HasAuditing;
 
     protected $fillable = [
         'out_of_deal_amount',
@@ -36,6 +37,8 @@ class Order extends Model
         'payment_datetime',
         'payment_result',
         'payment_details',
+        'created_by',
+        'updated_by',
     ];
     protected $casts = [
         'status' => OrderEnum::class,
