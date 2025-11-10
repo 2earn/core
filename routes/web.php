@@ -229,6 +229,12 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
                 Route::get('/{id}/html/{lang}', \App\Livewire\TranslationHtmlEditor::class)->name('translate_html');
             });
 
+            // SMS Management
+            Route::prefix('/sms')->name('sms_')->group(function () {
+                Route::get('/', \App\Livewire\SmsIndex::class)->name('index');
+                Route::get('/data', [App\Http\Controllers\SmsController::class, 'getSmsData'])->name('data');
+                Route::get('/{id}', [App\Http\Controllers\SmsController::class, 'show'])->name('show');
+            });
             Route::prefix('/target')->name('target_')->group(function () {
                 Route::get('/index', \App\Livewire\TargetIndex::class)->name('index');
                 Route::get('/', \App\Livewire\TargetCreateUpdate::class)->name('create_update');

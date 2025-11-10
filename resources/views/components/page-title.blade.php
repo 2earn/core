@@ -404,6 +404,14 @@
                             </a>
                         </div>
                         <div class="col">
+                            <a href="{{route('sms_index', app()->getLocale(),false)}}"
+                               class="nav-link menu-link p-1 rounded hover-bg {{$currentRouteName=='sms_index'? 'active bg-light' : ''}}">
+                                <i class="ri-message-2-fill me-2"></i>
+                                <span>{{ __('SMS') }}</span>
+                            </a>
+                        </div>
+
+                        <div class="col">
                             <a href="{{route($sidebarTranslateArray[0], app()->getLocale(),false)}}"
                                class="nav-link menu-link p-1 rounded hover-bg {{$currentRouteName==$sidebarTranslateArray[0]? 'active bg-light' : ''}}">
                                 <i class="ri-translate-2 me-2"></i>

@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Traits\HasAuditing;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\HasAuditing;
 
 class Sms extends Model
 {
@@ -14,7 +14,11 @@ class Sms extends Model
         'message',
         'destination_number',
         'source_number',
+        'created_at',
+        'updated_at',
         'created_by',
         'updated_by',
     ];
+
+
 }
