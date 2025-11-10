@@ -26,6 +26,8 @@ class TreeBalances extends Model
         'beneficiary_id',
         'operator_id',
         'order_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function deal()

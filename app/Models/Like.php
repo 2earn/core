@@ -12,7 +12,9 @@ class Like extends Model
 
     protected $fillable = [
         'user_id',
-        'survey_id'
+        'survey_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function user()

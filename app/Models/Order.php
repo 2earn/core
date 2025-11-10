@@ -37,6 +37,8 @@ class Order extends Model
         'payment_datetime',
         'payment_result',
         'payment_details',
+        'created_by',
+        'updated_by',
     ];
     protected $casts = [
         'status' => OrderEnum::class,

@@ -18,6 +18,8 @@ class UserCurrentBalanceHorisontal extends Model
         'sms_balance',
         'share_balance',
         'chances_balance',
+        'created_by',
+        'updated_by',
     ];
 
     use HasFactory, HasAuditing;

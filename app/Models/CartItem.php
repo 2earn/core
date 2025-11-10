@@ -15,7 +15,9 @@ class CartItem extends Model
         'shipping',
         'unit_price',
         'total_amount',
-        'item_id'
+        'item_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function cart()

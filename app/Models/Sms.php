@@ -14,5 +14,7 @@ class Sms extends Model
         'message',
         'destination_number',
         'source_number',
+        'created_by',
+        'updated_by',
     ];
 }

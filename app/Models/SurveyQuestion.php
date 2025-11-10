@@ -15,6 +15,8 @@ class SurveyQuestion extends Model
         'selection',
         'maxResponse',
         'survey_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function serveyQuestionChoice()

@@ -27,7 +27,9 @@ class CommissionBreakDown extends Model
         'cash_cashback',
         'camembert',
         'deal_paid_amount',
-        'additional_amount'
+        'additional_amount',
+        'created_by',
+        'updated_by',
     ];
     protected $casts = ['type' => CommissionTypeEnum::class];
 

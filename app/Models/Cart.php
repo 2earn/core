@@ -16,7 +16,9 @@ class Cart extends Model
         'total_cart_quantity',
         'shipping',
         'user_id',
-        'cart_id'
+        'cart_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function user()

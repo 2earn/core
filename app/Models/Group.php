@@ -10,7 +10,10 @@ class Group extends Model
 {
     use HasFactory, HasAuditing;
 
-    protected $fillable = ['operator', 'target_id'];
+    protected $fillable = ['operator', 'target_id',
+        'created_by',
+        'updated_by',
+    ];
 
     public function target()
     {

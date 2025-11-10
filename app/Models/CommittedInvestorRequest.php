@@ -16,7 +16,9 @@ class CommittedInvestorRequest extends Model
         'request_date',
         'examination_date',
         'user_id',
-        'examiner_id'
+        'examiner_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function user()

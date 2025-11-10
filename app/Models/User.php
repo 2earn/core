@@ -40,6 +40,8 @@ class User extends Authenticatable
         'idReservedUpline',
         'commited_investor',
         'instructor',
+        'created_by',
+        'updated_by',
     ];
 
     /**

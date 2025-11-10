@@ -10,7 +10,10 @@ class TranslaleModel extends Model
 {
     use HasFactory, HasAuditing;
 
-    protected $fillable = ['name', 'value', 'valueFr', 'valueEn', 'valueTr', 'valueEs', 'valueRu', 'valueDe'];
+    protected $fillable = ['name', 'value', 'valueFr', 'valueEn', 'valueTr', 'valueEs', 'valueRu', 'valueDe',
+        'created_by',
+        'updated_by',
+    ];
 
     public static function getTranslateName($var, $property)
     {

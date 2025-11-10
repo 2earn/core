@@ -16,6 +16,8 @@ class CurrentBalances extends Model
         'amount',
         'value',
         'last_value',
+        'created_by',
+        'updated_by',
     ];
 
     public function user()

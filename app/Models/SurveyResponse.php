@@ -11,6 +11,8 @@ class SurveyResponse extends Model
     protected $fillable = [
         'survey_id',
         'user_id',
+        'created_by',
+        'updated_by',
     ];
 
     use HasFactory, HasAuditing;

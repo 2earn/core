@@ -23,6 +23,8 @@ class Item extends Model
         'stock',
         'deal_id',
         'platform_id',
+        'created_by',
+        'updated_by',
     ];
 
     protected $attributes = [

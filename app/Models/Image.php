@@ -23,7 +23,9 @@ class Image extends Model
 
     protected $fillable = [
         'type',
-        'url'
+        'url',
+        'created_by',
+        'updated_by',
     ];
 
     public static function validateImage($image)

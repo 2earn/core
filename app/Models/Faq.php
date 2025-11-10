@@ -12,6 +12,8 @@ class Faq extends Model
 
     protected $fillable = [
         'question',
-        'answer'
+        'answer',
+        'created_by',
+        'updated_by',
     ];
 }

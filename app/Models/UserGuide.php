@@ -15,6 +15,8 @@ class UserGuide extends Model
         'file_path',
         'user_id',
         'routes',
+        'created_by',
+        'updated_by',
     ];
 
     protected $casts = [

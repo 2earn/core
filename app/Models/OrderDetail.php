@@ -34,6 +34,8 @@ class OrderDetail extends Model
         'item_id',
 
         'note',
+        'created_by',
+        'updated_by',
     ];
 
     public function item()

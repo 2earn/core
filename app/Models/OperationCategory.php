@@ -14,6 +14,8 @@ class OperationCategory extends Model
         'name',
         'code',
         'description',
+        'created_by',
+        'updated_by',
     ];
 
     public function balanceOperation()

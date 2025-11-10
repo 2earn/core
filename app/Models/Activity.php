@@ -14,6 +14,8 @@ class Activity extends Model
         'name',
         'type',
         'chance',
+        'created_by',
+        'updated_by',
     ];
 
     public function chance(): MorphOne

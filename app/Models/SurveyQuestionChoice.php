@@ -13,6 +13,8 @@ class SurveyQuestionChoice extends Model
     protected $fillable = [
         'question_id',
         'title',
+        'created_by',
+        'updated_by',
     ];
 
     public function Question()

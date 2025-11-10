@@ -10,7 +10,10 @@ class Event extends Model
 {
     use HasFactory, HasAuditing;
 
-    protected $fillable = ['title', 'enabled', 'content', 'published_at', 'start_at', 'end_at', 'location'];
+    protected $fillable = ['title', 'enabled', 'content', 'published_at', 'start_at', 'end_at', 'location',
+        'created_by',
+        'updated_by',
+    ];
     protected $casts = [
         'published_at' => 'datetime',
         'start_at' => 'datetime',

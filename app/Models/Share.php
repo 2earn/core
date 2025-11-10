@@ -13,7 +13,9 @@ class Share extends Model
     protected $fillable = [
         'detail',
         'unique_id',
-        'item_id'
+        'item_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function Item()

@@ -14,7 +14,9 @@ class ItemDealHistory extends Model
         'start_date',
         'end_date',
         'item_id',
-        'deal_id'
+        'deal_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function Item()

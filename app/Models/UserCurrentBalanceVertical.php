@@ -18,5 +18,7 @@ class UserCurrentBalanceVertical extends Model
         'last_operation_id',
         'last_operation_date',
         'last_operation_value',
+        'created_by',
+        'updated_by',
     ];
 }

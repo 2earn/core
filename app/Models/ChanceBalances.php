@@ -23,6 +23,8 @@ class ChanceBalances extends Model
         'beneficiary_id',
         'operator_id',
         'pool_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function item()

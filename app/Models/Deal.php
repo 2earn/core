@@ -42,6 +42,8 @@ class Deal extends Model
         'cash_jackpot',
         'cash_tree',
         'cash_cashback',
+        'created_by',
+        'updated_by',
     ];
 
 

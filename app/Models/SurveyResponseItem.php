@@ -14,6 +14,8 @@ class SurveyResponseItem extends Model
         'surveyResponse_id',
         'surveyQuestion_id',
         'surveyQuestionChoice_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function surveyResponse()

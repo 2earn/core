@@ -12,7 +12,10 @@ class News extends Model
 
     use HasFactory, HasAuditing;
 
-    protected $fillable = ['title', 'enabled', 'content', 'published_at'];
+    protected $fillable = ['title', 'enabled', 'content', 'published_at',
+        'created_by',
+        'updated_by',
+    ];
     protected $casts = ['published_at' => 'datetime'];
 
     public function mainImage()

@@ -21,6 +21,8 @@ class BalanceInjectorCoupon extends Model
         'category',
         'type',
         'user_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function user()

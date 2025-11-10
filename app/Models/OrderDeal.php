@@ -26,6 +26,8 @@ class OrderDeal extends Model
         'final_discount',
         'deal_id',
         'order_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function deals()

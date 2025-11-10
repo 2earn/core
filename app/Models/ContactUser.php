@@ -13,7 +13,10 @@ class ContactUser extends Model
     protected $table = 'contact_users';
     public $timestamps = true;
 
-    protected $fillable = ['idUser', 'idContact', 'name', 'lastName', 'mobile', 'availablity', 'disponible', 'fullphone_number', 'phonecode'];
+    protected $fillable = ['idUser', 'idContact', 'name', 'lastName', 'mobile', 'availablity', 'disponible', 'fullphone_number', 'phonecode',
+        'created_by',
+        'updated_by',
+    ];
 
     public function user()
     {

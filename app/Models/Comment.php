@@ -17,6 +17,8 @@ class Comment extends Model
         'validatedBy_id',
         'validatedAt',
         'user_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function validatedBy()

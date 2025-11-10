@@ -23,6 +23,8 @@ class Coupon extends Model
         'reserved_until',
         'platform_id',
         'user_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function platform()

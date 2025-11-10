@@ -49,6 +49,8 @@ class Survey extends Model
         'disabledLike',
         'show_results_as_number',
         'show_results_as_percentage',
+        'created_by',
+        'updated_by',
     ];
 
     protected $casts = [

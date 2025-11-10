@@ -73,6 +73,8 @@ class Condition extends Model
         'value',
         'group_id',
         'target_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function target()
