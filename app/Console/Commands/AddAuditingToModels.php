@@ -27,72 +27,97 @@ class AddAuditingToModels extends Command
     public function handle()
     {
         $dryRun = $this->option('dry-run');
-        $modelsPath = app_path('Models');
 
-        if (!File::isDirectory($modelsPath)) {
-            $this->error("Models directory not found at: {$modelsPath}");
-            return 1;
-        }
+        // Define directories to scan
+        $directories = [
+            'App\Models' => app_path('Models'),
+            'Core\Models' => base_path('Core/Models'),
+        ];
 
-        $files = File::allFiles($modelsPath);
-        $updated = 0;
-        $skipped = 0;
-        $errors = 0;
+        $totalUpdated = 0;
+        $totalSkipped = 0;
+        $totalErrors = 0;
 
-        $this->info("Scanning models in: {$modelsPath}");
-        $this->newLine();
-
-        foreach ($files as $file) {
-            $content = File::get($file->getPathname());
-
-            // Skip if not a PHP file
-            if ($file->getExtension() !== 'php') {
+        foreach ($directories as $namespace => $path) {
+            if (!File::isDirectory($path)) {
+                $this->warn("⚠️  Directory not found: {$path}");
                 continue;
             }
 
-            // Skip if already has HasAuditing trait
-            if (str_contains($content, 'use HasAuditing') || str_contains($content, 'HasAuditing;')) {
-                $this->line("⏭️  Skipping {$file->getFilename()} - Already has HasAuditing trait");
-                $skipped++;
-                continue;
-            }
+            $this->info("Scanning models in: {$namespace} ({$path})");
+            $this->newLine();
 
-            // Check if it extends Model
-            if (!str_contains($content, 'extends Model') &&
-                !str_contains($content, 'extends Authenticatable')) {
-                $this->line("⏭️  Skipping {$file->getFilename()} - Does not extend Model");
-                $skipped++;
-                continue;
-            }
+            $files = File::allFiles($path);
+            $updated = 0;
+            $skipped = 0;
+            $errors = 0;
 
-            try {
-                $newContent = $this->addAuditingTrait($content);
+            foreach ($files as $file) {
+                $content = File::get($file->getPathname());
 
-                if ($newContent !== $content) {
-                    if (!$dryRun) {
-                        File::put($file->getPathname(), $newContent);
-                        $this->info("✅ Updated {$file->getFilename()}");
-                    } else {
-                        $this->info("🔍 Would update {$file->getFilename()}");
-                    }
-                    $updated++;
-                } else {
-                    $this->line("⏭️  Skipping {$file->getFilename()} - No changes needed");
-                    $skipped++;
+                // Skip if not a PHP file
+                if ($file->getExtension() !== 'php') {
+                    continue;
                 }
-            } catch (\Exception $e) {
-                $this->error("❌ Error processing {$file->getFilename()}: {$e->getMessage()}");
-                $errors++;
+
+                // Skip if already has HasAuditing trait
+                if (str_contains($content, 'use HasAuditing') || str_contains($content, 'HasAuditing;')) {
+                    $this->line("⏭️  Skipping {$file->getFilename()} - Already has HasAuditing trait");
+                    $skipped++;
+                    continue;
+                }
+
+                // Check if it extends Model
+                if (!str_contains($content, 'extends Model') &&
+                    !str_contains($content, 'extends Authenticatable')) {
+                    $this->line("⏭️  Skipping {$file->getFilename()} - Does not extend Model");
+                    $skipped++;
+                    continue;
+                }
+
+                try {
+                    $newContent = $this->addAuditingTrait($content);
+
+                    if ($newContent !== $content) {
+                        if (!$dryRun) {
+                            File::put($file->getPathname(), $newContent);
+                            $this->info("✅ Updated {$file->getFilename()}");
+                        } else {
+                            $this->info("🔍 Would update {$file->getFilename()}");
+                        }
+                        $updated++;
+                    } else {
+                        $this->line("⏭️  Skipping {$file->getFilename()} - No changes needed");
+                        $skipped++;
+                    }
+                } catch (\Exception $e) {
+                    $this->error("❌ Error processing {$file->getFilename()}: {$e->getMessage()}");
+                    $errors++;
+                }
             }
+
+            // Directory summary
+            $this->newLine();
+            $this->info("{$namespace} Summary:");
+            $this->line("  Updated: {$updated}");
+            $this->line("  Skipped: {$skipped}");
+            if ($errors > 0) {
+                $this->line("  Errors: {$errors}");
+            }
+            $this->newLine();
+
+            $totalUpdated += $updated;
+            $totalSkipped += $skipped;
+            $totalErrors += $errors;
         }
 
-        $this->newLine();
-        $this->info("Summary:");
-        $this->info("  Updated: {$updated}");
-        $this->info("  Skipped: {$skipped}");
+        // Overall summary
+        $this->info("=== Overall Summary ===");
+        $this->info("  Total Updated: {$totalUpdated}");
+        $this->info("  Total Skipped: {$totalSkipped}");
 
-        if ($errors > 0) {
-            $this->error("  Errors: {$errors}");
+        if ($totalErrors > 0) {
+            $this->error("  Total Errors: {$totalErrors}");
         }
 
         if ($dryRun) {

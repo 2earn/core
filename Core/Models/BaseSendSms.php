@@ -2,10 +2,8 @@
 namespace Core\Models;
 
 use Core\Interfaces\IOperateurSms;
-use Core\Interfaces\ISendSms;
-use function PHPUnit\Framework\throwException;
 
-class BaseSendSms  implements ISendSms {
+class BaseSendSms {
 
     public function sendSms(IOperateurSms $operator)
     {
