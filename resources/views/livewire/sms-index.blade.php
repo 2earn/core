@@ -352,11 +352,8 @@
 
              // Update statistics (mock function - replace with actual API call if needed)
              function updateStatistics(data) {
-                 // You can make an API call here to get actual statistics
-                 // For now, using the table data count
-                 if (data && data.recordsTotal) {
-                     $('#total-sms .counter-value').text(data.recordsTotal);
-                 }
+                 // Load statistics from API
+                 loadStatistics();
              }
 
              // Load statistics on page load
@@ -364,13 +361,24 @@
 
              function loadStatistics() {
                  $.ajax({
-                     url: "{{ route('sms_data', ['locale' => app()->getLocale()]) }}",
+                     url: "{{ route('sms_statistics', ['locale' => app()->getLocale()]) }}",
                      type: 'GET',
-                     data: {length: 1},
                      success: function (response) {
-                         if (response.recordsTotal) {
-                             $('#total-sms .counter-value').text(response.recordsTotal);
+                         if (response.total !== undefined) {
+                             $('#total-sms .counter-value').text(response.total);
                          }
+                         if (response.today !== undefined) {
+                             $('#today-sms .counter-value').text(response.today);
+                         }
+                         if (response.week !== undefined) {
+                             $('#week-sms .counter-value').text(response.week);
+                         }
+                         if (response.month !== undefined) {
+                             $('#month-sms .counter-value').text(response.month);
+                         }
+                     },
+                     error: function (xhr, error, thrown) {
+                         console.error('Statistics error:', error);
                      }
                  });
              }

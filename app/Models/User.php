@@ -100,6 +100,11 @@ class User extends Authenticatable
         return $this->hasMany(CashBalances::class);
     }
 
+    public function mettaUser()
+    {
+        return $this->hasOne(\Core\Models\metta_user::class, 'idUser', 'idUser');
+    }
+
     public function profileImage()
     {
         return $this->morphOne(Image::class, 'imageable')->where('type', '=', self::IMAGE_TYPE_PROFILE);

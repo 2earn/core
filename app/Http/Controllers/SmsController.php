@@ -87,6 +87,40 @@ class SmsController extends Controller
             ->make(true);
     }
 
+    public function getStatistics(Request $request)
+    {
+        $today = Sms::whereDate('created_at', today())->count();
+        $week = Sms::whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])->count();
+        $month = Sms::whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->count();
+        $total = Sms::count();
+
+        return response()->json([
+            'today' => $today,
+            'week' => $week,
+            'month' => $month,
+            'total' => $total
+        ]);
+    }
+
+    public function show($id)
+    {
+        $sms = Sms::findOrFail($id);
+        $user = null;
+
+        if ($sms->created_by) {
+            $user = User::with('mettaUser')->find($sms->created_by);
+            if ($user && $user->mettaUser) {
+                $user = $user->mettaUser;
+            }
+        }
+
+        return response()->json([
+            'sms' => $sms,
+            'user' => $user
+        ]);
+    }
 
 }
 
