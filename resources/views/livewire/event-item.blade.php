@@ -43,8 +43,7 @@
 
             <div @if($event->mainImage) class="col-sm-12 col-md-8 col-lg-8 mt-2"
                  @else class="col-sm-12 col-md-12 col-lg-12" @endif>
-                <span class="fw-semibold">{{ __('Content:') }}</span>
-                <blockquote class="text-muted">
+                <blockquote class="text-muted mt-2">
                     {!! \App\Models\TranslaleModel::getTranslation($event,'content',$event->content) !!}
                 </blockquote>
                 @if(\App\Models\User::isSuperAdmin())
