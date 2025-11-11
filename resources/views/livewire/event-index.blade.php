@@ -72,7 +72,7 @@
                                         @if(\App\Models\User::isSuperAdmin())
                                             <a class="link-info small text-decoration-none"
                                                href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($event,'title')])}}">
-                                                <i class="fa fa-language me-1"></i>{{__('See or update Translation')}}
+                                                <i class="fa fa-language me-1"></i>{{__('')}}
                                             </a>
                                         @endif
                                     </div>
@@ -136,7 +136,7 @@
                                                             <div class="mt-1">
                                                                 <a class="link-info small text-decoration-none"
                                                                    href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($event,'location')])}}">
-                                                                    <i class="fa fa-language me-1"></i>{{__('See or update Translation')}}
+                                                                    <i class="fa fa-language me-1"></i>{{__('Update Translation')}}
                                                                 </a>
                                                             </div>
                                                         @endif
@@ -157,7 +157,7 @@
                                                 <div class="mt-2">
                                                     <a class="link-info small text-decoration-none"
                                                        href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($event,'content')])}}">
-                                                        <i class="fa fa-language me-1"></i>{{__('See or update Translation')}}
+                                                        <i class="fa fa-language me-1"></i>{{__('Update Translation')}}
                                                     </a>
                                                 </div>
                                             @endif

@@ -51,7 +51,8 @@
                                 <div class="card-header">
                                     <h5 class="mb-0">{!! \App\Models\TranslaleModel::getTranslation($faq,'question',$faq->question) !!}</h5>
                                     @if(\App\Models\User::isSuperAdmin())
-                                        <a href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($faq,'question')])}}" class="me-2 link-info">{{__('See or update Translation')}}</a>
+                                        <a href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($faq,'question')])}}" class="me-2 link-info">
+                                            <i class="ri-translate-2 align-bottom me-1"></i>{{__('Update Translation')}}</a>
                                     @endif
                                 </div>
                                 <div class="card-body">
@@ -60,7 +61,8 @@
                                         <div class="small text-muted">{{__('Created at')}}: {{ $faq->created_at }}</div>
                                         <div>
                                             @if(\App\Models\User::isSuperAdmin())
-                                                <a href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($faq,'answer')])}}" class="me-2 link-info">{{__('See or update Translation')}}</a>
+                                                <a href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($faq,'answer')])}}" class="me-2 link-info">
+                                                    <i class="ri-translate-2 align-bottom me-1"></i>{{__('Update Translation')}}</a>
                                                 <a href="{{route('faq_create_update',['locale'=> app()->getLocale(),'idFaq'=>$faq->id])}}" class="btn btn-sm btn-soft-primary me-2">{{__('Edit')}}</a>
                                                 <button wire:click="deleteFaq('{{ $faq->id }}')" class="btn btn-sm btn-soft-danger" title="{{__('Delete Faq')}}">
                                                     {{__('Delete')}}

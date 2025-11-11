@@ -26,7 +26,6 @@
                     <form>
                         <input type="hidden" wire:model.live="id">
 
-                        <!-- Question Content -->
                         <div class="mb-4">
                             <label for="content" class="form-label fw-semibold">
                                 {{__('Content')}} <span class="text-danger">*</span>

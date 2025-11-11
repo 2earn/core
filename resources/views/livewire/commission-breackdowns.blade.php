@@ -27,7 +27,7 @@
                                         <i class="ri-arrow-left-right-line me-1"></i>{{__(\Core\Enum\CommissionTypeEnum::tryFrom($commission->type->value)->name)}}
                                     </span>
                                     @if($commission->trigger)
-                                        <span class="badge bg-danger fs-14" title="{{__('Order trigger')}}">
+                                        <span class="text-danger fs-14" title="{{__('Order trigger')}}">
                                             <i class="ri-flashlight-line me-1"></i>{{$commission->trigger}}
                                         </span>
                                     @endif
@@ -53,7 +53,7 @@
                                                     <span class="text-muted">
                                                         <i class="ri-history-line me-1"></i>{{__('Old')}}
                                                     </span>
-                                                    <span class="badge bg-info-subtle text-info fs-14">
+                                                    <span class="text-info-subtle text-info fs-14">
                                                         {{$commission->old_turnover}} {{config('app.currency')}}
                                                     </span>
                                                 </div>
@@ -61,7 +61,7 @@
                                                     <span class="text-muted">
                                                         <i class="ri-refresh-line me-1"></i>{{__('New')}}
                                                     </span>
-                                                    <span class="badge bg-info fs-14">
+                                                    <span class="text-info fs-14">
                                                         {{$commission->new_turnover}} {{config('app.currency')}}
                                                     </span>
                                                 </div>
@@ -87,7 +87,7 @@
                                                 <span class="text-muted">
                                                     <i class="ri-shopping-cart-line me-1"></i>{{__('Purchase value')}}
                                                 </span>
-                                                <span class="badge bg-warning fs-14">
+                                                <span class="text-warning fs-14">
                                                     {{$commission->purchase_value}} {{config('app.currency')}}
                                                 </span>
                                             </div>
@@ -95,7 +95,7 @@
                                                 <span class="text-muted">
                                                     <i class="ri-money-dollar-circle-line me-1"></i>{{__('Commission')}}
                                                 </span>
-                                                <span class="badge bg-success fs-14">
+                                                <span class="text-success fs-14">
                                                     {{$commission->commission_value}} {{config('app.currency')}}
                                                 </span>
                                             </div>
@@ -103,7 +103,7 @@
                                                 <span class="text-muted small">
                                                     <i class="ri-percent-line me-1"></i>{{__('Percentage')}}
                                                 </span>
-                                                <span class="badge bg-success-subtle text-success">
+                                                <span class="text-success-subtle text-success">
                                                     {{$commission->commission_percentage}} %
                                                 </span>
                                             </div>
@@ -125,7 +125,7 @@
                                                     <span class="text-muted">
                                                         <i class="ri-add-circle-line me-1"></i>{{__('Additional')}}
                                                     </span>
-                                                    <span class="badge bg-warning fs-14">
+                                                    <span class="text-warning fs-14">
                                                         {{$commission->additional_amount}} {{config('app.currency')}}
                                                     </span>
                                                 </div>
@@ -133,7 +133,7 @@
                                                     <span class="text-muted">
                                                         <i class="ri-pie-chart-2-line me-1"></i>{{__('Camembert')}}
                                                     </span>
-                                                    <span class="badge bg-success fs-14">
+                                                    <span class="text-success fs-14">
                                                         {{$commission->camembert}} {{config('app.currency')}}
                                                     </span>
                                                 </div>
@@ -166,7 +166,7 @@
                                                                 </small>
                                                             </div>
                                                             <div class="card-body d-flex align-items-center justify-content-center">
-                                                                <span class="badge bg-primary fs-14">
+                                                                <span class="text-primary fs-14">
                                                                     {{$commission->cash_company_profit}} {{config('app.currency')}}
                                                                 </span>
                                                             </div>
@@ -182,7 +182,7 @@
                                                                 </small>
                                                             </div>
                                                             <div class="card-body d-flex align-items-center justify-content-center">
-                                                                <span class="badge bg-warning fs-14">
+                                                                <span class="text-warning fs-14">
                                                                     {{$commission->cash_jackpot}} {{config('app.currency')}}
                                                                 </span>
                                                             </div>
@@ -198,7 +198,7 @@
                                                                 </small>
                                                             </div>
                                                             <div class="card-body d-flex align-items-center justify-content-center">
-                                                                <span class="badge bg-success fs-14">
+                                                                <span class="text-success fs-14">
                                                                     {{$commission->cash_tree}} {{config('app.currency')}}
                                                                 </span>
                                                             </div>
@@ -214,7 +214,7 @@
                                                                 </small>
                                                             </div>
                                                             <div class="card-body d-flex align-items-center justify-content-center">
-                                                                <span class="badge bg-info fs-14">
+                                                                <span class="text-info fs-14">
                                                                     {{$commission->cash_cashback}} {{config('app.currency')}}
                                                                 </span>
                                                             </div>

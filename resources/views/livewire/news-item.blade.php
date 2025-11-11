@@ -12,7 +12,8 @@
                 @if(\App\Models\User::isSuperAdmin())
                     <p class="mx-2">
                         <a class="link-info float-end"
-                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($news,'title')])}}">{{__('See or update Translation')}}</a>
+                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($news,'title')])}}">
+                            <i class="ri-translate-2 align-bottom me-1"></i>{{__('Update Translation')}}</a>
                     </p>
                 @endif
             </div>
@@ -35,7 +36,8 @@
                 @if(\App\Models\User::isSuperAdmin())
                     <p class="mx-2">
                         <a class="link-info float-end"
-                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($news,'content')])}}">{{__('See or update Translation')}}</a>
+                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($news,'content')])}}">
+                            <i class="ri-translate-2 align-bottom me-1"></i>{{__('Update Translation')}}</a>
                     </p>
                 @endif
 

@@ -45,7 +45,7 @@
                 <small class="text-muted">
                     <a class="link-info text-decoration-none"
                        href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'name')])}}">
-                        <i class="ri-translate me-1"></i>{{__('See or update Translation')}}
+                        <i class="ri-translate-2 align-bottom me-1"></i>{{__('Update Translation')}}
                     </a>
                 </small>
             </div>
@@ -255,7 +255,7 @@
                             <div class="mt-2">
                                 <a class="link-info text-decoration-none small"
                                    href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'description')])}}">
-                                    <i class="ri-translate me-1"></i>{{__('See or update Translation')}}
+                                    <i class="ri-translate-2 align-bottom me-1"></i>{{__('Update Translation')}}
                                 </a>
                             </div>
                         @endif
@@ -308,7 +308,7 @@
                                     </p>
                                     <a class="link-info text-decoration-none small"
                                        href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'disabledBtnDescription')])}}">
-                                        <i class="ri-translate me-1"></i>{{__('See or update Translation')}}
+                                        <i class="ri-translate-2 align-bottom me-1"></i>{{__('Update Translation')}}
                                     </a>
                                 </div>
                             </div>
@@ -331,7 +331,7 @@
                                     </p>
                                     <a class="link-info text-decoration-none small"
                                        href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'disabledResult')])}}">
-                                        <i class="ri-translate me-1"></i>{{__('See or update Translation')}}
+                                        <i class="ri-translate-2 align-bottom me-1"></i>{{__('Update Translation')}}
                                     </a>
                                 </div>
                             </div>
@@ -354,7 +354,7 @@
                                     </p>
                                     <a class="link-info text-decoration-none small"
                                        href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'disabledComment')])}}">
-                                        <i class="ri-translate me-1"></i>{{__('See or update Translation')}}
+                                        <i class="ri-translate-2 align-bottom me-1"></i>{{__('Update Translation')}}
                                     </a>
                                 </div>
                             </div>
@@ -376,7 +376,7 @@
                                     </p>
                                     <a class="link-info text-decoration-none small"
                                        href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'disabledLike')])}}">
-                                        <i class="ri-translate me-1"></i>{{__('See or update Translation')}}
+                                        <i class="ri-translate-2 align-bottom me-1"></i>{{__('Update Translation')}}
                                     </a>
                                 </div>
                             </div>
@@ -668,7 +668,7 @@
                     </div>
 
                     <div class="row g-3">
-                        <div class="col-lg-7">
+                        <div class="col-lg-12">
                             <div class="card border-0 ">
                                 <div class="card-body">
                                     <h6 class="text-info mb-2"><i class="ri-text me-2"></i>{{__('Question Content')}}
@@ -679,7 +679,7 @@
                                     @if(\App\Models\User::isSuperAdmin())
                                         <a class="link-info text-decoration-none small"
                                            href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey->question,'content')])}}">
-                                            <i class="ri-translate me-1"></i>{{__('See or update Translation')}}
+                                            <i class="ri-translate-2 align-bottom me-1"></i>{{__('Update Translation')}}
                                         </a>
                                     @endif
                                 </div>
@@ -699,7 +699,7 @@
                             @endif
                         </div>
 
-                        <div class="col-lg-5">
+                        <div class="col-lg-12">
                             <h6 class="text-info mb-3"><i class="ri-list-check-2 me-2"></i>{{__('Choices')}}</h6>
                             @forelse ($survey->question->serveyQuestionChoice as $choice)
                                 <div class="card mb-2 border">

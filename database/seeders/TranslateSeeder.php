@@ -1643,7 +1643,7 @@ class TranslateSeeder extends Seeder
             array('COL 1' => '1623', 'COL 2' => ') for a period of', 'COL 3' => ') for a period of', 'COL 4' => ') لمدة', 'COL 5' => ') pour une durée de', 'COL 6' => ') süresi boyunca', 'COL 7' => ') por un período de'),
             array('COL 1' => '1624', 'COL 2' => 'from', 'COL 3' => 'hours starting from', 'COL 4' => 'ساعة بداية من', 'COL 5' => 'heures à compter de', 'COL 6' => 'itibaren saatler', 'COL 7' => 'horas a partir de'),
             array('COL 1' => '1625', 'COL 2' => 'shares bought', 'COL 3' => 'shares', 'COL 4' => 'سهم', 'COL 5' => 'actions', 'COL 6' => 'hisseler	', 'COL 7' => 'acciones'),
-            array('COL 1' => '1626', 'COL 2' => 'See or update Translation', 'COL 3' => 'See or update Translation', 'COL 4' => 'شاهد أو قم بتحديث الترجمة', 'COL 5' => 'Voir ou mettre à jour la traduction', 'COL 6' => 'Çeviriyi gör veya güncelle	', 'COL 7' => 'Ver o actualizar traducción'),
+            array('COL 1' => '1626', 'COL 2' => 'Update Translation', 'COL 3' => 'Update Translation', 'COL 4' => 'شاهد أو قم بتحديث الترجمة', 'COL 5' => 'Voir ou mettre à jour la traduction', 'COL 6' => 'Çeviriyi gör veya güncelle	', 'COL 7' => 'Ver o actualizar traducción'),
             array('COL 1' => '1627', 'COL 2' => 'Enabled', 'COL 3' => 'Enabled', 'COL 4' => 'مفعّل', 'COL 5' => 'Activé', 'COL 6' => 'Etkin	', 'COL 7' => 'Activado'),
             array('COL 1' => '1628', 'COL 2' => 'Published', 'COL 3' => 'Published', 'COL 4' => 'منشور', 'COL 5' => 'Publié', 'COL 6' => 'Yayınlandı	', 'COL 7' => 'Publicado'),
             array('COL 1' => '1629', 'COL 2' => 'Updatable', 'COL 3' => 'Updatable', 'COL 4' => 'قابل للتحديث', 'COL 5' => 'Actualisable', 'COL 6' => 'Güncellenebilir	', 'COL 7' => 'Actualizable'),

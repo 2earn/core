@@ -22,7 +22,7 @@
                                 <span class="badge bg-primary-subtle text-primary">
                                     <a class="link-info text-decoration-none"
                                        href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($platform,'name')])}}">
-                                        <i class="ri-translate-2 align-bottom me-1"></i>{{__('See or update Translation')}}
+                                        <i class="ri-translate-2 align-bottom me-1"></i>{{__('Update Translation')}}
                                     </a>
                                 </span>
                             @endif

@@ -58,7 +58,7 @@
                                                 <i class="ri-translate-2 align-middle me-1"></i>
                                                 <a class="link-info text-decoration-none"
                                                    href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($business_sector,'name')])}}">
-                                                    {{__('See or update Translation')}}
+                                                    <i class="ri-translate-2 align-bottom me-1"></i>  {{__('Update Translation')}}
                                                 </a>
                                             </small>
                                         @endif
@@ -79,7 +79,7 @@
                                                     <i class="ri-translate-2 align-middle me-1"></i>
                                                     <a class="link-info text-decoration-none"
                                                        href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($business_sector,'description')])}}">
-                                                        {{__('See or update Translation')}}
+                                                        <i class="ri-translate-2 align-bottom me-1"></i>    {{__('Update Translation')}}
                                                     </a>
                                                 </small>
                                             </div>

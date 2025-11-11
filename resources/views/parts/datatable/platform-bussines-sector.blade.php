@@ -5,7 +5,7 @@
     @if(\App\Models\User::isSuperAdmin())
         <small class="mx-2">
             <a class="link-info"
-               href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($businessSector,'name')])}}">{{__('See or update Translation')}}</a>
+               href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($businessSector,'name')])}}">{{__('Update Translation')}}</a>
         </small>
     @endif
 @else

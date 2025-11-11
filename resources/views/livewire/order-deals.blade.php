@@ -43,7 +43,7 @@
                                             </h6>
                                         </div>
                                         <div class="card-body d-flex align-items-center justify-content-center">
-                                            <span class="badge bg-warning fs-16">
+                                            <span class="text-warning fs-16">
                                                 {{$orderDealsItem->total_amount}} {{config('app.currency')}}
                                             </span>
                                         </div>
@@ -61,13 +61,13 @@
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between align-items-center mb-2">
                                                 <span class="text-muted small">{{__('Discount')}}</span>
-                                                <span class="badge bg-success fs-14">
+                                                <span class="text-success fs-14">
                                                     {{$orderDealsItem->partner_discount}} {{config('app.currency')}}
                                                 </span>
                                             </div>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <span class="text-muted small">{{__('After discount')}}</span>
-                                                <span class="badge bg-primary fs-14">
+                                                <span class="text-primary fs-14">
                                                     {{$orderDealsItem->amount_after_partner_discount}} {{config('app.currency')}}
                                                 </span>
                                             </div>
@@ -86,13 +86,13 @@
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between align-items-center mb-2">
                                                 <span class="text-muted small">{{__('Discount')}}</span>
-                                                <span class="badge bg-success fs-14">
+                                                <span class="text-success fs-14">
                                                     {{$orderDealsItem->earn_discount}} {{config('app.currency')}}
                                                 </span>
                                             </div>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <span class="text-muted small">{{__('After discount')}}</span>
-                                                <span class="badge bg-primary fs-14">
+                                                <span class="text-primary fs-14">
                                                     {{$orderDealsItem->amount_after_earn_discount}} {{config('app.currency')}}
                                                 </span>
                                             </div>
@@ -111,13 +111,13 @@
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between align-items-center mb-2">
                                                 <span class="text-muted small">{{__('Discount')}}</span>
-                                                <span class="badge bg-success fs-14">
+                                                <span class="text-success fs-14">
                                                     {{$orderDealsItem->deal_discount}} {{config('app.currency')}}
                                                 </span>
                                             </div>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <span class="text-muted small">{{__('After discount')}}</span>
-                                                <span class="badge bg-primary fs-14">
+                                                <span class="text-primary fs-14">
                                                     {{$orderDealsItem->amount_after_deal_discount}} {{config('app.currency')}}
                                                 </span>
                                             </div>
@@ -134,7 +134,7 @@
                                             </h6>
                                         </div>
                                         <div class="card-body d-flex align-items-center justify-content-center">
-                                            <span class="badge bg-info fs-16">
+                                            <span class="text-info fs-16">
                                                 {{$orderDealsItem->total_discount}} {{config('app.currency')}}
                                             </span>
                                         </div>
@@ -152,13 +152,13 @@
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between align-items-center mb-2">
                                                 <span class="text-muted small">{{__('Amount')}}</span>
-                                                <span class="badge bg-success fs-14">
+                                                <span class="text-success fs-14">
                                                     {{$orderDealsItem->final_discount}} {{config('app.currency')}}
                                                 </span>
                                             </div>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <span class="text-muted small">{{__('Percentage')}}</span>
-                                                <span class="badge bg-success-subtle text-success">
+                                                <span class="text-success-subtle text-success">
                                                     {{$orderDealsItem->final_discount_percentage * 100}} {{config('app.percentage')}}
                                                 </span>
                                             </div>
@@ -175,7 +175,7 @@
                                             </h6>
                                         </div>
                                         <div class="card-body d-flex align-items-center justify-content-center">
-                                            <span class="badge bg-warning fs-16">
+                                            <span class="text-warning fs-16">
                                                 {{$orderDealsItem->lost_discount}} {{config('app.currency')}}
                                             </span>
                                         </div>
@@ -191,7 +191,7 @@
                                             </h6>
                                         </div>
                                         <div class="card-body d-flex align-items-center justify-content-center">
-                                            <span class="badge bg-danger fs-16">
+                                            <span class="text-danger fs-16">
                                                 {{$orderDealsItem->final_amount}} {{config('app.currency')}}
                                             </span>
                                         </div>

@@ -55,7 +55,7 @@
                         <div class="mt-2">
                             <a class="btn btn-sm btn-link text-info"
                                href="{{ route('translate_model_data', ['locale' => app()->getLocale(), 'search' => \App\Models\TranslaleModel::getTranslateName($businessSector, 'description')]) }}">
-                                <i class="ri-translate-2 align-bottom me-1"></i>{{ __('See or update Translation') }}
+                                <i class="ri-translate-2 align-bottom me-1"></i>{{ __('Update Translation') }}
                             </a>
                         </div>
                     @endif
