@@ -102,240 +102,264 @@
                         @endif
                         <div class="col-md-12">
                             @if($order->orderDetails()->count())
-                                <div class="card mt-2 border-0 shadow-sm">
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered align-middle mb-0">
-                                                <thead class="table-light">
-                                                <tr>
-                                                    <th scope="col" class="text-center">#</th>
-                                                    <th scope="col">{{__('Order details')}}</th>
-                                                    <th scope="col" class="text-end">{{__('Prices')}}</th>
-                                                    <th scope="col" class="text-end">{{__('Shipping')}}</th>
-                                                    @if($order->status->value >= \Core\Enum\OrderEnum::Simulated->value && in_array($currentRouteName, ['orders_simulation', 'orders_detail']))
-                                                        <th scope="col" class="text-end">{{__('Partner Discount')}}</th>
-                                                        <th scope="col" class="text-end">{{__('2earn Discount')}}</th>
-                                                        <th scope="col" class="text-end">{{__('Deal Discount')}}</th>
-                                                        <th scope="col" class="text-end">{{__('Total discount')}}</th>
+                                <div class="mt-2">
+                                    @foreach($order->orderDetails()->get() as $key => $orderDetail)
+                                        <div class="card mb-3 shadow-sm @if($orderDetail->item()->first()->deal()->exists()) border-success @else border @endif">
+                                            <div class="card-header @if($orderDetail->item()->first()->deal()->exists()) bg-success-subtle @else bg-light @endif">
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <span class="badge bg-primary fs-14">
+                                                        <i class="ri-hashtag me-1"></i>{{$key + 1}}
+                                                    </span>
+                                                    @if($orderDetail->item()->first()->deal()->exists())
+                                                        <span class="badge bg-success">
+                                                            <i class="ri-gift-line me-1"></i>{{__('Deal')}}
+                                                        </span>
                                                     @endif
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                @foreach($order->orderDetails()->get() as $key => $orderDetail)
-                                                    <tr @if($orderDetail->item()->first()->deal()->exists())
-                                                            class="table-success"
-                                                        @else
-                                                            class="table-light"
-                                                        @endif
-                                                    >
-                                                        <th scope="row" class="text-center fw-bold">{{$key + 1}}</th>
-                                                        <td>
-                                                            @if($currentRouteName=="orders_detail")
-                                                                <ul class="list-group list-group-flush">
-                                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                                        <strong><i
-                                                                                class="ri-price-tag-line text-primary me-1"></i>{{__('REF')}}
-                                                                            - {{__('Name')}}</strong>
-                                                                        <span
-                                                                            class="badge bg-primary-subtle text-primary">#{{$orderDetail->item()->first()->ref}} - {{$orderDetail->item()->first()->name}}</span>
-                                                                    </li>
-                                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                                        <strong><i
-                                                                                class="ri-money-dollar-circle-line text-success me-1"></i>{{__('Price')}}
-                                                                        </strong>
-                                                                        <span
-                                                                            class="badge bg-success-subtle text-success">
-                                                                        {{$orderDetail->unit_price}} {{config('app.currency')}}</span>
-                                                                    </li>
-
-                                                                    @if($orderDetail->item()->first()?->platform()->exists())
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row g-3">
+                                                    <!-- Order Details Column -->
+                                                    <div class="col-lg-6">
+                                                        <div class="card border h-100">
+                                                            <div class="card-header bg-light">
+                                                                <h6 class="card-title mb-0">
+                                                                    <i class="ri-file-list-line text-primary me-2"></i>{{__('Order details')}}
+                                                                </h6>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                @if($currentRouteName=="orders_detail")
+                                                                    <ul class="list-group list-group-flush">
                                                                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                                            <strong><i
-                                                                                    class="ri-computer-line text-info me-1"></i>{{__('Platform')}}
-                                                                            </strong>
-                                                                            <span
-                                                                                class="badge bg-info-subtle text-info">{{__($orderDetail->item()->first()?->platform()->first()?->name)}}</span>
+                                                                            <strong><i class="ri-price-tag-line text-primary me-1"></i>{{__('REF')}} - {{__('Name')}}</strong>
+                                                                            <span class="badge bg-primary-subtle text-primary">#{{$orderDetail->item()->first()->ref}} - {{$orderDetail->item()->first()->name}}</span>
                                                                         </li>
-                                                                    @endif
-
-                                                                    @if($orderDetail->item()->first()->deal()->exists())
-                                                                        <li class="list-group-item list-group-item-success d-flex justify-content-between align-items-center">
-                                                                            <strong><i
-                                                                                    class="ri-gift-line text-success me-1"></i>{{__('Deal')}}
-                                                                            </strong>
-                                                                            @if(\App\Models\User::isSuperAdmin())
-                                                                                <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->deal()->first()->id])}}"
-                                                                                   class="badge bg-success text-white text-decoration-none">
-                                                                                    {{$orderDetail->item()->first()->deal()->first()->id}}
-                                                                                    - {{$orderDetail->item()->first()->deal()->first()->name}}
-                                                                                </a>
-                                                                            @else
-                                                                                <span
-                                                                                    class="badge bg-success-subtle text-success">
-                                                                                    {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}
-                                                                                </span>
-                                                                            @endif
-
+                                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                            <strong><i class="ri-money-dollar-circle-line text-success me-1"></i>{{__('Price')}}</strong>
+                                                                            <span class="badge bg-success-subtle text-success">{{$orderDetail->unit_price}} {{config('app.currency')}}</span>
                                                                         </li>
-                                                                    @endif
-                                                                </ul>
-                                                            @else
-                                                                <div class="mb-3">
-                                                                    <div
-                                                                        class="d-flex justify-content-between align-items-start mb-2">
-                                                                        <strong class="text-muted"><i
-                                                                                class="ri-shopping-bag-line me-1"></i>{{__('Item')}}
-                                                                            :</strong>
-                                                                        <span class="badge bg-info-subtle text-info">
-                                                                            @if(\App\Models\User::isSuperAdmin())
-                                                                                <a href="{{route('items_detail',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->id])}}"
-                                                                                   class="text-info text-decoration-none">
-                                                                                    {{$orderDetail->item()->first()->ref}} - {{$orderDetail->item()->first()->name}}
-                                                                                </a>
-                                                                            @else
-                                                                                {{$orderDetail->item()->first()->ref}}
-                                                                                - {{$orderDetail->item()->first()->name}}
-                                                                            @endif
-                                                                        </span>
-                                                                    </div>
-                                                                    @if($orderDetail->item()->first()->deal()->exists())
-                                                                        <div
-                                                                            class="d-flex justify-content-between align-items-start">
-                                                                            <strong class="text-muted"><i
-                                                                                    class="ri-gift-line me-1"></i>{{__('Deal')}}
-                                                                                :</strong>
-                                                                            <span
-                                                                                class="badge bg-success-subtle text-success">
+                                                                        @if($orderDetail->item()->first()?->platform()->exists())
+                                                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                                <strong><i class="ri-computer-line text-info me-1"></i>{{__('Platform')}}</strong>
+                                                                                <span class="badge bg-info-subtle text-info">{{__($orderDetail->item()->first()?->platform()->first()?->name)}}</span>
+                                                                            </li>
+                                                                        @endif
+                                                                        @if($orderDetail->item()->first()->deal()->exists())
+                                                                            <li class="list-group-item list-group-item-success d-flex justify-content-between align-items-center">
+                                                                                <strong><i class="ri-gift-line text-success me-1"></i>{{__('Deal')}}</strong>
                                                                                 @if(\App\Models\User::isSuperAdmin())
-                                                                                    <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->deal()->first()->id])}}"
-                                                                                       class="text-success text-decoration-none">
+                                                                                    <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->deal()->first()->id])}}" class="badge bg-success text-white text-decoration-none">
                                                                                         {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}
                                                                                     </a>
                                                                                 @else
-                                                                                    {{$orderDetail->item()->first()->deal()->first()->id}}
-                                                                                    - {{$orderDetail->item()->first()->deal()->first()->name}}
+                                                                                    <span class="badge bg-success-subtle text-success">
+                                                                                        {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}
+                                                                                    </span>
+                                                                                @endif
+                                                                            </li>
+                                                                        @endif
+                                                                    </ul>
+                                                                @else
+                                                                    <div class="mb-3">
+                                                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                                                            <strong class="text-muted"><i class="ri-shopping-bag-line me-1"></i>{{__('Item')}}:</strong>
+                                                                            <span class="badge bg-info-subtle text-info">
+                                                                                @if(\App\Models\User::isSuperAdmin())
+                                                                                    <a href="{{route('items_detail',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->id])}}" class="text-info text-decoration-none">
+                                                                                        {{$orderDetail->item()->first()->ref}} - {{$orderDetail->item()->first()->name}}
+                                                                                    </a>
+                                                                                @else
+                                                                                    {{$orderDetail->item()->first()->ref}} - {{$orderDetail->item()->first()->name}}
                                                                                 @endif
                                                                             </span>
                                                                         </div>
-                                                                    @endif
-                                                                </div>
-                                                            @endif
-                                                        </td>
-                                                        <td class="text-end">
-                                                            <div class="d-flex flex-column align-items-end gap-2">
-                                                                <span class="badge bg-light text-dark border">
-                                                                    {{$orderDetail->qty}} × {{$orderDetail->unit_price}} {{config('app.currency')}}
-                                                                </span>
-                                                                <span class="badge bg-primary fs-14">
-                                                                    = {{$orderDetail->total_amount}} {{config('app.currency')}}
-                                                                </span>
-                                                            </div>
-                                                        </td>
-                                                        <td class="text-end">
-                                                            @if($orderDetail->shipping)
-                                                                <span
-                                                                    class="badge bg-warning-subtle text-warning fs-13">
-                                                                    <i class="ri-truck-line me-1"></i>{{$orderDetail->shipping}} {{config('app.currency')}}
-                                                                </span>
-                                                            @else
-                                                                <span class="text-muted">
-                                                                    <i class="ri-close-circle-line me-1"></i>{{__('No shipping')}}
-                                                                </span>
-                                                            @endif
-                                                        </td>
-                                                        @if($order->status->value >= \Core\Enum\OrderEnum::Simulated->value && in_array($currentRouteName, ['orders_simulation', 'orders_detail']))
-                                                            @if($orderDetail->item->deal()->exists())
-                                                                <td class="text-end">
-                                                                    <ul class="list-group">
-                                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                                            <i class="ri-percent-line text-primary"></i>
-                                                                            <span
-                                                                                class="badge bg-primary-subtle text-primary">
-                                                                                {{$orderDetail->partner_discount_percentage}}%
-                                                                            </span>
-                                                                        </li>
-                                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                                            <i class="ri-arrow-down-line text-danger"></i>
-                                                                            <span class="text-danger fw-semibold">
-                                                                                -{{$orderDetail->partner_discount}}
-                                                                            </span>
-                                                                        </li>
-                                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                                            <i class="ri-money-dollar-circle-line text-success"></i>
-                                                                            <span
-                                                                                class="badge bg-success-subtle text-success">
-                                                                                {{$orderDetail->amount_after_partner_discount}}
-                                                                            </span>
-                                                                        </li>
-                                                                    </ul>
-                                                                </td>
-                                                                <td class="text-end">
-                                                                    <ul class="list-group">
-                                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                                            <i class="ri-percent-line text-primary"></i>
-                                                                            <span
-                                                                                class="badge bg-primary-subtle text-primary">
-                                                                                {{$orderDetail->earn_discount_percentage}}%
-                                                                            </span>
-                                                                        </li>
-                                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                                            <i class="ri-arrow-down-line text-danger"></i>
-                                                                            <span class="text-danger fw-semibold">
-                                                                                -{{$orderDetail->earn_discount}}
-                                                                            </span>
-                                                                        </li>
-                                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                                            <i class="ri-money-dollar-circle-line text-success"></i>
-                                                                            <span
-                                                                                class="badge bg-success-subtle text-success">
-                                                                                {{$orderDetail->amount_after_earn_discount}}
-                                                                            </span>
-                                                                        </li>
-                                                                    </ul>
-                                                                </td>
-                                                                <td class="text-end">
-                                                                    <ul class="list-group">
-                                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                                            <i class="ri-percent-line text-primary"></i>
-                                                                            <span
-                                                                                class="badge bg-primary-subtle text-primary">
-                                                                                {{$orderDetail->deal_discount_percentage}}%
-                                                                            </span>
-                                                                        </li>
-                                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                                            <i class="ri-arrow-down-line text-danger"></i>
-                                                                            <span class="text-danger fw-semibold">
-                                                                                -{{$orderDetail->deal_discount}}
-                                                                            </span>
-                                                                        </li>
-                                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                                            <i class="ri-money-dollar-circle-line text-success"></i>
-                                                                            <span
-                                                                                class="badge bg-success-subtle text-success">
-                                                                                {{$orderDetail->amount_after_deal_discount}}
-                                                                            </span>
-                                                                        </li>
-                                                                    </ul>
-                                                                </td>
-                                                                <td class="text-end">
-                                                                    <span class="badge bg-success fs-14">
-                                                                        <i class="ri-discount-percent-line me-1"></i>{{$orderDetail->total_discount}} {{config('app.currency')}}
-                                                                    </span>
-                                                                </td>
-                                                            @else
-                                                                <td colspan="4" class="text-center">
-                                                                    <div class="alert alert-light mb-0">
-                                                                        <i class="ri-information-line me-1"></i>{{__('No deal in this order details')}}
+                                                                        @if($orderDetail->item()->first()->deal()->exists())
+                                                                            <div class="d-flex justify-content-between align-items-start">
+                                                                                <strong class="text-muted"><i class="ri-gift-line me-1"></i>{{__('Deal')}}:</strong>
+                                                                                <span class="badge bg-success-subtle text-success">
+                                                                                    @if(\App\Models\User::isSuperAdmin())
+                                                                                        <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->deal()->first()->id])}}" class="text-success text-decoration-none">
+                                                                                            {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}
+                                                                                        </a>
+                                                                                    @else
+                                                                                        {{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}
+                                                                                    @endif
+                                                                                </span>
+                                                                            </div>
+                                                                        @endif
                                                                     </div>
-                                                                </td>
-                                                            @endif
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Prices & Shipping Column -->
+                                                    <div class="col-lg-6">
+                                                        <div class="card border h-100">
+                                                            <div class="card-header bg-light">
+                                                                <h6 class="card-title mb-0">
+                                                                    <i class="ri-money-dollar-circle-line text-success me-2"></i>{{__('Prices')}} & {{__('Shipping')}}
+                                                                </h6>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <ul class="list-group list-group-flush">
+                                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                        <strong><i class="ri-calculator-line text-primary me-1"></i>{{__('Calculation')}}</strong>
+                                                                        <span class="badge bg-light text-dark border">
+                                                                            {{$orderDetail->qty}} × {{$orderDetail->unit_price}} {{config('app.currency')}}
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                        <strong><i class="ri-price-tag-3-line text-success me-1"></i>{{__('Total Amount')}}</strong>
+                                                                        <span class="badge bg-primary fs-14">
+                                                                            {{$orderDetail->total_amount}} {{config('app.currency')}}
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                        <strong><i class="ri-truck-line text-warning me-1"></i>{{__('Shipping')}}</strong>
+                                                                        @if($orderDetail->shipping)
+                                                                            <span class="badge bg-warning-subtle text-warning">
+                                                                                {{$orderDetail->shipping}} {{config('app.currency')}}
+                                                                            </span>
+                                                                        @else
+                                                                            <span class="text-muted">
+                                                                                <i class="ri-close-circle-line me-1"></i>{{__('No shipping')}}
+                                                                            </span>
+                                                                        @endif
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Discount Details (if applicable) -->
+                                                    @if($order->status->value >= \Core\Enum\OrderEnum::Simulated->value && in_array($currentRouteName, ['orders_simulation', 'orders_detail']))
+                                                        @if($orderDetail->item->deal()->exists())
+                                                            <div class="col-12">
+                                                                <div class="card border-warning">
+                                                                    <div class="card-header bg-warning-subtle">
+                                                                        <h6 class="card-title mb-0">
+                                                                            <i class="ri-discount-percent-line text-warning me-2"></i>{{__('Discount Breakdown')}}
+                                                                        </h6>
+                                                                    </div>
+                                                                    <div class="card-body">
+                                                                        <div class="row g-3">
+                                                                            <!-- Partner Discount -->
+                                                                            <div class="col-md-3">
+                                                                                <div class="card border">
+                                                                                    <div class="card-header bg-light">
+                                                                                        <small class="fw-bold text-muted">{{__('Partner Discount')}}</small>
+                                                                                    </div>
+                                                                                    <div class="card-body p-2">
+                                                                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                                                                            <i class="ri-percent-line text-primary"></i>
+                                                                                            <span class="badge bg-primary-subtle text-primary">
+                                                                                                {{$orderDetail->partner_discount_percentage}}%
+                                                                                            </span>
+                                                                                        </div>
+                                                                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                                                                            <i class="ri-arrow-down-line text-danger"></i>
+                                                                                            <span class="text-danger fw-semibold">
+                                                                                                -{{$orderDetail->partner_discount}}
+                                                                                            </span>
+                                                                                        </div>
+                                                                                        <div class="d-flex justify-content-between align-items-center">
+                                                                                            <i class="ri-money-dollar-circle-line text-success"></i>
+                                                                                            <span class="badge bg-success-subtle text-success">
+                                                                                                {{$orderDetail->amount_after_partner_discount}}
+                                                                                            </span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <!-- 2earn Discount -->
+                                                                            <div class="col-md-3">
+                                                                                <div class="card border">
+                                                                                    <div class="card-header bg-light">
+                                                                                        <small class="fw-bold text-muted">{{__('2earn Discount')}}</small>
+                                                                                    </div>
+                                                                                    <div class="card-body p-2">
+                                                                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                                                                            <i class="ri-percent-line text-primary"></i>
+                                                                                            <span class="badge bg-primary-subtle text-primary">
+                                                                                                {{$orderDetail->earn_discount_percentage}}%
+                                                                                            </span>
+                                                                                        </div>
+                                                                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                                                                            <i class="ri-arrow-down-line text-danger"></i>
+                                                                                            <span class="text-danger fw-semibold">
+                                                                                                -{{$orderDetail->earn_discount}}
+                                                                                            </span>
+                                                                                        </div>
+                                                                                        <div class="d-flex justify-content-between align-items-center">
+                                                                                            <i class="ri-money-dollar-circle-line text-success"></i>
+                                                                                            <span class="badge bg-success-subtle text-success">
+                                                                                                {{$orderDetail->amount_after_earn_discount}}
+                                                                                            </span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <!-- Deal Discount -->
+                                                                            <div class="col-md-3">
+                                                                                <div class="card border">
+                                                                                    <div class="card-header bg-light">
+                                                                                        <small class="fw-bold text-muted">{{__('Deal Discount')}}</small>
+                                                                                    </div>
+                                                                                    <div class="card-body p-2">
+                                                                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                                                                            <i class="ri-percent-line text-primary"></i>
+                                                                                            <span class="badge bg-primary-subtle text-primary">
+                                                                                                {{$orderDetail->deal_discount_percentage}}%
+                                                                                            </span>
+                                                                                        </div>
+                                                                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                                                                            <i class="ri-arrow-down-line text-danger"></i>
+                                                                                            <span class="text-danger fw-semibold">
+                                                                                                -{{$orderDetail->deal_discount}}
+                                                                                            </span>
+                                                                                        </div>
+                                                                                        <div class="d-flex justify-content-between align-items-center">
+                                                                                            <i class="ri-money-dollar-circle-line text-success"></i>
+                                                                                            <span class="badge bg-success-subtle text-success">
+                                                                                                {{$orderDetail->amount_after_deal_discount}}
+                                                                                            </span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <!-- Total Discount -->
+                                                                            <div class="col-md-3">
+                                                                                <div class="card border-success">
+                                                                                    <div class="card-header bg-success-subtle">
+                                                                                        <small class="fw-bold text-success">{{__('Total discount')}}</small>
+                                                                                    </div>
+                                                                                    <div class="card-body p-2 d-flex align-items-center justify-content-center">
+                                                                                        <span class="badge bg-success fs-14">
+                                                                                            <i class="ri-discount-percent-line me-1"></i>{{$orderDetail->total_discount}} {{config('app.currency')}}
+                                                                                        </span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @else
+                                                            <div class="col-12">
+                                                                <div class="alert alert-light mb-0">
+                                                                    <i class="ri-information-line me-1"></i>{{__('No deal in this order details')}}
+                                                                </div>
+                                                            </div>
                                                         @endif
-                                                    </tr>
-                                                @endforeach
-                                                </tbody>
-                                            </table>
+                                                    @endif
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
+                                    @endforeach
                                 </div>
                             @endif
                         </div>
@@ -517,7 +541,7 @@
                                                     <i class="ri-discount-percent-line text-primary me-2"></i>{{__('Discount')}}
                                                 </h5>
                                                 <div class="table-responsive">
-                                                    <table class="table table-bordered align-middle mb-0">
+                                                    <table class="table table-bordered align-middle mb-0 discount-table">
                                                         <thead class="table-light">
                                                         <tr>
                                                             <th scope="col">{{__('Reference')}}</th>
@@ -568,7 +592,7 @@
                                                     <i class="ri-shopping-bag-line text-info me-2"></i>{{__('BFS (Balances for Shopping)')}}
                                                 </h5>
                                                 <div class="table-responsive">
-                                                    <table class="table table-bordered align-middle mb-0">
+                                                    <table class="table table-bordered align-middle mb-0 bfs-table">
                                                         <thead class="table-light">
                                                         <tr>
                                                             <th scope="col">{{__('Reference')}}</th>
@@ -627,7 +651,7 @@
                                                     <i class="ri-wallet-3-line text-success me-2"></i>{{__('Cash')}}
                                                 </h5>
                                                 <div class="table-responsive">
-                                                    <table class="table table-bordered align-middle mb-0">
+                                                    <table class="table table-bordered align-middle mb-0 cash-table">
                                                         <thead class="table-light">
                                                         <tr>
                                                             <th scope="col">{{__('Reference')}}</th>
