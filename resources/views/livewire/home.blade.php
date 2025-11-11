@@ -7,9 +7,14 @@
             {{ __('Home') }}
         @endslot
     @endcomponent
+
     <div class="row">
         @include('layouts.flash-messages')
     </div>
+    <div id="wellcome-message">
+        <livewire:welcome-message />
+    </div>
+
     @if($flash)
         <div class="row justify-content-center">
             <div class="col-12">
@@ -358,9 +363,7 @@
             </div>
         </div>
     </section>
-    <section id="bussiness" class="mb-1">
-        <livewire:bussiness-sectors-home/>
-    </section>
+    <livewire:bussiness-sectors-home/>
     <section id="communication" class="p-1">
         <livewire:communication-board/>
     </section>

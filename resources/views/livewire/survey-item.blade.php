@@ -1,5 +1,5 @@
 <div class="card ribbon-box right border shadow-sm overflow-hidden material-shadow mb-4">
-    <div class="card-header bg-light border-bottom mt-2 border-info">
+    <div class="card-header border-bottom mt-2 border-info">
         @if(!in_array($currentRouteName,["surveys_show","surveys_participate","surveys_results"]))
             <div class="ribbon ribbon-success ribbon-shape trending-ribbon" title="{{__('Survey')}}">
                 <i class="ri-bookmark-fill text-white align-bottom float-start me-1"></i>
@@ -30,7 +30,7 @@
                         <span class="badge bg-secondary me-2">{{$survey->id}}</span>
                     @endif
                     {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}
-                        <span class="badge fs-6 px-3 py-2
+                    <span class="badge fs-6 px-3 py-2
                 {{ $survey->status==\Core\Enum\StatusSurvey::NEW->value ? 'bg-primary' : ''  }}
                 {{ $survey->status==\Core\Enum\StatusSurvey::OPEN->value ? 'bg-success' : ''  }}
                 {{ $survey->status==\Core\Enum\StatusSurvey::CLOSED->value ? 'bg-warning' : ''  }}
@@ -51,8 +51,8 @@
             </div>
         @endif
     </div>
-    @if(\App\Models\User::isSuperAdmin())
-        <div class="card-body bg-light">
+    @if(\App\Models\User::isSuperAdmin() && in_array($currentRouteName,["surveys_show"]))
+        <div class="card-body ">
             <h6 class="text-info mb-3"><i class="ri-settings-3-line me-2"></i>{{__('Admin Settings')}}</h6>
             <div class="row g-3">
                 <div class="col-sm-12 col-md-6 col-lg-3">
@@ -90,17 +90,21 @@
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                     <span><i class="ri-eye-line me-2"></i>{{__('Shows')}}</span>
-                                    <span class="badge bg-info px-2 py-1">{{__(\Core\Enum\TargetType::tryFrom($survey->show)?->name)}}</span>
+                                    <span
+                                        class="badge bg-info px-2 py-1">{{__(\Core\Enum\TargetType::tryFrom($survey->show)?->name)}}</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                     <span><i class="ri-hashtag me-2"></i>{{__('Show results as number')}}</span>
-                                    <span class="badge {{ $survey->show_results_as_number ? 'bg-success' : 'bg-danger' }} px-2 py-1">
+                                    <span
+                                        class="badge {{ $survey->show_results_as_number ? 'bg-success' : 'bg-danger' }} px-2 py-1">
                                         {{__($survey->show_results_as_number ? 'True' : 'False')}}
                                     </span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                    <span><i class="ri-percent-line me-2"></i>{{__('Show results as percentage')}}</span>
-                                    <span class="badge {{ $survey->show_results_as_percentage ? 'bg-success' : 'bg-danger' }} px-2 py-1">
+                                    <span><i
+                                            class="ri-percent-line me-2"></i>{{__('Show results as percentage')}}</span>
+                                    <span
+                                        class="badge {{ $survey->show_results_as_percentage ? 'bg-success' : 'bg-danger' }} px-2 py-1">
                                         {{__($survey->show_results_as_percentage ? 'True' : 'False')}}
                                     </span>
                                 </li>
@@ -116,15 +120,18 @@
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                     <span><i class="ri-time-line me-2"></i>{{__('Show attchivement Chrono')}}</span>
-                                    <span class="badge bg-info px-2 py-1">{{__(\Core\Enum\TargetType::tryFrom($survey->showAttchivementChrono)?->name)}}</span>
+                                    <span
+                                        class="badge bg-info px-2 py-1">{{__(\Core\Enum\TargetType::tryFrom($survey->showAttchivementChrono)?->name)}}</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                     <span><i class="ri-trophy-line me-2"></i>{{__('Show achievement %')}}</span>
-                                    <span class="badge bg-info px-2 py-1">{{__(\Core\Enum\TargetType::tryFrom($survey->showAttchivementGool)?->name)}}</span>
+                                    <span
+                                        class="badge bg-info px-2 py-1">{{__(\Core\Enum\TargetType::tryFrom($survey->showAttchivementGool)?->name)}}</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                     <span><i class="ri-archive-line me-2"></i>{{__('Show after archiving')}}</span>
-                                    <span class="badge bg-info px-2 py-1">{{__(\Core\Enum\TargetType::tryFrom($survey->showAfterArchiving)?->name)}}</span>
+                                    <span
+                                        class="badge bg-info px-2 py-1">{{__(\Core\Enum\TargetType::tryFrom($survey->showAfterArchiving)?->name)}}</span>
                                 </li>
                             </ul>
                         </div>
@@ -138,15 +145,18 @@
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                     <span><i class="ri-file-chart-line me-2"></i>{{__('Shows result')}}</span>
-                                    <span class="badge bg-info px-2 py-1">{{__(\Core\Enum\TargetType::tryFrom($survey->showResult)?->name)}}</span>
+                                    <span
+                                        class="badge bg-info px-2 py-1">{{__(\Core\Enum\TargetType::tryFrom($survey->showResult)?->name)}}</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                     <span><i class="ri-thumb-up-line me-2"></i>{{__('Likable')}}</span>
-                                    <span class="badge bg-info px-2 py-1">{{__(\Core\Enum\TargetType::tryFrom($survey->likable)?->name)}}</span>
+                                    <span
+                                        class="badge bg-info px-2 py-1">{{__(\Core\Enum\TargetType::tryFrom($survey->likable)?->name)}}</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                     <span><i class="ri-chat-3-line me-2"></i>{{__('Commentable')}}</span>
-                                    <span class="badge bg-info px-2 py-1">{{__(\Core\Enum\TargetType::tryFrom($survey->commentable)?->name)}}</span>
+                                    <span
+                                        class="badge bg-info px-2 py-1">{{__(\Core\Enum\TargetType::tryFrom($survey->commentable)?->name)}}</span>
                                 </li>
                             </ul>
                         </div>
@@ -160,7 +170,7 @@
         <div class="row g-4">
             @if($survey->canShowAttchivementChrono())
                 <div class="col-sm-12 col-md-6 col-lg-6">
-                    <div class="card border-0 bg-light h-100">
+                    <div class="card border-0  h-100">
                         <div class="card-body">
                             @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
                                 <div class="survey-countdown connect-page" title="{{$survey->endDate}}">
@@ -169,7 +179,8 @@
                                              data-start="{{$survey->startDate}}"
                                              data-end="{{$survey->endDate}}">
                                             <div class="counter timer">
-                                                <h5 class="title text-info mb-3"><i class="ri-time-line me-2"></i>{{__('time remaining')}}</h5>
+                                                <h5 class="title text-info mb-3"><i
+                                                        class="ri-time-line me-2"></i>{{__('time remaining')}}</h5>
                                                 <div class="counter-boxes d-flex justify-content-around flex-wrap">
                                                     <div class="count-box text-center">
                                                         <h3 class="value day text-primary">0</h3>
@@ -193,7 +204,8 @@
                                     </div>
                                 </div>
                             @else
-                                <h6 class="text-info mb-2"><i class="ri-time-line me-2"></i>{{__('Chrono Achievement')}}</h6>
+                                <h6 class="text-info mb-2"><i class="ri-time-line me-2"></i>{{__('Chrono Achievement')}}
+                                </h6>
                                 <h3 class="text-primary">{{$survey->getChronoAttchivement()}} %</h3>
                             @endif
                         </div>
@@ -205,9 +217,10 @@
                 <div class="row g-3 h-100">
                     @if($survey->canShowAttchivementGools())
                         <div class="col-sm-12 {{ $survey->goals ? 'col-md-6' : 'col-md-12' }}">
-                            <div class="card border-0 bg-light h-100">
+                            <div class="card border-0 h-100">
                                 <div class="card-body">
-                                    <h6 class="text-info mb-2"><i class="ri-trophy-line me-2"></i>{{__('Attchivement Gools')}}</h6>
+                                    <h6 class="text-info mb-2"><i
+                                            class="ri-trophy-line me-2"></i>{{__('Attchivement Gools')}}</h6>
                                     <h3 class="text-success">{{ $survey->getGoolsAttchivement()}} %</h3>
                                 </div>
                             </div>
@@ -216,7 +229,7 @@
 
                     @if($survey->goals != null && !empty($survey->goals))
                         <div class="col-sm-12 {{ $survey->canShowAttchivementGools() ? 'col-md-6' : 'col-md-12' }}">
-                            <div class="card border-0 bg-light h-100">
+                            <div class="card border-0  h-100">
                                 <div class="card-body">
                                     <h6 class="text-info mb-2"><i class="ri-flag-line me-2"></i>{{__('Goals')}}</h6>
                                     <p class="mb-0">{{$survey->goals}}</p>
@@ -228,7 +241,7 @@
             </div>
 
             <div class="col-12">
-                <div class="card border-0 bg-light">
+                <div class="card border-0 ">
                     <div class="card-body">
                         <h6 class="text-info mb-3"><i class="ri-file-text-line me-2"></i>{{__('Description')}}</h6>
                         <div class="text-muted">
@@ -240,7 +253,8 @@
                         </div>
                         @if(\App\Models\User::isSuperAdmin())
                             <div class="mt-2">
-                                <a class="link-info text-decoration-none small" href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'description')])}}">
+                                <a class="link-info text-decoration-none small"
+                                   href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'description')])}}">
                                     <i class="ri-translate me-1"></i>{{__('See or update Translation')}}
                                 </a>
                             </div>
@@ -251,7 +265,7 @@
 
             @if(\App\Models\User::isSuperAdmin())
                 <div class="col-12">
-                    <div class="card border-0 bg-light">
+                    <div class="card border-0 ">
                         <div class="card-body">
                             <h6 class="text-info mb-3"><i class="ri-focus-3-line me-2"></i>{{__('Target')}}</h6>
                             @if($survey->targets->isEmpty())
@@ -276,14 +290,15 @@
 
     @if(\App\Models\User::isSuperAdmin())
         @if(!is_null($survey->disabledResult) or !is_null($survey->disabledComment) or !is_null($survey->disabledLike) or !is_null($survey->disabledBtnDescription))
-            <div class="card-body bg-light border-top">
+            <div class="card-body  border-top">
                 <h6 class="text-warning mb-3"><i class="ri-error-warning-line me-2"></i>{{__('Disabled Messages')}}</h6>
                 <div class="row g-3">
                     @if($survey->disabledBtnDescription != null && !$survey->enabled)
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <div class="card border-warning h-100">
                                 <div class="card-body">
-                                    <h6 class="text-info mb-2"><i class="ri-forbid-line me-2"></i>{{__('Disabled button description')}}</h6>
+                                    <h6 class="text-info mb-2"><i
+                                            class="ri-forbid-line me-2"></i>{{__('Disabled button description')}}</h6>
                                     <p class="card-text text-muted mb-2">
                                         @if($currentRouteName=="surveys_show")
                                             {{\App\Models\TranslaleModel::getTranslation($survey,'disabledBtnDescription',$survey->disabledBtnDescription)}}
@@ -304,7 +319,9 @@
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <div class="card border-warning h-100">
                                 <div class="card-body">
-                                    <h6 class="text-info mb-2"><i class="ri-file-chart-line me-2"></i>{{__('Disabled result description')}}</h6>
+                                    <h6 class="text-info mb-2"><i
+                                            class="ri-file-chart-line me-2"></i>{{__('Disabled result description')}}
+                                    </h6>
                                     <p class="card-text text-muted mb-2">
                                         @if($currentRouteName=="surveys_show")
                                             {{\App\Models\TranslaleModel::getTranslation($survey,'disabledResult',$survey->disabledResult)}}
@@ -325,7 +342,9 @@
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <div class="card border-warning h-100">
                                 <div class="card-body">
-                                    <h6 class="text-info mb-2"><i class="ri-chat-off-line me-2"></i>{{__('Disabled comment description')}}</h6>
+                                    <h6 class="text-info mb-2"><i
+                                            class="ri-chat-off-line me-2"></i>{{__('Disabled comment description')}}
+                                    </h6>
                                     <p class="card-text text-muted mb-2">
                                         @if($currentRouteName=="surveys_show")
                                             {{\App\Models\TranslaleModel::getTranslation($survey,'disabledComment',$survey->disabledComment)}}
@@ -346,7 +365,8 @@
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <div class="card border-warning h-100">
                                 <div class="card-body">
-                                    <h6 class="text-info mb-2"><i class="ri-thumb-down-line me-2"></i>{{__('Disabled like description')}}</h6>
+                                    <h6 class="text-info mb-2"><i
+                                            class="ri-thumb-down-line me-2"></i>{{__('Disabled like description')}}</h6>
                                     <p class="card-text text-muted mb-2">
                                         @if($currentRouteName=="surveys_show")
                                             {{\App\Models\TranslaleModel::getTranslation($survey,'disabledLike',$survey->disabledLike)}}
@@ -369,26 +389,29 @@
 
     @if($currentRouteName=="surveys_show")
         @if(\App\Models\User::isSuperAdmin())
-            <div class="card-body bg-light border-top">
+            <div class="card-body  border-top">
                 <h6 class="text-info mb-3"><i class="ri-information-line me-2"></i>{{__('Details')}}</h6>
                 <div class="row g-3">
                     <div class="col-sm-12 col-md-6 col-lg-3">
                         <div class="card border-0 shadow-sm h-100">
                             <div class="card-body">
-                                <h6 class="card-subtitle mb-3 text-muted"><i class="ri-toggle-line me-2"></i>{{__('Enable/Disable Dates')}}</h6>
+                                <h6 class="card-subtitle mb-3 text-muted"><i
+                                        class="ri-toggle-line me-2"></i>{{__('Enable/Disable Dates')}}</h6>
                                 <ul class="list-group list-group-flush">
                                     @if($survey->enableDate != null && !empty($survey->enableDate))
                                         @if($survey->enabled)
                                             <li class="list-group-item d-flex flex-column px-0">
                                                 <small class="text-muted mb-1">{{__('Enable date')}}</small>
-                                                <strong class="text-success">{{\Carbon\Carbon::parse($survey->enableDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)}}</strong>
+                                                <strong
+                                                    class="text-success">{{\Carbon\Carbon::parse($survey->enableDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)}}</strong>
                                             </li>
                                         @endif
                                     @else
                                         @if($survey->disableDate != null && !empty($survey->disableDate))
                                             <li class="list-group-item d-flex flex-column px-0">
                                                 <small class="text-muted mb-1">{{__('Disable date')}}</small>
-                                                <strong class="text-danger">{{\Carbon\Carbon::parse($survey->disableDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)}}</strong>
+                                                <strong
+                                                    class="text-danger">{{\Carbon\Carbon::parse($survey->disableDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)}}</strong>
                                             </li>
                                         @endif
                                     @endif
@@ -397,14 +420,16 @@
                                         @if($survey->publishDate != null && !empty($survey->publishDate))
                                             <li class="list-group-item d-flex flex-column px-0">
                                                 <small class="text-muted mb-1">{{__('Publish date')}}</small>
-                                                <strong class="text-success">{{\Carbon\Carbon::parse($survey->publishDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)}}</strong>
+                                                <strong
+                                                    class="text-success">{{\Carbon\Carbon::parse($survey->publishDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)}}</strong>
                                             </li>
                                         @endif
                                     @else
                                         @if($survey->unpublishDate != null && !empty($survey->unpublishDate))
                                             <li class="list-group-item d-flex flex-column px-0">
                                                 <small class="text-muted mb-1">{{__('Un publish date')}}</small>
-                                                <strong class="text-danger">{{\Carbon\Carbon::parse($survey->unpublishDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)}}</strong>
+                                                <strong
+                                                    class="text-danger">{{\Carbon\Carbon::parse($survey->unpublishDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)}}</strong>
                                             </li>
                                         @endif
                                     @endif
@@ -416,19 +441,22 @@
                     <div class="col-sm-12 col-md-6 col-lg-3">
                         <div class="card border-0 shadow-sm h-100">
                             <div class="card-body">
-                                <h6 class="card-subtitle mb-3 text-muted"><i class="ri-door-line me-2"></i>{{__('Open/Close Dates')}}</h6>
+                                <h6 class="card-subtitle mb-3 text-muted"><i
+                                        class="ri-door-line me-2"></i>{{__('Open/Close Dates')}}</h6>
                                 <ul class="list-group list-group-flush">
                                     @if($survey->openDate != null && !empty($survey->openDate))
                                         <li class="list-group-item d-flex flex-column px-0">
                                             <small class="text-muted mb-1">{{__('Open date')}}</small>
-                                            <strong class="text-success">{{\Carbon\Carbon::parse($survey->openDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)}}</strong>
+                                            <strong
+                                                class="text-success">{{\Carbon\Carbon::parse($survey->openDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)}}</strong>
                                         </li>
                                     @endif
 
                                     @if($survey->closeDate != null && !empty($survey->closeDate))
                                         <li class="list-group-item d-flex flex-column px-0">
                                             <small class="text-muted mb-1">{{__('Close date')}}</small>
-                                            <strong class="text-warning">{{\Carbon\Carbon::parse($survey->closeDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)}}</strong>
+                                            <strong
+                                                class="text-warning">{{\Carbon\Carbon::parse($survey->closeDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)}}</strong>
                                         </li>
                                     @endif
                                 </ul>
@@ -439,19 +467,22 @@
                     <div class="col-sm-12 col-md-6 col-lg-3">
                         <div class="card border-0 shadow-sm h-100">
                             <div class="card-body">
-                                <h6 class="card-subtitle mb-3 text-muted"><i class="ri-calendar-line me-2"></i>{{__('Start/End Dates')}}</h6>
+                                <h6 class="card-subtitle mb-3 text-muted"><i
+                                        class="ri-calendar-line me-2"></i>{{__('Start/End Dates')}}</h6>
                                 <ul class="list-group list-group-flush">
                                     @if($survey->startDate != null && !empty($survey->startDate))
                                         <li class="list-group-item d-flex flex-column px-0">
                                             <small class="text-muted mb-1">{{__('Start date')}}</small>
-                                            <strong class="text-primary">{{\Carbon\Carbon::parse($survey->startDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)}}</strong>
+                                            <strong
+                                                class="text-primary">{{\Carbon\Carbon::parse($survey->startDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)}}</strong>
                                         </li>
                                     @endif
 
                                     @if($survey->endDate != null && !empty($survey->endDate))
                                         <li class="list-group-item d-flex flex-column px-0">
                                             <small class="text-muted mb-1">{{__('End date')}}</small>
-                                            <strong class="text-primary">{{\Carbon\Carbon::parse($survey->endDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)}}</strong>
+                                            <strong
+                                                class="text-primary">{{\Carbon\Carbon::parse($survey->endDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)}}</strong>
                                         </li>
                                     @endif
                                 </ul>
@@ -462,12 +493,14 @@
                     <div class="col-sm-12 col-md-6 col-lg-3">
                         <div class="card border-0 shadow-sm h-100">
                             <div class="card-body">
-                                <h6 class="card-subtitle mb-3 text-muted"><i class="ri-history-line me-2"></i>{{__('System Dates')}}</h6>
+                                <h6 class="card-subtitle mb-3 text-muted"><i
+                                        class="ri-history-line me-2"></i>{{__('System Dates')}}</h6>
                                 <ul class="list-group list-group-flush">
                                     @if($survey->archivedDate != null && !empty($survey->archivedDate))
                                         <li class="list-group-item d-flex flex-column px-0">
                                             <small class="text-muted mb-1">{{__('Archived date')}}</small>
-                                            <strong class="text-dark">{{\Carbon\Carbon::parse($survey->archivedDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)}}</strong>
+                                            <strong
+                                                class="text-dark">{{\Carbon\Carbon::parse($survey->archivedDate)->format(\App\Livewire\SurveyCreateUpdate::DATE_FORMAT)}}</strong>
                                         </li>
                                     @endif
 
@@ -494,7 +527,7 @@
     @endif
 
     @if(!in_array( $currentRouteName,['surveys_results','surveys_participate']))
-        <div class="card-footer bg-light border-top">
+        <div class="card-footer  border-top">
             <div class="d-flex flex-wrap gap-2 align-items-center">
                 @if($currentRouteName!="survey_show")
                     <a href="{{route('surveys_show', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id] )}}"
@@ -604,7 +637,7 @@
         </div>
     @endif
 
-    <div class="card-header bg-light border-top border-info">
+    <div class="card-header  border-top border-info">
         <h5 class="mb-0 text-info"><i class="ri-question-line me-2"></i>{{__('Questions')}}</h5>
     </div>
 
@@ -613,7 +646,8 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
                     <div class="d-flex flex-wrap gap-2 mb-3">
-                        <span class="badge {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'bg-success' : 'bg-primary' }} px-3 py-2">
+                        <span
+                            class="badge {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'bg-success' : 'bg-primary' }} px-3 py-2">
                             <i class="ri-checkbox-multiple-line me-1"></i>
                             {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? __('Multiple') : __('Unique') }}
                         </span>
@@ -635,9 +669,10 @@
 
                     <div class="row g-3">
                         <div class="col-lg-7">
-                            <div class="card border-0 bg-light">
+                            <div class="card border-0 ">
                                 <div class="card-body">
-                                    <h6 class="text-info mb-2"><i class="ri-text me-2"></i>{{__('Question Content')}}</h6>
+                                    <h6 class="text-info mb-2"><i class="ri-text me-2"></i>{{__('Question Content')}}
+                                    </h6>
                                     <blockquote class="blockquote mb-2">
                                         <p class="text-muted">{{\App\Models\TranslaleModel::getTranslation($survey->question,'content',$survey->question->content)}}</p>
                                     </blockquote>
@@ -741,7 +776,7 @@
         @endif
     </div>
 
-    <div class="card-footer bg-light border-top">
+    <div class="card-footer  border-top">
         <div class="d-flex gap-4 align-items-center">
             <div class="d-flex align-items-center">
                 <i class="ri-thumb-up-line text-primary fs-5 me-2"></i>
@@ -828,7 +863,8 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="d-flex align-items-center">
                                             <span class="badge bg-primary me-2">{{$likeNumber-$loop->index}}</span>
-                                            <strong class="text-dark">{{ getUserDisplayedName($like->user->idUser)}}</strong>
+                                            <strong
+                                                class="text-dark">{{ getUserDisplayedName($like->user->idUser)}}</strong>
                                         </div>
                                         <small class="text-muted">
                                             <i class="ri-time-line me-1"></i>{{ $like->created_at}}
@@ -849,7 +885,7 @@
 
     @if($currentRouteName=="surveys_show")
         <div class="card mt-3 border shadow-sm">
-            <div class="card-header bg-light border-bottom">
+            <div class="card-header  border-bottom">
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="mb-0 text-info"><i class="ri-chat-3-line me-2"></i>{{__('Comments')}}</h5>
                     <span class="badge bg-info fs-6 px-3 py-2">{{ $survey->comments->count() }}</span>
@@ -862,92 +898,95 @@
                         <i class="ri-error-warning-line fs-5 me-2"></i>
                         <div>
                             <h6 class="alert-heading mb-1">{{__('Disabled comment title')}}</h6>
-                    * {{\App\Models\TranslaleModel::getTranslation($survey,'disabledComment',$survey->disabledComment)}}
+                            * {{\App\Models\TranslaleModel::getTranslation($survey,'disabledComment',$survey->disabledComment)}}
 
-                </div>
-            @endif
-            <div class="card-body row">
-                @if($survey->isCommentable())
-                    <div class="col-sm-12 col-md-12 col-lg-12">
-                        <ul class="list-group mb-3">
-                            @forelse ($survey->comments as $comment)
-                                @if(\App\Models\User::isSuperAdmin() ||$comment->validated||$comment->user_id ==auth()->user()->id  )
-                                    <li class="list-group-item mt-2">
+                        </div>
+                        @endif
+                        <div class="card-body row">
+                            @if($survey->isCommentable())
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <ul class="list-group mb-3">
+                                        @forelse ($survey->comments as $comment)
+                                            @if(\App\Models\User::isSuperAdmin() ||$comment->validated||$comment->user_id ==auth()->user()->id  )
+                                                <li class="list-group-item mt-2">
 
-                                        <blockquote class="blockquote ml-2 mt-2">
-                                            <span class=" text-muted mx-3">{{$comment->content }}</span>
-                                        </blockquote>
+                                                    <blockquote class="blockquote ml-2 mt-2">
+                                                        <span class=" text-muted mx-3">{{$comment->content }}</span>
+                                                    </blockquote>
 
-                                        <span class="text-muted float-end" title="{{$loop->index+1}}"><strong
-                                                class="text-muted">{{ getUserDisplayedName($comment->user->idUser)}}</strong> <strong>{{__('at')}}: </strong>  {{$comment->created_at}}</span>
-                                        @if(!$comment->validated)
-                                            <span
-                                                class="badge badge-soft-warning float-end mx-2">{{ __('Waiting for admin approving')}}</span>
-                                        @endif
+                                                    <span class="text-muted float-end"
+                                                          title="{{$loop->index+1}}"><strong
+                                                            class="text-muted">{{ getUserDisplayedName($comment->user->idUser)}}</strong> <strong>{{__('at')}}: </strong>  {{$comment->created_at}}</span>
+                                                    @if(!$comment->validated)
+                                                        <span
+                                                            class="badge badge-soft-warning float-end mx-2">{{ __('Waiting for admin approving')}}</span>
+                                                    @endif
 
-                                        @if(!$comment->validated && \App\Models\User::isSuperAdmin())
-                                            <br>
-                                            <button wire:click="deleteComment('{{$comment->id}}')"
-                                                    class="btn btn-soft-danger mt-3 mx-2 float-end">
-                                                {{__('Delete')}}
-                                            </button>
-                                            <button wire:click="validateComment('{{$comment->id}}')"
-                                                    class="btn btn-soft-success mt-3 mx-2 float-end">
-                                                {{__('Validate')}}
-                                            </button>
-                                        @endif
-                                    </li>
-                                @endif
-                            @empty
-                                <li class="list-group-item mt-2">
-                                    {{__('No Comments')}}:
-                                </li>
-                            @endforelse
-                        </ul>
-                    </div>
-                @endif
-                <div class="col-sm-12 col-md-12 col-lg-12">
-                    <h6>{{__('Add a comment')}}</h6>
-                </div>
-                <div class="col-sm-12 col-md-9 col-lg-9">
+                                                    @if(!$comment->validated && \App\Models\User::isSuperAdmin())
+                                                        <br>
+                                                        <button wire:click="deleteComment('{{$comment->id}}')"
+                                                                class="btn btn-soft-danger mt-3 mx-2 float-end">
+                                                            {{__('Delete')}}
+                                                        </button>
+                                                        <button wire:click="validateComment('{{$comment->id}}')"
+                                                                class="btn btn-soft-success mt-3 mx-2 float-end">
+                                                            {{__('Validate')}}
+                                                        </button>
+                                                    @endif
+                                                </li>
+                                            @endif
+                                        @empty
+                                            <li class="list-group-item mt-2">
+                                                {{__('No Comments')}}:
+                                            </li>
+                                        @endforelse
+                                    </ul>
+                                </div>
+                            @endif
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <h6>{{__('Add a comment')}}</h6>
+                            </div>
+                            <div class="col-sm-12 col-md-9 col-lg-9">
                     <textarea class="form-control" maxlength="190" wire:model.live="comment" id="comment" rows="3"
                               @if(!$survey->isCommentable()) disabled @endif></textarea>
-                </div>
-                <div class="col-sm-12 col-md-3 col-lg-3 ">
-                    <button wire:click="addComment()" class="btn btn-soft-info mt-2"
-                            @if(!$survey->isCommentable()) disabled @endif>
-                        {{__('Add comment')}}
-                    </button>
-                </div>
-            </div>
-        </div>
-    @endif
+                            </div>
+                            <div class="col-sm-12 col-md-3 col-lg-3 ">
+                                <button wire:click="addComment()" class="btn btn-soft-info mt-2"
+                                        @if(!$survey->isCommentable()) disabled @endif>
+                                    {{__('Add comment')}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
 
-    <div wire:ignore class="modal fade" id="disableSurveyModal_{{$survey->id}}" tabindex="-1"
-         aria-labelledby="disableSurveyModal_{{$survey->id}}Label"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">{{__('Disable Survey')}}</h5>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group mb-3">
-                        <label for="disableNote">{{__('Disable Note')}}</label>
-                        <textarea type="text" class="form-control @error('disableNote') is-invalid @enderror"
-                                  maxlength="190" id="disableNote"
-                                  wire:model.live="disableNote"
-                                  placeholder="{{__('Enter Disable Note')}}"></textarea>
-                        @error('disableNote') <span class="text-danger">{{ $message }}</span>@enderror
-                        <div class="form-text">{{__('Required field')}}</div>
+                    <div wire:ignore class="modal fade" id="disableSurveyModal_{{$survey->id}}" tabindex="-1"
+                         aria-labelledby="disableSurveyModal_{{$survey->id}}Label"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">{{__('Disable Survey')}}</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group mb-3">
+                                        <label for="disableNote">{{__('Disable Note')}}</label>
+                                        <textarea type="text"
+                                                  class="form-control @error('disableNote') is-invalid @enderror"
+                                                  maxlength="190" id="disableNote"
+                                                  wire:model.live="disableNote"
+                                                  placeholder="{{__('Enter Disable Note')}}"></textarea>
+                                        @error('disableNote') <span class="text-danger">{{ $message }}</span>@enderror
+                                        <div class="form-text">{{__('Required field')}}</div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" wire:click="disable('{{$survey->id}}')"
+                                            class="btn btn-primary">{{__('Disable Survey')}}</button>
+                                    <button type="button" class="btn btn-outline-secondary"
+                                            data-bs-dismiss="modal">{{__('Close')}}</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" wire:click="disable('{{$survey->id}}')"
-                            class="btn btn-primary">{{__('Disable Survey')}}</button>
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{{__('Close')}}</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
