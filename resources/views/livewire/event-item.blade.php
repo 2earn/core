@@ -78,15 +78,17 @@
             {{ __('View details') }}
         </a>
 
-        <div class="mt-2">
-            <span>
-                <i class="fa fa-thumbs-up"></i>
-                {{ $event->likes()->count() ?? 0 }} {{ __('Likes') }}
-            </span>
-            <span class="me-3">
-                <i class="fa fa-comments"></i>
-                {{ $event->comments()->where('validated',true)->count()  ?? 0 }} {{ __('Comments') }}
-            </span>
+        <div class="d-flex gap-4 align-items-center">
+            <div class="d-flex align-items-center">
+                <i class="ri-thumb-up-line text-primary fs-5 me-2"></i>
+                <span class="fw-medium">{{ $event->likes()->count() ?? 0 }}</span>
+                <span class="text-muted ms-1">{{ __('Likes') }}</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <i class="ri-chat-3-line text-info fs-5 me-2"></i>
+                <span class="fw-medium">{{ $event->comments()->where('validated',true)->count() ?? 0 }}</span>
+                <span class="text-muted ms-1">{{ __('Comments') }}</span>
+            </div>
         </div>
     </div>
 </div>

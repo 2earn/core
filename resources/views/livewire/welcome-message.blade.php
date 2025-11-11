@@ -1,4 +1,4 @@
-<div class="row mb-1">
+<div class="row mb-1 mt-2">
     <div class="col-12">
         <div class="card border-0 bg-primary shadow-sm overflow-hidden">
             <div class="card-body p-4 position-relative">
@@ -10,7 +10,6 @@
                         </div>
                     </div>
 
-                    <!-- Welcome Content -->
                     <div class="flex-grow-1 text-lg-start text-center">
                         <div class="d-flex align-items-center justify-content-lg-start justify-content-center gap-2 mb-2">
                             <i class="{{$greetingIcon}} fs-4 text-white"></i>
@@ -22,7 +21,6 @@
                         </p>
                     </div>
 
-                    <!-- Quick Stats or Action -->
                     <div class="flex-shrink-0 text-lg-end text-center">
                         <div class="d-inline-flex align-items-center gap-2 bg-white bg-opacity-10 rounded-pill px-3 py-2">
                             <i class="ri-calendar-check-line fs-5 text-white"></i>
@@ -34,7 +32,6 @@
                     </div>
                 </div>
 
-                <!-- Decorative Elements -->
                 <div class="position-absolute top-0 end-0 opacity-25">
                     <i class="ri-shield-star-line" style="font-size: 120px; line-height: 1; color: white;"></i>
                 </div>
