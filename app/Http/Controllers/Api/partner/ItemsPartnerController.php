@@ -26,7 +26,6 @@ class ItemsPartnerController extends Controller
             'discount_2earn' => 'nullable|numeric|min:0',
             'platform_id' => 'nullable|exists:platforms,id',
             'deal_id' => 'nullable|exists:deals,id',
-            'updated_by' => 'required|exists:users,id',
             'created_by' => 'required|exists:users,id',
         ]);
 

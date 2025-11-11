@@ -22,7 +22,6 @@ class OrderDetailsPartnerController extends Controller
             'qty' => 'required|numeric|min:1',
             'unit_price' => 'required|numeric|min:0',
             'shipping' => 'nullable|numeric|min:0',
-            'updated_by' => 'required|exists:users,id',
             'created_by' => 'required|exists:users,id',
         ]);
 

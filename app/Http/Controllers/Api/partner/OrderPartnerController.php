@@ -79,7 +79,6 @@ class OrderPartnerController extends Controller
             'note' => 'nullable|string',
             'user_id' => 'required|integer|exists:users,id',
             'status' => 'nullable|string',
-            'updated_by' => 'required|exists:users,id',
             'created_by' => 'required|exists:users,id',
         ]);
 

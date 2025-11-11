@@ -68,7 +68,6 @@ class PlatformPartnerController extends Controller
             'show_profile' => 'boolean',
             'image_link' => 'nullable|string',
             'owner_id' => 'required|exists:users,id',
-            'updated_by' => 'required|exists:users,id',
             'created_by' => 'required|exists:users,id',
             'marketing_manager_id' => 'nullable|exists:users,id',
             'financial_manager_id' => 'nullable|exists:users,id',

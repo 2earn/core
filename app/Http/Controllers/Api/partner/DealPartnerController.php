@@ -101,7 +101,6 @@ class DealPartnerController extends Controller
             'cash_jackpot' => 'nullable|numeric',
             'cash_tree' => 'nullable|numeric',
             'cash_cashback' => 'nullable|numeric',
-            'updated_by' => 'required|exists:users,id',
             'created_by' => 'required|exists:users,id',
         ]);
 
