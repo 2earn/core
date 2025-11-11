@@ -78,7 +78,9 @@ class OrderPartnerController extends Controller
             'total_lost_discount_percentage' => 'nullable|numeric',
             'note' => 'nullable|string',
             'user_id' => 'required|integer|exists:users,id',
-            'status' => 'nullable|string'
+            'status' => 'nullable|string',
+            'updated_by' => 'required|exists:users,id',
+            'created_by' => 'required|exists:users,id',
         ]);
 
         if ($validator->fails()) {
@@ -152,6 +154,7 @@ class OrderPartnerController extends Controller
             'total_lost_discount' => 'nullable|numeric',
             'total_lost_discount_percentage' => 'nullable|numeric',
             'note' => 'nullable|string',
+            'updated_by' => 'required|exists:users,id',
         ]);
 
         if ($validator->fails()) {

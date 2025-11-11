@@ -28,17 +28,13 @@ trait HasAuditing
         });
     }
 
-    /**
-     * Get the user who created the record.
-     */
+
     public function creator(): BelongsTo
     {
         return $this->belongsTo(config('auth.providers.users.model', \App\Models\User::class), 'created_by');
     }
 
-    /**
-     * Get the user who last updated the record.
-     */
+
     public function updater(): BelongsTo
     {
         return $this->belongsTo(config('auth.providers.users.model', \App\Models\User::class), 'updated_by');

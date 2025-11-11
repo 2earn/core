@@ -68,6 +68,8 @@ class PlatformPartnerController extends Controller
             'show_profile' => 'boolean',
             'image_link' => 'nullable|string',
             'owner_id' => 'required|exists:users,id',
+            'updated_by' => 'required|exists:users,id',
+            'created_by' => 'required|exists:users,id',
             'marketing_manager_id' => 'nullable|exists:users,id',
             'financial_manager_id' => 'nullable|exists:users,id',
             'business_sector_id' => 'nullable|exists:business_sectors,id'
@@ -140,6 +142,7 @@ class PlatformPartnerController extends Controller
             'type' => 'sometimes|string',
             'show_profile' => 'sometimes|boolean',
             'image_link' => 'nullable|string',
+            'updated_by' => 'required|exists:users,id',
             'owner_id' => 'sometimes|exists:users,id',
             'marketing_manager_id' => 'nullable|exists:users,id',
             'financial_manager_id' => 'nullable|exists:users,id',
