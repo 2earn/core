@@ -11,7 +11,7 @@ class BussinessSectorsHome extends Component
 
     public function mount()
     {
-        $this->businessSectors = BusinessSector::limit(3)->get();
+        $this->businessSectors = BusinessSector::limit(4)->get();
 
     }
 
