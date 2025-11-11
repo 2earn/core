@@ -28,9 +28,10 @@ class OrderSimulation extends Component
         $this->currentRouteName = Route::currentRouteName();
         $this->order = Order::findOrFail($this->idOrder);
         if (in_array($this->order->status->value, [OrderEnum::Simulated->value, OrderEnum::Ready->value])) {
-            $this->simulation = Ordering::simulate($this->order);
+            $this->simulation =  Ordering::simulate($this->order);
         }
-        $this->validated = false;
+        $this->order->refresh();
+        $this->validated = !is_null($this->order->payment_result)?$this->order->payment_result:false;;
     }
 
     public function makeOrderReady()

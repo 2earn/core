@@ -13,11 +13,11 @@
         <div class="card-header">
             <h3>{{__('Order simulation')}}</h3>
         </div>
-        @if($order->simulation_datetime)
+        @if(!is_null($order->simulation_result)&&!$order->simulation_result)
             <div class="card-body">
                 <div class="alert alert-warning material-shadow" t role="alert">
                     <strong> {{__('Simulation Error')}} | {{__("At")}}
-                        :</strong> {{__($order->simulation_datetime->toDateTimeString())}}
+                        :</strong> {{__($order->simulation_datetime)}}
                     <hr>
                     <strong>{{__("Details")}}:</strong> {{__($order->simulation_details)}}
                     <br>
@@ -46,14 +46,10 @@
             </div>
 
         @else
-            @if(!$this->validated && $this->simulation)
+            @if(!$this->validated)
                 <div class="card-footer">
                     <button wire:click="validateOrder()"
                             class="btn btn-soft-success mx-2 float-end">{{__('Complete Order')}}</button>
-
-                    <button wire:click="cancelOrder()"
-                            class="btn btn-soft-warning mx-2 float-end">{{__('Cancel Order')}}</button>
-
 
                     <button wire:click="cancelOrder()"
                             class="btn btn-soft-warning mx-2 float-end">{{__('Cancel Order')}}</button>

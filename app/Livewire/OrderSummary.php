@@ -34,9 +34,10 @@ class OrderSummary extends Component
             $item = $cartItem->item()->first();
             $ordersData[$item->deal()->first()->platform_id][] = $cartItem;
         }
-        foreach ($ordersData as $key => $ordersDataItems) {
 
-            $order = Order::create(['user_id' => auth()->user()->id, 'note' => 'Product buy platform ' . $key]);
+        $order = Order::create(['user_id' => auth()->user()->id, 'note' => 'Product buy platform ' ]);
+
+        foreach ($ordersData as $ordersDataItems) {
 
             foreach ($ordersDataItems as $ordersItems) {
                 $order->orderDetails()->create([
