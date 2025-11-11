@@ -2,7 +2,7 @@
     <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary position-relative"
             id="page-header-notifications-dropdown"
             data-bs-toggle="dropdown"
-            aria-expanded="false"
+            aria-expanded="false" wire:ignore.self
             data-bs-auto-close="outside"
     >
         <i class='bx bx-bell fs-22'></i>
@@ -14,7 +14,7 @@
             </span>
         @endif
     </button>
-    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0 shadow-lg"
+    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0 shadow-lg" wire:ignore.self
          id="notification-dropdown"
          aria-labelledby="page-header-notifications-dropdown"
          style="min-width: 360px;">
@@ -38,10 +38,6 @@
 
         @if($latests > 0)
             <div class="px-3 py-2 bg-light border-bottom d-flex justify-content-between align-items-center">
-                <a href="{{route('notification_list',['locale'=>app()->getLocale()])}}"
-                   class="text-decoration-none text-primary fw-medium small">
-                    <i class='bx bx-list-ul me-1'></i>{{__('See all notifications')}}
-                </a>
                 <button wire:click="markThemAllRead()"
                         class="btn btn-sm btn-outline-primary py-1 px-2 d-flex align-items-center gap-1"
                         type="button">
@@ -64,5 +60,17 @@
                 </div>
             @endforelse
         </div>
+        @if($latests > 0)
+            <div class="dropdown-footer border-top bg-light rounded-bottom">
+                <div class="p-2 text-center">
+                    <a href="{{route('notification_list',['locale'=>app()->getLocale()])}}"
+                       class="text-decoration-none text-primary fw-semibold small d-inline-flex align-items-center">
+                        {{__('View all notifications')}}
+                        <i class='bx bx-chevron-right ms-1 fs-16'></i>
+                    </a>
+                </div>
+            </div>
+        @endif
     </div>
+
 </div>

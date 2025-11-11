@@ -11,7 +11,6 @@ class WelcomeMessage extends Component
     public $greeting;
     public $greetingIcon;
     public $currentDate;
-
     public $userProfileImage;
 
     public function mount()
