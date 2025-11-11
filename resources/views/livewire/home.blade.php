@@ -69,7 +69,7 @@
                                 <div class="overflow-hidden">
                                     <h6 class="text-uppercase text-muted mb-1 small">{{ __('Cash balance') }}</h6>
                                     <a href="{{route('user_balance_cb' , app()->getLocale() )}}"
-                                       class="text-decoration-none small text-muted">{{ __('see_details') }}</a>
+                                       class="text-decoration-none small text-info">{{ __('see_details') }}</a>
                                 </div>
                             </div>
                             <div>
@@ -126,7 +126,7 @@
                                 <div class="overflow-hidden">
                                     <h6 class="text-uppercase text-muted mb-1 small">{{ __('Balance for Shopping') }}</h6>
                                     <a href="{{route('user_balance_bfs' , app()->getLocale() )}}"
-                                       class="text-decoration-none small text-muted">{{ __('see_details') }}</a>
+                                       class="text-decoration-none small text-info">{{ __('see_details') }}</a>
                                 </div>
                             </div>
                             <div>
@@ -180,7 +180,7 @@
                                 <div class="overflow-hidden">
                                     <h6 class="text-uppercase text-muted mb-1 small">{{ __('Discounts Balance') }}</h6>
                                     <a href="{{route('user_balance_db' , app()->getLocale() )}}"
-                                       class="text-decoration-none small text-muted">{{ __('see_details') }}</a>
+                                       class="text-decoration-none small text-info">{{ __('see_details') }}</a>
                                 </div>
                             </div>
                             <div>
@@ -235,7 +235,7 @@
                                 <div class="overflow-hidden">
                                     <h6 class="text-uppercase text-muted mb-1 small">{{ __('SMS Solde') }}</h6>
                                     <a href="{{route('user_balance_sms' , app()->getLocale() )}}"
-                                       class="text-decoration-none small text-muted">{{ __('see_details') }}</a>
+                                       class="text-decoration-none small text-info">{{ __('see_details') }}</a>
                                 </div>
                             </div>
                             <div class="text-success small">{{ $SMSBalance }}</div>
@@ -266,7 +266,7 @@
                                 <div class="overflow-hidden">
                                     <h6 class="text-uppercase text-muted mb-1 small">{{ __('Tree Solde') }}</h6>
                                     <a href="{{route('user_balance_tree' , app()->getLocale() )}}"
-                                       class="text-decoration-none small text-muted">{{ __('see_details') }}</a>
+                                       class="text-decoration-none small text-info">{{ __('see_details') }}</a>
                                 </div>
                             </div>
                         </div>
@@ -296,7 +296,7 @@
                                 <div class="overflow-hidden">
                                     <h6 class="text-uppercase text-muted mb-1 small">{{ __('Chance Sold') }}</h6>
                                     <a href="{{route('user_balance_chance' , app()->getLocale() )}}"
-                                       class="text-decoration-none small text-muted">{{ __('see_details') }}</a>
+                                       class="text-decoration-none small text-info">{{ __('see_details') }}</a>
                                 </div>
                             </div>
                             <div class="text-success small">{{$chanceBalance}}</div>
@@ -329,7 +329,7 @@
                                 <div class="overflow-hidden">
                                     <h6 class="text-uppercase text-muted mb-1 small">{{ __('Actions (Shares)') }}</h6>
                                     <a href="{{route('shares_solde' , app()->getLocale() )}}"
-                                       class="text-decoration-none small text-muted">{{ __('see_details') }}</a>
+                                       class="text-decoration-none small text-info">{{ __('see_details') }}</a>
                                 </div>
                             </div>
                             <div class="text-success small">{{$actualActionValue['int']}}
