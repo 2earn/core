@@ -53,7 +53,7 @@
             </div>
         </div>
         <div class="card-body">
-            <div class="card border-0 shadow-sm">
+            <div class="card card-border-dark shadow-sm">
                 <div class="card-header bg-light">
                     <h6 class="card-title mb-0">
                         <i class="ri-file-text-line text-primary me-2"></i>{{__('Order details summary')}}
@@ -537,161 +537,306 @@
                                     <ul class="list-group list-group-flush">
                                         @if(isset($discount))
                                             <li class="list-group-item logoTopDBLabel">
-                                                <h5 class="mb-3">
-                                                    <i class="ri-discount-percent-line text-primary me-2"></i>{{__('Discount')}}
-                                                </h5>
-                                                <div class="table-responsive">
-                                                    <table class="table table-bordered align-middle mb-0 discount-table">
-                                                        <thead class="table-light">
-                                                        <tr>
-                                                            <th scope="col">{{__('Reference')}}</th>
-                                                            <th scope="col" class="text-end">{{__('Value')}}</th>
-                                                            <th scope="col"
-                                                                class="text-end">{{__('Current balance')}}</th>
-                                                            <th scope="col">{{__('Description')}}</th>
-                                                            <th scope="col">{{__('Created at')}}</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <span
-                                                                    class="badge bg-primary-subtle text-primary">{{$discount->reference}}</span>
-                                                            </td>
-                                                            <td class="logoTopDBLabel text-end">
-                                                                <h6 class="mb-0 text-danger">
-                                                                    -{{$discount->value}} {{config('app.currency')}}</h6>
-                                                            </td>
-                                                            <td class="logoTopDBLabel text-end">
-                                                                <h6 class="mb-0">{{$discount->current_balance}} {{config('app.currency')}}</h6>
-                                                            </td>
-                                                            <td>
-                                                                <p class="mb-1 small">{{$discount->description}}</p>
-                                                                <p class="mb-1 text-muted small">
-                                                                    {{__('Discount')}} {{$discount->current_balance+$discount->value}}
-                                                                    - {{$discount->value}}
-                                                                    = {{$discount->current_balance}}
-                                                                </p>
-                                                                <div class="mt-2">
-                                                                    {!! \App\Services\Balances\Balances::generateDescription($discount) !!}
+                                                <div class="card border-primary shadow-sm">
+                                                    <div class="card-header bg-primary-subtle">
+                                                        <h5 class="card-title mb-0">
+                                                            <i class="ri-discount-percent-line text-primary me-2"></i>{{__('Discount')}}
+                                                        </h5>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="row g-3">
+                                                            <!-- Reference -->
+                                                            <div class="col-md-6 col-lg-3">
+                                                                <div class="card border h-100">
+                                                                    <div class="card-header bg-light">
+                                                                        <small class="fw-bold text-muted">{{__('Reference')}}</small>
+                                                                    </div>
+                                                                    <div class="card-body d-flex align-items-center justify-content-center">
+                                                                        <span class="badge bg-primary-subtle text-primary fs-14">
+                                                                            {{$discount->reference}}
+                                                                        </span>
+                                                                    </div>
                                                                 </div>
-                                                            </td>
-                                                            <td>
-                                                                <small
-                                                                    class="text-muted">{{$discount->created_at}}</small>
-                                                            </td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
+                                                            </div>
+
+                                                            <!-- Value -->
+                                                            <div class="col-md-6 col-lg-3">
+                                                                <div class="card border-danger h-100">
+                                                                    <div class="card-header bg-danger-subtle">
+                                                                        <small class="fw-bold text-danger">{{__('Value')}}</small>
+                                                                    </div>
+                                                                    <div class="card-body d-flex align-items-center justify-content-center logoTopDBLabel">
+                                                                        <h6 class="mb-0 text-danger">
+                                                                            <i class="ri-arrow-down-line me-1"></i>-{{$discount->value}} {{config('app.currency')}}
+                                                                        </h6>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Current Balance -->
+                                                            <div class="col-md-6 col-lg-3">
+                                                                <div class="card border-success h-100">
+                                                                    <div class="card-header bg-success-subtle">
+                                                                        <small class="fw-bold text-success">{{__('Current balance')}}</small>
+                                                                    </div>
+                                                                    <div class="card-body d-flex align-items-center justify-content-center logoTopDBLabel">
+                                                                        <h6 class="mb-0 text-success">
+                                                                            <i class="ri-wallet-line me-1"></i>{{$discount->current_balance}} {{config('app.currency')}}
+                                                                        </h6>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Created At -->
+                                                            <div class="col-md-6 col-lg-3">
+                                                                <div class="card border h-100">
+                                                                    <div class="card-header bg-light">
+                                                                        <small class="fw-bold text-muted">{{__('Created at')}}</small>
+                                                                    </div>
+                                                                    <div class="card-body d-flex align-items-center justify-content-center">
+                                                                        <small class="text-muted">
+                                                                            <i class="ri-time-line me-1"></i>{{$discount->created_at}}
+                                                                        </small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Description (Full Width) -->
+                                                            <div class="col-12">
+                                                                <div class="card border-info">
+                                                                    <div class="card-header bg-info-subtle">
+                                                                        <small class="fw-bold text-info">
+                                                                            <i class="ri-information-line me-1"></i>{{__('Description')}}
+                                                                        </small>
+                                                                    </div>
+                                                                    <div class="card-body">
+                                                                        <p class="mb-2">{{$discount->description}}</p>
+                                                                        <div class="alert alert-light mb-2">
+                                                                            <small class="text-muted">
+                                                                                <i class="ri-calculator-line me-1"></i>
+                                                                                {{__('Discount')}} {{$discount->current_balance+$discount->value}}
+                                                                                - {{$discount->value}}
+                                                                                = {{$discount->current_balance}}
+                                                                            </small>
+                                                                        </div>
+                                                                        <div class="mt-2">
+                                                                            {!! \App\Services\Balances\Balances::generateDescription($discount) !!}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </li>
                                         @endif
                                         @if(isset($bfss) && $bfss->isNotEmpty())
                                             <li class="list-group-item logoTopBFSLabel">
-                                                <h5 class="mb-3">
-                                                    <i class="ri-shopping-bag-line text-info me-2"></i>{{__('BFS (Balances for Shopping)')}}
-                                                </h5>
-                                                <div class="table-responsive">
-                                                    <table class="table table-bordered align-middle mb-0 bfs-table">
-                                                        <thead class="table-light">
-                                                        <tr>
-                                                            <th scope="col">{{__('Reference')}}</th>
-                                                            <th scope="col" class="text-end">{{__('Value')}}</th>
-                                                            <th scope="col"
-                                                                class="text-end">{{__('Current balance')}}</th>
-                                                            <th scope="col">{{__('Description')}}</th>
-                                                            <th scope="col" class="text-end">{{__('Percentage')}}</th>
-                                                            <th scope="col">{{__('Created at')}}</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
+                                                <div class="card border-info shadow-sm">
+                                                    <div class="card-header bg-info-subtle">
+                                                        <h5 class="card-title mb-0">
+                                                            <i class="ri-shopping-bag-line text-info me-2"></i>{{__('BFS (Balances for Shopping)')}}
+                                                        </h5>
+                                                    </div>
+                                                    <div class="card-body">
                                                         @foreach($bfss as $bfs)
-                                                            <tr>
-                                                                <td>
-                                                                    <span
-                                                                        class="badge bg-info-subtle text-info">{{$bfs->reference}}</span>
-                                                                </td>
-                                                                <td class="logoTopBFSLabel text-end">
-                                                                    <h6 class="mb-0 text-danger">
-                                                                        -{{$bfs->value}} {{config('app.currency')}}</h6>
-                                                                </td>
-                                                                <td class="logoTopBFSLabel text-end">
-                                                                    <h6 class="mb-0">{{$bfs->current_balance}} {{config('app.currency')}}</h6>
-                                                                </td>
-                                                                <td>
-                                                                    <p class="mb-1 small">{{$bfs->description}}</p>
-                                                                    <p class="mb-1 text-muted small">
-                                                                        {{__('BFS')}} {{$bfs->current_balance+$bfs->value}}
-                                                                        - {{$bfs->value}}
-                                                                        = {{$bfs->current_balance}}
-                                                                    </p>
-                                                                    <div class="mt-2">
-                                                                        {!! \App\Services\Balances\Balances::generateDescription($bfs) !!}
+                                                            <div class="card border mb-3">
+                                                                <div class="card-body">
+                                                                    <div class="row g-3">
+                                                                        <!-- Reference -->
+                                                                        <div class="col-md-6 col-lg-2">
+                                                                            <div class="card border h-100">
+                                                                                <div class="card-header bg-light">
+                                                                                    <small class="fw-bold text-muted">{{__('Reference')}}</small>
+                                                                                </div>
+                                                                                <div class="card-body d-flex align-items-center justify-content-center">
+                                                                                    <span class="badge bg-info-subtle text-info fs-14">
+                                                                                        {{$bfs->reference}}
+                                                                                    </span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!-- Value -->
+                                                                        <div class="col-md-6 col-lg-2">
+                                                                            <div class="card border-danger h-100">
+                                                                                <div class="card-header bg-danger-subtle">
+                                                                                    <small class="fw-bold text-danger">{{__('Value')}}</small>
+                                                                                </div>
+                                                                                <div class="card-body d-flex align-items-center justify-content-center logoTopBFSLabel">
+                                                                                    <h6 class="mb-0 text-danger">
+                                                                                        <i class="ri-arrow-down-line me-1"></i>-{{$bfs->value}} {{config('app.currency')}}
+                                                                                    </h6>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!-- Current Balance -->
+                                                                        <div class="col-md-6 col-lg-2">
+                                                                            <div class="card border-success h-100">
+                                                                                <div class="card-header bg-success-subtle">
+                                                                                    <small class="fw-bold text-success">{{__('Current balance')}}</small>
+                                                                                </div>
+                                                                                <div class="card-body d-flex align-items-center justify-content-center logoTopBFSLabel">
+                                                                                    <h6 class="mb-0 text-success">
+                                                                                        <i class="ri-wallet-line me-1"></i>{{$bfs->current_balance}} {{config('app.currency')}}
+                                                                                    </h6>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!-- Percentage -->
+                                                                        <div class="col-md-6 col-lg-2">
+                                                                            <div class="card border-warning h-100">
+                                                                                <div class="card-header bg-warning-subtle">
+                                                                                    <small class="fw-bold text-warning">{{__('Percentage')}}</small>
+                                                                                </div>
+                                                                                <div class="card-body d-flex align-items-center justify-content-center">
+                                                                                    <span class="badge bg-warning-subtle text-warning fs-14">
+                                                                                        <i class="ri-percent-line me-1"></i>{{$bfs->percentage}} {{config('app.percentage')}}
+                                                                                    </span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!-- Created At -->
+                                                                        <div class="col-md-6 col-lg-4">
+                                                                            <div class="card border h-100">
+                                                                                <div class="card-header bg-light">
+                                                                                    <small class="fw-bold text-muted">{{__('Created at')}}</small>
+                                                                                </div>
+                                                                                <div class="card-body d-flex align-items-center justify-content-center">
+                                                                                    <small class="text-muted">
+                                                                                        <i class="ri-time-line me-1"></i>{{$bfs->created_at}}
+                                                                                    </small>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!-- Description (Full Width) -->
+                                                                        <div class="col-12">
+                                                                            <div class="card border-info">
+                                                                                <div class="card-header bg-info-subtle">
+                                                                                    <small class="fw-bold text-info">
+                                                                                        <i class="ri-information-line me-1"></i>{{__('Description')}}
+                                                                                    </small>
+                                                                                </div>
+                                                                                <div class="card-body">
+                                                                                    <p class="mb-2">{{$bfs->description}}</p>
+                                                                                    <div class="alert alert-light mb-2">
+                                                                                        <small class="text-muted">
+                                                                                            <i class="ri-calculator-line me-1"></i>
+                                                                                            {{__('BFS')}} {{$bfs->current_balance+$bfs->value}}
+                                                                                            - {{$bfs->value}}
+                                                                                            = {{$bfs->current_balance}}
+                                                                                        </small>
+                                                                                    </div>
+                                                                                    <div class="mt-2">
+                                                                                        {!! \App\Services\Balances\Balances::generateDescription($bfs) !!}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                </td>
-                                                                <td class="text-end">
-                                                                    <span class="badge bg-warning-subtle text-warning">
-                                                                        {{$bfs->percentage}} {{config('app.percentage')}}
-                                                                    </span>
-                                                                </td>
-                                                                <td>
-                                                                    <small
-                                                                        class="text-muted">{{$bfs->created_at}}</small>
-                                                                </td>
-                                                            </tr>
+                                                                </div>
+                                                            </div>
                                                         @endforeach
-                                                        </tbody>
-                                                    </table>
+                                                    </div>
                                                 </div>
                                             </li>
                                         @endif
                                         @if(isset($cash))
                                             <li class="list-group-item logoTopCashLabel">
-                                                <h5 class="mb-3">
-                                                    <i class="ri-wallet-3-line text-success me-2"></i>{{__('Cash')}}
-                                                </h5>
-                                                <div class="table-responsive">
-                                                    <table class="table table-bordered align-middle mb-0 cash-table">
-                                                        <thead class="table-light">
-                                                        <tr>
-                                                            <th scope="col">{{__('Reference')}}</th>
-                                                            <th scope="col" class="text-end">{{__('Value')}}</th>
-                                                            <th scope="col"
-                                                                class="text-end">{{__('Current balance')}}</th>
-                                                            <th scope="col">{{__('Description')}}</th>
-                                                            <th scope="col">{{__('Created at')}}</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <span
-                                                                    class="badge bg-success-subtle text-success">{{$cash->reference}}</span>
-                                                            </td>
-                                                            <td class="logoTopCashLabel text-end">
-                                                                <h6 class="mb-0 text-danger">
-                                                                    -{{$cash->value}} {{config('app.currency')}}</h6>
-                                                            </td>
-                                                            <td class="logoTopCashLabel text-end">
-                                                                <h6 class="mb-0">{{$cash->current_balance}} {{config('app.currency')}}</h6>
-                                                            </td>
-                                                            <td>
-                                                                <p class="mb-1 small">{{$cash->description}}</p>
-                                                                <p class="mb-1 text-muted small">
-                                                                    {{__('CASH')}} {{$cash->current_balance+$cash->value}}
-                                                                    - {{$cash->value}}
-                                                                    = {{$cash->current_balance}}
-                                                                </p>
-                                                                <div class="mt-2">
-                                                                    {!! \App\Services\Balances\Balances::generateDescription($cash) !!}
+                                                <div class="card border-success shadow-sm">
+                                                    <div class="card-header bg-success-subtle">
+                                                        <h5 class="card-title mb-0">
+                                                            <i class="ri-wallet-3-line text-success me-2"></i>{{__('Cash')}}
+                                                        </h5>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="row g-3">
+                                                            <!-- Reference -->
+                                                            <div class="col-md-6 col-lg-3">
+                                                                <div class="card border h-100">
+                                                                    <div class="card-header bg-light">
+                                                                        <small class="fw-bold text-muted">{{__('Reference')}}</small>
+                                                                    </div>
+                                                                    <div class="card-body d-flex align-items-center justify-content-center">
+                                                                        <span class="badge bg-success-subtle text-success fs-14">
+                                                                            {{$cash->reference}}
+                                                                        </span>
+                                                                    </div>
                                                                 </div>
-                                                            </td>
-                                                            <td>
-                                                                <small class="text-muted">{{$cash->created_at}}</small>
-                                                            </td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
+                                                            </div>
+
+                                                            <!-- Value -->
+                                                            <div class="col-md-6 col-lg-3">
+                                                                <div class="card border-danger h-100">
+                                                                    <div class="card-header bg-danger-subtle">
+                                                                        <small class="fw-bold text-danger">{{__('Value')}}</small>
+                                                                    </div>
+                                                                    <div class="card-body d-flex align-items-center justify-content-center logoTopCashLabel">
+                                                                        <h6 class="mb-0 text-danger">
+                                                                            <i class="ri-arrow-down-line me-1"></i>-{{$cash->value}} {{config('app.currency')}}
+                                                                        </h6>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Current Balance -->
+                                                            <div class="col-md-6 col-lg-3">
+                                                                <div class="card border-success h-100">
+                                                                    <div class="card-header bg-success-subtle">
+                                                                        <small class="fw-bold text-success">{{__('Current balance')}}</small>
+                                                                    </div>
+                                                                    <div class="card-body d-flex align-items-center justify-content-center logoTopCashLabel">
+                                                                        <h6 class="mb-0 text-success">
+                                                                            <i class="ri-wallet-line me-1"></i>{{$cash->current_balance}} {{config('app.currency')}}
+                                                                        </h6>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Created At -->
+                                                            <div class="col-md-6 col-lg-3">
+                                                                <div class="card border h-100">
+                                                                    <div class="card-header bg-light">
+                                                                        <small class="fw-bold text-muted">{{__('Created at')}}</small>
+                                                                    </div>
+                                                                    <div class="card-body d-flex align-items-center justify-content-center">
+                                                                        <small class="text-muted">
+                                                                            <i class="ri-time-line me-1"></i>{{$cash->created_at}}
+                                                                        </small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Description (Full Width) -->
+                                                            <div class="col-12">
+                                                                <div class="card border-info">
+                                                                    <div class="card-header bg-info-subtle">
+                                                                        <small class="fw-bold text-info">
+                                                                            <i class="ri-information-line me-1"></i>{{__('Description')}}
+                                                                        </small>
+                                                                    </div>
+                                                                    <div class="card-body">
+                                                                        <p class="mb-2">{{$cash->description}}</p>
+                                                                        <div class="alert alert-light mb-2">
+                                                                            <small class="text-muted">
+                                                                                <i class="ri-calculator-line me-1"></i>
+                                                                                {{__('CASH')}} {{$cash->current_balance+$cash->value}}
+                                                                                - {{$cash->value}}
+                                                                                = {{$cash->current_balance}}
+                                                                            </small>
+                                                                        </div>
+                                                                        <div class="mt-2">
+                                                                            {!! \App\Services\Balances\Balances::generateDescription($cash) !!}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </li>
                                         @endif

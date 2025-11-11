@@ -1,140 +1,234 @@
 @if(count($commissions))
     <div class="col-md-12 text-muted">
-        <div class="card mt-2">
-            <div class="card-header">
-                <h6 class="card-title mb-0">{{__('Commission break down')}}</h6>
+        <div class="card mt-2 border-0 shadow-sm">
+            <div class="card-header bg-light border-bottom">
+                <h6 class="card-title mb-0">
+                    <i class="ri-bar-chart-box-line text-primary me-2"></i>{{__('Commission break down')}}
+                </h6>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-border table-striped table-card table-nowrap">
-                        <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">{{__('Generals')}}</th>
-                            <th scope="col">{{__('Turnover')}}</th>
-                            <th scope="col">{{__('Purchase value')}}</th>
-                            <th scope="col">{{__('Commission')}}</th>
-                            <th scope="col">{{__('Additional')}}</th>
-                            <th scope="col">{{__('Camembert')}}</th>
-                            <th scope="col">{{__('Camembert parts')}}</th>
-                            <th scope="col">{{__('Created at')}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($commissions as $key => $commission)
-                            <tr>
-                                <th scope="row">{{$key+1}}</th>
-                                <td>
-                            <span title="{{__('Commission brackdown Status')}}" class="badge
-                             @if($commission->type->value==\Core\Enum\CommissionTypeEnum::IN->value)
-                             badge-outline-primary
-                             @elseif($commission->type->value==\Core\Enum\CommissionTypeEnum::OUT->value)
-                          badge-outline-secondary
-                             @else
-                          badge-outline-warning
-                             @endif
-                             ">
-                                {{__(\Core\Enum\CommissionTypeEnum::tryFrom($commission->type->value)->name)}}
-                            </span>
-                                    @if($commission->trigger)
-                                        <hr>
-                                        <span class="badge badge-outline-danger"
-                                              title="{{__('Order trigger')}}">{{$commission->trigger}}</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if($commission->type->value!==\Core\Enum\CommissionTypeEnum::OUT->value)
-                                        <ul class="list-group">
-                                            <li class="list-group-item">
-                                                <strong>{{__('Old')}}</strong>
-                                                <span
-                                                    class="badge badge-outline-info float-end"> {{$commission->old_turnover}} {{config('app.currency')}}</span>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <strong>{{__('New')}}</strong>
-                                                <span
-                                                    class="badge badge-outline-info float-end"> {{$commission->new_turnover}} {{config('app.currency')}}</span>
-                                            </li>
-                                        </ul>
-                                    @else
-                                        <div class="alert alert-light material-shadow" role="alert">
-                                            {{__('No data')}}
-                                        </div>
-                                    @endif
-                                </td>
-                                <td>
-                                    {{$commission->purchase_value}}  {{config('app.currency')}}
-                                </td>
-                                <td>
-                                    {{$commission->commission_value}} {{config('app.currency')}}
-                                    <hr>
-                                    {{$commission->commission_percentage}} %
-                                </td>
-                                <td>
-                                    @if($commission->type->value!==\Core\Enum\CommissionTypeEnum::OUT->value)
-                                        <span
-                                            class="badge bg-warning text-end fs-14 float-end">{{$commission->additional_amount}}  {{config('app.currency')}}</span>
-                                    @else
-                                        <div class="alert alert-light material-shadow" role="alert">
-                                            {{__('No data')}}
-                                        </div>
-                                    @endif
-
-
-                                </td>
-                                <td>
-                                    @if($commission->type->value!==\Core\Enum\CommissionTypeEnum::OUT->value)
-                                        <span
-                                            class="badge bg-success text-end fs-14 float-end">      {{$commission->camembert}} {{config('app.currency')}}</span>
-                                    @else
-                                        <div class="alert alert-light material-shadow" role="alert">
-                                            {{__('No data')}}
-                                        </div>
-                                    @endif
-
-                                </td>
-                                <td>
-                                    @if($commission->type->value!==\Core\Enum\CommissionTypeEnum::OUT->value)
-                                        <ul class="list-group">
-                                            <li class="list-group-item list-group-item-primary"
-                                                title="{{__('Cash company profit')}}">
-                                                <strong>{{__('Cash company profit')}}</strong>
-                                                <span
-                                                    class="badge badge-outline-info float-end">{{$commission->cash_company_profit}}  {{config('app.currency')}}
+                @foreach($commissions as $key => $commission)
+                    <div class="card mb-3 shadow-sm border-primary">
+                        <div class="card-header bg-primary-subtle">
+                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="badge bg-dark fs-14">
+                                        <i class="ri-hashtag me-1"></i>{{$key+1}}
                                     </span>
-                                            </li>
-                                            <li class="list-group-item" title="{{__('Cash jackpot')}}">
-                                                <strong>{{__('Cash jackpot')}}</strong>
-
-                                                <span
-                                                    class="badge badge-outline-info float-end">{{$commission->cash_jackpot}}  {{config('app.currency')}}
-                                                                  </span>
-                                            </li>
-                                            <li class="list-group-item" title="{{__('Cash tree')}}">
-                                                <strong>{{__('Cash tree')}}</strong>
-                                                <span
-                                                    class="badge badge-outline-info float-end">{{$commission->cash_tree}}  {{config('app.currency')}}
-                                                </span>
-                                            </li>
-                                            <li class="list-group-item" title="{{__('Cash cashback')}}">
-                                                <strong>{{__('Cash cashback')}}</strong>
-                                                <span
-                                                    class="badge badge-outline-info float-end">{{$commission->cash_cashback}}  {{config('app.currency')}}
-                                                </span>
-                                            </li>
-                                        </ul>
-                                    @else
-                                        <div class="alert alert-light material-shadow" role="alert">
-                                            {{__('No data')}}
-                                        </div>
+                                    <span title="{{__('Commission brackdown Status')}}" class="badge fs-14
+                                     @if($commission->type->value==\Core\Enum\CommissionTypeEnum::IN->value)
+                                     bg-primary
+                                     @elseif($commission->type->value==\Core\Enum\CommissionTypeEnum::OUT->value)
+                                     bg-secondary
+                                     @else
+                                     bg-warning
+                                     @endif
+                                     ">
+                                        <i class="ri-arrow-left-right-line me-1"></i>{{__(\Core\Enum\CommissionTypeEnum::tryFrom($commission->type->value)->name)}}
+                                    </span>
+                                    @if($commission->trigger)
+                                        <span class="badge bg-danger fs-14" title="{{__('Order trigger')}}">
+                                            <i class="ri-flashlight-line me-1"></i>{{$commission->trigger}}
+                                        </span>
                                     @endif
-                                </td>
-                                <td>{{$commission->created_at}}</td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                                </div>
+                                <small class="text-muted">
+                                    <i class="ri-time-line me-1"></i>{{$commission->created_at}}
+                                </small>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <!-- Turnover Section -->
+                                <div class="col-lg-4">
+                                    <div class="card border h-100">
+                                        <div class="card-header bg-info-subtle">
+                                            <h6 class="card-title mb-0 text-info">
+                                                <i class="ri-exchange-line me-2"></i>{{__('Turnover')}}
+                                            </h6>
+                                        </div>
+                                        <div class="card-body">
+                                            @if($commission->type->value!==\Core\Enum\CommissionTypeEnum::OUT->value)
+                                                <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
+                                                    <span class="text-muted">
+                                                        <i class="ri-history-line me-1"></i>{{__('Old')}}
+                                                    </span>
+                                                    <span class="badge bg-info-subtle text-info fs-14">
+                                                        {{$commission->old_turnover}} {{config('app.currency')}}
+                                                    </span>
+                                                </div>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span class="text-muted">
+                                                        <i class="ri-refresh-line me-1"></i>{{__('New')}}
+                                                    </span>
+                                                    <span class="badge bg-info fs-14">
+                                                        {{$commission->new_turnover}} {{config('app.currency')}}
+                                                    </span>
+                                                </div>
+                                            @else
+                                                <div class="alert alert-light material-shadow mb-0 text-center" role="alert">
+                                                    <i class="ri-information-line me-1"></i>{{__('No data')}}
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Purchase Value & Commission -->
+                                <div class="col-lg-4">
+                                    <div class="card border h-100">
+                                        <div class="card-header bg-success-subtle">
+                                            <h6 class="card-title mb-0 text-success">
+                                                <i class="ri-price-tag-3-line me-2"></i>{{__('Purchase value')}} & {{__('Commission')}}
+                                            </h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
+                                                <span class="text-muted">
+                                                    <i class="ri-shopping-cart-line me-1"></i>{{__('Purchase value')}}
+                                                </span>
+                                                <span class="badge bg-warning fs-14">
+                                                    {{$commission->purchase_value}} {{config('app.currency')}}
+                                                </span>
+                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <span class="text-muted">
+                                                    <i class="ri-money-dollar-circle-line me-1"></i>{{__('Commission')}}
+                                                </span>
+                                                <span class="badge bg-success fs-14">
+                                                    {{$commission->commission_value}} {{config('app.currency')}}
+                                                </span>
+                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span class="text-muted small">
+                                                    <i class="ri-percent-line me-1"></i>{{__('Percentage')}}
+                                                </span>
+                                                <span class="badge bg-success-subtle text-success">
+                                                    {{$commission->commission_percentage}} %
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Additional & Camembert -->
+                                <div class="col-lg-4">
+                                    <div class="card border h-100">
+                                        <div class="card-header bg-warning-subtle">
+                                            <h6 class="card-title mb-0 text-warning">
+                                                <i class="ri-pie-chart-line me-2"></i>{{__('Additional')}} & {{__('Camembert')}}
+                                            </h6>
+                                        </div>
+                                        <div class="card-body">
+                                            @if($commission->type->value!==\Core\Enum\CommissionTypeEnum::OUT->value)
+                                                <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
+                                                    <span class="text-muted">
+                                                        <i class="ri-add-circle-line me-1"></i>{{__('Additional')}}
+                                                    </span>
+                                                    <span class="badge bg-warning fs-14">
+                                                        {{$commission->additional_amount}} {{config('app.currency')}}
+                                                    </span>
+                                                </div>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span class="text-muted">
+                                                        <i class="ri-pie-chart-2-line me-1"></i>{{__('Camembert')}}
+                                                    </span>
+                                                    <span class="badge bg-success fs-14">
+                                                        {{$commission->camembert}} {{config('app.currency')}}
+                                                    </span>
+                                                </div>
+                                            @else
+                                                <div class="alert alert-light material-shadow mb-0 text-center" role="alert">
+                                                    <i class="ri-information-line me-1"></i>{{__('No data')}}
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Camembert Parts (Full Width) -->
+                                @if($commission->type->value!==\Core\Enum\CommissionTypeEnum::OUT->value)
+                                    <div class="col-12">
+                                        <div class="card border-success">
+                                            <div class="card-header bg-success-subtle">
+                                                <h6 class="card-title mb-0 text-success">
+                                                    <i class="ri-stack-line me-2"></i>{{__('Camembert parts')}}
+                                                </h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row g-3">
+                                                    <!-- Cash Company Profit -->
+                                                    <div class="col-md-6 col-lg-3">
+                                                        <div class="card border-primary h-100">
+                                                            <div class="card-header bg-primary-subtle">
+                                                                <small class="fw-bold text-primary" title="{{__('Cash company profit')}}">
+                                                                    <i class="ri-building-line me-1"></i>{{__('Cash company profit')}}
+                                                                </small>
+                                                            </div>
+                                                            <div class="card-body d-flex align-items-center justify-content-center">
+                                                                <span class="badge bg-primary fs-14">
+                                                                    {{$commission->cash_company_profit}} {{config('app.currency')}}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Cash Jackpot -->
+                                                    <div class="col-md-6 col-lg-3">
+                                                        <div class="card border-warning h-100">
+                                                            <div class="card-header bg-warning-subtle">
+                                                                <small class="fw-bold text-warning" title="{{__('Cash jackpot')}}">
+                                                                    <i class="ri-trophy-line me-1"></i>{{__('Cash jackpot')}}
+                                                                </small>
+                                                            </div>
+                                                            <div class="card-body d-flex align-items-center justify-content-center">
+                                                                <span class="badge bg-warning fs-14">
+                                                                    {{$commission->cash_jackpot}} {{config('app.currency')}}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Cash Tree -->
+                                                    <div class="col-md-6 col-lg-3">
+                                                        <div class="card border-success h-100">
+                                                            <div class="card-header bg-success-subtle">
+                                                                <small class="fw-bold text-success" title="{{__('Cash tree')}}">
+                                                                    <i class="ri-git-branch-line me-1"></i>{{__('Cash tree')}}
+                                                                </small>
+                                                            </div>
+                                                            <div class="card-body d-flex align-items-center justify-content-center">
+                                                                <span class="badge bg-success fs-14">
+                                                                    {{$commission->cash_tree}} {{config('app.currency')}}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Cash Cashback -->
+                                                    <div class="col-md-6 col-lg-3">
+                                                        <div class="card border-info h-100">
+                                                            <div class="card-header bg-info-subtle">
+                                                                <small class="fw-bold text-info" title="{{__('Cash cashback')}}">
+                                                                    <i class="ri-refund-line me-1"></i>{{__('Cash cashback')}}
+                                                                </small>
+                                                            </div>
+                                                            <div class="card-body d-flex align-items-center justify-content-center">
+                                                                <span class="badge bg-info fs-14">
+                                                                    {{$commission->cash_cashback}} {{config('app.currency')}}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>
