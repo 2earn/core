@@ -90,7 +90,7 @@ class OrderPartnerController extends Controller
 
         $data = $validator->validated();
         $data['user_id'] = $userId;
-        $data['status'] = OrderEnum::New;
+        $data['status'] = OrderEnum::New->value;
 
         $order = Order::create($data);
         return response()->json($order, Response::HTTP_CREATED);
@@ -185,6 +185,71 @@ class OrderPartnerController extends Controller
         $order->update($data);
         return response()->json([
             'status' => true,
+            'data' => $order
+        ]);
+    }
+
+    /**
+     * Change the status of an order.
+     */
+    public function changeStatus(Request $request, Order $order): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'status' => 'required|integer',
+            'user_id' => 'required|integer|exists:users,id'
+        ]);
+
+        if ($validator->fails()) {
+            Log::error(self::LOG_PREFIX . 'Order status change validation failed', ['errors' => $validator->errors()]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $userId = $request->input('user_id');
+
+        if ($order->user_id !== intval($userId)) {
+            Log::error(self::LOG_PREFIX . 'User does not have permission to change order status', [
+                'order_id' => $order->id,
+                'user_id' => $userId,
+                'order_user_id' => $order->user_id
+            ]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'You do not have permission to change this order status'
+            ], Response::HTTP_FORBIDDEN);
+        }
+
+        // Validate the status value against OrderEnum
+        $statusValue = $request->input('status');
+        $orderStatus = OrderEnum::tryFrom($statusValue);
+
+        if (!$orderStatus || $orderStatus->value !== OrderEnum::Ready->value) {
+            Log::error(self::LOG_PREFIX . 'Invalid order status value for this order', [
+                'order_id' => $order->id,
+                'status_value' => $statusValue
+            ]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Invalid order status value'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $order->status = $orderStatus;
+        $order->updated_by = $userId;
+        $order->save();
+
+        Log::info(self::LOG_PREFIX . 'Order status updated successfully', [
+            'order_id' => $order->id,
+            'new_status' => $orderStatus->name,
+            'updated_by' => $userId
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Order status updated successfully',
             'data' => $order
         ]);
     }

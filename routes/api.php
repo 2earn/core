@@ -121,6 +121,7 @@ Route::prefix('/partner/')->name('api_partner_')
             Route::apiResource('deals', DealPartnerController::class)->except('destroy');
             Route::apiResource('orders', OrderPartnerController::class)->except('destroy');
             Route::apiResource('order-details', OrderDetailsPartnerController::class)->only(['store', 'update']);
+            Route::patch('orders/{order}/status', [OrderPartnerController::class, 'changeStatus'])->name('orders.change_status');
             Route::patch('deals/{deal}/status', [DealPartnerController::class, 'changeStatus'])->name('deals.change_status');
             Route::post('items', [ItemsPartnerController::class, 'store']);
             Route::put('items/{id}', [ItemsPartnerController::class, 'update']);
