@@ -1,86 +1,206 @@
 @if($orderDeals->count())
-    <div class="col-md-12 text-muted">
-        <div class="card mt-2">
-            <div class="card-header">
-                <h6 class="card-title mb-0">{{__('Order deals Turnovers')}}</h6>
+    <div class="col-md-12">
+        <div class="card mt-2 border-0 shadow-sm">
+            <div class="card-header bg-light border-bottom">
+                <h6 class="card-title mb-0">
+                    <i class="ri-bar-chart-line text-primary me-2"></i>{{__('Order deals Turnovers')}}
+                </h6>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-border table-striped table-card table-nowrap">
-                        <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">{{__('Deal')}}</th>
-                            <th scope="col">{{__('Total amount')}}</th>
-                            <th scope="col">{{__('Partner discount')}}</th>
-                            <th scope="col">{{__('Earn discount')}}</th>
-                            <th scope="col">{{__('Deal discount')}}</th>
-                            <th scope="col">{{__('Total discount')}}</th>
-                            <th scope="col">{{__('Final discount')}}</th>
-                            <th scope="col">{{__('Lost discount')}}</th>
-                            <th scope="col">{{__('Final amount')}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($orderDeals as $key => $orderDealsItem)
-                            <tr>
-                                <td>
-                                    {{$orderDealsItem->id}}
-                                </td>
-                                <td>
+                @foreach($orderDeals as $key => $orderDealsItem)
+                    <div class="card mb-3 border-success shadow-sm">
+                        <div class="card-header bg-success-subtle">
+                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="badge bg-primary fs-14">
+                                        <i class="ri-hashtag me-1"></i>{{$orderDealsItem->id}}
+                                    </span>
+                                    <span class="badge bg-success">
+                                        <i class="ri-gift-line me-1"></i>{{__('Deal')}}
+                                    </span>
+                                </div>
+                                <div>
                                     @if(\App\Models\User::isSuperAdmin())
-                                        <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$orderDealsItem->deals()->first()->id])}}"><span
-                                                class="float-end"> {{$orderDealsItem->deals()->first()->id}} - {{$orderDealsItem->deals()->first()->name}}</span>
+                                        <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$orderDealsItem->deals()->first()->id])}}" class="badge bg-info text-white text-decoration-none">
+                                            {{$orderDealsItem->deals()->first()->id}} - {{$orderDealsItem->deals()->first()->name}}
                                         </a>
                                     @else
-                                        <span
-                                            class="float-end"> {{$orderDealsItem->deals()->first()->id}} - {{$orderDealsItem->deals()->first()->name}}</span>
+                                        <span class="badge bg-info">
+                                            {{$orderDealsItem->deals()->first()->id}} - {{$orderDealsItem->deals()->first()->name}}
+                                        </span>
                                     @endif
-                                </td>
-                                <td>
-                                 <span
-                                     class="badge bg-warning fs-14">     {{$orderDealsItem->total_amount}}  {{config('app.currency')}}</span>
-                                </td>
-                                <td>
-                           <span
-                               class="badge bg-success fs-14">  {{$orderDealsItem->partner_discount}}  {{config('app.currency')}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <!-- Total Amount -->
+                                <div class="col-md-4">
+                                    <div class="card border h-100">
+                                        <div class="card-header bg-light">
+                                            <h6 class="card-title mb-0">
+                                                <i class="ri-money-dollar-circle-line text-warning me-2"></i>{{__('Total amount')}}
+                                            </h6>
+                                        </div>
+                                        <div class="card-body d-flex align-items-center justify-content-center">
+                                            <span class="badge bg-warning fs-16">
+                                                {{$orderDealsItem->total_amount}} {{config('app.currency')}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                    <span
-                                        class="badge bg-primary text-end fs-14 float-end"> {{$orderDealsItem->amount_after_partner_discount}}  {{config('app.currency')}}</span>
-                                </td>
-                                <td>
-                      <span
-                          class="badge bg-success fs-14">   {{$orderDealsItem->earn_discount}}  {{config('app.currency')}}</span>
-                                    <span
-                                        class="badge bg-primary text-end fs-14 float-end">   {{$orderDealsItem->amount_after_earn_discount}}  {{config('app.currency')}}</span>
-                                </td>
-                                <td>
-          <span
-              class="badge bg-success fs-14">  {{$orderDealsItem->deal_discount}}  {{config('app.currency')}}</span>
-                                    <span
-                                        class="badge bg-primary text-end fs-14 float-end">     {{$orderDealsItem->amount_after_deal_discount}}  {{config('app.currency')}}</span>
-                                </td>
-                                <td>
-                                    {{$orderDealsItem->total_discount}}  {{config('app.currency')}}
-                                </td>
-                                <td>
-                                    {{$orderDealsItem->final_discount}}  {{config('app.currency')}}
-                                    <hr>
-                                    <span
-                                        class="text-muted"> {{$orderDealsItem->final_discount_percentage * 100}}  {{config('app.percentage')}}</span>
-                                </td>
-                                <td>
-                                    {{$orderDealsItem->lost_discount}}  {{config('app.currency')}}
-                                </td>
-                                <td>
-                            <span
-                                class="badge bg-danger text-end fs-14 float-end">      {{$orderDealsItem->final_amount}}  {{config('app.currency')}}</span>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                                <!-- Partner Discount -->
+                                <div class="col-md-4">
+                                    <div class="card border h-100">
+                                        <div class="card-header bg-light">
+                                            <h6 class="card-title mb-0">
+                                                <i class="ri-team-line text-success me-2"></i>{{__('Partner discount')}}
+                                            </h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <span class="text-muted small">{{__('Discount')}}</span>
+                                                <span class="badge bg-success fs-14">
+                                                    {{$orderDealsItem->partner_discount}} {{config('app.currency')}}
+                                                </span>
+                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span class="text-muted small">{{__('After discount')}}</span>
+                                                <span class="badge bg-primary fs-14">
+                                                    {{$orderDealsItem->amount_after_partner_discount}} {{config('app.currency')}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 2earn Discount -->
+                                <div class="col-md-4">
+                                    <div class="card border h-100">
+                                        <div class="card-header bg-light">
+                                            <h6 class="card-title mb-0">
+                                                <i class="ri-percent-line text-success me-2"></i>{{__('Earn discount')}}
+                                            </h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <span class="text-muted small">{{__('Discount')}}</span>
+                                                <span class="badge bg-success fs-14">
+                                                    {{$orderDealsItem->earn_discount}} {{config('app.currency')}}
+                                                </span>
+                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span class="text-muted small">{{__('After discount')}}</span>
+                                                <span class="badge bg-primary fs-14">
+                                                    {{$orderDealsItem->amount_after_earn_discount}} {{config('app.currency')}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Deal Discount -->
+                                <div class="col-md-4">
+                                    <div class="card border h-100">
+                                        <div class="card-header bg-light">
+                                            <h6 class="card-title mb-0">
+                                                <i class="ri-gift-line text-success me-2"></i>{{__('Deal discount')}}
+                                            </h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <span class="text-muted small">{{__('Discount')}}</span>
+                                                <span class="badge bg-success fs-14">
+                                                    {{$orderDealsItem->deal_discount}} {{config('app.currency')}}
+                                                </span>
+                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span class="text-muted small">{{__('After discount')}}</span>
+                                                <span class="badge bg-primary fs-14">
+                                                    {{$orderDealsItem->amount_after_deal_discount}} {{config('app.currency')}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Total Discount -->
+                                <div class="col-md-4">
+                                    <div class="card border-info h-100">
+                                        <div class="card-header bg-info-subtle">
+                                            <h6 class="card-title mb-0 text-info">
+                                                <i class="ri-discount-percent-line me-2"></i>{{__('Total discount')}}
+                                            </h6>
+                                        </div>
+                                        <div class="card-body d-flex align-items-center justify-content-center">
+                                            <span class="badge bg-info fs-16">
+                                                {{$orderDealsItem->total_discount}} {{config('app.currency')}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Final Discount -->
+                                <div class="col-md-4">
+                                    <div class="card border-success h-100">
+                                        <div class="card-header bg-success-subtle">
+                                            <h6 class="card-title mb-0 text-success">
+                                                <i class="ri-checkbox-circle-line me-2"></i>{{__('Final discount')}}
+                                            </h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <span class="text-muted small">{{__('Amount')}}</span>
+                                                <span class="badge bg-success fs-14">
+                                                    {{$orderDealsItem->final_discount}} {{config('app.currency')}}
+                                                </span>
+                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span class="text-muted small">{{__('Percentage')}}</span>
+                                                <span class="badge bg-success-subtle text-success">
+                                                    {{$orderDealsItem->final_discount_percentage * 100}} {{config('app.percentage')}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Lost Discount -->
+                                <div class="col-md-6">
+                                    <div class="card border-warning h-100">
+                                        <div class="card-header bg-warning-subtle">
+                                            <h6 class="card-title mb-0 text-warning">
+                                                <i class="ri-error-warning-line me-2"></i>{{__('Lost discount')}}
+                                            </h6>
+                                        </div>
+                                        <div class="card-body d-flex align-items-center justify-content-center">
+                                            <span class="badge bg-warning fs-16">
+                                                {{$orderDealsItem->lost_discount}} {{config('app.currency')}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Final Amount -->
+                                <div class="col-md-6">
+                                    <div class="card border-danger h-100">
+                                        <div class="card-header bg-danger-subtle">
+                                            <h6 class="card-title mb-0 text-danger">
+                                                <i class="ri-wallet-3-line me-2"></i>{{__('Final amount')}}
+                                            </h6>
+                                        </div>
+                                        <div class="card-body d-flex align-items-center justify-content-center">
+                                            <span class="badge bg-danger fs-16">
+                                                {{$orderDealsItem->final_amount}} {{config('app.currency')}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>
