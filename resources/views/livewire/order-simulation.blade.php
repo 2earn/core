@@ -3,13 +3,11 @@
         {{ __('Order simulation') }}
     @endsection
     @component('components.breadcrumb')
-        @slot('li_1')@endslot
         @slot('title')
             {{ __('Order simulation') }}
         @endslot
     @endcomponent
     <div class="card">
-
         <div class="card-header">
             <h3>{{__('Order simulation')}}</h3>
         </div>
@@ -25,7 +23,7 @@
             </div>
         @endif
         <div class="card-body">
-            @include('livewire.order-item', ['order' => $order])
+         @include('livewire.order-item', ['order' => $order])
         </div>
         @if($order->status->value ==\Core\Enum\OrderEnum::New->value)
             <div class="card-body">

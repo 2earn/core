@@ -36,7 +36,6 @@ class OrderSummary extends Component
         }
 
         $order = Order::create(['user_id' => auth()->user()->id, 'note' => 'Product buy platform ' ]);
-
         foreach ($ordersData as $ordersDataItems) {
 
             foreach ($ordersDataItems as $ordersItems) {
@@ -51,6 +50,7 @@ class OrderSummary extends Component
             $order->updateStatus(OrderEnum::Ready);
 
         }
+
         return redirect()->route('orders_simulation', ['locale' => app()->getLocale(), 'id' => $order->id])->with('danger', trans('order failed'));
 
     }
