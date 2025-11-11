@@ -22,6 +22,7 @@ class OrderDetailsPartnerController extends Controller
             'qty' => 'required|numeric|min:1',
             'unit_price' => 'required|numeric|min:0',
             'shipping' => 'nullable|numeric|min:0',
+            'created_by' => 'required|exists:users,id',
         ]);
 
         if ($validator->fails()) {
@@ -57,7 +58,8 @@ class OrderDetailsPartnerController extends Controller
             'qty' => 'sometimes|numeric|min:1',
             'unit_price' => 'sometimes|numeric|min:0',
             'shipping' => 'sometimes|numeric|min:0',
-            'note' => 'nullable|string'
+            'note' => 'nullable|string',
+            'updated_by' => 'required|exists:users,id',
         ]);
 
         if ($validator->fails()) {

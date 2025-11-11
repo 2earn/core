@@ -100,7 +100,8 @@ class DealPartnerController extends Controller
             'cash_company_profit' => 'nullable|numeric',
             'cash_jackpot' => 'nullable|numeric',
             'cash_tree' => 'nullable|numeric',
-            'cash_cashback' => 'nullable|numeric'
+            'cash_cashback' => 'nullable|numeric',
+            'created_by' => 'required|exists:users,id',
         ]);
 
         if ($validator->fails()) {
@@ -193,7 +194,8 @@ class DealPartnerController extends Controller
             'cash_company_profit' => 'nullable|numeric',
             'cash_jackpot' => 'nullable|numeric',
             'cash_tree' => 'nullable|numeric',
-            'cash_cashback' => 'nullable|numeric'
+            'cash_cashback' => 'nullable|numeric',
+            'updated_by' => 'required|exists:users,id',
         ]);
 
         if ($validator->fails()) {
