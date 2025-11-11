@@ -74,7 +74,8 @@ class TopBar extends Component
             'user' => $authUser,
             'userStatus' => $user->status,
             'userRole' => $user->getRoleNames()->first(),
-            'sectors' => BusinessSector::all()
+            'sectors' => BusinessSector::limit(6)->get(),
+            'sectorsNumber' => BusinessSector::count()
         ];
         return view('livewire.top-bar', $params);
     }

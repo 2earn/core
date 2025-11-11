@@ -11,46 +11,80 @@
                     </div>
                 </div>
                 <div class="d-flex align-items-center">
-                    <div class="dropdown topbar-head-dropdown ms-1 header-item">
-                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary"
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="dropdown topbar-head-dropdown ms-1 header-item" id="business-sectors">
+                        <button type="button"
+                                class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                                data-bs-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                                aria-label="{{ __('Business sectors') }}"
+                                title="{{ __('Business sectors') }}">
                             <i class='bx bx-category-alt fs-22'></i>
                         </button>
-                        <div class="dropdown-menu dropdown-menu-lg p-0 dropdown-menu-end">
-                            <div class="p-3 border-top-0 border-start-0 border-end-0 border-dashed border">
+                        <div class="dropdown-menu dropdown-menu-lg p-0 dropdown-menu-end shadow-lg"
+                             style="min-width: 380px; max-width: 480px;">
+                            <!-- Header -->
+                            <div class="p-3 bg-soft-primary border-bottom">
                                 <div class="row align-items-center">
                                     <div class="col">
-                                        <h6 class="m-0 fw-semibold fs-15"> {{__('Business sectors')}} </h6>
+                                        <h6 class="m-0 fw-semibold fs-15 text-primary">
+                                            <i class='bx bx-category-alt me-1'></i>
+                                            {{__('Business sectors')}}
+                                        </h6>
+                                        @if($sectorsNumber > 0)
+                                            <small
+                                                class="text-muted">{{ $sectorsNumber }} {{ __('sectors available') }}</small>
+                                        @endif
                                     </div>
                                     @if(\App\Models\User::isSuperAdmin())
                                         <div class="col-auto">
                                             <a href="{{route('business_sector_index',['locale'=> app()->getLocale()])}}"
-                                               class="btn btn-sm btn-soft-info"> {{__('View All Business sectors')}}
-                                                <i class="bx bx-category-alt"></i></a>
+                                               class="btn btn-sm btn-soft-info"
+                                               title="{{ __('Manage business sectors') }}">
+                                                <i class="bx bx-cog me-1"></i>
+                                                <span class="d-none d-sm-inline">{{__('Manage')}}</span>
+                                            </a>
                                         </div>
                                     @endif
                                 </div>
                             </div>
-                            <div class="p-2">
-                                <div class="row g-0">
-                                    @foreach($sectors as $sector)
-                                        @php
-                                            $logoUrl = empty($sector->logoImage)
-                                                ? Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_LOGO)
-                                                : asset('uploads/' . $sector->logoImage->url);
-                                        @endphp
-                                        <div class="col">
-                                            <a class="dropdown-icon-item"
-                                               href="{{route('business_sector_show',['locale'=>app()->getLocale(),'id'=>$sector->id] )}}">
-                                                <img src="{{ $logoUrl }}"
-                                                     alt="{{ \App\Models\TranslaleModel::getTranslation($sector,'name',$sector->name) }}">
-                                                <span>
-                                                    {{\App\Models\TranslaleModel::getTranslation($sector,'name',$sector->name)}}
-                                                </span>
-                                            </a>
-                                        </div>
-                                    @endforeach
-                                </div>
+
+                            <!-- Sectors Grid -->
+                            <div class="p-3" style="max-height: 400px; overflow-y: auto;">
+                                @if($sectors && count($sectors) > 0)
+                                    <div class="row g-3">
+                                        @foreach($sectors as $sector)
+                                            @php
+                                                $logoUrl = empty($sector->logoImage)
+                                                    ? Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_LOGO)
+                                                    : asset('uploads/' . $sector->logoImage->url);
+                                                $sectorName = \App\Models\TranslaleModel::getTranslation($sector,'name',$sector->name);
+                                            @endphp
+                                            <div class="col-6 col-md-4">
+                                                <a class="business-sector-card d-flex flex-column align-items-center text-center p-3 rounded border text-decoration-none transition-all"
+                                                   href="{{route('business_sector_show',['locale'=>app()->getLocale(),'id'=>$sector->id])}}"
+                                                   title="{{ $sectorName }}">
+                                                    <div class="business-sector-icon mb-2">
+                                                        <img src="{{ $logoUrl }}"
+                                                             alt="{{ $sectorName }}"
+                                                             class="rounded"
+                                                             style="width: 48px; height: 48px; object-fit: contain;"
+                                                             loading="lazy"
+                                                             onerror="this.src='{{ Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_LOGO) }}'">
+                                                    </div>
+                                                    <span class="business-sector-name small fw-medium text-dark">
+                                                        {{ Str::limit($sectorName, 30) }}
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <div class="text-center py-4">
+                                        <i class='bx bx-category fs-48 text-muted mb-3 d-block'></i>
+                                        <p class="text-muted mb-0">{{ __('No business sectors available') }}</p>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>

@@ -357,7 +357,7 @@
         .page-content {
             @media (min-width: 1024.1px) {
                 min-height: calc(100vh - #{$footer-height + $header-height});
-            }   
+            }
         }
     }
 }
@@ -391,5 +391,123 @@
 
     .horizontal-logo {
         display: none;
+    }
+}
+
+// Business Sectors Dropdown Styles
+#business-sectors {
+    .dropdown-menu {
+        border-radius: 0.5rem;
+
+        // Custom scrollbar for sectors list
+        .p-3:last-child {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(var(--#{$prefix}primary-rgb), 0.3) transparent;
+
+            &::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            &::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background-color: rgba(var(--#{$prefix}primary-rgb), 0.3);
+                border-radius: 3px;
+
+                &:hover {
+                    background-color: rgba(var(--#{$prefix}primary-rgb), 0.5);
+                }
+            }
+        }
+    }
+
+    .business-sector-card {
+        transition: all 0.3s ease;
+        border-color: var(--#{$prefix}border-color) !important;
+        background-color: var(--#{$prefix}white);
+        min-height: 120px;
+
+        &:hover {
+            border-color: var(--#{$prefix}primary) !important;
+            background-color: rgba(var(--#{$prefix}primary-rgb), 0.05);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+            .business-sector-icon img {
+                transform: scale(1.1);
+            }
+
+            .business-sector-name {
+                color: var(--#{$prefix}primary) !important;
+            }
+        }
+
+        &:active {
+            transform: translateY(-1px);
+        }
+    }
+
+    .business-sector-icon {
+        position: relative;
+
+        img {
+            transition: transform 0.3s ease;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.05));
+        }
+    }
+
+    .business-sector-name {
+        transition: color 0.3s ease;
+        line-height: 1.4;
+        word-break: break-word;
+    }
+}
+
+// Dark mode support for business sectors
+[data-topbar="dark"] {
+    #business-sectors {
+        .business-sector-card {
+            background-color: rgba($white, 0.05);
+            border-color: rgba($white, 0.1) !important;
+
+            .business-sector-name {
+                color: rgba($white, 0.85) !important;
+            }
+
+            &:hover {
+                background-color: rgba($white, 0.1);
+                border-color: var(--#{$prefix}primary) !important;
+
+                .business-sector-name {
+                    color: var(--#{$prefix}primary) !important;
+                }
+            }
+        }
+    }
+}
+
+// Responsive adjustments
+@media (max-width: 575.98px) {
+    #business-sectors {
+        .dropdown-menu {
+            min-width: 320px !important;
+            max-width: calc(100vw - 40px) !important;
+
+            .business-sector-card {
+                min-height: 100px;
+                padding: 0.75rem !important;
+
+                .business-sector-icon img {
+                    width: 40px !important;
+                    height: 40px !important;
+                }
+
+                .business-sector-name {
+                    font-size: 0.8rem !important;
+                }
+            }
+        }
     }
 }
