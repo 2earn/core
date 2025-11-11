@@ -195,7 +195,7 @@
                                                                         <span class="text-muted">
                                                                             <i class="ri-hashtag me-2"></i>{{__('Quantity')}}
                                                                         </span>
-                                                                        <span class="badge bg-secondary fs-6">
+                                                                        <span class="badge bg-soft-secondary fs-6">
                                                                             {{$orderDetail->qty}}
                                                                         </span>
                                                                     </div>
@@ -724,7 +724,7 @@
                     @endif
                     @if($currentRouteName=="orders_index" || $currentRouteName=="orders_previous"|| $currentRouteName=="orders_summary" )
                         <a href="{{route('orders_detail', ['locale'=>app()->getLocale(),'id'=>$order->id])}}"
-                           class="btn btn-sm btn-primary ms-auto">
+                           class="btn btn-sm btn-outline-primary ms-auto">
                             <i class="ri-eye-line me-1"></i>{{__('More details')}}
                         </a>
                     @endif

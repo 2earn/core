@@ -13,7 +13,7 @@
             <div class="d-flex justify-content-between align-items-start mb-1">
                 <h6 class="fs-14 fw-semibold mb-1 text-dark">{{ __(__('notifications.settings.order_completed')) }}</h6>
                 @if ($notification->read_at === null)
-                    <span class="badge bg-primary rounded-pill ms-2 flex-shrink-0" style="font-size: 0.625rem; padding: 0.15rem 0.4rem;">
+                    <span class="badge bg-soft-primary rounded-pill ms-2 flex-shrink-0" style="font-size: 0.625rem; padding: 0.15rem 0.4rem;">
                         {{__('New')}}
                     </span>
                 @endif
@@ -21,7 +21,7 @@
             <p class="text-muted mb-2 fs-13" style="line-height: 1.5;">{{ __('notifications.order_completed.body', $notification->data['message_params'] ?? []) }}</p>
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                 <a href="{{ \App\Helpers\NotificationHelper::localizeUrl($notification->data['url'],app()->getLocale()) }}"
-                   class="btn btn-sm btn-primary px-3 py-1 d-inline-flex align-items-center gap-1">
+                   class="btn btn-sm btn-outline-primary px-3 py-1 d-inline-flex align-items-center gap-1">
                     <span class="fw-semibold" style="font-size: 0.8rem;">{{ __('notifications.order_completed.action') }}</span>
                     <i class="ri-arrow-right-s-line fs-16"></i>
                 </a>

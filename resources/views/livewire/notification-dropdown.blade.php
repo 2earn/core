@@ -31,7 +31,7 @@
                     </div>
                     @if($unreadNotificationsNumber > 0)
                         <div class="col-auto">
-                            <span class="badge bg-white text-primary fw-bold px-2 py-1" style="font-size: 0.75rem;">
+                            <span class="badge bg-soft-primary text-primary fw-bold px-2 py-1" style="font-size: 0.75rem;">
                                 {{$unreadNotificationsNumber}} {{__('New')}}
                             </span>
                         </div>
@@ -44,7 +44,7 @@
             <div class="px-3 py-2 bg-light bg-opacity-50 border-bottom">
                 <div class="d-flex justify-content-center align-items-center">
                     <button wire:click="markThemAllRead()"
-                            class="btn btn-sm btn-primary py-1 px-3 d-flex align-items-center gap-1 shadow-sm fw-semibold w-100 justify-content-center"
+                            class="btn btn-sm btn-outline-primary py-1 px-3 d-flex align-items-center gap-1 fw-semibold w-100 justify-content-center"
                             type="button"
                             style="max-width: 250px;">
                         <i class='bx bx-check-double fs-16'></i>
