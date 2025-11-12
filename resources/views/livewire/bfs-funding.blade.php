@@ -92,7 +92,7 @@
                                                         <i class="ri-bank-card-fill fs-2 text-success me-3"></i>
                                                         <div>
                                                             <h6 class="mb-0">{{__('Creditcard')}}</h6>
-                                                            <small class="text-muted">Pay with Credit/Debit Card</small>
+                                                            <small class="text-muted">{{__('Pay with Credit/Debit Card')}}</small>
                                                         </div>
                                                     </div>
                                                 </label>
@@ -113,7 +113,7 @@
                                                         <i class="ri-team-fill fs-2 text-danger me-3"></i>
                                                         <div>
                                                             <h6 class="mb-0">{{__('PublicUsers')}}</h6>
-                                                            <small class="text-muted">Request from public users</small>
+                                                            <small class="text-muted">{{__('Request from public users')}}</small>
                                                         </div>
                                                     </div>
                                                 </label>
@@ -133,7 +133,7 @@
                                                         <i class="ri-user-2-fill fs-2 text-warning me-3"></i>
                                                         <div>
                                                             <h6 class="mb-0">{{__('requstAdmin')}}</h6>
-                                                            <small class="text-muted">Request via admin</small>
+                                                            <small class="text-muted">{{__('Request via admin')}}</small>
                                                         </div>
                                                     </div>
                                                 </label>

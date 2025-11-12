@@ -31,7 +31,7 @@
             data-amount="3"
             data-reciver="{{$idUser}}"
             title="{{__('SoldeDB')}}">
-        <i class="ri-percent-line me-1 fs-5" aria-hidden="true"></i>
+        <i class="ri-ri-coupon-4-line me-1 fs-5" aria-hidden="true"></i>
         <span class="fw-semibold">{{number_format(getUserBalanceSoldes($idUser, 3), 2)}}</span>
     </button>
 

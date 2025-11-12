@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <h5 class="card-title mb-1">{{ __('Enter number of SMS') }}</h5>
-                                    <p class="text-muted mb-0 small">How many SMS do you need?</p>
+                                    <p class="text-muted mb-0 small">{{__('How many SMS do you need')}}?</p>
                                 </div>
                             </div>
                             <div class="input-group input-group-lg mb-3">
@@ -133,7 +133,7 @@
                             <div class="alert alert-success mb-0">
                                 <div class="d-flex align-items-center">
                                     <i class="ri-checkbox-circle-line fs-18 me-2"></i>
-                                    <small>Your BFS balance after exchange will be updated automatically</small>
+                                    <small>{{__('Your BFS balance after exchange will be updated automatically')}}</small>
                                 </div>
                             </div>
                         </div>

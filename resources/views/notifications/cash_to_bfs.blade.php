@@ -11,7 +11,7 @@
         </div>
         <div class="flex-grow-1 overflow-hidden">
             <div class="d-flex justify-content-between align-items-start mb-1">
-                <h6 class="fs-14 fw-semibold mb-1 text-dark">{{ __(__('notifications.settings.cash_to_bfs')) }}</h6>
+                <h6 class="fs-14 fw-semibold mb-1 text-dark">{{ __('notifications.settings.cash_to_bfs') }}</h6>
                 @if ($notification->read_at === null)
                     <span class="badge bg-soft-primary rounded-pill ms-2 flex-shrink-0" style="font-size: 0.625rem; padding: 0.15rem 0.4rem;">
                         {{__('New')}}
