@@ -502,7 +502,10 @@ class settingsManager
     {
         $user = $this->userRepository->getUserById($id);
         if (!$user) {
-            return null;
+            $user = User::where('idUser', $id)->first();
+            if (!$user) {
+                return null;
+            }
         }
         $userMetta = $this->getMettaUser()->where('idUser', '=', $user->idUser)->first();
         $userAuth = new AuthenticatedUser();

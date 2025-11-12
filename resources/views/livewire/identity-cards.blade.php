@@ -1,6 +1,5 @@
-<div>
-    {{-- National Identity Cards --}}
-    <div class="card shadow-sm">
+<div class="row">
+    <div class="col mx-1 card shadow-sm">
         <div class="card-header bg-transparent border-bottom">
             <div class="d-flex align-items-center">
                 <i class="ri-bank-card-line fs-4 text-info me-2"></i>
@@ -57,8 +56,7 @@
         </div>
     </div>
 
-    {{-- International Identity Card --}}
-    <div class="card shadow-sm">
+    <div class="col mx-1 card shadow-sm">
         <div class="card-header bg-transparent border-bottom">
             <div class="d-flex align-items-center justify-content-between">
                 <div class="d-flex align-items-center">
@@ -124,7 +122,7 @@
                                             <div class="d-flex align-items-start">
                                                 <i class="ri-profile-line fs-5 text-primary me-2 mt-1"></i>
                                                 <div>
-                                                    <label class="text-muted small mb-1">{{__('InternationalId ID identificatdion modal')}}</label>
+                                            <label class="text-muted small mb-1">{{__('InternationalId ID identificatdion modal')}}</label>
                                                     <p class="mb-0 fw-semibold">{{$user->internationalID}}</p>
                                                 </div>
                                             </div>

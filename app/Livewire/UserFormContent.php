@@ -78,7 +78,7 @@ class UserFormContent extends Component
         }
 
         if (!$canModify) {
-            return redirect()->route('user-form', app()->getLocale())->with('info', Lang::get('You cant update your profile when you have an identifiaction request in progress'));
+            return redirect()->route('user_form', app()->getLocale())->with('info', Lang::get('You cant update your profile when you have an identifiaction request in progress'));
         }
 
         if ($canModify) {
@@ -128,11 +128,11 @@ class UserFormContent extends Component
             }
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect()->route('user-form', app()->getLocale())->with('danger', Lang::get($exception->getMessage()));
+            return redirect()->route('user_form', app()->getLocale())->with('danger', Lang::get($exception->getMessage()));
         }
 
         if ($this->paramIdUser == "")
-            return redirect()->route('user-form', app()->getLocale())->with('success', Lang::get('Edit_profil_succes'));
+            return redirect()->route('user_form', app()->getLocale())->with('success', Lang::get('Edit_profil_succes'));
         else {
             $settingsManager->validateIdentity($us->idUser);
             return redirect()->route('requests_identification', app()->getLocale());

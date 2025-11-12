@@ -1,6 +1,6 @@
 <div class="{{getContainerType()}}">
     <div class="row">
-        <div class="">
+        <div>
             @component('components.breadcrumb')
                 @slot('title')
                     @if(Route::getCurrentRoute()->getName()!="validate_account")
@@ -127,9 +127,11 @@
                             </div>
                         </div>
                     </div>
-                    <livewire:identity-cards :userId="$user['idUser']"/>
                 </div>
                 <div class="col-xxl-8">
+                    <livewire:identity-cards :userId="$user['idUser']"/>
+                </div>
+                <div class="col-xxl-12">
                     @if(!$disabled)
                         <div
                             class="card shadow-sm @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif">
@@ -273,435 +275,37 @@
                             </div>
                         </div>
                     @endif
-                    <div class="card shadow-sm">
-                        <div class="card-header bg-transparent border-bottom">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="d-flex align-items-center">
-                                    <i class="ri-file-user-line fs-4 text-info me-2"></i>
-                                    <h5 class="card-title mb-0 text-info">{{ __('User Information Form') }}</h5>
-                                </div>
-                                <div>
-                                    <a href="{{ route('user_form', app()->getLocale()) }}"
-                                       class="btn btn-sm btn-primary"
-                                       aria-label="{{ __('Go to User Form') }}">
-                                        <i class="ri-edit-box-line align-bottom me-1"></i> {{__('Open Form')}}
-                                    </a>
+                    @if(Route::getCurrentRoute()->getName()=="validate_account")
+                        <livewire:user-form-content :paramIdUser="$user['idUser']"/>
+                    @else
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-transparent border-bottom">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center">
+                                        <i class="ri-file-user-line fs-4 text-info me-2"></i>
+                                        <h5 class="card-title mb-0 text-info">{{ __('User Information Form') }}</h5>
+                                    </div>
+                                    <div>
+                                        <a href="{{ route('user_form', app()->getLocale()) }}"
+                                           class="btn btn-sm btn-primary"
+                                           aria-label="{{ __('Go to User Form') }}">
+                                            <i class="ri-edit-box-line align-bottom me-1"></i> {{__('Open Form')}}
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-body p-4">
-                            <div class="alert alert-info border-0 mb-0" role="alert">
-                                <div class="d-flex align-items-center">
-                                    <i class="ri-information-line fs-5 me-2"></i>
-                                    <div>
-                                        <p class="mb-0">{{ __('Click the "Open Form" button to access the detailed user information form where you can update your personal details.') }}</p>
+                            <div class="card-body p-4">
+                                <div class="alert alert-info border-0 mb-0" role="alert">
+                                    <div class="d-flex align-items-center">
+                                        <i class="ri-information-line fs-5 me-2"></i>
+                                        <div>
+                                            <p class="mb-0">{{ __('Click the "Open Form" button to access the detailed user information form where you can update your personal details.') }}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card shadow-sm d-none">
-
-                        <div class="card-body p-4">
-                            <div class="user-form-content d-none">
-                                <div class="tab-pane {{ $activeTab == 'personalDetails' ? 'show active' : '' }}"
-                                     id="personalDetails" role="tabpanel">
-
-                                    <form action="javascript:void(0);">
-                                        <div class="row">
-                                            <div class="col-12 mb-3">
-                                                <div class="alert alert-info border-0 mb-0" role="alert">
-                                                    <div class="d-flex align-items-center">
-                                                        <i class="ri-information-line fs-5 me-2"></i>
-                                                        <small>{{ __('Fields marked with') }} <span
-                                                                class="text-danger fw-bold">*</span> {{ __('are required for account validation') }}
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="mb-3">
-                                                    <label for="arLastNameInput" class="form-label fw-semibold">
-                                                        <i class="ri-user-line text-primary me-1"></i>
-                                                        {{__('Enter your ar firstname label')}}
-                                                    </label>
-                                                    <input wire:model="usermetta_info.arLastName" type="text"
-                                                           class="form-control" id="arLastNameInput"
-                                                           placeholder="{{__('Enter your ar firstname')}}"
-                                                           aria-label="{{__('Enter your ar firstname label')}}">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="mb-3">
-                                                    <label for="arFirstNameInput" class="form-label fw-semibold">
-                                                        <i class="ri-user-line text-primary me-1"></i>
-                                                        {{__('Enter your ar last label')}}
-                                                    </label>
-                                                    <input wire:model="usermetta_info.arFirstName" type="text"
-                                                           class="form-control" id="arFirstNameInput"
-                                                           placeholder="{{__('Enter your ar last')}}"
-                                                           aria-label="{{__('Enter your ar last label')}}">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="mb-3">
-                                                    <label for="enLastNameInput" class="form-label fw-semibold">
-                                                        <i class="ri-user-3-line text-primary me-1"></i>
-                                                        {{__('Last name label')}}
-                                                        <span class="text-danger">*</span>
-                                                    </label>
-                                                    <input type="text" class="form-control"
-                                                           {{ $disabled ? 'disabled' : ''  }}
-                                                           wire:model="usermetta_info.enLastName"
-                                                           id="enLastNameInput"
-                                                           placeholder="{{__('Last Name')}}"
-                                                           aria-label="{{__('Last name label')}}"
-                                                           aria-required="true">
-                                                    <div class="form-text">
-                                                        <i class="ri-information-line"></i>
-                                                        {{__('Required for account validation')}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="mb-3">
-                                                    <label for="enFirstNameInput" class="form-label fw-semibold">
-                                                        <i class="ri-user-3-line text-primary me-1"></i>
-                                                        {{__('First name label')}}
-                                                        <span class="text-danger">*</span>
-                                                    </label>
-                                                    <input
-                                                        {{ $disabled ? 'disabled' : ''  }}
-                                                        wire:model="usermetta_info.enFirstName"
-                                                        id="enFirstNameInput"
-                                                        placeholder="{{__('First name')}}"
-                                                        class="form-control"
-                                                        aria-label="{{__('First name label')}}"
-                                                        aria-required="true">
-                                                    <div class="form-text">
-                                                        <i class="ri-information-line"></i>
-                                                        {{__('Required for account validation')}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="mb-3">
-                                                    <label for="phonenumberInput" class="form-label fw-semibold">
-                                                        <i class="ri-phone-line text-primary me-1"></i>
-                                                        {{ __('Your Contact number') }}
-                                                    </label>
-                                                    <div class="input-group">
-                                                        <span class="input-group-text bg-light">
-                                                            <i class="ri-phone-fill text-muted"></i>
-                                                        </span>
-                                                        <input disabled wire:model="numberActif" type="text"
-                                                               class="form-control"
-                                                               aria-label="{{ __('Contact number') }}"
-                                                               placeholder="{{ __('Your phone number') }}">
-                                                        <a href="{{ !empty($user['email']) ? route('contact_number', app()->getLocale()) : '#' }}"
-                                                           id="update_tel"
-                                                           class="btn btn-outline-info"
-                                                           type="button"
-                                                           @if(empty($user['email']))
-                                                               data-bs-toggle="modal"
-                                                           data-bs-target="#topmodal"
-                                                           @endif
-                                                           aria-label="{{ __('Change phone number') }}">
-                                                            <i class="ri-pencil-line me-1"></i>{{ __('Change') }}
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="mb-3">
-                                                    <label for="emailInput" class="form-label fw-semibold">
-                                                        <i class="ri-mail-line text-primary me-1"></i>
-                                                        {{ __('Your Email') }}
-                                                        <span class="text-danger">*</span>
-                                                    </label>
-                                                    <div class="input-group">
-                                                        <span class="input-group-text bg-light">
-                                                            <i class="ri-mail-fill text-muted"></i>
-                                                        </span>
-                                                        <input disabled wire:model="user.email" type="email"
-                                                               class="form-control"
-                                                               name="email"
-                                                               placeholder="{{ __('your@email.com') }}"
-                                                               aria-label="{{ __('Email address') }}">
-                                                        <button data-bs-toggle="modal"
-                                                                data-bs-target="#modalMail"
-                                                                class="btn btn-outline-info"
-                                                                type="button"
-                                                                aria-label="{{ __('Change email') }}">
-                                                            <i class="ri-pencil-line me-1"></i>
-                                                            @if($user['email']=="")
-                                                                {{__('add')}}
-                                                            @else
-                                                                {{__('Change')}}
-                                                            @endif
-                                                        </button>
-                                                    </div>
-                                                    <div class="form-text">
-                                                        <i class="ri-information-line"></i>
-                                                        {{__('Required for account validation')}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="mb-3">
-                                                    <label for="JoiningdatInput" class="form-label fw-semibold">
-                                                        <i class="ri-calendar-line text-primary me-1"></i>
-                                                        {{__('Date of birth')}}
-                                                        <span class="text-danger">*</span>
-                                                    </label>
-                                                    <input
-                                                        {{ $disabled ? 'disabled' : ''  }}
-                                                        wire:model="usermetta_info.birthday"
-                                                        type="date"
-                                                        class="form-control"
-                                                        id="JoiningdatInput"
-                                                        aria-label="{{__('Date of birth')}}"
-                                                        aria-required="true"/>
-                                                    <div class="form-text">
-                                                        <i class="ri-information-line"></i>
-                                                        {{__('Required for account validation')}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="mb-3">
-                                                    <label for="websiteInput1" class="form-label fw-semibold">
-                                                        <i class="ri-parent-line text-primary me-1"></i>
-                                                        {{ __('Number Of Children') }}
-                                                    </label>
-                                                    <div class="input-group input-step">
-                                                        <button id="btnMinus" type="button"
-                                                                class="btn btn-outline-secondary minus"
-                                                                aria-label="{{ __('Decrease children count') }}">
-                                                            <i class="ri-subtract-line"></i>
-                                                        </button>
-                                                        <input wire:model="usermetta_info.childrenCount"
-                                                               type="number"
-                                                               class="form-control text-center"
-                                                               min="0"
-                                                               max="100"
-                                                               id="inputChild"
-                                                               readonly
-                                                               aria-label="{{ __('Number Of Children') }}">
-                                                        <button id="btnPlus" type="button"
-                                                                class="btn btn-outline-secondary plus"
-                                                                aria-label="{{ __('Increase children count') }}">
-                                                            <i class="ri-add-line"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <div class="mb-3">
-                                                    : <label for="designationInput" class="form-label fw-semibold">
-                                                        <i class="ri-user-star-line text-primary me-1"></i>
-                                                        {{ __('Personal Title') }}
-                                                    </label>
-                                                    <select class="form-select"
-                                                            wire:model="usermetta_info.personaltitle"
-                                                            id="designationInput"
-                                                            aria-label="{{ __('Personal Title') }}">
-                                                        <option value="">{{__('no selected value')}}</option>
-                                                        @foreach($personaltitles as $personaltitle)
-                                                            <option
-                                                                value="{{$personaltitle->id}}">{{__($personaltitle->name)}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <div class="mb-3">
-                                                    <label for="genderInput" class="form-label fw-semibold">
-                                                        <i class="ri-user-heart-line text-primary me-1"></i>
-                                                        {{ __('Gender') }}
-                                                    </label>
-                                                    <select class="form-select"
-                                                            id="genderInput"
-                                                            wire:model="usermetta_info.gender"
-                                                            aria-label="{{ __('Gender') }}">
-                                                        <option value="">{{__('no selected value')}}</option>
-                                                        @foreach($genders as $gender)
-                                                            <option
-                                                                value="{{$gender->id}}">{{__($gender->name)}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <div class="mb-3">
-                                                    <label for="languageInput" class="form-label fw-semibold">
-                                                        <i class="ri-global-line text-primary me-1"></i>
-                                                        {{ __('Your Preferred Language') }}
-                                                    </label>
-                                                    <select class="form-select"
-                                                            id="languageInput"
-                                                            wire:model="usermetta_info.idLanguage"
-                                                            aria-label="{{ __('Your Preferred Language') }}">
-                                                        <option value="">{{__('no selected value')}}</option>
-                                                        @foreach($languages as $language)
-                                                            <option
-                                                                value="{{$language->id}}">{{__($language->name)}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <div class="mb-3">
-                                                    <label for="cityInput" class="form-label fw-semibold">
-                                                        <i class="ri-map-pin-line text-primary me-1"></i>
-                                                        {{ __('State') }}
-                                                    </label>
-                                                    <select class="form-select"
-                                                            id="cityInput"
-                                                            wire:model="usermetta_info.idState"
-                                                            aria-label="{{ __('State') }}">
-                                                        <option value="">{{__('Choose')}}</option>
-                                                        @foreach($states as $state)
-                                                            <option value="{{$state->id}}">{{__($state->name)}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <div class="mb-3">
-                                                    <label for="countryInput" class="form-label fw-semibold">
-                                                        <i class="ri-earth-line text-primary me-1"></i>
-                                                        {{ __('Country') }}
-                                                    </label>
-                                                    <input readonly
-                                                           wire:model="countryUser"
-                                                           type="text"
-                                                           class="form-control bg-light"
-                                                           id="countryInput"
-                                                           {{ $disabled ? 'disabled' : ''  }}
-                                                           value="United States"
-                                                           aria-label="{{ __('Country') }}"/>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <div class="mb-3">
-                                                    <label for="zipcodeInput1" class="form-label fw-semibold">
-                                                        <i class="ri-bank-card-2-line text-primary me-1"></i>
-                                                        {{ __('National ID') }}
-                                                        <span class="text-danger">*</span>
-                                                    </label>
-                                                    <input type="text"
-                                                           class="form-control"
-                                                           minlength="5"
-                                                           maxlength="50"
-                                                           wire:model="usermetta_info.nationalID"
-                                                           id="zipcodeInput1"
-                                                           {{ $disabled ? 'disabled' : ''  }}
-                                                           placeholder="{{ __('Enter your national ID') }}"
-                                                           aria-label="{{ __('National ID') }}"
-                                                           aria-required="true">
-                                                    <div class="form-text">
-                                                        <i class="ri-information-line"></i>
-                                                        {{__('Required for account validation')}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <div class="mb-3 pb-2">
-                                                    <label for="exampleFormControlTextarea"
-                                                           class="form-label fw-semibold">
-                                                        <i class="ri-map-pin-user-line text-primary me-1"></i>
-                                                        {{ __('Address') }}
-                                                    </label>
-                                                    <textarea wire:model="usermetta_info.adresse"
-                                                              class="form-control"
-                                                              id="exampleFormControlTextarea"
-                                                              placeholder="{{__('Address')}}"
-                                                              rows="3"
-                                                              aria-label="{{ __('Address') }}"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @if($paramIdUser =="")
-                                            <div class="col-lg-12">
-                                                <div class="text-end pt-3 border-top">
-                                                    <button type="button" id="btnsaveUser"
-                                                            class="btn btn-primary px-4">
-                                                        <i class="ri-save-line me-1"></i>{{ __('Save') }}
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        @else
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="border-top pt-4">
-                                                        <div class="form-inline" x-data="{ open: false }">
-                                                            <div class="d-flex gap-2 mb-3">
-                                                                <button x-show="!open" type="button"
-                                                                        @click="open = true"
-                                                                        class="btn btn-danger px-4" id="reject">
-                                                                    <i class="ri-close-circle-line me-1"></i>{{ __('Reject') }}
-                                                                </button>
-                                                                <button x-show="!open" class="btn btn-success px-4"
-                                                                        wire:click="approuve({{$paramIdUser}})"
-                                                                        id="validate">
-                                                                    <div wire:loading
-                                                                         wire:target="approuve({{$paramIdUser}})">
-                                                                        <span
-                                                                            class="spinner-border spinner-border-sm me-1"
-                                                                            role="status"
-                                                                            aria-hidden="true"></span>
-                                                                    </div>
-                                                                    <i class="ri-checkbox-circle-line me-1"></i>{{ __('Approve') }}
-                                                                </button>
-                                                            </div>
-                                                            <div class="row" x-show="open">
-                                                                <div class="col-12">
-                                                                    <div class="mb-3">
-                                                                        <label class="form-label fw-semibold">
-                                                                            <i class="ri-file-text-line me-1"></i>{{ __('Libele_Note') }}
-                                                                        </label>
-                                                                        <textarea class="form-control"
-                                                                                  wire:model="noteReject"
-                                                                                  name="Text1"
-                                                                                  cols="80"
-                                                                                  rows="5"
-                                                                                  placeholder="{{ __('Enter rejection reason') }}"
-                                                                                  aria-label="{{ __('Rejection note') }}"></textarea>
-                                                                    </div>
-                                                                    <div class="d-flex gap-2">
-                                                                        <button type="button"
-                                                                                wire:click="reject({{$paramIdUser}})"
-                                                                                class="btn btn-danger px-4">
-                                                                                    <span wire:loading
-                                                                                          wire:target="reject({{$paramIdUser}})"
-                                                                                        class="spinner-border spinner-border-sm me-1"
-                                                                                        role="status"
-                                                                                        aria-hidden="true"></span>
-
-                                                                            <i class="ri-close-circle-line me-1"></i>{{ __('Reject') }}
-
-                                                                        </button>
-
-
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                        @endif
-                                    </form>
-                                </div>
-                                <div
-                                    class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif d-none "
-                                    id="privacy" role="tabpanel">
-                                    <livewire:edit-phone-number/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endif
                 </div>
             </div>
             <div class="modal fade" id="modalMail" tabindex="-1" aria-labelledby="exampleModalgridLabel"
