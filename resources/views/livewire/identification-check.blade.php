@@ -199,6 +199,7 @@
                                                 aria-controls="pills-inter-identities-card"
                                                 aria-selected="false">
                                             <i class="ri-passport-line fs-5 me-2"></i>
+                                            <span class="d-none d-sm-inline">{{__('International ID')}}</span>
                                             <span class="d-inline d-sm-none">{{__('Step')}} 3</span>
                                         </button>
                                     </li>

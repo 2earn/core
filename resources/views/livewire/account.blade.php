@@ -115,6 +115,14 @@
                                             {{ __('Change password') }}
                                         </a>
                                     </div>
+                                    <div class="mt-2">
+                                        <a href="{{ route('identification', app()->getLocale()) }}"
+                                           class="btn btn-info w-100"
+                                           aria-label="{{ __('Identifications') }}">
+                                            <i class="ri-shield-check-line me-1"></i>
+                                            {{ __('Identifications') }}
+                                        </a>
+                                    </div>
                                 @endif
                             </div>
                         </div>
@@ -279,19 +287,6 @@
                                        aria-selected="{{ $activeTab == 'personalDetails' ? 'true' : 'false' }}">
                                         <i class="ri-user-settings-line me-1"></i>
                                         {{__('Edit profile')}}
-                                    </a>
-                                </li>
-                                <li id="identificationsTab"
-                                    class="nav-item @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
-                                    role="presentation">
-                                    <a class="nav-link"
-                                       data-bs-toggle="tab"
-                                       href="#experience"
-                                       role="tab"
-                                       aria-controls="experience"
-                                       aria-selected="false">
-                                        <i class="ri-shield-check-line me-1"></i>
-                                        {{__('Identifications')}}
                                     </a>
                                 </li>
                                 <li class="nav-item  @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif d-none "
@@ -700,11 +695,6 @@
                                                 </div>
                                         @endif
                                     </form>
-                                </div>
-                                <div
-                                    class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
-                                    id="experience" role="tabpanel">
-                                    <livewire:identification-check/>
                                 </div>
                                 <div
                                     class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif d-none "
@@ -1132,14 +1122,7 @@
                     document.addEventListener("DOMContentLoaded", function () {
 
                         $("#soonExpireIIC, #goToIdentification").click(function () {
-                            $('.nav-link').not('#identificationModal .nav-link').removeClass('active').attr('aria-selected', false);
-                            $('.tab-pane').not('#identificationModal .tab-pane').removeClass('active show');
-
-                            $('#identificationsTab a').addClass('active').attr('aria-selected', true);
-
-                            $('#experience').addClass('active show');
-
-                            $('#identificationModalbtn').trigger('click');
+                            window.location.href = "{{ route('identification', app()->getLocale()) }}";
                         });
 
                     });

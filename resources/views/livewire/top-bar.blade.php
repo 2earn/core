@@ -146,6 +146,10 @@
                                 <i class="ri-lock-password-line text-muted fs-16 align-middle me-2"></i>
                                 <span class="text-muted">{{ __('Change password') }}</span>
                             </a>
+                            <a class="dropdown-item" href="{{route('identification',app()->getLocale())}}">
+                                <i class="ri-shield-check-line text-muted fs-16 align-middle me-2"></i>
+                                <span class="text-muted">{{ __('Identifications') }}</span>
+                            </a>
                             <div class="dropdown-divider">
                             </div>
                             <a class="dropdown-item" href="{{route('user_balance_cb',app()->getLocale())}}"><i

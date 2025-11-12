@@ -104,6 +104,14 @@
                         </a>
                     </div>
                     <div class="col">
+                        <a data-name="identification" href="{{route('identification',app()->getLocale(),false )}}"
+                           class="nav-link menu-link p-1 rounded hover-bg {{$currentRouteName=='identification'? 'active bg-light' : ''}}"
+                           role="button">
+                            <i class="ri-shield-check-line me-2"></i>
+                            <span>{{ __('Identifications') }}</span>
+                        </a>
+                    </div>
+                    <div class="col">
                         <a data-name="contacts" href="{{route('contacts',app()->getLocale(),false)}}"
                            class="nav-link menu-link p-1 rounded hover-bg {{$currentRouteName=='contacts'? 'active bg-light' : ''}}"
                            role="button">
