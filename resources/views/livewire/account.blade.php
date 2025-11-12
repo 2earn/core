@@ -1,6 +1,6 @@
 <div class="{{getContainerType()}}">
-    <div>
-        <div>
+    <div class="row">
+        <div class="">
             @component('components.breadcrumb')
                 @slot('title')
                     @if(Route::getCurrentRoute()->getName()!="validate_account")
@@ -46,7 +46,8 @@
                                          class="rounded-circle avatar-xl img-thumbnail user-profile-image shadow"
                                          alt="{{ __('Profile picture of') }} {{$dispalyedUserCred}}">
 
-                                    <div class="avatar-xs p-0 rounded-circle profile-photo-edit" title="{{ __('Change profile picture') }}">
+                                    <div class="avatar-xs p-0 rounded-circle profile-photo-edit"
+                                         title="{{ __('Change profile picture') }}">
                                         <input id="profile-img-file-input" type="file" class="profile-img-file-input"
                                                accept="image/png, image/jpeg, image/jpg"
                                                wire:model.live="imageProfil"
@@ -59,7 +60,8 @@
                                     </div>
                                 </div>
 
-                                <div wire:loading wire:target="imageProfil" class="alert alert-info border-0 py-2 mb-2" role="alert">
+                                <div wire:loading wire:target="imageProfil" class="alert alert-info border-0 py-2 mb-2"
+                                     role="alert">
                                     <i class="ri-upload-cloud-line me-1"></i>
                                     <small>{{__('Uploading')}}...</small>
                                 </div>
@@ -75,7 +77,8 @@
                                     {{$dispalyedUserCred}}
                                 </h2>
                                 <div class="mb-2">
-                                    <span class="badge bg-secondary-subtle text-secondary fs-6">{{ __('ID') }}: {{$user['idUser']}}</span>
+                                    <span
+                                        class="badge bg-secondary-subtle text-secondary fs-6">{{ __('ID') }}: {{$user['idUser']}}</span>
                                 </div>
 
                                 @if($user['status']==\Core\Enum\StatusRequest::ValidNational->value||$user['status']==\Core\Enum\StatusRequest::ValidInternational->value)
@@ -88,8 +91,11 @@
 
                                 <div class="card bg-light border-0 mt-4">
                                     <div class="card-body p-3">
-                                        <div class="form-check form-switch d-flex justify-content-center align-items-center" dir="ltr">
-                                            <input wire:model="user.is_public" type="checkbox" class="form-check-input me-2"
+                                        <div
+                                            class="form-check form-switch d-flex justify-content-center align-items-center"
+                                            dir="ltr">
+                                            <input wire:model="user.is_public" type="checkbox"
+                                                   class="form-check-input me-2"
                                                    id="customSwitchsizesm" @checked($user['is_public']??false)
                                                    role="switch" aria-checked="{{$user['is_public']??false}}">
                                             <label class="form-check-label mb-0" for="customSwitchsizesm">
@@ -103,18 +109,20 @@
                         </div>
                     </div>
                     {{-- Identity Cards Component --}}
-                    <livewire:identity-cards :userId="$user['idUser']" />
+                    <livewire:identity-cards :userId="$user['idUser']"/>
                 </div>
                 <div class="col-xxl-8">
                     @if(!$disabled)
-                        <div class="card shadow-sm @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif">
+                        <div
+                            class="card shadow-sm @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif">
                             <div class="card-header bg-transparent border-bottom">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <div class="d-flex align-items-center">
                                         <i class="ri-file-user-line fs-4 text-info me-2"></i>
                                         <h5 class="card-title mb-0 text-info">{{ __('Complete_Profile') }}</h5>
                                     </div>
-                                    <div class="@if(Route::getCurrentRoute()->getName()!="validate_account") d-none   @endif">
+                                    <div
+                                        class="@if(Route::getCurrentRoute()->getName()!="validate_account") d-none   @endif">
                                         <a style="color: #009fe3!important" data-bs-toggle="modal"
                                            data-bs-target="#modalEditProf"
                                            href="javascript:void(0);"
@@ -135,33 +143,36 @@
                                     </div>
                                     <div class="progress" style="height: 24px;">
                                         @if($PercentComplete>=20)
-                                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
-                                                 role="progressbar"
-                                                 style="width: 20%"
-                                                 aria-valuenow="20"
-                                                 aria-valuemin="0"
-                                                 aria-valuemax="100"
-                                                 aria-label="{{ __('Profile completion progress') }}">
+                                            <div
+                                                class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
+                                                role="progressbar"
+                                                style="width: 20%"
+                                                aria-valuenow="20"
+                                                aria-valuemin="0"
+                                                aria-valuemax="100"
+                                                aria-label="{{ __('Profile completion progress') }}">
                                                 @if($PercentComplete==20)
                                                     <span class="fw-semibold">{{$PercentComplete}}%</span>
                                                 @endif
                                             </div>
                                         @endif
                                         @if($PercentComplete>=40)
-                                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
-                                                 role="progressbar"
-                                                 style="width:20%" aria-valuenow="40" aria-valuemin="0"
-                                                 aria-valuemax="100">
+                                            <div
+                                                class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
+                                                role="progressbar"
+                                                style="width:20%" aria-valuenow="40" aria-valuemin="0"
+                                                aria-valuemax="100">
                                                 @if($PercentComplete==40)
                                                     <span class="fw-semibold">{{$PercentComplete}}%</span>
                                                 @endif
                                             </div>
                                         @endif
                                         @if($PercentComplete>=60)
-                                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning"
-                                                 role="progressbar"
-                                                 style="width: 20%" aria-valuenow="60" aria-valuemin="0"
-                                                 aria-valuemax="100">
+                                            <div
+                                                class="progress-bar progress-bar-striped progress-bar-animated bg-warning"
+                                                role="progressbar"
+                                                style="width: 20%" aria-valuenow="60" aria-valuemin="0"
+                                                aria-valuemax="100">
                                                 @if($PercentComplete==60)
                                                     <span class="fw-semibold">{{$PercentComplete}}%</span>
                                                 @endif
@@ -177,10 +188,11 @@
                                             </div>
                                         @endif
                                         @if($PercentComplete==100)
-                                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
-                                                 role="progressbar"
-                                                 style="width: 20%" aria-valuenow="100" aria-valuemin="0"
-                                                 aria-valuemax="100">
+                                            <div
+                                                class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                                                role="progressbar"
+                                                style="width: 20%" aria-valuenow="100" aria-valuemin="0"
+                                                aria-valuemax="100">
                                                 <span class="fw-semibold">
                                                     <i class="ri-check-line me-1"></i>{{$PercentComplete}}%
                                                 </span>
@@ -196,7 +208,8 @@
                                             <div>
                                                 @if($hasRequest)
                                                     <h6 class="alert-heading mb-1">
-                                                        <span class="spinner-grow spinner-grow-sm me-2" role="status" aria-hidden="true"></span>
+                                                        <span class="spinner-grow spinner-grow-sm me-2" role="status"
+                                                              aria-hidden="true"></span>
                                                         {{__('voter_demande_déja_en_cours')}}
                                                     </h6>
                                                     <p class="mb-0 small">{{ __('Your request is being processed') }}</p>
@@ -300,7 +313,8 @@
                         </div>
                         <div class="card-body p-4">
                             <div class="tab-content">
-                                <div class="tab-pane {{ $activeTab == 'personalDetails' ? 'show active' : '' }}" id="personalDetails" role="tabpanel">
+                                <div class="tab-pane {{ $activeTab == 'personalDetails' ? 'show active' : '' }}"
+                                     id="personalDetails" role="tabpanel">
 
                                     <form action="javascript:void(0);">
                                         <div class="row">
@@ -308,7 +322,9 @@
                                                 <div class="alert alert-info border-0 mb-0" role="alert">
                                                     <div class="d-flex align-items-center">
                                                         <i class="ri-information-line fs-5 me-2"></i>
-                                                        <small>{{ __('Fields marked with') }} <span class="text-danger fw-bold">*</span> {{ __('are required for account validation') }}</small>
+                                                        <small>{{ __('Fields marked with') }} <span
+                                                                class="text-danger fw-bold">*</span> {{ __('are required for account validation') }}
+                                                        </small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -364,13 +380,13 @@
                                                         <span class="text-danger">*</span>
                                                     </label>
                                                     <input
-                                                            {{ $disabled ? 'disabled' : ''  }}
-                                                            wire:model="usermetta_info.enFirstName"
-                                                            id="enFirstNameInput"
-                                                            placeholder="{{__('First name')}}"
-                                                            class="form-control"
-                                                            aria-label="{{__('First name label')}}"
-                                                            aria-required="true">
+                                                        {{ $disabled ? 'disabled' : ''  }}
+                                                        wire:model="usermetta_info.enFirstName"
+                                                        id="enFirstNameInput"
+                                                        placeholder="{{__('First name')}}"
+                                                        class="form-control"
+                                                        aria-label="{{__('First name label')}}"
+                                                        aria-required="true">
                                                     <div class="form-text">
                                                         <i class="ri-information-line"></i>
                                                         {{__('Required for account validation')}}
@@ -397,7 +413,7 @@
                                                            type="button"
                                                            @if(empty($user['email']))
                                                                data-bs-toggle="modal"
-                                                               data-bs-target="#topmodal"
+                                                           data-bs-target="#topmodal"
                                                            @endif
                                                            aria-label="{{ __('Change phone number') }}">
                                                             <i class="ri-pencil-line me-1"></i>{{ __('Change') }}
@@ -448,13 +464,13 @@
                                                         <span class="text-danger">*</span>
                                                     </label>
                                                     <input
-                                                            {{ $disabled ? 'disabled' : ''  }}
-                                                            wire:model="usermetta_info.birthday"
-                                                            type="date"
-                                                            class="form-control"
-                                                            id="JoiningdatInput"
-                                                            aria-label="{{__('Date of birth')}}"
-                                                            aria-required="true"/>
+                                                        {{ $disabled ? 'disabled' : ''  }}
+                                                        wire:model="usermetta_info.birthday"
+                                                        type="date"
+                                                        class="form-control"
+                                                        id="JoiningdatInput"
+                                                        aria-label="{{__('Date of birth')}}"
+                                                        aria-required="true"/>
                                                     <div class="form-text">
                                                         <i class="ri-information-line"></i>
                                                         {{__('Required for account validation')}}
@@ -468,7 +484,9 @@
                                                         {{ __('Number Of Children') }}
                                                     </label>
                                                     <div class="input-group input-step">
-                                                        <button id="btnMinus" type="button" class="btn btn-outline-secondary minus" aria-label="{{ __('Decrease children count') }}">
+                                                        <button id="btnMinus" type="button"
+                                                                class="btn btn-outline-secondary minus"
+                                                                aria-label="{{ __('Decrease children count') }}">
                                                             <i class="ri-subtract-line"></i>
                                                         </button>
                                                         <input wire:model="usermetta_info.childrenCount"
@@ -479,7 +497,9 @@
                                                                id="inputChild"
                                                                readonly
                                                                aria-label="{{ __('Number Of Children') }}">
-                                                        <button id="btnPlus" type="button" class="btn btn-outline-secondary plus" aria-label="{{ __('Increase children count') }}">
+                                                        <button id="btnPlus" type="button"
+                                                                class="btn btn-outline-secondary plus"
+                                                                aria-label="{{ __('Increase children count') }}">
                                                             <i class="ri-add-line"></i>
                                                         </button>
                                                     </div>
@@ -487,7 +507,7 @@
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="mb-3">
-:                                                    <label for="designationInput" class="form-label fw-semibold">
+                                                    : <label for="designationInput" class="form-label fw-semibold">
                                                         <i class="ri-user-star-line text-primary me-1"></i>
                                                         {{ __('Personal Title') }}
                                                     </label>
@@ -497,7 +517,8 @@
                                                             aria-label="{{ __('Personal Title') }}">
                                                         <option value="">{{__('no selected value')}}</option>
                                                         @foreach($personaltitles as $personaltitle)
-                                                            <option value="{{$personaltitle->id}}">{{__($personaltitle->name)}}</option>
+                                                            <option
+                                                                value="{{$personaltitle->id}}">{{__($personaltitle->name)}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -514,7 +535,8 @@
                                                             aria-label="{{ __('Gender') }}">
                                                         <option value="">{{__('no selected value')}}</option>
                                                         @foreach($genders as $gender)
-                                                            <option value="{{$gender->id}}">{{__($gender->name)}}</option>
+                                                            <option
+                                                                value="{{$gender->id}}">{{__($gender->name)}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -531,7 +553,8 @@
                                                             aria-label="{{ __('Your Preferred Language') }}">
                                                         <option value="">{{__('no selected value')}}</option>
                                                         @foreach($languages as $language)
-                                                            <option value="{{$language->id}}">{{__($language->name)}}</option>
+                                                            <option
+                                                                value="{{$language->id}}">{{__($language->name)}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -594,7 +617,8 @@
                                             </div>
                                             <div class="col-lg-12">
                                                 <div class="mb-3 pb-2">
-                                                    <label for="exampleFormControlTextarea" class="form-label fw-semibold">
+                                                    <label for="exampleFormControlTextarea"
+                                                           class="form-label fw-semibold">
                                                         <i class="ri-map-pin-user-line text-primary me-1"></i>
                                                         {{ __('Address') }}
                                                     </label>
@@ -622,16 +646,20 @@
                                                     <div class="border-top pt-4">
                                                         <div class="form-inline" x-data="{ open: false }">
                                                             <div class="d-flex gap-2 mb-3">
-                                                                <button x-show="!open" type="button" @click="open = true"
+                                                                <button x-show="!open" type="button"
+                                                                        @click="open = true"
                                                                         class="btn btn-danger px-4" id="reject">
                                                                     <i class="ri-close-circle-line me-1"></i>{{ __('Reject') }}
                                                                 </button>
                                                                 <button x-show="!open" class="btn btn-success px-4"
                                                                         wire:click="approuve({{$paramIdUser}})"
                                                                         id="validate">
-                                                                    <div wire:loading wire:target="approuve({{$paramIdUser}})">
-                                                                        <span class="spinner-border spinner-border-sm me-1" role="status"
-                                                                              aria-hidden="true"></span>
+                                                                    <div wire:loading
+                                                                         wire:target="approuve({{$paramIdUser}})">
+                                                                        <span
+                                                                            class="spinner-border spinner-border-sm me-1"
+                                                                            role="status"
+                                                                            aria-hidden="true"></span>
                                                                     </div>
                                                                     <i class="ri-checkbox-circle-line me-1"></i>{{ __('Approve') }}
                                                                 </button>
@@ -654,33 +682,40 @@
                                                                         <button type="button"
                                                                                 wire:click="reject({{$paramIdUser}})"
                                                                                 class="btn btn-danger px-4">
-                                                                </button>
-                                                                                <span class="spinner-border spinner-border-sm me-1" role="status"
-                                                                                      aria-hidden="true"></span>
-                                                                            </div>
+                                                                                    <span wire:loading
+                                                                                          wire:target="reject({{$paramIdUser}})"
+                                                                                        class="spinner-border spinner-border-sm me-1"
+                                                                                        role="status"
+                                                                                        aria-hidden="true"></span>
+
                                                                             <i class="ri-close-circle-line me-1"></i>{{ __('Reject') }}
+
                                                                         </button>
-                                                                        <button type="button"
+
+
+
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
                                         @endif
                                     </form>
                                 </div>
-                                <div class="tab-pane {{ $activeTab == 'changePassword' ? 'show active' : '' }} @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
-                                     id="changePassword" role="tabpanel">
-                                    <livewire:change-password />
+                                <div
+                                    class="tab-pane {{ $activeTab == 'changePassword' ? 'show active' : '' }} @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
+                                    id="changePassword" role="tabpanel">
+                                    <livewire:change-password/>
                                 </div>
                                 <div
-                                        class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
-                                        id="experience" role="tabpanel">
+                                    class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
+                                    id="experience" role="tabpanel">
                                     <livewire:identification-check/>
                                 </div>
                                 <div
-                                        class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif d-none "
-                                        id="privacy" role="tabpanel">
+                                    class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif d-none "
+                                    id="privacy" role="tabpanel">
                                     <livewire:edit-phone-number/>
                                 </div>
                             </div>
@@ -801,10 +836,10 @@
                                                        accept=".png"/>
                                                 <label for="image55">
                                                     <lord-icon
-                                                            src="https://cdn.lordicon.com/vixtkkbk.json"
-                                                            trigger="loop" delay="1000"
-                                                            colors="primary:#464fed,secondary:#bc34b6"
-                                                            style="width:100px;height:100px">
+                                                        src="https://cdn.lordicon.com/vixtkkbk.json"
+                                                        trigger="loop" delay="1000"
+                                                        colors="primary:#464fed,secondary:#bc34b6"
+                                                        style="width:100px;height:100px">
                                                     </lord-icon>
                                                     <span> <i class="ri-camera-fill"></i> </span>
                                                 </label>
@@ -827,10 +862,10 @@
                                                        accept=".png"/>
                                                 <label for="image44">
                                                     <lord-icon
-                                                            src="https://cdn.lordicon.com/vixtkkbk.json"
-                                                            trigger="loop" delay="1000"
-                                                            colors="primary:#464fed,secondary:#bc34b6"
-                                                            style="width:100px;height:100px">
+                                                        src="https://cdn.lordicon.com/vixtkkbk.json"
+                                                        trigger="loop" delay="1000"
+                                                        colors="primary:#464fed,secondary:#bc34b6"
+                                                        style="width:100px;height:100px">
                                                     </lord-icon>
                                                     <span> <i class="ri-camera-fill"></i> </span>
                                                 </label>
@@ -1103,32 +1138,32 @@
                 <script type="module">
                     document.addEventListener("DOMContentLoaded", function () {
 
-                    $("#soonExpireIIC, #goToIdentification").click(function () {
-                        $('.nav-link').not('#identificationModal .nav-link').removeClass('active').attr('aria-selected', false);
-                        $('.tab-pane').not('#identificationModal .tab-pane').removeClass('active show');
+                        $("#soonExpireIIC, #goToIdentification").click(function () {
+                            $('.nav-link').not('#identificationModal .nav-link').removeClass('active').attr('aria-selected', false);
+                            $('.tab-pane').not('#identificationModal .tab-pane').removeClass('active show');
 
-                        $('#identificationsTab a').addClass('active').attr('aria-selected', true);
+                            $('#identificationsTab a').addClass('active').attr('aria-selected', true);
 
-                        $('#experience').addClass('active show');
+                            $('#experience').addClass('active show');
 
-                        $('#identificationModalbtn').trigger('click');
-                    });
+                            $('#identificationModalbtn').trigger('click');
+                        });
 
                     });
                 </script>
                 <script type="module">
                     document.addEventListener("DOMContentLoaded", function () {
 
-                      $("#btnPlus").click(function () {
-                        var child = parseInt($("#inputChild").val()) || 0;
-                        child = child + 1;
-                        if (child <= 20)
-                            $("#inputChild").val(child);
-                        else
-                            $("#inputChild").val(20);
-                    });
+                        $("#btnPlus").click(function () {
+                            var child = parseInt($("#inputChild").val()) || 0;
+                            child = child + 1;
+                            if (child <= 20)
+                                $("#inputChild").val(child);
+                            else
+                                $("#inputChild").val(20);
+                        });
 
-                     $("#btnMinus").click(function () {
+                        $("#btnMinus").click(function () {
                             var child = parseInt($("#inputChild").val()) || 0;
                             child = child - 1;
                             if (child >= 0)
@@ -1251,7 +1286,7 @@
                                 <a href="javascript:void(0);"
                                    class="btn btn-link link-success fw-medium"
                                    data-bs-dismiss="modal"><i
-                                            class="ri-close-line me-1 align-middle"></i>
+                                        class="ri-close-line me-1 align-middle"></i>
                                     {{ __('Close')}}</a>
                                 </a>
                             </div>
