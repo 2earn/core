@@ -1,4 +1,4 @@
-<section id="bussiness" class="py-5">
+<div id="bussiness" class="row py-5">
     <div class="container-fluid">
         <!-- Section Header -->
         <div class="row mb-4">
@@ -79,4 +79,4 @@
             </div>
         </div>
     </div>
-</section>
+</div>
