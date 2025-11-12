@@ -127,7 +127,6 @@
                             </div>
                         </div>
                     </div>
-                    {{-- Identity Cards Component --}}
                     <livewire:identity-cards :userId="$user['idUser']"/>
                 </div>
                 <div class="col-xxl-8">
@@ -275,37 +274,36 @@
                         </div>
                     @endif
                     <div class="card shadow-sm">
-                        <div class="card-header bg-transparent border-bottom p-0">
-                            <ul class="nav nav-tabs-custom card-header-tabs border-bottom-0 m-0"
-                                role="tablist">
-                                <li class="nav-item" id="personalDetailsTab" role="presentation">
-                                    <a class="nav-link {{ $activeTab == 'personalDetails' ? 'show active' : '' }}"
-                                       data-bs-toggle="tab"
-                                       href="#personalDetails"
-                                       role="tab"
-                                       aria-controls="personalDetails"
-                                       aria-selected="{{ $activeTab == 'personalDetails' ? 'true' : 'false' }}">
-                                        <i class="ri-user-settings-line me-1"></i>
-                                        {{__('Edit profile')}}
+                        <div class="card-header bg-transparent border-bottom">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center">
+                                    <i class="ri-file-user-line fs-4 text-info me-2"></i>
+                                    <h5 class="card-title mb-0 text-info">{{ __('User Information Form') }}</h5>
+                                </div>
+                                <div>
+                                    <a href="{{ route('user_form', app()->getLocale()) }}"
+                                       class="btn btn-sm btn-primary"
+                                       aria-label="{{ __('Go to User Form') }}">
+                                        <i class="ri-edit-box-line align-bottom me-1"></i> {{__('Open Form')}}
                                     </a>
-                                </li>
-                                <li class="nav-item  @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif d-none "
-                                    role="presentation">
-                                    <a class="nav-link disabled"
-                                       data-bs-toggle="tab"
-                                       href="#privacy"
-                                       role="tab"
-                                       aria-controls="privacy"
-                                       aria-selected="false"
-                                       tabindex="-1">
-                                        <i class="ri-phone-line me-1"></i>
-                                        {{__('Update phone number')}}
-                                    </a>
-                                </li>
-                            </ul>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body p-4">
-                            <div class="tab-content">
+                            <div class="alert alert-info border-0 mb-0" role="alert">
+                                <div class="d-flex align-items-center">
+                                    <i class="ri-information-line fs-5 me-2"></i>
+                                    <div>
+                                        <p class="mb-0">{{ __('Click the "Open Form" button to access the detailed user information form where you can update your personal details.') }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card shadow-sm d-none">
+
+                        <div class="card-body p-4">
+                            <div class="user-form-content d-none">
                                 <div class="tab-pane {{ $activeTab == 'personalDetails' ? 'show active' : '' }}"
                                      id="personalDetails" role="tabpanel">
 
