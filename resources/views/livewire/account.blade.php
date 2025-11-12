@@ -105,6 +105,17 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                @if(Route::getCurrentRoute()->getName()!="validate_account")
+                                    <div class="mt-3">
+                                        <a href="{{ route('change_password', app()->getLocale()) }}"
+                                           class="btn btn-primary w-100"
+                                           aria-label="{{ __('Change password') }}">
+                                            <i class="ri-lock-password-line me-1"></i>
+                                            {{ __('Change password') }}
+                                        </a>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -281,19 +292,6 @@
                                        aria-selected="false">
                                         <i class="ri-shield-check-line me-1"></i>
                                         {{__('Identifications')}}
-                                    </a>
-                                </li>
-                                <li class="nav-item @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
-                                    role="presentation">
-                                    <a class="nav-link {{ $activeTab == 'changePassword' ? 'show active' : '' }}"
-                                       data-bs-toggle="tab"
-                                       href="#changePassword"
-                                       role="tab"
-                                       aria-controls="changePassword"
-                                       aria-selected="{{ $activeTab == 'changePassword' ? 'true' : 'false' }}"
-                                       id="tabEditPass">
-                                        <i class="ri-lock-password-line me-1"></i>
-                                        {{__('Change password')}}
                                     </a>
                                 </li>
                                 <li class="nav-item  @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif d-none "
@@ -702,11 +700,6 @@
                                                 </div>
                                         @endif
                                     </form>
-                                </div>
-                                <div
-                                    class="tab-pane {{ $activeTab == 'changePassword' ? 'show active' : '' }} @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"
-                                    id="changePassword" role="tabpanel">
-                                    <livewire:change-password/>
                                 </div>
                                 <div
                                     class="tab-pane @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif"

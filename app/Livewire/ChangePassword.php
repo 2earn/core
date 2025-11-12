@@ -104,12 +104,12 @@ class ChangePassword extends Component
         }
 
         if (!Hash::check($this->oldPassword, auth()->user()->password)) {
-            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Old_Password_invalid'));
+            return redirect()->route('change_password', app()->getLocale())->with('danger', Lang::get('Old_Password_invalid'));
         }
 
         if ($this->newPassword != $this->confirmedPassword) {
             $this->earnDebug('Edit password input confirmed password invalid : userid- ' . $userAuth->id . ' newPassword- ' . $this->newPassword . ' confirmedPassword- ' . $this->confirmedPassword);
-            return redirect()->route("account", app()->getLocale())->with('danger', Lang::get('Password_not_Confirmed'));
+            return redirect()->route("change_password", app()->getLocale())->with('danger', Lang::get('Password_not_Confirmed'));
         }
 
         if ($this->sendPasswordChangeOPT) {
@@ -136,16 +136,16 @@ class ChangePassword extends Component
 
         if ($code != $user->activationCodeValue) {
             $this->earnDebug('Edit password input opt code OPT invalid : userid- ' . $userAuth->id . ' code- ' . $code);
-            return redirect()->route("account", app()->getLocale())->with('danger', Lang::get('Invalid OPT code'));
+            return redirect()->route("change_password", app()->getLocale())->with('danger', Lang::get('Invalid OPT code'));
         }
 
         if ($this->newPassword != $this->confirmedPassword) {
             $this->earnDebug('Edit password input confirmed password invalid : userid- ' . $userAuth->id . ' newPassword- ' . $this->newPassword . ' confirmedPassword- ' . $this->confirmedPassword);
-            return redirect()->route("account", app()->getLocale())->with('danger', Lang::get('Password_not_Confirmed'));
+            return redirect()->route("change_password", app()->getLocale())->with('danger', Lang::get('Password_not_Confirmed'));
         }
 
         if (!Hash::check($this->oldPassword, auth()->user()->password)) {
-            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Old_Password_invalid'));
+            return redirect()->route('change_password', app()->getLocale())->with('danger', Lang::get('Old_Password_invalid'));
         }
 
         $this->changePassword($userAuth, $settingManager);
@@ -159,7 +159,7 @@ class ChangePassword extends Component
         $sendSMS = $this->sendPassSMS == true ? 1 : 0;
         $settingManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::SendNewSMS, ['msg' => $this->newPassword, 'canSendSMS' => $sendSMS]);
 
-        return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Password updated'));
+        return redirect()->route('change_password', app()->getLocale())->with('success', Lang::get('Password updated'));
     }
 
     public function render()

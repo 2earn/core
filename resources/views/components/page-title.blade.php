@@ -96,6 +96,14 @@
                         </a>
                     </div>
                     <div class="col">
+                        <a data-name="change_password" href="{{route('change_password',app()->getLocale(),false )}}"
+                           class="nav-link menu-link p-1 rounded hover-bg {{$currentRouteName=='change_password'? 'active bg-light' : ''}}"
+                           role="button">
+                            <i class="ri-lock-password-line me-2"></i>
+                            <span>{{ __('Change password') }}</span>
+                        </a>
+                    </div>
+                    <div class="col">
                         <a data-name="contacts" href="{{route('contacts',app()->getLocale(),false)}}"
                            class="nav-link menu-link p-1 rounded hover-bg {{$currentRouteName=='contacts'? 'active bg-light' : ''}}"
                            role="button">

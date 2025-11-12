@@ -19,10 +19,8 @@ class WelcomeMessage extends Component
 
         $this->userName = getUserDisplayedName(auth()->user()->idUser);
 
-        // Set current date
         $this->currentDate = now()->format('d M, Y');
 
-        // Determine greeting based on time of day
         $hour = date('H');
         if ($hour < 12) {
             $this->greeting = __('Good Morning');
