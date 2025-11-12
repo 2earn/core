@@ -169,7 +169,6 @@
     @endpush
     @push('styles')
         <style>
-            /* Small local styles for Soldes UI tweaks */
             .hover-scale {
                 transition: transform .15s ease, box-shadow .15s ease;
             }

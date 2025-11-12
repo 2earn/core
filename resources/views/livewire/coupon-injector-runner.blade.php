@@ -36,21 +36,21 @@
                             <label for="pinCode" class="form-label fw-semibold">
                                 <i class="ri-lock-password-line me-1 text-primary"></i>{{__('Pin code')}}
                             </label>
-                            <div class="input-group input-group-lg">
+                            <div class="input-group input-group">
                                 <span class="input-group-text bg-primary-subtle border-primary">
                                     <i class="ri-key-2-line text-primary"></i>
                                 </span>
                                 <input type="text"
                                        wire:model.live="pin"
                                        id="pinCode"
-                                       class="form-control form-control-lg border-primary"
+                                       class="form-control form-control border-primary"
                                        placeholder="{{__('Enter your pin code')}}">
                             </div>
                         </div>
                         <div class="col-12">
                             <button type="button"
                                     wire:click="runCoupon()"
-                                    class="btn btn-primary btn-lg w-100 d-flex align-items-center justify-content-center gap-2">
+                                    class="btn btn-primary btn w-100 d-flex align-items-center justify-content-center gap-2">
                                 <i class="ri-play-circle-line fs-18"></i>
                                 <span>{{__('Run coupon')}}</span>
                             </button>
