@@ -22,7 +22,6 @@ class SurveyShow extends Component
     public $comment;
     public $disableNote;
 
-
     public function mount($idSurvey)
     {
         $this->idSurvey = $idSurvey;

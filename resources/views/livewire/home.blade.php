@@ -12,9 +12,8 @@
         @include('layouts.flash-messages')
     </div>
     <div id="wellcome-message">
-        <livewire:welcome-message />
+        <livewire:welcome-message/>
     </div>
-
     @if($flash)
         <div class="row justify-content-center">
             <div class="col-12">
@@ -364,9 +363,7 @@
         </div>
     </section>
     <livewire:bussiness-sectors-home/>
-    <section id="communication" class="p-1">
-        <livewire:communication-board/>
-    </section>
+    <livewire:communication-board/>
     <section id="stats">
         <div class="card col-12">
             <div class="card-header border-info">

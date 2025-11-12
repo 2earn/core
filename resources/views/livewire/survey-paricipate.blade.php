@@ -28,11 +28,10 @@
             <div class="col-12">
                 <div class="card border shadow-none material-shadow mb-3">
                     <form wire:submit="participate()">
-                        <div class="card-header bg-light">
+                        <div class="card-header ">
                             <div class="d-flex align-items-center justify-content-between">
                                 <h5 class="card-title mb-0">
-                                    <i class="ri-question-answer-line me-2 text-success"></i>
-                                    {{__('Survey Question')}}
+                                    {{__('Participation to the survey question')}}
                                 </h5>
                                 <div class="d-flex gap-2 align-items-center">
                                     <span class="badge {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger'  }}">
@@ -54,9 +53,6 @@
                                 <div class="col-12 mb-4">
                                     <div class="alert alert-info border-0 material-shadow" role="alert">
                                         <div class="d-flex align-items-start">
-                                            <div class="flex-shrink-0">
-                                                <i class="ri-question-line fs-20"></i>
-                                            </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="alert-heading mb-2">{{__('Question statement')}}</h6>
                                                 <p class="mb-0 text-muted">
@@ -69,13 +65,12 @@
 
                                 <div class="col-12">
                                     <h6 class="mb-3">
-                                        <i class="ri-list-check-2 me-2 text-primary"></i>
                                         {{__('Response')}}
                                     </h6>
                                     <div class="row g-3">
                                         @forelse ($survey->question->serveyQuestionChoice as $choice)
                                             <div class="col-12">
-                                                <div class="card card-body border shadow-none bg-light mb-0">
+                                                <div class="card card-body border shadow-none  mb-0">
                                                     @if($survey->question->selection == \Core\Enum\Selection::UNIQUE->value)
                                                         <div class="form-check">
                                                             <input
@@ -121,7 +116,7 @@
                             </div>
                         </div>
 
-                        <div class="card-footer bg-light">
+                        <div class="card-footer ">
                             <div class="d-flex justify-content-end">
                                 <button class="btn btn-outline-success waves-effect waves-light"
                                         type="submit"
