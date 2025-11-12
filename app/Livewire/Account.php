@@ -345,6 +345,18 @@ class Account extends Component
         $hasRequest = $userAuth->hasIdentificationRequest();
         $this->disabled = in_array($user->status, [StatusRequest::InProgressNational->value, StatusRequest::InProgressInternational->value, StatusRequest::InProgressGlobal->value, StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value]) ? true : false;
 
-        return view('livewire.account', ['hasRequest' => $hasRequest, 'errors_array' => $this->errors_array])->extends('layouts.master')->section('content');
+        $justExpired = $lessThanSixMonths = false;
+        if (!is_null(auth()->user()->expiryDate)) {
+            $daysNumber = getDiffOnDays(auth()->user()->expiryDate);
+            $lessThanSixMonths = $daysNumber < 180 ? true : false;
+            $justExpired = $daysNumber < 1 ? true : false;
+        }
+
+        return view('livewire.account', [
+            'hasRequest' => $hasRequest,
+            'errors_array' => $this->errors_array,
+            'justExpired' => $justExpired,
+            'lessThanSixMonths' => $lessThanSixMonths
+        ])->extends('layouts.master')->section('content');
     }
 }

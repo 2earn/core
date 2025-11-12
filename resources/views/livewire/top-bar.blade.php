@@ -113,22 +113,22 @@
                                       title="{{$userStatus}}">
                                     {{getUserDisplayedName()}} </span>
                                  <span
-                                     class="d-none d-xl-block badge bg-light @if($user->status==1) text-success  @else text-muted @endif mb-0">
+                                     class="d-none d-xl-block badge bg-light line-highlight @if($user->status==1) text-success  @else text-muted @endif mb-0">
                                         <span class="mb-5">{{__($userRole)}}</span>
                                         @if($userStatus==2)
-                                         <i class="mdi mdi-24px mdi-account-check text-success validated-user"
+                                         <i class="mdi mdi-22px mdi-account-check text-success validated-user"
                                             title="{{__('National identified')}}"></i>
                                      @elseif($userStatus==1)
-                                         <i class="mdi mdi-24px mdi-account-alert text-warning validated-user"
+                                         <i class="mdi mdi-22px mdi-account-alert text-warning validated-user"
                                             title="{{__('National identification request in process')}}"></i>
                                      @elseif($userStatus==5)
-                                         <i class="mdi mdi-24px mdi-account-alert text-warning validated-user"
+                                         <i class="mdi mdi-22px mdi-account-alert text-warning validated-user"
                                             title="{{__('International identification request in process')}}"></i>
                                      @elseif($userStatus==6)
-                                         <i class="mdi mdi-24px mdi-account-alert text-warning validated-user"
+                                         <i class="mdi mdi-22px mdi-account-alert text-warning validated-user"
                                             title="{{__('Global identification request in process')}}"></i>
                                      @elseif($userStatus==4)
-                                         <i class="mdi mdi-24px mdi-account-check text-info validated-user"
+                                         <i class="mdi mdi-22px mdi-account-check text-info validated-user"
                                             title="{{__('International identified')}}"></i>
                                      @endif
                                  </span>

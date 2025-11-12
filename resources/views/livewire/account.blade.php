@@ -10,127 +10,12 @@
                     @endif
                 @endslot
             @endcomponent
-            @php
-                $justExpired=$lessThanSixMonths = false;
-                if (!is_null(auth()->user()->expiryDate)) {
-                    $daysNumber = getDiffOnDays(auth()->user()->expiryDate);
-                    $lessThanSixMonths = $daysNumber < 180 ? true : false;
-                    $justExpired = $daysNumber < 1 ? true : false;
-                }
-            @endphp
             <div class="row">
                 <div class="col-12">
                     @include('layouts.flash-messages')
                 </div>
             </div>
             <div class="row">
-                <div class="col-xxl-4">
-                    <div class="card shadow-sm" id="profile">
-                        <div class="card-header bg-transparent border-bottom">
-                            <div class="d-flex align-items-center">
-                                <i class="ri-user-3-line fs-4 text-info me-2"></i>
-                                <h5 class="card-title mb-0 text-info">{{ __('Your Profile Picture') }}</h5>
-                            </div>
-                        </div>
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <div class="profile-user position-relative d-inline-block mx-auto mb-4">
-                                    @if ($imageProfil)
-                                        <div class="mb-2">
-                                            <img class="rounded-circle shadow-sm" width="70" height="70"
-                                                 src="{{ $imageProfil->temporaryUrl() }}?={{Str::random(16)}}"
-                                                 alt="{{ __('Preview image') }}">
-                                        </div>
-                                    @endif
-                                    <img src="{{ URL::asset($userProfileImage) }}?={{Str::random(16)}}"
-                                         class="rounded-circle avatar-xl img-thumbnail user-profile-image shadow"
-                                         alt="{{ __('Profile picture of') }} {{$dispalyedUserCred}}">
-
-                                    <div class="avatar-xs p-0 rounded-circle profile-photo-edit"
-                                         title="{{ __('Change profile picture') }}">
-                                        <input id="profile-img-file-input" type="file" class="profile-img-file-input"
-                                               accept="image/png, image/jpeg, image/jpg"
-                                               wire:model.live="imageProfil"
-                                               aria-label="{{ __('Upload profile picture') }}">
-                                        <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
-                                            <span class="avatar-title rounded-circle bg-light text-body">
-                                                <i class="ri-camera-fill"></i>
-                                            </span>
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <div wire:loading wire:target="imageProfil" class="alert alert-info border-0 py-2 mb-2"
-                                     role="alert">
-                                    <i class="ri-upload-cloud-line me-1"></i>
-                                    <small>{{__('Uploading')}}...</small>
-                                </div>
-
-                                <div class="mb-3">
-                                    <small class="text-muted d-block">
-                                        <i class="ri-information-line"></i>
-                                        {{__('The photo must be in PNG, JPG or JPEG format and must not exceed 8 Mb in size')}}
-                                    </small>
-                                </div>
-
-                                <h2 class="mb-2 fw-semibold">
-                                    {{$dispalyedUserCred}}
-                                </h2>
-                                <div class="mb-2">
-                                    <span
-                                        class="badge bg-secondary-subtle text-secondary fs-6">{{ __('ID') }}: {{$user['idUser']}}</span>
-                                </div>
-
-                                @if($user['status']==\Core\Enum\StatusRequest::ValidNational->value||$user['status']==\Core\Enum\StatusRequest::ValidInternational->value)
-                                    <div class="mb-3">
-                                        <span class="badge bg-success-subtle text-success fs-6">
-                                            <i class="ri-verified-badge-line me-1"></i>{{__('Identified')}}
-                                        </span>
-                                    </div>
-                                @endif
-
-                                <div class="card bg-light border-0 mt-4">
-                                    <div class="card-body p-3">
-                                        <div
-                                            class="form-check form-switch d-flex justify-content-center align-items-center"
-                                            dir="ltr">
-                                            <input wire:model="user.is_public" type="checkbox"
-                                                   class="form-check-input me-2"
-                                                   id="customSwitchsizesm" @checked($user['is_public']??false)
-                                                   role="switch" aria-checked="{{$user['is_public']??false}}">
-                                            <label class="form-check-label mb-0" for="customSwitchsizesm">
-                                                <i class="ri-hand-heart-line me-1"></i>
-                                                {{ __('I agree to receive funding requests') }}
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                @if(Route::getCurrentRoute()->getName()!="validate_account")
-                                    <div class="mt-3">
-                                        <a href="{{ route('change_password', app()->getLocale()) }}"
-                                           class="btn btn-primary w-100"
-                                           aria-label="{{ __('Change password') }}">
-                                            <i class="ri-lock-password-line me-1"></i>
-                                            {{ __('Change password') }}
-                                        </a>
-                                    </div>
-                                    <div class="mt-2">
-                                        <a href="{{ route('identification', app()->getLocale()) }}"
-                                           class="btn btn-info w-100"
-                                           aria-label="{{ __('Identifications') }}">
-                                            <i class="ri-shield-check-line me-1"></i>
-                                            {{ __('Identifications') }}
-                                        </a>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xxl-8">
-                    <livewire:identity-cards :userId="$user['idUser']"/>
-                </div>
                 <div class="col-xxl-12">
                     @if(!$disabled)
                         <div
@@ -307,6 +192,113 @@
                         </div>
                     @endif
                 </div>
+                <div class="col-xxl-4">
+                    <div class="card shadow-sm" id="profile">
+                        <div class="card-header bg-transparent border-bottom">
+                            <div class="d-flex align-items-center">
+                                <i class="ri-user-3-line fs-4 text-info me-2"></i>
+                                <h5 class="card-title mb-0 text-info">{{ __('Your Profile Picture') }}</h5>
+                            </div>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <div class="profile-user position-relative d-inline-block mx-auto mb-4">
+                                    @if ($imageProfil)
+                                        <div class="mb-2">
+                                            <img class="rounded-circle shadow-sm" width="70" height="70"
+                                                 src="{{ $imageProfil->temporaryUrl() }}?={{Str::random(16)}}"
+                                                 alt="{{ __('Preview image') }}">
+                                        </div>
+                                    @endif
+                                    <img src="{{ URL::asset($userProfileImage) }}?={{Str::random(16)}}"
+                                         class="rounded-circle avatar-xl img-thumbnail user-profile-image shadow"
+                                         alt="{{ __('Profile picture of') }} {{$dispalyedUserCred}}">
+
+                                    <div class="avatar-xs p-0 rounded-circle profile-photo-edit"
+                                         title="{{ __('Change profile picture') }}">
+                                        <input id="profile-img-file-input" type="file" class="profile-img-file-input"
+                                               accept="image/png, image/jpeg, image/jpg"
+                                               wire:model.live="imageProfil"
+                                               aria-label="{{ __('Upload profile picture') }}">
+                                        <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
+                                            <span class="avatar-title rounded-circle bg-light text-body">
+                                                <i class="ri-camera-fill"></i>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div wire:loading wire:target="imageProfil" class="alert alert-info border-0 py-2 mb-2"
+                                     role="alert">
+                                    <i class="ri-upload-cloud-line me-1"></i>
+                                    <small>{{__('Uploading')}}...</small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <small class="text-muted d-block">
+                                        <i class="ri-information-line"></i>
+                                        {{__('The photo must be in PNG, JPG or JPEG format and must not exceed 8 Mb in size')}}
+                                    </small>
+                                </div>
+
+                                <h2 class="mb-2 fw-semibold">
+                                    {{$dispalyedUserCred}}
+                                </h2>
+                                <div class="mb-2">
+                                    <span
+                                        class="badge bg-secondary-subtle text-secondary fs-6">{{ __('ID') }}: {{$user['idUser']}}</span>
+                                </div>
+
+                                @if($user['status']==\Core\Enum\StatusRequest::ValidNational->value||$user['status']==\Core\Enum\StatusRequest::ValidInternational->value)
+                                    <div class="mb-3">
+                                        <span class="badge bg-success-subtle text-success fs-6">
+                                            <i class="ri-verified-badge-line me-1"></i>{{__('Identified')}}
+                                        </span>
+                                    </div>
+                                @endif
+
+                                <div class="card bg-light border-0 mt-4">
+                                    <div class="card-body p-3">
+                                        <div
+                                            class="form-check form-switch d-flex justify-content-center align-items-center"
+                                            dir="ltr">
+                                            <input wire:model="user.is_public" type="checkbox"
+                                                   class="form-check-input me-2"
+                                                   id="customSwitchsizesm" @checked($user['is_public']??false)
+                                                   role="switch" aria-checked="{{$user['is_public']??false}}">
+                                            <label class="form-check-label mb-0" for="customSwitchsizesm">
+                                                <i class="ri-hand-heart-line me-1"></i>
+                                                {{ __('I agree to receive funding requests') }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @if(Route::getCurrentRoute()->getName()!="validate_account")
+                                    <div class="mt-3">
+                                        <a href="{{ route('change_password', app()->getLocale()) }}"
+                                           class="btn btn-primary w-100"
+                                           aria-label="{{ __('Change password') }}">
+                                            <i class="ri-lock-password-line me-1"></i>
+                                            {{ __('Change password') }}
+                                        </a>
+                                    </div>
+                                    <div class="mt-2">
+                                        <a href="{{ route('identification', app()->getLocale()) }}"
+                                           class="btn btn-info w-100"
+                                           aria-label="{{ __('Identifications') }}">
+                                            <i class="ri-shield-check-line me-1"></i>
+                                            {{ __('Identifications') }}
+                                        </a>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xxl-8">
+                    <livewire:identity-cards :userId="$user['idUser']"/>
+                </div>
             </div>
             <div class="modal fade" id="modalMail" tabindex="-1" aria-labelledby="exampleModalgridLabel"
                  aria-modal="true">
@@ -480,15 +472,28 @@
                 </div>
             </div>
             <div class="modal fade bd-example-modal-lg" tabindex="-1" id="identies-viewer" role="dialog"
-                 aria-labelledby="myLargeModalLabel"
+                 aria-labelledby="identies-viewer-title"
                  aria-hidden="true">
-                <div class="modal-dialog modal-lg">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content">
-                        <div class="modal-header mb-2">
-                            <h3 class="modal-title" id="identies-viewer-title"></h3>
+                        <div class="modal-header bg-light border-bottom">
+                            <div class="d-flex align-items-center">
+                                <i class="ri-id-card-line fs-4 text-primary me-2"></i>
+                                <h5 class="modal-title text-primary fw-semibold mb-0" id="identies-viewer-title">{{ __('Identity Document') }}</h5>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
                         </div>
-                        <div class="modal-content p-3" id="identies-viewer-content">
-
+                        <div class="modal-body p-4" id="identies-viewer-content">
+                            <div class="text-center">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">{{ __('Loading') }}...</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer bg-light border-top">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                <i class="ri-close-line me-1"></i>{{ __('Close') }}
+                            </button>
                         </div>
                     </div>
                 </div>

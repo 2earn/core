@@ -1,17 +1,28 @@
 <div class="{{getContainerType()}}">
     <div>
+
         <div>
+            @component('components.breadcrumb')
+                @slot('title')
+                    {{ __('Contact number') }}
+                @endslot
+            @endcomponent
             <div class="row">
                 @include('layouts.flash-messages')
             </div>
             <div class="row">
                 <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <div>
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-transparent border-bottom">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center">
+                                    <i class="ri-phone-line fs-4 text-info me-2"></i>
+                                    <h5 class="card-title mb-0 text-info">{{ __('Contact Numbers') }}</h5>
+                                </div>
                                 <button data-bs-toggle="modal"
                                         data-bs-target="#AddContactNumberModel" type="button"
-                                        class="btn btn-soft-info add-btn float-end">{{ __('Add_contact-number') }}
+                                        class="btn btn-soft-info add-btn">
+                                    <i class="ri-add-line me-1"></i>{{ __('Add_contact-number') }}
                                 </button>
                             </div>
                         </div>
@@ -19,55 +30,61 @@
                             <table id="example" class="table table-striped table-bordered  display nowrap">
                                 <thead class="table-light">
                                 <tr class="tabHeader2earn">
-                                    <th>{{__('ID_Number')}}</th>
+                                    <th class="text-center">{{__('ID_Number')}}</th>
                                     <th>{{__('Mobile Number')}}</th>
-                                    <th>{{__('Active')}}</th>
+                                    <th class="text-center">{{__('Active')}}</th>
                                     <th>{{__('Country')}}</th>
-                                    <th>{{__('Actions')}}</th>
+                                    <th class="text-center">{{__('Actions')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach ($userContactNumber as $value)
                                     <tr>
-                                        <td style="text-align: center">
+                                        <td class="text-center align-middle">
                                             @if($value->isID ==1)
-                                                <span>
-                                        <i style="color: #51A351;font-size: 20px" class="ri-checkbox-circle-line"></i>
-                                    </span>
+                                                <span class="badge badge-soft-success badge-border">
+                                                    <i class="ri-checkbox-circle-line align-middle"></i>
+                                                </span>
                                             @else
-                                                <span>
-                                        <i style="color: #f02602;font-size: 20px" class="ri-close-circle-line"></i>
-                                    </span>
+                                                <span class="badge badge-soft-danger badge-border">
+                                                    <i class="ri-close-circle-line align-middle"></i>
+                                                </span>
                                             @endif
                                         </td>
-                                        <td>{{$value->fullNumber}}</td>
-                                        <td <?php if ($value->active != 1){ ?> onclick="setActiveNumber({{$value->id}})" <?php } ?> >
-                                            <div class="form-check form-switch" dir="ltr">
+                                        <td class="align-middle">
+                                            <span class="fw-medium">{{$value->fullNumber}}</span>
+                                        </td>
+                                        <td class="text-center align-middle" <?php if ($value->active != 1){ ?> onclick="setActiveNumber({{$value->id}})" style="cursor: pointer;" <?php } ?> >
+                                            <div class="form-check form-switch d-flex justify-content-center" dir="ltr">
                                                 <input <?php if ($value->active == 1){ ?> checked disabled
-                                                       style="background-color: #3595f6!important; opacity: 6"
+                                                       style="background-color: #3595f6!important; opacity: 1"
                                                        <?php } ?>     type="checkbox" class="form-check-input"
                                                        id="customSwitchsizesm">
                                             </div>
                                         </td>
-                                        <td>
+                                        <td class="align-middle">
                                             <div class="d-flex align-items-center fw-medium">
                                                 <img
                                                     src="{{ Vite::asset('resources/images/flags/'.$value->isoP.'.svg') }}"
-                                                    alt=""
-                                                    class="avatar-xxs me-2">
-                                                <a href="javascript:void(0);"
-                                                   class="currency_name"> {{getCountryByIso($value->isoP)}}</a>
+                                                    alt="{{getCountryByIso($value->isoP)}}"
+                                                    class="avatar-xxs me-2 rounded-circle shadow-sm">
+                                                <span class="currency_name">{{getCountryByIso($value->isoP)}}</span>
                                             </div>
                                         </td>
-                                        <td>
+                                        <td class="text-center align-middle">
                                             @if($value->active!=1)
-                                                <a onclick="deleteContactNUmber({{$value->id}})"><span
-                                                        class="btn btn-danger">{{__('Delete')}}</span></a>
-                                                <a onclick="setActiveNumber({{$value->id}})"><span
-                                                        class="btn btn-primary">{{ __('Active') }}</span></a>
+                                                <div class="d-flex gap-2 justify-content-center">
+                                                    <button onclick="setActiveNumber({{$value->id}})" class="btn btn-sm btn-primary">
+                                                        <i class="ri-check-line me-1"></i>{{ __('Active') }}
+                                                    </button>
+                                                    <button onclick="deleteContactNUmber({{$value->id}})" class="btn btn-sm btn-danger">
+                                                        <i class="ri-delete-bin-line me-1"></i>{{__('Delete')}}
+                                                    </button>
+                                                </div>
                                             @else
-                                                <a><span
-                                                        class="btn btn-info">{{ __('Activated_number') }}</span></a>
+                                                <span class="badge badge-soft-info fs-12 px-3 py-2">
+                                                    <i class="ri-check-double-line me-1"></i>{{ __('Activated_number') }}
+                                                </span>
                                             @endif
                                         </td>
                                     </tr>
@@ -79,24 +96,40 @@
                 </div>
             </div>
             <div wire:ignore.self class="modal fade" id="AddContactNumberModel" tabindex="-1" style="z-index: 9000000"
-                 aria-labelledby="AddContactNumberModel" aria-hidden="true">
-                <div class="modal-dialog">
+                 aria-labelledby="AddContactNumberModelTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">{{ __('Add new user phone number') }}</h5>
+                        <div class="modal-header bg-light border-bottom">
+                            <div class="d-flex align-items-center">
+                                <i class="ri-phone-add-line fs-4 text-primary me-2"></i>
+                                <h5 class="modal-title text-primary fw-semibold mb-0" id="AddContactNumberModelTitle">
+                                    {{ __('Add new user phone number') }}
+                                </h5>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body p-4">
                             <div class="mb-3" dir="ltr">
-                                <label>{{ __('Your new phone number') }}</label>
+                                <label class="form-label fw-semibold">
+                                    <i class="ri-smartphone-line text-primary me-1"></i>
+                                    {{ __('Your new phone number') }}
+                                </label>
                                 <div id="inputNumberContact" class="input-group w-100 signup mb-3">
+                                </div>
+                                <div class="form-text">
+                                    <i class="ri-information-line"></i>
+                                    {{ __('Enter a valid phone number with country code') }}
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-light btn-close-add"
-                                    data-bs-dismiss="modal">{{ __('Close') }}</button>
+                        <div class="modal-footer bg-light border-top">
+                            <button type="button" class="btn btn-secondary btn-close-add"
+                                    data-bs-dismiss="modal">
+                                <i class="ri-close-line me-1"></i>{{ __('Close') }}
+                            </button>
                             <button type="button" id="saveAddContactNumber"
-                                    class="btn btn-primary">{{ __('Save new contact number') }}
+                                    class="btn btn-primary">
+                                <i class="ri-save-line me-1"></i>{{ __('Save new contact number') }}
                             </button>
                         </div>
                     </div>
