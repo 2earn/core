@@ -17,18 +17,6 @@ class Home extends Component
     const MAX_AMOUNT = 99999999;
     const MAX_ACTIONS = 9999999;
 
-    public $cashBalance;
-    public $treeBalance;
-    public $chanceBalance;
-
-    public $balanceForSopping;
-    public $discountBalance;
-    public $SMSBalance;
-    public $currency = '$';
-    public $decimalSeperator = '.';
-    public $actionsValues = 0;
-    public $userSelledAction = 0;
-    public $userActualActionsProfit = 0;
     private settingsManager $settingsManager;
     private BalancesManager $balancesManager;
     public $ammount;
@@ -80,39 +68,23 @@ class Home extends Component
 
     public function render(settingsManager $settingsManager, BalancesManager $balancesManager)
     {
-
         $user = $settingsManager->getAuthUser();
         delUsertransaction($user->idUser);
         if (!$user) {
             dd('not found page');
         }
-        $solde = $balancesManager->getBalances($user->idUser, -1);
-        $this->cashBalance = $solde->soldeCB;
-        $this->balanceForSopping = $solde->soldeBFS;
-        $this->discountBalance = $solde->soldeDB;
-        $this->treeBalance = $solde->soldeTree;
-        $this->chanceBalance = $solde->soldeChance;
-        $this->SMSBalance = intval($solde->soldeSMS);
-        $this->maxActions = intval($solde->soldeCB / actualActionValue(getSelledActions(true), false));
-        $solde = $balancesManager->getCurrentBalance($user->idUser);
+
+        // Get user metadata
         $usermetta_info = collect(DB::table('metta_users')->where('idUser', $user->idUser)->first());
-        $this->actionsValues = formatSolde(getUserSelledActions(Auth()->user()->idUser) * actualActionValue(getSelledActions(true)), 2);
-        $this->userActualActionsProfit = number_format(getUserActualActionsProfit(Auth()->user()->idUser), 2);
-        $this->userSelledAction = getUserSelledActions(Auth()->user()->idUser);
+
+        // Get actual action value for flash sale calculation
         $actualActionValue = actualActionValue(getSelledActions(true), false);
 
-
-
         $params = [
-            "soldeBuyShares" => $balancesManager->getBalances($user->idUser, 2),
-            'arraySoldeD' => [$solde->soldeCB, $solde->soldeBFS, $solde->soldeDB],
             'usermetta_info' => $usermetta_info,
-            "actualActionValue" => [
-                'int' => intval($actualActionValue),
-                '2Fraction' => intval(($actualActionValue - floor($actualActionValue)) * 100),
-                '3_2Fraction' => str_pad(intval(($actualActionValue - floor($actualActionValue)) * 100000) - intval(($actualActionValue - floor($actualActionValue)) * 100) * 1000
-                    , 3, "0", STR_PAD_LEFT)]
         ];
+
+        // Check for VIP/Flash sale
         $this->vip = vip::Where('idUser', '=', $user->idUser)
             ->where('closed', '=', false)->first();
 
