@@ -2,6 +2,7 @@
 
 use App\Livewire\AcceptFinancialRequest;
 use App\Livewire\Account;
+use App\Livewire\ChangePasswordPage;
 use App\Livewire\ConfigurationHA;
 use App\Livewire\ContactNumber;
 use App\Livewire\Contacts;
@@ -15,6 +16,7 @@ use App\Livewire\HashtagIndex;
 use App\Livewire\HistoriqueRecuperation;
 use App\Livewire\Hobbies;
 use App\Livewire\Home;
+use App\Livewire\IdentificationPage;
 use App\Livewire\IdentificationRequest;
 use App\Livewire\Login;
 use App\Livewire\NotificationHistory;
@@ -28,6 +30,7 @@ use App\Livewire\UserBalanceCB;
 use App\Livewire\UserBalanceDB;
 use App\Livewire\UserBalanceSMS;
 use App\Livewire\UserPurchaseHistory;
+use App\Livewire\UserFormContent;
 use App\Livewire\ValidateAccount;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
@@ -77,6 +80,9 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/', Home::class)->name('main');
         Route::get('/home', Home::class)->name('home');
         Route::get('/account', Account::class)->name('account');
+        Route::get('/user-form', UserFormContent::class)->name('user_form');
+        Route::get('/change-password', ChangePasswordPage::class)->name('change_password');
+        Route::get('/identification', IdentificationPage::class)->name('identification');
         Route::get('/contacts', Contacts::class)->name('contacts');
         Route::get('/notification/history', NotificationHistory::class)->name('notification_history');
         Route::get('/notification/settings', NotificationSettings::class)->name('notification_settings');

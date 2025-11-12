@@ -850,6 +850,7 @@
         });
 
         $("#vip-submit").one("click", function () {
+            console.log($('#vip-reciver').val())
             let reciver = $('#vip-reciver').val();
             let minshares = $('#minshares').val();
             let periode = $('#periode').val();
@@ -879,7 +880,7 @@
                             type: "POST",
                             data: {user: user, msg: msgvip, "_token": "{{ csrf_token() }}"},
                             success: function (data) {
-                                fireSwalInformMessage('success', swalTitle, msgvip + '<br> <span class="text-success">{{__('SMS sending succeded')}}</span>');
+                                fireSwalInformMessage('success', swalTitle, msgvip + '<br> <span class="text-success">{{__('SMS sending succeeded')}}</span>');
                             },
                             error: function (xhr, ajaxOptions, thrownError) {
                                 fireSwalInformMessage('warning', swalTitle, msgvip + '<br> <span class="text-danger">{{__('SMS sending failed')}}</span>')

@@ -54,8 +54,8 @@ class HomeBalances extends Component
 
         $this->flash = \App\Models\vip::where('idUser', '=', $user->idUser)
             ->where('closed', '=', false)
+            ->whereRaw('DATE_ADD(dateFNS, INTERVAL flashDeadline HOUR) > NOW()')
             ->exists();
-
         return view('livewire.home-balances');
     }
 }
