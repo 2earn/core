@@ -47,7 +47,7 @@
 
     {{-- Make VIP Button --}}
     <button type="button"
-            class="btn btn-flash btn-sm d-flex align-items-center justify-content-between shadow-sm"
+            class="btn btn-flash btn-sm d-flex align-items-center justify-content-between shadow-sm vip"
             data-bs-toggle="modal"
             data-bs-target="#vip"
             data-phone="{{$phone}}"

@@ -10,6 +10,7 @@ class vipController extends Controller
 {
     public function create(Req $request)
     {
+
         vip::where('idUser', $request->reciver)
             ->where('closed', '=', 0)
             ->update(['closed' => 1, 'closedDate' => now(),]);
@@ -29,6 +30,7 @@ class vipController extends Controller
                 'closed' => 0,
             ]
         );
+
         return "success";
 
     }
