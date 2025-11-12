@@ -6,7 +6,7 @@ use App\Models\vip;
 use Core\Models\Setting;
 use Illuminate\Http\Request as Req;
 
-class vipController extends Controller
+class VipController extends Controller
 {
     public function create(Req $request)
     {
