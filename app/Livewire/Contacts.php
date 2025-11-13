@@ -148,14 +148,14 @@ class Contacts extends Component
         $existeuser = ContactUser::find($id);
         $message = Lang::get('User deleted successfully') . ' : ' . $existeuser->name . ' ' . $existeuser->lastName . ' : ' . $existeuser->mobile;
         $existeuser->delete();
-        return redirect()->route('contacts', app()->getLocale())->with('success', $message);
+        return redirect()->route('contacts_index', app()->getLocale())->with('success', $message);
     }
 
     public function removeSponsoring($id, settingsManager $settingsManager)
     {
         $contactUser = ContactUser::where('id', $id)->get()->first();
         $settingsManager->removeSponsoring($contactUser->idContact);
-        return redirect()->route('contacts', app()->getLocale())->with('success', Lang::get('Sponsorship removing operation completed successfully'));
+        return redirect()->route('contacts_index', app()->getLocale())->with('success', Lang::get('Sponsorship removing operation completed successfully'));
     }
 
 
@@ -163,7 +163,7 @@ class Contacts extends Component
     {
         $contactUser = ContactUser::where('id', $id)->get()->first();
         if (!$settingsManager->checkCanSponsorship()) {
-            return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('Sponsorship operation failed : you reached the max'));
+            return redirect()->route('contacts_index', app()->getLocale())->with('danger', Lang::get('Sponsorship operation failed : you reached the max'));
         }
         $upLine = $settingsManager->getUserByIdUser($contactUser->idUser);
         $downLine = $settingsManager->getUserByIdUser($contactUser->idContact);
@@ -172,14 +172,14 @@ class Contacts extends Component
             $this->checkDelayedSponsorship($upLine, $downLine);
         }
         $this->dispatch('close-modal');
-        return redirect()->route('contacts', app()->getLocale())->with('success', Lang::get('Sponsorship operation completed successfully') . ' (' . $contactUser->name . ' ' . $contactUser->lastName . ': ' . $contactUser->fullphone_number . ')');
+        return redirect()->route('contacts_index', app()->getLocale())->with('success', Lang::get('Sponsorship operation completed successfully') . ' (' . $contactUser->name . ' ' . $contactUser->lastName . ': ' . $contactUser->fullphone_number . ')');
     }
 
     public function delete_multiple($ids)
     {
         ContactUser::whereIn('id', $ids)->delete();
         $this->dispatch('close-modal');
-        return redirect()->route('contacts', app()->getLocale());
+        return redirect()->route('contacts_index', app()->getLocale());
     }
 
     public function render(settingsManager $settingsManager)
@@ -200,7 +200,7 @@ class Contacts extends Component
                     ->orWhere('contact_users.mobile', 'like', '%' . $this->search . '%');
             });
         }
-        $contactUserQuery = $contactUserQuery->select('contact_users.id', 'contact_users.name', 'contact_users.lastName', 'contact_users.idUser', 'contact_users.idContact', 'contact_users.updated_at', 'u.reserved_by', 'u.status', 'u.mobile', 'u.availablity', 'c.apha2', 'u.idUpline', 'u.reserved_at')
+        $contactUserQuery = $contactUserQuery->select('contact_users.id', 'contact_users.name', 'contact_users.lastName', 'contact_users.idUser', 'contact_users.idContact', 'contact_users.created_at', 'contact_users.updated_at', 'u.reserved_by', 'u.status', 'u.mobile', 'u.availablity', 'c.apha2', 'u.idUpline', 'u.reserved_at')
             ->orderBy('contact_users.updated_at', 'DESC');
         $contactUsers = $contactUserQuery->paginate($this->pageCount);
         $params = [

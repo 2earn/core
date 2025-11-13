@@ -22,7 +22,7 @@
                                 aria-label="Default select example">
                             <option @if($pageCount=="10") selected @endif value="10">10</option>
                             <option @if($pageCount=="25") selected @endif value="25">25</option>
-                            <option @if($pageCount=="100") selected @endif value="100">100</option>
+                            <option @if($pageCount=="50") selected @endif value="100">50</option>
                         </select>
                     </div>
 
@@ -38,8 +38,7 @@
 
                     <div class="col-sm-12 col-lg-5 text-end">
                         <label class="form-label mb-1 d-block">&nbsp;</label>
-                        <a href="{{ route('contacts_add', app()->getLocale()) }}" class="btn btn-success">
-                            <i class="ri-add-line align-bottom me-1"></i>
+                        <a href="{{ route('contacts_add', app()->getLocale()) }}" class="btn btn-outline-success">
                             {{ __('Add a contact') }}
                         </a>
                     </div>
@@ -71,7 +70,7 @@
                             <div class="row g-2 mb-3">
                                 <div class="col-6">
                                     <div class="p-2 bg-light rounded">
-                                        <p class="text-muted fs-12 mb-1">{{__('Status')}}</p>
+                                        <p class="text-primary fs-12 mb-1">{{__('Status')}}</p>
                                         @if($contact->status<\Core\Enum\StatusRequest::OptValidated->value)
                                             <span class="badge badge-soft-warning fs-11">
                                                     <i class="ri-time-line align-middle"></i> {{__('Not confirmed user')}}
@@ -85,10 +84,35 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="p-2 bg-light rounded">
-                                        <p class="text-muted fs-12 mb-1">{{__('Availability')}}</p>
+                                        <p class="text-primary fs-12 mb-1">{{__('Availability')}}</p>
                                         <span class="badge badge-soft-{{$contact->sponsoredStatus}} fs-11">
                                                 {{$contact->sponsoredMessage}}
                                             </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-2 mb-3">
+                                <div class="col-6">
+                                    <div class="p-2 bg-light rounded">
+                                        <p class="text-muted fs-11 mb-0">
+                                            <i class="ri-calendar-line align-middle me-1"></i>
+                                            {{__('Created')}}
+                                        </p>
+                                        <p class="text-dark fs-12 mb-0 mt-1 fw-medium">
+                                            {{ $contact->created_at ? $contact->created_at : '-' }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-2 bg-light rounded">
+                                        <p class="text-muted fs-11 mb-0">
+                                            <i class="ri-refresh-line align-middle me-1"></i>
+                                            {{__('Updated')}}
+                                        </p>
+                                        <p class="text-dark fs-12 mb-0 mt-1 fw-medium">
+                                            {{ $contact->updated_at ? $contact->updated_at : '-' }}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
