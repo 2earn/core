@@ -7,145 +7,96 @@
     <div class="row">
         @include('layouts.flash-messages')
     </div>
-    <div class="card" wire:ignore>
+
+    <div class="card">
         <div class="card-body">
-            <table
-                class="table table-bordered dt-responsive nowrap table-striped align-middle"
-                id="SettingsTable">
-                <thead class="table-light">
-                <tr>
-                    <th>{{ __('id') }}</th>
-                    <th>{{ __('Name') }}</th>
-                    <th>{{ __('Value') }}</th>
-                    <th>{{ __('Unit') }}</th>
-                    <th>{{ __('AutoCalculated') }}</th>
-                    <th>{{ __('Actions') }}</th>
-                </tr>
-                </thead>
-                <tbody class="list form-check-all">
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div wire:ignore.self class="modal fade" id="settingModal" tabindex="-1" style="z-index: 200000"
-         aria-labelledby="settingsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="settingsModalLabel">{{__('Update param')}}</h5>
-                    <button type="button" class="btn-close btn-close-setting " data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+            <!-- Search and Per Page Controls -->
+            <div class="row mb-3">
+                <div class="col-md-6 col-12 mb-2 mb-md-0">
+                    <div class="d-flex align-items-center">
+                        <label class="me-2 text-nowrap">{{ __('Show') }}</label>
+                        <select wire:model.live="perPage" class="form-select form-select-sm" style="width: auto;">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span class="ms-2 text-nowrap">{{ __('entries') }}</span>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <form action="" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="row">
-                            <div class="mb-3 col-xl-6">
-                                <label class="me-sm-2">{{ __('Name') }}</label>
-                                <input type="text" class="form-control" disabled wire:model.live="parameterName"
-                                       placeholder="{{ __('Name') }}">
+                <div class="col-md-6 col-12">
+                    <input type="text" wire:model.live.debounce.300ms="search" class="form-control form-control-sm"
+                           placeholder="{{ __('Search') }}...">
+                </div>
+            </div>
+            @forelse($settings as $setting)
+                <div class="card mb-3 setting-item border-0">
+                    <div class="card-body p-3">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <span class="badge bg-secondary mb-1">ID: {{ $setting->idSETTINGS }}</span>
+                                <h6 class="mb-0 fw-bold">{{ $setting->ParameterName }}</h6>
                             </div>
-                            @if(!is_null($IntegerValue))
-                                <div class="mb-3 col-xl-6">
-                                    <label class="me-sm-2">{{ __('IntegerValue') }}</label>
-                                    <input type="number" class="form-control" wire:model.live="IntegerValue"
-                                           placeholder="{{ __('IntegerValue') }}" name="IntegerValue">
-                                </div>
+                            @if($setting->Automatically_calculated == 1)
+                                <span class="badge bg-success">{{ __('Yes') }}</span>
+                            @else
+                                <span class="badge bg-danger">{{ __('No') }}</span>
                             @endif
-                            @if(!is_null($StringValue))
-                                <div class="mb-3 col-xl-6">
-                                    <label class="me-sm-2">{{ __('StringValue') }}</label>
-                                    <input type="text" class="form-control" wire:model.live="StringValue"
-                                           placeholder="{{ __('StringValue') }}" name="StringValue">
-                                </div>
-                            @endif
-                            @if(!is_null($DecimalValue))
-                                <div class="mb-3 col-xl-6">
-                                    <label class="me-sm-2"> {{ __('DecimalValue') }}</label>
-                                    <input type="number" class="form-control" wire:model.live="DecimalValue"
-                                           placeholder="{{ __('DecimalValue') }}" name="DecimalValue">
-                                </div>
-                            @endif
-                            <div class="mb-3 col-xl-6">
-                                <label class="me-sm-2">{{ __('Unit') }}</label>
-                                <input maxlength="5" type="text" class="form-control" wire:model.live="Unit"
-                                       placeholder="{{ __('Unit') }}" name="Unit">
-                            </div>
-                            <div class="mb-3 col-xl-6">
-                                <label class="me-sm-2">{{ __('I/O') }}</label>
-                                <select class="form-control" name="Automatically_calculated"
-                                        wire:model.live="Automatically_calculated">
-                                    <option value="0"> {{ __('No') }}</option>
-                                    <option value="1">{{ __('Yes') }}</option>
-                                </select>
-                            </div>
-                            <div class="mb-3 col-xl-12">
-                                <label class="me-sm-2">{{ __('description') }}</label>
-                                <textarea maxlength="250" class="form-control" wire:model.live="Description"
-                                          placeholder="{{ __('description') }}" name="Description"></textarea>
+                        </div>
+
+                        <div class="mb-3 p-2 rounded">
+
+                            <small class="text-muted d-block mb-1">{{ __('Value') }}</small>
+                            <div class="fw-semibold">
+                                @if(!is_null($setting->IntegerValue))
+                                    <span class="badge bg-info text-light me-1">{{ __('Integer') }}</span>
+                                    <span>{{ $setting->IntegerValue }}</span>
+                                @elseif(!is_null($setting->StringValue))
+                                    <span class="badge bg-warning text-light me-1">{{ __('String') }}</span>
+                                    <span>{{ $setting->StringValue }}</span>
+                                @elseif(!is_null($setting->DecimalValue))
+                                    <span class="badge bg-primary me-1">{{ __('Decimal') }}</span>
+                                    <span>{{ $setting->DecimalValue }}</span>
+                                @else
+                                    <span class="text-muted">0</span>
+                                @endif
                             </div>
                         </div>
-                    </form>
+                        @if($setting->Description)
+                            <div class="mb-3 p-2 bg-light rounded">
+                                <small class="text-muted d-block mb-1">{{ __('Description') }}</small>
+                                <div class="fw-semibold">
+                                    {{$setting->Description}}
+                                </div>
+                            </div>
+                        @endif
+
+                        @if($setting->Unit)
+                            <div class="mb-3">
+                                <small class="text-muted">{{ __('Unit') }}:</small>
+                                <span class="ms-1 fw-semibold">{{ $setting->Unit }}</span>
+                            </div>
+                        @endif
+
+                        <div class="d-grid">
+                            <a href="{{ route('configuration_setting_edit', ['locale' => app()->getLocale(), 'id' => $setting->idSETTINGS]) }}"
+                               class="btn btn-outline-primary">
+                                {{ __('Edit') }}
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" wire:click="saveSetting"
-                            class="btn btn-primary">{{__('Save changes')}}</button>
-                    <button type="button" class="btn btn-light btn-close-setting"
-                            data-bs-dismiss="modal">{{__('Close')}}</button>
+            @empty
+                <div class="alert alert-info text-center">
+                    {{ __('No records found') }}
+                </div>
+            @endforelse
+            <div class="row mt-3">
+                <div class="col-12">
+                    {{ $settings->links() }}
                 </div>
             </div>
         </div>
     </div>
-    <script type="module">
-        function emitSetting(idSetting) {
-            if (idSetting) {
-                window.Livewire.dispatch('initSettingFunction', [idSetting]);
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", function () {
-
-            $('#SettingsTable').DataTable(
-                {
-                    retrieve: true,
-                    "colReorder": false,
-                    "orderCellsTop": false,
-                    "fixedHeader": true,
-                    search: {return: true},
-                    "processing": true,
-                    "aLengthMenu": [[10, 25, 50], [10, 25, 50]],
-                    "ajax": {
-                        url: "{{route('api_settings',['locale'=> app()->getLocale()])}}",
-                        type: "GET",
-                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
-                        error: function (xhr, error, thrown) {
-                            loadDatatableModalError('SettingsTable')
-                        }
-                    },
-                    "columns": [
-                        {"data": "idSETTINGS"},
-                        {"data": "ParameterName"},
-                        {"data": "value"},
-                        {"data": "Unit"},
-                        {"data": "Automatically_calculated"},
-                        {data: 'action', name: 'action', orderable: false, searchable: false},
-                    ],
-                    "language": {"url": urlLang},
-                    order: [[0, 'desc']],
-                    "drawCallback": function (settings, json) {
-                        $(".edit-setting-btn").each(function () {
-                            $(this).on("click", function () {
-                                emitSetting($(this).attr('data-id'))
-                            });
-                        });
-                    },
-                }
-            );
-            $(".btn-close-setting").click(function () {
-                location.reload();
-            });
-        });
-    </script>
 </div>
 
 
