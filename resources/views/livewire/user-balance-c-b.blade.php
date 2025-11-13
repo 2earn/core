@@ -65,23 +65,80 @@
                         </div>
                     </div>
 
-                    <div class="card-body table-responsive">
-                        <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                               id="ub_table" style="width: 100%">
-                            <thead class="table-light">
-                            <tr class="head2earn tabHeader2earn">
-                                <th>{{__('Details')}}</th>
-                                <th>{{ __('Operation order') }}</th>
-                                <th>{{ __('ref') }}</th>
-                                <th>{{ __('date') }}</th>
-                                <th>{{ __('Operation Designation') }}</th>
-                                <th>{{ __('Value') }}</th>
-                                <th>{{ __('Balance') }}</th>
-                                <th>{{ __('Complementary information') }}</th>
-                            </tr>
-                            </thead>
-                            <tbody class="body2earn"></tbody>
-                        </table>
+                    <div class="card-body">
+                        <div id="ub_container">
+                            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                                <h5 class="mb-0">{{ __('Transaction History') }}</h5>
+                                <select wire:model.live="perPage" class="form-select form-select-sm" style="width: auto;">
+                                    <option value="10">10</option>
+                                    <option value="30">30</option>
+                                    <option value="50">50</option>
+                                </select>
+                            </div>
+
+                            <div wire:loading class="text-center py-5">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">{{ __('Loading...') }}</span>
+                                </div>
+                            </div>
+
+                            <div wire:loading.remove>
+                                @if($transactions->count() > 0)
+                                    <div class="row g-3">
+                                        @foreach($transactions as $transaction)
+                                            <div class="col-12">
+                                                <div class="card border shadow-sm h-100">
+                                                    <div class="card-body">
+                                                        <div class="d-flex justify-content-between align-items-start mb-3 flex-wrap gap-2">
+                                                            <div class="flex-grow-1">
+                                                                <h6 class="card-title mb-1 fw-bold">{!! $transaction['operation'] ?? '' !!}</h6>
+                                                                <small class="text-muted d-block">#{{ $transaction['ranks'] ?? '' }} - {!! $transaction['reference'] !!} </small>
+                                                            </div>
+                                                            @php
+                                                                $value = $transaction['value'] ?? '0';
+                                                                $isPositive = strpos($value, '+') !== false;
+                                                            @endphp
+                                                            <span class="badge {{ $isPositive ? 'bg-success' : 'bg-danger' }} fs-6 px-3 py-2">{{ $value }}</span>
+                                                        </div>
+                                                        <div class="row g-3">
+                                                            <div class="col-6 col-md-3">
+                                                                <small class="text-muted d-block mb-1">{{ __('date') }}</small>
+                                                                <strong class="d-block">{{ $transaction['created_at'] ?? '-' }}</strong>
+                                                            </div>
+                                                            <div class="col-6 col-md-3">
+                                                                <small class="text-muted d-block mb-1">{{ __('Balance') }}</small>
+                                                                <strong class="d-block">{{ $transaction['current_balance'] ?? '-' }}</strong>
+                                                            </div>
+                                                            <div class="col-12 col-md-6">
+                                                                <small class="text-muted d-block mb-1">{{ __('Complementary information') }}</small>
+                                                                <span class="d-block text-break">{!! $transaction['complementary_information'] ?? '-' !!}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <div class="alert alert-info text-center">{{ __('No transactions found') }}</div>
+                                @endif
+
+                                @if($transactions->hasPages())
+                                    <div class="mt-4">
+                                        <div class="d-flex justify-content-center">
+                                            {{ $transactions->links() }}
+                                        </div>
+                                        <div class="text-center mt-2">
+                                            <small class="text-muted">
+                                                {{ __('Showing') }} {{ $transactions->firstItem() ?? 0 }}
+                                                {{ __('to') }} {{ $transactions->lastItem() ?? 0 }}
+                                                {{ __('of') }} {{ $transactions->total() }} {{ __('entries') }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -120,24 +177,13 @@
         @php
             // Prepare server-side values safely for serialization to JS
             $currentUserId = optional(Auth::user())->idUser ?? null;
-            try {
-                $userTransactionServer = getUsertransaction($currentUserId);
-            } catch (\Throwable $e) {
-                $userTransactionServer = null;
-            }
-            $usdRateServer = usdToSar() ?? 0;
-            $paytabsRouteServer = route('paytabs', app()->getLocale());
-            $balancesApiUrlServer = route('api_user_balances', ['locale' => app()->getLocale(), 'idAmounts' => 'cash-Balance']);
-            $userTokenServer = generateUserToken();
         @endphp
 
         <script type="module">
             // Server values serialized safely
-            const userTransaction = @json($userTransactionServer ?? null);
-            const usdRate = Number(@json($usdRateServer));
-            const paytabsRoute = @json($paytabsRouteServer);
-            const balancesApiUrl = @json($balancesApiUrlServer);
-            const userToken = @json($userTokenServer);
+            const userTransaction = @json($userTransaction ?? null);
+            const usdRate = Number(@json($usdRate));
+            const paytabsRoute = @json($paytabsRoute);
 
             // Cache USD DOM element
             const $usd = $('#usd');
@@ -207,55 +253,6 @@
                     // fallback: build simple query string
                     window.location.href = paytabsRoute + '?amount=' + encodeURIComponent(amountSar.toFixed(2));
                 }
-            });
-
-            // Initialize DataTable
-            document.addEventListener('DOMContentLoaded', function () {
-                $('#ub_table').DataTable({
-                    responsive: true,
-                    ordering: true,
-                    retrieve: true,
-                    searching: false,
-                    orderCellsTop: true,
-                    fixedHeader: true,
-                    order: [[1, 'desc']],
-                    processing: true,
-                    serverSide: true,
-                    aLengthMenu: [[10, 30, 50], [10, 30, 50]],
-                    search: { return: false },
-                    autoWidth: false,
-                    bAutoWidth: false,
-                    ajax: {
-                        url: balancesApiUrl,
-                        type: 'GET',
-                        headers: { 'Authorization': 'Bearer ' + userToken },
-                        error: function () { loadDatatableModalError('ub_table'); }
-                    },
-                    columns: [
-                        datatableControlBtn,
-                        { data: 'ranks' },
-                        { data: 'reference' },
-                        { data: 'created_at' },
-                        { data: 'operation' },
-                        { data: 'value' },
-                        { data: 'current_balance' },
-                        { data: 'complementary_information' }
-                    ],
-                    columnDefs: [
-                        {
-                            targets: [5],
-                            render: function (data) {
-                                const str = (data === null || data === undefined) ? '' : String(data);
-                                if (str.indexOf('+') === -1) {
-                                    return '<span class="badge bg-danger text-end fs-14">' + str + '</span>';
-                                }
-                                return '<span class="badge bg-success text-end fs-14">' + str + '</span>';
-                            },
-                            className: (typeof classAl !== 'undefined') ? classAl : ''
-                        }
-                    ],
-                    language: { "url": (typeof urlLang !== 'undefined') ? urlLang : '' }
-                });
             });
         </script>
     </div>
