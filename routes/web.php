@@ -7,7 +7,6 @@ use App\Livewire\ConfigurationHA;
 use App\Livewire\ContactNumber;
 use App\Livewire\Contacts;
 use App\Livewire\Description;
-use App\Livewire\EditUserContact;
 use App\Livewire\EntretienArbre;
 use App\Livewire\EvolutionArbre;
 use App\Livewire\FinancialTransaction;
@@ -19,6 +18,7 @@ use App\Livewire\Home;
 use App\Livewire\IdentificationPage;
 use App\Livewire\IdentificationRequest;
 use App\Livewire\Login;
+use App\Livewire\ManageContact;
 use App\Livewire\NotificationHistory;
 use App\Livewire\NotificationSettings;
 use App\Livewire\Registre;
@@ -29,8 +29,8 @@ use App\Livewire\UserBalanceBFS;
 use App\Livewire\UserBalanceCB;
 use App\Livewire\UserBalanceDB;
 use App\Livewire\UserBalanceSMS;
-use App\Livewire\UserPurchaseHistory;
 use App\Livewire\UserFormContent;
+use App\Livewire\UserPurchaseHistory;
 use App\Livewire\ValidateAccount;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
@@ -83,9 +83,15 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/user-form', UserFormContent::class)->name('user_form');
         Route::get('/change-password', ChangePasswordPage::class)->name('change_password');
         Route::get('/identification', IdentificationPage::class)->name('identification');
-        Route::get('/contacts', Contacts::class)->name('contacts');
+
         Route::get('/notification/history', NotificationHistory::class)->name('notification_history');
         Route::get('/notification/settings', NotificationSettings::class)->name('notification_settings');
+
+        Route::prefix('/contacts')->name('contacts_')->group(function () {
+            Route::get('/', Contacts::class)->name('index');
+            Route::get('/add', ManageContact::class)->name('add');
+            Route::get('/edit', ManageContact::class)->name('edit');
+        });
 
         Route::prefix('/business-hub')->name('business_hub_')->group(function () {
             Route::get('/trading', \App\Livewire\Trading::class)->name('trading');
@@ -131,7 +137,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         Route::get('/financial/transaction/{filter?}', FinancialTransaction::class)->name('financial_transaction');
         Route::get('/contact-number', ContactNumber::class)->name('contact_number');
-        Route::get('/user/edit-contact', EditUserContact::class)->name('user_contact_edit');
         Route::get('/balances/exchange/funding/RequestPulicUser', RequestPublicUser::class)->name('user_request_public');
         Route::get('/balances/exchange/funding/strip', stripView::class)->name('payment_strip');
         Route::get('/paytabs', '\\App\\Livewire\\Pay@test')->name('paytabs');

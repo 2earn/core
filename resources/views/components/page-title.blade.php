@@ -112,7 +112,7 @@
                         </a>
                     </div>
                     <div class="col">
-                        <a data-name="contacts" href="{{route('contacts',app()->getLocale(),false)}}"
+                        <a data-name="contacts" href="{{route('contacts_index',app()->getLocale(),false)}}"
                            class="nav-link menu-link p-1 rounded hover-bg {{$currentRouteName=='contacts'? 'active bg-light' : ''}}"
                            role="button">
                             <i class="ri-contacts-fill me-2"></i>
