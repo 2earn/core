@@ -42,7 +42,7 @@
                                                 <div class="d-flex justify-content-between align-items-start mb-3 flex-wrap gap-2">
                                                     <div class="flex-grow-1">
                                                         <h6 class="card-title mb-1 fw-bold">{!! $tr['operation'] ?? '' !!}</h6>
-                                                        <small class="text-muted d-block">#{{ $tr['ranks'] ?? '' }} - {{ $tr['reference'] ?? '' }}</small>
+                                                        <small class="text-muted d-block">#{{ $tr['ranks'] ?? '' }} - {!! $tr['reference'] ?? '' !!}</small>
                                                     </div>
                                                     <span class="badge {{ $isNegative ? 'bg-danger' : 'bg-success' }} fs-6 px-3 py-2">{{ $value }}</span>
                                                 </div>

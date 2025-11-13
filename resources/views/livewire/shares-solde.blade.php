@@ -21,37 +21,103 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body table-responsive">
-                    <table id="shares-solde"
-                           class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                           style="width:100%">
-                        <thead class="table-light">
-                        <tr class="head2earn  tabHeader2earn">
-                            <th>{{__('Details')}}</th>
-                            <th>{{__('id')}}</th>
-                            <th>{{__('formatted_created_at')}}</th>
-                            <th>{{__('value_format')}}</th>
-                            <th>{{__('total_shares')}}</th>
-                            <th>{{__('total_price')}}</th>
-                            <th>{{__('present_value')}}</th>
-                            <th>{{__('current_earnings')}}</th>
-                            <th>{{ __('Complementary information') }}</th>
-                        </tr>
-                        </thead>
-                        <tbody class="body2earn">
-                        </tbody>
-                    </table>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="shares_container">
+                            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                                <h5 class="mb-0">{{ __('Transaction History') }}</h5>
+                                <select wire:model.live="perPage" class="form-select form-select-sm"
+                                        style="width: auto;">
+                                    <option value="10">10</option>
+                                    <option value="30">30</option>
+                                    <option value="50">50</option>
+                                </select>
+                            </div>
+
+                            <div wire:loading class="text-center py-5">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">{{ __('Loading...') }}</span>
+                                </div>
+                            </div>
+
+                            <div wire:loading.remove>
+                                @if($transactions->count() > 0)
+                                    <div class="row g-3">
+                                        @foreach($transactions as $tr)
+                                            @php
+                                                $value = $tr['value'] ?? ($tr['value_format'] ?? '0');
+                                                $isPositive = is_string($value) && strpos($value, '+') !== false;
+                                            @endphp
+                                            <div class="col-12">
+                                                <div class="card border shadow-sm h-100">
+                                                    <div class="card-body">
+                                                        <div class="d-flex justify-content-between align-items-start mb-3 flex-wrap gap-2">
+                                                            <div class="flex-grow-1">
+                                                                <h6 class="card-title mb-1 fw-bold">{!! $tr['operation'] ?? __('Share') !!}</h6>
+                                                                <small class="text-muted d-block">
+                                                                    {{ $tr['reference'] ?? ($tr['formatted_created_at'] ?? ($tr['created_at'] ?? '')) }}
+                                                                </small>
+                                                            </div>
+                                                            <span class="badge {{ $isPositive ? 'bg-success' : 'bg-danger' }} fs-6 px-3 py-2">
+                                                    {{ $value }}
+                                                </span>
+                                                        </div>
+                                                        <div class="row g-3">
+                                                            <div class="col-6 col-md-3">
+                                                                <small class="text-muted d-block mb-1">{{ __('Created at') }}</small>
+                                                                <strong class="d-block">
+                                                                    {{ $tr['created_at'] ?? ($tr['formatted_created_at'] ?? '-') }}
+                                                                </strong>
+                                                            </div>
+                                                            <div class="col-6 col-md-3">
+                                                                <small class="text-muted d-block mb-1">{{ __('Current balance') }}</small>
+                                                                <strong class="d-block">
+                                                                    {{ $tr['current_balance'] ?? ($tr['present_value'] ?? '-') }}
+                                                                </strong>
+                                                            </div>
+                                                            <div class="col-12 col-md-6">
+                                                                <small class="text-muted d-block mb-1">
+                                                                    {{ __('Complementary information') }}
+                                                                </small>
+                                                                <span class="d-block text-break">
+                                                        {!! $tr['complementary_information'] ?? '-' !!}
+                                                    </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <div class="alert alert-info text-center">{{ __('No transactions found') }}</div>
+                                @endif
+
+                                @if($transactions->hasPages())
+                                    <div class="mt-4">
+                                        <div class="d-flex justify-content-center">
+                                            {{ $transactions->links() }}
+                                        </div>
+                                        <div class="text-center mt-2">
+                                            <small class="text-muted">
+                                                {{ __('Showing') }} {{ $transactions->firstItem() ?? 0 }}
+                                                {{ __('to') }} {{ $transactions->lastItem() ?? 0 }}
+                                                {{ __('of') }} {{ $transactions->total() }} {{ __('entries') }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script src="{{ URL::asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
+        <script src="{{ URL::asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
     <script id="rendered-js" type="module">
         document.addEventListener("DOMContentLoaded", function () {
-
             var chart1Origin = document.querySelector('#chart1');
             if (chart1Origin) {
                 var options1 = {
@@ -123,41 +189,7 @@
                     chart1.updateSeries([series1, series2, series3]);
                 });
             }
-            $('#shares-solde').DataTable({
-                responsive: true,
-                "ordering": true,
-                retrieve: true,
-                "colReorder": false,
-                "orderCellsTop": true,
-                "fixedHeader": true,
-                "order": [[5, 'asc']],
-                "processing": true,
-                "serverSide": false,
-                "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                search: {return: true},
-                autoWidth: false,
-                bAutoWidth: false,
-                "ajax": {
-                    url: "{{route('api_shares_solde',['locale'=> app()->getLocale()])}}",
-                    type: "GET",
-                    headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
-                    error: function (xhr, error, thrown) {
-                        loadDatatableModalError('shares-solde')
-                    }
-                },
-                "columns": [
-                    datatableControlBtn,
-                    {data: 'id'},
-                    {data: 'formatted_created_at'},
-                    {data: 'value_format'},
-                    {data: 'total_shares'},
-                    {data: 'total_price'},
-                    {data: 'present_value'},
-                    {data: 'current_earnings'},
-                    {data: 'complementary_information'},
-                ],
-                "language": {"url": urlLang}
-            });
+
         });
     </script>
 </div>
