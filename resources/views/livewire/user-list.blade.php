@@ -63,7 +63,8 @@
                         <div class="card-body">
                             <div class="d-flex align-items-start mb-3">
                                 <div class="flex-shrink-0">
-                                    <img src="{{$flagSrc}}" alt="{{$user->country}}" class="avatar-sm rounded-circle" title="{{__($user->country)}}">
+                                    <img src="{{$flagSrc}}" alt="{{$user->country}}" class="avatar-sm rounded-circle"
+                                         title="{{__($user->country)}}">
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <div class="d-flex justify-content-between align-items-start mb-2">
@@ -99,184 +100,192 @@
                                     </div>
                                 </div>
                                 @if($user->pass)
-                                <div class="col-6">
-                                    <div class="p-2 bg-light rounded">
-                                        <p class="text-muted fs-11 mb-0">
-                                            <i class="ri-lock-password-line align-middle me-1"></i>
-                                            {{__('Password')}}
-                                        </p>
-                                        <p class="text-dark fs-12 mb-0 mt-1 fw-medium font-monospace position-relative">
-                                            <span class="password-hidden-{{$user->id}}" style="cursor: pointer;" title="{{__('Click to reveal password')}}">
+                                    <div class="col-6">
+                                        <div class="p-2 bg-light rounded">
+                                            <p class="text-muted fs-11 mb-0">
+                                                <i class="ri-lock-password-line align-middle me-1"></i>
+                                                {{__('Password')}}
+                                            </p>
+                                            <p class="text-dark fs-12 mb-0 mt-1 fw-medium font-monospace position-relative">
+                                            <span class="password-hidden-{{$user->id}}" style="cursor: pointer;"
+                                                  title="{{__('Click to reveal password')}}">
                                                 ••••••••
                                             </span>
-                                            <span class="password-visible-{{$user->id}} d-none" style="cursor: pointer;" title="{{__('Click to hide password')}}">
+                                                <span class="password-visible-{{$user->id}} d-none"
+                                                      style="cursor: pointer;" title="{{__('Click to hide password')}}">
                                                 {{ $user->pass }}
                                             </span>
-                                            <i class="ri-eye-line password-toggle-icon-{{$user->id}} ms-2 text-primary"
-                                               style="cursor: pointer; font-size: 14px;"
-                                               onclick="togglePassword({{$user->id}})"
-                                               title="{{__('Toggle password visibility')}}"></i>
-                                        </p>
+                                                <i class="ri-eye-line password-toggle-icon-{{$user->id}} ms-2 text-primary"
+                                                   style="cursor: pointer; font-size: 14px;"
+                                                   onclick="togglePassword({{$user->id}})"
+                                                   title="{{__('Toggle password visibility')}}"></i>
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
                                 @endif
                             </div>
+                            <div class="row g-2 mb-3">
+                                <div class="col-6">
+                                    <div class="mb-3">
+                                        <p class="text-primary fs-12 mb-2 fw-semibold">{{__('Soldes')}}</p>
+                                        <div class="d-flex flex-wrap gap-2">
+                                            {{-- Cash Balance --}}
+                                            <button type="button"
+                                                    class="btn btn-soft-info btn-sm d-flex align-items-center shadow-sm cb"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#detail"
+                                                    data-amount="1"
+                                                    data-reciver="{{$user->idUser}}"
+                                                    title="{{__('SoldeCB')}}">
+                                                <i class="ri-money-dollar-circle-line me-1 fs-5" aria-hidden="true"></i>
+                                                <span
+                                                    class="fw-semibold">{{number_format(getUserBalanceSoldes($user->idUser, 1), 2)}}</span>
+                                            </button>
 
-                            {{-- Balances Section --}}
-                            <div class="mb-3">
-                                <p class="text-primary fs-12 mb-2 fw-semibold">{{__('Soldes')}}</p>
-                                <div class="d-flex flex-wrap gap-2">
-                                    {{-- Cash Balance --}}
-                                    <button type="button"
-                                            class="btn btn-soft-info btn-sm d-flex align-items-center shadow-sm cb"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#detail"
-                                            data-amount="1"
-                                            data-reciver="{{$user->idUser}}"
-                                            title="{{__('SoldeCB')}}">
-                                        <i class="ri-money-dollar-circle-line me-1 fs-5" aria-hidden="true"></i>
-                                        <span class="fw-semibold">{{number_format(getUserBalanceSoldes($user->idUser, 1), 2)}}</span>
-                                    </button>
+                                            {{-- BFS Balance --}}
+                                            <button type="button"
+                                                    class="btn btn-soft-secondary btn-sm d-flex align-items-center shadow-sm bfs"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#detail"
+                                                    data-amount="2"
+                                                    data-reciver="{{$user->idUser}}"
+                                                    title="{{__('SoldeBFS')}}">
+                                                <i class="ri-shopping-cart-line me-1 fs-5" aria-hidden="true"></i>
+                                                <span
+                                                    class="fw-semibold">{{number_format(getUserBalanceSoldes($user->idUser, 2), 2)}}</span>
+                                            </button>
 
-                                    {{-- BFS Balance --}}
-                                    <button type="button"
-                                            class="btn btn-soft-secondary btn-sm d-flex align-items-center shadow-sm bfs"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#detail"
-                                            data-amount="2"
-                                            data-reciver="{{$user->idUser}}"
-                                            title="{{__('SoldeBFS')}}">
-                                        <i class="ri-shopping-cart-line me-1 fs-5" aria-hidden="true"></i>
-                                        <span class="fw-semibold">{{number_format(getUserBalanceSoldes($user->idUser, 2), 2)}}</span>
-                                    </button>
+                                            {{-- Discount Balance --}}
+                                            <button type="button"
+                                                    class="btn btn-soft-primary btn-sm d-flex align-items-center shadow-sm db"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#detail"
+                                                    data-amount="3"
+                                                    data-reciver="{{$user->idUser}}"
+                                                    title="{{__('SoldeDB')}}">
+                                                <i class="ri-coupon-4-line me-1 fs-5" aria-hidden="true"></i>
+                                                <span
+                                                    class="fw-semibold">{{number_format(getUserBalanceSoldes($user->idUser, 3), 2)}}</span>
+                                            </button>
 
-                                    {{-- Discount Balance --}}
-                                    <button type="button"
-                                            class="btn btn-soft-primary btn-sm d-flex align-items-center shadow-sm db"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#detail"
-                                            data-amount="3"
-                                            data-reciver="{{$user->idUser}}"
-                                            title="{{__('SoldeDB')}}">
-                                        <i class="ri-coupon-4-line me-1 fs-5" aria-hidden="true"></i>
-                                        <span class="fw-semibold">{{number_format(getUserBalanceSoldes($user->idUser, 3), 2)}}</span>
-                                    </button>
+                                            {{-- SMS Balance --}}
+                                            <button type="button"
+                                                    class="btn btn-soft-warning btn-sm d-flex align-items-center shadow-sm smsb"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#detail"
+                                                    data-amount="5"
+                                                    data-reciver="{{$user->idUser}}"
+                                                    title="{{__('SoldeSMS')}}">
+                                                <i class="ri-message-3-line me-1 fs-5" aria-hidden="true"></i>
+                                                <span
+                                                    class="fw-semibold">{{number_format(getUserBalanceSoldes($user->idUser, 5), 0)}}</span>
+                                            </button>
 
-                                    {{-- SMS Balance --}}
-                                    <button type="button"
-                                            class="btn btn-soft-warning btn-sm d-flex align-items-center shadow-sm smsb"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#detail"
-                                            data-amount="5"
-                                            data-reciver="{{$user->idUser}}"
-                                            title="{{__('SoldeSMS')}}">
-                                        <i class="ri-message-3-line me-1 fs-5" aria-hidden="true"></i>
-                                        <span class="fw-semibold">{{number_format(getUserBalanceSoldes($user->idUser, 5), 0)}}</span>
-                                    </button>
-
-                                    {{-- Shares Balance --}}
-                                    <button type="button"
-                                            class="btn btn-soft-success btn-sm d-flex align-items-center shadow-sm sh"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#detailsh"
-                                            data-amount="7"
-                                            data-reciver="{{$user->idUser}}"
-                                            title="{{__('SoldeShares')}}">
-                                        <i class="ri-bar-chart-box-line me-1 fs-5" aria-hidden="true"></i>
-                                        <span class="fw-semibold">{{number_format(getUserBalanceSoldes($user->idUser, 7), 2)}}</span>
-                                    </button>
+                                            {{-- Shares Balance --}}
+                                            <button type="button"
+                                                    class="btn btn-soft-success btn-sm d-flex align-items-center shadow-sm sh"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#detailsh"
+                                                    data-amount="7"
+                                                    data-reciver="{{$user->idUser}}"
+                                                    title="{{__('SoldeShares')}}">
+                                                <i class="ri-bar-chart-box-line me-1 fs-5" aria-hidden="true"></i>
+                                                <span
+                                                    class="fw-semibold">{{number_format(getUserBalanceSoldes($user->idUser, 7), 2)}}</span>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-
-                            {{-- VIP History Section --}}
-                            @if($user->periode || $user->minshares || $user->coeff || $user->date || $user->note)
-                            <div class="mb-3">
-                                <p class="text-primary fs-12 mb-2 fw-semibold">{{__('VIP history')}}</p>
-                                <div class="row g-2">
-                                    @if($user->periode && $user->periode != '##')
-                                    <div class="col-6 col-md-4">
-                                        <div class="p-2 bg-primary-subtle rounded">
-                                            <p class="text-primary fs-11 mb-0">
-                                                <i class="ri-time-line me-1"></i>{{__('Periode')}}
-                                            </p>
-                                            <p class="text-dark fs-12 mb-0 mt-1 fw-medium">{{$user->periode}}</p>
+                                <div class="col-6">
+                                    @if($user->periode || $user->minshares || $user->coeff || $user->date || $user->note)
+                                        <div class="mb-3">
+                                            <p class="text-primary fs-12 mb-2 fw-semibold">{{__('VIP history')}}</p>
+                                            <div class="row g-2">
+                                                @if($user->periode && $user->periode != '##')
+                                                    <div class="col-6 col-md-4">
+                                                        <div class="p-2 bg-primary-subtle rounded">
+                                                            <p class="text-primary fs-11 mb-0">
+                                                                <i class="ri-time-line me-1"></i>{{__('Periode')}}
+                                                            </p>
+                                                            <p class="text-dark fs-12 mb-0 mt-1 fw-medium">{{$user->periode}}</p>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                @if($user->minshares && $user->minshares != '##')
+                                                    <div class="col-6 col-md-4">
+                                                        <div class="p-2 bg-success-subtle rounded">
+                                                            <p class="text-success fs-11 mb-0">
+                                                                <i class="ri-stock-line me-1"></i>{{__('Minshares')}}
+                                                            </p>
+                                                            <p class="text-dark fs-12 mb-0 mt-1 fw-medium">{{$user->minshares}}</p>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                @if($user->coeff && $user->coeff != '##')
+                                                    <div class="col-6 col-md-4">
+                                                        <div class="p-2 bg-warning-subtle rounded">
+                                                            <p class="text-warning fs-11 mb-0">
+                                                                <i class="ri-percent-line me-1"></i>{{__('Coeff')}}
+                                                            </p>
+                                                            <p class="text-dark fs-12 mb-0 mt-1 fw-medium">{{$user->coeff}}</p>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                @if($user->date && $user->date != '##')
+                                                    <div class="col-6 col-md-4">
+                                                        <div class="p-2 bg-info-subtle rounded">
+                                                            <p class="text-info fs-11 mb-0">
+                                                                <i class="ri-calendar-check-line me-1"></i>{{__('Date')}}
+                                                            </p>
+                                                            <p class="text-dark fs-12 mb-0 mt-1 fw-medium">{{$user->date}}</p>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                @if($user->note && $user->note != '##')
+                                                    <div class="col-12">
+                                                        <div class="p-2 bg-secondary-subtle rounded">
+                                                            <p class="text-secondary fs-11 mb-0">
+                                                                <i class="ri-sticky-note-line me-1"></i>{{__('Note')}}
+                                                            </p>
+                                                            <p class="text-dark fs-12 mb-0 mt-1">{{$user->note}}</p>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            </div>
                                         </div>
-                                    </div>
-                                    @endif
-                                    @if($user->minshares && $user->minshares != '##')
-                                    <div class="col-6 col-md-4">
-                                        <div class="p-2 bg-success-subtle rounded">
-                                            <p class="text-success fs-11 mb-0">
-                                                <i class="ri-stock-line me-1"></i>{{__('Minshares')}}
-                                            </p>
-                                            <p class="text-dark fs-12 mb-0 mt-1 fw-medium">{{$user->minshares}}</p>
-                                        </div>
-                                    </div>
-                                    @endif
-                                    @if($user->coeff && $user->coeff != '##')
-                                    <div class="col-6 col-md-4">
-                                        <div class="p-2 bg-warning-subtle rounded">
-                                            <p class="text-warning fs-11 mb-0">
-                                                <i class="ri-percent-line me-1"></i>{{__('Coeff')}}
-                                            </p>
-                                            <p class="text-dark fs-12 mb-0 mt-1 fw-medium">{{$user->coeff}}</p>
-                                        </div>
-                                    </div>
-                                    @endif
-                                    @if($user->date && $user->date != '##')
-                                    <div class="col-6 col-md-4">
-                                        <div class="p-2 bg-info-subtle rounded">
-                                            <p class="text-info fs-11 mb-0">
-                                                <i class="ri-calendar-check-line me-1"></i>{{__('Date')}}
-                                            </p>
-                                            <p class="text-dark fs-12 mb-0 mt-1 fw-medium">{{$user->date}}</p>
-                                        </div>
-                                    </div>
-                                    @endif
-                                    @if($user->note && $user->note != '##')
-                                    <div class="col-12">
-                                        <div class="p-2 bg-secondary-subtle rounded">
-                                            <p class="text-secondary fs-11 mb-0">
-                                                <i class="ri-sticky-note-line me-1"></i>{{__('Note')}}
-                                            </p>
-                                            <p class="text-dark fs-12 mb-0 mt-1">{{$user->note}}</p>
-                                        </div>
-                                    </div>
-                                    @endif
-                                </div>
-                            </div>
-                            @endif
-
-                            {{-- Additional Details --}}
-                            @if($user->OptActivation || $registerUplineName)
-                            <div class="mb-3">
-                                <p class="text-primary fs-12 mb-2 fw-semibold">{{__('More details')}}</p>
-                                <div class="row g-2">
-                                    @if($user->OptActivation)
-                                    <div class="col-12 col-md-6">
-                                        <div class="p-2 bg-light rounded">
-                                            <p class="text-muted fs-11 mb-0">
-                                                <i class="ri-key-2-line me-1"></i>{{__('Opt activation code')}}
-                                            </p>
-                                            <p class="text-dark fs-12 mb-0 mt-1 fw-medium">{{$user->OptActivation}}</p>
-                                        </div>
-                                    </div>
-                                    @endif
-                                    @if($registerUplineName)
-                                    <div class="col-12 col-md-6">
-                                        <div class="p-2 bg-light rounded">
-                                            <p class="text-muted fs-11 mb-0">
-                                                <i class="ri-user-follow-line me-1"></i>{{__('Register upline')}}
-                                            </p>
-                                            <p class="text-dark fs-12 mb-0 mt-1 fw-medium">{{$registerUplineName}}</p>
-                                        </div>
-                                    </div>
                                     @endif
                                 </div>
-                            </div>
-                            @endif
 
-                            {{-- Action Buttons --}}
+                                <div class="col-6">
+                                    @if($user->OptActivation || $registerUplineName)
+                                        <div class="mb-3">
+                                            <p class="text-primary fs-12 mb-2 fw-semibold">{{__('More details')}}</p>
+                                            <div class="row g-2">
+                                                @if($user->OptActivation)
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="p-2 bg-light rounded">
+                                                            <p class="text-muted fs-11 mb-0">
+                                                                <i class="ri-key-2-line me-1"></i>{{__('Opt activation code')}}
+                                                            </p>
+                                                            <p class="text-dark fs-12 mb-0 mt-1 fw-medium">{{$user->OptActivation}}</p>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                @if($registerUplineName)
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="p-2 bg-light rounded">
+                                                            <p class="text-muted fs-11 mb-0">
+                                                                <i class="ri-user-follow-line me-1"></i>{{__('Register upline')}}
+                                                            </p>
+                                                            <p class="text-dark fs-12 mb-0 mt-1 fw-medium">{{$registerUplineName}}</p>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
                             <div class="row g-2">
                                 <div class="col-6 col-md-4 col-lg-3">
                                     <button type="button"
@@ -386,7 +395,8 @@
                                            min="0"
                                            step="0.01"
                                            aria-describedby="ammount-currency">
-                                    <span class="input-group-text" id="ammount-currency">{{config('app.currency')}}</span>
+                                    <span class="input-group-text"
+                                          id="ammount-currency">{{config('app.currency')}}</span>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -407,7 +417,8 @@
     </div>
 
     {{-- Update Password Modal --}}
-    <div class="modal fade" id="updatePassword" tabindex="-1" aria-labelledby="updatePasswordModalLabel" aria-hidden="true">
+    <div class="modal fade" id="updatePassword" tabindex="-1" aria-labelledby="updatePasswordModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -539,14 +550,16 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title text-info h4" id="modalTitle">{{ __('Transfert Cash') }}</h2>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="{{ __('Close') }}"></button>
                 </div>
                 <div class="modal-body">
                     <div class="table-responsive">
                         <input id="balances-reciver" type="hidden">
                         <input id="balances-amount" type="hidden">
-                        <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                               id="ub_table_list" style="width: 100%">
+                        <table
+                            class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                            id="ub_table_list" style="width: 100%">
                             <thead class="table-light">
                             <tr class="head2earn tabHeader2earn">
                                 <th scope="col">{{ __('ranks') }}</th>
@@ -568,19 +581,22 @@
     </div>
 
     {{-- Shares Balance Details Modal --}}
-    <div class="modal fade modal-xl" id="detailsh" tabindex="-1" aria-labelledby="detailshModalLabel" aria-hidden="true">
+    <div class="modal fade modal-xl" id="detailsh" tabindex="-1" aria-labelledby="detailshModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title text-info h5" id="detailshModalLabel">{{ __('Shares balances') }}</h2>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="{{ __('Close') }}"></button>
                 </div>
                 <div class="modal-body">
                     <div class="table-responsive">
                         <input id="balances-reciversh" type="hidden">
                         <input id="balances-amountsh" type="hidden">
-                        <table class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                               id="ub_table_listsh" style="width: 100%">
+                        <table
+                            class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
+                            id="ub_table_listsh" style="width: 100%">
                             <thead class="table-light">
                             <tr class="head2earn tabHeader2earn">
                                 <th scope="col">{{__('Reference')}}</th>
