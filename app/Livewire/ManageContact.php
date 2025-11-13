@@ -217,7 +217,6 @@ class ManageContact extends Component
                 }
 
             } catch (\Exception $exception) {
-                dd($exception);
                 Log::error($exception->getMessage());
                 $transactionManager->rollback();
                 session()->flash('danger', Lang::get('User creation failed'));

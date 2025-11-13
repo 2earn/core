@@ -93,13 +93,10 @@
 
                         <div class="mt-4">
                             <div class="hstack gap-2">
-                                <button type="button" onclick="saveContactEvent()" class="btn btn-success">
+                                <button type="button" onclick="saveContactEvent()" class="btn btn-success" id="saveContactBtn">
                                     <i class="ri-save-line align-bottom me-1"></i>
-                                    {{ $isEditMode ? __('Update Contact') : __('Save Contact') }}
-                                    <div wire:loading wire:target="save" class="d-inline">
-                                        <span class="spinner-border spinner-border-sm ms-2" role="status"
-                                              aria-hidden="true"></span>
-                                    </div>
+                                    <span id="btnText">{{ $isEditMode ? __('Update Contact') : __('Save Contact') }}</span>
+                                    <span class="spinner-border spinner-border-sm ms-2 d-none" role="status" aria-hidden="true" id="btnSpinner"></span>
                                 </button>
                                 <a href="{{ route('contacts_index', app()->getLocale()) }}" class="btn btn-light">
                                     <i class="ri-close-line align-bottom me-1"></i>
@@ -119,6 +116,9 @@
             inputname = document.getElementById("ccodeAddContact");
             inputlast = document.getElementById("outputAddContact");
             const errorMsg = document.querySelector("#error-msg");
+            const saveBtn = document.getElementById("saveContactBtn");
+            const btnSpinner = document.getElementById("btnSpinner");
+            const btnText = document.getElementById("btnText");
 
             // Ensure intl-tel-input has processed the current value
             if (typeof itiLog !== 'undefined' && itiLog) {
@@ -146,6 +146,10 @@
             }
 
             if (validateContact()) {
+                // Show loading state
+                saveBtn.disabled = true;
+                btnSpinner.classList.remove("d-none");
+
                 $.ajax({
                     url: '{{ route('validate_phone', app()->getLocale()) }}',
                     method: 'POST',
@@ -155,14 +159,21 @@
                             window.Livewire.dispatch('save', [phoneNumber, inputname.value.trim(), out]);
                             errorMsg.innerHTML = "";
                             errorMsg.classList.add("d-none");
+                            // Keep button disabled - Livewire will redirect after save
                         } else {
                             errorMsg.innerHTML = response.message;
                             errorMsg.classList.remove("d-none");
+                            // Hide loading state on error
+                            saveBtn.disabled = false;
+                            btnSpinner.classList.add("d-none");
                         }
                     },
                     error: function(xhr, status, error) {
                         errorMsg.innerHTML = "{{ __('Phone validation failed') }}";
                         errorMsg.classList.remove("d-none");
+                        // Hide loading state on error
+                        saveBtn.disabled = false;
+                        btnSpinner.classList.add("d-none");
                     }
                 });
             }
