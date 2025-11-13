@@ -23,7 +23,7 @@ class Contacts extends Component
 
     public $deleteId;
     public ?string $search = "";
-    public ?string $pageCount = "100";
+    public ?string $pageCount = "10";
 
     protected $listeners = [
         'deleteContact' => 'deleteContact',

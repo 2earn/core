@@ -12,145 +12,167 @@
     <div class="row">
         @include('layouts.flash-messages')
     </div>
-    <div class="row ">
+    <div class="row">
         <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-12 col-md-6 col-lg-2">
-                        <label class="col-form-label">{{ __('Item per page') }}</label>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-3 mt-1">
-                        <select wire:model.live="pageCount" class="form-select livewire-param"
+            <div class="card-header border-0">
+                <div class="row g-3 align-items-center">
+                    <div class="col-sm-6 col-lg-3">
+                        <label class="form-label mb-1 fw-semibold">{{ __('Item per page') }}</label>
+                        <select wire:model.live="pageCount" class="form-select"
                                 aria-label="Default select example">
                             <option @if($pageCount=="10") selected @endif value="10">10</option>
                             <option @if($pageCount=="25") selected @endif value="25">25</option>
                             <option @if($pageCount=="100") selected @endif value="100">100</option>
                         </select>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-2">
-                        <label class="col-form-label">{{ __('Search') }}</label>
+
+                    <div class="col-sm-6 col-lg-4">
+                        <label class="form-label mb-1 fw-semibold">{{ __('Search') }}</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="ri-search-line"></i></span>
+                            <input wire:model.live="search" type="search"
+                                   class="form-control"
+                                   placeholder="{{ __('Search') }}..." aria-label="Search"/>
+                        </div>
                     </div>
 
-                    <div class="col-sm-12 col-md-6 col-lg-3 mt-1">
-                        <input wire:model.live="search" type="search"
-                               class="form-control rounded  mr-2 ml-2"
-                               placeholder="{{ __('Search') }}" aria-label="Search"
-                               aria-describedby="search-addon"/>
-                    </div>
-                    <div class="col-sm-12 col-md-12 col-lg-2 mt-2">
-                        <a href="{{ route('contacts_add', app()->getLocale()) }}" class="btn btn-soft-secondary add-btn float-end">
+                    <div class="col-sm-12 col-lg-5 text-end">
+                        <label class="form-label mb-1 d-block">&nbsp;</label>
+                        <a href="{{ route('contacts_add', app()->getLocale()) }}" class="btn btn-success">
                             <i class="ri-add-line align-bottom me-1"></i>
                             {{ __('Add a contact') }}
                         </a>
                     </div>
                 </div>
             </div>
-            <div class="card-body">
-                <div class="table-responsive table-card">
-                    <table class="table table-striped table-bordered table-nowrap">
-                        <thead>
-                        <tr class="tabHeader2earn">
-                            <th>{{ __('FirstName') }}</th>
-                            <th>{{ __('LastName') }}</th>
-                            <th>{{ __('Phone') }}</th>
-                            <th>{{__('Country')}}</th>
-                            <th>{{__('Status')}}</th>
-                            <th>{{__('Availability')}}</th>
-                            <th>{{ __('Actions') }}</th>
-                        </tr>
-                        </thead>
-                        <tbody class="list form-check-all">
-                        @forelse($contactUsers as $value)
+            <div class="card-body pt-0">
+                <div class="d-none d-lg-block">
+                    <div class="table-responsive table-card">
+                        <table class="table table-hover table-nowrap align-middle mb-0">
+                            <thead class="table-light">
                             <tr>
-                                <td title="{{$value->updated_at}}">{{$value->name}}</td>
-                                <td>{{$value->lastName}}</td>
-                                <td>{{$value->mobile}}</td>
-                                <td>
-                                    <div class="d-flex align-items-center fw-medium">
-                                        <img
-                                            src="{{ Vite::asset('resources/images/flags/'. Illuminate\Support\Str::lower($value->apha2) .'.svg') }}"
-                                            alt=""
-                                            class="avatar-xs me-2 rounded-circle">
-                                        <a href="javascript:void(0);"
-                                           class="currency_name"> {{getCountryByIso($value->apha2)}}</a>
-                                    </div>
-                                </td>
-                                <td title="{{$value->status}}">
-                                    @if($value->status<\Core\Enum\StatusRequest::OptValidated->value)
-                                        <span
-                                            class="text-warning btn btn-soft-warning">{{__('Not confirmed user')}}</span>
-                                    @else
-                                        <span
-                                            class="text-info btn btn-soft-primary">{{__('Confirmed user')}}</span>
-                                    @endif
-                                </td>
-                                @php
-                                    $disableUntil = getSwitchBlock($value->id);
-                                    if($value->availablity == 1) $disableUntil = now();
-                                    else $disableUntil = getSwitchBlock($value->id);
-                                @endphp
-                                <td>
-                                    <button type="button"
-                                            class="btn btn-outline-{{$value->sponsoredStatus}}">{{$value->sponsoredMessage}}</button>
-                                </td>
-                                <td>
-                                    <div class="btn-group btn-group-toggle " data-toggle="buttons">
-                                        <a href="{{ route('contacts_edit', ['locale' =>  app()->getLocale(), 'contact'=>  $value->id  ]) }}"
-                                           class="btn btn-outline-primary ">
-                                            {{__('Edit')}}
-                                        </a>
-                                        <a onclick="confirmDeleteContact({{$value->id}},'{{$value->name .' ' . $value->lastName}}')"
-                                           class="btn btn-outline-danger">
-                                            <div wire:loading wire:target="deleteId('{{$value->id}}')">
-                                              <span class="spinner-border spinner-border-sm" role="status"
-                                                    aria-hidden="true"></span>
-                                                <span class="sr-only">{{__('Loading')}}</span>
+                                <th scope="col" class="fw-semibold">{{ __('FirstName') }}</th>
+                                <th scope="col" class="fw-semibold">{{ __('LastName') }}</th>
+                                <th scope="col" class="fw-semibold">{{ __('Phone') }}</th>
+                                <th scope="col" class="fw-semibold">{{__('Country')}}</th>
+                                <th scope="col" class="text-center fw-semibold">{{__('Status')}}</th>
+                                <th scope="col" class="text-center fw-semibold">{{__('Availability')}}</th>
+                                <th scope="col" class="text-center fw-semibold" style="min-width: 200px;">{{ __('Actions') }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @forelse($contactUsers as $contact)
+                                <tr>
+                                    <td title="{{$contact->updated_at}}">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <h6 class="fs-14 mb-0">{{$contact->name}}</h6>
                                             </div>
-                                            {{__('Delete')}}
-                                        </a>
-                                    </div>
-                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                        @if($value->canBeSponsored)
-                                            <a wire:click="sponsorId({{$value->id}})"
-                                               class="btn btn-info">
-                                                <div wire:loading wire:target="sponsorId('{{$value->id}}')">
-                                              <span class="spinner-border spinner-border-sm" role="status"
-                                                    aria-hidden="true"></span>
-                                                    <span class="sr-only">{{__('Loading')}}</span>
-                                                </div>
-                                                {{__('Sponsor it')}}
-                                            </a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <h6 class="fs-14 mb-0">{{$contact->lastName}}</h6>
+                                    </td>
+                                    <td>
+                                        <span class="text-muted">{{$contact->mobile}}</span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img
+                                                src="{{ Vite::asset('resources/images/flags/'. Illuminate\Support\Str::lower($contact->apha2) .'.svg') }}"
+                                                alt=""
+                                                class="avatar-xs rounded-circle me-2">
+                                            <span class="text-muted">{{getCountryByIso($contact->apha2)}}</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-center" title="{{$contact->status}}">
+                                        @if($contact->status<\Core\Enum\StatusRequest::OptValidated->value)
+                                            <span class="badge badge-soft-warning fs-12">
+                                                <i class="ri-time-line align-middle me-1"></i>{{__('Not confirmed user')}}
+                                            </span>
+                                        @else
+                                            <span class="badge badge-soft-success fs-12">
+                                                <i class="ri-checkbox-circle-line align-middle me-1"></i>{{__('Confirmed user')}}
+                                            </span>
                                         @endif
-                                        @if($value->canBeDisSponsored)
-                                            <a wire:click="removeSponsoring({{$value->id}})"
-                                               class="btn btn-outline-dark">
-                                                <div wire:loading
-                                                     wire:target="removeSponsoring('{{$value->id}}')">
-                                              <span class="spinner-border spinner-border-sm" role="status"
-                                                    aria-hidden="true"></span>
-                                                    <span class="sr-only">{{__('Loading')}}</span>
-                                                </div>
-                                                {{__('Remove sponsoring')}}
-                                            </a>
-                                        @endif
-                                    </div>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="7">{{__('No records')}}.</td>
-                            </tr>
-                        @endforelse
-                        </tbody>
-                    </table>
+                                    </td>
+                                    @php
+                                        $disableUntil = getSwitchBlock($contact->id);
+                                        if($contact->availablity == 1) $disableUntil = now();
+                                        else $disableUntil = getSwitchBlock($contact->id);
+                                    @endphp
+                                    <td class="text-center">
+                                        <span class="badge badge-soft-{{$contact->sponsoredStatus}} fs-12">
+                                            {{$contact->sponsoredMessage}}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-2 justify-content-center flex-wrap">
+                                            <div class="btn-group btn-group-sm">
+                                                <a href="{{ route('contacts_edit', ['locale' =>  app()->getLocale(), 'contact'=>  $contact->id  ]) }}"
+                                                   class="btn btn-soft-primary" title="{{__('Edit')}}">
+                                                    <i class="ri-pencil-fill align-bottom"></i>
+                                                </a>
+                                                <a onclick="confirmDeleteContact({{$contact->id}},'{{$contact->name .' ' . $contact->lastName}}')"
+                                                   class="btn btn-soft-danger" title="{{__('Delete')}}">
+                                                    <div wire:loading wire:target="deleteId('{{$contact->id}}')">
+                                                        <span class="spinner-border spinner-border-sm" role="status"
+                                                              aria-hidden="true"></span>
+                                                    </div>
+                                                    <i wire:loading.remove wire:target="deleteId('{{$contact->id}}')"
+                                                       class="ri-delete-bin-fill align-bottom"></i>
+                                                </a>
+                                            </div>
+                                            @if($contact->canBeSponsored)
+                                                <button wire:click="sponsorId({{$contact->id}})"
+                                                        class="btn btn-sm btn-soft-info" title="{{__('Sponsor it')}}">
+                                                    <span wire:loading wire:target="sponsorId('{{$contact->id}}')">
+                                                        <span class="spinner-border spinner-border-sm" role="status"
+                                                              aria-hidden="true"></span>
+                                                    </span>
+                                                    <span wire:loading.remove wire:target="sponsorId('{{$contact->id}}')">
+                                                        <i class="ri-user-add-line align-bottom"></i>
+                                                    </span>
+                                                </button>
+                                            @endif
+                                            @if($contact->canBeDisSponsored)
+                                                <button wire:click="removeSponsoring({{$contact->id}})"
+                                                        class="btn btn-sm btn-soft-secondary"
+                                                        title="{{__('Remove sponsoring')}}">
+                                                    <span wire:loading wire:target="removeSponsoring('{{$contact->id}}')">
+                                                        <span class="spinner-border spinner-border-sm" role="status"
+                                                              aria-hidden="true"></span>
+                                                    </span>
+                                                    <span wire:loading.remove
+                                                          wire:target="removeSponsoring('{{$contact->id}}')">
+                                                        <i class="ri-user-unfollow-line align-bottom"></i>
+                                                    </span>
+                                                </button>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="text-center py-4">
+                                        <div class="text-muted">
+                                            <i class="ri-information-line fs-18 align-middle me-2"></i>
+                                            {{__('No records')}}
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+            </div>
+            <div class="card-body pt-0">
+                {{ $contactUsers->links() }}
             </div>
         </div>
     </div>
 
-    <div class="row">
-        {{ $contactUsers->links() }}
-    </div>
 
     <script>
 
