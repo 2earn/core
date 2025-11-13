@@ -221,6 +221,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::prefix('/configuration')->group(function () {
                 Route::get('/ha', ConfigurationHA::class)->name('configuration_ha');
                 Route::get('/setting', \App\Livewire\ConfigurationSetting::class)->name('configuration_setting');
+                Route::get('/setting/{id}/edit', \App\Livewire\ConfigurationSettingEdit::class)->name('configuration_setting_edit');
                 Route::get('/amounts', \App\Livewire\ConfigurationAmounts::class)->name('configuration_amounts');
             });
 
