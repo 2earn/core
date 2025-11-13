@@ -12,28 +12,24 @@
     <div class="row">
         @include('layouts.flash-messages')
     </div>
-
-    {{-- Header Card with Search and Create Button --}}
-    <div class="row mb-3">
+        <div class="row mb-4">
         <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0">
-                                    <i class="ri-search-line"></i>
-                                </span>
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-lg-8 col-md-7">
+                            <div class="position-relative">
+                                <i class="ri-search-line position-absolute top-50 start-0 translate-middle-y ms-3 text-muted fs-5"></i>
                                 <input type="text"
-                                       class="form-control border-start-0 ps-0"
+                                       class="form-control form-control ps-5 pe-3 border-0 bg-light"
                                        wire:model.live.debounce.300ms="search"
-                                       placeholder="{{__('Search by name, type or ID...')}}">
+                                       placeholder="{{__('Search platforms by name, type or ID...')}}">
                             </div>
                         </div>
-                        <div class="col-md-6 text-end mt-2 mt-md-0">
+                        <div class="col-lg-4 col-md-5 text-md-end">
                             <a href="{{route('platform_create_update', app()->getLocale())}}"
-                               class="btn btn-soft-info material-shadow-none">
-                                <i class="ri-add-line align-middle me-1"></i>
+                               class="btn btn-info btn px-4">
+                                <i class="ri-add-circle-line align-middle me-1"></i>
                                 {{__('Create platform')}}
                             </a>
                         </div>
@@ -42,130 +38,132 @@
             </div>
         </div>
     </div>
-
-    {{-- Platform Cards Grid --}}
-    <div class="row">
+    <div class="row g-2">
         @forelse($platforms as $platform)
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 mb-3">
-                <div class="card h-100 shadow-sm border-0">
-                    <div class="card-body">
-                        <div class="d-flex align-items-start mb-3">
-                            <div class="flex-shrink-0">
-                                @if($platform->image_link)
-                                    <img src="{{asset($platform->image_link)}}"
-                                         alt="{{$platform->name}}"
-                                         class="rounded"
-                                         style="width: 60px; height: 60px; object-fit: cover;">
+            <div class="col-xl-4 col-lg-4 col-md-6">
+                <div class="card border-0 shadow-sm h-100 hover-shadow">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-start mb-4">
+                            <div class="flex-shrink-0 me-3">
+                                @if($platform?->logoImage)
+                                    <img src="{{ asset('uploads/' . $platform->logoImage->url) }}"
+                                         alt="{{ $platform->name }} logo"
+                                         class="img-fluid rounded"
+                                         style="max-height: 150px; object-fit: contain;">
                                 @else
-                                    <div class="avatar-sm">
-                                        <span class="avatar-title rounded bg-soft-info text-info fs-3">
+                                    <div class="avatar-lg">
+                                        <div class="avatar-title rounded bg-soft-primary text-primary fs-1">
                                             {{strtoupper(substr($platform->name, 0, 1))}}
-                                        </span>
+                                        </div>
                                     </div>
                                 @endif
                             </div>
-                            <div class="flex-grow-1 ms-3">
-                                <h5 class="card-title mb-1">{{$platform->name}}</h5>
+                            <div class="flex-grow-1 overflow-hidden">
+                                <h5 class="mb-1 text-truncate">{{$platform->name}}</h5>
                                 <p class="text-muted mb-0">
-                                    <small>{{__('ID')}}: #{{$platform->id}}</small>
+                                    <span class="badge badge-soft-secondary">ID: {{$platform->id}}</span>
                                 </p>
                             </div>
-                            <div class="flex-shrink-0">
-                                <div class="dropdown">
-                                    <button class="btn btn-link text-muted p-1 dropdown-toggle shadow-none"
-                                            type="button"
-                                            data-bs-toggle="dropdown">
-                                        <i class="ri-more-2-fill"></i>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end">
-                                        <li>
-                                            <a class="dropdown-item"
-                                               href="{{route('platform_create_update', ['locale' => app()->getLocale(), 'id' => $platform->id])}}">
-                                                <i class="ri-pencil-line me-2"></i>{{__('Edit')}}
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item text-danger"
-                                               href="#"
-                                               onclick="confirmDelete('{{$platform->id}}', '{{$platform->name}}')">
-                                                <i class="ri-delete-bin-line me-2"></i>{{__('Delete')}}
-                                            </a>
-                                        </li>
-                                    </ul>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <div class="p-3 bg-light rounded">
+                                        <p class="text-muted mb-1 fs-6">{{__('Type')}}</p>
+                                        <h6 class="mb-0">{{__(\Core\Enum\PlatformType::tryFrom($platform->type)->name) ?? 'N/A'}}</h6>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-3 bg-light rounded">
+                                        <p class="text-muted mb-1 fs-6">{{__('Created')}}</p>
+                                        <h6 class="mb-0">{{$platform->created_at->format('M d, Y')}}</h6>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="mt-3">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="text-muted small">{{__('Type')}}</span>
-                                <span class="badge bg-soft-primary text-primary">{{$platform->type ?? 'N/A'}}</span>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="text-muted small">{{__('Business sector')}}</span>
-                                <span class="text-dark">{{$platform->businessSector->name ?? 'N/A'}}</span>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="text-muted small">{{__('Created at')}}</span>
-                                <span class="text-dark">{{$platform->created_at->format('Y-m-d')}}</span>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center p-3 bg-soft-info rounded">
+                                <i class="ri-building-line fs-4 text-info me-2"></i>
+                                <div class="flex-grow-1">
+                                    <p class="text-muted mb-0 small">{{__('Business sector')}}</p>
+                                    <h6 class="mb-0 text-truncate">{{$platform->businessSector->name ?? 'N/A'}}</h6>
+                                </div>
                             </div>
                         </div>
-
                         @if($platform->description)
-                            <div class="mt-3 pt-3 border-top">
-                                <p class="text-muted mb-0 small">
-                                    {{Str::limit($platform->description, 100)}}
+                            <div class="pt-3 border-top">
+                                <p class="text-muted mb-0">
+                                    {{Str::limit($platform->description, 80)}}
                                 </p>
                             </div>
                         @endif
                     </div>
-                    <div class="card-footer bg-light border-0">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <a href="{{route('platform_show', ['locale' => app()->getLocale(), 'id' => $platform->id])}}"
-                               class="btn btn-sm btn-soft-secondary">
-                                <i class="ri-eye-line me-1"></i>{{__('View Details')}}
-                            </a>
-                            <a href="{{route('platform_create_update', ['locale' => app()->getLocale(), 'id' => $platform->id])}}"
-                               class="btn btn-sm btn-soft-info">
-                                <i class="ri-pencil-line me-1"></i>{{__('Edit')}}
-                            </a>
+                    <div class="card-footer bg-transparent border-top p-3">
+                        <div class="d-flex gap-2 justify-content-between align-items-center">
+                            <div class="d-flex gap-2">
+                                <a href="{{route('platform_show', ['locale' => app()->getLocale(), 'id' => $platform->id])}}"
+                                   class="btn btn-soft-secondary btn-sm">
+                                    <i class="ri-eye-line align-middle me-1"></i>{{__('View')}}
+                                </a>
+                                <a href="{{route('platform_create_update', ['locale' => app()->getLocale(), 'id' => $platform->id])}}"
+                                   class="btn btn-soft-info btn-sm">
+                                    <i class="ri-pencil-line align-middle me-1"></i>{{__('Edit')}}
+                                </a>
+                                <a class="btn btn-soft-danger btn-sm"
+                                   href="#"
+                                   onclick="confirmDelete('{{$platform->id}}', '{{$platform->name}}')">
+                                    <i class="ri-delete-bin-line me-2 align-middle"></i>{{__('Delete')}}
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         @empty
             <div class="col-12">
-                <div class="card">
+                <div class="card border-0 shadow-sm">
                     <div class="card-body text-center py-5">
-                        <div class="mb-3">
-                            <i class="ri-file-list-3-line display-4 text-muted"></i>
+                        <div class="avatar-xl mx-auto mb-4">
+                            <div class="avatar-title bg-soft-info text-info rounded-circle">
+                                <i class="ri-stack-line display-4"></i>
+                            </div>
                         </div>
-                        <h5 class="text-muted">{{__('No platforms found')}}</h5>
-                        <p class="text-muted">{{__('Try adjusting your search or create a new platform')}}</p>
+                        <h4 class="mb-2">{{__('No platforms found')}}</h4>
+                        <p class="text-muted mb-4">{{__('Try adjusting your search or create a new platform')}}</p>
                         <a href="{{route('platform_create_update', app()->getLocale())}}"
-                           class="btn btn-soft-info mt-2">
-                            <i class="ri-add-line me-1"></i>{{__('Create platform')}}
+                           class="btn btn-info btn-lg">
+                            <i class="ri-add-circle-line me-1"></i>{{__('Create platform')}}
                         </a>
                     </div>
                 </div>
             </div>
         @endforelse
     </div>
-
-    {{-- Pagination --}}
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="text-muted">
-                    {{__('Showing')}} {{$platforms->firstItem() ?? 0}} {{__('to')}} {{$platforms->lastItem() ?? 0}}
-                    {{__('of')}} {{$platforms->total()}} {{__('results')}}
-                </div>
-                <div>
-                    {{$platforms->links()}}
+        @if($platforms->hasPages())
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-3">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                            <div class="text-muted">
+                                <i class="ri-file-list-line me-1"></i>
+                                {{__('Showing')}}
+                                <span class="fw-semibold text-dark">{{$platforms->firstItem() ?? 0}}</span>
+                                {{__('to')}}
+                                <span class="fw-semibold text-dark">{{$platforms->lastItem() ?? 0}}</span>
+                                {{__('of')}}
+                                <span class="fw-semibold text-dark">{{$platforms->total()}}</span>
+                                {{__('results')}}
+                            </div>
+                            <div>
+                                {{$platforms->links()}}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
 
     <script>
         function confirmDelete(id, name) {
@@ -173,7 +171,7 @@
             if (typeof Swal !== 'undefined') {
                 Swal.fire({
                     title: '{{__('Are you sure to delete this platform')}}?',
-                    html: '<h5>' + name + '</h5>',
+                    html: '<h5 class="mt-2">' + name + '</h5>',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
@@ -182,15 +180,14 @@
                     cancelButtonText: '{{__('Cancel')}}'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        @this.call('delete', id);
+                    @this.call('delete', id);
                     }
                 });
             } else {
                 if (confirm('{{__('Are you sure to delete this platform')}}? ' + name)) {
-                    @this.call('delete', id);
+                @this.call('delete', id);
                 }
             }
         }
     </script>
-
 </div>
