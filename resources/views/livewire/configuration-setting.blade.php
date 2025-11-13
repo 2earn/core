@@ -7,26 +7,86 @@
     <div class="row">
         @include('layouts.flash-messages')
     </div>
-    <div class="card" wire:ignore>
+    <div class="card">
         <div class="card-body">
-            <table
-                class="table table-bordered dt-responsive nowrap table-striped align-middle"
-                id="SettingsTable">
-                <thead class="table-light">
-                <tr>
-                    <th>{{ __('id') }}</th>
-                    <th>{{ __('Name') }}</th>
-                    <th>{{ __('Value') }}</th>
-                    <th>{{ __('Unit') }}</th>
-                    <th>{{ __('AutoCalculated') }}</th>
-                    <th>{{ __('Actions') }}</th>
-                </tr>
-                </thead>
-                <tbody class="list form-check-all">
-                </tbody>
-            </table>
+            <!-- Search and Per Page Controls -->
+            <div class="row mb-3">
+                <div class="col-md-6 col-12 mb-2 mb-md-0">
+                    <div class="d-flex align-items-center">
+                        <label class="me-2 text-nowrap">{{ __('Show') }}</label>
+                        <select wire:model.live="perPage" class="form-select form-select-sm" style="width: auto;">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span class="ms-2 text-nowrap">{{ __('entries') }}</span>
+                    </div>
+                </div>
+                <div class="col-md-6 col-12">
+                    <input type="text" wire:model.live.debounce.300ms="search" class="form-control form-control-sm"
+                           placeholder="{{ __('Search') }}...">
+                </div>
+            </div>
+                @forelse($settings as $setting)
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-body">
+                            <div class="row mb-2">
+                                <div class="col-4 fw-bold text-muted small">{{ __('id') }}:</div>
+                                <div class="col-8">{{ $setting->idSETTINGS }}</div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-4 fw-bold text-muted small">{{ __('Name') }}:</div>
+                                <div class="col-8">{{ $setting->ParameterName }}</div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-4 fw-bold text-muted small">{{ __('Value') }}:</div>
+                                <div class="col-8">
+                                    @if(!is_null($setting->IntegerValue))
+                                        {{ __('Integer') }} : {{ $setting->IntegerValue }}
+                                    @elseif(!is_null($setting->StringValue))
+                                        {{ __('String') }} : {{ $setting->StringValue }}
+                                    @elseif(!is_null($setting->DecimalValue))
+                                        {{ __('Decimal') }} : {{ $setting->DecimalValue }}
+                                    @else
+                                        0
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-4 fw-bold text-muted small">{{ __('Unit') }}:</div>
+                                <div class="col-8">{{ $setting->Unit }}</div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-4 fw-bold text-muted small">{{ __('AutoCalculated') }}:</div>
+                                <div class="col-8">
+                                    @if($setting->Automatically_calculated == 1)
+                                        <span class="badge bg-success">{{ __('Yes') }}</span>
+                                    @else
+                                        <span class="badge bg-danger">{{ __('No') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="d-grid">
+                                <button wire:click="editSetting({{ $setting->idSETTINGS }})"
+                                        data-bs-toggle="modal" data-bs-target="#settingModal"
+                                        class="btn btn-primary">
+                                    {{ __('Update') }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="alert alert-info text-center">{{ __('No records found') }}</div>
+                @endforelse
+            <div class="row mt-3">
+                <div class="col-12">
+                    {{ $settings->links() }}
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- Modal -->
     <div wire:ignore.self class="modal fade" id="settingModal" tabindex="-1" style="z-index: 200000"
          aria-labelledby="settingsModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -96,56 +156,6 @@
             </div>
         </div>
     </div>
-    <script type="module">
-        function emitSetting(idSetting) {
-            if (idSetting) {
-                window.Livewire.dispatch('initSettingFunction', [idSetting]);
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", function () {
-
-            $('#SettingsTable').DataTable(
-                {
-                    retrieve: true,
-                    "colReorder": false,
-                    "orderCellsTop": false,
-                    "fixedHeader": true,
-                    search: {return: true},
-                    "processing": true,
-                    "aLengthMenu": [[10, 25, 50], [10, 25, 50]],
-                    "ajax": {
-                        url: "{{route('api_settings',['locale'=> app()->getLocale()])}}",
-                        type: "GET",
-                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
-                        error: function (xhr, error, thrown) {
-                            loadDatatableModalError('SettingsTable')
-                        }
-                    },
-                    "columns": [
-                        {"data": "idSETTINGS"},
-                        {"data": "ParameterName"},
-                        {"data": "value"},
-                        {"data": "Unit"},
-                        {"data": "Automatically_calculated"},
-                        {data: 'action', name: 'action', orderable: false, searchable: false},
-                    ],
-                    "language": {"url": urlLang},
-                    order: [[0, 'desc']],
-                    "drawCallback": function (settings, json) {
-                        $(".edit-setting-btn").each(function () {
-                            $(this).on("click", function () {
-                                emitSetting($(this).attr('data-id'))
-                            });
-                        });
-                    },
-                }
-            );
-            $(".btn-close-setting").click(function () {
-                location.reload();
-            });
-        });
-    </script>
 </div>
 
 
