@@ -22,27 +22,12 @@ class Contacts extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $deleteId;
-    public string $contactName = "";
-    public string $contactLastName = "";
-    public string $mobile = "";
     public ?string $search = "";
     public ?string $pageCount = "100";
-    public $selectedContect;
-
-    protected $rules = [
-        'name' => 'required',
-        'lastName' => 'required',
-        'mobile' => 'required'
-    ];
 
     protected $listeners = [
-        'initUserContact' => 'initUserContact',
-        'updateContact' => 'updateContact',
         'deleteContact' => 'deleteContact',
         'deleteId' => 'deleteId',
-        'save' => 'save',
-        'update' => 'update',
-        'initNewUserContact' => 'initNewUserContact',
         'delete_multiple' => 'delete_multiple'
     ];
 
@@ -150,49 +135,6 @@ class Contacts extends Component
         return $contactUser;
     }
 
-    public function initUserContact($id, settingsManager $settingsManager)
-    {
-        $this->settingsManager = $settingsManager;
-        $ContactsUser = $this->settingsManager->getContactsUserById($id);
-        if (!$ContactsUser) return;
-        $this->selectedContect = $id;
-        $this->contactName = $ContactsUser->name;
-        $this->contactLastName = is_null($ContactsUser->lastName) ? '' : $ContactsUser->lastName;
-        $this->mobile = $ContactsUser->mobile;
-        $country = DB::table('countries')->where('apha2', $ContactsUser->phonecode)->first();
-    }
-
-    public function save($phone, $ccode, $fullNumber, settingsManager $settingsManager, TransactionManager $transactionManager)
-    {
-        $contact_user_exist = ContactUser::where('idUser', $settingsManager->getAuthUser()->idUser)
-            ->where('mobile', $phone)
-            ->where('phonecode', $ccode)
-            ->get()->first();
-        if ($contact_user_exist) {
-            return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('Contact with first name and last name') . ' : ' . $contact_user_exist->name . ' ' . $contact_user_exist->lastName . ' ' . Lang::get('exists in the contact list'));
-        }
-
-        try {
-            $user = $settingsManager->getUserByFullNumber($fullNumber);
-
-            if (!$user) {
-                $user = $settingsManager->createNewUser(str_replace(' ', '', $this->mobile), $fullNumber, $ccode, auth()->user()->idUser, StatusRequest::ContactRegistred->value);
-            }
-            $contact_user = $settingsManager->createNewContactUser($settingsManager->getAuthUser()->idUser, $this->contactName, $user->idUser, $this->contactLastName, $phone, $fullNumber, $ccode);
-            $this->dispatch('close-modal');
-            Log::info('Contact addeed from Site 2earn :: code:' . $ccode . ' phone: ' . $phone . ' fullNumber: ' . $fullNumber);
-            return redirect()->route('contacts', app()->getLocale())->with('success', Lang::get('User created successfully') . ' : ' . $contact_user->name . ' ' . $contact_user->lastName . ' : ' . $contact_user->mobile);
-
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            $this->transactionManager->rollback();
-            if ($exception->getMessage() == "Number does not match the provided country.") {
-                return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('Phone Number does not match the provided country.'));
-            } else {
-                return redirect()->route('contacts', app()->getLocale())->with('danger', Lang::get('User creation failed'));
-            }
-        }
-    }
 
     public function checkDelayedSponsorship($upLine, $downLine)
     {

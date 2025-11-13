@@ -2,6 +2,7 @@
 
 use App\Livewire\AcceptFinancialRequest;
 use App\Livewire\Account;
+use App\Livewire\AddContact;
 use App\Livewire\ChangePasswordPage;
 use App\Livewire\ConfigurationHA;
 use App\Livewire\ContactNumber;
@@ -84,6 +85,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/change-password', ChangePasswordPage::class)->name('change_password');
         Route::get('/identification', IdentificationPage::class)->name('identification');
         Route::get('/contacts', Contacts::class)->name('contacts');
+        Route::get('/contacts/add', AddContact::class)->name('contacts_add');
         Route::get('/notification/history', NotificationHistory::class)->name('notification_history');
         Route::get('/notification/settings', NotificationSettings::class)->name('notification_settings');
 

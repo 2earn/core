@@ -38,11 +38,10 @@
                                aria-describedby="search-addon"/>
                     </div>
                     <div class="col-sm-12 col-md-12 col-lg-2 mt-2">
-                        <button type="button" class="btn btn-soft-secondary add-btn float-end"
-                                data-bs-toggle="modal"
-                                id="create-btn" data-bs-target="#addModal">
+                        <a href="{{ route('contacts_add', app()->getLocale()) }}" class="btn btn-soft-secondary add-btn float-end">
+                            <i class="ri-add-line align-bottom me-1"></i>
                             {{ __('Add a contact') }}
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -148,161 +147,12 @@
             </div>
         </div>
     </div>
-    <div wire:ignore.self class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModal"
-         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-light p-3">
-                    <h5 class="modal-title" id=addModalLabel"> {{ __('Add a contact') }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                            id="close-modal"></button>
-                </div>
-                @error('name') <span
-                    class="error alert-danger">{{ $message }}</span>
-                @enderror
-                @error('lastName') <span
-                    class="error alert-danger">{{ $message }}</span>
-                @enderror
-                <form action="">
-                    @csrf
-                    <div class="modal-body">
-                        <input
-                            id="id-field"
-                            type="hidden"
-                            class="form-control" name="id-field"
-                            wire:model="selectedContect"
-                        >
-                        <div class="row g-3">
-                            <div class="col-lg-12">
-                                <div>
-                                    <label for="nameField" class="form-label">{{ __('FirstName') }}
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        wire:model="contactName"
-                                        id="contactName"
-                                        class="form-control"
-                                        name="contactName"
-                                        required
-                                    >
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div>
-                                    <label for="lastNameField" class="form-label">
-                                        {{ __('LastName') }}
-                                        <span class="text-danger">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        wire:model="contactLastName"
-                                        id="contactLastName"
-                                        class="form-control"
-                                        name="contactLastName"
-                                        required>
-                                </div>
-                            </div>
-                            <div class=" col-lg-12">
-                                <div class="mb-3">
-                                    <label for="username" class="form-label">
-                                        {{ __('Mobile Number') }}
-                                        <span class="text-danger">*</span>
-                                    </label><br>
-                                    <input
-                                        wire:model="mobile"
-                                        type="tel"
-                                        name="mobile"
-                                        id="intl-tel-input"
-                                        class="form-control"
-                                        value=""
-                                        placeholder="{{ __('Mobile number') }}"
-                                    >
-                                    <input type='hidden' name='fullnumber' id='outputAdd2Contact'
-                                           class='form-control'>
-                                    <input type='hidden' name='ccodeAdd2Contact' id='ccodeAdd2Contact'>
-                                    <span class="text-danger" id="error-msg"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="hstack gap-2 justify-content-end">
-                            <button type="button" class="btn btn-light"
-                                    data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="button" onclick="saveContactEvent()" class="btn btn-success"
-                                    id="add-btn">{{__('Save')}}
-                                <div wire:loading>
-                                              <span class="spinner-border spinner-border-sm" role="status"
-                                                    aria-hidden="true"></span>
-                                    <span class="sr-only">{{__('Loading...')}}</span>
-                                </div>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+
     <div class="row">
         {{ $contactUsers->links() }}
     </div>
+
     <script>
-
-        function saveContactEvent() {
-            inputphone = document.getElementById("intl-tel-input");
-            inputname = document.getElementById("ccodeAdd2Contact");
-            inputlast = document.getElementById("outputAdd2Contact");
-            const errorMsg = document.querySelector("#error-msg");
-            var out = "00" + inputname.value.trim() + parseInt(inputphone.value.trim().replace(/\D/g, ''), 10);
-            var phoneNumber = parseInt(inputphone.value.trim().replace(/\D/g, ''), 10);
-            var inputName = inputname.value.trim();
-            if (validateAdd()) {
-                $.ajax({
-                    url: '{{ route('validate_phone',app()->getLocale()) }}',
-                    method: 'POST',
-                    data: {phoneNumber: phoneNumber, inputName: inputName, "_token": "{{ csrf_token() }}"},
-                    success: function (response) {
-                        if (response.message == "") {
-                            window.Livewire.dispatch('save', [phoneNumber, inputname.value.trim(), out]);
-                            errorMsg.innerHTML = "";
-                            errorMsg.classList.add("d-none");
-                        } else {
-                            errorMsg.innerHTML = response.message;
-                            errorMsg.classList.remove("d-none");
-                        }
-                    }
-                });
-            }
-        }
-
-        function validateAdd() {
-            var valid = true;
-            inputcontactName = document.getElementById("contactName");
-            inputcontactLastName = document.getElementById("contactLastName");
-            if (inputcontactName.value.trim() === "") {
-                inputcontactName.style.borderColor = '#FF0000';
-                valid = false;
-            } else {
-                inputcontactName.style.borderColor = '#008000';
-            }
-            if (inputcontactLastName.value.trim() === "") {
-                inputcontactLastName.style.borderColor = '#FF0000';
-                valid = false;
-            } else {
-                inputcontactLastName.style.borderColor = '#008000';
-            }
-            return valid;
-        }
-
-        function initNewUserContact() {
-            window.Livewire.dispatch('initNewUserContact');
-        }
-
-
-        function editContact(id) {
-            window.Livewire.dispatch('initUserContact', [id]);
-        }
 
         function confirmDeleteContact(contactId, ContactFullName) {
             Swal.fire({
@@ -422,49 +272,5 @@
                 });
             }
         });
-    </script>
-    <script type="module">
-        var countryDataLog = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [];
-        var ipAdd2Contact = document.querySelector("#intl-tel-input");
-
-
-        document.getElementById('create-btn').onclick = function () {
-
-            var inputlog = document.querySelector("#intl-tel-input");
-            var itiLog = window.intlTelInput(inputlog, {
-                initialCountry: "auto",
-                autoFormat: true,
-                separateDialCode: true,
-                useFullscreenPopup: false,
-                geoIpLookup: function (callback) {
-                    $.get('https://ipinfo.io', function () {
-                    }, "jsonp").always(function (resp) {
-                        var countryCodelog = (resp && resp.country) ? resp.country : "TN";
-                        callback(countryCodelog);
-                    });
-                },
-                utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/utils.js"
-            });
-
-            function initIntlTelInput() {
-                var phone = itiLog.getNumber();
-                document.createTextNode(phone);
-                phone = phone.replace('+', '00');
-                var mobile = $("#intl-tel-input").val();
-                var countryData = itiLog.getSelectedCountryData();
-                phone = '00' + countryData.dialCode + phone;
-                $("#ccodeAdd2Contact").val(countryData.dialCode);
-                $("#outputAdd2Contact").val(phone);
-            };
-            inputlog.addEventListener('keyup', initIntlTelInput);
-            inputlog.addEventListener('countrychange', initIntlTelInput);
-            for (var i = 0; i < countryDataLog.length; i++) {
-                var country12 = countryDataLog[i];
-                var optionNode12 = document.createElement("option");
-                optionNode12.value = country12.iso2;
-
-            }
-            inputlog.focus();
-        };
     </script>
 </div>
