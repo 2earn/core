@@ -344,6 +344,8 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
     Route::get('/users/list', 'App\\Http\\Controllers\\ApiController@getUsersList')->name('api_users_list');
 
+    Route::get('/users/stats', \App\Livewire\UsersStatsPage::class)->name('users_stats');
+
     Route::get('/login', Login::class)->name('login')->middleware('setLocalLogin');
 
     Route::get('/validate-account', ValidateAccount::class)->name('validate_account');
