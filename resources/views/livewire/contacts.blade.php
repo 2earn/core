@@ -95,7 +95,7 @@
                                 </td>
                                 <td>
                                     <div class="btn-group btn-group-toggle " data-toggle="buttons">
-                                        <a href="{{ route('user_contact_edit', ['locale' =>  app()->getLocale(), 'UserContact'=>  $value->id  ]) }}"
+                                        <a href="{{ route('contacts_edit', ['locale' =>  app()->getLocale(), 'contact'=>  $value->id  ]) }}"
                                            class="btn btn-outline-primary ">
                                             {{__('Edit')}}
                                         </a>
@@ -266,7 +266,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         const iddd = '{{Session::get('sessionIdUserExiste')}}';
-                        var url = "{{ route('user_contact_edit', ['locale' =>  app()->getLocale(), 'UserContact'=> Session::get('sessionIdUserExiste')]) }}";
+                        var url = "{{ route('contacts_edit', ['locale' =>  app()->getLocale(), 'contact'=> Session::get('sessionIdUserExiste')]) }}";
                         document.location.href = url;
                     }
                 });

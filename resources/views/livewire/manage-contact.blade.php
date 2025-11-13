@@ -7,7 +7,7 @@
 
     @component('components.breadcrumb')
         @slot('title')
-            {{ __('Add a contact') }}
+            {{ $isEditMode ? __('Edit contact') : __('Add a contact') }}
         @endslot
     @endcomponent
 
@@ -19,7 +19,9 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">{{ __('Add a contact') }}</h5>
+                    <h5 class="card-title mb-0">
+                        {{ $isEditMode ? __('Edit a contact') : __('Add a contact') }}
+                    </h5>
                 </div>
                 <div class="card-body">
                     @error('contactName')
@@ -34,7 +36,8 @@
                         <div class="row g-3">
                             <div class="col-lg-6">
                                 <div class="mb-3">
-                                    <label for="contactName" class="form-label">{{ __('FirstName') }}
+                                    <label for="contactName" class="form-label">
+                                        {{ __('FirstName') }}
                                         <span class="text-danger">*</span>
                                     </label>
                                     <input
@@ -80,8 +83,9 @@
                                         class="form-control"
                                         placeholder="{{ __('Mobile number') }}"
                                     >
-                                    <input type='hidden' name='fullnumber' id='outputAdd2Contact' class='form-control'>
-                                    <input type='hidden' name='ccodeAdd2Contact' id='ccodeAdd2Contact'>
+                                    <input type='hidden' name='fullnumber' id='outputAddContact' class='form-control'>
+                                    <input type='hidden' name='ccodeAddContact' id='ccodeAddContact'>
+                                    <p hidden id="codecode">{{ $phoneCode ?? '' }}</p>
                                     <span class="text-danger" id="error-msg"></span>
                                 </div>
                             </div>
@@ -89,10 +93,16 @@
 
                         <div class="mt-4">
                             <div class="hstack gap-2">
-                                <button type="button" onclick="saveContactEvent()" class="btn btn-success float-end">
-=                                    {{__('Save Contact')}}
+                                <button type="button" onclick="saveContactEvent()" class="btn btn-success">
+                                    <i class="ri-save-line align-bottom me-1"></i>
+                                    {{ $isEditMode ? __('Update Contact') : __('Save Contact') }}
+                                    <div wire:loading wire:target="save" class="d-inline">
+                                        <span class="spinner-border spinner-border-sm ms-2" role="status"
+                                              aria-hidden="true"></span>
+                                    </div>
                                 </button>
-                                <a href="{{ route('contacts', app()->getLocale()) }}" class="btn btn-light float-end">
+                                <a href="{{ route('contacts_index', app()->getLocale()) }}" class="btn btn-light">
+                                    <i class="ri-close-line align-bottom me-1"></i>
                                     {{ __('Cancel') }}
                                 </a>
                             </div>
@@ -106,16 +116,38 @@
     <script>
         function saveContactEvent() {
             inputphone = document.getElementById("intl-tel-input");
-            inputname = document.getElementById("ccodeAdd2Contact");
-            inputlast = document.getElementById("outputAdd2Contact");
+            inputname = document.getElementById("ccodeAddContact");
+            inputlast = document.getElementById("outputAddContact");
             const errorMsg = document.querySelector("#error-msg");
-            var out = "00" + inputname.value.trim() + parseInt(inputphone.value.trim().replace(/\D/g, ''), 10);
+
+            // Ensure intl-tel-input has processed the current value
+            if (typeof itiLog !== 'undefined' && itiLog) {
+                var phone = itiLog.getNumber();
+                if (phone && phone.trim() !== '') {
+                    phone = phone.replace('+', '00');
+                    var countryData = itiLog.getSelectedCountryData();
+                    if (!phone.startsWith('00' + countryData.dialCode)) {
+                        phone = '00' + countryData.dialCode + phone.replace(/^00/, '');
+                    }
+                    $("#ccodeAddContact").val(countryData.dialCode);
+                    $("#outputAddContact").val(phone);
+                }
+            }
+
             var phoneNumber = parseInt(inputphone.value.trim().replace(/\D/g, ''), 10);
             var inputName = inputname.value.trim();
+            var out = inputlast.value.trim();
 
-            if (validateAdd()) {
+            // Validate that we have the necessary phone data
+            if (!inputName || !out || !phoneNumber) {
+                errorMsg.innerHTML = "{{ __('Please enter a valid phone number') }}";
+                errorMsg.classList.remove("d-none");
+                return;
+            }
+
+            if (validateContact()) {
                 $.ajax({
-                    url: '{{ route('validate_phone',app()->getLocale()) }}',
+                    url: '{{ route('validate_phone', app()->getLocale()) }}',
                     method: 'POST',
                     data: {phoneNumber: phoneNumber, inputName: inputName, "_token": "{{ csrf_token() }}"},
                     success: function (response) {
@@ -127,12 +159,16 @@
                             errorMsg.innerHTML = response.message;
                             errorMsg.classList.remove("d-none");
                         }
+                    },
+                    error: function(xhr, status, error) {
+                        errorMsg.innerHTML = "{{ __('Phone validation failed') }}";
+                        errorMsg.classList.remove("d-none");
                     }
                 });
             }
         }
 
-        function validateAdd() {
+        function validateContact() {
             var valid = true;
             inputcontactName = document.getElementById("contactName");
             inputcontactLastName = document.getElementById("contactLastName");
@@ -156,42 +192,64 @@
     </script>
 
     <script type="module">
+        var itiLog; // Global variable to store the intl-tel-input instance
+
         document.addEventListener("DOMContentLoaded", function () {
-            var countryDataLog = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [];
-            var inputlog = document.querySelector("#intl-tel-input");
+            // Wait a bit for Livewire to populate the field in edit mode
+            setTimeout(function() {
+                var codePays = document.getElementById('codecode').textContent.trim();
+                var inputlog = document.querySelector("#intl-tel-input");
 
-            if (inputlog) {
-                var itiLog = window.intlTelInput(inputlog, {
-                    initialCountry: "auto",
-                    autoFormat: true,
-                    separateDialCode: true,
-                    useFullscreenPopup: false,
-                    geoIpLookup: function (callback) {
-                        $.get('https://ipinfo.io', function () {
-                        }, "jsonp").always(function (resp) {
-                            var countryCodelog = (resp && resp.country) ? resp.country : "TN";
-                            callback(countryCodelog);
-                        });
-                    },
-                    utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/utils.js"
-                });
+                if (inputlog) {
+                    var autoInit = codePays ? codePays : "auto";
 
-                function initIntlTelInput() {
-                    var phone = itiLog.getNumber();
-                    phone = phone.replace('+', '00');
-                    var countryData = itiLog.getSelectedCountryData();
-                    phone = '00' + countryData.dialCode + phone;
-                    $("#ccodeAdd2Contact").val(countryData.dialCode);
-                    $("#outputAdd2Contact").val(phone);
+                    itiLog = window.intlTelInput(inputlog, {
+                        initialCountry: autoInit,
+                        autoFormat: true,
+                        separateDialCode: true,
+                        useFullscreenPopup: false,
+                        geoIpLookup: function (callback) {
+                            $.get('https://ipinfo.io', function () {
+                            }, "jsonp").always(function (resp) {
+                                var countryCodelog = (resp && resp.country) ? resp.country : "TN";
+                                callback(countryCodelog);
+                            });
+                        },
+                        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/utils.js"
+                    });
+
+                    function initIntlTelInput() {
+                        // Wait for the plugin to be fully initialized
+                        if (!itiLog) return;
+
+                        var phone = itiLog.getNumber();
+
+                        // If phone is empty, don't process
+                        if (!phone || phone.trim() === '') {
+                            return;
+                        }
+
+                        phone = phone.replace('+', '00');
+
+                        var countryData = itiLog.getSelectedCountryData();
+
+                        if (!phone.startsWith('00' + countryData.dialCode)) {
+                            phone = '00' + countryData.dialCode + phone.replace(/^00/, '');
+                        }
+
+                        $("#ccodeAddContact").val(countryData.dialCode);
+                        $("#outputAddContact").val(phone);
+                    }
+
+                    inputlog.addEventListener('keyup', initIntlTelInput);
+                    inputlog.addEventListener('countrychange', initIntlTelInput);
+
+                    // Initialize on load with a delay to ensure everything is loaded
+                    setTimeout(function() {
+                        initIntlTelInput();
+                    }, 300);
                 }
-
-                inputlog.addEventListener('keyup', initIntlTelInput);
-                inputlog.addEventListener('countrychange', initIntlTelInput);
-
-                // Initialize on load
-                initIntlTelInput();
-            }
+            }, 100);
         });
     </script>
 </div>
-
