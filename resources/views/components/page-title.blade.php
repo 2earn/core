@@ -303,6 +303,14 @@
                             </a>
                         </div>
                         <div class="col">
+                            <a href="{{route('users_stats',['locale'=>app()->getLocale()],false )}}"
+                               class="nav-link menu-link p-1 rounded hover-bg {{$currentRouteName=='users_stats'? 'active bg-light' : ''}}"
+                               role="button">
+                                <i class="ri-bar-chart-box-line me-2"></i>
+                                <span>{{__('Users Statistics')}}</span>
+                            </a>
+                        </div>
+                        <div class="col">
                             <a href="{{route('items_index',['locale'=>app()->getLocale()],false )}}"
                                class="nav-link menu-link p-1 rounded hover-bg {{$currentRouteName=='items_index'? 'active bg-light' : ''}}"
                                role="button">
