@@ -3,6 +3,7 @@
 namespace Core\Models;
 
 use App\Models\BusinessSector;
+use App\Models\Coupon;
 use App\Models\Deal;
 use App\Models\Image;
 use App\Models\Item;
