@@ -8,111 +8,186 @@
             {{ __('Platform') }}
         @endslot
     @endcomponent
+
     <div class="row">
         @include('layouts.flash-messages')
     </div>
-
-    <div class="row card">
-        <div class="card-header border-info">
-            <div class="row">
-                <div class="col-sm-12 mx-2">
-                    <a href="{{route('platform_create_update', app()->getLocale())}}"
-                       class="btn btn-soft-info material-shadow-none mt-1 float-end"
-                       id="create-btn">
-                        {{__('Create platform')}}
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-body table-responsive">
-                            <table id="PlatformTable"
-                                   class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
-                                <thead class="table-light">
-                                <tr class="head2earn  tabHeader2earn">
-                                    <th>{{__('Details')}}</th>
-                                    <th>{{__('Id')}}</th>
-                                    <th>{{__('Name')}}</th>
-                                    <th>{{__('Type')}}</th>
-                                    <th>{{__('Image')}}</th>
-                                    <th>{{__('Business sector')}}</th>
-                                    <th>{{__('Created at')}}</th>
-                                    <th>{{__('Action')}}</th>
-                                </tr>
-                                </thead>
-                                <tbody class="body2earn">
-                                </tbody>
-                            </table>
+        <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-lg-8 col-md-7">
+                            <div class="position-relative">
+                                <i class="ri-search-line position-absolute top-50 start-0 translate-middle-y ms-3 text-muted fs-5"></i>
+                                <input type="text"
+                                       class="form-control form-control ps-5 pe-3 border-0 bg-light"
+                                       wire:model.live.debounce.300ms="search"
+                                       placeholder="{{__('Search platforms by name, type or ID...')}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-5 text-md-end">
+                            <a href="{{route('platform_create_update', app()->getLocale())}}"
+                               class="btn btn-info btn px-4">
+                                <i class="ri-add-circle-line align-middle me-1"></i>
+                                {{__('Create platform')}}
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="row g-2">
+        @forelse($platforms as $platform)
+            <div class="col-xl-4 col-lg-4 col-md-6">
+                <div class="card border-0 shadow-sm h-100 hover-shadow">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-start mb-4">
+                            <div class="flex-shrink-0 me-3">
+                                @if($platform?->logoImage)
+                                    <img src="{{ asset('uploads/' . $platform->logoImage->url) }}"
+                                         alt="{{ $platform->name }} logo"
+                                         class="img-fluid rounded"
+                                         style="max-height: 150px; object-fit: contain;">
+                                @else
+                                    <div class="avatar-lg">
+                                        <div class="avatar-title rounded bg-soft-primary text-primary fs-1">
+                                            {{strtoupper(substr($platform->name, 0, 1))}}
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="flex-grow-1 overflow-hidden">
+                                <h5 class="mb-1 text-truncate">{{$platform->name}}</h5>
+                                <p class="text-muted mb-0">
+                                    <span class="badge badge-soft-secondary">ID: {{$platform->id}}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <div class="p-3 bg-light rounded">
+                                        <p class="text-muted mb-1 fs-6">{{__('Type')}}</p>
+                                        <h6 class="mb-0">{{__(\Core\Enum\PlatformType::tryFrom($platform->type)->name) ?? 'N/A'}}</h6>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-3 bg-light rounded">
+                                        <p class="text-muted mb-1 fs-6">{{__('Created')}}</p>
+                                        <h6 class="mb-0">{{$platform->created_at->format('M d, Y')}}</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center p-3 bg-soft-info rounded">
+                                <i class="ri-building-line fs-4 text-info me-2"></i>
+                                <div class="flex-grow-1">
+                                    <p class="text-muted mb-0 small">{{__('Business sector')}}</p>
+                                    <h6 class="mb-0 text-truncate">{{$platform->businessSector->name ?? 'N/A'}}</h6>
+                                </div>
+                            </div>
+                        </div>
+                        @if($platform->description)
+                            <div class="pt-3 border-top">
+                                <p class="text-muted mb-0">
+                                    {{Str::limit($platform->description, 80)}}
+                                </p>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="card-footer bg-transparent border-top p-3">
+                        <div class="d-flex gap-2 justify-content-between align-items-center">
+                            <div class="d-flex gap-2">
+                                <a href="{{route('platform_show', ['locale' => app()->getLocale(), 'id' => $platform->id])}}"
+                                   class="btn btn-soft-secondary btn-sm">
+                                    <i class="ri-eye-line align-middle me-1"></i>{{__('View')}}
+                                </a>
+                                <a href="{{route('platform_create_update', ['locale' => app()->getLocale(), 'id' => $platform->id])}}"
+                                   class="btn btn-soft-info btn-sm">
+                                    <i class="ri-pencil-line align-middle me-1"></i>{{__('Edit')}}
+                                </a>
+                                <a class="btn btn-soft-danger btn-sm"
+                                   href="#"
+                                   onclick="confirmDelete('{{$platform->id}}', '{{$platform->name}}')">
+                                    <i class="ri-delete-bin-line me-2 align-middle"></i>{{__('Delete')}}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @empty
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center py-5">
+                        <div class="avatar-xl mx-auto mb-4">
+                            <div class="avatar-title bg-soft-info text-info rounded-circle">
+                                <i class="ri-stack-line display-4"></i>
+                            </div>
+                        </div>
+                        <h4 class="mb-2">{{__('No platforms found')}}</h4>
+                        <p class="text-muted mb-4">{{__('Try adjusting your search or create a new platform')}}</p>
+                        <a href="{{route('platform_create_update', app()->getLocale())}}"
+                           class="btn btn-info btn-lg">
+                            <i class="ri-add-circle-line me-1"></i>{{__('Create platform')}}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        @endforelse
+    </div>
+        @if($platforms->hasPages())
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-3">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                            <div class="text-muted">
+                                <i class="ri-file-list-line me-1"></i>
+                                {{__('Showing')}}
+                                <span class="fw-semibold text-dark">{{$platforms->firstItem() ?? 0}}</span>
+                                {{__('to')}}
+                                <span class="fw-semibold text-dark">{{$platforms->lastItem() ?? 0}}</span>
+                                {{__('of')}}
+                                <span class="fw-semibold text-dark">{{$platforms->total()}}</span>
+                                {{__('results')}}
+                            </div>
+                            <div>
+                                {{$platforms->links()}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 
-    <script type="module">
-        document.addEventListener("DOMContentLoaded", function () {
-
-            if (!$.fn.dataTable.isDataTable('#PlatformTable')) {
-                $('#PlatformTable').DataTable({
-                    "responsive": true,
-                    "colReorder": true,
-                    "orderCellsTop": true,
-                    "fixedHeader": true,
-                    initComplete: function () {
-                        this.api()
-                            .columns()
-                            .every(function () {
-                                var that = $('#PlatformTable').DataTable();
-                                $('input', this.footer()).on('keydown', function (ev) {
-                                    if (ev.keyCode == 13) {
-                                        that.search(this.value).draw();
-                                    }
-                                });
-                            });
-                    },
-                    "processing": true,
-                    search: {return: true},
-                    "ajax": {
-                        url: "{{route('api_platforms',['locale'=> app()->getLocale()])}}",
-                        type: "GET",
-                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
-                        error: function (xhr, error, thrown) {
-                            loadDatatableModalError('PlatformTable')
-                        }
-                    },
-                    "columns": [
-                        datatableControlBtn,
-                        {data: 'id'},
-                        {data: 'name'},
-                        {data: 'type'},
-                        {data: 'image'},
-                        {data: 'business_sector_id'},
-                        {data: 'created_at'},
-                        {data: 'action'},
-                    ],
-                    "language": {"url": urlLang},
-                });
-            }
-
-
-            $('body').on('click', '.deletePlatform', function (event) {
+    <script>
+        function confirmDelete(id, name) {
+            event.preventDefault();
+            if (typeof Swal !== 'undefined') {
                 Swal.fire({
-                    title: '{{__('Are you sure to delete this platform')}}? <h5 class="float-end">' + $(event.target).attr('data-name') + ' </h5>',
-                    showDenyButton: true,
+                    title: '{{__('Are you sure to delete this platform')}}?',
+                    html: '<h5 class="mt-2">' + name + '</h5>',
+                    icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonText: "Delete",
-                    denyButtonText: `Rollback`
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: '{{__('Delete')}}',
+                    cancelButtonText: '{{__('Cancel')}}'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.Livewire.dispatch("delete", [$(event.target).attr('data-id')]);
+                    @this.call('delete', id);
                     }
                 });
-            });
-        });
+            } else {
+                if (confirm('{{__('Are you sure to delete this platform')}}? ' + name)) {
+                @this.call('delete', id);
+                }
+            }
+        }
     </script>
-
 </div>
