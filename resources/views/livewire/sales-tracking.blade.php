@@ -3,112 +3,138 @@
         {{ __('Deal sales tracking') }}
     @endsection
     @component('components.breadcrumb')
-        @slot('li_1')@endslot
         @slot('title')
             {{ __('Deal sales tracking') }}
         @endslot
     @endcomponent
-    <div class="card">
-        <div class="card-header">
-            <h4 class="text-info">{{__('Details')}}
-                <span class="badge btn btn-info float-end">
-                    {{__(\Core\Enum\DealStatus::tryFrom($deal->status)?->name)}}
-                </span>
-                <span class="badge btn btn-primary float-end mx-2">
-                    {{$deal->platform()->first()->name}}
-                </span>
-            </h4>
-        </div>
-        <div class="card-body row">
-            <div class="d-flex align-items-center">
-                <div class="flex-grow-1">
-                    <div class="text-muted">
-                        <div class="flex-shrink-0 ms-2">
-                            <strong class="fs-14 mb-0">{{$deal->name}}</strong>
+        <div class="row">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-light border-0">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <div>
+                            <h4 class="mb-1 text-primary">
+                                <i class="fas fa-chart-line me-2"></i>{{__('Deal sales tracking')}}
+                            </h4>
+                            <p class="text-muted mb-0 fs-14">{{$deal->name}}</p>
+                        </div>
+                        <div class="d-flex gap-2 align-items-center">
+                            @if($deal->platform()->count())
+                                <span class="badge bg-primary-subtle text-primary px-3 py-2">
+                            <i class="fas fa-desktop me-1"></i>{{$deal->platform()->first()->name}}
+                        </span>
+                            @endif
+                            <span class="badge bg-info-subtle text-info px-3 py-2">
+                        <i class="fas fa-circle-notch me-1"></i>{{__(\Core\Enum\DealStatus::tryFrom($deal->status)?->name)}}
+                    </span>
                         </div>
                     </div>
                 </div>
-                <div class="flex-shrink-0">
-                            <span class="text-muted">
-                                {{$deal->description}}
-                            </span>
-                </div>
-            </div>
-        </div>
-        <div class="card-body row">
-            <div class="d-flex align-items-center">
-                <div class="flex-grow-1">
-                    <div class="text-muted">
-                        <div class="flex-shrink-0 ms-2">
-                            <strong class="fs-14 font-weight-bold mb-0">{{__('Current turnover')}}
-                                / {{__('Target turnover')}}</strong>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-shrink-0">
-                            <span class="badge badge-success text-muted">
-                                              <p class="float-end mx-1"> <span class="badge bg-success text-end fs-14"
-                                                                               title="{{__('Current turnover')}}">
-                                {{$deal->current_turnover}}  {{config('app.currency')}}
-                            </span>
-                  <i class="ri-arrow-right-fill"></i>
-                    <span class="badge bg-danger text-end fs-14" title="{{__('Target turnover')}}">
-                                {{$deal->target_turnover}}  {{config('app.currency')}}
-                            </span>
-                </p>
-                            </span>
-                </div>
-            </div>
-            <div class="d-flex align-items-center">
-                <div class="flex-grow-1">
-                    <div class="text-muted">
-                        <div class="flex-shrink-0 ms-2">
-                            <strong class="fs-14 font-weight-bold mb-0">{{__('Camembert value')}}</strong>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-shrink-0">
-                            <span class="badge badge-success text-muted">
-                                              <p class="float-end mx-1"> <span class="badge bg-success text-end fs-14"
-                                                                               title="{{__('Current turnover')}}">
-                                {{\App\Models\Deal::getCamombertPercentage($deal)}}  {{config('app.currency')}}
-                            </span>
 
-                </p>
-                            </span>
-                </div>
-            </div>
-            <div class="d-flex align-items-center">
-                <div class="flex-grow-1">
-                    <div class="text-muted">
-                        <div class="flex-shrink-0 ms-2">
-                            <strong class="fs-14 font-weight-bold mb-0">{{__('Start Date')}}
-                                <i class="ri-arrow-right-fill"></i> {{__('End date')}}</strong>
+                <!-- Description Section -->
+                @if($deal->description)
+                    <div class="card-body border-top">
+                        <div class="d-flex align-items-start">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-file-alt text-muted fs-5"></i>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="text-muted mb-2">{{__('Description')}}</h6>
+                                <p class="text-dark mb-0">{{$deal->description}}</p>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                <!-- Key Metrics Section -->
+                <div class="card-body border-top">
+                    <div class="row g-3">
+                        <!-- Turnover Card -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card border-0 bg-light h-100">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="avatar-sm rounded bg-success-subtle text-success d-flex align-items-center justify-content-center">
+                                            <i class="fas fa-dollar-sign fs-5"></i>
+                                        </div>
+                                        <h6 class="mb-0 ms-3 text-muted">{{__('Turnover')}}</h6>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <p class="text-muted fs-12 mb-1">{{__('Current')}}</p>
+                                            <h5 class="mb-0 text-success">{{$deal->current_turnover}} {{config('app.currency')}}</h5>
+                                        </div>
+                                        <i class="ri-arrow-right-line text-muted fs-4"></i>
+                                        <div>
+                                            <p class="text-muted fs-12 mb-1">{{__('Target')}}</p>
+                                            <h5 class="mb-0 text-danger">{{$deal->target_turnover}} {{config('app.currency')}}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Camembert Value Card -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card border-0 bg-light h-100">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="avatar-sm rounded bg-primary-subtle text-primary d-flex align-items-center justify-content-center">
+                                            <i class="fas fa-chart-pie fs-5"></i>
+                                        </div>
+                                        <h6 class="mb-0 ms-3 text-muted">{{__('Camembert value')}}</h6>
+                                    </div>
+                                    <h4 class="mb-0 text-primary">{{\App\Models\Deal::getCamombertPercentage($deal)}} {{config('app.currency')}}</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Date Range Card -->
+                        <div class="col-md-12 col-lg-4">
+                            <div class="card border-0 bg-light h-100">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="avatar-sm rounded bg-info-subtle text-info d-flex align-items-center justify-content-center">
+                                            <i class="fas fa-calendar-alt fs-5"></i>
+                                        </div>
+                                        <h6 class="mb-0 ms-3 text-muted">{{__('Duration')}}</h6>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <p class="text-muted fs-12 mb-1">{{__('Start Date')}}</p>
+                                            <p class="mb-0 fw-semibold text-dark">{{$deal->start_date}}</p>
+                                        </div>
+                                        <i class="ri-arrow-right-line text-muted fs-4"></i>
+                                        <div>
+                                            <p class="text-muted fs-12 mb-1">{{__('End date')}}</p>
+                                            <p class="mb-0 fw-semibold text-dark">{{$deal->end_date}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="flex-shrink-0">
-                            <span class="badge badge-success text-muted">
-                                              <p class="float-end mx-1"> <span class="badge bg-success text-end fs-14"
-                                                                               title="{{__('Start Date')}}">
-                                {{$deal->start_date}}
-                            </span>
-                   <i class="ri-arrow-right-fill"></i>
-                    <span class="badge bg-danger text-end fs-14" title="{{__('End date')}}">
-                                {{$deal->end_date}}
-                            </span>
-                </p>
-                            </span>
+
+                <!-- Footer -->
+                <div class="card-footer bg-light">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                        <div class="text-muted">
+                            <i class="fas fa-user-circle me-1"></i>
+                            <strong>{{__('Created by')}}:</strong>
+                            {{getUserDisplayedName($deal->createdBy?->idUser)}}
+                            <span class="mx-2">•</span>
+                            {{$deal->createdBy?->email}}
+                        </div>
+                        <div class="text-muted">
+                            <i class="fas fa-clock me-1"></i>
+                            <strong>{{__('Created at')}}:</strong>
+                            {{$deal->created_at}}
+                        </div>
+                    </div>
                 </div>
             </div>
+            @if(!empty($commissions))
+                @include('livewire.commission-breackdowns', ['commissions' => $commissions])
+            @endif
         </div>
-        <div class="card-footer">
-      <span class="text-muted float-end">
-          <strong class="fs-14 mb-0">{{__('Created by')}} :</strong> {{getUserDisplayedName($deal->createdBy?->idUser)}} -   {{$deal->createdBy?->email}} / <strong>{{__('Created at')}}</strong> {{$deal->created_at}}
-      </span>
-        </div>
-    </div>
-    @if(!empty($commissions))
-        @include('livewire.commission-breackdowns', ['commissions' => $commissions])
-    @endif
 </div>

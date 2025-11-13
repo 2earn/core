@@ -263,6 +263,14 @@
                             </a>
                         </div>
                         <div class="col">
+                            <a href="{{route('deals_index',['locale'=>app()->getLocale()],false )}}"
+                               class="nav-link menu-link p-1 rounded hover-bg {{$currentRouteName=='deals_index'? 'active bg-light' : ''}}"
+                               role="button">
+                                <i class="fas fa-handshake me-2 me-2"></i>
+                                <span>{{__('Deals')}}</span>
+                            </a>
+                        </div>
+                        <div class="col">
                             <a href="{{route('coupon_index',app()->getLocale(),false )}}"
                                class="nav-link menu-link p-1 rounded hover-bg {{$currentRouteName=='coupon_index'? 'active bg-light' : ''}}"
                                role="button">
