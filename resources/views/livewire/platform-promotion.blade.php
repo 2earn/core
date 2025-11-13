@@ -1,4 +1,4 @@
-<div>
+<div class="{{getContainerType()}}">
     @section('title')
         {{ __('Platform promotion') }}
     @endsection
