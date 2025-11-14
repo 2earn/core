@@ -263,4 +263,27 @@
             }, 100);
         });
     </script>
+
+    <script>
+        document.addEventListener('livewire:initialized', () => {
+            window.Livewire.on('contactPhoneNeedsInit', () => {
+                // Reinitialize intl-tel-input safely
+                setTimeout(() => {
+                    const inputlog = document.querySelector('#intl-tel-input');
+                    if (!inputlog) return;
+                    try {
+                        if (window.intlTelInput && !inputlog.classList.contains('iti-loaded')) {
+                            window.itiLog = window.intlTelInput(inputlog, {
+                                initialCountry: 'auto',
+                                separateDialCode: true,
+                                utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/utils.js"
+                            });
+                        }
+                    } catch (e) {
+                        console.error('intl-tel-input reinit failed', e);
+                    }
+                }, 150);
+            });
+        });
+    </script>
 </div>

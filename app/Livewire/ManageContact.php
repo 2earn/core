@@ -183,6 +183,8 @@ class ManageContact extends Component
                     if ($contact_user_exist) {
                         $transactionManager->rollback();
                         session()->flash('danger', Lang::get('Contact with first name and last name') . ' : ' . $contact_user_exist->name . ' ' . $contact_user_exist->lastName . ' ' . Lang::get('exists in the contact list'));
+                        // Trigger front-end reinitialization of intl-tel-input after rerender
+                        $this->dispatch('contactPhoneNeedsInit');
                         return;
                     }
 
@@ -229,4 +231,3 @@ class ManageContact extends Component
         return view('livewire.manage-contact')->extends('layouts.master')->section('content');
     }
 }
-
