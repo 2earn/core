@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Services\BalanceService;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -27,26 +27,16 @@ class UserBalanceSMS extends Component
      */
     public function getTransactionsData(): array
     {
-        $locale = app()->getLocale();
-        $token = generateUserToken();
-
         try {
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $token,
-            ])->get(route('api_user_sms', [
-                'locale' => $locale,
-            ]), [
-                'start' => ($this->getPage() - 1) * $this->perPage,
-                'length' => $this->perPage,
-            ]);
+            $balanceService = app(BalanceService::class);
+            $response = $balanceService->getSmsUserDatatables(auth()->user()->idUser);
 
-            if ($response->successful()) {
-                $payload = $response->json();
-                return [
-                    'data' => $payload['data'] ?? [],
-                    'total' => $payload['recordsTotal'] ?? ($payload['recordsFiltered'] ?? (is_countable($payload['data'] ?? null) ? count($payload['data']) : 0)),
-                ];
-            }
+            $data = json_decode($response->getContent(), true);
+
+            return [
+                'data' => $data['data'] ?? [],
+                'total' => $data['recordsTotal'] ?? ($data['recordsFiltered'] ?? (is_countable($data['data'] ?? null) ? count($data['data']) : 0)),
+            ];
         } catch (\Throwable $e) {
             Log::error('Error fetching SMS balance transactions: ' . $e->getMessage());
         }

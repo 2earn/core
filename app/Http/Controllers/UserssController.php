@@ -59,14 +59,12 @@ class UserssController extends Controller
 
     public function getSmsUser()
     {
-        return datatables($this->getUserBalancesList(app()->getLocale(), auth()->user()->idUser, BalanceEnum::SMS->value, false))
-            ->addColumn('reference', function ($balance) {
-                return view('parts.datatable.balances-references', ['balance' => $balance]);
-            })
-            ->addColumn('complementary_information', function ($balance) {
-                return getBalanceCIView($balance);
-            })
-            ->make(true);
+        $user = $this->settingsManager->getAuthUser();
+        if (!$user) {
+            $user = (object)['idUser' => ''];
+        }
+
+        return $this->balanceService->getSmsUserDatatables($user->idUser);
     }
 
     public function getUserBalancesList($locale, $idUser, $idamount, $json = true)

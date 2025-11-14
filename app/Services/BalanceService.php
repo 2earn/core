@@ -120,5 +120,38 @@ class BalanceService
             ->rawColumns(['description'])
             ->make(true);
     }
+
+    /**
+     * Get SMS balance transactions for a user
+     */
+    public function getSmsUserDatatables($userId)
+    {
+        $results = DB::table('sms_balances as u')
+            ->select(
+                DB::raw("RANK() OVER (ORDER BY u.created_at ASC, u.reference ASC) as ranks"),
+                'u.id',
+                'u.reference',
+                'u.beneficiary_id',
+                'u.created_at',
+                'u.balance_operation_id',
+                'b.operation',
+                DB::raw("CASE WHEN b.direction = 'IN' THEN u.value ELSE -u.value END AS value"),
+                'u.current_balance'
+            )
+            ->join('balance_operations as b', 'u.balance_operation_id', '=', 'b.id')
+            ->join('users as s', 'u.beneficiary_id', '=', 's.idUser')
+            ->where('u.beneficiary_id', $userId)
+            ->orderBy('u.created_at', 'DESC')
+            ->get();
+
+        return datatables($results)
+            ->addColumn('reference', function ($balance) {
+                return view('parts.datatable.balances-references', ['balance' => $balance]);
+            })
+            ->addColumn('complementary_information', function ($balance) {
+                return getBalanceCIView($balance);
+            })
+            ->make(true);
+    }
 }
 
