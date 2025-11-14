@@ -3,9 +3,7 @@
           $balanceModel=\App\Models\SharesBalances::find($balance->id);
           $cashModel=\App\Models\CashBalances::where('reference',$balanceModel->reference)->where('balance_operation_id',\Core\Enum\BalanceOperationsEnum::OLD_ID_48->value)->first();
 @endphp
-@if (App::environment(['local', 'dev']))
-    <span class="text-muted">{{$balance->id}}:</span>/20/{{$balance->balance_operation_id}}<hr>
-@endif
+
 @if(!is_null($cashModel))
     <span class="text-muted">{{__('About the cash operation')}}:</span>
     <div data-simplebar style="max-height: 215px;">

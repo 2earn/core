@@ -36,7 +36,7 @@ class SharePurchase extends Notification
     {
         return [
             'idUser' => $notifiable->idUser,
-            'url' => route('shares_solde',['locale'=>app()->getLocale()]),
+            'url' => route('user_balance_shares',['locale'=>app()->getLocale()]),
         ];
     }
 

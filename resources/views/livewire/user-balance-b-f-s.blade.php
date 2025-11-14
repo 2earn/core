@@ -93,109 +93,88 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="col-lg-4">
-                    <select class="select2-hidden-accessible bfs_operation_multiple" name="states[]"
-                            id="select2bfs" multiple="multiple">
-                    </select>
-                </div>
-                <div class="table-responsive">
-                    <table
-                        class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                        id="ub_table_bfs" style="width: 100%">
-                        <thead class="table-light">
-                        <tr class=" tabHeader2earn">
-                            <th>{{__('Details')}}</th>
-                            <th>{{ __('Operation order') }}</th>
-                            <th>{{ __('ref')}}</th>
-                            <th>{{ __('date')}}</th>
-                            <th>{{ __('Operation Designation')}}</th>
-                            <th>{{ __('Percentage')}}</th>
-                            <th>{{ __('Value')}}</th>
-                            <th>{{ __('Balance')}}</th>
-                            <th>{{ __('Complementary information') }}</th>
-                        </tr>
-                        </thead>
-                        <tbody class="body2earn">
-                        </tbody>
-                    </table>
+                <div id="bfs_container">
+                    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                        <h5 class="mb-0">{{ __('Transaction History') }}</h5>
+                        <select wire:model.live="perPage" class="form-select form-select-sm" style="width: auto;">
+                            <option value="10">10</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
+
+                    <div wire:loading class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">{{ __('Loading...') }}</span>
+                        </div>
+                    </div>
+
+                    <div wire:loading.remove>
+                        @if($transactions->count() > 0)
+                            <div class="row g-3">
+                                @foreach($transactions as $transaction)
+                                    <div class="col-12">
+                                        <div class="card border shadow-sm h-100">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-start mb-3 flex-wrap gap-2">
+                                                    <div class="flex-grow-1">
+                                                        <h6 class="card-title mb-1 fw-bold">{!! $transaction['operation'] ?? '' !!}</h6>
+                                                        <small class="text-muted d-block">#{{ $transaction['ranks'] ?? '' }} - {!! $transaction['reference'] ?? '' !!}</small>
+                                                    </div>
+                                                    @php
+                                                        $value = $transaction['value'] ?? '0';
+                                                        $isPositive = strpos($value, '+') !== false;
+                                                    @endphp
+                                                    <span class="badge {{ $isPositive ? 'bg-success' : 'bg-danger' }} fs-6 px-3 py-2">{{ $value }}</span>
+                                                </div>
+                                                <div class="row g-3">
+                                                    <div class="col-6 col-md-2">
+                                                        <small class="text-muted d-block mb-1">{{ __('date') }}</small>
+                                                        <strong class="d-block">{{ $transaction['created_at'] ?? '-' }}</strong>
+                                                    </div>
+                                                    <div class="col-6 col-md-2">
+                                                        <small class="text-muted d-block mb-1">{{ __('Percentage') }}</small>
+                                                        <strong class="d-block">{{ $transaction['percentage'] ?? '-' }}</strong>
+                                                    </div>
+                                                    <div class="col-6 col-md-2">
+                                                        <small class="text-muted d-block mb-1">{{ __('Balance') }}</small>
+                                                        <strong class="d-block">{{ $transaction['current_balance'] ?? '-' }}</strong>
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <small class="text-muted d-block mb-1">{{ __('Complementary information') }}</small>
+                                                        <span class="d-block text-break">{!! $transaction['complementary_information'] ?? '-' !!}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <div class="alert alert-info text-center">{{ __('No transactions found') }}</div>
+                        @endif
+
+                        @if($transactions->hasPages())
+                            <div class="mt-4">
+                                <div class="d-flex justify-content-center">
+                                    {{ $transactions->links() }}
+                                </div>
+                                <div class="text-center mt-2">
+                                    <small class="text-muted">
+                                        {{ __('Showing') }} {{ $transactions->firstItem() ?? 0 }}
+                                        {{ __('to') }} {{ $transactions->lastItem() ?? 0 }}
+                                        {{ __('of') }} {{ $transactions->total() }} {{ __('entries') }}
+                                    </small>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-                    $('#page-title-box').addClass('page-title-box-bfs');
-                }
-            );
-            document.addEventListener("DOMContentLoaded", function () {
-                var select2_array = [];
-                $('#ub_table_bfs').DataTable(
-                    {
-                        responsive: true,
-                        retrieve: true,
-                        "colReorder": true,
-                        "orderCellsTop": true,
-                        "fixedHeader": true,
-                        "order": [[2, 'desc']],
-                        initComplete: function () {
-                            this.api()
-                                .columns()
-                                .every(function () {
-                                    if ($.fn.dataTable.isDataTable('#ub_table_bfs')) {
-                                        var that = $('#ub_table_bfs').DataTable();
-                                    }
-                                    $('input', this.footer()).on('keydown', function (ev) {
-                                        if (ev.keyCode == 13) {
-                                            that.search(this.value).draw();
-                                        }
-                                    });
-                                });
-                        },
-                        "processing": true,
-                        search: {return: true},
-                        autoWidth: false,
-                        bAutoWidth: false,
-                        "ajax": {
-                            url: "{{route('api_user_bfs_purchase',['locale'=> app()->getLocale(),'type'=>$type])}}",
-                            type: "GET",
-                            headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
-                            error: function (xhr, error, thrown) {
-                                loadDatatableModalError('ub_table_bfs')
-                            }
-                        },
-                        "columns": [
-                            datatableControlBtn,
-                            {data: 'ranks'},
-                            {data: 'reference'},
-                            {data: 'created_at'},
-                            {data: 'operation'},
-                            {data: 'percentage'},
-                            {data: 'value', className: classAl},
-                            {data: 'current_balance', className: classAl},
-                            {data: 'complementary_information'},
-                        ],
-                        "columnDefs":
-                            [
-                                {
-                                    "targets": [6],
-                                    render: function (data, type, row) {
-                                        if (data.indexOf('+') == -1)
-                                            return '<span class="badge bg-danger con fs-14">' + data + '</span>';
-                                        else
-                                            return '<span class="badge bg-success con fs-14">' + data + '</span>';
-                                    }
-                                },
-                                {
-                                    "targets": [3],
-                                    render: function (data, type, row) {
-                                        if (select2_array.indexOf(data) == -1) {
-                                            select2_array.push(data);
-                                            $('.bfs_operation_multiple').append(('<option value="' + data + '">' + data + '</option>'));
-                                        }
-                                        return data;
-                                    }
-                                }],
-                        "language": {"url": urlLang}
-                    });
+                $('#page-title-box').addClass('page-title-box-bfs');
             });
         </script>
     </div>

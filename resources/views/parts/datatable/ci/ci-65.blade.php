@@ -1,9 +1,7 @@
 @php
     $balanceModel=\App\Models\BFSsBalances::find($balance->id);
 @endphp
-@if (App::environment(['local', 'dev']))
-    <span class="text-muted">{{$balance->id}}:</span>/65/{{$balance->balance_operation_id}}<hr>
-@endif
+
 @if(!is_null($balanceModel))
     <span class="text-muted" title="{{$balanceModel->reference}}">{{__('About the bfs operation')}}:</span>
     <div data-simplebar style="max-height: 215px;">

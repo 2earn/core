@@ -126,13 +126,14 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         Route::get('/treeview', \App\Livewire\Treeview::class)->name('treeview');
 
-        Route::prefix('/user')->group(function () {
-            Route::get('/balance-sms', UserBalanceSMS::class)->name('user_balance_sms');
-            Route::get('/balance-cb', UserBalanceCB::class)->name('user_balance_cb');
-            Route::get('/balance-db', UserBalanceDB::class)->name('user_balance_db');
-            Route::get('/balance-bfs', UserBalanceBFS::class)->name('user_balance_bfs');
-            Route::get('/balance-tree', \App\Livewire\UserBalanceTree::class)->name('user_balance_tree');
-            Route::get('/balance-chance', \App\Livewire\UserBalanceChance::class)->name('user_balance_chance');
+        Route::prefix('/user')->name('user_')->group(function () {
+            Route::get('/balance-sms', UserBalanceSMS::class)->name('balance_sms');
+            Route::get('/balance-cb', UserBalanceCB::class)->name('balance_cb');
+            Route::get('/balance-db', UserBalanceDB::class)->name('balance_db');
+            Route::get('/balance-bfs', UserBalanceBFS::class)->name('balance_bfs');
+            Route::get('/balance-tree', \App\Livewire\UserBalanceTree::class)->name('balance_tree');
+            Route::get('/balance-chance', \App\Livewire\UserBalanceChance::class)->name('balance_chance');
+            Route::get('/balance-shares', \App\Livewire\SharesSolde::class)->name('balance_shares');
         });
 
         Route::get('/financial/transaction/{filter?}', FinancialTransaction::class)->name('financial_transaction');
@@ -329,7 +330,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/{id}/tracking', \App\Livewire\SalesTracking::class)->name('tracking');
         });
 
-        Route::get('/shares/solde', \App\Livewire\SharesSolde::class)->name('shares_solde');
 
         Route::get('/stat-countries', 'App\\Http\\Controllers\\ApiController@getCountriStat')->name('api_stat_countries');
         Route::post('/validate-phone', 'App\\Http\\Controllers\\ApiController@validatePhone')->name('validate_phone');

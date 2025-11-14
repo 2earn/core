@@ -3,9 +3,7 @@
     $shareModel=\App\Models\SharesBalances::where('reference',$balanceModel->reference)
     ->where('balance_operation_id',\Core\Enum\BalanceOperationsEnum::OLD_ID_13->value)->first();
 @endphp
-@if (App::environment(['local', 'dev']))
-    <span class="text-muted">{{$balance->id}}:</span>/30/{{$balance->balance_operation_id}}<hr>
-@endif
+
 @if(!is_null($shareModel))
     <span class="text-muted" title="{{$balanceModel->reference}}">{{__('About the share operation')}}:</span>
     <div data-simplebar style="max-height: 215px;">

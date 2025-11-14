@@ -3,9 +3,6 @@
     $treeModel=\App\Models\TreeBalances::where('reference',$balanceModel->reference)
     ->where('balance_operation_id',\Core\Enum\BalanceOperationsEnum::OLD_ID_13->value)->first();
 @endphp
-@if (App::environment(['local', 'dev']))
-    <span class="text-muted">{{$balance->id}}:</span>/36/{{$balance->balance_operation_id}}<hr>
-@endif
 
 @if(!is_null($treeModel))
     <span class="text-muted" title="{{$balanceModel->reference}}">{{__('About the tree operation')}}:</span>
