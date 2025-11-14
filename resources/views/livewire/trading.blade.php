@@ -7,6 +7,13 @@
             {{ __('Trading') }}
         @endslot
     @endcomponent
+
+    <style>
+        .cursor-pointer {
+            cursor: pointer;
+        }
+    </style>
+
     <div class="row mb-1">
         <div class="col-12">
             @include('layouts.flash-messages')
@@ -119,16 +126,42 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body p-0">
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <label class="me-2">{{__('Show')}}</label>
+                                <select wire:model.live="perPage" class="form-select form-select-sm" style="width: auto;">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                <span class="ms-2">{{__('entries')}}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex justify-content-end">
+                                <input wire:model.live.debounce.300ms="search" type="text" class="form-control form-control-sm" style="max-width: 250px;" placeholder="{{__('Search')}}...">
+                            </div>
+                        </div>
+                    </div>
                     <div class="table-responsive">
-                        <table id="shares-solde" wire:ignore wire:key="{{uniqid()}}"
-                               class="table table-striped table-bordered table-hover align-middle nowrap mb-0"
-                               style="width:100%">
+                        <table class="table table-striped table-bordered table-hover align-middle mb-0">
                             <thead class="table-light">
                             <tr>
-                                <th class="fw-semibold">{{__('Details')}}</th>
-                                <th class="fw-semibold">{{__('id')}}</th>
-                                <th class="fw-semibold">{{__('Date purchase')}}</th>
+                                <th class="fw-semibold cursor-pointer" wire:click="sortBy('id')">
+                                    {{__('id')}}
+                                    @if($sortField === 'id')
+                                        <i class="ri-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-s-line"></i>
+                                    @endif
+                                </th>
+                                <th class="fw-semibold cursor-pointer" wire:click="sortBy('created_at')">
+                                    {{__('Date purchase')}}
+                                    @if($sortField === 'created_at')
+                                        <i class="ri-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-s-line"></i>
+                                    @endif
+                                </th>
                                 <th class="fw-semibold">{{__('Number of shares')}}</th>
                                 <th class="fw-semibold">{{__('Total shares')}}</th>
                                 <th class="fw-semibold">{{__('Total price')}}</th>
@@ -138,8 +171,46 @@
                             </tr>
                             </thead>
                             <tbody>
+                            @forelse($shares as $share)
+                                <tr>
+                                    <td>{{ $share->id }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($share->created_at)->format('Y-m-d H:i:s') }}</td>
+                                    <td>{{ number_format($share->value, 0) }}</td>
+                                    <td>{{ $share->value }}</td>
+                                    <td>{{ number_format($share->unit_price * $share->value, 2) }}</td>
+                                    <td>{{ number_format($share->value * $currentActionValue, 2) }}</td>
+                                    <td>
+                                        @php
+                                            $earnings = ($share->value * $currentActionValue) - ($share->unit_price * $share->value);
+                                        @endphp
+                                        <span class="{{ $earnings >= 0 ? 'text-success' : 'text-danger' }}">
+                                            {{ number_format($earnings, 2) }}
+                                        </span>
+                                    </td>
+                                    <td>{!! getBalanceCIView($share) !!}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="8" class="text-center py-4">
+                                        <div class="text-muted">
+                                            <i class="ri-inbox-line fs-1 d-block mb-2"></i>
+                                            {{__('No shares found')}}
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforelse
                             </tbody>
                         </table>
+                    </div>
+                </div>
+                <div class="card-footer bg-light border-top">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="text-muted small">
+                            {{__('Showing')}} {{ $shares->firstItem() ?? 0 }} {{__('to')}} {{ $shares->lastItem() ?? 0 }} {{__('of')}} {{ $shares->total() }} {{__('entries')}}
+                        </div>
+                        <div>
+                            {{ $shares->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -221,39 +292,6 @@
                     chart1.updateSeries([series1, series2, series3]);
                 });
             }
-            $('#shares-solde').DataTable({
-                responsive: true,
-                retrieve: true,
-                "colReorder": false,
-                "orderCellsTop": true,
-                "fixedHeader": true,
-                "order": [[1, 'desc']],
-                "processing": true,
-                "serverSide": false,
-                "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                search: {return: true},
-                autoWidth: false,
-                bAutoWidth: false,
-                "ajax": {
-                    url: "{{route('api_shares_solde',['locale'=> app()->getLocale()])}}",
-                    type: "GET",
-                    headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
-                    error: function (xhr, error, thrown) {
-                        loadDatatableModalError('shares-solde')
-                    }                },
-                "columns": [
-                    datatableControlBtn,
-                    {data: 'id'},
-                    {data: 'formatted_created_at'},
-                    {data: 'value_format'},
-                    {data: 'total_shares'},
-                    {data: 'total_price'},
-                    {data: 'present_value'},
-                    {data: 'current_earnings'},
-                    {data: 'complementary_information'},
-                ],
-                "language": {"url": urlLang}
-            });
         });
     </script>
 
