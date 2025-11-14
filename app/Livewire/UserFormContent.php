@@ -49,7 +49,7 @@ class UserFormContent extends Component
         'saveUser' => 'saveUser',
     ];
 
-    public function mount(settingsManager $settingManager)
+    public function mount(settingsManager $settingManager,Request $request)
     {
         $theId = auth()->user()->idUser;
 
@@ -66,6 +66,38 @@ class UserFormContent extends Component
         $this->personaltitles = DB::table('personal_titles')->get();
         $this->genders = DB::table('genders')->get();
         $this->languages = DB::table('languages')->get();
+
+
+        $this->paramIdUser = $request->input('paramIdUser');
+        if ($this->paramIdUser == null) $this->paramIdUser = "";
+
+        if ($this->paramIdUser == null || $this->paramIdUser == "")
+            $userAuth = $settingManager->getAuthUser();
+        else {
+            $this->noteReject = Lang::get('Note_rejected');
+            $userAuth = $settingManager->getAuthUserById($this->paramIdUser);
+        }
+
+        $this->dispalyedUserCred = getUserDisplayedName($userAuth->idUser);
+
+        if (!$userAuth)
+            abort(404);
+
+        $this->numberActif = $settingManager->getidCountryForSms($userAuth->id)->fullNumber;
+
+        $usermetta_info = collect(DB::table('metta_users')->where('idUser', $userAuth->idUser)->first());
+        if (is_null($usermetta_info->get('childrenCount'))) {
+            $usermetta_info->put('childrenCount', 0);
+        }
+
+        $user = DB::table('users')->where('idUser', $userAuth->idUser)->first();
+        $this->countryUser = Lang::get($settingManager->getCountrieById($user->idCountry)->name);
+        $this->usermetta_info = $usermetta_info;
+        $this->user = collect($user);
+        $this->originalIsPublic = $user->is_public;
+        $this->states = $settingManager->getStatesContrie($user->id_phone);
+        $this->disabled = in_array($user->status, [StatusRequest::InProgressNational->value, StatusRequest::InProgressInternational->value, StatusRequest::InProgressGlobal->value, StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value]) ? true : false;
+
     }
 
     public function saveUser($nbrChild, settingsManager $settingsManager)
@@ -161,37 +193,8 @@ class UserFormContent extends Component
         }
     }
 
-    public function render(settingsManager $settingsManager, Request $request)
+    public function render()
     {
-        $this->paramIdUser = $request->input('paramIdUser');
-        if ($this->paramIdUser == null) $this->paramIdUser = "";
-
-        if ($this->paramIdUser == null || $this->paramIdUser == "")
-            $userAuth = $settingsManager->getAuthUser();
-        else {
-            $this->noteReject = Lang::get('Note_rejected');
-            $userAuth = $settingsManager->getAuthUserById($this->paramIdUser);
-        }
-
-        $this->dispalyedUserCred = getUserDisplayedName($userAuth->idUser);
-
-        if (!$userAuth)
-            abort(404);
-
-        $this->numberActif = $settingsManager->getidCountryForSms($userAuth->id)->fullNumber;
-
-        $usermetta_info = collect(DB::table('metta_users')->where('idUser', $userAuth->idUser)->first());
-        if (is_null($usermetta_info->get('childrenCount'))) {
-            $usermetta_info->put('childrenCount', 0);
-        }
-
-        $user = DB::table('users')->where('idUser', $userAuth->idUser)->first();
-        $this->countryUser = Lang::get($settingsManager->getCountrieById($user->idCountry)->name);
-        $this->usermetta_info = $usermetta_info;
-        $this->user = collect($user);
-        $this->originalIsPublic = $user->is_public;
-        $this->states = $settingsManager->getStatesContrie($user->id_phone);
-        $this->disabled = in_array($user->status, [StatusRequest::InProgressNational->value, StatusRequest::InProgressInternational->value, StatusRequest::InProgressGlobal->value, StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value]) ? true : false;
 
         return view('livewire.user-form-content')->extends('layouts.master')->section('content');
     }
