@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Services\Balances\Balances;
+use Core\Enum\BalanceEnum;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -76,6 +78,46 @@ class BalanceService
                 return getBalanceCIView($balance);
             })
             ->rawColumns(['formatted_date'])
+            ->make(true);
+    }
+
+    /**
+     * Get Purchase BFS User datatables response
+     */
+    public function getPurchaseBFSUserDatatables($userId, $type)
+    {
+        $query = DB::table('bfss_balances as ub')
+            ->select(
+                DB::raw('RANK() OVER (ORDER BY ub.created_at ASC) as ranks'),
+                'ub.beneficiary_id', 'ub.id', 'ub.operator_id', 'ub.reference', 'ub.created_at', 'bo.operation', 'ub.description',
+                DB::raw(" CASE WHEN ub.operator_id = '11111111' THEN 'system' ELSE (SELECT CONCAT(IFNULL(enfirstname, ''), ' ', IFNULL(enlastname, '')) FROM metta_users mu WHERE mu.idUser = ub.beneficiary_id) END AS source "),
+                DB::raw(" CASE WHEN bo.direction = 'IN' THEN CONCAT('+', '$', FORMAT(ub.value, 2)) WHEN bo.direction = 'OUT' THEN CONCAT('-', '$', FORMAT(ub.value , 2)) END AS value "),
+                'bo.direction as sensP',
+                'ub.percentage as percentage',
+                'ub.current_balance',
+                'ub.balance_operation_id'
+            )
+            ->join('balance_operations as bo', 'ub.balance_operation_id', '=', 'bo.id')
+            ->where('ub.beneficiary_id', $userId);
+
+        if ($type != null && $type != 'ALL') {
+            $query->where('percentage', $type);
+        }
+
+        return datatables($query->orderBy('created_at')->orderBy('percentage')->get())
+            ->addColumn('reference', function ($balance) {
+                return view('parts.datatable.balances-references', ['balance' => $balance]);
+            })
+            ->editColumn('description', function ($row) {
+                return Balances::generateDescriptionById($row->id, BalanceEnum::BFS->value);
+            })
+            ->editColumn('current_balance', function ($balance) {
+                return self::CURRENCY . self::SEPACE . formatSolde($balance->current_balance, 2);
+            })
+            ->addColumn('complementary_information', function ($balance) {
+                return getBalanceCIView($balance);
+            })
+            ->rawColumns(['description'])
             ->make(true);
     }
 }

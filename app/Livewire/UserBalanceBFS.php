@@ -3,10 +3,10 @@
 namespace App\Livewire;
 
 use App\Services\Balances\Balances;
+use App\Services\BalanceService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -40,27 +40,17 @@ class UserBalanceBFS extends Component
 
     public function getTransactionsData()
     {
-        $locale = app()->getLocale();
-        $token = generateUserToken();
-
         try {
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $token,
-            ])->get(route('api_user_bfs_purchase', [
-                'locale' => $locale,
-                'type' => $this->type
-            ]), [
-                'start' => ($this->getPage() - 1) * $this->perPage,
-                'length' => $this->perPage,
-            ]);
+            $balanceService = app(BalanceService::class);
+            $response = $balanceService->getPurchaseBFSUserDatatables(Auth()->user()->idUser, $this->type);
 
-            if ($response->successful()) {
-                $data = $response->json();
-                return [
-                    'data' => $data['data'] ?? [],
-                    'total' => $data['recordsTotal'] ?? 0,
-                ];
-            }
+            // Get the data from the datatables response
+            $data = json_decode($response->getContent(), true);
+
+            return [
+                'data' => $data['data'] ?? [],
+                'total' => $data['recordsTotal'] ?? 0,
+            ];
         } catch (\Exception $e) {
             Log::error('Error fetching BFS balances: ' . $e->getMessage());
         }
