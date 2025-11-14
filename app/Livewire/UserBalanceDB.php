@@ -2,11 +2,11 @@
 
 namespace App\Livewire;
 
+use App\Services\BalanceService;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserBalanceDB extends Component
 {
@@ -16,53 +16,33 @@ class UserBalanceDB extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    public function mount(BalanceService $balanceService)
+    {
+        $this->balanceService = $balanceService;
+    }
+
     public function updatingPerPage()
     {
         $this->resetPage();
     }
 
-    /**
-     * Fetch transactions from API with server-side pagination.
-     * @return array{data: array<int, array>, total: int}
-     */
     public function getTransactionsData(): array
     {
-        $locale = app()->getLocale();
-        $token = generateUserToken();
-
         try {
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $token,
-            ])->get(route('api_user_balances', [
-                'locale' => $locale,
-                'idAmounts' => 'Discounts-Balance',
-            ]), [
-                'start' => ($this->getPage() - 1) * $this->perPage,
-                'length' => $this->perPage,
-            ]);
-
-            if ($response->successful()) {
-                $payload = $response->json();
-                return [
-                    'data' => $payload['data'] ?? [],
-                    'total' => $payload['recordsTotal'] ?? ($payload['recordsFiltered'] ?? 0),
-                ];
-            }
-        } catch (\Throwable $e) {
-            Log::error('Error fetching Discounts Balance transactions: ' . $e->getMessage());
+            $response = $this->balanceService->getUserBalancesDatatables('Discounts-Balance');
+            $data = json_decode($response->getContent(), TRUE);
+            return ['data' => $data['data'] ?? [], 'total' => $data['recordsTotal'] ?? 0,];
+        } catch (\Exception $e) {
+            Log::error('Error fetching balances: ' . $e->getMessage());
         }
 
-        return [
-            'data' => [],
-            'total' => 0,
-        ];
+        return ['data' => [], 'total' => 0];
     }
 
     public function render()
     {
         $result = $this->getTransactionsData();
 
-        // Create paginator instance for the view
         $transactions = new LengthAwarePaginator(
             $result['data'],
             $result['total'],
