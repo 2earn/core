@@ -153,5 +153,51 @@ class BalanceService
             })
             ->make(true);
     }
+
+    /**
+     * Get Chance balance transactions for a user
+     */
+    public function getChanceUserDatatables($userId)
+    {
+        $userData = DB::table('chance_balances as ub')
+            ->select(
+                DB::raw('RANK() OVER (ORDER BY ub.created_at DESC) as ranks'),
+                'ub.beneficiary_id',
+                'ub.id',
+                'ub.operator_id',
+                'ub.reference',
+                'ub.created_at',
+                'bo.operation',
+                'ub.description',
+                'ub.value',
+                'ub.current_balance',
+                'ub.balance_operation_id',
+                DB::raw(" CASE WHEN ub.beneficiary_id = '11111111' THEN 'system' ELSE (SELECT CONCAT(IFNULL(enfirstname, ''), ' ', IFNULL(enlastname, '')) FROM metta_users mu WHERE mu.idUser = ub.beneficiary_id) END AS source "),
+                'bo.direction as sensP'
+            )
+            ->join('balance_operations as bo', 'ub.balance_operation_id', '=', 'bo.id')
+            ->where('ub.beneficiary_id', $userId)
+            ->orderBy('created_at')
+            ->get();
+
+        return datatables($userData)
+            ->addColumn('reference', function ($balance) {
+                return view('parts.datatable.balances-references', ['balance' => $balance]);
+            })
+            ->editColumn('value', function ($balance) {
+                return formatSolde($balance->value, 2);
+            })
+            ->editColumn('description', function ($row) {
+                return Balances::generateDescriptionById($row->id, BalanceEnum::CHANCE->value);
+            })
+            ->editColumn('current_balance', function ($balance) {
+                return formatSolde($balance->current_balance, 2);
+            })
+            ->addColumn('complementary_information', function ($balance) {
+                return getBalanceCIView($balance);
+            })
+            ->rawColumns(['description'])
+            ->make(true);
+    }
 }
 
