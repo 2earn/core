@@ -3,9 +3,6 @@
     $chanceModel=\App\Models\ChanceBalances::where('reference',$balanceModel->reference)
     ->where('balance_operation_id',\Core\Enum\BalanceOperationsEnum::OLD_ID_13->value)->first();
 @endphp
-@if (App::environment(['local', 'dev']))
-    <span class="text-muted">{{$balance->id}}:</span>/35/{{$balance->balance_operation_id}}<hr>
-@endif
 
 @if(!is_null($chanceModel))
     <span class="text-muted" title="{{$balanceModel->reference}}">{{__('About the Chance operation')}}:</span>

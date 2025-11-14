@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\BalanceService;
 use Core\Enum\BalanceEnum;
 use Core\Services\BalancesManager;
 use Illuminate\Http\Request as Req;
@@ -46,38 +47,9 @@ class UsersBalancesController extends Controller
     }
 
 
-    public function index($typeAmounts)
+    public function index($typeAmounts, BalanceService $balanceService)
     {
-        switch ($typeAmounts) {
-            case 'Balance-For-Shopping':
-                $balance = "bfss_balances";
-                break;
-            case 'Discounts-Balance':
-                $balance = "discount_balances";
-                break;
-            case 'SMS-Balance':
-                $balance = "sms_balances";
-                break;
-            default :
-                $balance = "cash_balances";
-                break;
-        }
-
-        return datatables($this->getUserBalancesQuery($balance))
-            ->addColumn('reference', function ($balance) {
-                return view('parts.datatable.balances-references', ['balance' => $balance]);
-            })
-            ->addColumn('formatted_date', function ($user) {
-                return Carbon::parse($user->created_at)->format('Y-m-d');
-            })
-            ->editColumn('current_balance', function ($balance) {
-                return self::CURRENCY . self::SEPACE . formatSolde($balance->current_balance, 2);
-            })
-            ->addColumn('complementary_information', function ($balance) {
-                return getBalanceCIView($balance);
-            })
-            ->rawColumns(['formatted_date'])
-            ->make(true);
+        return $balanceService->getUserBalancesDatatables($typeAmounts);
     }
 
     public function list($idUser, $idamount, $json = true)
