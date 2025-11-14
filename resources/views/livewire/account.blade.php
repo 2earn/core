@@ -262,7 +262,7 @@
                                         <div
                                             class="form-check form-switch d-flex justify-content-center align-items-center"
                                             dir="ltr">
-                                            <input wire:model="user.is_public" type="checkbox"
+                                            <input wire:model.live="user.is_public" type="checkbox"
                                                    class="form-check-input me-2"
                                                    id="customSwitchsizesm" @checked($user['is_public']??false)
                                                    role="switch" aria-checked="{{$user['is_public']??false}}">
@@ -274,7 +274,8 @@
                                     </div>
                                 </div>
 
-                                @if($imageProfil || $user['is_public'] != ($originalIsPublic ?? $user['is_public']))
+
+                                @if($imageProfil || $user['is_public']  != $originalIsPublic )
                                     <div class="mt-3">
                                         <button wire:click="saveProfileSettings"
                                                 wire:loading.attr="disabled"
