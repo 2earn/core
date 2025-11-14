@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\BalanceService;
 use Core\Models\Setting;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -9,6 +10,10 @@ use Illuminate\Support\Facades\Vite;
 
 class SharesController extends Controller
 {
+    public function __construct(
+        private readonly BalanceService $balanceService
+    ) {
+    }
 
     public function getActionHistorysQuery()
     {
@@ -52,35 +57,8 @@ class SharesController extends Controller
 
     public function getSharesSolde()
     {
-        return datatables($this->getSharesSoldeQuery())
-            ->addColumn('total_price', function ($sharesBalances) {
-                return number_format($sharesBalances->unit_price * ($sharesBalances->value), 2);
-            })
-            ->addColumn('share_price', function ($sharesBalances) {
-                if ($sharesBalances->value != 0)
-                    return $sharesBalances->unit_price * ($sharesBalances->value) / $sharesBalances->value;
-                else return 0;
-            })
-            ->addColumn('formatted_created_at', function ($sharesBalances) {
-                return Carbon::parse($sharesBalances->created_at)->format('Y-m-d H:i:s');
-            })
-            ->addColumn('total_shares', function ($sharesBalances) {
-                return $sharesBalances->value;
-            })
-            ->addColumn('present_value', function ($sharesBalances) {
-                return number_format(($sharesBalances->value) * actualActionValue(getSelledActions(true)), 2);
-            })
-            ->addColumn('current_earnings', function ($sharesBalances) {
-                return number_format(($sharesBalances->value) * actualActionValue(getSelledActions(true)) - $sharesBalances->unit_price * ($sharesBalances->value), 2);
-            })
-            ->addColumn('value_format', function ($sharesBalances) {
-                return number_format($sharesBalances->value, 0);
-            })
-            ->addColumn('complementary_information', function ($balance) {
-                return getBalanceCIView($balance);
-            })
-            ->rawColumns(['total_price', 'share_price', 'formatted_created_at', 'total_shares', 'present_value', 'current_earnings', 'value_format'])
-            ->make(true);
+        $userId = auth()->user()->idUser ?? '';
+        return $this->balanceService->getSharesSoldeDatatables($userId);
     }
 
     public function getSharesSoldesQuery()

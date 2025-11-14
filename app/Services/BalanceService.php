@@ -199,5 +199,45 @@ class BalanceService
             ->rawColumns(['description'])
             ->make(true);
     }
+
+    /**
+     * Get Shares balance transactions for a user
+     */
+    public function getSharesSoldeDatatables($userId)
+    {
+        $query = DB::table('shares_balances')
+            ->where('beneficiary_id', $userId)
+            ->orderBy('id', 'desc');
+
+        return datatables($query)
+            ->addColumn('total_price', function ($sharesBalances) {
+                return number_format($sharesBalances->unit_price * ($sharesBalances->value), 2);
+            })
+            ->addColumn('share_price', function ($sharesBalances) {
+                if ($sharesBalances->value != 0)
+                    return $sharesBalances->unit_price * ($sharesBalances->value) / $sharesBalances->value;
+                else return 0;
+            })
+            ->addColumn('formatted_created_at', function ($sharesBalances) {
+                return Carbon::parse($sharesBalances->created_at)->format('Y-m-d H:i:s');
+            })
+            ->addColumn('total_shares', function ($sharesBalances) {
+                return $sharesBalances->value;
+            })
+            ->addColumn('present_value', function ($sharesBalances) {
+                return number_format(($sharesBalances->value) * actualActionValue(getSelledActions(true)), 2);
+            })
+            ->addColumn('current_earnings', function ($sharesBalances) {
+                return number_format(($sharesBalances->value) * actualActionValue(getSelledActions(true)) - $sharesBalances->unit_price * ($sharesBalances->value), 2);
+            })
+            ->addColumn('value_format', function ($sharesBalances) {
+                return number_format($sharesBalances->value, 0);
+            })
+            ->addColumn('complementary_information', function ($balance) {
+                return getBalanceCIView($balance);
+            })
+            ->rawColumns(['total_price', 'share_price', 'formatted_created_at', 'total_shares', 'present_value', 'current_earnings', 'value_format'])
+            ->make(true);
+    }
 }
 

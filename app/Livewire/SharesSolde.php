@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Services\BalanceService;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -27,26 +27,16 @@ class SharesSolde extends Component
      */
     public function getSharesData(): array
     {
-        $locale = app()->getLocale();
-        $token = generateUserToken();
-
         try {
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $token,
-            ])->get(route('api_shares_solde', [
-                'locale' => $locale,
-            ]), [
-                'start' => ($this->getPage() - 1) * $this->perPage,
-                'length' => $this->perPage,
-            ]);
+            $balanceService = app(BalanceService::class);
+            $response = $balanceService->getSharesSoldeDatatables(auth()->user()->idUser);
 
-            if ($response->successful()) {
-                $payload = $response->json();
-                return [
-                    'data' => $payload['data'] ?? [],
-                    'total' => $payload['recordsTotal'] ?? ($payload['recordsFiltered'] ?? 0),
-                ];
-            }
+            $data = json_decode($response->getContent(), true);
+
+            return [
+                'data' => $data['data'] ?? [],
+                'total' => $data['recordsTotal'] ?? ($data['recordsFiltered'] ?? 0),
+            ];
         } catch (\Throwable $e) {
             Log::error('Error fetching shares list: ' . $e->getMessage());
         }
