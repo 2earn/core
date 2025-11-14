@@ -111,6 +111,88 @@
     </div>
 
     <script>
+        window.manageContactConfig = {
+            phoneCode: "{{ $phoneCode ?? '' }}".trim(),
+            isEditMode: {{ $isEditMode ? 'true' : 'false' }}
+        };
+        window.itiLog = window.itiLog || null;
+
+        function updateHiddenFromIntl() {
+            if (!window.itiLog) return;
+            const data = window.itiLog.getSelectedCountryData();
+            let phone = window.itiLog.getNumber();
+            if (phone) {
+                phone = phone.replace('+', '00');
+                if (!phone.startsWith('00' + data.dialCode)) {
+                    phone = '00' + data.dialCode + phone.replace(/^00/, '');
+                }
+                const ccodeEl = document.getElementById('ccodeAddContact');
+                const fullEl = document.getElementById('outputAddContact');
+                if (ccodeEl) ccodeEl.value = data.dialCode;
+                if (fullEl) fullEl.value = phone;
+            }
+        }
+
+        function setupIntlTelInput(force = false) {
+            const input = document.getElementById('intl-tel-input');
+            if (!input || !window.intlTelInput) return;
+            const code = window.manageContactConfig.phoneCode; // already lowercase apha2
+            const initialCountry = code !== '' ? code : 'auto';
+
+            if (force && window.itiLog && typeof window.itiLog.destroy === 'function') {
+                try { window.itiLog.destroy(); } catch (e) { console.warn('Destroy iti failed', e); }
+                window.itiLog = null;
+            }
+
+            if (!window.itiLog) {
+                window.itiLog = window.intlTelInput(input, {
+                    initialCountry: initialCountry,
+                    autoFormat: true,
+                    separateDialCode: true,
+                    useFullscreenPopup: false,
+                    geoIpLookup: function (callback) {
+                        if (initialCountry !== 'auto') {
+                            callback(initialCountry.toUpperCase());
+                        } else {
+                            fetch('https://ipinfo.io?token=') // optional token if needed
+                                .then(r => r.json())
+                                .then(resp => callback((resp && resp.country) ? resp.country : 'TN'))
+                                .catch(() => callback('TN'));
+                        }
+                    },
+                    utilsScript: 'https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/utils.js'
+                });
+            } else if (force && code !== '') {
+                // If reinitializing and we have a code, ensure country is set
+                try { window.itiLog.setCountry(code); } catch (e) { console.warn('setCountry failed', e); }
+            }
+
+            // Bind events once (idempotent)
+            if (!input.dataset.intlBound) {
+                input.addEventListener('keyup', updateHiddenFromIntl);
+                input.addEventListener('countrychange', updateHiddenFromIntl);
+                input.dataset.intlBound = 'true';
+            }
+
+            // Initial sync
+            updateHiddenFromIntl();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Delay slightly to allow Livewire to populate hidden phoneCode
+            setTimeout(() => setupIntlTelInput(false), 120);
+        });
+
+        // Re-init after Livewire duplicate contact error (event dispatched from PHP)
+        document.addEventListener('livewire:initialized', () => {
+            window.Livewire.on('contactPhoneNeedsInit', () => {
+                // If in edit mode ensure we keep the original country; otherwise auto or entered
+                setTimeout(() => setupIntlTelInput(true), 160);
+            });
+        });
+    </script>
+
+    <script>
         function saveContactEvent() {
             inputphone = document.getElementById("intl-tel-input");
             inputname = document.getElementById("ccodeAddContact");
