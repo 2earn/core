@@ -146,62 +146,70 @@
                             </div>
                         </div>
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover align-middle mb-0">
-                            <thead class="table-light">
-                            <tr>
-                                <th class="fw-semibold cursor-pointer" wire:click="sortBy('id')">
-                                    {{__('id')}}
-                                    @if($sortField === 'id')
-                                        <i class="ri-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-s-line"></i>
-                                    @endif
-                                </th>
-                                <th class="fw-semibold cursor-pointer" wire:click="sortBy('created_at')">
-                                    {{__('Date purchase')}}
-                                    @if($sortField === 'created_at')
-                                        <i class="ri-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-s-line"></i>
-                                    @endif
-                                </th>
-                                <th class="fw-semibold">{{__('Number of shares')}}</th>
-                                <th class="fw-semibold">{{__('Total shares')}}</th>
-                                <th class="fw-semibold">{{__('Total price')}}</th>
-                                <th class="fw-semibold">{{__('Present value')}}</th>
-                                <th class="fw-semibold">{{__('Current_earnings')}}</th>
-                                <th class="fw-semibold">{{ __('Complementary information') }}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @forelse($shares as $share)
-                                <tr>
-                                    <td>{{ $share->id }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($share->created_at)->format('Y-m-d H:i:s') }}</td>
-                                    <td>{{ number_format($share->value, 0) }}</td>
-                                    <td>{{ $share->value }}</td>
-                                    <td>{{ number_format($share->unit_price * $share->value, 2) }}</td>
-                                    <td>{{ number_format($share->value * $currentActionValue, 2) }}</td>
-                                    <td>
-                                        @php
-                                            $earnings = ($share->value * $currentActionValue) - ($share->unit_price * $share->value);
-                                        @endphp
-                                        <span class="{{ $earnings >= 0 ? 'text-success' : 'text-danger' }}">
+                        @forelse($shares as $share)
+                            @php
+                                $earnings = ($share->value * $currentActionValue) - ($share->unit_price * $share->value);
+                            @endphp
+                            <div class="card mb-3 shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                        <div>
+                                            <h6 class="mb-1 fw-bold text-primary">{{__('id')}}: {{ $share->id }}</h6>
+                                            <small class="text-muted">
+                                                <i class="ri-calendar-line me-1"></i>
+                                                {{ \Carbon\Carbon::parse($share->created_at)->format('Y-m-d H:i:s') }}
+                                            </small>
+                                        </div>
+                                        <span class="badge {{ $earnings >= 0 ? 'bg-success' : 'bg-danger' }}">
                                             {{ number_format($earnings, 2) }}
                                         </span>
-                                    </td>
-                                    <td>{!! getBalanceCIView($share) !!}</td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="8" class="text-center py-4">
-                                        <div class="text-muted">
-                                            <i class="ri-inbox-line fs-1 d-block mb-2"></i>
-                                            {{__('No shares found')}}
+                                    </div>
+
+                                    <div class="row g-2">
+                                        <div class="col-6">
+                                            <div class="p-2 bg-light rounded">
+                                                <small class="text-muted d-block">{{__('Number of shares')}}</small>
+                                                <strong>{{ number_format($share->value, 0) }}</strong>
+                                            </div>
                                         </div>
-                                    </td>
-                                </tr>
-                            @endforelse
-                            </tbody>
-                        </table>
-                    </div>
+                                        <div class="col-6">
+                                            <div class="p-2 bg-light rounded">
+                                                <small class="text-muted d-block">{{__('Total shares')}}</small>
+                                                <strong>{{ $share->value }}</strong>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="p-2 bg-light rounded">
+                                                <small class="text-muted d-block">{{__('Total price')}}</small>
+                                                <strong>{{ number_format($share->unit_price * $share->value, 2) }}</strong>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="p-2 bg-light rounded">
+                                                <small class="text-muted d-block">{{__('Present value')}}</small>
+                                                <strong>{{ number_format($share->value * $currentActionValue, 2) }}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @if(getBalanceCIView($share))
+                                        <div class="mt-3 pt-3 border-top">
+                                            <small class="text-muted d-block mb-2">{{__('Complementary information')}}</small>
+                                            <div>{!! getBalanceCIView($share) !!}</div>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        @empty
+                            <div class="text-center py-5">
+                                <div class="avatar-lg mx-auto mb-3">
+                                    <div class="avatar-title bg-light text-muted rounded-circle">
+                                        <i class="ri-inbox-line fs-1"></i>
+                                    </div>
+                                </div>
+                                <h5 class="text-muted">{{__('No shares found')}}</h5>
+                            </div>
+                        @endforelse
                 </div>
                 <div class="card-footer bg-light border-top">
                     <div class="d-flex justify-content-between align-items-center">
