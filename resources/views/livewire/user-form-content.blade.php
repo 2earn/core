@@ -335,6 +335,29 @@
                                                           aria-label="{{ __('Address') }}"></textarea>
                                             </div>
                                         </div>
+
+                                        <div class="col-lg-12">
+                                            <div class="mb-3 pb-2">
+                                                <div class="card bg-light border-0">
+                                                    <div class="card-body p-3">
+                                                        <div class="form-check form-switch d-flex align-items-center" dir="ltr">
+                                                            <input wire:model.live="user.is_public"
+                                                                   type="checkbox"
+                                                                   class="form-check-input me-2"
+                                                                   id="customSwitchIsPublic"
+                                                                   @checked($user['is_public']??false)
+                                                                   {{ $isValidateAccountRoute ? 'disabled' : '' }}
+                                                                   role="switch"
+                                                                   aria-checked="{{$user['is_public']??false}}">
+                                                            <label class="form-check-label mb-0" for="customSwitchIsPublic">
+                                                                <i class="ri-hand-heart-line me-1"></i>
+                                                                {{ __('I agree to receive funding requests') }}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     @if($paramIdUser =="")
                                         <div class="col-lg-12">

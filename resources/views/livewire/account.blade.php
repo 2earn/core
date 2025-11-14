@@ -257,25 +257,7 @@
                                     </div>
                                 @endif
 
-                                <div class="card bg-light border-0 mt-4">
-                                    <div class="card-body p-3">
-                                        <div
-                                            class="form-check form-switch d-flex justify-content-center align-items-center"
-                                            dir="ltr">
-                                            <input wire:model.live="user.is_public" type="checkbox"
-                                                   class="form-check-input me-2"
-                                                   id="customSwitchsizesm" @checked($user['is_public']??false)
-                                                   role="switch" aria-checked="{{$user['is_public']??false}}">
-                                            <label class="form-check-label mb-0" for="customSwitchsizesm">
-                                                <i class="ri-hand-heart-line me-1"></i>
-                                                {{ __('I agree to receive funding requests') }}
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                @if($imageProfil || $user['is_public']  != $originalIsPublic )
+                                @if($imageProfil || (bool)($user['is_public'] ?? 0) !== (bool)($originalIsPublic ?? 0))
                                     <div class="mt-3">
                                         <button wire:click="saveProfileSettings"
                                                 wire:loading.attr="disabled"
@@ -778,11 +760,14 @@
                     var ipPhone = document.getElementById("inputPhoneUpdate");
                     var errorMap = ['{{trans('Invalid number')}}', '{{trans('Invalid country code')}}', '{{trans('Too shortsss')}}', '{{trans('Too long')}}', '{{trans('Invalid number')}}'];
                     document.addEventListener("DOMContentLoaded", function () {
-                        ipPhone.innerHTML =
+                        if(ipPhone!==null)
+                        {  ipPhone.innerHTML =
                             "<input type='tel'  placeholder= '{{ __("PH_EditPhone") }}' id='initIntlTelInput' class='form-control' onpaste='handlePaste(event)'>" +
                             "  <span id='valid-msg'   class='invisible'>✓ Valid</span><span id='error-msg' class='hide'></span>" +
                             " <input type='hidden' name='fullnumberUpPhone' id='outputUpPhone' value='hidden' class='form-control'> " +
                             " <input type='hidden' name='ccodeUpPhone' id='ccodeUpPhone'  ><input type='hidden' name='isoUpPhone' id='isoUpPhone'  >";
+                        }
+
                         var countryDataUpPhone = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
                             inputUpPhone = document.querySelector("#initIntlTelInput");
                         var itiUpPhone = window.intlTelInput(inputUpPhone, {

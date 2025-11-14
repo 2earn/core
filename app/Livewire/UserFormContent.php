@@ -43,6 +43,7 @@ class UserFormContent extends Component
     public $genders;
     public $languages;
     public $activeTab = 'personalDetails';
+    public $originalIsPublic;
 
     protected $listeners = [
         'saveUser' => 'saveUser',
@@ -119,6 +120,9 @@ class UserFormContent extends Component
 
         $um->save();
         $um = metta_user::find($this->usermetta_info['id']);
+
+        // Save is_public setting
+        $us->is_public = $this->user['is_public'];
         $us->save();
         $us = User::find($this->user['id']);
 
@@ -185,6 +189,7 @@ class UserFormContent extends Component
         $this->countryUser = Lang::get($settingsManager->getCountrieById($user->idCountry)->name);
         $this->usermetta_info = $usermetta_info;
         $this->user = collect($user);
+        $this->originalIsPublic = $user->is_public;
         $this->states = $settingsManager->getStatesContrie($user->id_phone);
         $this->disabled = in_array($user->status, [StatusRequest::InProgressNational->value, StatusRequest::InProgressInternational->value, StatusRequest::InProgressGlobal->value, StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value]) ? true : false;
 
