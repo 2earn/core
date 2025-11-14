@@ -210,4 +210,8 @@ return [
     "file-manager" => "Gestionnaire de fichiers",
     "to-do" => "Faire",
     "crypto-svg" => "Crypto SVG",
+    "Save Changes" => "Enregistrer les modifications",
+    "Saving" => "Enregistrement",
+    "Profile settings saved successfully" => "Paramètres de profil enregistrés avec succès",
+    "Error saving profile settings" => "Erreur lors de l'enregistrement des paramètres du profil",
 ];

@@ -218,7 +218,7 @@
                                          title="{{ __('Change profile picture') }}">
                                         <input id="profile-img-file-input" type="file" class="profile-img-file-input"
                                                accept="image/png, image/jpeg, image/jpg"
-                                               wire:model.live="imageProfil"
+                                               wire:model="imageProfil"
                                                aria-label="{{ __('Upload profile picture') }}">
                                         <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
                                             <span class="avatar-title rounded-circle bg-light text-body">
@@ -273,6 +273,23 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                @if($imageProfil || $user['is_public'] != ($originalIsPublic ?? $user['is_public']))
+                                    <div class="mt-3">
+                                        <button wire:click="saveProfileSettings"
+                                                wire:loading.attr="disabled"
+                                                class="btn btn-success w-100"
+                                                aria-label="{{ __('Save Changes') }}">
+                                            <span wire:loading.remove wire:target="saveProfileSettings">
+                                                <i class="ri-save-line me-1"></i>{{ __('Save Changes') }}
+                                            </span>
+                                            <span wire:loading wire:target="saveProfileSettings">
+                                                <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                                                {{ __('Saving') }}...
+                                            </span>
+                                        </button>
+                                    </div>
+                                @endif
 
                                 @if(Route::getCurrentRoute()->getName()!="validate_account")
                                     <div class="mt-3">
