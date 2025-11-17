@@ -25,8 +25,10 @@ This folder contains all AI-generated documentation for the 2earn project auditi
 - **[AUDITING_CORE_MODELS_FIX.md](AUDITING_CORE_MODELS_FIX.md)** - Fix for Core\Models support
 
 ### 🎨 UI/UX Implementations
-- **[COUPON_HISTORY_LAYERS_IMPLEMENTATION.md](COUPON_HISTORY_LAYERS_IMPLEMENTATION.md)** - Coupon history redesign with layers
-- **[COUPON_HISTORY_SUMMARY.md](COUPON_HISTORY_SUMMARY.md)** - Quick summary of changes
+- **[COUPON_INDEX_LAYERS_IMPLEMENTATION.md](COUPON_INDEX_LAYERS_IMPLEMENTATION.md)** - Admin coupon management with layers
+- **[COUPON_INDEX_SUMMARY.md](COUPON_INDEX_SUMMARY.md)** - Quick summary of admin coupon changes
+- **[COUPON_HISTORY_LAYERS_IMPLEMENTATION.md](COUPON_HISTORY_LAYERS_IMPLEMENTATION.md)** - User coupon history redesign
+- **[COUPON_HISTORY_SUMMARY.md](COUPON_HISTORY_SUMMARY.md)** - Quick summary of history changes
 - **[COUPON_HISTORY_VISUAL_COMPARISON.md](COUPON_HISTORY_VISUAL_COMPARISON.md)** - Before/after visual comparison
 - **[CONTACTS_RESPONSIVE_LAYERS_IMPLEMENTATION.md](CONTACTS_RESPONSIVE_LAYERS_IMPLEMENTATION.md)** - Contacts layer design
 - **[DEALS_INDEX_LAYERS_IMPLEMENTATION.md](DEALS_INDEX_LAYERS_IMPLEMENTATION.md)** - Deals layer design
