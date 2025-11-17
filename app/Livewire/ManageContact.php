@@ -146,6 +146,18 @@ class ManageContact extends Component
                             null
                         );
                     } else {
+
+                        $ContactUser = ContactUser::where('idUser', $settingsManager->getAuthUser()->idUser)
+                            ->where('fullphone_number', $fullphone_number)
+                            ->first();
+
+                        if ($ContactUser) {
+                            $transactionManager->rollback();
+                            session()->flash('danger', Lang::get('Contact with same number ') . ' : ' . $ContactUser->name . ' ' . $ContactUser->lastName . ' : ' . $ContactUser->fullphone_number . ' ' . Lang::get('exists in the contact list'));
+                            $this->dispatch('contactPhoneNeedsInit');
+                            return;
+                        }
+
                         if ($fullphone_number != $user->fullphone_number) {
                             $user = $settingsManager->updateUser(
                                 $user,
@@ -156,6 +168,7 @@ class ManageContact extends Component
                             );
                         }
                     }
+
 
                     $contact_user = new ContactUser([
                         'idUser' => auth()->user()->idUser,
@@ -183,7 +196,6 @@ class ManageContact extends Component
                     if ($contact_user_exist) {
                         $transactionManager->rollback();
                         session()->flash('danger', Lang::get('Contact with first name and last name') . ' : ' . $contact_user_exist->name . ' ' . $contact_user_exist->lastName . ' ' . Lang::get('exists in the contact list'));
-                        // Trigger front-end reinitialization of intl-tel-input after rerender
                         $this->dispatch('contactPhoneNeedsInit');
                         return;
                     }
