@@ -59,7 +59,17 @@
                                 @endif
                             </div>
                             <div class="flex-grow-1 overflow-hidden">
-                                <h5 class="mb-1 text-truncate">{{$platform->name}}</h5>
+                                <h5 class="mb-1 text-truncate">
+                                    {{\App\Models\TranslaleModel::getTranslation($platform,'name',$platform->name)}}
+                                </h5>
+                                @if(\App\Models\User::isSuperAdmin())
+                                    <div class="mt-3 pt-3 border-top">
+                                        <a class="btn btn-sm btn-soft-info"
+                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($platform,'name')])}}">
+                                            <i class="ri-translate-2 align-middle me-1"></i>{{__('Update Translation')}}
+                                        </a>
+                                    </div>
+                                @endif
                                 <p class="text-muted mb-0">
                                     <span class="badge badge-soft-secondary">ID: {{$platform->id}}</span>
                                 </p>
@@ -93,8 +103,16 @@
                         @if($platform->description)
                             <div class="pt-3 border-top">
                                 <p class="text-muted mb-0">
-                                    {{Str::limit($platform->description, 80)}}
+                                    {!! \App\Models\TranslaleModel::getTranslation($platform,'description',$platform->description) !!}
                                 </p>
+                                @if(\App\Models\User::isSuperAdmin())
+                                    <div class="mt-3 pt-3">
+                                        <a class="btn btn-sm btn-soft-info"
+                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($platform,'description')])}}">
+                                            <i class="ri-translate-2 align-middle me-1"></i>{{__('Update Translation')}}
+                                        </a>
+                                    </div>
+                                @endif
                             </div>
                         @endif
                     </div>
