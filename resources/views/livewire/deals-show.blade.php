@@ -1,4 +1,4 @@
-<div>
+<div class="{{getContainerType()}}">
     @section('title')
         {{ __('Deals') }} > {{$deal->name}}
     @endsection
@@ -12,286 +12,248 @@
             @endslot
         @endcomponent
     @endif
-    <div class="card">
-        <div class="card-header">
-            <h4 class="text-info">{{__('Details')}}
-                <span class="badge btn btn-info float-end">
-                    {{__(\Core\Enum\DealStatus::tryFrom($deal->status)?->name)}}
-                </span>
-                <span class="badge btn btn-primary float-end mx-2">
-                    {{$deal->platform()->first()->name}}
-                </span>
-            </h4>
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-light border-0">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <div>
+                    <h4 class="mb-1 text-primary">
+                        <i class="fas fa-handshake me-2"></i>{{$deal->name}}
+                    </h4>
+                    @if(\App\Models\User::isSuperAdmin())
+                        <a class="text-decoration-none"
+                           href="{{route('sales_tracking',['locale'=>app()->getLocale(),'id'=>$deal->id])}}">
+                            <i class="fas fa-chart-line me-1"></i>{{ __('See details for Platform role') }}
+                        </a>
+                    @endif
+                </div>
+                <div class="d-flex gap-2 align-items-center">
+                    @if($deal->platform()->count())
+                        <span class="badge bg-primary-subtle text-primary px-3 py-2">
+                            <i class="fas fa-desktop me-1"></i>{{$deal->platform()->first()->name}}
+                        </span>
+                    @endif
+                    <span class="badge bg-info-subtle text-info px-3 py-2">
+                        <i class="fas fa-circle-notch me-1"></i>{{__(\Core\Enum\DealStatus::tryFrom($deal->status)?->name)}}
+                    </span>
+                </div>
+            </div>
+        </div>
 
-            @if(\App\Models\User::isSuperAdmin())
-                <a class="link-dark"
-                   href="{{route('sales_tracking',['locale'=>app()->getLocale(),'id'=>$deal->id])}}">{{ __('See details for Platform role') }}</a>
-            @endif
-        </div>
-        <div class="card-body row">
-            <div class="d-flex align-items-center">
-                <div class="flex-grow-1">
-                    <div class="text-muted">
-                        <div class="flex-shrink-0 ms-2">
-                            <strong class="fs-14 font-weight-bold mb-0">{{__('Current turnover')}}
-                                / {{__('Target turnover')}}</strong>
+        <!-- Key Metrics Section -->
+        <div class="card-body">
+            <div class="row g-3">
+                <!-- Turnover Card -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 bg-light h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="avatar-sm rounded bg-success-subtle text-success d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-dollar-sign fs-5"></i>
+                                </div>
+                                <h6 class="mb-0 ms-3 text-muted">{{__('Turnover')}}</h6>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted fs-12 mb-1">{{__('Current')}}</p>
+                                    <h5 class="mb-0 text-success">{{$deal->current_turnover}} {{config('app.currency')}}</h5>
+                                </div>
+                                <i class="ri-arrow-right-line text-muted fs-4"></i>
+                                <div>
+                                    <p class="text-muted fs-12 mb-1">{{__('Target')}}</p>
+                                    <h5 class="mb-0 text-danger">{{$deal->target_turnover}} {{config('app.currency')}}</h5>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="flex-shrink-0">
-                            <span class="badge badge-success text-muted">
-                                              <p class="float-end mx-1"> <span class="badge bg-success text-end fs-14"
-                                                                               title="{{__('Current turnover')}}">
-                                {{$deal->current_turnover}}  {{config('app.currency')}}
-                            </span>
-                  <i class="ri-arrow-right-fill"></i>
-                    <span class="badge bg-danger text-end fs-14" title="{{__('Target turnover')}}">
-                                {{$deal->target_turnover}}  {{config('app.currency')}}
-                            </span>
-                </p>
-                            </span>
-                </div>
-            </div>
-            <div class="d-flex align-items-center">
-                <div class="flex-grow-1">
-                    <div class="text-muted">
-                        <div class="flex-shrink-0 ms-2">
-                            <strong class="fs-14 font-weight-bold mb-0">{{__('Camembert value')}}</strong>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-shrink-0">
-                            <span class="badge badge-success text-muted">
-                                              <p class="float-end mx-1"> <span class="badge bg-success text-end fs-14"
-                                                                               title="{{__('Current turnover')}}">
-                                {{\App\Models\Deal::getCamombertPercentage($deal)}}  {{config('app.currency')}}
-                            </span>
 
-                </p>
-                            </span>
-                </div>
-            </div>
-            <div class="d-flex align-items-center">
-                <div class="flex-grow-1">
-                    <div class="text-muted">
-                        <div class="flex-shrink-0 ms-2">
-                            <strong class="fs-14 font-weight-bold mb-0">{{__('Start Date')}}
-                                <i class="ri-arrow-right-fill"></i> {{__('End date')}}</strong>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-shrink-0">
-                            <span class="badge badge-success text-muted">
-                                              <p class="float-end mx-1"> <span class="badge bg-success text-end fs-14"
-                                                                               title="{{__('Start Date')}}">
-                                {{$deal->start_date}}
-                            </span>
-                   <i class="ri-arrow-right-fill"></i>
-                    <span class="badge bg-danger text-end fs-14" title="{{__('End date')}}">
-                                {{$deal->end_date}}
-                            </span>
-                </p>
-                            </span>
-                </div>
-            </div>
-        </div>
-        <div class="card-body row">
-            <div class="d-flex align-items-center">
-                <div class="flex-grow-1">
-                    <div class="text-muted">
-                        <div class="flex-shrink-0 ms-2">
-                            <strong class="fs-14 mb-0">{{__('Description')}}</strong>
+                <!-- Camembert Value Card -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 bg-light h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="avatar-sm rounded bg-primary-subtle text-primary d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-chart-pie fs-5"></i>
+                                </div>
+                                <h6 class="mb-0 ms-3 text-muted">{{__('Camembert value')}}</h6>
+                            </div>
+                            <h4 class="mb-0 text-primary">{{\App\Models\Deal::getCamombertPercentage($deal)}} {{config('app.currency')}}</h4>
                         </div>
                     </div>
                 </div>
-                <div class="flex-shrink-0">
-                            <span class="text-muted">
-                                {{$deal->description}}
-                            </span>
-                </div>
-            </div>
-        </div>
-        <div class="card-body row">
-            <ul class="list-group col-sm-12 col-md-6 col-lg-4">
-                <li class="list-group-item">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <div class="text-muted">
-                                <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Discount deal')}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->discount}}  {{config('app.percentage')}}
-                            </span>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <div class="text-muted">
-                                <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Initial commission')}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->initial_commission}}  %
-                            </span>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <div class="text-muted">
-                                <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Final commission')}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->final_commission}} %
-                            </span>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-            <ul class="list-group col-sm-12 col-md-6 col-lg-4">
-                <li class="list-group-item">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <div class="text-muted">
-                                <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Total commission value')}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->total_commission_value}}  {{config('app.currency')}}
-                            </span>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <div class="text-muted">
-                                <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Total unused cashback value')}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->total_unused_cashback_value}}  {{config('app.currency')}}
-                            </span>
-                        </div>
-                    </div>
-                </li>
 
-            </ul>
-            <ul class="list-group col-sm-12 col-md-6 col-lg-4">
-                <li class="list-group-item">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <div class="text-muted">
-                                <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('2 Earn profit')}}</span>
+                <!-- Date Range Card -->
+                <div class="col-md-12 col-lg-4">
+                    <div class="card border-0 bg-light h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="avatar-sm rounded bg-info-subtle text-info d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-calendar-alt fs-5"></i>
+                                </div>
+                                <h6 class="mb-0 ms-3 text-muted">{{__('Duration')}}</h6>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted fs-12 mb-1">{{__('Start Date')}}</p>
+                                    <p class="mb-0 fw-semibold text-dark">{{$deal->start_date}}</p>
+                                </div>
+                                <i class="ri-arrow-right-line text-muted fs-4"></i>
+                                <div>
+                                    <p class="text-muted fs-12 mb-1">{{__('End date')}}</p>
+                                    <p class="mb-0 fw-semibold text-dark">{{$deal->end_date}}</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="flex-shrink-0">
-                            <span class="mx-2 text-info">
-                                {{$deal->earn_profit}} %
-                            </span>
-                            <span class="mx-2 text-success">
-                                {{formatSolde($earn_profit,2)}} {{config('app.currency')}}
-                            </span>
-                            <span class="mx-2 text-primary">
-                                {{formatSolde($deal->cash_company_profit,2)}} {{config('app.currency')}}
-                            </span>
-                        </div>
                     </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <div class="text-muted">
-                                <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Jackpot')}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->jackpot}} %
-                            </span>
-                            <span class="mx-2 text-success">
-                                {{formatSolde($jackpot,2)}} {{config('app.currency')}}
-                            </span>
-                            <span class="mx-2 text-primary">
-                                {{formatSolde($deal->cash_jackpot,2)}} {{config('app.currency')}}
-                            </span>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <div class="text-muted">
-                                <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Tree remuneration')}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->tree_remuneration}} %
-                            </span>
-                            <span class="mx-2 text-success">
-                                {{formatSolde($tree_remuneration,2)}} {{config('app.currency')}}
-                            </span>
-                            <span class="mx-2 text-primary">
-                                {{formatSolde($deal->cash_tree,2)}} {{config('app.currency')}}
-                            </span>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <div class="text-muted">
-                                <div class="flex-shrink-0 ms-2">
-                                    <span class="fs-14 mb-0">{{__('Proactive cashback')}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <span class="text-info">
-                                {{$deal->proactive_cashback}} %
-                            </span>
-                            <span class="mx-2 text-success">
-                                {{formatSolde($proactive_cashback)}} {{config('app.currency')}}
-                            </span>
-                            <span class="mx-2 text-primary">
-                                {{formatSolde($deal->cash_cashback,2)}} {{config('app.currency')}}
-                            </span>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+                </div>
+            </div>
         </div>
-        <div class="card-footer">
-      <span class="text-muted float-end">
-          <strong class="fs-14 mb-0">{{__('Created by')}} :</strong> {{getUserDisplayedName($deal->createdBy?->idUser)}} -   {{$deal->createdBy?->email}} / <strong>{{__('Created at')}}</strong> {{$deal->created_at}}
-      </span>
+
+        <!-- Description Section -->
+        @if($deal->description)
+        <div class="card-body border-top">
+            <div class="d-flex align-items-start">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-file-alt text-muted fs-5"></i>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                    <h6 class="text-muted mb-2">{{__('Description')}}</h6>
+                    <p class="text-dark mb-0">{{$deal->description}}</p>
+                </div>
+            </div>
+        </div>
+        @endif
+
+        <!-- Deal Terms Section -->
+        <div class="card-body border-top">
+            <h5 class="text-primary mb-3">
+                <i class="fas fa-file-contract me-2"></i>{{__('Deal Terms')}}
+            </h5>
+            <div class="row g-3">
+                <!-- Commission Details -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border h-100">
+                        <div class="card-body">
+                            <h6 class="text-muted mb-3">
+                                <i class="fas fa-percent me-2"></i>{{__('Commission Details')}}
+                            </h6>
+                            <div class="vstack gap-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-muted">{{__('Discount deal')}}</span>
+                                    <span class="badge bg-info-subtle text-info">{{$deal->discount}} {{config('app.percentage')}}</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-muted">{{__('Initial commission')}}</span>
+                                    <span class="badge bg-success-subtle text-success">{{$deal->initial_commission}} %</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-muted">{{__('Final commission')}}</span>
+                                    <span class="badge bg-primary-subtle text-primary">{{$deal->final_commission}} %</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Financial Values -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border h-100">
+                        <div class="card-body">
+                            <h6 class="text-muted mb-3">
+                                <i class="fas fa-money-bill-wave me-2"></i>{{__('Financial Values')}}
+                            </h6>
+                            <div class="vstack gap-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-muted">{{__('Total commission value')}}</span>
+                                    <span class="fw-semibold text-success">{{$deal->total_commission_value}} {{config('app.currency')}}</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-muted">{{__('Total unused cashback value')}}</span>
+                                    <span class="fw-semibold text-info">{{$deal->total_unused_cashback_value}} {{config('app.currency')}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Distribution Breakdown -->
+                <div class="col-md-12 col-lg-4">
+                    <div class="card border h-100">
+                        <div class="card-body">
+                            <h6 class="text-muted mb-3">
+                                <i class="fas fa-chart-pie me-2"></i>{{__('Distribution Breakdown')}}
+                            </h6>
+                            <div class="vstack gap-2">
+                                <!-- 2 Earn Profit -->
+                                <div class="border-bottom pb-2">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <span class="text-muted fs-13">{{__('2 Earn profit')}}</span>
+                                        <span class="badge bg-info-subtle text-info">{{$deal->earn_profit}} %</span>
+                                    </div>
+                                    <div class="d-flex gap-2 flex-wrap">
+                                        <small class="badge bg-success-subtle text-success">{{formatSolde($earn_profit,2)}} {{config('app.currency')}}</small>
+                                        <small class="badge bg-primary-subtle text-primary">{{formatSolde($deal->cash_company_profit,2)}} {{config('app.currency')}}</small>
+                                    </div>
+                                </div>
+
+                                <!-- Jackpot -->
+                                <div class="border-bottom pb-2">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <span class="text-muted fs-13">{{__('Jackpot')}}</span>
+                                        <span class="badge bg-warning-subtle text-warning">{{$deal->jackpot}} %</span>
+                                    </div>
+                                    <div class="d-flex gap-2 flex-wrap">
+                                        <small class="badge bg-success-subtle text-success">{{formatSolde($jackpot,2)}} {{config('app.currency')}}</small>
+                                        <small class="badge bg-primary-subtle text-primary">{{formatSolde($deal->cash_jackpot,2)}} {{config('app.currency')}}</small>
+                                    </div>
+                                </div>
+
+                                <!-- Tree Remuneration -->
+                                <div class="border-bottom pb-2">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <span class="text-muted fs-13">{{__('Tree remuneration')}}</span>
+                                        <span class="badge bg-success-subtle text-success">{{$deal->tree_remuneration}} %</span>
+                                    </div>
+                                    <div class="d-flex gap-2 flex-wrap">
+                                        <small class="badge bg-success-subtle text-success">{{formatSolde($tree_remuneration,2)}} {{config('app.currency')}}</small>
+                                        <small class="badge bg-primary-subtle text-primary">{{formatSolde($deal->cash_tree,2)}} {{config('app.currency')}}</small>
+                                    </div>
+                                </div>
+
+                                <!-- Proactive Cashback -->
+                                <div class="pb-1">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <span class="text-muted fs-13">{{__('Proactive cashback')}}</span>
+                                        <span class="badge bg-primary-subtle text-primary">{{$deal->proactive_cashback}} %</span>
+                                    </div>
+                                    <div class="d-flex gap-2 flex-wrap">
+                                        <small class="badge bg-success-subtle text-success">{{formatSolde($proactive_cashback)}} {{config('app.currency')}}</small>
+                                        <small class="badge bg-primary-subtle text-primary">{{formatSolde($deal->cash_cashback,2)}} {{config('app.currency')}}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="card-footer bg-light">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <div class="text-muted">
+                    <i class="fas fa-user-circle me-1"></i>
+                    <strong>{{__('Created by')}}:</strong>
+                    {{getUserDisplayedName($deal->createdBy?->idUser)}}
+                    <span class="mx-2">•</span>
+                    {{$deal->createdBy?->email}}
+                </div>
+                <div class="text-muted">
+                    <i class="fas fa-clock me-1"></i>
+                    <strong>{{__('Created at')}}:</strong>
+                    {{$deal->created_at}}
+                </div>
+            </div>
         </div>
     </div>
     @if(!empty($commissions))

@@ -9,6 +9,7 @@ use Livewire\Component;
 class PlatformShow extends Component
 {
     public $idPlatform;
+    public $currentRouteName;
 
     public function mount($id)
     {
@@ -16,13 +17,18 @@ class PlatformShow extends Component
         $this->currentRouteName = Route::currentRouteName();
         $platform = Platform::FindOrFail($this->idPlatform);
         if (!$platform->enabled) {
-            return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('danger', trans('Platform disabled'));
+            $this->redirect(route('platform_index', ['locale' => app()->getLocale()]), navigate: true);
         }
     }
 
     public function render()
     {
-        $params['platform'] = Platform::FindOrFail($this->idPlatform);
-        return view('livewire.platform-show', $params)->extends('layouts.master')->section('content');
+        $platform = Platform::with(['businessSector', 'logoImage', 'deals', 'items', 'coupons'])
+            ->withCount(['deals', 'items', 'coupons'])
+            ->findOrFail($this->idPlatform);
+
+        return view('livewire.platform-show', [
+            'platform' => $platform
+        ])->extends('layouts.master')->section('content');
     }
 }

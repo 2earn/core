@@ -3,11 +3,11 @@
 use App\Livewire\AcceptFinancialRequest;
 use App\Livewire\Account;
 use App\Livewire\ChangePasswordPage;
+use App\Livewire\ChangeEmail;
 use App\Livewire\ConfigurationHA;
 use App\Livewire\ContactNumber;
 use App\Livewire\Contacts;
 use App\Livewire\Description;
-use App\Livewire\EditUserContact;
 use App\Livewire\EntretienArbre;
 use App\Livewire\EvolutionArbre;
 use App\Livewire\FinancialTransaction;
@@ -19,6 +19,7 @@ use App\Livewire\Home;
 use App\Livewire\IdentificationPage;
 use App\Livewire\IdentificationRequest;
 use App\Livewire\Login;
+use App\Livewire\ManageContact;
 use App\Livewire\NotificationHistory;
 use App\Livewire\NotificationSettings;
 use App\Livewire\Registre;
@@ -29,8 +30,8 @@ use App\Livewire\UserBalanceBFS;
 use App\Livewire\UserBalanceCB;
 use App\Livewire\UserBalanceDB;
 use App\Livewire\UserBalanceSMS;
-use App\Livewire\UserPurchaseHistory;
 use App\Livewire\UserFormContent;
+use App\Livewire\UserPurchaseHistory;
 use App\Livewire\ValidateAccount;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
@@ -83,9 +84,15 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/user-form', UserFormContent::class)->name('user_form');
         Route::get('/change-password', ChangePasswordPage::class)->name('change_password');
         Route::get('/identification', IdentificationPage::class)->name('identification');
-        Route::get('/contacts', Contacts::class)->name('contacts');
+
         Route::get('/notification/history', NotificationHistory::class)->name('notification_history');
         Route::get('/notification/settings', NotificationSettings::class)->name('notification_settings');
+
+        Route::prefix('/contacts')->name('contacts_')->group(function () {
+            Route::get('/', Contacts::class)->name('index');
+            Route::get('/add', ManageContact::class)->name('add');
+            Route::get('/edit', ManageContact::class)->name('edit');
+        });
 
         Route::prefix('/business-hub')->name('business_hub_')->group(function () {
             Route::get('/trading', \App\Livewire\Trading::class)->name('trading');
@@ -120,18 +127,19 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         Route::get('/treeview', \App\Livewire\Treeview::class)->name('treeview');
 
-        Route::prefix('/user')->group(function () {
-            Route::get('/balance-sms', UserBalanceSMS::class)->name('user_balance_sms');
-            Route::get('/balance-cb', UserBalanceCB::class)->name('user_balance_cb');
-            Route::get('/balance-db', UserBalanceDB::class)->name('user_balance_db');
-            Route::get('/balance-bfs', UserBalanceBFS::class)->name('user_balance_bfs');
-            Route::get('/balance-tree', \App\Livewire\UserBalanceTree::class)->name('user_balance_tree');
-            Route::get('/balance-chance', \App\Livewire\UserBalanceChance::class)->name('user_balance_chance');
+        Route::prefix('/user')->name('user_')->group(function () {
+            Route::get('/balance-sms', UserBalanceSMS::class)->name('balance_sms');
+            Route::get('/balance-cb', UserBalanceCB::class)->name('balance_cb');
+            Route::get('/balance-db', UserBalanceDB::class)->name('balance_db');
+            Route::get('/balance-bfs', UserBalanceBFS::class)->name('balance_bfs');
+            Route::get('/balance-tree', \App\Livewire\UserBalanceTree::class)->name('balance_tree');
+            Route::get('/balance-chance', \App\Livewire\UserBalanceChance::class)->name('balance_chance');
+            Route::get('/balance-shares', \App\Livewire\SharesSolde::class)->name('balance_shares');
         });
 
         Route::get('/financial/transaction/{filter?}', FinancialTransaction::class)->name('financial_transaction');
         Route::get('/contact-number', ContactNumber::class)->name('contact_number');
-        Route::get('/user/edit-contact', EditUserContact::class)->name('user_contact_edit');
+        Route::get('/change-email', \App\Livewire\ChangeEmail::class)->name('change_email');
         Route::get('/balances/exchange/funding/RequestPulicUser', RequestPublicUser::class)->name('user_request_public');
         Route::get('/balances/exchange/funding/strip', stripView::class)->name('payment_strip');
         Route::get('/paytabs', '\\App\\Livewire\\Pay@test')->name('paytabs');
@@ -144,6 +152,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/{id}/simulation', \App\Livewire\OrderSimulation::class)->name('simulation');
             Route::get('/summary', \App\Livewire\OrderSummary::class)->name('summary');
         });
+
         Route::prefix('/items')->name('items_')->group(function () {
             Route::get('/index', \App\Livewire\ItemsIndex::class)->name('index');
             Route::get('/{id}/detail', \App\Livewire\ItemsDetails::class)->name('detail');
@@ -216,6 +225,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::prefix('/configuration')->group(function () {
                 Route::get('/ha', ConfigurationHA::class)->name('configuration_ha');
                 Route::get('/setting', \App\Livewire\ConfigurationSetting::class)->name('configuration_setting');
+                Route::get('/setting/{id}/edit', \App\Livewire\ConfigurationSettingEdit::class)->name('configuration_setting_edit');
                 Route::get('/amounts', \App\Livewire\ConfigurationAmounts::class)->name('configuration_amounts');
             });
 
@@ -323,7 +333,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/{id}/tracking', \App\Livewire\SalesTracking::class)->name('tracking');
         });
 
-        Route::get('/shares/solde', \App\Livewire\SharesSolde::class)->name('shares_solde');
 
         Route::get('/stat-countries', 'App\\Http\\Controllers\\ApiController@getCountriStat')->name('api_stat_countries');
         Route::post('/validate-phone', 'App\\Http\\Controllers\\ApiController@validatePhone')->name('validate_phone');
@@ -337,6 +346,8 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
     });
 
     Route::get('/users/list', 'App\\Http\\Controllers\\ApiController@getUsersList')->name('api_users_list');
+
+    Route::get('/users/stats', \App\Livewire\UsersStatsPage::class)->name('users_stats');
 
     Route::get('/login', Login::class)->name('login')->middleware('setLocalLogin');
 

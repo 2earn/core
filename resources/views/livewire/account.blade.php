@@ -218,7 +218,7 @@
                                          title="{{ __('Change profile picture') }}">
                                         <input id="profile-img-file-input" type="file" class="profile-img-file-input"
                                                accept="image/png, image/jpeg, image/jpg"
-                                               wire:model.live="imageProfil"
+                                               wire:model="imageProfil"
                                                aria-label="{{ __('Upload profile picture') }}">
                                         <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
                                             <span class="avatar-title rounded-circle bg-light text-body">
@@ -257,22 +257,22 @@
                                     </div>
                                 @endif
 
-                                <div class="card bg-light border-0 mt-4">
-                                    <div class="card-body p-3">
-                                        <div
-                                            class="form-check form-switch d-flex justify-content-center align-items-center"
-                                            dir="ltr">
-                                            <input wire:model="user.is_public" type="checkbox"
-                                                   class="form-check-input me-2"
-                                                   id="customSwitchsizesm" @checked($user['is_public']??false)
-                                                   role="switch" aria-checked="{{$user['is_public']??false}}">
-                                            <label class="form-check-label mb-0" for="customSwitchsizesm">
-                                                <i class="ri-hand-heart-line me-1"></i>
-                                                {{ __('I agree to receive funding requests') }}
-                                            </label>
-                                        </div>
+                                @if($imageProfil || (bool)($user['is_public'] ?? 0) !== (bool)($originalIsPublic ?? 0))
+                                    <div class="mt-3">
+                                        <button wire:click="saveProfileSettings"
+                                                wire:loading.attr="disabled"
+                                                class="btn btn-success w-100"
+                                                aria-label="{{ __('Save Changes') }}">
+                                            <span wire:loading.remove wire:target="saveProfileSettings">
+                                                <i class="ri-save-line me-1"></i>{{ __('Save Changes') }}
+                                            </span>
+                                            <span wire:loading wire:target="saveProfileSettings">
+                                                <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                                                {{ __('Saving') }}...
+                                            </span>
+                                        </button>
                                     </div>
-                                </div>
+                                @endif
 
                                 @if(Route::getCurrentRoute()->getName()!="validate_account")
                                     <div class="mt-3">
@@ -760,11 +760,14 @@
                     var ipPhone = document.getElementById("inputPhoneUpdate");
                     var errorMap = ['{{trans('Invalid number')}}', '{{trans('Invalid country code')}}', '{{trans('Too shortsss')}}', '{{trans('Too long')}}', '{{trans('Invalid number')}}'];
                     document.addEventListener("DOMContentLoaded", function () {
-                        ipPhone.innerHTML =
+                        if(ipPhone!==null)
+                        {  ipPhone.innerHTML =
                             "<input type='tel'  placeholder= '{{ __("PH_EditPhone") }}' id='initIntlTelInput' class='form-control' onpaste='handlePaste(event)'>" +
                             "  <span id='valid-msg'   class='invisible'>✓ Valid</span><span id='error-msg' class='hide'></span>" +
                             " <input type='hidden' name='fullnumberUpPhone' id='outputUpPhone' value='hidden' class='form-control'> " +
                             " <input type='hidden' name='ccodeUpPhone' id='ccodeUpPhone'  ><input type='hidden' name='isoUpPhone' id='isoUpPhone'  >";
+                        }
+
                         var countryDataUpPhone = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
                             inputUpPhone = document.querySelector("#initIntlTelInput");
                         var itiUpPhone = window.intlTelInput(inputUpPhone, {
@@ -857,25 +860,6 @@
                 </script>
 
 
-            </div>
-            <div id="topmodal" class="modal fade" tabindex="-1" aria-hidden="true"
-                 style="display: none;">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-body text-center p-5">
-                            <h4 class="mb-3">{{ __('Email Needed') }}</h4>
-                            <p class="text-muted mb-4">{{ __('Please enter your email to proceed with the update of your contact number.') }}</p>
-                            <div class="hstack gap-2 justify-content-center">
-                                <a href="javascript:void(0);"
-                                   class="btn btn-link link-success fw-medium"
-                                   data-bs-dismiss="modal"><i
-                                        class="ri-close-line me-1 align-middle"></i>
-                                    {{ __('Close')}}</a>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

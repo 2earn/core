@@ -54,6 +54,7 @@ class Account extends Component
     public $genders;
     public $languages;
     public $activeTab = 'personalDetails';
+    public $originalIsPublic;
 
     protected $listeners = [
         'sendVerificationMail' => 'sendVerificationMail',
@@ -65,6 +66,7 @@ class Account extends Component
         'EmailCheckUser' => 'EmailCheckUser',
         'checkUserEmail' => 'checkUserEmail',
         'cancelProcess' => 'cancelProcess',
+        'saveProfileSettings' => 'saveProfileSettings',
     ];
 
 
@@ -103,6 +105,35 @@ class Account extends Component
             $this->photoBack->storeAs('profiles', 'back-id-image' . $um->idUser . '.png', 'public2');
         }
         return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Edit_profil_succes'));
+    }
+
+    public function saveProfileSettings()
+    {
+        try {
+            $user = User::find($this->user['id']);
+
+            // Save profile image if uploaded
+            if (!is_null($this->imageProfil)) {
+                User::saveProfileImage($user->idUser, $this->imageProfil);
+                $this->userProfileImage = User::getUserProfileImage($user->idUser);
+            }
+
+            // Save is_public setting
+            $user->is_public = $this->user['is_public'];
+            $user->save();
+
+            // Update originalIsPublic to track new state
+            $this->originalIsPublic = $this->user['is_public'];
+
+            // Clear the image upload
+            $this->imageProfil = null;
+
+            session()->flash('success', Lang::get('Profile settings saved successfully'));
+
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            session()->flash('danger', Lang::get('Error saving profile settings'));
+        }
     }
 
 
@@ -340,6 +371,7 @@ class Account extends Component
         $this->countryUser = Lang::get($settingsManager->getCountrieById($user->idCountry)->name);
         $this->usermetta_info = $usermetta_info;
         $this->user = collect($user);
+        $this->originalIsPublic = $user->is_public;
         $this->states = $settingsManager->getStatesContrie($user->id_phone);
         $this->CalculPercenteComplete();
         $hasRequest = $userAuth->hasIdentificationRequest();

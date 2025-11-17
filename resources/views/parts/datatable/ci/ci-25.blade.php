@@ -5,10 +5,7 @@
           ->where('balance_operation_id',\Core\Enum\BalanceOperationsEnum::OLD_ID_14->value)->first();
       $user=\App\Models\User::find($newBalanceModel->beneficiary_id_auto);
 @endphp
-@if (App::environment(['local', 'dev']))
-    <span class="text-muted">{{$balance->id}}:</span>/25/{{$balance->balance_operation_id}}
-    <hr>
-@endif
+
 @if(!is_null($user))
     <span class="text-muted">{{__('About User')}}:</span>
     <div data-simplebar style="max-height: 215px;">

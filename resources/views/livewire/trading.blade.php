@@ -7,6 +7,13 @@
             {{ __('Trading') }}
         @endslot
     @endcomponent
+
+    <style>
+        .cursor-pointer {
+            cursor: pointer;
+        }
+    </style>
+
     <div class="row mb-1">
         <div class="col-12">
             @include('layouts.flash-messages')
@@ -119,27 +126,99 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table id="shares-solde" wire:ignore wire:key="{{uniqid()}}"
-                               class="table table-striped table-bordered table-hover align-middle nowrap mb-0"
-                               style="width:100%">
-                            <thead class="table-light">
-                            <tr>
-                                <th class="fw-semibold">{{__('Details')}}</th>
-                                <th class="fw-semibold">{{__('id')}}</th>
-                                <th class="fw-semibold">{{__('Date purchase')}}</th>
-                                <th class="fw-semibold">{{__('Number of shares')}}</th>
-                                <th class="fw-semibold">{{__('Total shares')}}</th>
-                                <th class="fw-semibold">{{__('Total price')}}</th>
-                                <th class="fw-semibold">{{__('Present value')}}</th>
-                                <th class="fw-semibold">{{__('Current_earnings')}}</th>
-                                <th class="fw-semibold">{{ __('Complementary information') }}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <label class="me-2">{{__('Show')}}</label>
+                                <select wire:model.live="perPage" class="form-select form-select-sm" style="width: auto;">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                <span class="ms-2">{{__('entries')}}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex justify-content-end">
+                                <input wire:model.live.debounce.300ms="search" type="text" class="form-control form-control-sm" style="max-width: 250px;" placeholder="{{__('Search')}}...">
+                            </div>
+                        </div>
+                    </div>
+                        @forelse($shares as $share)
+                            @php
+                                $earnings = ($share->value * $currentActionValue) - ($share->unit_price * $share->value);
+                            @endphp
+                            <div class="card mb-3 shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                        <div>
+                                            <h6 class="mb-1 fw-bold text-primary">{{__('id')}}: {{ $share->id }}</h6>
+                                            <small class="text-muted">
+                                                <i class="ri-calendar-line me-1"></i>
+                                                {{ \Carbon\Carbon::parse($share->created_at)->format('Y-m-d H:i:s') }}
+                                            </small>
+                                        </div>
+                                        <span class="badge {{ $earnings >= 0 ? 'bg-success' : 'bg-danger' }}">
+                                            {{ number_format($earnings, 2) }}
+                                        </span>
+                                    </div>
+
+                                    <div class="row g-2">
+                                        <div class="col-6">
+                                            <div class="p-2 bg-light rounded">
+                                                <small class="text-muted d-block">{{__('Number of shares')}}</small>
+                                                <strong>{{ number_format($share->value, 0) }}</strong>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="p-2 bg-light rounded">
+                                                <small class="text-muted d-block">{{__('Total shares')}}</small>
+                                                <strong>{{ $share->value }}</strong>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="p-2 bg-light rounded">
+                                                <small class="text-muted d-block">{{__('Total price')}}</small>
+                                                <strong>{{ number_format($share->unit_price * $share->value, 2) }}</strong>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="p-2 bg-light rounded">
+                                                <small class="text-muted d-block">{{__('Present value')}}</small>
+                                                <strong>{{ number_format($share->value * $currentActionValue, 2) }}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @if(getBalanceCIView($share))
+                                        <div class="mt-3 pt-3 border-top">
+                                            <small class="text-muted d-block mb-2">{{__('Complementary information')}}</small>
+                                            <div>{!! getBalanceCIView($share) !!}</div>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        @empty
+                            <div class="text-center py-5">
+                                <div class="avatar-lg mx-auto mb-3">
+                                    <div class="avatar-title bg-light text-muted rounded-circle">
+                                        <i class="ri-inbox-line fs-1"></i>
+                                    </div>
+                                </div>
+                                <h5 class="text-muted">{{__('No shares found')}}</h5>
+                            </div>
+                        @endforelse
+                </div>
+                <div class="card-footer bg-light border-top">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="text-muted small">
+                            {{__('Showing')}} {{ $shares->firstItem() ?? 0 }} {{__('to')}} {{ $shares->lastItem() ?? 0 }} {{__('of')}} {{ $shares->total() }} {{__('entries')}}
+                        </div>
+                        <div>
+                            {{ $shares->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -221,39 +300,6 @@
                     chart1.updateSeries([series1, series2, series3]);
                 });
             }
-            $('#shares-solde').DataTable({
-                responsive: true,
-                retrieve: true,
-                "colReorder": false,
-                "orderCellsTop": true,
-                "fixedHeader": true,
-                "order": [[1, 'desc']],
-                "processing": true,
-                "serverSide": false,
-                "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                search: {return: true},
-                autoWidth: false,
-                bAutoWidth: false,
-                "ajax": {
-                    url: "{{route('api_shares_solde',['locale'=> app()->getLocale()])}}",
-                    type: "GET",
-                    headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
-                    error: function (xhr, error, thrown) {
-                        loadDatatableModalError('shares-solde')
-                    }                },
-                "columns": [
-                    datatableControlBtn,
-                    {data: 'id'},
-                    {data: 'formatted_created_at'},
-                    {data: 'value_format'},
-                    {data: 'total_shares'},
-                    {data: 'total_price'},
-                    {data: 'present_value'},
-                    {data: 'current_earnings'},
-                    {data: 'complementary_information'},
-                ],
-                "language": {"url": urlLang}
-            });
         });
     </script>
 

@@ -210,4 +210,8 @@ return [
     "file-manager" => "File Manager",
     "to-do" => "To Do",
     "crypto-svg" => "Crypto SVG",
+    "Save Changes" => "Save Changes",
+    "Saving" => "Saving",
+    "Profile settings saved successfully" => "Profile settings saved successfully",
+    "Error saving profile settings" => "Error saving profile settings",
 ];

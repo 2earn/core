@@ -32,22 +32,38 @@ class PlatformCreateUpdate extends Component
     public $show_profile = false;
     public $useCoupons = true;
 
-    protected $rules = [
-        'name' => 'required',
-        'description' => 'required',
-        'type' => 'required',
-        'sector' => 'required',
-        'link' => 'required',
-        'logoImage' => 'nullable|image|mimes:jpeg,png,jpg',
-    ];
 
     public $update = false;
     public $types = [];
     public $sectors = [];
 
+    protected function getValidationRulesForCreate()
+    {
+        return [
+            'name' => 'required',
+            'description' => 'required',
+            'type' => 'required',
+            'sector' => 'required',
+            'link' => 'required',
+            'logoImage' => 'nullable|image|mimes:jpeg,png,jpg',
+        ];
+    }
+
+    protected function getValidationRulesForUpdate()
+    {
+        return [
+            'name' => 'nullable',
+            'description' => 'nullable',
+            'type' => 'required',
+            'sector' => 'required',
+            'link' => 'required',
+            'logoImage' => 'nullable|image|mimes:jpeg,png,jpg',
+        ];
+    }
+
     public function mount(Request $request)
     {
-        $this->idPlatform = $request->query('idPlatform');
+        $this->idPlatform = $request->query('id');
         $this->type = PlatformType::Full->value;
         $this->types = [
             ['name' => PlatformType::Full->name, 'value' => PlatformType::Full->value,],
@@ -136,16 +152,24 @@ class PlatformCreateUpdate extends Component
     public function updatePlatform()
     {
         try {
-            $this->validate();
-            $params = [
-                'name' => $this->name,
-                'description' => $this->description,
-                'enabled' => $this->enabled,
-                'show_profile' => $this->show_profile,
-                'type' => $this->type,
-                'business_sector_id' => $this->sector,
-                'link' => $this->link
-            ];
+            $this->validate($this->getValidationRulesForUpdate());
+
+            $params = [];
+
+            // Only update fields that have values
+            if (!empty($this->name)) {
+                $params['name'] = $this->name;
+            }
+            if (!empty($this->description)) {
+                $params['description'] = $this->description;
+            }
+
+            $params['enabled'] = $this->enabled;
+            $params['show_profile'] = $this->show_profile;
+            $params['type'] = $this->type;
+            $params['business_sector_id'] = $this->sector;
+            $params['link'] = $this->link;
+
             Platform::where('id', $this->idPlatform)->update($params);
 
 
@@ -173,7 +197,7 @@ class PlatformCreateUpdate extends Component
     public function storePlatform()
     {
         try {
-            $this->validate();
+            $this->validate($this->getValidationRulesForCreate());
             $params = [
                 'name' => $this->name,
                 'description' => $this->description,

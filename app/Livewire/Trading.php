@@ -8,9 +8,14 @@ use Core\Models\Setting;
 use Core\Services\BalancesManager;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Trading extends Component
 {
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
     const MAX_AMOUNT = 99999999;
     const MAX_ACTIONS = 9999999;
     public $flash = false;
@@ -41,6 +46,12 @@ class Trading extends Component
     public $actionValue = 0;
     public $targetDate = null;
 
+    // Livewire table properties
+    public $perPage = 10;
+    public $search = '';
+    public $sortField = 'id';
+    public $sortDirection = 'desc';
+
 
     public function mount()
     {
@@ -60,6 +71,46 @@ class Trading extends Component
         $this->totalPaied = round(SharesBalances::where('balance_operation_id', 44)->where('beneficiary_id', Auth()->user()->idUser)->selectRaw('SUM(total_amount) as total_sum')->first()->total_sum, 3);
         //------------------------------
 
+    }
+
+
+    public function sortBy($field)
+    {
+        if ($this->sortField === $field) {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortField = $field;
+            $this->sortDirection = 'asc';
+        }
+    }
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingPerPage()
+    {
+        $this->resetPage();
+    }
+
+    public function getSharesData()
+    {
+        $query = SharesBalances::query()
+            ->where('beneficiary_id', auth()->user()->idUser)
+            ->select('*');
+
+        if ($this->search) {
+            $query->where(function($q) {
+                $q->where('id', 'like', '%' . $this->search . '%')
+                  ->orWhere('created_at', 'like', '%' . $this->search . '%')
+                  ->orWhere('value', 'like', '%' . $this->search . '%');
+            });
+        }
+
+        $query->orderBy($this->sortField, $this->sortDirection);
+
+        return $query->paginate($this->perPage);
     }
 
 
@@ -88,7 +139,9 @@ class Trading extends Component
             $this->flash = $currentDateTime < $dateFlash;
         }
         $params = [
-            "soldeBuyShares" => $balancesManager->getBalances(auth()->user()->idUser, 2)
+            "soldeBuyShares" => $balancesManager->getBalances(auth()->user()->idUser, 2),
+            "shares" => $this->getSharesData(),
+            "currentActionValue" => actualActionValue(getSelledActions(true))
         ];
 
         return view('livewire.trading', $params)->extends('layouts.master')->section('content');

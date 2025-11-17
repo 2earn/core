@@ -89,7 +89,6 @@ class DealsIndex extends Component
     {
         $this->choosenDeals = $this->prepareQuery();
         log::info(json_encode($this->choosenDeals));
-        $this->dispatch('updateDealsDatatable', []);
     }
 
     public function updateDeal($id, $status)

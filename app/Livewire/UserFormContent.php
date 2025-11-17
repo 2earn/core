@@ -7,6 +7,8 @@ use App\Http\Traits\earnTrait;
 use App\Models\User;
 use Carbon\Carbon;
 use Core\Enum\StatusRequest;
+use Core\Enum\TypeEventNotificationEnum;
+use Core\Enum\TypeNotificationEnum;
 use Core\Models\metta_user;
 use Core\Services\settingsManager;
 use Illuminate\Http\Request;
@@ -43,12 +45,16 @@ class UserFormContent extends Component
     public $genders;
     public $languages;
     public $activeTab = 'personalDetails';
+    public $originalIsPublic;
+    public $isPublic;
+    public $newMail;
 
     protected $listeners = [
         'saveUser' => 'saveUser',
+        'sendVerificationMail' => 'sendVerificationMail',
     ];
 
-    public function mount(settingsManager $settingManager)
+    public function mount(settingsManager $settingManager,Request $request)
     {
         $theId = auth()->user()->idUser;
 
@@ -65,6 +71,38 @@ class UserFormContent extends Component
         $this->personaltitles = DB::table('personal_titles')->get();
         $this->genders = DB::table('genders')->get();
         $this->languages = DB::table('languages')->get();
+
+
+        $this->paramIdUser = $request->input('paramIdUser');
+        if ($this->paramIdUser == null) $this->paramIdUser = "";
+
+        if ($this->paramIdUser == null || $this->paramIdUser == "")
+            $userAuth = $settingManager->getAuthUser();
+        else {
+            $this->noteReject = Lang::get('Note_rejected');
+            $userAuth = $settingManager->getAuthUserById($this->paramIdUser);
+        }
+
+        $this->dispalyedUserCred = getUserDisplayedName($userAuth->idUser);
+
+        if (!$userAuth)
+            abort(404);
+
+        $this->numberActif = $settingManager->getidCountryForSms($userAuth->id)->fullNumber;
+
+        $usermetta_info = collect(DB::table('metta_users')->where('idUser', $userAuth->idUser)->first());
+        if (is_null($usermetta_info->get('childrenCount'))) {
+            $usermetta_info->put('childrenCount', 0);
+        }
+
+        $user = DB::table('users')->where('idUser', $userAuth->idUser)->first();
+        $this->countryUser = Lang::get($settingManager->getCountrieById($user->idCountry)->name);
+        $this->usermetta_info = $usermetta_info;
+        $this->user = collect($user);
+        $this->originalIsPublic = $user->is_public;
+        $this->states = $settingManager->getStatesContrie($user->id_phone);
+        $this->disabled = in_array($user->status, [StatusRequest::InProgressNational->value, StatusRequest::InProgressInternational->value, StatusRequest::InProgressGlobal->value, StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value]) ? true : false;
+
     }
 
     public function saveUser($nbrChild, settingsManager $settingsManager)
@@ -119,6 +157,9 @@ class UserFormContent extends Component
 
         $um->save();
         $um = metta_user::find($this->usermetta_info['id']);
+
+        // Save is_public setting
+        $us->is_public = $this->user['is_public'];
         $us->save();
         $us = User::find($this->user['id']);
 
@@ -157,36 +198,36 @@ class UserFormContent extends Component
         }
     }
 
-    public function render(settingsManager $settingsManager, Request $request)
+    public function sendVerificationMail($mail, settingsManager $settingsManager)
     {
-        $this->paramIdUser = $request->input('paramIdUser');
-        if ($this->paramIdUser == null) $this->paramIdUser = "";
-
-        if ($this->paramIdUser == null || $this->paramIdUser == "")
-            $userAuth = $settingsManager->getAuthUser();
-        else {
-            $this->noteReject = Lang::get('Note_rejected');
-            $userAuth = $settingsManager->getAuthUserById($this->paramIdUser);
+        $userAuth = $settingsManager->getAuthUser();
+        if (!$userAuth) abort(404);
+        if (!isValidEmailAdressFormat($mail)) {
+            session()->flash('danger', Lang::get('Not valid Email Format'));
+            return;
         }
-
-        $this->dispalyedUserCred = getUserDisplayedName($userAuth->idUser);
-
-        if (!$userAuth)
-            abort(404);
-
-        $this->numberActif = $settingsManager->getidCountryForSms($userAuth->id)->fullNumber;
-
-        $usermetta_info = collect(DB::table('metta_users')->where('idUser', $userAuth->idUser)->first());
-        if (is_null($usermetta_info->get('childrenCount'))) {
-            $usermetta_info->put('childrenCount', 0);
+        if ($userAuth->email == $mail) {
+            session()->flash('danger', Lang::get('Same email Address'));
+            return;
         }
+        $userExisteMail = $settingsManager->getConditionalUser('email', $mail);
+        if ($userExisteMail && $userExisteMail->idUser != $userAuth->idUser) {
+            session()->flash('danger', Lang::get('mail_used'));
+            return;
+        }
+        $opt = $this->randomNewCodeOpt();
+        $us = User::find($this->user['id']);
+        $us->OptActivation = $opt;
+        $us->OptActivation_at = Carbon::now();
+        $us->save();
+        $numberActif = $settingsManager->getNumberCOntactActif($userAuth->idUser)->fullNumber;
+        $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::VerifMail, ['msg' => $opt, 'type' => TypeNotificationEnum::SMS]);
+        $this->newMail = $mail;
+        $this->dispatch('confirmOPTVerifMail', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'numberActif' => $numberActif]);
+    }
 
-        $user = DB::table('users')->where('idUser', $userAuth->idUser)->first();
-        $this->countryUser = Lang::get($settingsManager->getCountrieById($user->idCountry)->name);
-        $this->usermetta_info = $usermetta_info;
-        $this->user = collect($user);
-        $this->states = $settingsManager->getStatesContrie($user->id_phone);
-        $this->disabled = in_array($user->status, [StatusRequest::InProgressNational->value, StatusRequest::InProgressInternational->value, StatusRequest::InProgressGlobal->value, StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value]) ? true : false;
+    public function render()
+    {
 
         return view('livewire.user-form-content')->extends('layouts.master')->section('content');
     }

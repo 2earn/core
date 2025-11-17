@@ -272,7 +272,7 @@
                             </div>
                             <div class="overflow-hidden">
                                 <h6 class="text-uppercase text-muted mb-1 small">{{ __('Actions (Shares)') }}</h6>
-                                <a href="{{route('shares_solde' , app()->getLocale() )}}"
+                                <a href="{{route('user_balance_shares' , app()->getLocale() )}}"
                                    class="text-decoration-none small text-info">{{ __('see_details') }}</a>
                             </div>
                         </div>

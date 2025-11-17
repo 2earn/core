@@ -4,10 +4,6 @@
     $bfsModels=\App\Models\BFSsBalances::where('beneficiary_id_auto',$balanceModel->beneficiary_id_auto)
    ->limit(3)->get();
 @endphp
-@if (App::environment(['local', 'dev']))
-    <span class="text-muted">{{$balance->id}}:</span>/48/{{$balance->balance_operation_id}}
-    <hr>
-@endif
 
 @if($bfsModels->count())
     <span class="text-muted my-2" title="{{$balanceModel->reference}}">{{__('Last  operations / max last 3 operations')}}:</span>

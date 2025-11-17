@@ -1,175 +1,257 @@
-<div class="row">
-    <div class="{{getContainerType()}}">
-        @section('title')
+<div class="{{getContainerType()}}">
+    @section('title')
+        {{ __('Coupon') }}
+    @endsection
+
+    @component('components.breadcrumb')
+        @slot('title')
             {{ __('Coupon') }}
-        @endsection
-        @component('components.breadcrumb')
-            @slot('title')
-                {{ __('Coupon') }}
-            @endslot
-        @endcomponent
+        @endslot
+    @endcomponent
+
+    <div class="row">
         @include('layouts.flash-messages')
+    </div>
+
+    <div class="row">
         <div class="card">
-            <div class="card-body">
-                <button id="deleteAll"
-                        class="btn btn-soft-danger material-shadow-none mt-1">{{__('Delete')}}</button>
-                <a href="{{route('coupon_create',['locale'=>app()->getLocale()])}}"
-                   class="btn btn-soft-info material-shadow-none mt-1 float-end"
-                   id="create-btn">
-                    {{__('Add Coupons list')}}
-                </a>
+            <div class="card-header border-0">
+                <div class="row g-3 align-items-center">
+                    <div class="col-sm-6 col-lg-3">
+                        <label class="form-label mb-1 fw-semibold">{{ __('Item per page') }}</label>
+                        <select wire:model.live="pageCount" class="form-select">
+                            <option @if($pageCount=="10") selected @endif value="10">10</option>
+                            <option @if($pageCount=="25") selected @endif value="25">25</option>
+                            <option @if($pageCount=="50") selected @endif value="50">50</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-5">
+                        <label class="form-label mb-1 fw-semibold">{{ __('Search') }}</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="ri-search-line"></i></span>
+                            <input wire:model.live="search" type="search"
+                                   class="form-control"
+                                   placeholder="{{ __('Search by pin, sn, value or platform') }}..." />
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-lg-4 text-end">
+                        <label class="form-label mb-1 d-block">&nbsp;</label>
+                        <button wire:click="deleteSelected"
+                                class="btn btn-soft-danger"
+                                @if(empty($selectedIds)) disabled @endif>
+                            <i class="ri-delete-bin-line align-middle me-1"></i>
+                            {{__('Delete')}}
+                            @if(!empty($selectedIds))
+                                ({{ count($selectedIds) }})
+                            @endif
+                        </button>
+                        <a href="{{route('coupon_create',['locale'=>app()->getLocale()])}}"
+                           class="btn btn-soft-info">
+                            <i class="ri-add-line align-middle me-1"></i>
+                            {{__('Add Coupons list')}}
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body pt-0">
+                <div wire:loading.delay class="text-center py-3">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">{{__('Loading...')}}</span>
+                    </div>
+                </div>
+
+                <div wire:loading.remove.delay>
+                    @if($coupons->isNotEmpty())
+                        <div class="mb-3 d-flex align-items-center">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox"
+                                       wire:model.live="selectAll"
+                                       id="selectAllCheckbox">
+                                <label class="form-check-label text-muted" for="selectAllCheckbox">
+                                    {{ __('Select all on this page') }}
+                                </label>
+                            </div>
+                        </div>
+                    @endif
+
+                    @forelse($coupons as $coupon)
+                        <div class="card border shadow-none mb-3">
+                            <div class="card-body">
+                                <div class="d-flex align-items-start mb-3">
+                                    <div class="form-check me-3">
+                                        <input class="form-check-input" type="checkbox"
+                                               value="{{$coupon->id}}"
+                                               wire:model.live="selectedIds"
+                                               id="coupon_{{$coupon->id}}">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <div class="p-3 bg-light rounded h-100">
+                                                    <h6 class="text-primary fs-14 mb-2">
+                                                        <i class="ri-barcode-line align-middle me-1"></i>
+                                                        {{__('Coupon Details')}}
+                                                    </h6>
+                                                    <div class="mb-2">
+                                                        <span class="text-muted fs-12">{{__('Pin')}}:</span>
+                                                        <span class="fw-medium ms-2 fs-13">
+                                                            @if(!$coupon->consumed)
+                                                                {{substr_replace($coupon->pin, str_repeat('*', strlen($coupon->pin)), 0 )}}
+                                                            @else
+                                                                {{$coupon->pin}}
+                                                            @endif
+                                                        </span>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <span class="text-muted fs-12">{{__('sn')}}:</span>
+                                                        <span class="fw-medium ms-2 fs-13">{{$coupon->sn}}</span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="text-muted fs-12">{{__('Platform')}}:</span>
+                                                        <span class="fw-medium ms-2 fs-13">
+                                                            @if($coupon->platform)
+                                                                {{$coupon->platform->id}} - {{$coupon->platform->name}}
+                                                            @else
+                                                                **
+                                                            @endif
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="p-3 bg-light rounded h-100">
+                                                    <h6 class="text-primary fs-14 mb-2">
+                                                        <i class="ri-information-line align-middle me-1"></i>
+                                                        {{__('Status & Value')}}
+                                                    </h6>
+                                                    <div class="mb-2">
+                                                        <span class="text-muted fs-12">{{__('Value')}}:</span>
+                                                        <span class="badge bg-success ms-2 fs-13">{{$coupon->value}} {{config('app.currency')}}</span>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <span class="text-muted fs-12">{{__('Consumed')}}:</span>
+                                                        @if($coupon->consumed)
+                                                            <span class="badge bg-success ms-2 fs-11">{{__('yes')}}</span>
+                                                        @else
+                                                            <span class="badge bg-danger ms-2 fs-11">{{__('no')}}</span>
+                                                        @endif
+                                                    </div>
+                                                    @if($coupon->user)
+                                                        <div>
+                                                            <span class="text-muted fs-12">{{__('User')}}:</span>
+                                                            <span class="fw-medium ms-2 fs-13">{{$coupon->user->name}}</span>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        @if($coupon->attachment_date || $coupon->purchase_date || $coupon->consumption_date)
+                                            <div class="p-3 bg-light rounded mt-3">
+                                                <h6 class="text-primary fs-14 mb-3">
+                                                    <i class="ri-calendar-line align-middle me-1"></i>
+                                                    {{__('Dates')}}
+                                                </h6>
+                                                <div class="row g-2">
+                                                    @if($coupon->attachment_date)
+                                                        <div class="col-md-4">
+                                                            <div class="p-2 border rounded">
+                                                                <p class="text-muted fs-11 mb-1">
+                                                                    <i class="ri-attachment-line align-middle me-1"></i>
+                                                                    {{__('Attachement')}}
+                                                                </p>
+                                                                <p class="text-dark fs-12 mb-0 fw-medium">
+                                                                    {{$coupon->attachment_date}}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                    @if($coupon->purchase_date)
+                                                        <div class="col-md-4">
+                                                            <div class="p-2 border rounded">
+                                                                <p class="text-muted fs-11 mb-1">
+                                                                    <i class="ri-shopping-cart-line align-middle me-1"></i>
+                                                                    {{__('Purchase')}}
+                                                                </p>
+                                                                <p class="text-dark fs-12 mb-0 fw-medium">
+                                                                    {{$coupon->purchase_date}}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                    @if($coupon->consumption_date)
+                                                        <div class="col-md-4">
+                                                            <div class="p-2 border rounded">
+                                                                <p class="text-muted fs-11 mb-1">
+                                                                    <i class="ri-check-line align-middle me-1"></i>
+                                                                    {{__('Consumption')}}
+                                                                </p>
+                                                                <p class="text-dark fs-12 mb-0 fw-medium">
+                                                                    {{$coupon->consumption_date}}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        <div class="d-flex gap-2 flex-wrap mt-3">
+                                            <button onclick="confirmDeleteCoupon({{$coupon->id}}, '{{$coupon->pin}}')"
+                                                    class="btn btn-sm btn-danger flex-fill">
+                                                <span wire:loading wire:target="delete('{{$coupon->id}}')">
+                                                    <span class="spinner-border spinner-border-sm" role="status"></span>
+                                                </span>
+                                                <span wire:loading.remove wire:target="delete('{{$coupon->id}}')">
+                                                    <i class="ri-delete-bin-line align-bottom me-1"></i>
+                                                    {{__('Delete')}}
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="text-center py-5">
+                            <div class="text-muted">
+                                <i class="ri-information-line fs-18 align-middle me-2"></i>
+                                {{__('No records')}}
+                            </div>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+
+            <div class="card-body pt-0">
+                {{ $coupons->links() }}
             </div>
         </div>
     </div>
-    <div class="card">
-        <div class="table-responsive">
-            <table id="Coupon_table"
-                   class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
-                <thead class="table-light">
-                <tr class="head2earn tabHeader2earn">
-                    <th>{{__('Details')}}</th>
-                    <th><input type="checkbox" id="selectAll"/></th>
-                    <th>{{__('Pin')}}</th>
-                    <th>{{__('sn')}}</th>
-                    <th>{{__('Dates')}}</th>
-                    <th>{{__('Value')}}</th>
-                    <th>{{__('Consumed')}}</th>
-                    <th>{{__('Platform')}}</th>
-                    <th>{{__('Action')}}</th>
-                </tr>
-                <tbody class="body2earn">
-                </tbody>
-            </table>
-        </div>
-    </div>
-    @push('scripts')
-        <script type="module">
-            document.addEventListener("DOMContentLoaded", function () {
 
-                if (!$.fn.dataTable.isDataTable('#Coupon_table')) {
-                    var table = $('#Coupon_table').DataTable({
-                        "responsive": true,
-                        "colReorder": true,
-                        "orderCellsTop": true,
-                        "fixedHeader": true,
-                        initComplete: function () {
-                            this.api().columns().every(function () {
-                                var that = $('#Coupon_table').DataTable();
-                                $('input', this.footer()).on('keydown', function (ev) {
-                                    if (ev.keyCode == 13) {
-                                        that.search(this.value).draw();
-                                    }
-                                });
-                            });
-                        },
-                        "processing": true,
-                        search: {return: true},
-                        "ajax": {
-                            url: "{{route('api_coupon',['locale'=> app()->getLocale()])}}",
-                            type: "GET",
-                            headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
-                            error: function (xhr, error, thrown) {
-                                loadDatatableModalError('Coupon_table')
-                            }
-                        },
-                        "columns": [
-                            datatableControlBtn,
-                            {
-                                data: null,
-                                defaultContent: '<input type="checkbox" class="row-select" />',
-                                orderable: false,
-                                searchable: false
-                            },
-                            {data: 'pin'},
-                            {data: 'sn'},
-                            {data: 'dates'},
-                            {data: 'value'},
-                            {data: 'consumed'},
-                            {data: 'platform_id'},
-                            {data: 'action'},
-                        ],
-                        "language": {"url": urlLang},
-                    });
-
-                    $('#selectAll').on('click', function () {
-                        var rows = table.rows({'search': 'applied'}).nodes();
-                        $('input[type="checkbox"]', rows).prop('checked', this.checked);
-                    });
-
-                    $('#Coupon_table tbody').on('change', 'input[type="checkbox"]', function () {
-                        if (!this.checked) {
-                            var el = $('#selectAll').get(0);
-                            if (el && el.checked && ('indeterminate' in el)) {
-                                el.indeterminate = true;
-                            }
-                        }
-                    });
-
-                    $('#deleteAll').on('click', function () {
-                        var ids = [];
-                        table.$('input[type="checkbox"]:checked').each(function () {
-                            var row = $(this).closest('tr');
-                            var data = table.row(row).data();
-                            ids.push(data.id);
-                        });
-                        if (ids.length > 0) {
-                            Swal.fire({
-                                title: '{{__('Are you sure you want to delete the selected rows?')}}',
-                                showDenyButton: true,
-                                showCancelButton: true,
-                                confirmButtonText: "{{__('Delete')}}",
-                                denyButtonText: `Rollback`
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    $.ajax({
-                                        url: "{{route('api_delete_coupons',app()->getLocale())}}",
-                                        method: "POST",
-                                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
-                                        data: {
-                                            ids: ids,
-                                            _token: "{{ csrf_token() }}"
-                                        },
-                                        success: function (response) {
-                                            table.ajax.reload();
-                                        },
-                                        error: function (xhr) {
-                                            Swal.fire({
-                                                title: '{{__('An error occurred')}}',
-                                                text: '{{__('An error occurred while deleting the records.')}}',
-                                                icon: 'warning',
-                                                confirmButtonText: 'OK'
-                                            });
-                                        }
-                                    });
-                                }
-                            });
-                        } else {
-
-                            Swal.fire({
-                                title: '{{__('No rows selected')}}',
-                                text: '{{__('Please select at least one row before proceeding.')}}',
-                                icon: 'warning',
-                                confirmButtonText: 'OK'
-                            });
-
-                        }
-                    });
+    <script>
+        function confirmDeleteCoupon(couponId, couponPin) {
+            Swal.fire({
+                title: '{{__('Are you sure to delete this Coupon')}}? <h5 class="float-end">' + couponPin + ' </h5>',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: "{{__('Delete')}}",
+                denyButtonText: `{{__('Rollback')}}`
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.Livewire.dispatch("delete", [couponId]);
                 }
-
-                $('body').on('click', '.deletecoupon', function (event) {
-                    Swal.fire({
-                        title: '{{__('Are you sure to delete this Coupon')}}? <h5 class="float-end">' + $(event.target).attr('data-name') + ' </h5>',
-                        showDenyButton: true,
-                        showCancelButton: true,
-                        confirmButtonText: "{{__('Delete')}}",
-                        denyButtonText: `Rollback`
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.Livewire.dispatch("delete", [$(event.target).attr('data-id')]);
-                        }
-                    });
-                });
             });
-        </script>
-    @endpush
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            window.addEventListener('coupon-deleted', event => {
+                // Optional: Add any post-delete actions here
+            });
+        });
+    </script>
 </div>

@@ -112,7 +112,7 @@
                         </a>
                     </div>
                     <div class="col">
-                        <a data-name="contacts" href="{{route('contacts',app()->getLocale(),false)}}"
+                        <a data-name="contacts" href="{{route('contacts_index',app()->getLocale(),false)}}"
                            class="nav-link menu-link p-1 rounded hover-bg {{$currentRouteName=='contacts'? 'active bg-light' : ''}}"
                            role="button">
                             <i class="ri-contacts-fill me-2"></i>
@@ -263,6 +263,14 @@
                             </a>
                         </div>
                         <div class="col">
+                            <a href="{{route('deals_index',['locale'=>app()->getLocale()],false )}}"
+                               class="nav-link menu-link p-1 rounded hover-bg {{$currentRouteName=='deals_index'? 'active bg-light' : ''}}"
+                               role="button">
+                                <i class="fas fa-handshake me-2 me-2"></i>
+                                <span>{{__('Deals')}}</span>
+                            </a>
+                        </div>
+                        <div class="col">
                             <a href="{{route('coupon_index',app()->getLocale(),false )}}"
                                class="nav-link menu-link p-1 rounded hover-bg {{$currentRouteName=='coupon_index'? 'active bg-light' : ''}}"
                                role="button">
@@ -292,6 +300,14 @@
                                role="button">
                                 <i class="ri-user-2-fill me-2"></i>
                                 <span>{{__('User list')}}</span>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="{{route('users_stats',['locale'=>app()->getLocale()],false )}}"
+                               class="nav-link menu-link p-1 rounded hover-bg {{$currentRouteName=='users_stats'? 'active bg-light' : ''}}"
+                               role="button">
+                                <i class="ri-bar-chart-box-line me-2"></i>
+                                <span>{{__('Users Statistics')}}</span>
                             </a>
                         </div>
                         <div class="col">

@@ -116,6 +116,7 @@
                                                            class="form-control"
                                                            aria-label="{{ __('Contact number') }}"
                                                            placeholder="{{ __('Your phone number') }}">
+
                                                     <a href="{{ !empty($user['email']) ? route('contact_number', app()->getLocale()) : '#' }}"
                                                        id="update_tel"
                                                        class="btn btn-outline-info"
@@ -143,9 +144,19 @@
                                                         </span>
                                                     <input disabled wire:model="user.email" type="email"
                                                            class="form-control"
+                                                           id="emailInput"
                                                            name="email"
                                                            placeholder="{{ __('your@email.com') }}"
-                                                           aria-label="{{ __('Email address') }}">
+                                                           aria-label="{{ __('Email address') }}"
+                                                           style="cursor: pointer;"
+                                                           onclick="window.location.href='{{ route('change_email', app()->getLocale()) }}'"
+                                                           title="{{ __('Click to update email') }}">
+                                                    <a href="{{ route('change_email', app()->getLocale()) }}"
+                                                       class="btn btn-outline-info"
+                                                       type="button"
+                                                       aria-label="{{ __('Change email') }}">
+                                                        <i class="ri-pencil-line me-1"></i>{{ __('Change') }}
+                                                    </a>
                                                 </div>
                                                 <div class="form-text">
                                                     <i class="ri-information-line"></i>
@@ -335,6 +346,29 @@
                                                           aria-label="{{ __('Address') }}"></textarea>
                                             </div>
                                         </div>
+
+                                        <div class="col-lg-12">
+                                            <div class="mb-3 pb-2">
+                                                <div class="card bg-light border-0">
+                                                    <div class="card-body p-3">
+                                                        <div class="form-check form-switch d-flex align-items-center" dir="ltr">
+                                                            <input wire:model.live="user.is_public"
+                                                                   type="checkbox"
+                                                                   class="form-check-input me-2"
+                                                                   id="customSwitchIsPublic"
+                                                                   @checked($user['is_public']??false)
+                                                                   {{ $isValidateAccountRoute ? 'disabled' : '' }}
+                                                                   role="switch"
+                                                                   aria-checked="{{$user['is_public']??false}}">
+                                                            <label class="form-check-label mb-0" for="customSwitchIsPublic">
+                                                                <i class="ri-hand-heart-line me-1"></i>
+                                                                {{ __('I agree to receive funding requests') }}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     @if($paramIdUser =="")
                                         <div class="col-lg-12">
@@ -407,11 +441,81 @@
                         </div>
                     </div>
                 </div>
+
     </div>
+    <!-- Top modal for missing email when changing phone number or updating email -->
+    <div id="topmodal" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('Update Email Address') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="alert alert-info border-0 mb-3" role="alert">
+                        <div class="d-flex align-items-center">
+                            <i class="ri-information-line fs-5 me-2"></i>
+                            <small>{{ __('Please enter your email address. You will need to verify it to update your contact number.') }}</small>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputEmailModal" class="form-label fw-semibold">
+                            <i class="ri-mail-line me-1"></i>{{ __('Your Email') }}
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input type="email"
+                               class="form-control"
+                               id="inputEmailModal"
+                               placeholder="{{ __('your@email.com') }}"
+                               aria-label="{{ __('Email address') }}"
+                               value="{{ $user['email'] ?? '' }}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                        <i class="ri-close-line me-1"></i>{{ __('Close') }}
+                    </button>
+                    <button type="button"
+                            class="btn btn-primary"
+                            id="btnUpdateEmailModal"
+                            onclick="updateEmailFromModal()">
+                        <i class="ri-send-plane-line me-1"></i>{{ __('Update Email') }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 @push('scripts')
     <script>
+        function updateEmailFromModal() {
+            const emailInput = document.getElementById('inputEmailModal');
+            const email = emailInput.value.trim();
+
+            if (!email) {
+                alert('{{ __("Please enter an email address") }}');
+                return;
+            }
+
+            // Email validation regex
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('{{ __("Please enter a valid email address") }}');
+                return;
+            }
+
+            // Dispatch Livewire event to send verification mail
+            window.Livewire.dispatch('sendVerificationMail', [email]);
+
+            // Close the modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('topmodal'));
+            if (modal) {
+                modal.hide();
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             // Handle save button click
             document.getElementById('btnsaveUser')?.addEventListener('click', function () {
@@ -440,7 +544,14 @@
                     ;
                 }
             });
+
+            // Allow Enter key to submit email in modal
+            document.getElementById('inputEmailModal')?.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    updateEmailFromModal();
+                }
+            });
         });
     </script>
 @endpush
-

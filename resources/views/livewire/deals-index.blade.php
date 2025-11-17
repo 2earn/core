@@ -8,7 +8,6 @@
             {{ __('Deals') }}
         @endslot
     @endcomponent
-
     <div class="row">
         @include('layouts.flash-messages')
     </div>
@@ -110,196 +109,180 @@
                         </span>
                     @endif
                 </div>
-                <div class="card-body table-responsive p-0">
-                    @if($choosenDeals->count())
-                        <table id="dealTable"
-                               class="table table-hover table-striped align-middle mb-0">
-                            <thead class="table-light">
-                            <tr>
-                                <th class="text-center" style="width: 50px;">
-                                    <i class="fas fa-info-circle text-primary"></i>
-                                </th>
-                                <th style="width: 80px;">{{__('ID')}}</th>
-                                <th>{{__('Name')}}</th>
-                                <th>{{__('Details')}}</th>
-                                <th>{{__('Platform')}}</th>
-                                <th class="text-center" style="width: 250px;">{{__('Actions')}}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($choosenDeals as $deal)
-                                <tr>
-                                    <td class="text-center">
-                                        <i class="fa-solid fa-circle-question text-info fa-lg dtmdbtn"
-                                           style="cursor: pointer;"
-                                           title="{{__('More information')}}"></i>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-light text-dark border">
-                                            #{{$deal->id}}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <strong>{{$deal->name}}</strong>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-wrap gap-2">
-                                            <span class="badge bg-primary-subtle text-primary px-3 py-2"
-                                                  title="{{__('Status')}}: {{$deal->status}}">
-                                                <i class="fas fa-circle-notch me-1"></i>
+                <div class="card-body pt-0">
+                    @forelse($choosenDeals as $deal)
+                        <div class="card border shadow-none my-2">
+                            <div class="card-body">
+                                <div class="d-flex align-items-start mb-3">
+                                    <div class="flex-shrink-0">
+                                        <div class="avatar-sm rounded-circle bg-light d-flex align-items-center justify-content-center">
+                                            <i class="fa-solid fa-circle-question text-info fa-lg"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <span class="badge bg-light text-dark border mb-1">
+                                                    #{{$deal->id}}
+                                                </span>
+                                                <h5 class="fs-15 mb-1">{{$deal->name}}</h5>
+                                                @if(isset($deal->platform))
+                                                    <p class="text-muted mb-0">
+                                                        <i class="fas fa-desktop me-1"></i>
+                                                        <strong class="text-primary">
+                                                            {!! \App\Models\TranslaleModel::getTranslation($deal->platform,'name',$deal->platform->name) !!}
+                                                        </strong>
+                                                    </p>
+                                                @endif
+                                                @if(\App\Models\User::isSuperAdmin() && isset($deal->platform))
+                                                    <small>
+                                                        <a class="link-info text-decoration-none"
+                                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($platform,'name')])}}">
+                                                            <i class="fas fa-language me-1"></i>{{__('Translation')}}
+                                                        </a>
+                                                    </small>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row g-2 mb-3">
+                                    <div class="col-md-4 col-6">
+                                        <div class="p-2 bg-light rounded">
+                                            <p class="text-primary fs-12 mb-1">
+                                                <i class="fas fa-circle-notch me-1"></i>{{__('Status')}}
+                                            </p>
+                                            <span class="badge bg-primary-subtle text-primary px-2 py-1">
                                                 {{__(strtoupper(\Core\Enum\DealStatus::from($deal->status)->name))}}
                                             </span>
-                                            <span class="badge bg-info-subtle text-info px-3 py-2"
-                                                  title="{{__('Type')}}: {{$deal->type}}">
-                                                <i class="fas fa-tag me-1"></i>
-                                                {{__(strtoupper(\Core\Enum\DealTypeEnum::from($deal->type)->name))}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-6">
+                                        <div class="p-2 bg-light rounded">
+                                            <p class="text-primary fs-12 mb-1">
+                                                <i class="fas fa-tag me-1"></i>{{__('Type')}}
+                                            </p>
+                                            <span class="badge bg-info-subtle text-info px-2 py-1">
+                                                {{__(\Core\Enum\DealTypeEnum::from($deal->type)->name)}}
                                             </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="p-2 bg-light rounded">
                                             @if($deal->validated)
-                                                <span class="badge bg-success-subtle text-success px-3 py-2">
+                                                <span class="badge bg-success-subtle text-success px-2 py-1">
                                                     <i class="fas fa-check-circle me-1"></i>
                                                     {{__('Validated')}}
                                                 </span>
                                             @else
-                                                <span class="badge bg-warning-subtle text-warning px-3 py-2">
+                                                <span class="badge bg-warning-subtle text-warning px-2 py-1">
                                                     <i class="fas fa-exclamation-circle me-1"></i>
                                                     {{__('Not validated')}}
                                                 </span>
                                             @endif
                                         </div>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <strong class="text-primary">
-                                                {!! \App\Models\TranslaleModel::getTranslation($deal->platform,'name',$deal->platform->name) !!}
-                                            </strong>
-                                            @if(\App\Models\User::isSuperAdmin())
-                                                <br>
-                                                <small>
-                                                    <a class="link-info text-decoration-none"
-                                                       href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($platform,'name')])}}">
-                                                        <i class="fas fa-language me-1"></i>{{__('Translation')}}
-                                                    </a>
-                                                </small>
-                                            @endif
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-wrap gap-1 justify-content-center">
-                                            @if(isset($currentRouteName))
-                                                @if($currentRouteName!='deals_show')
-                                                    @if(\App\Models\User::isSuperAdmin())
-                                                        <a href="{{route('deals_show', ['locale' => app()->getLocale(), 'id' => $deal->id])}}"
-                                                           class="btn btn-sm btn-outline-info"
-                                                           title="{{__('Show')}}">
-                                                            <i class="fas fa-eye"></i>
-                                                        </a>
-                                                    @endif
+                                    </div>
+                                </div>
 
-                                                    @if(\Core\Models\Platform::canCheckDeals(auth()->user()->id))
-                                                        <a class="btn btn-sm btn-outline-secondary"
-                                                           target="_blank"
-                                                           href="{{route('sales_tracking',['locale'=>app()->getLocale(),'id'=>$deal->id])}}"
-                                                           title="@if(\App\Models\User::isSuperAdmin()){{ __('See details for Platform role') }}@else{{ __('See more deal details') }}@endif">
-                                                            <i class="fas fa-chart-line"></i>
-                                                        </a>
-                                                    @endif
-                                                @endif
-                                            @endif
+                                <div class="d-flex gap-2 flex-wrap">
+                                    @if(isset($currentRouteName) && $currentRouteName!='deals_show')
+                                        @if(\App\Models\User::isSuperAdmin())
+                                            <a href="{{route('deals_show', ['locale' => app()->getLocale(), 'id' => $deal->id])}}"
+                                               class="btn btn-sm btn-soft-info flex-fill">
+                                                <i class="fas fa-eye me-1"></i>
+                                                {{__('Show')}}
+                                            </a>
+                                        @endif
 
-                                            @if(!$deal->validated)
-                                                <a href="{{route('deals_create_update', ['locale' => app()->getLocale(), 'id' => $deal->id, 'idPlatform' => $deal->platform_id])}}"
-                                                   class="btn btn-sm btn-primary"
-                                                   title="{{__('Edit')}}">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                @if($deal->status< \Core\Enum\DealStatus::Opened->value)
-                                                    <button class="btn btn-sm btn-success updateDeal"
-                                                            data-status="0"
-                                                            data-id="{{$deal->id}}"
-                                                            data-status-name="{{__('Validate')}}"
-                                                            title="{{__('Validate')}}">
-                                                        <i class="fas fa-check"></i>
-                                                    </button>
+                                        @if(\Core\Models\Platform::canCheckDeals(auth()->user()->id))
+                                            <a class="btn btn-sm btn-soft-secondary flex-fill"
+                                               target="_blank"
+                                               href="{{route('sales_tracking',['locale'=>app()->getLocale(),'id'=>$deal->id])}}">
+                                                <i class="fas fa-chart-line me-1"></i>
+                                                @if(\App\Models\User::isSuperAdmin())
+                                                    {{ __('Platform Details') }}
+                                                @else
+                                                    {{ __('Details') }}
                                                 @endif
-                                            @endif
+                                            </a>
+                                        @endif
+                                    @endif
 
-                                            @if($deal->validated)
+                                    @if(!$deal->validated)
+                                        <a href="{{route('deals_create_update', ['locale' => app()->getLocale(), 'id' => $deal->id, 'idPlatform' => $deal->platform_id])}}"
+                                           class="btn btn-sm btn-soft-primary flex-fill">
+                                            <i class="fas fa-edit me-1"></i>
+                                            {{__('Edit')}}
+                                        </a>
+                                        @if($deal->status< \Core\Enum\DealStatus::Opened->value)
+                                            <button class="btn btn-sm btn-soft-success updateDeal flex-fill"
+                                                    data-status="0"
+                                                    data-id="{{$deal->id}}"
+                                                    data-status-name="{{__('Validate')}}">
+                                                <i class="fas fa-check me-1"></i>
+                                                {{__('Validate')}}
+                                            </button>
+                                        @endif
+                                    @endif
 
-                                                @if($deal->status== \Core\Enum\DealStatus::New->value)
-                                                    <button class="btn btn-sm btn-info updateDeal"
-                                                            data-status="{{\Core\Enum\DealStatus::Opened->value}}"
-                                                            data-id="{{$deal->id}}"
-                                                            data-status-name="{{__(\Core\Enum\DealStatus::Opened->name)}}"
-                                                            title="{{__('Open')}}">
-                                                        <i class="fas fa-door-open"></i>
-                                                    </button>
-                                                @endif
-                                                @if($deal->status== \Core\Enum\DealStatus::Opened->value)
-                                                    <button class="btn btn-sm btn-warning updateDeal"
-                                                            data-status="{{\Core\Enum\DealStatus::Closed->value}}"
-                                                            data-id="{{$deal->id}}"
-                                                            data-status-name="{{__(\Core\Enum\DealStatus::Closed->name)}}"
-                                                            title="{{__('Close')}}">
-                                                        <i class="fas fa-times-circle"></i>
-                                                    </button>
-                                                @endif
-                                                @if($deal->status== \Core\Enum\DealStatus::Closed->value)
-                                                    <button class="btn btn-sm btn-secondary updateDeal"
-                                                            data-status="{{\Core\Enum\DealStatus::Archived->value}}"
-                                                            data-id="{{$deal->id}}"
-                                                            data-status-name="{{__(\Core\Enum\DealStatus::Archived->name)}}"
-                                                            title="{{__('Archive')}}">
-                                                        <i class="fas fa-archive"></i>
-                                                    </button>
-                                                @endif
-                                            @endif
+                                    @if(\App\Models\User::isSuperAdmin())
+                                        <button data-id="{{$deal->id}}"
+                                                data-name="{{$deal->name}}"
+                                                class="btn btn-sm btn-soft-danger deleteDeal flex-fill">
+                                            <i class="fas fa-trash me-1"></i>
+                                            {{__('Delete')}}
+                                        </button>
+                                    @endif
+                                </div>
 
-                                            @if(\App\Models\User::isSuperAdmin())
-                                                <button data-id="{{$deal->id}}"
-                                                        data-name="{{$deal->name}}"
-                                                        title="{{__('Delete')}}"
-                                                        class="btn btn-sm btn-danger deleteDeal">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            @endif
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    @else
+                                @if($deal->validated)
+                                    <div class="d-flex gap-2 flex-wrap mt-2">
+                                        @if($deal->status== \Core\Enum\DealStatus::New->value)
+                                            <button class="btn btn-sm btn-soft-info updateDeal flex-fill"
+                                                    data-status="{{\Core\Enum\DealStatus::Opened->value}}"
+                                                    data-id="{{$deal->id}}"
+                                                    data-status-name="{{__(\Core\Enum\DealStatus::Opened->name)}}">
+                                                <i class="fas fa-door-open me-1"></i>
+                                                {{__('Open')}}
+                                            </button>
+                                        @endif
+                                        @if($deal->status== \Core\Enum\DealStatus::Opened->value)
+                                            <button class="btn btn-sm btn-soft-warning updateDeal flex-fill"
+                                                    data-status="{{\Core\Enum\DealStatus::Closed->value}}"
+                                                    data-id="{{$deal->id}}"
+                                                    data-status-name="{{__(\Core\Enum\DealStatus::Closed->name)}}">
+                                                <i class="fas fa-times-circle me-1"></i>
+                                                {{__('Close')}}
+                                            </button>
+                                        @endif
+                                        @if($deal->status== \Core\Enum\DealStatus::Closed->value)
+                                            <button class="btn btn-sm btn-soft-secondary updateDeal flex-fill"
+                                                    data-status="{{\Core\Enum\DealStatus::Archived->value}}"
+                                                    data-id="{{$deal->id}}"
+                                                    data-status-name="{{__(\Core\Enum\DealStatus::Archived->name)}}">
+                                                <i class="fas fa-archive me-1"></i>
+                                                {{__('Archive')}}
+                                            </button>
+                                        @endif
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    @empty
                         <div class="text-center py-5">
                             <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
                             <h5 class="text-muted">{{__('No deals')}}</h5>
                             <p class="text-muted">{{__('Try adjusting your filters to see more results')}}</p>
                         </div>
-                    @endif
+                    @endforelse
                 </div>
             </div>
         </div>
     </div>
 
     <script type="module">
-        window.addEventListener('updateDealsDatatable', event => {
-            var table = $('#dealTable').DataTable();
-            table.destroy();
-            $('#dealTable').DataTable({
-                "paging": true,
-                "responsive": true,
-                "language": {"url": urlLang},
-            });
-        });
-
         document.addEventListener("DOMContentLoaded", function () {
-            if (!$.fn.dataTable.isDataTable('#dealTable')) {
-                $('#dealTable').DataTable({
-                    "paging": true,
-                    "responsive": true,
-                    "language": {"url": urlLang},
-                });
-            }
-
             $('body').on('click', '.refreshDeals', function (event) {
                 window.Livewire.dispatch("refreshDeals", [$(event.target).attr('data-id')]);
             });

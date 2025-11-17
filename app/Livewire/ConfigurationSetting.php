@@ -6,9 +6,11 @@ use Core\Models\Amount;
 use Core\Models\Setting;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class ConfigurationSetting extends Component
 {
+    use WithPagination;
 
     public $allAmounts;
     public int $idSetting;
@@ -21,10 +23,55 @@ class ConfigurationSetting extends Component
     public string $Description;
 
     public $search = '';
+    public $perPage = 10;
+    public $sortField = 'idSETTINGS';
+    public $sortDirection = 'desc';
 
     protected $listeners = [
         'initSettingFunction' => 'initSettingFunction',
     ];
+
+    protected $paginationTheme = 'bootstrap';
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function sortBy($field)
+    {
+        if ($this->sortField === $field) {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortDirection = 'asc';
+        }
+        $this->sortField = $field;
+    }
+
+    public function getSettings()
+    {
+        $query = Setting::query();
+
+        if ($this->search) {
+            $query->where(function($q) {
+                $q->where('ParameterName', 'like', '%' . $this->search . '%')
+                    ->orWhere('IntegerValue', 'like', '%' . $this->search . '%')
+                    ->orWhere('StringValue', 'like', '%' . $this->search . '%')
+                    ->orWhere('DecimalValue', 'like', '%' . $this->search . '%')
+                    ->orWhere('Unit', 'like', '%' . $this->search . '%')
+                    ->orWhere('Description', 'like', '%' . $this->search . '%');
+            });
+        }
+
+        return $query->orderBy($this->sortField, $this->sortDirection)
+            ->paginate($this->perPage);
+    }
+
+    public function editSetting($id)
+    {
+        $this->initSettingFunction($id);
+        $this->dispatch('openSettingModal');
+    }
 
     public function initSettingFunction($id)
     {
@@ -64,7 +111,10 @@ class ConfigurationSetting extends Component
     public function render()
     {
         $this->allAmounts = Amount::all();
-        return view('livewire.configuration-setting')->extends('layouts.master')->section('content');
+        $settings = $this->getSettings();
+        return view('livewire.configuration-setting', [
+            'settings' => $settings
+        ])->extends('layouts.master')->section('content');
     }
 
 }
