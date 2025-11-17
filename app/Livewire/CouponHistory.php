@@ -3,15 +3,45 @@
 namespace App\Livewire;
 
 use App\Models\Coupon;
+use Core\Enum\CouponStatusEnum;
 use Illuminate\Support\Facades\Hash;
-use Lang;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
-use Log;
+use Livewire\WithPagination;
 
 class CouponHistory extends Component
 {
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
+    public ?string $search = "";
+    public ?string $pageCount = "10";
 
     public $listeners = ['markAsConsumed' => 'markAsConsumed', 'verifPassword' => 'verifPassword'];
+
+    protected function queryString()
+    {
+        return [
+            'search' => [
+                'as' => 'q',
+            ],
+            'pageCount' => [
+                'as' => 'pc',
+            ],
+        ];
+    }
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingPageCount()
+    {
+        $this->resetPage();
+    }
 
     public function markAsConsumed($id)
     {
@@ -20,10 +50,10 @@ class CouponHistory extends Component
                 'consumed' => 1,
                 'consumption_date' => now(),
             ]);
-            return redirect()->route('coupon_history', ['locale' => app()->getLocale()])->with('success', Lang::get('Coupon consumed Successfully'));
+            session()->flash('success', Lang::get('Coupon consumed Successfully'));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect()->route('coupon_history', ['locale' => app()->getLocale()])->with('danger', $exception->getMessage());
+            session()->flash('danger', $exception->getMessage());
         }
     }
 
@@ -39,6 +69,23 @@ class CouponHistory extends Component
 
     public function render()
     {
-        return view('livewire.coupon-history')->extends('layouts.master')->section('content');
+        $coupons = Coupon::where('user_id', auth()->user()->id)
+            ->where('status', CouponStatusEnum::purchased->value)
+            ->when($this->search, function ($query) {
+                $query->where(function ($q) {
+                    $q->where('pin', 'like', '%' . $this->search . '%')
+                        ->orWhere('sn', 'like', '%' . $this->search . '%')
+                        ->orWhere('value', 'like', '%' . $this->search . '%')
+                        ->orWhereHas('platform', function ($query) {
+                            $query->where('name', 'like', '%' . $this->search . '%');
+                        });
+                });
+            })
+            ->orderBy('id', 'desc')
+            ->paginate($this->pageCount);
+
+        return view('livewire.coupon-history', [
+            'coupons' => $coupons
+        ])->extends('layouts.master')->section('content');
     }
 }
