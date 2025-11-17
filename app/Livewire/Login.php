@@ -30,9 +30,9 @@ class Login extends Component
         $this->expireAt = getSettingIntegerParam('EXPIRE_AT', 30);
     }
 
-
     public function login($number, $code, $pass, $iso, settingsManager $settingsManager)
     {
+        $number = str_replace('-', '', $number);
         if ($number == "" || $code == "" || $pass == "" || $iso == "") {
             return redirect()->route('login', ['locale' => app()->getLocale()])->with('danger', Lang::get('your phone or your password is incorrect'));
         }
