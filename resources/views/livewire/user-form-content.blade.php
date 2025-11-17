@@ -149,9 +149,14 @@
                                                            placeholder="{{ __('your@email.com') }}"
                                                            aria-label="{{ __('Email address') }}"
                                                            style="cursor: pointer;"
-                                                           data-bs-toggle="modal"
-                                                           data-bs-target="#topmodal"
+                                                           onclick="window.location.href='{{ route('change_email', app()->getLocale()) }}'"
                                                            title="{{ __('Click to update email') }}">
+                                                    <a href="{{ route('change_email', app()->getLocale()) }}"
+                                                       class="btn btn-outline-info"
+                                                       type="button"
+                                                       aria-label="{{ __('Change email') }}">
+                                                        <i class="ri-pencil-line me-1"></i>{{ __('Change') }}
+                                                    </a>
                                                 </div>
                                                 <div class="form-text">
                                                     <i class="ri-information-line"></i>
