@@ -154,20 +154,28 @@
         <div class="card-body col-lg-12">
             @if($choosenOrders->count())
                 <div class="row g-3">
-                    @foreach($choosenOrders as $order)
+                    @foreach($choosenOrders as $key => $order)
                         <div class="col-12">
                             <div class="card border shadow-sm h-100">
                                 <div class="card-body">
                                     <div class="d-flex mb-3 align-items-start">
                                         <div class="flex-shrink-0">
-                                            <div class="avatar-sm rounded-circle bg-info-subtle d-flex align-items-center justify-content-center">
+                                            <div
+                                                class="avatar-sm rounded-circle bg-info-subtle d-flex align-items-center justify-content-center">
                                                 <i class="fa-solid fa-shopping-cart text-info fa-lg"></i>
                                             </div>
                                         </div>
                                         <div class="flex-grow-1 ms-3">
-                                            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                                            <div
+                                                class="d-flex justify-content-between align-items-start flex-wrap gap-2">
                                                 <div>
-                                                    <span class="badge bg-light text-dark border mb-1">
+                                                    @if(\App\Models\User::isSuperAdmin() )
+                                                        <span class="badge bg-dark text-light border mb-1 mx-2">
+                                                        #{{$key + 1 }}
+                                                    </span>
+                                                    @endif
+
+                                                        <span class="badge bg-light text-dark border mb-1">
                                                         #{{$order->id}}
                                                     </span>
                                                     <h5 class="fs-15 mb-1">
@@ -189,7 +197,8 @@
                                                 <p class="text-primary fs-12 mb-1">
                                                     <i class="fas fa-boxes me-1"></i>{{__('Total order quantity')}}
                                                 </p>
-                                                <span class="fw-semibold text-dark">{{$order->total_order_quantity}}</span>
+                                                <span
+                                                    class="fw-semibold text-dark">{{$order->total_order_quantity}}</span>
                                             </div>
                                         </div>
                                         <div class="col-md-4 col-6">
@@ -197,7 +206,8 @@
                                                 <p class="text-primary fs-12 mb-1">
                                                     <i class="fas fa-money-bill-wave me-1"></i>{{__('Paid cash')}}
                                                 </p>
-                                                <span class="fw-semibold text-dark">{{$order->paid_cash}} {{config('app.currency')}}</span>
+                                                <span
+                                                    class="fw-semibold text-dark">{{$order->paid_cash}} {{config('app.currency')}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -209,7 +219,8 @@
                                             </h6>
                                             <div class="border rounded p-2">
                                                 @foreach($order->OrderDetails()->get() as $key => $orderDetail)
-                                                    <div class="d-flex mb-2 align-items-center p-2 bg-light rounded @if(!$loop->last) border-bottom @endif">
+                                                    <div
+                                                        class="d-flex mb-2 align-items-center p-2 bg-light rounded @if(!$loop->last) border-bottom @endif">
                                                         <div class="flex-shrink-0">
                                                             @if($orderDetail->item()->first()->photo_link)
                                                                 <img alt="{{__('Item Image')}}"
@@ -232,12 +243,14 @@
                                                             <h5 class="fs-14 mb-1 fw-semibold">
                                                                 {{$orderDetail->item()->first()->name}}
                                                                 @if(!is_null($orderDetail->item()->first()->platform()->first()))
-                                                                    <span class="text-muted">- {{ $orderDetail->item()->first()->platform()->first()->name}}</span>
+                                                                    <span
+                                                                        class="text-muted">- {{ $orderDetail->item()->first()->platform()->first()->name}}</span>
                                                                 @endif
                                                             </h5>
                                                             <div class="row g-2">
                                                                 <div class="col-auto">
-                                                                    <span class="fs-12 text-muted">{{__('Qty')}}: <strong>{{$orderDetail->qty}}</strong></span>
+                                                                    <span
+                                                                        class="fs-12 text-muted">{{__('Qty')}}: <strong>{{$orderDetail->qty}}</strong></span>
                                                                 </div>
                                                                 <div class="col-auto">
                                                                     <span class="fs-12 text-muted">{{__('Unit price')}}: <strong>{{$orderDetail->unit_price}}</strong></span>
@@ -250,7 +263,8 @@
                                                             </div>
                                                         </div>
                                                         <div class="flex-shrink-0 ms-2">
-                                                            <span class="badge bg-success-subtle text-success px-2 py-1">
+                                                            <span
+                                                                class="badge bg-success-subtle text-success px-2 py-1">
                                                                 {{$orderDetail->total_amount}} {{config('app.currency')}}
                                                             </span>
                                                         </div>
