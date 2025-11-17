@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Sms;
 use App\Models\User;
+use Core\Enum\TypeEventNotificationEnum;
+use Core\Enum\TypeNotificationEnum;
+use Core\Services\settingsManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
@@ -120,6 +123,11 @@ class SmsController extends Controller
             'sms' => $sms,
             'user' => $user
         ]);
+    }
+
+    public function SendSMS(Request $request, settingsManager $settingsManager)
+    {
+        $settingsManager->NotifyUser($request->user, TypeEventNotificationEnum::none, ['msg' => $request->msg, 'type' => TypeNotificationEnum::SMS]);
     }
 
 }
