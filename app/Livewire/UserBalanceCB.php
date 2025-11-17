@@ -39,7 +39,8 @@ class UserBalanceCB extends Component
     {
 
         try {
-            $response = $this->balanceService->getUserBalancesDatatables('cash-Balance');
+            $balanceService = app(BalanceService::class);
+            $response = $balanceService->getUserBalancesDatatables('cash-Balance');
             $data = json_decode($response->getContent(), TRUE);
             return ['data' => $data['data'] ?? [], 'total' => $data['recordsTotal'] ?? 0,];
         } catch (\Exception $e) {
