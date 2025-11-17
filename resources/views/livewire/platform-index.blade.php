@@ -72,18 +72,27 @@
                                 @endif
                                 <p class="text-muted mb-0">
                                     <span class="badge badge-soft-secondary">ID: {{$platform->id}}</span>
+                                    @if($platform->enabled)
+                                        <span class="badge bg-success-subtle text-success ms-2">
+                                            <i class="ri-checkbox-circle-line align-middle me-1"></i>{{__('Enabled')}}
+                                        </span>
+                                    @else
+                                        <span class="badge bg-danger-subtle text-danger ms-2">
+                                            <i class="ri-close-circle-line align-middle me-1"></i>{{__('Disabled')}}
+                                        </span>
+                                    @endif
                                 </p>
                             </div>
                         </div>
                         <div class="mb-3">
                             <div class="row g-2">
-                                <div class="col-6">
+                                <div class="col-12">
                                     <div class="p-3 bg-light rounded">
                                         <p class="text-muted mb-1 fs-6">{{__('Type')}}</p>
                                         <h6 class="mb-0">{{__(\Core\Enum\PlatformType::tryFrom($platform->type)->name) ?? 'N/A'}}</h6>
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-12">
                                     <div class="p-3 bg-light rounded">
                                         <p class="text-muted mb-1 fs-6">{{__('Created')}}</p>
                                         <h6 class="mb-0">{{$platform->created_at->format('M d, Y')}}</h6>
