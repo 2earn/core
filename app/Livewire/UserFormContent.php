@@ -7,6 +7,8 @@ use App\Http\Traits\earnTrait;
 use App\Models\User;
 use Carbon\Carbon;
 use Core\Enum\StatusRequest;
+use Core\Enum\TypeEventNotificationEnum;
+use Core\Enum\TypeNotificationEnum;
 use Core\Models\metta_user;
 use Core\Services\settingsManager;
 use Illuminate\Http\Request;
@@ -44,9 +46,12 @@ class UserFormContent extends Component
     public $languages;
     public $activeTab = 'personalDetails';
     public $originalIsPublic;
+    public $isPublic;
+    public $newMail;
 
     protected $listeners = [
         'saveUser' => 'saveUser',
+        'sendVerificationMail' => 'sendVerificationMail',
     ];
 
     public function mount(settingsManager $settingManager,Request $request)
@@ -191,6 +196,34 @@ class UserFormContent extends Component
             $settingsManager->rejectIdentity($user->idUser, $this->noteReject);
             return redirect()->route('requests_identification', app()->getLocale())->with('success', Lang::get('User identification request rejected') . ' : ' . $user->email);
         }
+    }
+
+    public function sendVerificationMail($mail, settingsManager $settingsManager)
+    {
+        $userAuth = $settingsManager->getAuthUser();
+        if (!$userAuth) abort(404);
+        if (!isValidEmailAdressFormat($mail)) {
+            session()->flash('danger', Lang::get('Not valid Email Format'));
+            return;
+        }
+        if ($userAuth->email == $mail) {
+            session()->flash('danger', Lang::get('Same email Address'));
+            return;
+        }
+        $userExisteMail = $settingsManager->getConditionalUser('email', $mail);
+        if ($userExisteMail && $userExisteMail->idUser != $userAuth->idUser) {
+            session()->flash('danger', Lang::get('mail_used'));
+            return;
+        }
+        $opt = $this->randomNewCodeOpt();
+        $us = User::find($this->user['id']);
+        $us->OptActivation = $opt;
+        $us->OptActivation_at = Carbon::now();
+        $us->save();
+        $numberActif = $settingsManager->getNumberCOntactActif($userAuth->idUser)->fullNumber;
+        $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::VerifMail, ['msg' => $opt, 'type' => TypeNotificationEnum::SMS]);
+        $this->newMail = $mail;
+        $this->dispatch('confirmOPTVerifMail', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'numberActif' => $numberActif]);
     }
 
     public function render()

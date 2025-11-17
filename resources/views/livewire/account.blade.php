@@ -861,25 +861,6 @@
 
 
             </div>
-            <div id="topmodal" class="modal fade" tabindex="-1" aria-hidden="true"
-                 style="display: none;">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-body text-center p-5">
-                            <h4 class="mb-3">{{ __('Email Needed') }}</h4>
-                            <p class="text-muted mb-4">{{ __('Please enter your email to proceed with the update of your contact number.') }}</p>
-                            <div class="hstack gap-2 justify-content-center">
-                                <a href="javascript:void(0);"
-                                   class="btn btn-link link-success fw-medium"
-                                   data-bs-dismiss="modal"><i
-                                        class="ri-close-line me-1 align-middle"></i>
-                                    {{ __('Close')}}</a>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
