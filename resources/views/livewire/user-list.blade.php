@@ -682,7 +682,7 @@
                                 setTimeout(() => window.location.reload(), 1500);
                             },
                             error: function (xhr, ajaxOptions, thrownError) {
-                                fireSwalInformMessage('error', xhr.status, dataTransfert + ' ' + xhr.responseJSON);
+                                fireSwalInformMessage('success', xhr.status, dataTransfert + ' ' + xhr.responseJSON);
                             }
                         });
                         $('.btn-vip-close').trigger('click');
