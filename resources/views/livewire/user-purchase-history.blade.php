@@ -283,6 +283,11 @@
                         </div>
                     @endforeach
                 </div>
+
+                <!-- Pagination Links -->
+                <div class="mt-4">
+                    {{ $choosenOrders->links() }}
+                </div>
             @else
                 <div class="text-center py-5">
                     <i class="fas fa-shopping-cart text-muted" style="font-size: 3rem;"></i>

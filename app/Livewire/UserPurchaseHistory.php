@@ -10,20 +10,24 @@ use Core\Enum\OrderEnum;
 use Core\Models\Platform;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class UserPurchaseHistory extends Component
 {
+    use WithPagination;
+
     public $allSectors, $allPlatforms, $allDeals, $allItems, $allStatuses, $currentRouteName;
 
     public $selectedSectorsIds = [];
     public $selectedStatuses = [];
-    public $choosenOrders = [];
     public $selectedDealIds = [];
     public $selectedPlatformIds = [];
     public $selectedItemsIds = [];
 
+    protected $paginationTheme = 'bootstrap';
+
     public $listeners = [
-        'refreshOrders' => 'filterOrders'
+        'refreshOrders' => 'resetFilters'
     ];
 
     public function mount()
@@ -57,8 +61,6 @@ class UserPurchaseHistory extends Component
             ->get();
 
         $this->allStatuses = OrderEnum::cases();
-
-        $this->filterOrders();
     }
 
     public function prepareQuery()
@@ -93,19 +95,31 @@ class UserPurchaseHistory extends Component
             });
         }
 
-        $query->orderBy('created_at', 'ASC');
+        $query->orderBy('created_at', 'DESC');
 
-        return $query->get();
+        return $query;
     }
 
-    public function filterOrders()
+    public function resetFilters()
     {
-        $this->choosenOrders = $this->prepareQuery();
+        $this->resetPage();
+    }
+
+    public function updated($propertyName)
+    {
+        // Reset to first page when filters change
+        if (in_array($propertyName, ['selectedSectorsIds', 'selectedStatuses', 'selectedDealIds', 'selectedPlatformIds', 'selectedItemsIds'])) {
+            $this->resetPage();
+        }
     }
 
     public function render()
     {
-        return view('livewire.user-purchase-history')->extends('layouts.master')->section('content');
+        $choosenOrders = $this->prepareQuery()->paginate(5);
+
+        return view('livewire.user-purchase-history', [
+            'choosenOrders' => $choosenOrders
+        ])->extends('layouts.master')->section('content');
     }
 }
 
