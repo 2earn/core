@@ -12,7 +12,7 @@
     <div class="row">
         @include('layouts.flash-messages')
     </div>
-        <div class="row mb-4">
+    <div class="row mb-4">
         <div class="col-12">
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-4">
@@ -119,6 +119,19 @@
                     <div class="card-footer bg-transparent border-top p-3">
                         <div class="d-flex gap-2 justify-content-between align-items-center">
                             <div class="d-flex gap-2">
+                                <a href="{{route('deals_create_update', ['locale' => app()->getLocale(), 'idPlatform' => $platform->id])}}"
+                                   class="btn btn-soft-primary btn-sm">
+                                    {{__('Create Deal')}}
+                                </a>
+                                <a href="{{route('items_platform_create_update', ['locale' => app()->getLocale(), 'platformId' => $platform->id])}}"
+                                   class="btn btn-soft-secondary btn-sm">
+                                    {{__('Create Item')}}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2 justify-content-between align-items-center my-2">
+
+                            <div class="d-flex gap-2">
                                 <a href="{{route('platform_show', ['locale' => app()->getLocale(), 'id' => $platform->id])}}"
                                    class="btn btn-soft-secondary btn-sm">
                                     <i class="ri-eye-line align-middle me-1"></i>{{__('View')}}
@@ -127,6 +140,7 @@
                                    class="btn btn-soft-info btn-sm">
                                     <i class="ri-pencil-line align-middle me-1"></i>{{__('Edit')}}
                                 </a>
+
                                 <a class="btn btn-soft-danger btn-sm"
                                    href="#"
                                    onclick="confirmDelete('{{$platform->id}}', '{{$platform->name}}')">
@@ -157,7 +171,7 @@
             </div>
         @endforelse
     </div>
-        @if($platforms->hasPages())
+    @if($platforms->hasPages())
         <div class="row mt-4">
             <div class="col-12">
                 <div class="card border-0 shadow-sm">
@@ -198,12 +212,14 @@
                     cancelButtonText: '{{__('Cancel')}}'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                    @this.call('delete', id);
+                    @this.call('delete', id)
+                        ;
                     }
                 });
             } else {
                 if (confirm('{{__('Are you sure to delete this platform')}}? ' + name)) {
-                @this.call('delete', id);
+                @this.call('delete', id)
+                    ;
                 }
             }
         }
