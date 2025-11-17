@@ -42,6 +42,7 @@ class ForgotPassword extends Component
 
     public function PresendSms($ccode, $fullNumber, settingsManager $settingsManager)
     {
+        $fullNumber = str_replace('-', '', $fullNumber);
         $key = self::RATE_KEY . $fullNumber;
 
         if (RateLimiter::tooManyAttempts($key, $this->maxAttempts)) {
