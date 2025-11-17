@@ -151,133 +151,167 @@
         <div class="card-header">
             <h6 class="card-title mb-0 text-info">{{__('Results')}}</h6>
         </div>
-        <div class=" card-body col-lg-12 ">
-            <div class="table-responsive">
-                @if($choosenOrders->count())
-                    <table id="userPurchaseHistoryTable"
-                           class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
-                        <thead class="table-light">
-                        <tr class="head2earn tabHeader2earn">
-                            <th>{{__('Details')}}</th>
-                            <th>{{__('id')}}</th>
-                            <th>{{__('Status')}}</th>
-                            <th>{{__('user')}}</th>
-                            <th>{{__('Total order quantity')}}</th>
-                            <th>{{__('Paid cash')}}</th>
-                            <th>{{__('Details')}}</th>
-                            <th>{{__('Other details')}}</th>
-                            <th>{{__('Actions')}}</th>
-                        </tr>
-                        </thead>
-                        <tbody class="body2earn">
-                        @foreach($choosenOrders as $order)
-                            <tr>
-                                <td>
-                                    <i class="fa-solid fa-circle-question text-info fa-lg dtmdbtn"></i>
-                                </td>
-                                <td>{{$order->id}}</td>
-                                <td>
-                                    <span class="badge bg-info text-end fs-14"> {{__($order->status->name)}}</span>
-                                </td>
-                                <td>{{getUserDisplayedName(\App\Models\User::getIdUserById($order->user_id))}}</td>
-                                <td>{{$order->total_order_quantity}}</td>
-                                <td>{{$order->paid_cash}}</td>
-                                <td>
-                                    <div class="list-group">
-                                        @foreach($order->OrderDetails()->get() as $key => $orderDetail)
-                                            <a href="javascript:void(0);"
-                                               class="list-group-item list-group-item-action">
-                                                <div class="float-end">
-                                                    {{$orderDetail->total_amount}} {{config('app.currency')}}
-                                                </div>
-                                                <div class="d-flex mb-2 align-items-center">
-                                                    <div class="flex-shrink-0">
+        <div class="card-body col-lg-12">
+            @if($choosenOrders->count())
+                <div class="row g-3">
+                    @foreach($choosenOrders as $key => $order)
+                        <div class="col-12">
+                            <div class="card border shadow-sm h-100">
+                                <div class="card-body">
+                                    <div class="d-flex mb-3 align-items-start">
+                                        <div class="flex-shrink-0">
+                                            <div
+                                                class="avatar-sm rounded-circle bg-info-subtle d-flex align-items-center justify-content-center">
+                                                <i class="fa-solid fa-shopping-cart text-info fa-lg"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <div
+                                                class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                                                <div>
+                                                    @if(\App\Models\User::isSuperAdmin() )
+                                                        <span class="badge bg-dark text-light border mb-1 mx-2">
+                                                        #{{$key + 1 }}
+                                                    </span>
+                                                    @endif
 
-                                                        @if($orderDetail->item()->first()->photo_link)
-                                                            <img alt="{{__('Item Image')}}"
-                                                                 src="{{$orderDetail->item()->first()->photo_link}}"
-                                                                 class="avatar-sm rounded-circle"/>
-                                                        @elseif($orderDetail->item()->first()->thumbnailsImage)
-                                                            <img
-                                                                src="{{ asset('uploads/' . $orderDetail->item()->first()->thumbnailsImage->url) }}"
-                                                                alt="{{__('Item Image')}}"
-                                                                class="avatar-sm rounded-circle"
-                                                            >
-                                                        @else
-                                                            <img
-                                                                src="{{Vite::asset(\App\Models\Item::DEFAULT_IMAGE_TYPE_THUMB)}}"
-                                                                alt="{{__('Item Image')}}"
-                                                                class="avatar-sm rounded-circle">
-                                                        @endif
-
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-3">
-                                                        <h5 class="list-title fs-15 mb-1">
-                                                            {{$orderDetail->item()->first()->name}}
-                                                            @if(!is_null($orderDetail->item()->first()->platform()->first()))
-                                                                - {{ $orderDetail->item()->first()->platform()->first()->name}}
-                                                            @endif
-                                                        </h5>
-                                                        <p class="list-text mb-0 fs-12">
-                                                            {{__('Qty')}}: {{$orderDetail->qty}}
-                                                        </p>
-                                                        <p class="list-text mb-0 fs-12">
-                                                            {{__('Unit price')}}: {{$orderDetail->unit_price}}
-                                                        </p>
-                                                        @if($orderDetail->shipping)
-                                                            <p class="list-text mb-0 fs-12">
-                                                                {{__('shipping')}}: {{$orderDetail->shipping}}
-                                                            </p>
-                                                        @endif
-                                                    </div>
+                                                        <span class="badge bg-light text-dark border mb-1">
+                                                        #{{$order->id}}
+                                                    </span>
+                                                    <h5 class="fs-15 mb-1">
+                                                        {{getUserDisplayedName(\App\Models\User::getIdUserById($order->user_id))}}
+                                                    </h5>
                                                 </div>
-                                            </a>
-                                        @endforeach
+                                                <div class="text-end">
+                                                    <span class="badge bg-info-subtle text-info px-2 py-1 fs-14">
+                                                        {{__($order->status->name)}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </td>
-                                <td>
-                                    <h5>{{__('Note')}}</h5>
-                                    <pre>
-                                        {{$order->note}}
-                                   </pre>
-                                </td>
-                                <td>
-                                    <a href="{{route('orders_detail', ['locale'=>app()->getLocale(),'id'=>$order->id])}}"
-                                       class=float-end">{{__('More details')}}</a>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                @else
-                    <div class="col-auto text-muted">
-                        {{__('No orders')}}
-                    </div>
-                @endif
 
-            </div>
+                                    <div class="row g-2 mb-3">
+                                        <div class="col-md-4 col-6">
+                                            <div class="p-2 bg-light rounded">
+                                                <p class="text-primary fs-12 mb-1">
+                                                    <i class="fas fa-boxes me-1"></i>{{__('Total order quantity')}}
+                                                </p>
+                                                <span
+                                                    class="fw-semibold text-dark">{{$order->total_order_quantity}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-6">
+                                            <div class="p-2 bg-light rounded">
+                                                <p class="text-primary fs-12 mb-1">
+                                                    <i class="fas fa-money-bill-wave me-1"></i>{{__('Paid cash')}}
+                                                </p>
+                                                <span
+                                                    class="fw-semibold text-dark">{{$order->paid_cash}} {{config('app.currency')}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @if($order->OrderDetails()->count())
+                                        <div class="mb-3">
+                                            <h6 class="text-primary mb-2">
+                                                <i class="fas fa-list-ul me-1"></i>{{__('Order Details')}}
+                                            </h6>
+                                            <div class="border rounded p-2">
+                                                @foreach($order->OrderDetails()->get() as $key => $orderDetail)
+                                                    <div
+                                                        class="d-flex mb-2 align-items-center p-2 bg-light rounded @if(!$loop->last) border-bottom @endif">
+                                                        <div class="flex-shrink-0">
+                                                            @if($orderDetail->item()->first()->photo_link)
+                                                                <img alt="{{__('Item Image')}}"
+                                                                     src="{{$orderDetail->item()->first()->photo_link}}"
+                                                                     class="avatar-sm rounded-circle"/>
+                                                            @elseif($orderDetail->item()->first()->thumbnailsImage)
+                                                                <img
+                                                                    src="{{ asset('uploads/' . $orderDetail->item()->first()->thumbnailsImage->url) }}"
+                                                                    alt="{{__('Item Image')}}"
+                                                                    class="avatar-sm rounded-circle"
+                                                                >
+                                                            @else
+                                                                <img
+                                                                    src="{{Vite::asset(\App\Models\Item::DEFAULT_IMAGE_TYPE_THUMB)}}"
+                                                                    alt="{{__('Item Image')}}"
+                                                                    class="avatar-sm rounded-circle">
+                                                            @endif
+                                                        </div>
+                                                        <div class="flex-grow-1 ms-3">
+                                                            <h5 class="fs-14 mb-1 fw-semibold">
+                                                                {{$orderDetail->item()->first()->name}}
+                                                                @if(!is_null($orderDetail->item()->first()->platform()->first()))
+                                                                    <span
+                                                                        class="text-muted">- {{ $orderDetail->item()->first()->platform()->first()->name}}</span>
+                                                                @endif
+                                                            </h5>
+                                                            <div class="row g-2">
+                                                                <div class="col-auto">
+                                                                    <span
+                                                                        class="fs-12 text-muted">{{__('Qty')}}: <strong>{{$orderDetail->qty}}</strong></span>
+                                                                </div>
+                                                                <div class="col-auto">
+                                                                    <span class="fs-12 text-muted">{{__('Unit price')}}: <strong>{{$orderDetail->unit_price}}</strong></span>
+                                                                </div>
+                                                                @if($orderDetail->shipping)
+                                                                    <div class="col-auto">
+                                                                        <span class="fs-12 text-muted">{{__('shipping')}}: <strong>{{$orderDetail->shipping}}</strong></span>
+                                                                    </div>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-shrink-0 ms-2">
+                                                            <span
+                                                                class="badge bg-success-subtle text-success px-2 py-1">
+                                                                {{$orderDetail->total_amount}} {{config('app.currency')}}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    @if($order->note)
+                                        <div class="mb-3">
+                                            <h6 class="text-primary mb-2">
+                                                <i class="fas fa-sticky-note me-1"></i>{{__('Note')}}
+                                            </h6>
+                                            <div class="p-2 bg-light rounded">
+                                                <pre class="mb-0 fs-12 text-wrap">{{$order->note}}</pre>
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    <div class="d-flex gap-2 flex-wrap">
+                                        <a href="{{route('orders_detail', ['locale'=>app()->getLocale(),'id'=>$order->id])}}"
+                                           class="btn btn-sm btn-soft-primary flex-fill">
+                                            <i class="fas fa-eye me-1"></i>
+                                            {{__('More details')}}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                <!-- Pagination Links -->
+                <div class="mt-4">
+                    {{ $choosenOrders->links() }}
+                </div>
+            @else
+                <div class="text-center py-5">
+                    <i class="fas fa-shopping-cart text-muted" style="font-size: 3rem;"></i>
+                    <p class="text-muted mt-3 fs-15">{{__('No orders')}}</p>
+                </div>
+            @endif
         </div>
     </div>
     <script type="module">
-        window.addEventListener('updateOrdersDatatable', event => {
-            var table = $('#userPurchaseHistoryTable').DataTable();
-            table.destroy();
-            $('#userPurchaseHistoryTable').DataTable({
-                "paging": true,
-                "responsive": true,
-                "language": {"url": urlLang},
-            });
-        });
-
         document.addEventListener("DOMContentLoaded", function () {
-            if (!$.fn.dataTable.isDataTable('#userPurchaseHistoryTable')) {
-
-                $('#userPurchaseHistoryTable').DataTable({
-                    "paging": true,
-                    "responsive": true,
-                    "language": {"url": urlLang},
-                });
-            }
 
             $('body').on('click', '.refreshOrders', function (event) {
                 window.Livewire.dispatch("refreshOrders", [$(event.target).attr('data-id')]);
