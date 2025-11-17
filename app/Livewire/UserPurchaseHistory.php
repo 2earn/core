@@ -101,7 +101,6 @@ class UserPurchaseHistory extends Component
     public function filterOrders()
     {
         $this->choosenOrders = $this->prepareQuery();
-        $this->dispatch('updateOrdersDatatable', []);
     }
 
     public function render()
