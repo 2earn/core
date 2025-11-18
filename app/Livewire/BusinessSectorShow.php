@@ -35,6 +35,7 @@ class BusinessSectorShow extends Component
         }
         return BusinessSector::find($this->idBusinessSector)
             ->platforms()
+            ->where('enabled', true)
             ->with('deals.items')
             ->get()
             ->pluck('deals')
@@ -52,7 +53,6 @@ class BusinessSectorShow extends Component
             redirect()->route('business_sector_index', ['locale' => app()->getLocale()]);
         }
 
-        // Eager load all relationships to avoid N+1 queries
         $platforms = Platform::with([
             'logoImage',
             'deals' => function($query) {

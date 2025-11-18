@@ -96,7 +96,6 @@
         </div>
     </div>
 
-    {{-- Platforms Section --}}
     @if($platforms->count() > 0)
         <div class="card mt-3">
             <div class="card-header align-items-center d-flex">
@@ -112,7 +111,6 @@
                             <div class="card border shadow-sm">
                                 <div class="card-body">
                                     <div class="row g-4">
-                                        {{-- Platform Logo and Link --}}
                                         <div class="col-lg-3 col-md-4">
                                             <div class="text-center">
                                                 @if ($platform?->logoImage)
