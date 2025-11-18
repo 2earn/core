@@ -8,6 +8,7 @@ use App\Models\Deal;
 use App\Models\Image;
 use App\Models\Item;
 use App\Models\PlatformTypeChangeRequest;
+use App\Models\PlatformValidationRequest;
 use App\Models\ProductDealHistory;
 use App\Models\User;
 use App\Traits\HasAuditing;
@@ -95,6 +96,21 @@ class Platform extends Model
     public function pendingTypeChangeRequest()
     {
         return $this->hasOne(PlatformTypeChangeRequest::class)->where('status', 'pending')->latest();
+    }
+
+    public function validationRequests(): HasMany
+    {
+        return $this->hasMany(PlatformValidationRequest::class);
+    }
+
+    public function validationRequest()
+    {
+        return $this->hasOne(PlatformValidationRequest::class)->latest();
+    }
+
+    public function pendingValidationRequest()
+    {
+        return $this->hasOne(PlatformValidationRequest::class)->where('status', 'pending')->latest();
     }
 
     public function selected($idUser = null)

@@ -266,6 +266,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
                 Route::get('/{id}', \App\Livewire\PlatformShow::class)->name('show');
                 Route::get('/{userId}/promotion', \App\Livewire\PlatformPromotion::class)->name('promotion');
                 Route::get('/type-change/requests', \App\Livewire\PlatformTypeChangeRequests::class)->name('type_change_requests');
+                Route::get('/validation/requests', \App\Livewire\PlatformValidationRequests::class)->name('validation_requests');
             });
 
             Route::prefix('/role')->name('role_')->group(function () {

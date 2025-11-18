@@ -17,7 +17,7 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-4">
                     <div class="row g-3 align-items-center">
-                        <div class="col-lg-4 col-md-4">
+                        <div class="col-lg-6 col-md-6">
                             <div class="position-relative">
                                 <i class="ri-search-line position-absolute top-50 start-0 translate-middle-y ms-3 text-muted fs-5"></i>
                                 <input type="text"
@@ -26,18 +26,27 @@
                                        placeholder="{{__('Search platforms by name, type or ID...')}}">
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-4 text-md-end">
-                            <a href="{{route('platform_type_change_requests', app()->getLocale())}}"
-                               class="btn btn-warning btn px-4 me-2">
-                                <i class="ri-arrow-left-right-line align-middle me-1"></i>
-                                {{__('Type Change Requests')}}
-                            </a>
-                        </div>                        <div class="col-lg-4 col-md-4 text-md-end">
 
-                        <a href="{{route('platform_create_update', app()->getLocale())}}"
+                        <div class="col-lg-6 col-md-6 text-md-end">
+                            <a href="{{route('platform_create_update', app()->getLocale())}}"
                                class="btn btn-info btn px-2 mx-2">
                                 <i class="ri-add-circle-line align-middle me-1"></i>
                                 {{__('Create platform')}}
+                            </a>
+                        </div>
+                        <div class="col-lg-6 col-md-6 text-md-center">
+                            <a href="{{route('platform_type_change_requests', app()->getLocale())}}"
+                               class="btn btn-warning btn-sm px-3 me-2">
+                                <i class="ri-arrow-left-right-line align-middle me-1"></i>
+                                {{__('Type Change Requests')}}
+                            </a>
+                        </div>
+                        <div class="col-lg-6 col-md-6 text-md-center">
+
+                            <a href="{{route('platform_validation_requests', app()->getLocale())}}"
+                               class="btn btn-primary btn-sm px-3">
+                                <i class="ri-shield-check-line align-middle me-1"></i>
+                                {{__('Validation Requests')}}
                             </a>
                         </div>
                     </div>
@@ -78,12 +87,25 @@
                                         </a>
                                     </div>
                                 @endif
+                                @if($platform->pendingValidationRequest)
+                                    <div class="mt-3 pt-3 border-top">
+                                        <div class="alert alert-info py-2 px-3 mb-2 d-flex align-items-center"
+                                             role="alert">
+                                            <i class="ri-shield-check-line me-2 fs-5"></i>
+                                            <div class="flex-grow-1">
+                                                <strong class="small">{{__('Pending Validation Request')}}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                                 @if($platform->pendingTypeChangeRequest)
-                                    <div class="alert alert-warning py-2 px-3 mb-2 d-flex align-items-center"
-                                         role="alert">
-                                        <i class="ri-alert-line me-2 fs-5"></i>
-                                        <div class="flex-grow-1">
-                                            <strong class="small">{{__('Pending Type Change Request')}}</strong>
+                                    <div class="mt-3 pt-3 border-top">
+                                        <div class="alert alert-warning py-2 px-3 mb-2 d-flex align-items-center"
+                                             role="alert">
+                                            <i class="ri-alert-line me-2 fs-5"></i>
+                                            <div class="flex-grow-1">
+                                                <strong class="small">{{__('Pending Type Change Request')}}</strong>
+                                            </div>
                                         </div>
                                     </div>
                                 @endif
@@ -143,25 +165,43 @@
                         @endif
                     </div>
                     <div class="card-footer bg-transparent border-top p-3">
-                        <div class="d-flex gap-2 justify-content-between align-items-center">
-                            <div class="d-flex gap-2">
-                                <a href="{{route('deals_create_update', ['locale' => app()->getLocale(), 'idPlatform' => $platform->id])}}"
-                                   class="btn btn-soft-primary btn-sm">
-                                    {{__('Create Deal')}}
-                                </a>
-                                <a href="{{route('items_platform_create_update', ['locale' => app()->getLocale(), 'platformId' => $platform->id])}}"
-                                   class="btn btn-soft-secondary btn-sm">
-                                    {{__('Create Item')}}
-                                </a>
+                        @if(!$platform->pendingValidationRequest && !$platform->pendingTypeChangeRequest && $platform->enabled)
+                            <div class="d-flex gap-2 justify-content-between align-items-center">
+                                <div class="d-flex gap-2">
+                                    <a href="{{route('deals_create_update', ['locale' => app()->getLocale(), 'idPlatform' => $platform->id])}}"
+                                       class="btn btn-soft-primary btn-sm">
+                                        {{__('Create Deal')}}
+                                    </a>
+                                    <a href="{{route('items_platform_create_update', ['locale' => app()->getLocale(), 'platformId' => $platform->id])}}"
+                                       class="btn btn-soft-secondary btn-sm">
+                                        {{__('Create Item')}}
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="d-flex gap-2 justify-content-between align-items-center my-2">
-
-                            @if(\App\Models\User::isSuperAdmin())
+                        @endif
+                        @if(\App\Models\User::isSuperAdmin())
+                            <div class="d-flex gap-2 justify-content-between align-items-center my-2">
+                                @if($platform->pendingValidationRequest)
+                                    <div class="d-flex gap-2 w-100 mb-2">
+                                        <div class="alert alert-info p-2 mb-0 w-100" role="alert">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <div class="flex-grow-1">
+                                                    <small class="mb-0">
+                                                        <i class="ri-shield-check-line me-1"></i>
+                                                        <strong>{{__('Platform Validation Pending')}}</strong>
+                                                    </small>
+                                                </div>
+                                                <a href="{{route('platform_validation_requests', app()->getLocale())}}"
+                                                   class="btn btn-primary btn-sm">
+                                                    <i class="ri-check-double-line align-middle me-1"></i>{{__('Review')}}
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                                 @if($platform->pendingTypeChangeRequest)
-                                    <div class="d-flex gap-2">
-                                        <div class="alert alert-warning p-2 mb-2" role="alert">
+                                    <div class="d-flex gap-2 w-100 mb-2">
+                                        <div class="alert alert-warning p-2 mb-0 w-100" role="alert">
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <div class="flex-grow-1">
                                                     <small class="mb-0">
@@ -180,7 +220,10 @@
                                         </div>
                                     </div>
                                 @endif
-                            @endif
+                            </div>
+                        @endif
+                        <div class="d-flex gap-2 justify-content-between align-items-center my-2">
+
                             <div class="d-flex gap-2">
                                 <a href="{{route('platform_show', ['locale' => app()->getLocale(), 'id' => $platform->id])}}"
                                    class="btn btn-soft-secondary btn-sm">

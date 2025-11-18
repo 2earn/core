@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\partner;
 
 use App\Http\Controllers\Controller;
 use App\Models\PlatformTypeChangeRequest;
+use App\Models\PlatformValidationRequest;
 use Core\Models\Platform;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -52,6 +53,11 @@ class PlatformPartnerController extends Controller
         $totalCount = $query->count();
         $platforms = !is_null($page) ? $query->paginate(self::PAGINATION_LIMIT, ['*'], 'page', $page) : $query->get();
 
+        // Load validation requests for each platform
+        $platforms->load(['validationRequest' => function ($query) {
+            $query->latest();
+        }]);
+
         return response()->json([
             'status' => true,
             'data' => $platforms,
@@ -88,10 +94,24 @@ class PlatformPartnerController extends Controller
 
         $platform = Platform::create($data);
 
+        // Create validation request for the new platform
+        $validationRequest = PlatformValidationRequest::create([
+            'platform_id' => $platform->id,
+            'status' => 'pending'
+        ]);
+
+        Log::info(self::LOG_PREFIX . 'Platform created with validation request', [
+            'platform_id' => $platform->id,
+            'validation_request_id' => $validationRequest->id
+        ]);
+
         return response()->json([
             'status' => true,
-            'message' => 'Platform created successfully',
-            'data' => $platform
+            'message' => 'Platform created successfully. Awaiting validation.',
+            'data' => [
+                'platform' => $platform,
+                'validation_request' => $validationRequest
+            ]
         ], Response::HTTP_CREATED);
     }
 
@@ -262,4 +282,5 @@ class PlatformPartnerController extends Controller
             'data' => $changeRequest
         ], Response::HTTP_CREATED);
     }
+
 }
