@@ -64,7 +64,6 @@ class PlatformPartnerController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'enabled' => 'required|boolean',
             'type' => 'required|string',
             'show_profile' => 'boolean',
             'image_link' => 'nullable|string',
@@ -84,7 +83,10 @@ class PlatformPartnerController extends Controller
             ], 422);
         }
 
-        $platform = Platform::create($validator->validated());
+        $data = $validator->validated();
+        $data['enabled'] = false;
+
+        $platform = Platform::create($data);
 
         return response()->json([
             'status' => true,
