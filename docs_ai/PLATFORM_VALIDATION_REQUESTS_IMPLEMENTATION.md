@@ -206,7 +206,7 @@ POST /api/partner/platform/validation/{validationRequestId}/reject
 GET /api/partner/platforms?user_id=1&page=1&search=test
 ```
 
-**Response** (includes validation request data):
+**Response** (includes validation request data and counts):
 ```json
 {
   "status": true,
@@ -222,10 +222,70 @@ GET /api/partner/platforms?user_id=1&page=1&search=test
         "status": "pending",
         "rejection_reason": null,
         "created_at": "2025-11-18T15:30:00.000000Z"
-      }
+      },
+      "type_change_requests_count": 5,
+      "validation_requests_count": 2
     }
   ],
   "total_platforms": 1
+}
+```
+
+### Show Platform (Modified)
+```
+GET /api/partner/platforms/{id}?user_id=1
+```
+
+**Response** (includes 3 latest type change and validation requests):
+```json
+{
+  "status": true,
+  "data": {
+    "platform": {
+      "id": 1,
+      "name": "Platform Name",
+      "enabled": false,
+      ...
+    },
+    "type_change_requests": [
+      {
+        "id": 3,
+        "platform_id": 1,
+        "old_type": 3,
+        "new_type": 2,
+        "status": "pending",
+        "rejection_reason": null,
+        "created_at": "2025-11-18T15:30:00.000000Z"
+      },
+      {
+        "id": 2,
+        "platform_id": 1,
+        "old_type": 3,
+        "new_type": 1,
+        "status": "rejected",
+        "rejection_reason": "Invalid request",
+        "created_at": "2025-11-17T10:20:00.000000Z"
+      },
+      {
+        "id": 1,
+        "platform_id": 1,
+        "old_type": 3,
+        "new_type": 2,
+        "status": "approved",
+        "rejection_reason": null,
+        "created_at": "2025-11-16T08:15:00.000000Z"
+      }
+    ],
+    "validation_requests": [
+      {
+        "id": 1,
+        "platform_id": 1,
+        "status": "approved",
+        "rejection_reason": null,
+        "created_at": "2025-11-15T12:00:00.000000Z"
+      }
+    ]
+  }
 }
 ```
 

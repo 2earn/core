@@ -28,12 +28,37 @@ Content-Type: application/json
 GET /api/partner/platforms?user_id=1
 ```
 
-Response includes `validation_request` object:
+Response includes `validation_request` object and request counts:
 ```json
 {
   "validation_request": {
     "status": "pending|approved|rejected",
     "rejection_reason": "..."
+  },
+  "type_change_requests_count": 5,
+  "validation_requests_count": 2
+}
+```
+
+#### Show Platform Details
+```bash
+GET /api/partner/platforms/{id}?user_id=1
+```
+
+Response includes the 3 latest type change and validation requests:
+```json
+{
+  "status": true,
+  "data": {
+    "platform": { ... },
+    "type_change_requests": [
+      { "id": 3, "status": "pending", ... },
+      { "id": 2, "status": "rejected", ... },
+      { "id": 1, "status": "approved", ... }
+    ],
+    "validation_requests": [
+      { "id": 1, "status": "approved", ... }
+    ]
   }
 }
 ```

@@ -53,10 +53,22 @@ class PlatformPartnerController extends Controller
         $totalCount = $query->count();
         $platforms = !is_null($page) ? $query->paginate(self::PAGINATION_LIMIT, ['*'], 'page', $page) : $query->get();
 
-        // Load validation requests for each platform
         $platforms->load(['validationRequest' => function ($query) {
             $query->latest();
         }]);
+        $platforms->each(function ($platform) {
+            $platform->type_change_requests_count = PlatformTypeChangeRequest::where('platform_id', $platform->id)->count();
+            $platform->validation_requests_count = PlatformValidationRequest::where('platform_id', $platform->id)->count();
+            $platform->typeChangeRequests = PlatformTypeChangeRequest::where('platform_id',  $platform->id)
+                ->orderBy('created_at', 'desc')
+                ->limit(3)
+                ->get();
+            $platform->validationRequests = PlatformValidationRequest::where('platform_id',  $platform->id)
+                ->orderBy('created_at', 'desc')
+                ->limit(3)
+                ->get();
+        });
+
 
         return response()->json([
             'status' => true,
@@ -148,9 +160,21 @@ class PlatformPartnerController extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
 
+        $typeChangeRequests = PlatformTypeChangeRequest::where('platform_id', $platformId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $validationRequests = PlatformValidationRequest::where('platform_id', $platformId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return response()->json([
             'status' => true,
-            'data' => $platform
+            'data' => [
+                'platform' => $platform,
+                'type_change_requests' => $typeChangeRequests,
+                'validation_requests' => $validationRequests
+            ]
         ]);
     }
 
