@@ -123,8 +123,7 @@
                             <div class="col-lg-3 col-md-12 text-end">
                                 @if($request->status === 'pending')
                                     <div class="d-flex gap-2 justify-content-end">
-                                        <button wire:click="approveRequest({{$request->id}})"
-                                                wire:confirm="{{__('Are you sure you want to approve this type change request?')}}"
+                                        <button wire:click="openApproveModal({{$request->id}})"
                                                 class="btn btn-success btn-sm">
                                             <i class="ri-check-line align-middle me-1"></i>{{__('Approve')}}
                                         </button>
@@ -146,7 +145,8 @@
                             <div class="col-md-6">
                                 <small class="text-muted">
                                     <i class="ri-user-line me-1"></i>
-                                    <strong>{{__('Owner')}}:</strong> {{$request->platform->owner()->id ?? 'N/A'}}
+                                    <strong>{{__('Owner')}}:</strong>
+                                    {{getUserDisplayedNameFromId($request->platform->owner_id) ?? 'N/A'}}
                                 </small>
                             </div>
                             <div class="col-md-6 text-md-end">
@@ -211,6 +211,39 @@
                                 {{$requests->links()}}
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    <!-- Approve Modal -->
+    @if($showApproveModal)
+        <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title">
+                            <i class="ri-checkbox-circle-line me-2"></i>{{__('Approve Type Change Request')}}
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" wire:click="closeApproveModal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-success" role="alert">
+                            <i class="ri-information-line me-2"></i>
+                            {{__('Are you sure you want to approve this type change request?')}}
+                        </div>
+                        <p class="text-muted mb-0">
+                            {{__('This action will change the platform type and cannot be undone. The platform type will be updated immediately.')}}
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" wire:click="closeApproveModal">
+                            <i class="ri-close-line me-1"></i>{{__('Cancel')}}
+                        </button>
+                        <button type="button" class="btn btn-success" wire:click="approveRequest">
+                            <i class="ri-check-double-line me-1"></i>{{__('Yes, Approve Request')}}
+                        </button>
                     </div>
                 </div>
             </div>

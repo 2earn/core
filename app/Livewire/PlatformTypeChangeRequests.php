@@ -24,6 +24,10 @@ class PlatformTypeChangeRequests extends Component
     public $rejectRequestId = null;
     public $rejectionReason = '';
 
+    // Approval modal properties
+    public $showApproveModal = false;
+    public $approveRequestId = null;
+
     protected $queryString = ['search', 'statusFilter'];
 
     public function updatingSearch()
@@ -36,15 +40,28 @@ class PlatformTypeChangeRequests extends Component
         $this->resetPage();
     }
 
-    public function approveRequest($requestId)
+    public function openApproveModal($requestId)
+    {
+        $this->approveRequestId = $requestId;
+        $this->showApproveModal = true;
+    }
+
+    public function closeApproveModal()
+    {
+        $this->showApproveModal = false;
+        $this->approveRequestId = null;
+    }
+
+    public function approveRequest()
     {
         try {
             DB::beginTransaction();
 
-            $request = PlatformTypeChangeRequest::findOrFail($requestId);
+            $request = PlatformTypeChangeRequest::findOrFail($this->approveRequestId);
 
             if ($request->status !== 'pending') {
                 session()->flash('danger', Lang::get('This request has already been processed'));
+                $this->closeApproveModal();
                 return;
             }
 
@@ -60,21 +77,23 @@ class PlatformTypeChangeRequests extends Component
             DB::commit();
 
             Log::info('[PlatformTypeChangeRequests] Request approved', [
-                'request_id' => $requestId,
+                'request_id' => $this->approveRequestId,
                 'platform_id' => $request->platform_id,
                 'old_type' => $request->old_type,
                 'new_type' => $request->new_type,
             ]);
 
             session()->flash('success', Lang::get('Platform type change request approved successfully'));
+            $this->closeApproveModal();
 
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('[PlatformTypeChangeRequests] Error approving request', [
-                'request_id' => $requestId,
+                'request_id' => $this->approveRequestId,
                 'error' => $e->getMessage()
             ]);
             session()->flash('danger', Lang::get('Error approving request: ') . $e->getMessage());
+            $this->closeApproveModal();
         }
     }
 
