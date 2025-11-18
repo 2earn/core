@@ -103,13 +103,13 @@
                         </div>
                         <div class="mb-3">
                             <div class="row g-2">
-                                <div class="col-12">
+                                <div class="col-6">
                                     <div class="p-3 bg-light rounded">
                                         <p class="text-muted mb-1 fs-6">{{__('Type')}}</p>
                                         <h6 class="mb-0">{{__(\Core\Enum\PlatformType::tryFrom($platform->type)->name) ?? 'N/A'}}</h6>
                                     </div>
                                 </div>
-                                <div class="col-12">
+                                <div class="col-6">
                                     <div class="p-3 bg-light rounded">
                                         <p class="text-muted mb-1 fs-6">{{__('Created')}}</p>
                                         <h6 class="mb-0">{{$platform->created_at->format('M d, Y')}}</h6>
