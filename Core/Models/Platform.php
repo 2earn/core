@@ -7,6 +7,7 @@ use App\Models\Coupon;
 use App\Models\Deal;
 use App\Models\Image;
 use App\Models\Item;
+use App\Models\PlatformTypeChangeRequest;
 use App\Models\ProductDealHistory;
 use App\Models\User;
 use App\Traits\HasAuditing;
@@ -84,6 +85,16 @@ class Platform extends Model
     public function logoImage()
     {
         return $this->morphOne(Image::class, 'imageable')->where('type', '=', self::IMAGE_TYPE_LOGO);
+    }
+
+    public function typeChangeRequests(): HasMany
+    {
+        return $this->hasMany(PlatformTypeChangeRequest::class);
+    }
+
+    public function pendingTypeChangeRequest()
+    {
+        return $this->hasOne(PlatformTypeChangeRequest::class)->where('status', 'pending')->latest();
     }
 
     public function selected($idUser = null)

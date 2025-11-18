@@ -36,7 +36,7 @@ class PlatformIndex extends Component
 
     public function render()
     {
-        $platforms = ModelsPlatform::with(['businessSector'])
+        $platforms = ModelsPlatform::with(['businessSector', 'pendingTypeChangeRequest'])
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
                     $q->where('name', 'like', '%' . $this->search . '%')

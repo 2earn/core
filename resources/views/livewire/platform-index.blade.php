@@ -17,7 +17,7 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-4">
                     <div class="row g-3 align-items-center">
-                        <div class="col-lg-8 col-md-7">
+                        <div class="col-lg-4 col-md-4">
                             <div class="position-relative">
                                 <i class="ri-search-line position-absolute top-50 start-0 translate-middle-y ms-3 text-muted fs-5"></i>
                                 <input type="text"
@@ -26,9 +26,16 @@
                                        placeholder="{{__('Search platforms by name, type or ID...')}}">
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-5 text-md-end">
-                            <a href="{{route('platform_create_update', app()->getLocale())}}"
-                               class="btn btn-info btn px-4">
+                        <div class="col-lg-4 col-md-4 text-md-end">
+                            <a href="{{route('platform_type_change_requests', app()->getLocale())}}"
+                               class="btn btn-warning btn px-4 me-2">
+                                <i class="ri-arrow-left-right-line align-middle me-1"></i>
+                                {{__('Type Change Requests')}}
+                            </a>
+                        </div>                        <div class="col-lg-4 col-md-4 text-md-end">
+
+                        <a href="{{route('platform_create_update', app()->getLocale())}}"
+                               class="btn btn-info btn px-2 mx-2">
                                 <i class="ri-add-circle-line align-middle me-1"></i>
                                 {{__('Create platform')}}
                             </a>
@@ -40,7 +47,7 @@
     </div>
     <div class="row g-2">
         @forelse($platforms as $platform)
-            <div class="col-xl-4 col-lg-4 col-md-6">
+            <div class="col-xl-6 col-lg-6 col-md-6">
                 <div class="card border-0 shadow-sm h-100 hover-shadow">
                     <div class="card-body p-4">
                         <div class="d-flex align-items-start mb-4">
@@ -62,12 +69,22 @@
                                 <h5 class="mb-1 text-truncate">
                                     {{\App\Models\TranslaleModel::getTranslation($platform,'name',$platform->name)}}
                                 </h5>
+
                                 @if(\App\Models\User::isSuperAdmin())
                                     <div class="mt-3 pt-3 border-top">
                                         <a class="btn btn-sm btn-soft-info"
                                            href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($platform,'name')])}}">
                                             <i class="ri-translate-2 align-middle me-1"></i>{{__('Update Translation')}}
                                         </a>
+                                    </div>
+                                @endif
+                                @if($platform->pendingTypeChangeRequest)
+                                    <div class="alert alert-warning py-2 px-3 mb-2 d-flex align-items-center"
+                                         role="alert">
+                                        <i class="ri-alert-line me-2 fs-5"></i>
+                                        <div class="flex-grow-1">
+                                            <strong class="small">{{__('Pending Type Change Request')}}</strong>
+                                        </div>
                                     </div>
                                 @endif
                                 <p class="text-muted mb-0">
@@ -138,8 +155,32 @@
                                 </a>
                             </div>
                         </div>
+
                         <div class="d-flex gap-2 justify-content-between align-items-center my-2">
 
+                            @if(\App\Models\User::isSuperAdmin())
+                                @if($platform->pendingTypeChangeRequest)
+                                    <div class="d-flex gap-2">
+                                        <div class="alert alert-warning p-2 mb-2" role="alert">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <div class="flex-grow-1">
+                                                    <small class="mb-0">
+                                                        <i class="ri-arrow-left-right-line me-1"></i>
+                                                        <strong>{{__('Type Change')}}: </strong>
+                                                        {{__(\Core\Enum\PlatformType::tryFrom($platform->pendingTypeChangeRequest->old_type)->name)}}
+                                                        <i class="ri-arrow-right-s-line"></i>
+                                                        {{__(\Core\Enum\PlatformType::tryFrom($platform->pendingTypeChangeRequest->new_type)->name)}}
+                                                    </small>
+                                                </div>
+                                                <a href="{{route('platform_type_change_requests', app()->getLocale())}}"
+                                                   class="btn btn-warning btn-sm">
+                                                    <i class="ri-check-double-line align-middle me-1"></i>{{__('Validate')}}
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endif
                             <div class="d-flex gap-2">
                                 <a href="{{route('platform_show', ['locale' => app()->getLocale(), 'id' => $platform->id])}}"
                                    class="btn btn-soft-secondary btn-sm">
