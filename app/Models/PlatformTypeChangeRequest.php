@@ -13,6 +13,7 @@ class PlatformTypeChangeRequest extends Model
         'old_type',
         'new_type',
         'status',
+        'rejection_reason',
     ];
 
     public function platform(): BelongsTo

@@ -19,6 +19,11 @@ class PlatformTypeChangeRequests extends Component
     public $statusFilter = 'pending';
     public $perPage = 10;
 
+    // Rejection modal properties
+    public $showRejectModal = false;
+    public $rejectRequestId = null;
+    public $rejectionReason = '';
+
     protected $queryString = ['search', 'statusFilter'];
 
     public function updatingSearch()
@@ -73,32 +78,59 @@ class PlatformTypeChangeRequests extends Component
         }
     }
 
-    public function rejectRequest($requestId)
+    public function openRejectModal($requestId)
     {
+        $this->rejectRequestId = $requestId;
+        $this->rejectionReason = '';
+        $this->showRejectModal = true;
+    }
+
+    public function closeRejectModal()
+    {
+        $this->showRejectModal = false;
+        $this->rejectRequestId = null;
+        $this->rejectionReason = '';
+    }
+
+    public function rejectRequest()
+    {
+        $this->validate([
+            'rejectionReason' => 'required|string|min:10|max:1000',
+        ], [
+            'rejectionReason.required' => Lang::get('Rejection reason is required'),
+            'rejectionReason.min' => Lang::get('Rejection reason must be at least 10 characters'),
+            'rejectionReason.max' => Lang::get('Rejection reason must not exceed 1000 characters'),
+        ]);
+
         try {
-            $request = PlatformTypeChangeRequest::findOrFail($requestId);
+            $request = PlatformTypeChangeRequest::findOrFail($this->rejectRequestId);
 
             if ($request->status !== 'pending') {
                 session()->flash('danger', Lang::get('This request has already been processed'));
+                $this->closeRejectModal();
                 return;
             }
 
             $request->status = 'rejected';
+            $request->rejection_reason = $this->rejectionReason;
             $request->save();
 
             Log::info('[PlatformTypeChangeRequests] Request rejected', [
-                'request_id' => $requestId,
+                'request_id' => $this->rejectRequestId,
                 'platform_id' => $request->platform_id,
+                'rejection_reason' => $this->rejectionReason,
             ]);
 
             session()->flash('success', Lang::get('Platform type change request rejected successfully'));
+            $this->closeRejectModal();
 
         } catch (\Exception $e) {
             Log::error('[PlatformTypeChangeRequests] Error rejecting request', [
-                'request_id' => $requestId,
+                'request_id' => $this->rejectRequestId,
                 'error' => $e->getMessage()
             ]);
             session()->flash('danger', Lang::get('Error rejecting request: ') . $e->getMessage());
+            $this->closeRejectModal();
         }
     }
 

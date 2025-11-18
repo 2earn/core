@@ -128,8 +128,7 @@
                                                 class="btn btn-success btn-sm">
                                             <i class="ri-check-line align-middle me-1"></i>{{__('Approve')}}
                                         </button>
-                                        <button wire:click="rejectRequest({{$request->id}})"
-                                                wire:confirm="{{__('Are you sure you want to reject this type change request?')}}"
+                                        <button wire:click="openRejectModal({{$request->id}})"
                                                 class="btn btn-danger btn-sm">
                                             <i class="ri-close-line align-middle me-1"></i>{{__('Reject')}}
                                         </button>
@@ -147,7 +146,7 @@
                             <div class="col-md-6">
                                 <small class="text-muted">
                                     <i class="ri-user-line me-1"></i>
-                                    <strong>{{__('Owner')}}:</strong> {{$request->platform->owner()->name ?? 'N/A'}}
+                                    <strong>{{__('Owner')}}:</strong> {{$request->platform->owner()->id ?? 'N/A'}}
                                 </small>
                             </div>
                             <div class="col-md-6 text-md-end">
@@ -156,6 +155,14 @@
                                     <strong>{{__('Request ID')}}:</strong> #{{$request->id}}
                                 </small>
                             </div>
+                            @if($request->status === 'rejected' && $request->rejection_reason)
+                                <div class="col-12 mt-3">
+                                    <div class="alert alert-danger mb-0" role="alert">
+                                        <strong><i class="ri-error-warning-line me-1"></i>{{__('Rejection Reason')}}:</strong>
+                                        <p class="mb-0 mt-2">{{$request->rejection_reason}}</p>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -204,6 +211,54 @@
                                 {{$requests->links()}}
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    <!-- Reject Modal -->
+    @if($showRejectModal)
+        <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title">
+                            <i class="ri-close-circle-line me-2"></i>{{__('Reject Type Change Request')}}
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" wire:click="closeRejectModal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-warning" role="alert">
+                            <i class="ri-alert-line me-2"></i>
+                            {{__('Please provide a reason for rejecting this request.')}}
+                        </div>
+                        <div class="mb-3">
+                            <label for="rejectionReason" class="form-label">
+                                {{__('Rejection Reason')}} <span class="text-danger">*</span>
+                            </label>
+                            <textarea
+                                wire:model="rejectionReason"
+                                class="form-control @error('rejectionReason') is-invalid @enderror"
+                                id="rejectionReason"
+                                rows="5"
+                                placeholder="{{__('Enter the reason for rejecting this request (minimum 10 characters)...')}}"
+                                required></textarea>
+                            @error('rejectionReason')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <div class="form-text">
+                                {{__('Minimum 10 characters, maximum 1000 characters')}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" wire:click="closeRejectModal">
+                            <i class="ri-close-line me-1"></i>{{__('Cancel')}}
+                        </button>
+                        <button type="button" class="btn btn-danger" wire:click="rejectRequest">
+                            <i class="ri-close-circle-line me-1"></i>{{__('Reject Request')}}
+                        </button>
                     </div>
                 </div>
             </div>
