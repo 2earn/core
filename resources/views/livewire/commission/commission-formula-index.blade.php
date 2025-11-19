@@ -12,10 +12,10 @@
         @endslot
     @endcomponent
 
-    {{-- Statistics Cards --}}
     <div class="row mb-3">
         @include('layouts.flash-messages')
-
+    </div>
+    <div class="row mb-3">
         <div class="col-xl-3 col-md-6">
             <div class="card card-animate">
                 <div class="card-body">
@@ -32,7 +32,8 @@
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
                             <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                <span class="counter-value" data-target="{{ $statistics['total'] }}">{{ $statistics['total'] }}</span>
+                                <span class="counter-value"
+                                      data-target="{{ $statistics['total'] }}">{{ $statistics['total'] }}</span>
                             </h4>
                         </div>
                     </div>
@@ -56,7 +57,8 @@
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
                             <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                <span class="counter-value" data-target="{{ $statistics['active'] }}">{{ $statistics['active'] }}</span>
+                                <span class="counter-value"
+                                      data-target="{{ $statistics['active'] }}">{{ $statistics['active'] }}</span>
                             </h4>
                         </div>
                     </div>
@@ -183,119 +185,119 @@
                 @if($formulas->count() > 0)
                     <table class="table table-nowrap table-striped-columns align-middle mb-0">
                         <thead class="table-light">
-                            <tr>
-                                <th scope="col">
-                                    <a href="#" wire:click.prevent="sortBy('id')" class="text-muted">
-                                        {{ __('ID') }}
-                                        @if($sortBy === 'id')
-                                            <i class="ri-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-s-line"></i>
-                                        @endif
-                                    </a>
-                                </th>
-                                <th scope="col">
-                                    <a href="#" wire:click.prevent="sortBy('name')" class="text-muted">
-                                        {{ __('Name') }}
-                                        @if($sortBy === 'name')
-                                            <i class="ri-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-s-line"></i>
-                                        @endif
-                                    </a>
-                                </th>
-                                <th scope="col">{{ __('Commission Range') }}</th>
-                                <th scope="col">{{ __('Initial') }}</th>
-                                <th scope="col">{{ __('Final') }}</th>
-                                <th scope="col">{{ __('Description') }}</th>
-                                <th scope="col">
-                                    <a href="#" wire:click.prevent="sortBy('is_active')" class="text-muted">
-                                        {{ __('Status') }}
-                                        @if($sortBy === 'is_active')
-                                            <i class="ri-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-s-line"></i>
-                                        @endif
-                                    </a>
-                                </th>
-                                <th scope="col">
-                                    <a href="#" wire:click.prevent="sortBy('created_at')" class="text-muted">
-                                        {{ __('Created') }}
-                                        @if($sortBy === 'created_at')
-                                            <i class="ri-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-s-line"></i>
-                                        @endif
-                                    </a>
-                                </th>
-                                @if(\App\Models\User::isSuperAdmin())
-                                    <th scope="col">{{ __('Actions') }}</th>
-                                @endif
-                            </tr>
+                        <tr>
+                            <th scope="col">
+                                <a href="#" wire:click.prevent="sortBy('id')" class="text-muted">
+                                    {{ __('ID') }}
+                                    @if($sortBy === 'id')
+                                        <i class="ri-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-s-line"></i>
+                                    @endif
+                                </a>
+                            </th>
+                            <th scope="col">
+                                <a href="#" wire:click.prevent="sortBy('name')" class="text-muted">
+                                    {{ __('Name') }}
+                                    @if($sortBy === 'name')
+                                        <i class="ri-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-s-line"></i>
+                                    @endif
+                                </a>
+                            </th>
+                            <th scope="col">{{ __('Commission Range') }}</th>
+                            <th scope="col">{{ __('Initial') }}</th>
+                            <th scope="col">{{ __('Final') }}</th>
+                            <th scope="col">{{ __('Description') }}</th>
+                            <th scope="col">
+                                <a href="#" wire:click.prevent="sortBy('is_active')" class="text-muted">
+                                    {{ __('Status') }}
+                                    @if($sortBy === 'is_active')
+                                        <i class="ri-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-s-line"></i>
+                                    @endif
+                                </a>
+                            </th>
+                            <th scope="col">
+                                <a href="#" wire:click.prevent="sortBy('created_at')" class="text-muted">
+                                    {{ __('Created') }}
+                                    @if($sortBy === 'created_at')
+                                        <i class="ri-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-s-line"></i>
+                                    @endif
+                                </a>
+                            </th>
+                            @if(\App\Models\User::isSuperAdmin())
+                                <th scope="col">{{ __('Actions') }}</th>
+                            @endif
+                        </tr>
                         </thead>
                         <tbody>
-                            @foreach($formulas as $formula)
-                                <tr>
-                                    <td class="fw-medium">{{ $formula->id }}</td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1">
-                                                <h6 class="fs-14 mb-1">{{ $formula->name ?: __('No Name') }}</h6>
-                                            </div>
+                        @foreach($formulas as $formula)
+                            <tr>
+                                <td class="fw-medium">{{ $formula->id }}</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <h6 class="fs-14 mb-1">{{ $formula->name ?: __('No Name') }}</h6>
                                         </div>
-                                    </td>
-                                    <td>
+                                    </div>
+                                </td>
+                                <td>
                                         <span class="badge badge-soft-primary fs-12">
                                             {{ $formula->getCommissionRange() }}
                                         </span>
-                                    </td>
-                                    <td>
+                                </td>
+                                <td>
                                         <span class="badge badge-soft-info">
                                             {{ number_format($formula->initial_commission, 2) }}%
                                         </span>
-                                    </td>
-                                    <td>
+                                </td>
+                                <td>
                                         <span class="badge badge-soft-success">
                                             {{ number_format($formula->final_commission, 2) }}%
                                         </span>
-                                    </td>
-                                    <td>
-                                        <div class="text-muted" style="max-width: 250px;">
-                                            {{ Str::limit($formula->description, 50) }}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        @if($formula->is_active)
-                                            <span class="badge badge-soft-success">
+                                </td>
+                                <td>
+                                    <div class="text-muted" style="max-width: 250px;">
+                                        {{ Str::limit($formula->description, 50) }}
+                                    </div>
+                                </td>
+                                <td>
+                                    @if($formula->is_active)
+                                        <span class="badge badge-soft-success">
                                                 <i class="ri-checkbox-circle-line align-middle me-1"></i>{{ __('Active') }}
                                             </span>
-                                        @else
-                                            <span class="badge badge-soft-danger">
+                                    @else
+                                        <span class="badge badge-soft-danger">
                                                 <i class="ri-close-circle-line align-middle me-1"></i>{{ __('Inactive') }}
                                             </span>
-                                        @endif
-                                    </td>
-                                    <td>{{ $formula->created_at->format('Y-m-d') }}</td>
-                                    @if(\App\Models\User::isSuperAdmin())
-                                        <td>
-                                            <div class="hstack gap-2">
-                                                {{-- Toggle Active --}}
-                                                <button wire:click="toggleActive({{ $formula->id }})"
-                                                        class="btn btn-sm btn-soft-{{ $formula->is_active ? 'warning' : 'success' }}"
-                                                        title="{{ $formula->is_active ? __('Deactivate') : __('Activate') }}">
-                                                    <i class="ri-{{ $formula->is_active ? 'pause' : 'play' }}-circle-line"></i>
-                                                </button>
-
-                                                {{-- Edit --}}
-                                                <a href="{{ route('commission_formula_edit', ['locale' => app()->getLocale(), 'id' => $formula->id]) }}"
-                                                   class="btn btn-sm btn-soft-info"
-                                                   title="{{ __('Edit') }}">
-                                                    <i class="ri-edit-2-line"></i>
-                                                </a>
-
-                                                {{-- Delete --}}
-                                                <button wire:click="confirmDelete({{ $formula->id }})"
-                                                        class="btn btn-sm btn-soft-danger"
-                                                        title="{{ __('Delete') }}">
-                                                    <i class="ri-delete-bin-line"></i>
-                                                </button>
-                                            </div>
-                                        </td>
                                     @endif
-                                </tr>
-                            @endforeach
+                                </td>
+                                <td>{{ $formula->created_at->format('Y-m-d') }}</td>
+                                @if(\App\Models\User::isSuperAdmin())
+                                    <td>
+                                        <div class="hstack gap-2">
+                                            {{-- Toggle Active --}}
+                                            <button wire:click="toggleActive({{ $formula->id }})"
+                                                    class="btn btn-sm btn-soft-{{ $formula->is_active ? 'warning' : 'success' }}"
+                                                    title="{{ $formula->is_active ? __('Deactivate') : __('Activate') }}">
+                                                <i class="ri-{{ $formula->is_active ? 'pause' : 'play' }}-circle-line"></i>
+                                            </button>
+
+                                            {{-- Edit --}}
+                                            <a href="{{ route('commission_formula_edit', ['locale' => app()->getLocale(), 'id' => $formula->id]) }}"
+                                               class="btn btn-sm btn-soft-info"
+                                               title="{{ __('Edit') }}">
+                                                <i class="ri-edit-2-line"></i>
+                                            </a>
+
+                                            {{-- Delete --}}
+                                            <button wire:click="confirmDelete({{ $formula->id }})"
+                                                    class="btn btn-sm btn-soft-danger"
+                                                    title="{{ __('Delete') }}">
+                                                <i class="ri-delete-bin-line"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                @endif
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 @else
@@ -336,7 +338,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-light" wire:click="cancelDelete">{{ __('Cancel') }}</button>
+                        <button type="button" class="btn btn-light"
+                                wire:click="cancelDelete">{{ __('Cancel') }}</button>
                         <button type="button" class="btn btn-danger" wire:click="deleteFormula">
                             <i class="ri-delete-bin-line align-bottom me-1"></i> {{ __('Delete') }}
                         </button>
