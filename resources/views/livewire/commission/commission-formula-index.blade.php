@@ -14,6 +14,8 @@
 
     {{-- Statistics Cards --}}
     <div class="row mb-3">
+        @include('layouts.flash-messages')
+
         <div class="col-xl-3 col-md-6">
             <div class="card card-animate">
                 <div class="card-body">
@@ -176,22 +178,7 @@
                 </div>
             </div>
 
-            {{-- Success/Error Messages --}}
-            @if (session()->has('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <i class="ri-check-line align-middle me-1"></i> {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
 
-            @if (session()->has('error'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="ri-error-warning-line align-middle me-1"></i> {{ session('error') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-
-            {{-- Table --}}
             <div class="table-responsive" wire:loading.remove>
                 @if($formulas->count() > 0)
                     <table class="table table-nowrap table-striped-columns align-middle mb-0">
