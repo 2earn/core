@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\mobile\BalanceController;
 use App\Http\Controllers\Api\mobile\CashBalanceController;
 use App\Http\Controllers\Api\mobile\UserController;
+use App\Http\Controllers\Api\partner\CommissionFormulaPartnerController;
 use App\Http\Controllers\Api\partner\DealPartnerController;
 use App\Http\Controllers\Api\partner\ItemsPartnerController;
 use App\Http\Controllers\Api\partner\OrderDetailsPartnerController;
@@ -118,14 +119,15 @@ Route::prefix('/partner/')->name('api_partner_')
     ->group(function () {
         Route::middleware(['check.url'])->group(function () {
             Route::apiResource('platforms', PlatformPartnerController::class)->except('destroy');
+            Route::get('deals/commission-formulas', [CommissionFormulaPartnerController::class, 'index'])->name('deals_commission_formulas_index');
             Route::apiResource('deals', DealPartnerController::class)->except('destroy');
             Route::apiResource('orders', OrderPartnerController::class)->except('destroy');
             Route::apiResource('order-details', OrderDetailsPartnerController::class)->only(['store', 'update']);
-            Route::patch('orders/{order}/status', [OrderPartnerController::class, 'changeStatus'])->name('orders.change_status');
-            Route::patch('deals/{deal}/status', [DealPartnerController::class, 'changeStatus'])->name('deals.change_status');
-            Route::post('items', [ItemsPartnerController::class, 'store']);
-            Route::put('items/{id}', [ItemsPartnerController::class, 'update']);
-            Route::post('platform/change', [PlatformPartnerController::class, 'changePlatformType'])->name('platform.change_type');
+            Route::patch('orders/{order}/status', [OrderPartnerController::class, 'changeStatus'])->name('orders_change_status');
+            Route::patch('deals/{deal}/status', [DealPartnerController::class, 'changeStatus'])->name('deals_change_status');
+            Route::post('items', [ItemsPartnerController::class, 'store'])->name('items_store');
+            Route::put('items/{id}', [ItemsPartnerController::class, 'update'])->name('items_update');
+            Route::post('platform/change', [PlatformPartnerController::class, 'changePlatformType'])->name('platform_change_type');
         });
 
     });

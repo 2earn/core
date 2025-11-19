@@ -98,30 +98,21 @@
                             </div>
 
 
-                            <div class="form-group col-3 mb-3">
-                                <label for="initial_commission">{{__('Initial commission')}}</label>
-                                <span class="text-info float-end">{{__('$')}}</span>
-
-                                <input type="number"
-                                       class="form-control @error('initial_commission') is-invalid @enderror"
-                                       id="initial_commission"
-                                       wire:model.live="initial_commission"
-                                       placeholder="{{__('Enter Initial commission')}}">
-                                @error('initial_commission') <span class="text-danger">{{ $message }}</span>@enderror
-                                <div class="form-text">{{__('Required field')}}</div>
-                            </div>
-
 
                             <div class="form-group col-3 mb-3">
-                                <label for="final_commission">{{__('Final commission')}}</label>
-                                <span class="text-info float-end">{{__('$')}}</span>
-                                <input type="number"
-                                       class="form-control @error('final_commission') is-invalid @enderror"
-                                       id="final_commission"
-                                       wire:model.live="final_commission"
-                                       placeholder="{{__('Enter Final commission')}}">
-                                @error('final_commission') <span class="text-danger">{{ $message }}</span>@enderror
-                                <div class="form-text">{{__('Required field')}}</div>
+                                <label for="commission_formula_id">{{__('Commission Formula')}}</label>
+                                <select class="form-control @error('commission_formula_id') is-invalid @enderror"
+                                        id="commission_formula_id"
+                                        wire:model.live="commission_formula_id">
+                                    <option value="">{{__('Select Commission Formula')}}</option>
+                                    @foreach($commissionFormulas as $formula)
+                                        <option value="{{ $formula->id }}">
+                                            {{ $formula->name }} ({{ $formula->initial_commission }}% - {{ $formula->final_commission }}%)
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('commission_formula_id') <span class="text-danger">{{ $message }}</span>@enderror
+                                <div class="form-text">{{__('Select a commission formula')}}</div>
                             </div>
 
                             <div class="form-group col-3 mb-3">

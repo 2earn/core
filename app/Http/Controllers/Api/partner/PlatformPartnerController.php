@@ -83,6 +83,7 @@ class PlatformPartnerController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'type' => 'required|string',
+            'link' => 'sometimes|url',
             'show_profile' => 'boolean',
             'image_link' => 'nullable|string',
             'owner_id' => 'required|exists:users,id',
@@ -106,7 +107,6 @@ class PlatformPartnerController extends Controller
 
         $platform = Platform::create($data);
 
-        // Create validation request for the new platform
         $validationRequest = PlatformValidationRequest::create([
             'platform_id' => $platform->id,
             'status' => 'pending'

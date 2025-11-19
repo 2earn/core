@@ -312,6 +312,13 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
                 Route::get('/index', \App\Livewire\CouponIndex::class)->name('index');
                 Route::get('/', \App\Livewire\CouponCreate::class)->name('create');
             });
+
+            Route::prefix('/commission/formula')->name('commission_formula_')->group(function () {
+                Route::get('/index', \App\Livewire\CommissionFormulaIndex::class)->name('index');
+                Route::get('/create', \App\Livewire\CommissionFormulaCreateUpdate::class)->name('create');
+                Route::get('/edit/{id}', \App\Livewire\CommissionFormulaCreateUpdate::class)->name('edit');
+            });
+
             Route::prefix('/coupon/injector')->name('coupon_injector_')->group(function () {
                 Route::get('/index', \App\Livewire\CouponInjectorIndex::class)->name('index');
                 Route::get('/', \App\Livewire\CouponInjectorCreate::class)->name('create');
