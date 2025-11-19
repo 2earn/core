@@ -7,8 +7,6 @@
                 <p class="text-muted fs-15 mb-0">{{__('Explore our diverse range of business opportunities')}}</p>
             </div>
         </div>
-
-        <!-- Business Sectors Grid -->
         <div class="row g-4 justify-content-center">
             @foreach($businessSectors as $businessSector)
             <div class="col-sm-12 col-md-6 col-lg-3">
