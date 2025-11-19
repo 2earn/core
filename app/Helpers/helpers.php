@@ -427,6 +427,14 @@ if (!function_exists('getDecimals')) {
     }
 }
 
+if (!function_exists('getUserDisplayedNameFromId')) {
+    function getUserDisplayedNameFromId($id)
+    {
+        $user = User::find($id);
+        return getUserDisplayedName($user->idUser);
+    }
+}
+
 if (!function_exists('getUserDisplayedName')) {
     function getUserDisplayedName($idUser = null)
     {

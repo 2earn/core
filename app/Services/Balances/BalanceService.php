@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Balances;
 
-use App\Services\Balances\Balances;
 use Core\Enum\BalanceEnum;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;

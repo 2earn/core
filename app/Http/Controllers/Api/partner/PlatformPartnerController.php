@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\partner;
 
 use App\Http\Controllers\Controller;
+use App\Models\PlatformTypeChangeRequest;
+use App\Models\PlatformValidationRequest;
 use Core\Models\Platform;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -51,6 +53,23 @@ class PlatformPartnerController extends Controller
         $totalCount = $query->count();
         $platforms = !is_null($page) ? $query->paginate(self::PAGINATION_LIMIT, ['*'], 'page', $page) : $query->get();
 
+        $platforms->load(['validationRequest' => function ($query) {
+            $query->latest();
+        }]);
+        $platforms->each(function ($platform) {
+            $platform->type_change_requests_count = PlatformTypeChangeRequest::where('platform_id', $platform->id)->count();
+            $platform->validation_requests_count = PlatformValidationRequest::where('platform_id', $platform->id)->count();
+            $platform->typeChangeRequests = PlatformTypeChangeRequest::where('platform_id',  $platform->id)
+                ->orderBy('created_at', 'desc')
+                ->limit(3)
+                ->get();
+            $platform->validationRequests = PlatformValidationRequest::where('platform_id',  $platform->id)
+                ->orderBy('created_at', 'desc')
+                ->limit(3)
+                ->get();
+        });
+
+
         return response()->json([
             'status' => true,
             'data' => $platforms,
@@ -63,7 +82,6 @@ class PlatformPartnerController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'enabled' => 'required|boolean',
             'type' => 'required|string',
             'show_profile' => 'boolean',
             'image_link' => 'nullable|string',
@@ -83,12 +101,29 @@ class PlatformPartnerController extends Controller
             ], 422);
         }
 
-        $platform = Platform::create($validator->validated());
+        $data = $validator->validated();
+        $data['enabled'] = false;
+
+        $platform = Platform::create($data);
+
+        // Create validation request for the new platform
+        $validationRequest = PlatformValidationRequest::create([
+            'platform_id' => $platform->id,
+            'status' => 'pending'
+        ]);
+
+        Log::info(self::LOG_PREFIX . 'Platform created with validation request', [
+            'platform_id' => $platform->id,
+            'validation_request_id' => $validationRequest->id
+        ]);
 
         return response()->json([
             'status' => true,
-            'message' => 'Platform created successfully',
-            'data' => $platform
+            'message' => 'Platform created successfully. Awaiting validation.',
+            'data' => [
+                'platform' => $platform,
+                'validation_request' => $validationRequest
+            ]
         ], Response::HTTP_CREATED);
     }
 
@@ -125,9 +160,21 @@ class PlatformPartnerController extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
 
+        $typeChangeRequests = PlatformTypeChangeRequest::where('platform_id', $platformId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $validationRequests = PlatformValidationRequest::where('platform_id', $platformId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return response()->json([
             'status' => true,
-            'data' => $platform
+            'data' => [
+                'platform' => $platform,
+                'type_change_requests' => $typeChangeRequests,
+                'validation_requests' => $validationRequests
+            ]
         ]);
     }
 
@@ -165,4 +212,99 @@ class PlatformPartnerController extends Controller
             'data' => $platform
         ]);
     }
+
+    public function changePlatformType(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'platform_id' => 'required|integer|exists:platforms,id',
+            'type_id' => 'required|integer|in:1,2,3',
+        ]);
+
+        if ($validator->fails()) {
+            Log::error(self::LOG_PREFIX . 'Platform type change validation failed', ['errors' => $validator->errors()]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $platformId = $request->input('platform_id');
+        $newTypeId = $request->input('type_id');
+
+        // Find the platform
+        $platform = Platform::find($platformId);
+
+        if (!$platform) {
+            Log::error(self::LOG_PREFIX . 'Platform not found', ['platform_id' => $platformId]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Platform not found'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        $oldTypeId = $platform->type;
+
+        // Validate type transitions
+        $allowedTransitions = [
+            3 => [1, 2], // Type 3 (Paiement) can change to 1 (Full) or 2 (Hybrid)
+            2 => [1],    // Type 2 (Hybrid) can change only to 1 (Full)
+            1 => []      // Type 1 (Full) cannot change
+        ];
+
+        // Check if current type is 1 (cannot change)
+        if ($oldTypeId == 1) {
+            Log::warning(self::LOG_PREFIX . 'Type 1 platforms cannot change type', [
+                'platform_id' => $platformId,
+                'current_type' => $oldTypeId
+            ]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Type 1 (Full) platforms cannot change their type'
+            ], Response::HTTP_FORBIDDEN);
+        }
+
+        // Check if the transition is allowed
+        if (!isset($allowedTransitions[$oldTypeId]) || !in_array($newTypeId, $allowedTransitions[$oldTypeId])) {
+            Log::warning(self::LOG_PREFIX . 'Invalid type transition', [
+                'platform_id' => $platformId,
+                'old_type' => $oldTypeId,
+                'new_type' => $newTypeId
+            ]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => "Type {$oldTypeId} platforms can only change to types: " . implode(', ', $allowedTransitions[$oldTypeId] ?? [])
+            ], Response::HTTP_FORBIDDEN);
+        }
+
+        // Check if the new type is the same as old type
+        if ($oldTypeId == $newTypeId) {
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'New type cannot be the same as current type'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        // Create the change request
+        $changeRequest = PlatformTypeChangeRequest::create([
+            'platform_id' => $platformId,
+            'old_type' => $oldTypeId,
+            'new_type' => $newTypeId,
+            'status' => 'pending'
+        ]);
+
+        Log::info(self::LOG_PREFIX . 'Platform type change request created', [
+            'request_id' => $changeRequest->id,
+            'platform_id' => $platformId,
+            'old_type' => $oldTypeId,
+            'new_type' => $newTypeId
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Platform type change request created successfully',
+            'data' => $changeRequest
+        ], Response::HTTP_CREATED);
+    }
+
 }

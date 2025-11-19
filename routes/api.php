@@ -125,6 +125,7 @@ Route::prefix('/partner/')->name('api_partner_')
             Route::patch('deals/{deal}/status', [DealPartnerController::class, 'changeStatus'])->name('deals.change_status');
             Route::post('items', [ItemsPartnerController::class, 'store']);
             Route::put('items/{id}', [ItemsPartnerController::class, 'update']);
+            Route::post('platform/change', [PlatformPartnerController::class, 'changePlatformType'])->name('platform.change_type');
         });
 
     });

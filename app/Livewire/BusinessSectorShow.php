@@ -3,16 +3,26 @@
 namespace App\Livewire;
 
 use App\Models\BusinessSector;
-use Core\Models\Platform;
+use App\Services\Platform\PlatformService;
+use App\Services\BusinessSector\BusinessSectorService;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 
 class BusinessSectorShow extends Component
 {
     public $items = [];
+    protected $platformService;
+    protected $businessSectorService;
+
     protected $listeners = [
         'deletebusinessSector' => 'deletebusinessSector'
     ];
+
+    public function boot(PlatformService $platformService, BusinessSectorService $businessSectorService)
+    {
+        $this->platformService = $platformService;
+        $this->businessSectorService = $businessSectorService;
+    }
 
     public function mount($id)
     {
@@ -24,8 +34,15 @@ class BusinessSectorShow extends Component
 
     public function deletebusinessSector($idBusinessSector)
     {
-        BusinessSector::findOrFail($idBusinessSector)->delete();
-        return redirect()->route('business_sector_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Business sector Deleted Successfully'));
+        $success = $this->businessSectorService->deleteBusinessSector($idBusinessSector);
+
+        if ($success) {
+            return redirect()->route('business_sector_index', ['locale' => app()->getLocale()])
+                ->with('success', Lang::get('Business sector Deleted Successfully'));
+        }
+
+        return redirect()->route('business_sector_index', ['locale' => app()->getLocale()])
+            ->with('error', Lang::get('Failed to delete business sector'));
     }
 
     public function loadItems()
@@ -33,41 +50,20 @@ class BusinessSectorShow extends Component
         if (is_null($this->idBusinessSector)) {
             return [];
         }
-        return BusinessSector::find($this->idBusinessSector)
-            ->platforms()
-            ->with('deals.items')
-            ->get()
-            ->pluck('deals')
-            ->flatten()
-            ->pluck('items')
-            ->flatten();
+        return $this->platformService->getItemsFromEnabledPlatforms($this->idBusinessSector);
     }
 
     public function render()
     {
-        $businessSector = BusinessSector::with(['logoImage', 'thumbnailsImage', 'thumbnailsHomeImage'])
-            ->find($this->idBusinessSector);
+        // Use BusinessSectorService to fetch business sector with images
+        $businessSector = $this->businessSectorService->getBusinessSectorWithImages($this->idBusinessSector);
 
         if (is_null($businessSector)) {
             redirect()->route('business_sector_index', ['locale' => app()->getLocale()]);
         }
 
-        // Eager load all relationships to avoid N+1 queries
-        $platforms = Platform::with([
-            'logoImage',
-            'deals' => function($query) {
-                $query->where('start_date', '<=', now())
-                      ->where('end_date', '>=', now());
-            },
-            'deals.items' => function($query) {
-                $query->where('ref', '!=', '#0001');
-            },
-            'deals.items.thumbnailsImage'
-        ])
-        ->where('enabled', true)
-        ->where('business_sector_id', $this->idBusinessSector)
-        ->orderBy('created_at')
-        ->get();
+        // Use PlatformService to fetch platforms with active deals
+        $platforms = $this->platformService->getPlatformsWithActiveDeals($this->idBusinessSector);
 
         $params = [
             'businessSector' => $businessSector,

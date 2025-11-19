@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\BalanceService;
-use App\Services\Balances\Balances;
+use App\Services\Balances\BalanceService;
 use Core\Enum\BalanceEnum;
 use Core\Services\settingsManager;
 use Illuminate\Support\Facades\DB;

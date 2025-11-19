@@ -2,11 +2,11 @@
 
 namespace App\Livewire;
 
-use App\Services\BalanceService;
+use App\Services\Balances\BalanceService;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserBalanceSMS extends Component
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\sms;
 
 use App\Models\Sms;
 use Illuminate\Pagination\LengthAwarePaginator;
