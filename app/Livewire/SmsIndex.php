@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Sms;
 use App\Models\User;
-use App\Services\SmsService;
+use App\Services\sms\SmsService;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithPagination;

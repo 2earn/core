@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Services\BalanceService;
+use App\Services\Balances\BalanceService;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;

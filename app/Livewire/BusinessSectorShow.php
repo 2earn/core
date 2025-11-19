@@ -3,16 +3,23 @@
 namespace App\Livewire;
 
 use App\Models\BusinessSector;
-use Core\Models\Platform;
+use App\Services\Platform\PlatformService;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 
 class BusinessSectorShow extends Component
 {
     public $items = [];
+    protected $platformService;
+
     protected $listeners = [
         'deletebusinessSector' => 'deletebusinessSector'
     ];
+
+    public function boot(PlatformService $platformService)
+    {
+        $this->platformService = $platformService;
+    }
 
     public function mount($id)
     {
@@ -33,15 +40,7 @@ class BusinessSectorShow extends Component
         if (is_null($this->idBusinessSector)) {
             return [];
         }
-        return BusinessSector::find($this->idBusinessSector)
-            ->platforms()
-            ->where('enabled', true)
-            ->with('deals.items')
-            ->get()
-            ->pluck('deals')
-            ->flatten()
-            ->pluck('items')
-            ->flatten();
+        return $this->platformService->getItemsFromEnabledPlatforms($this->idBusinessSector);
     }
 
     public function render()
@@ -53,21 +52,8 @@ class BusinessSectorShow extends Component
             redirect()->route('business_sector_index', ['locale' => app()->getLocale()]);
         }
 
-        $platforms = Platform::with([
-            'logoImage',
-            'deals' => function($query) {
-                $query->where('start_date', '<=', now())
-                      ->where('end_date', '>=', now());
-            },
-            'deals.items' => function($query) {
-                $query->where('ref', '!=', '#0001');
-            },
-            'deals.items.thumbnailsImage'
-        ])
-        ->where('enabled', true)
-        ->where('business_sector_id', $this->idBusinessSector)
-        ->orderBy('created_at')
-        ->get();
+        // Use PlatformService to fetch platforms with active deals
+        $platforms = $this->platformService->getPlatformsWithActiveDeals($this->idBusinessSector);
 
         $params = [
             'businessSector' => $businessSector,

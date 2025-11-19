@@ -3,7 +3,7 @@
 namespace App\Livewire;
 
 use App\Services\Balances\Balances;
-use App\Services\BalanceService;
+use App\Services\Balances\BalanceService;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;

@@ -8,7 +8,6 @@
         @endslot
     @endcomponent
 
-    {{-- Header Section with Banner --}}
     <div class="card mb-3 overflow-hidden">
         <div class="profile-foreground position-relative">
             <div class="profile-wid-bg">
@@ -42,7 +41,6 @@
         </div>
     </div>
 
-    {{-- Description Section --}}
     <div class="card">
         <div class="card-body">
             <div class="row g-4">
@@ -87,7 +85,8 @@
                                 onclick="return confirm('{{ __('Are you sure you want to delete this business sector?') }}')">
                             <i class="ri-delete-bin-line align-bottom me-1"></i>{{ __('Delete') }}
                             <span wire:loading wire:target="deletebusinessSector('{{ $businessSector->id }}')">
-                                <span class="spinner-border spinner-border-sm ms-1" role="status" aria-hidden="true"></span>
+                                <span class="spinner-border spinner-border-sm ms-1" role="status"
+                                      aria-hidden="true"></span>
                             </span>
                         </button>
                     </div>
@@ -104,129 +103,127 @@
                 </h4>
                 <span class="badge bg-primary fs-12">{{ $platforms->count() }}</span>
             </div>
-            <div class="card-body">
-                <div class="row g-3">
-                    @foreach($platforms as $platform)
-                        <div class="col-12">
-                            <div class="card border shadow-sm">
-                                <div class="card-body">
-                                    <div class="row g-4">
-                                        <div class="col-lg-3 col-md-4">
-                                            <div class="text-center">
-                                                @if ($platform?->logoImage)
-                                                    <img src="{{ asset('uploads/' . $platform->logoImage->url) }}"
-                                                         alt="{{ $platform->name }} logo"
-                                                         class="img-fluid rounded"
-                                                         style="max-height: 150px; object-fit: contain;">
-                                                @else
-                                                    <img src="{{ Vite::asset(\Core\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO) }}"
-                                                         alt="{{ __('Default platform logo') }}"
-                                                         class="img-fluid rounded"
-                                                         style="max-height: 150px; object-fit: contain;">
-                                                @endif
-                                            </div>
-                                            @if ($platform?->show_profile && $platform?->link)
-                                                <div class="text-center mt-3">
-                                                    <a href="{{ $platform->link }}"
-                                                       target="_blank"
-                                                       rel="noopener noreferrer"
-                                                       class="btn btn-primary btn-sm w-100">
-                                                        <i class="ri-external-link-line align-bottom me-1"></i>{{ __('Visit Platform') }}
-                                                    </a>
-                                                </div>
-                                            @endif
-                                        </div>
-
-                                        {{-- Platform Details --}}
-                                        <div class="col-lg-9 col-md-8">
-                                            <h4 class="card-title mb-2">
-                                                {{ \App\Models\TranslaleModel::getTranslation($platform, 'name', $platform->name) }}
-                                                @if(\App\Models\User::isSuperAdmin())
-                                                    <small class="text-muted">(ID: {{ $platform->id }})</small>
-                                                    <a class="btn btn-sm btn-link text-info"
-                                                       href="{{ route('translate_model_data', ['locale' => app()->getLocale(), 'search' => \App\Models\TranslaleModel::getTranslateName($platform, 'name')]) }}">
-                                                        <i class="ri-translate-2 align-bottom"></i>
-                                                    </a>
-                                                @endif
-                                            </h4>
-
-                                            <p class="text-muted mb-3">
-                                                {!! \App\Models\TranslaleModel::getTranslation($platform, 'description', $platform->description) !!}
-                                                @if(\App\Models\User::isSuperAdmin())
-                                                    <a class="btn btn-sm btn-link text-info"
-                                                       href="{{ route('translate_model_data', ['locale' => app()->getLocale(), 'search' => \App\Models\TranslaleModel::getTranslateName($platform, 'description')]) }}">
-                                                        <i class="ri-translate-2 align-bottom"></i>
-                                                    </a>
-                                                @endif
-                                            </p>
-
-                                            <div class="d-flex flex-wrap gap-2 align-items-center">
-                                                @php
-                                                    $activeCouponsCount = $platform->deals()
-                                                        ->where('type', \Core\Enum\DealTypeEnum::coupons->value)
-                                                        ->where('start_date', '<=', now())
-                                                        ->where('end_date', '>=', now())
-                                                        ->count();
-                                                @endphp
-
-                                                @if($activeCouponsCount > 0)
-                                                    <a href="{{ route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $platform->id]) }}"
-                                                       class="btn btn-success btn-sm">
-                                                        <i class="ri-coupon-line align-bottom me-1"></i>{{ __('Top up your balance') }}
-                                                        <span class="badge bg-light text-success ms-1">{{ $activeCouponsCount }}</span>
-                                                    </a>
-                                                @endif
-
-                                                <a href="{{ route('coupon_history', ['locale' => app()->getLocale()]) }}"
-                                                   class="btn btn-outline-primary btn-sm">
-                                                    <i class="ri-history-line align-bottom me-1"></i>{{ __('Coupon History') }}
-                                                </a>
-
-                                                <small class="text-muted ms-auto">
-                                                    <i class="ri-time-line align-bottom"></i> {{ $platform->created_at->diffForHumans() }}
-                                                </small>
-                                            </div>
-                                        </div>
+        </div>
+        <div class="row g-3">
+            @foreach($platforms as $platform)
+                <div class="col-12">
+                    <div class="card border shadow-sm">
+                        <div class="card-body">
+                            <div class="row g-4">
+                                <div class="col-lg-3 col-md-4">
+                                    <div class="text-center">
+                                        @if ($platform?->logoImage)
+                                            <img src="{{ asset('uploads/' . $platform->logoImage->url) }}"
+                                                 alt="{{ $platform->name }} logo"
+                                                 class="img-fluid rounded"
+                                                 style="max-height: 150px; object-fit: contain;">
+                                        @else
+                                            <img src="{{ Vite::asset(\Core\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO) }}"
+                                                 alt="{{ __('Default platform logo') }}"
+                                                 class="img-fluid rounded"
+                                                 style="max-height: 150px; object-fit: contain;">
+                                        @endif
                                     </div>
+                                    @if ($platform?->show_profile && $platform?->link)
+                                        <div class="text-center mt-3">
+                                            <a href="{{ $platform->link }}"
+                                               target="_blank"
+                                               rel="noopener noreferrer"
+                                               class="btn btn-primary btn-sm w-100">
+                                                <i class="ri-external-link-line align-bottom me-1"></i>{{ __('Visit Platform') }}
+                                            </a>
+                                        </div>
+                                    @endif
                                 </div>
 
-                                {{-- Platform Items/Deals --}}
-                                @php
-                                    $hasItems = false;
-                                    foreach($platform->deals as $deal) {
-                                        if($deal->items->count() > 0) {
-                                            $hasItems = true;
-                                            break;
-                                        }
-                                    }
-                                @endphp
+                                {{-- Platform Details --}}
+                                <div class="col-lg-9 col-md-8">
+                                    <h4 class="card-title mb-2">
+                                        {{ \App\Models\TranslaleModel::getTranslation($platform, 'name', $platform->name) }}
+                                        @if(\App\Models\User::isSuperAdmin())
+                                            <small class="text-muted">(ID: {{ $platform->id }})</small>
+                                            <a class="btn btn-sm btn-link text-info"
+                                               href="{{ route('translate_model_data', ['locale' => app()->getLocale(), 'search' => \App\Models\TranslaleModel::getTranslateName($platform, 'name')]) }}">
+                                                <i class="ri-translate-2 align-bottom"></i>
+                                            </a>
+                                        @endif
+                                    </h4>
 
-                                @if($hasItems)
-                                    <div class="card-body border-top bg-light">
-                                        <h5 class="mb-3">
-                                            <i class="ri-shopping-bag-line align-bottom me-1"></i>{{ __('Available Items') }}
-                                        </h5>
-                                        @foreach($platform->deals as $deal)
-                                            @if($deal->items->count() > 0)
-                                                <div class="row g-3 mb-3">
-                                                    @foreach($deal->items as $item)
-                                                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
-                                                            <livewire:items-show :item="$item" :key="'item-'.$item->id"/>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            @endif
-                                        @endforeach
+                                    <p class="text-muted mb-3">
+                                        {!! \App\Models\TranslaleModel::getTranslation($platform, 'description', $platform->description) !!}
+                                        @if(\App\Models\User::isSuperAdmin())
+                                            <a class="btn btn-sm btn-link text-info"
+                                               href="{{ route('translate_model_data', ['locale' => app()->getLocale(), 'search' => \App\Models\TranslaleModel::getTranslateName($platform, 'description')]) }}">
+                                                <i class="ri-translate-2 align-bottom"></i>
+                                            </a>
+                                        @endif
+                                    </p>
+
+                                    <div class="d-flex flex-wrap gap-2 align-items-center">
+                                        @php
+                                            $activeCouponsCount = $platform->deals()
+                                                ->where('type', \Core\Enum\DealTypeEnum::coupons->value)
+                                                ->where('start_date', '<=', now())
+                                                ->where('end_date', '>=', now())
+                                                ->count();
+                                        @endphp
+
+                                        @if($activeCouponsCount > 0)
+                                            <a href="{{ route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $platform->id]) }}"
+                                               class="btn btn-success btn-sm">
+                                                <i class="ri-coupon-line align-bottom me-1"></i>{{ __('Top up your balance') }}
+                                                <span
+                                                    class="badge bg-light text-success ms-1">{{ $activeCouponsCount }}</span>
+                                            </a>
+                                        @endif
+
+                                        <a href="{{ route('coupon_history', ['locale' => app()->getLocale()]) }}"
+                                           class="btn btn-outline-primary btn-sm">
+                                            <i class="ri-history-line align-bottom me-1"></i>{{ __('Coupon History') }}
+                                        </a>
+
+                                        <small class="text-muted ms-auto">
+                                            <i class="ri-time-line align-bottom"></i> {{ $platform->created_at->diffForHumans() }}
+                                        </small>
                                     </div>
-                                @endif
+                                </div>
                             </div>
                         </div>
-                    @endforeach
+
+                        {{-- Platform Items/Deals --}}
+                        @php
+                            $hasItems = false;
+                            foreach($platform->deals as $deal) {
+                                if($deal->items->count() > 0) {
+                                    $hasItems = true;
+                                    break;
+                                }
+                            }
+                        @endphp
+
+                        @if($hasItems)
+                            <div class="card-body border-top bg-light">
+                                <h5 class="mb-3">
+                                    <i class="ri-shopping-bag-line align-bottom me-1"></i>{{ __('Available Items') }}
+                                </h5>
+                                @foreach($platform->deals as $deal)
+                                    @if($deal->items->count() > 0)
+                                        <div class="row g-3 mb-3">
+                                            @foreach($deal->items as $item)
+                                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
+                                                    <livewire:items-show :item="$item" :key="'item-'.$item->id"/>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
                 </div>
-            </div>
+            @endforeach
         </div>
     @else
-        {{-- Empty State --}}
         <div class="card mt-3">
             <div class="card-body text-center py-5">
                 <div class="mb-3">
