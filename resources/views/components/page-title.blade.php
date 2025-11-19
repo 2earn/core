@@ -279,6 +279,14 @@
                             </a>
                         </div>
                         <div class="col">
+                            <a href="{{route('commission_formula_index',app()->getLocale(),false )}}"
+                               class="nav-link menu-link p-1 rounded hover-bg {{$currentRouteName=='commission_formula_index'? 'active bg-light' : ''}}"
+                               role="button">
+                                <i class="ri-percent-line me-2"></i>
+                                <span>{{__('Commission Formulas')}}</span>
+                            </a>
+                        </div>
+                        <div class="col">
                             <a href="{{route('coupon_injector_index',app()->getLocale(),false )}}"
                                class="nav-link menu-link p-1 rounded hover-bg {{$currentRouteName=='coupon_injector_index'? 'active bg-light' : ''}}"
                                role="button">

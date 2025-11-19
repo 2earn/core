@@ -20,8 +20,12 @@ class DatabaseSeeder extends Seeder
 
             UsersWithStatusMinusTwoAfterAttackSeeder::class,
             TruncateNotificationsTableSeeder::class,
+
             HashtagSeeder::class,
-            UserGuideSeeder::class
+
+            UserGuideSeeder::class,
+
+            CommissionFormulaSeeder::class
         ]);
     }
 }
