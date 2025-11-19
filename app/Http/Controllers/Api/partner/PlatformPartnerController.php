@@ -83,6 +83,7 @@ class PlatformPartnerController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'type' => 'required|string',
+            'link' => 'sometimes|url',
             'show_profile' => 'boolean',
             'image_link' => 'nullable|string',
             'owner_id' => 'required|exists:users,id',

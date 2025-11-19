@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\CommissionFormula;
 use App\Models\Deal;
 use Core\Enum\DealStatus;
 use Core\Models\Platform;
@@ -28,6 +29,7 @@ class DealsCreateUpdate extends Component
         $items_profit_average,
         $initial_commission,
         $final_commission,
+        $commission_formula_id,
         $discount;
 
     public $earn_profit,
@@ -39,6 +41,8 @@ class DealsCreateUpdate extends Component
 
     public $statusList;
 
+    public $commissionFormulas;
+
 
     protected $rules = [
         'name' => 'required|min:5',
@@ -46,10 +50,12 @@ class DealsCreateUpdate extends Component
         'target_turnover' => 'required',
         'start_date' => ['required', 'after_or_equal:today'],
         'end_date' => ['required', 'after:start_date'],
+        'commission_formula_id' => 'required|integer|exists:commission_formulas,id',
     ];
 
     public function mount(Request $request)
     {
+        $this->commissionFormulas = CommissionFormula::where('is_active', true)->get();
 
         $this->idDeal = $request->input('id');
         if (!is_null($this->idDeal)) {
@@ -72,11 +78,10 @@ class DealsCreateUpdate extends Component
     public function init()
     {
         $this->status = DealStatus::New->value;
-        $this->target_turnover = 10000;
+        $this->commission_formula_id = 10000;
+        $this->target_turnover = $this->commissionFormulas[0]->id;
         $this->start_date = $this->end_date =
         $this->items_profit_average =
-        $this->initial_commission =
-        $this->final_commission =
         $this->margin_percentage =
         $this->discount = 10;
         $this->current_turnover = 0;
@@ -84,6 +89,17 @@ class DealsCreateUpdate extends Component
         $this->jackpot = $this->getDealParam('DEALS_JACKPOT_PERCENTAGE');
         $this->tree_remuneration = $this->getDealParam('DEALS_TREE_REMUNERATION_PERCENTAGE');
         $this->proactive_cashback = $this->getDealParam('DEALS_PROACTIVE_CASHBACK_PERCENTAGE');
+    }
+
+    public function updatedCommissionFormulaId($commissionFormulaId)
+    {
+        if ($commissionFormulaId) {
+            $formula = CommissionFormula::find($commissionFormulaId);
+            if ($formula) {
+                $this->initial_commission = $formula->initial_commission;
+                $this->final_commission = $formula->final_commission;
+            }
+        }
     }
 
     public function edit()
@@ -98,6 +114,7 @@ class DealsCreateUpdate extends Component
         $this->items_profit_average = $deal->items_profit_average;
         $this->initial_commission = $deal->initial_commission;
         $this->final_commission = $deal->final_commission;
+        $this->commission_formula_id = $deal->commission_formula_id;
         $this->discount = $deal->discount;
         $this->earn_profit = $deal->earn_profit;
         $this->jackpot = $deal->jackpot;
@@ -115,6 +132,7 @@ class DealsCreateUpdate extends Component
     public function updateDeal()
     {
         $this->validate();
+        $this->updatedCommissionFormulaId($this->commission_formula_id);
         $params = [
             'name' => $this->name,
             'description' => $this->description,
@@ -125,6 +143,7 @@ class DealsCreateUpdate extends Component
             'items_profit_average' => $this->items_profit_average,
             'initial_commission' => $this->initial_commission,
             'final_commission' => $this->final_commission,
+            'commission_formula_id' => $this->commission_formula_id,
             'earn_profit' => $this->earn_profit,
             'tree_remuneration' => $this->tree_remuneration,
             'proactive_cashback' => $this->proactive_cashback,
@@ -147,6 +166,9 @@ class DealsCreateUpdate extends Component
     public function store()
     {
         $this->validate();
+
+        $this->updatedCommissionFormulaId($this->commission_formula_id);
+
         $params = [
             'name' => $this->name,
             'validated' => false,
@@ -157,8 +179,7 @@ class DealsCreateUpdate extends Component
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'items_profit_average' => $this->items_profit_average,
-            'initial_commission' => $this->initial_commission,
-            'final_commission' => $this->final_commission,
+            'commission_formula_id' => $this->commission_formula_id,
             'discount' => $this->discount,
             'earn_profit' => $this->earn_profit,
             'tree_remuneration' => $this->tree_remuneration,
@@ -166,7 +187,10 @@ class DealsCreateUpdate extends Component
             'jackpot' => $this->jackpot,
             'created_by_id' => auth()->user()->id,
             'platform_id' => $this->idPlatform,
+            'initial_commission' => $this->initial_commission,
+            'final_commission' => $this->final_commission,
         ];
+
         try {
             Deal::create($params);
         } catch (\Exception $exception) {

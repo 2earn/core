@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\partner;
 
 use App\Http\Controllers\Controller;
+use App\Models\CommissionFormula;
 use App\Models\Deal;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -79,6 +80,7 @@ class DealPartnerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
+            'commission_formula_id' => 'required|integer|exists:commission_formulas,id',
             'description' => 'required|string',
             'validated' => 'required|boolean',
             'type' => 'required|string',
@@ -88,8 +90,6 @@ class DealPartnerController extends Controller
             'discount' => 'nullable|numeric',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
-            'initial_commission' => 'nullable|numeric',
-            'final_commission' => 'nullable|numeric',
             'earn_profit' => 'nullable|numeric',
             'jackpot' => 'nullable|numeric',
             'tree_remuneration' => 'nullable|numeric',
@@ -114,8 +114,16 @@ class DealPartnerController extends Controller
         }
 
         $validatedData = $validator->validated();
+
         $validatedData['created_by_id'] = $request->input('user_id');
         $validatedData['current_turnover'] = $request->input('current_turnover', 0);
+
+        $commissionFormulaId = $request->input('commission_formula_id', 0);
+        $commissionFormula = CommissionFormula::find($commissionFormulaId);
+        if ($commissionFormula) {
+            $validatedData['initial_commission'] = $commissionFormula->initial_commission;
+            $validatedData['final_commission'] = $commissionFormula->final_commission;
+        }
 
         $deal = Deal::create($validatedData);
 
@@ -172,6 +180,7 @@ class DealPartnerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'sometimes|required|string|max:255',
+            'commission_formula_id' => 'sometimes|integer|exists:commission_formulas,id',
             'description' => 'sometimes|required|string',
             'validated' => 'sometimes|required|boolean',
             'type' => 'sometimes|required|string',
@@ -182,8 +191,6 @@ class DealPartnerController extends Controller
             'discount' => 'nullable|numeric',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
-            'initial_commission' => 'nullable|numeric',
-            'final_commission' => 'nullable|numeric',
             'earn_profit' => 'nullable|numeric',
             'jackpot' => 'nullable|numeric',
             'tree_remuneration' => 'nullable|numeric',
@@ -210,6 +217,13 @@ class DealPartnerController extends Controller
         $validatedData = $validator->validated();
         if (array_key_exists('current_turnover', $validatedData)) {
             $validatedData['current_turnover'] = $validatedData['current_turnover'] ?? 0;
+        }
+        if (array_key_exists('commission_formula_id', $validatedData)) {
+            $commissionFormula = CommissionFormula::find($validatedData['commission_formula_id']);
+            if ($commissionFormula) {
+                $validatedData['initial_commission'] = $commissionFormula->initial_commission;
+                $validatedData['final_commission'] = $commissionFormula->final_commission;
+            }
         }
 
         $deal->update($validatedData);

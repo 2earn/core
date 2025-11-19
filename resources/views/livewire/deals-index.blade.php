@@ -185,6 +185,39 @@
                                     </div>
                                 </div>
 
+                                <div class="row g-2 mb-3">
+                                    <div class="col-md-6 col-6">
+                                        <div class="p-2 bg-light rounded">
+                                            <p class="text-success fs-12 mb-1">
+                                                <i class="fas fa-percent me-1"></i>{{__('Initial Commission')}}
+                                            </p>
+                                            <span class="badge bg-success-subtle text-success px-2 py-1">
+                                                {{number_format($deal->initial_commission, 2)}}%
+                                            </span>
+                                            @if($deal->commissionFormula)
+                                                <small class="d-block text-muted mt-1">
+                                                    <i class="fas fa-calculator me-1"></i>{{$deal->commissionFormula->name}}
+                                                </small>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-6">
+                                        <div class="p-2 bg-light rounded">
+                                            <p class="text-warning fs-12 mb-1">
+                                                <i class="fas fa-percent me-1"></i>{{__('Final Commission')}}
+                                            </p>
+                                            <span class="badge bg-warning-subtle text-warning px-2 py-1">
+                                                {{number_format($deal->final_commission, 2)}}%
+                                            </span>
+                                            @if($deal->commissionFormula)
+                                                <small class="d-block text-muted mt-1">
+                                                    <i class="fas fa-chart-line me-1"></i>{{__('Formula Applied')}}
+                                                </small>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="d-flex gap-2 flex-wrap">
                                     @if(isset($currentRouteName) && $currentRouteName!='deals_show')
                                         @if(\App\Models\User::isSuperAdmin())
