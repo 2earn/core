@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\mobile\BalanceController;
 use App\Http\Controllers\Api\mobile\CashBalanceController;
 use App\Http\Controllers\Api\mobile\UserController;
+use App\Http\Controllers\Api\partner\CommissionFormulaPartnerController;
 use App\Http\Controllers\Api\partner\DealPartnerController;
 use App\Http\Controllers\Api\partner\ItemsPartnerController;
 use App\Http\Controllers\Api\partner\OrderDetailsPartnerController;
@@ -118,6 +119,7 @@ Route::prefix('/partner/')->name('api_partner_')
     ->group(function () {
         Route::middleware(['check.url'])->group(function () {
             Route::apiResource('platforms', PlatformPartnerController::class)->except('destroy');
+            Route::get('deals/commission-formulas', [CommissionFormulaPartnerController::class, 'index'])->name('deals_commission_formulas_index');
             Route::apiResource('deals', DealPartnerController::class)->except('destroy');
             Route::apiResource('orders', OrderPartnerController::class)->except('destroy');
             Route::apiResource('order-details', OrderDetailsPartnerController::class)->only(['store', 'update']);

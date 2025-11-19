@@ -107,7 +107,6 @@ class PlatformPartnerController extends Controller
 
         $platform = Platform::create($data);
 
-        // Create validation request for the new platform
         $validationRequest = PlatformValidationRequest::create([
             'platform_id' => $platform->id,
             'status' => 'pending'

@@ -19,9 +19,10 @@ class CommissionFormulaService
         try {
             $query = CommissionFormula::query();
 
-            // Apply active filter
-            if (isset($filters['is_active'])) {
-                $query->where('is_active', $filters['is_active']);
+            // Apply active filter - ensure proper boolean handling
+            if (array_key_exists('is_active', $filters)) {
+                // Cast to boolean to ensure consistency
+                $query->where('is_active', (bool) $filters['is_active']);
             }
 
             // Apply search filter
@@ -196,6 +197,57 @@ class CommissionFormulaService
         } catch (\Exception $e) {
             Log::error('Error fetching commission formulas for select: ' . $e->getMessage());
             return new EloquentCollection();
+        }
+    }
+
+    /**
+     * Get paginated commission formulas for API with optional filters
+     *
+     * @param array $filters
+     * @param int|null $page
+     * @param int $perPage
+     * @return array
+     */
+    public function getPaginatedFormulas(array $filters = [], ?int $page = null, int $perPage = 10): array
+    {
+        try {
+            $query = CommissionFormula::query();
+
+            // Apply active filter - ensure proper boolean handling
+            if (array_key_exists('is_active', $filters)) {
+                // Cast to boolean to ensure consistency
+                $query->where('is_active', (bool) $filters['is_active']);
+            }
+
+            // Apply search filter
+            if (!empty($filters['search'])) {
+                $query->where('name', 'like', '%' . $filters['search'] . '%');
+            }
+
+            // Apply ordering
+            $orderBy = $filters['order_by'] ?? 'created_at';
+            $orderDirection = $filters['order_direction'] ?? 'desc';
+            $query->orderBy($orderBy, $orderDirection);
+
+            $total = $query->count();
+
+            // Get results with or without pagination
+            $formulas = $page ? $query->paginate($perPage, ['*'], 'page', $page) : $query->get();
+
+            // Append commission_range to each formula
+            $formulas->each(function ($formula) {
+                $formula->commission_range = $formula->getCommissionRange();
+            });
+            return [
+                'formulas' => $formulas,
+                'total' => $total
+            ];
+        } catch (\Exception $e) {
+            Log::error('Error fetching paginated commission formulas: ' . $e->getMessage());
+            return [
+                'formulas' => new EloquentCollection(),
+                'total' => 0
+            ];
         }
     }
 
