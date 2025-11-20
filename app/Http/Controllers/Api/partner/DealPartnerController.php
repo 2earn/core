@@ -80,6 +80,11 @@ class DealPartnerController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->limit(3)
                 ->get();
+            $deal->validation_requests_count = DealValidationRequest::where('deal_id', $deal->id)->count();
+            $deal->validationRequests = DealValidationRequest::where('deal_id', $deal->id)
+                ->orderBy('created_at', 'desc')
+                ->limit(3)
+                ->get();
         });
 
         return response()->json([
