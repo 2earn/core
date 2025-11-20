@@ -136,9 +136,9 @@ Route::prefix('/mobile/')->name('api_mobile_')
     ->withoutMiddleware([\App\Http\Middleware\Authenticate::class])
     ->group(function () {
         Route::middleware(['check.url'])->group(function () {
-            Route::get('/balances', [BalanceController::class, 'getBalances']);
-            Route::get('/user', [UserController::class, 'getUser']);
-            Route::post('/cash-balance', [CashBalanceController::class, 'store']);
-            Route::get('/cash-balance', [CashBalanceController::class, 'getCashBalance']);
+            Route::get('/balances', [BalanceController::class, 'getBalances'])->name('get_balances');
+            Route::get('/user', [UserController::class, 'getUser'])->name('get_user');
+            Route::post('/cash-balance', [CashBalanceController::class, 'store'])->name('store');
+            Route::get('/cash-balance', [CashBalanceController::class, 'getCashBalance'])->name('get_cash_balance');
         });
     });
