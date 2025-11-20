@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PlatformChangeRequest;
 use App\Models\PlatformTypeChangeRequest;
 use App\Models\PlatformValidationRequest;
+use App\Services\Platform\PlatformService;
 use Core\Models\Platform;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -17,9 +18,12 @@ class PlatformPartnerController extends Controller
     private const LOG_PREFIX = '[PlatformPartnerController] ';
     private const PAGINATION_LIMIT = 5;
 
-    public function __construct()
+    protected $platformService;
+
+    public function __construct(PlatformService $platformService)
     {
         $this->middleware('check.url');
+        $this->platformService = $platformService;
     }
 
     public function index(Request $request)
@@ -43,20 +47,14 @@ class PlatformPartnerController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $query = Platform::where('marketing_manager_id', $userId)
-            ->orWhere('financial_manager_id', $userId)
-            ->orWhere('owner_id', $userId);
-
-        if (!is_null($search) && $search !== '') {
-            $query->where('name', 'like', '%' . $search . '%');
-        }
-
-        $totalCount = $query->count();
-        $platforms = !is_null($page) ? $query->paginate(self::PAGINATION_LIMIT, ['*'], 'page', $page) : $query->get();
+        $result = $this->platformService->getPlatformsForPartner($userId, $page, $search, self::PAGINATION_LIMIT);
+        $platforms = $result['platforms'];
+        $totalCount = $result['total_count'];
 
         $platforms->load(['validationRequest' => function ($query) {
             $query->latest();
         }]);
+
         $platforms->each(function ($platform) {
             $platform->type_change_requests_count = PlatformTypeChangeRequest::where('platform_id', $platform->id)->count();
             $platform->validation_requests_count = PlatformValidationRequest::where('platform_id', $platform->id)->count();
@@ -151,13 +149,7 @@ class PlatformPartnerController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $platform = Platform::where('id', $platformId)
-            ->where(function ($q) use ($userId) {
-                $q->where('marketing_manager_id', $userId)
-                    ->orWhere('financial_manager_id', $userId)
-                    ->orWhere('owner_id', $userId);
-            })
-            ->first();
+        $platform = $this->platformService->getPlatformForPartner($platformId, $userId);
 
         if (!$platform) {
             Log::error(self::LOG_PREFIX . 'Platform not found', ['platform_id' => $platformId, 'user_id' => $userId]);
@@ -281,7 +273,6 @@ class PlatformPartnerController extends Controller
         $platformId = $request->input('platform_id');
         $newTypeId = $request->input('type_id');
 
-        // Find the platform
         $platform = Platform::find($platformId);
 
         if (!$platform) {
@@ -294,14 +285,12 @@ class PlatformPartnerController extends Controller
 
         $oldTypeId = $platform->type;
 
-        // Validate type transitions
         $allowedTransitions = [
-            3 => [1, 2], // Type 3 (Paiement) can change to 1 (Full) or 2 (Hybrid)
-            2 => [1],    // Type 2 (Hybrid) can change only to 1 (Full)
-            1 => []      // Type 1 (Full) cannot change
+            3 => [1, 2],
+            2 => [1],
+            1 => []
         ];
 
-        // Check if current type is 1 (cannot change)
         if ($oldTypeId == 1) {
             Log::warning(self::LOG_PREFIX . 'Type 1 platforms cannot change type', [
                 'platform_id' => $platformId,
@@ -313,7 +302,6 @@ class PlatformPartnerController extends Controller
             ], Response::HTTP_FORBIDDEN);
         }
 
-        // Check if the transition is allowed
         if (!isset($allowedTransitions[$oldTypeId]) || !in_array($newTypeId, $allowedTransitions[$oldTypeId])) {
             Log::warning(self::LOG_PREFIX . 'Invalid type transition', [
                 'platform_id' => $platformId,
@@ -326,7 +314,6 @@ class PlatformPartnerController extends Controller
             ], Response::HTTP_FORBIDDEN);
         }
 
-        // Check if the new type is the same as old type
         if ($oldTypeId == $newTypeId) {
             return response()->json([
                 'status' => 'Failed',
@@ -334,7 +321,6 @@ class PlatformPartnerController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        // Create the change request
         $changeRequest = PlatformTypeChangeRequest::create([
             'platform_id' => $platformId,
             'old_type' => $oldTypeId,

@@ -250,6 +250,42 @@ class PlatformService
     }
 
     /**
+     * Get platforms for partner with pagination and search
+     *
+     * @param int $userId
+     * @param int|null $page
+     * @param string|null $search
+     * @param int $limit
+     * @return array ['platforms' => Collection|LengthAwarePaginator, 'total_count' => int]
+     */
+    public function getPlatformsForPartner(int $userId, ?int $page = null, ?string $search = null, int $limit = 5): array
+    {
+        try {
+            $query = Platform::where('marketing_manager_id', $userId)
+                ->orWhere('financial_manager_id', $userId)
+                ->orWhere('owner_id', $userId);
+
+            if (!is_null($search) && $search !== '') {
+                $query->where('name', 'like', '%' . $search . '%');
+            }
+
+            $totalCount = $query->count();
+            $platforms = !is_null($page) ? $query->paginate($limit, ['*'], 'page', $page) : $query->get();
+
+            return [
+                'platforms' => $platforms,
+                'total_count' => $totalCount
+            ];
+        } catch (\Exception $e) {
+            Log::error('Error fetching platforms for partner: ' . $e->getMessage());
+            return [
+                'platforms' => new EloquentCollection(),
+                'total_count' => 0
+            ];
+        }
+    }
+
+    /**
      * Check if platform can be accessed by user
      *
      * @param int $platformId
@@ -269,6 +305,29 @@ class PlatformService
         } catch (\Exception $e) {
             Log::error('Error checking platform access: ' . $e->getMessage());
             return false;
+        }
+    }
+
+    /**
+     * Get a single platform for a specific partner user
+     *
+     * @param int $platformId
+     * @param int $userId
+     * @return Platform|null
+     */
+    public function getPlatformForPartner(int $platformId, int $userId): ?Platform
+    {
+        try {
+            return Platform::where('id', $platformId)
+                ->where(function ($q) use ($userId) {
+                    $q->where('marketing_manager_id', $userId)
+                        ->orWhere('financial_manager_id', $userId)
+                        ->orWhere('owner_id', $userId);
+                })
+                ->first();
+        } catch (\Exception $e) {
+            Log::error('Error fetching platform for partner: ' . $e->getMessage());
+            return null;
         }
     }
 
