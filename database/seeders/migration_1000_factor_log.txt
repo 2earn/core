@@ -1,4 +1,4 @@
-Date: 2025-11-10 10:28:22
+Date: 2025-11-20 09:28:47
 Stratégie: Multiplication par 1000 pour éviter les croisements
 
 === ÉTAPE 1: Suppression des contraintes FK ===
@@ -26,14 +26,14 @@ bfss_balances:
    Total: 224
 
 discount_balances:
-   6 → 3000 (1241)
+   6 → 3000 (1242)
    47 → 28000 (198)
    58 → 18000 (2)
-   Total: 1441
+   Total: 1442
 
 tree_balances:
-   1 → 4000 (1241)
-   Total: 1241
+   1 → 4000 (1242)
+   Total: 1242
 
 sms_balances:
    39 → 19000 (2)
@@ -48,8 +48,8 @@ shares_balances:
    Total: 535
 
 chance_balances:
-   56 → 7000 (1241)
-   Total: 1241
+   56 → 7000 (1242)
+   Total: 1242
 
 === ÉTAPE 3: IDs non migrés (< 1000) ===
 ✅ Aucun ID non migré
@@ -73,12 +73,12 @@ bfss_balances:
    60000 → 60 (104)
 
 discount_balances:
-   3000 → 3 (1241)
+   3000 → 3 (1242)
    18000 → 18 (2)
    28000 → 28 (198)
 
 tree_balances:
-   4000 → 4 (1241)
+   4000 → 4 (1242)
 
 sms_balances:
    19000 → 19 (2)
@@ -91,18 +91,18 @@ shares_balances:
    58000 → 58 (88)
 
 chance_balances:
-   7000 → 7 (1241)
+   7000 → 7 (1242)
 
 === RAPPORT FINAL ===
 
 État des migrations:
 cash_balances         : ✅  715 migrés
 bfss_balances         : ✅  224 migrés
-discount_balances     : ✅ 1441 migrés
-tree_balances         : ✅ 1241 migrés
+discount_balances     : ✅ 1442 migrés
+tree_balances         : ✅ 1242 migrés
 sms_balances          : ✅    2 migrés
 shares_balances       : ✅  535 migrés
-chance_balances       : ✅ 1241 migrés
+chance_balances       : ✅ 1242 migrés
 
 ✅ Migration terminée
-Date: 2025-11-10 10:28:23
+Date: 2025-11-20 09:28:48

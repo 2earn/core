@@ -72,6 +72,11 @@ class Deal extends Model
         return $this->hasMany(CashBalances::class);
     }
 
+    public function validationRequests(): HasMany
+    {
+        return $this->hasMany(DealValidationRequest::class);
+    }
+
     public static function validateDeal($id)
     {
         try {

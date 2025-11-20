@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Api\partner;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateDealRequest;
 use App\Models\CommissionFormula;
 use App\Models\Deal;
+use App\Models\DealValidationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -82,7 +85,6 @@ class DealPartnerController extends Controller
             'name' => 'required|string|max:255',
             'commission_formula_id' => 'required|integer|exists:commission_formulas,id',
             'description' => 'required|string',
-            'validated' => 'required|boolean',
             'type' => 'required|string',
             'status' => 'required|string',
             'current_turnover' => 'nullable|numeric',
@@ -102,6 +104,7 @@ class DealPartnerController extends Controller
             'cash_tree' => 'nullable|numeric',
             'cash_cashback' => 'nullable|numeric',
             'created_by' => 'required|exists:users,id',
+            'notes' => 'nullable|string|max:1000',
         ]);
 
         if ($validator->fails()) {
@@ -116,6 +119,7 @@ class DealPartnerController extends Controller
         $validatedData = $validator->validated();
 
         $validatedData['created_by_id'] = $request->input('user_id');
+        $validatedData['validated'] = false;
         $validatedData['current_turnover'] = $request->input('current_turnover', 0);
 
         $commissionFormulaId = $request->input('commission_formula_id', 0);
@@ -125,13 +129,45 @@ class DealPartnerController extends Controller
             $validatedData['final_commission'] = $commissionFormula->final_commission;
         }
 
-        $deal = Deal::create($validatedData);
+        try {
+            DB::beginTransaction();
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Deal created successfully',
-            'data' => $deal
-        ], Response::HTTP_CREATED);
+            // Create the deal
+            $deal = Deal::create($validatedData);
+
+            // Create a validation request for the deal
+            DealValidationRequest::create([
+                'deal_id' => $deal->id,
+                'requested_by_id' => $request->input('created_by'),
+                'status' => 'pending',
+                'notes' => $request->input('notes', 'Deal validation request created automatically')
+            ]);
+
+            DB::commit();
+
+            Log::info(self::LOG_PREFIX . 'Deal and validation request created successfully', [
+                'deal_id' => $deal->id,
+                'user_id' => $request->input('user_id')
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Deal created successfully and validation request submitted',
+                'data' => $deal
+            ], Response::HTTP_CREATED);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error(self::LOG_PREFIX . 'Failed to create deal and validation request', [
+                'error' => $e->getMessage(),
+                'user_id' => $request->input('user_id')
+            ]);
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to create deal: ' . $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     public function show(Request $request, $dealId)
@@ -176,48 +212,14 @@ class DealPartnerController extends Controller
         ]);
     }
 
-    public function update(Request $request, Deal $deal)
+    public function update(UpdateDealRequest $request, Deal $deal)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'sometimes|required|string|max:255',
-            'commission_formula_id' => 'sometimes|integer|exists:commission_formulas,id',
-            'description' => 'sometimes|required|string',
-            'validated' => 'sometimes|required|boolean',
-            'type' => 'sometimes|required|string',
-            'status' => 'sometimes|required|string',
-            'target_turnover' => 'sometimes|required|numeric',
-            'current_turnover' => 'nullable|numeric',
-            'is_turnover' => 'nullable|boolean',
-            'discount' => 'nullable|numeric',
-            'start_date' => 'nullable|date',
-            'end_date' => 'nullable|date|after_or_equal:start_date',
-            'earn_profit' => 'nullable|numeric',
-            'jackpot' => 'nullable|numeric',
-            'tree_remuneration' => 'nullable|numeric',
-            'proactive_cashback' => 'nullable|numeric',
-            'total_commission_value' => 'nullable|numeric',
-            'total_unused_cashback_value' => 'nullable|numeric',
-            'platform_id' => 'sometimes|exists:platforms,id',
-            'cash_company_profit' => 'nullable|numeric',
-            'cash_jackpot' => 'nullable|numeric',
-            'cash_tree' => 'nullable|numeric',
-            'cash_cashback' => 'nullable|numeric',
-            'updated_by' => 'required|exists:users,id',
-        ]);
+        $validatedData = $request->validated();
 
-        if ($validator->fails()) {
-            Log::error(self::LOG_PREFIX . 'Deal update validation failed', ['errors' => $validator->errors()]);
-            return response()->json([
-                'status' => 'Failed',
-                'message' => 'Validation failed',
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
-        $validatedData = $validator->validated();
         if (array_key_exists('current_turnover', $validatedData)) {
             $validatedData['current_turnover'] = $validatedData['current_turnover'] ?? 0;
         }
+
         if (array_key_exists('commission_formula_id', $validatedData)) {
             $commissionFormula = CommissionFormula::find($validatedData['commission_formula_id']);
             if ($commissionFormula) {
