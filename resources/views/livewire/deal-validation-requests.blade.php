@@ -1,5 +1,5 @@
 <div class="{{getContainerType()}}">
-    @if($currentRouteName=="surveys_index")
+    @if($currentRouteName=="deals_validation_requests")
         @section('title')
             {{ __('Deal Validation Requests') }}
         @endsection
@@ -234,7 +234,7 @@
         <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                    <div class="modal-header bg-success text-white">
+                    <div class="modal-header">
                         <h5 class="modal-title">
                             <i class="ri-checkbox-circle-line me-2"></i>{{__('Approve Deal Validation')}}
                         </h5>
@@ -267,7 +267,7 @@
         <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                    <div class="modal-header bg-danger text-white">
+                    <div class="modal-header">
                         <h5 class="modal-title">
                             <i class="ri-close-circle-line me-2"></i>{{__('Reject Deal Validation')}}
                         </h5>
