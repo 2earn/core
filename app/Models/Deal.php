@@ -77,6 +77,16 @@ class Deal extends Model
         return $this->hasMany(DealValidationRequest::class);
     }
 
+    public function changeRequests(): HasMany
+    {
+        return $this->hasMany(DealChangeRequest::class);
+    }
+
+    public function pendingChangeRequest()
+    {
+        return $this->hasOne(DealChangeRequest::class)->where('status', 'pending')->latest();
+    }
+
     public static function validateDeal($id)
     {
         try {

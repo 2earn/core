@@ -11,6 +11,46 @@
     <div class="row">
         @include('layouts.flash-messages')
     </div>
+        @if(\App\Models\User::isSuperAdmin())
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header text-muted d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-clipboard-check me-2"></i>
+                                <h5 class="card-title mb-0 text-muted">{{__('Pending Validation Requests')}}</h5>
+                            </div>
+                            <a href="{{route('deals_validation_requests', ['locale' => app()->getLocale()])}}"
+                               class="btn btn-sm btn-primary">
+                                <i class="fas fa-list me-1"></i>{{__('View All Requests')}}
+                            </a>
+                        </div>
+                        <div class="card-body p-3">
+                            @livewire('pending-deal-validation-requests-inline')
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header text-muted d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-file-edit me-2"></i>
+                                <h5 class="card-title mb-0 text-muted">{{__('Pending Change Requests')}}</h5>
+                            </div>
+                            <a href="{{route('deals_change_requests', ['locale' => app()->getLocale()])}}"
+                               class="btn btn-sm btn-success">
+                                <i class="fas fa-list me-1"></i>{{__('View All Change Requests')}}
+                            </a>
+                        </div>
+                        <div class="card-body p-3">
+                            @livewire('pending-deal-change-requests-inline')
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
     <div class="row">
         <div class="col-12">
             <div class="card shadow-sm border-0 mb-4">
@@ -125,29 +165,6 @@
         </div>
     </div>
 
-        <!-- Deal Validation Requests Section (Only for Super Admins) -->
-        @if(\App\Models\User::isSuperAdmin())
-            <div class="row mb-3">
-                <div class="col-12">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-header text-muted d-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-clipboard-check me-2"></i>
-                                <h5 class="card-title mb-0 text-muted">{{__('Pending Validation Requests')}}</h5>
-                            </div>
-                            <a href="{{route('deals_validation_requests', ['locale' => app()->getLocale()])}}"
-                               class="btn btn-sm btn-primary">
-                                <i class="fas fa-list me-1"></i>{{__('View All Requests')}}
-                            </a>
-                        </div>
-                        <div class="card-body p-2">
-                            @livewire('deal-validation-requests')
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
-
     <div class="row">
         <div class="col-12">
             <div class="card shadow-sm border-0">
@@ -247,11 +264,6 @@
                                             <span class="badge bg-success-subtle text-success px-2 py-1">
                                                 {{number_format($deal->initial_commission, 2)}}%
                                             </span>
-                                            @if($deal->commissionFormula)
-                                                <small class="d-block text-muted mt-1">
-                                                    <i class="fas fa-calculator me-1"></i>{{$deal->commissionFormula->name}}
-                                                </small>
-                                            @endif
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-6">
@@ -262,14 +274,35 @@
                                             <span class="badge bg-warning-subtle text-warning px-2 py-1">
                                                 {{number_format($deal->final_commission, 2)}}%
                                             </span>
-                                            @if($deal->commissionFormula)
-                                                <small class="d-block text-muted mt-1">
-                                                    <i class="fas fa-chart-line me-1"></i>{{__('Formula Applied')}}
-                                                </small>
-                                            @endif
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- Pending Change Request Alert (Super Admin Only) -->
+                                @if(\App\Models\User::isSuperAdmin() && $deal->pendingChangeRequest)
+                                    <div class="alert alert-success border-success mb-3" role="alert">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="flex-grow-1">
+                                                <i class="fas fa-file-edit me-2"></i>
+                                                <strong>{{__('Pending Update Request')}}</strong>
+                                                @if($deal->pendingChangeRequest->changes)
+                                                    <span class="ms-2 badge bg-success">
+                                                        {{ count($deal->pendingChangeRequest->changes) }} {{__('field(s) changed')}}
+                                                    </span>
+                                                @endif
+                                                @if($deal->pendingChangeRequest->requestedBy)
+                                                    <small class="d-block text-muted mt-1">
+                                                        <i class="fas fa-user me-1"></i>{{__('Requested by')}}: {{$deal->pendingChangeRequest->requestedBy->name}}
+                                                    </small>
+                                                @endif
+                                            </div>
+                                            <a href="{{route('deals_change_requests', ['locale' => app()->getLocale()])}}"
+                                               class="btn btn-success btn-sm">
+                                                <i class="fas fa-check-double me-1"></i>{{__('Review')}}
+                                            </a>
+                                        </div>
+                                    </div>
+                                @endif
 
                                 <div class="d-flex gap-2 flex-wrap">
                                     @if(isset($currentRouteName) && $currentRouteName!='deals_show')

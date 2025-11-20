@@ -79,6 +79,10 @@ class DealsIndex extends Component
         if (!empty($this->selectedPlatforms)) {
             $query->whereIn('platform_id', $this->selectedPlatforms);
         }
+
+        // Eager load relationships
+        $query->with(['platform', 'pendingChangeRequest.requestedBy']);
+
         $query->orderBy('validated', 'ASC')->orderBy('platform_id', 'ASC');
         Log::info($query->toSql());
         Log::info($query->toRawSql());

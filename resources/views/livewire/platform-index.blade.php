@@ -34,32 +34,75 @@
                                 {{__('Create platform')}}
                             </a>
                         </div>
-                        <div class="col-lg-4 col-md-4 text-md-center">
-                            <a href="{{route('platform_type_change_requests', app()->getLocale())}}"
-                               class="btn btn-warning btn-sm px-3 me-2">
-                                <i class="ri-arrow-left-right-line align-middle me-1"></i>
-                                {{__('Type Change Requests')}}
-                            </a>
-                        </div>
-                        <div class="col-lg-4 col-md-4 text-md-center">
-                            <a href="{{route('platform_validation_requests', app()->getLocale())}}"
-                               class="btn btn-primary btn-sm px-3">
-                                <i class="ri-shield-check-line align-middle me-1"></i>
-                                {{__('Validation Requests')}}
-                            </a>
-                        </div>
-                        <div class="col-lg-4 col-md-4 text-md-center">
-                            <a href="{{route('platform_change_requests', app()->getLocale())}}"
-                               class="btn btn-success btn-sm px-3">
-                                <i class="ri-file-edit-line align-middle me-1"></i>
-                                {{__('Platform Change Requests')}}
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    @if(\App\Models\User::isSuperAdmin())
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header text-muted d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <i class="ri-arrow-left-right-line me-2"></i>
+                            <h5 class="card-title mb-0 text-muted">{{__('Pending Type Change Requests')}}</h5>
+                        </div>
+                        <a href="{{route('platform_type_change_requests', ['locale' => app()->getLocale()])}}"
+                           class="btn btn-sm btn-warning">
+                            <i class="ri-list-check me-1"></i>{{__('View All Requests')}}
+                        </a>
+                    </div>
+                    <div class="card-body p-3">
+                        @livewire('pending-platform-type-change-requests-inline')
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Platform Validation Requests Section -->
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header text-muted d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <i class="ri-shield-check-line me-2"></i>
+                            <h5 class="card-title mb-0 text-muted">{{__('Pending Validation Requests')}}</h5>
+                        </div>
+                        <a href="{{route('platform_validation_requests', ['locale' => app()->getLocale()])}}"
+                           class="btn btn-sm btn-primary">
+                            <i class="ri-list-check me-1"></i>{{__('View All Requests')}}
+                        </a>
+                    </div>
+                    <div class="card-body p-3">
+                        @livewire('pending-platform-validation-requests-inline')
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Platform Change Requests Section -->
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header text-muted d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <i class="ri-file-edit-line me-2"></i>
+                            <h5 class="card-title mb-0 text-muted">{{__('Pending Platform Update Requests')}}</h5>
+                        </div>
+                        <a href="{{route('platform_change_requests', ['locale' => app()->getLocale()])}}"
+                           class="btn btn-sm btn-success">
+                            <i class="ri-list-check me-1"></i>{{__('View All Change Requests')}}
+                        </a>
+                    </div>
+                    <div class="card-body p-3">
+                        @livewire('pending-platform-change-requests-inline')
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <div class="row g-2">
         @forelse($platforms as $platform)
             <div class="col-xl-6 col-lg-6 col-md-6">
@@ -246,7 +289,8 @@
                                                         <i class="ri-file-edit-line me-1"></i>
                                                         <strong>{{__('Platform Update Pending')}}</strong>
                                                         @if($platform->pendingChangeRequest->changes)
-                                                            <span class="ms-1">({{ count($platform->pendingChangeRequest->changes) }} {{__('field(s)')}})</span>
+                                                            <span
+                                                                class="ms-1">({{ count($platform->pendingChangeRequest->changes) }} {{__('field(s)')}})</span>
                                                         @endif
                                                     </small>
                                                 </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateDealRequest;
 use App\Models\CommissionFormula;
 use App\Models\Deal;
+use App\Models\DealChangeRequest;
 use App\Models\DealValidationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -71,6 +72,15 @@ class DealPartnerController extends Controller
         $totalCount = $query->count();
 
         $deals = !is_null($page) ? $query->paginate(self::PAGINATION_LIMIT, ['*'], 'page', $page) : $query->get();
+
+        // Add change request counts to each deal
+        $deals->each(function ($deal) {
+            $deal->change_requests_count = DealChangeRequest::where('deal_id', $deal->id)->count();
+            $deal->changeRequests = DealChangeRequest::where('deal_id', $deal->id)
+                ->orderBy('created_at', 'desc')
+                ->limit(3)
+                ->get();
+        });
 
         return response()->json([
             'status' => true,
@@ -206,9 +216,16 @@ class DealPartnerController extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
 
+        $changeRequests = DealChangeRequest::where('deal_id', $dealId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return response()->json([
             'status' => true,
-            'data' => $deal
+            'data' => [
+                'deal' => $deal,
+                'change_requests' => $changeRequests
+            ]
         ]);
     }
 
@@ -216,10 +233,7 @@ class DealPartnerController extends Controller
     {
         $validatedData = $request->validated();
 
-        if (array_key_exists('current_turnover', $validatedData)) {
-            $validatedData['current_turnover'] = $validatedData['current_turnover'] ?? 0;
-        }
-
+        // Process commission formula if changed
         if (array_key_exists('commission_formula_id', $validatedData)) {
             $commissionFormula = CommissionFormula::find($validatedData['commission_formula_id']);
             if ($commissionFormula) {
@@ -228,13 +242,60 @@ class DealPartnerController extends Controller
             }
         }
 
-        $deal->update($validatedData);
+        // Handle current_turnover
+        if (array_key_exists('current_turnover', $validatedData)) {
+            $validatedData['current_turnover'] = $validatedData['current_turnover'] ?? 0;
+        }
+
+        // Get updated_by from request
+        $updatedBy = $request->input('updated_by') ?? $request->input('user_id');
+
+        // Filter out only the fields that are actually changing
+        $changes = [];
+        foreach ($validatedData as $field => $value) {
+            // Skip the updated_by field from changes
+            if ($field === 'updated_by') {
+                continue;
+            }
+
+            if ($deal->{$field} != $value) {
+                $changes[$field] = [
+                    'old' => $deal->{$field},
+                    'new' => $value
+                ];
+            }
+        }
+
+        // If no changes, return early
+        if (empty($changes)) {
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'No changes detected'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        // Create a change request
+        $changeRequest = DealChangeRequest::create([
+            'deal_id' => $deal->id,
+            'changes' => $changes,
+            'status' => 'pending',
+            'requested_by' => $updatedBy
+        ]);
+
+        Log::info(self::LOG_PREFIX . 'Deal change request created', [
+            'deal_id' => $deal->id,
+            'change_request_id' => $changeRequest->id,
+            'requested_by' => $updatedBy
+        ]);
 
         return response()->json([
             'status' => true,
-            'message' => 'Deal updated successfully',
-            'data' => $deal
-        ]);
+            'message' => 'Deal change request submitted successfully. Awaiting approval.',
+            'data' => [
+                'deal' => $deal,
+                'change_request' => $changeRequest
+            ]
+        ], Response::HTTP_CREATED);
     }
 
     public function changeStatus(Request $request, Deal $deal)
