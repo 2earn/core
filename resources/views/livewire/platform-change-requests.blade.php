@@ -1,13 +1,13 @@
 <div class="{{getContainerType()}}">
     @section('title')
-        {{ __('Platform Validation Requests') }}
+        {{ __('Platform Change Requests') }}
     @endsection
     @component('components.breadcrumb')
         @slot('li_1')
             <a href="{{route('platform_index', app()->getLocale())}}">{{ __('Platforms') }}</a>
         @endslot
         @slot('title')
-            {{ __('Validation Requests') }}
+            {{ __('Platform Change Requests') }}
         @endslot
     @endcomponent
 
@@ -52,7 +52,7 @@
                     <div class="card-body p-4">
                         <div class="row align-items-center">
                             <!-- Platform Info -->
-                            <div class="col-lg-4 col-md-4 mb-3 mb-md-0">
+                            <div class="col-lg-3 col-md-4 mb-3 mb-md-0">
                                 <div class="d-flex align-items-center">
                                     @if($request->platform?->logoImage)
                                         <img src="{{ asset('uploads/' . $request->platform->logoImage->url) }}"
@@ -73,13 +73,24 @@
                                 </div>
                             </div>
 
-                            <!-- Platform Details -->
-                            <div class="col-lg-3 col-md-4 mb-3 mb-md-0">
-                                <div>
-                                    <p class="text-muted mb-1 small">{{__('Platform Type')}}</p>
-                                    <span class="badge bg-info-subtle text-info fs-6 px-3 py-2">
-                                        {{__('Type')}} {{__(\Core\Enum\PlatformType::from($request->platform->type)->name) ?? 'N/A'}}
-                                    </span>
+                            <!-- Change Info -->
+                            <div class="col-lg-4 col-md-4 mb-3 mb-md-0">
+                                <div class="text-center">
+                                    <div class="d-flex align-items-center justify-content-center gap-2">
+                                        <span class="badge bg-info-subtle text-info fs-6 px-3 py-2">
+                                            <i class="ri-file-edit-line me-1"></i>
+                                            {{ count($request->changes ?? []) }} {{__('field(s) changed')}}
+                                        </span>
+                                        <button wire:click="openChangesModal({{$request->id}})"
+                                                class="btn btn-outline-primary btn-sm">
+                                            <i class="ri-eye-line me-1"></i>{{__('View Details')}}
+                                        </button>
+                                    </div>
+                                    @if($request->requestedBy)
+                                        <p class="text-muted mb-0 mt-2 small">
+                                            <i class="ri-user-line me-1"></i>{{__('Requested by')}}: {{$request->requestedBy->name}}
+                                        </p>
+                                    @endif
                                 </div>
                             </div>
 
@@ -122,6 +133,10 @@
                                 @else
                                     <div class="text-muted small">
                                         <i class="ri-information-line me-1"></i>{{__('Request processed')}}
+                                        @if($request->reviewedBy)
+                                            <br>
+                                            <span class="text-muted">{{__('by')}} {{$request->reviewedBy->name}}</span>
+                                        @endif
                                     </div>
                                 @endif
                             </div>
@@ -145,8 +160,7 @@
                             @if($request->status === 'rejected' && $request->rejection_reason)
                                 <div class="col-12 mt-3">
                                     <div class="alert alert-danger mb-0" role="alert">
-                                        <strong><i class="ri-error-warning-line me-1"></i>{{__('Rejection Reason')}}
-                                            :</strong>
+                                        <strong><i class="ri-error-warning-line me-1"></i>{{__('Rejection Reason')}}:</strong>
                                         <p class="mb-0 mt-2">{{$request->rejection_reason}}</p>
                                     </div>
                                 </div>
@@ -169,7 +183,7 @@
                             @if($search)
                                 {{__('No requests match your search criteria')}}
                             @else
-                                {{__('There are no platform validation requests at the moment')}}
+                                {{__('There are no platform change requests at the moment')}}
                             @endif
                         </p>
                     </div>
@@ -205,24 +219,111 @@
         </div>
     @endif
 
+    <!-- View Changes Modal -->
+    @if($showChangesModal)
+        <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header text-white">
+                        <h5 class="modal-title">
+                            <i class="ri-file-edit-line me-2"></i>{{__('Change Request Details')}}
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" wire:click="closeChangesModal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <h6 class="text-muted">{{__('Platform')}}: <strong class="text-dark">{{$viewChangesData['platform_name'] ?? 'N/A'}}</strong></h6>
+                            <p class="text-muted mb-0 small">{{__('Requested at')}}: {{$viewChangesData['requested_at'] ?? 'N/A'}}</p>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th style="width: 30%;">{{__('Field')}}</th>
+                                        <th style="width: 35%;">{{__('Current Value')}}</th>
+                                        <th style="width: 35%;">{{__('New Value')}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if(isset($viewChangesData['changes']) && is_array($viewChangesData['changes']))
+                                        @foreach($viewChangesData['changes'] as $field => $change)
+                                            <tr>
+                                                <td>
+                                                    <strong>{{$this->getFieldLabel($field)}}</strong>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-danger-subtle text-danger">
+                                                        {{ is_bool($change['old'] ?? null) ? ($change['old'] ? 'Yes' : 'No') : ($change['old'] ?? 'N/A') }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-success-subtle text-success">
+                                                        {{ is_bool($change['new'] ?? null) ? ($change['new'] ? 'Yes' : 'No') : ($change['new'] ?? 'N/A') }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="3" class="text-center text-muted">{{__('No changes available')}}</td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" wire:click="closeChangesModal">
+                            <i class="ri-close-line me-1"></i>{{__('Close')}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <!-- Approve Modal -->
     @if($showApproveModal)
         <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header bg-success text-white">
                         <h5 class="modal-title">
-                            <i class="ri-checkbox-circle-line me-2"></i>{{__('Approve Platform Validation')}}
+                            <i class="ri-checkbox-circle-line me-2"></i>{{__('Approve Change Request')}}
                         </h5>
                         <button type="button" class="btn-close btn-close-white" wire:click="closeApproveModal"></button>
                     </div>
                     <div class="modal-body">
                         <div class="alert alert-success" role="alert">
                             <i class="ri-information-line me-2"></i>
-                            {{__('Are you sure you want to approve this platform validation request?')}}
+                            {{__('Are you sure you want to approve this change request?')}}
                         </div>
-                        <p class="text-muted mb-0">
-                            {{__('This action will enable the platform and allow it to be used. This cannot be undone.')}}
+
+                        <h6 class="mb-3">{{__('Changes to be applied')}}:</h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>{{__('Field')}}</th>
+                                        <th>{{__('Current')}}</th>
+                                        <th>{{__('New')}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($approveRequestChanges as $field => $change)
+                                        <tr>
+                                            <td><strong>{{$this->getFieldLabel($field)}}</strong></td>
+                                            <td><span class="text-muted">{{ is_bool($change['old'] ?? null) ? ($change['old'] ? 'Yes' : 'No') : ($change['old'] ?? 'N/A') }}</span></td>
+                                            <td><span class="text-success fw-bold">{{ is_bool($change['new'] ?? null) ? ($change['new'] ? 'Yes' : 'No') : ($change['new'] ?? 'N/A') }}</span></td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <p class="text-muted mb-0 mt-3">
+                            {{__('This action will update the platform with the new values and cannot be undone.')}}
                         </p>
                     </div>
                     <div class="modal-footer">
@@ -230,7 +331,7 @@
                             <i class="ri-close-line me-1"></i>{{__('Cancel')}}
                         </button>
                         <button type="button" class="btn btn-success" wire:click="approveRequest">
-                            <i class="ri-check-double-line me-1"></i>{{__('Yes, Approve Platform')}}
+                            <i class="ri-check-double-line me-1"></i>{{__('Yes, Approve Request')}}
                         </button>
                     </div>
                 </div>
@@ -243,16 +344,16 @@
         <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                    <div class="modal-header text-white">
+                    <div class="modal-header bg-danger text-white">
                         <h5 class="modal-title">
-                            <i class="ri-close-circle-line me-2"></i>{{__('Reject Platform Validation')}}
+                            <i class="ri-close-circle-line me-2"></i>{{__('Reject Change Request')}}
                         </h5>
                         <button type="button" class="btn-close btn-close-white" wire:click="closeRejectModal"></button>
                     </div>
                     <div class="modal-body">
                         <div class="alert alert-warning" role="alert">
                             <i class="ri-alert-line me-2"></i>
-                            {{__('Please provide a reason for rejecting this platform validation request.')}}
+                            {{__('Please provide a reason for rejecting this request.')}}
                         </div>
                         <div class="mb-3">
                             <label for="rejectionReason" class="form-label">
@@ -263,10 +364,10 @@
                                 class="form-control @error('rejectionReason') is-invalid @enderror"
                                 id="rejectionReason"
                                 rows="5"
-                                placeholder="{{__('Enter the reason for rejecting this validation (minimum 10 characters)...')}}"
+                                placeholder="{{__('Enter the reason for rejecting this request (minimum 10 characters)...')}}"
                                 required></textarea>
                             @error('rejectionReason')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                             <div class="form-text">
                                 {{__('Minimum 10 characters, maximum 1000 characters')}}
@@ -278,7 +379,7 @@
                             <i class="ri-close-line me-1"></i>{{__('Cancel')}}
                         </button>
                         <button type="button" class="btn btn-danger" wire:click="rejectRequest">
-                            <i class="ri-close-circle-line me-1"></i>{{__('Reject Validation')}}
+                            <i class="ri-close-circle-line me-1"></i>{{__('Reject Request')}}
                         </button>
                     </div>
                 </div>
