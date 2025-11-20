@@ -1,20 +1,21 @@
 <div class="{{getContainerType()}}">
-    @section('title')
-        {{ __('Deal Validation Requests') }}
-    @endsection
-    @component('components.breadcrumb')
-        @slot('li_1')
-            <a href="{{route('deals_index', app()->getLocale())}}">{{ __('Deals') }}</a>
-        @endslot
-        @slot('title')
-            {{ __('Validation Requests') }}
-        @endslot
-    @endcomponent
+    @if($currentRouteName=="surveys_index")
+        @section('title')
+            {{ __('Deal Validation Requests') }}
+        @endsection
+        @component('components.breadcrumb')
+            @slot('li_1')
+                <a href="{{route('deals_index', app()->getLocale())}}">{{ __('Deals') }}</a>
+            @endslot
+            @slot('title')
+                {{ __('Validation Requests') }}
+            @endslot
+        @endcomponent
 
-    <div class="row">
-        @include('layouts.flash-messages')
-    </div>
-
+        <div class="row">
+            @include('layouts.flash-messages')
+        </div>
+    @endif
     <!-- Filters and Search -->
     <div class="row mb-4">
         <div class="col-12">
@@ -80,7 +81,8 @@
                                     <p class="text-muted mb-1 small">{{__('Requested By')}}</p>
                                     <div class="d-flex align-items-center">
                                         <div class="flex-grow-1">
-                                            <div class="fw-semibold">{{getUserDisplayedName($request->requestedBy->idUser) ?? 'N/A'}}</div>
+                                            <div
+                                                class="fw-semibold">{{getUserDisplayedName($request->requestedBy->idUser) ?? 'N/A'}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -167,7 +169,8 @@
                             @if($request->status === 'rejected' && $request->rejection_reason)
                                 <div class="col-12 mt-3">
                                     <div class="alert alert-danger mb-0" role="alert">
-                                        <strong><i class="ri-error-warning-line me-1"></i>{{__('Rejection Reason')}}:</strong>
+                                        <strong><i class="ri-error-warning-line me-1"></i>{{__('Rejection Reason')}}
+                                            :</strong>
                                         <p class="mb-0 mt-2">{{$request->rejection_reason}}</p>
                                     </div>
                                 </div>

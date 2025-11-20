@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -29,11 +30,18 @@ class DealValidationRequests extends Component
     public $showApproveModal = false;
     public $approveRequestId = null;
 
+    public $currentRouteName = null;
+
     protected $queryString = ['search', 'statusFilter'];
 
     protected $listeners = [
         'refreshValidationRequests' => '$refresh'
     ];
+
+    public function mount()
+    {
+        $this->currentRouteName = Route::currentRouteName();
+    }
 
     public function updatingSearch()
     {
