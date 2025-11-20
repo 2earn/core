@@ -78,8 +78,13 @@ class DealsCreateUpdate extends Component
     public function init()
     {
         $this->status = DealStatus::New->value;
-        $this->commission_formula_id = 10000;
-        $this->target_turnover = $this->commissionFormulas[0]->id;
+        if (count($this->commissionFormulas)) {
+            $this->commission_formula_id = $this->commissionFormulas[0]->id;
+        } else {
+            $this->commission_formula_id = null;
+
+        }
+        $this->target_turnover = 1000;
         $this->start_date = $this->end_date =
         $this->items_profit_average =
         $this->margin_percentage =
@@ -91,7 +96,8 @@ class DealsCreateUpdate extends Component
         $this->proactive_cashback = $this->getDealParam('DEALS_PROACTIVE_CASHBACK_PERCENTAGE');
     }
 
-    public function updatedCommissionFormulaId($commissionFormulaId)
+    public
+    function updatedCommissionFormulaId($commissionFormulaId)
     {
         if ($commissionFormulaId) {
             $formula = CommissionFormula::find($commissionFormulaId);
@@ -102,7 +108,8 @@ class DealsCreateUpdate extends Component
         }
     }
 
-    public function edit()
+    public
+    function edit()
     {
         $deal = Deal::find($this->idDeal);
         $this->name = $deal->name;
@@ -114,7 +121,6 @@ class DealsCreateUpdate extends Component
         $this->items_profit_average = $deal->items_profit_average;
         $this->initial_commission = $deal->initial_commission;
         $this->final_commission = $deal->final_commission;
-        $this->commission_formula_id = $deal->commission_formula_id;
         $this->discount = $deal->discount;
         $this->earn_profit = $deal->earn_profit;
         $this->jackpot = $deal->jackpot;
@@ -124,12 +130,14 @@ class DealsCreateUpdate extends Component
         $this->update = true;
     }
 
-    public function cancel()
+    public
+    function cancel()
     {
         return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale(), 'id' => $this->idDeal])->with('warning', Lang::get('Deal operation cancelled'));
     }
 
-    public function updateDeal()
+    public
+    function updateDeal()
     {
         $this->validate();
         $this->updatedCommissionFormulaId($this->commission_formula_id);
@@ -143,7 +151,6 @@ class DealsCreateUpdate extends Component
             'items_profit_average' => $this->items_profit_average,
             'initial_commission' => $this->initial_commission,
             'final_commission' => $this->final_commission,
-            'commission_formula_id' => $this->commission_formula_id,
             'earn_profit' => $this->earn_profit,
             'tree_remuneration' => $this->tree_remuneration,
             'proactive_cashback' => $this->proactive_cashback,
@@ -163,7 +170,8 @@ class DealsCreateUpdate extends Component
 
     }
 
-    public function store()
+    public
+    function store()
     {
         $this->validate();
 
@@ -179,7 +187,6 @@ class DealsCreateUpdate extends Component
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'items_profit_average' => $this->items_profit_average,
-            'commission_formula_id' => $this->commission_formula_id,
             'discount' => $this->discount,
             'earn_profit' => $this->earn_profit,
             'tree_remuneration' => $this->tree_remuneration,
@@ -200,7 +207,8 @@ class DealsCreateUpdate extends Component
         return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Created Successfully'));
     }
 
-    public function render()
+    public
+    function render()
     {
         $platform = Platform::find($this->idPlatform);
         return view('livewire.deals-create-update', ['platform' => $platform])->extends('layouts.master')->section('content');

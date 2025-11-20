@@ -48,15 +48,30 @@
 
                     <div class="row g-3">
                         <div class="col-sm-12 col-md-6 col-lg-4">
-                            <label class="form-label fw-bold text-muted">
+                            <label class="form-label fw-bold text-muted mb-3">
                                 <i class="fas fa-check-circle me-2"></i>{{__('Status')}}
                             </label>
-                            <select class="form-select shadow-sm" multiple wire:model="selectedStatuses" size="4">
-                                @foreach($allStatuses as $status)
-                                    <option value="{{$status->value}}">{{__($status->name)}}</option>
-                                @endforeach
-                            </select>
-                            <small class="text-muted">{{__('Hold Ctrl to select multiple')}}</small>
+                            <div class="bg-light p-3 rounded border">
+                                <div class="row g-3">
+                                    @foreach($allStatuses as $status)
+                                        <div class="col-auto">
+                                            <div class="form-check form-switch" dir="ltr">
+                                                <input type="checkbox"
+                                                       class="form-check-input"
+                                                       wire:model="selectedStatuses"
+                                                       value="{{$status->value}}"
+                                                       id="status.{{$status->value}}"
+                                                       style="cursor: pointer;">
+                                                <label class="form-check-label"
+                                                       for="status.{{$status->value}}"
+                                                       style="cursor: pointer;">
+                                                    {{__($status->name)}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
 
                         <div class="col-sm-12 col-md-6 col-lg-4">
@@ -70,15 +85,30 @@
                         </div>
 
                         <div class="col-sm-12 col-md-6 col-lg-4">
-                            <label class="form-label fw-bold text-muted">
+                            <label class="form-label fw-bold text-muted mb-3">
                                 <i class="fas fa-tag me-2"></i>{{__('Type')}}
                             </label>
-                            <select class="form-select shadow-sm" multiple wire:model="selectedTypes" size="4">
-                                @foreach($allTypes as $type)
-                                    <option value="{{$type->value}}">{{__($type->name)}}</option>
-                                @endforeach
-                            </select>
-                            <small class="text-muted">{{__('Hold Ctrl to select multiple')}}</small>
+                            <div class="bg-light p-3 rounded border">
+                                <div class="row g-3">
+                                    @foreach($allTypes as $type)
+                                        <div class="col-auto">
+                                            <div class="form-check form-switch" dir="ltr">
+                                                <input type="checkbox"
+                                                       class="form-check-input"
+                                                       wire:model="selectedTypes"
+                                                       value="{{$type->value}}"
+                                                       id="type.{{$type->value}}"
+                                                       style="cursor: pointer;">
+                                                <label class="form-check-label"
+                                                       for="type.{{$type->value}}"
+                                                       style="cursor: pointer;">
+                                                    {{__($type->name)}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
