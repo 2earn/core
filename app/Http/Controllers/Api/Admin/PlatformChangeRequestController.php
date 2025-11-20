@@ -21,8 +21,7 @@ class PlatformChangeRequestController extends Controller
 
     public function __construct()
     {
-        // Add your admin middleware here
-        // $this->middleware('admin');
+
     }
 
     /**
