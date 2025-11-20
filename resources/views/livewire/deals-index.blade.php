@@ -125,6 +125,29 @@
         </div>
     </div>
 
+    <!-- Deal Validation Requests Section (Only for Super Admins) -->
+    @if(\App\Models\User::isSuperAdmin())
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header text-muted d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-clipboard-check me-2"></i>
+                            <h5 class="card-title mb-0 text-muted">{{__('Pending Validation Requests')}}</h5>
+                        </div>
+                        <a href="{{route('deals_validation_requests', ['locale' => app()->getLocale()])}}"
+                           class="btn btn-sm btn-primary">
+                            <i class="fas fa-list me-1"></i>{{__('View All Requests')}}
+                        </a>
+                    </div>
+                    <div class="card-body p-2">
+                        @livewire('deal-validation-requests')
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <div class="row">
         <div class="col-12">
             <div class="card shadow-sm border-0">

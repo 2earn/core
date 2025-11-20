@@ -82,7 +82,6 @@ class DealPartnerController extends Controller
             'name' => 'required|string|max:255',
             'commission_formula_id' => 'required|integer|exists:commission_formulas,id',
             'description' => 'required|string',
-            'validated' => 'required|boolean',
             'type' => 'required|string',
             'status' => 'required|string',
             'current_turnover' => 'nullable|numeric',
@@ -116,6 +115,7 @@ class DealPartnerController extends Controller
         $validatedData = $validator->validated();
 
         $validatedData['created_by_id'] = $request->input('user_id');
+        $validatedData['validated'] = false;
         $validatedData['current_turnover'] = $request->input('current_turnover', 0);
 
         $commissionFormulaId = $request->input('commission_formula_id', 0);
@@ -176,48 +176,14 @@ class DealPartnerController extends Controller
         ]);
     }
 
-    public function update(Request $request, Deal $deal)
+    public function update(UpdateDealRequest $request, Deal $deal)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'sometimes|required|string|max:255',
-            'commission_formula_id' => 'sometimes|integer|exists:commission_formulas,id',
-            'description' => 'sometimes|required|string',
-            'validated' => 'sometimes|required|boolean',
-            'type' => 'sometimes|required|string',
-            'status' => 'sometimes|required|string',
-            'target_turnover' => 'sometimes|required|numeric',
-            'current_turnover' => 'nullable|numeric',
-            'is_turnover' => 'nullable|boolean',
-            'discount' => 'nullable|numeric',
-            'start_date' => 'nullable|date',
-            'end_date' => 'nullable|date|after_or_equal:start_date',
-            'earn_profit' => 'nullable|numeric',
-            'jackpot' => 'nullable|numeric',
-            'tree_remuneration' => 'nullable|numeric',
-            'proactive_cashback' => 'nullable|numeric',
-            'total_commission_value' => 'nullable|numeric',
-            'total_unused_cashback_value' => 'nullable|numeric',
-            'platform_id' => 'sometimes|exists:platforms,id',
-            'cash_company_profit' => 'nullable|numeric',
-            'cash_jackpot' => 'nullable|numeric',
-            'cash_tree' => 'nullable|numeric',
-            'cash_cashback' => 'nullable|numeric',
-            'updated_by' => 'required|exists:users,id',
-        ]);
+        $validatedData = $request->validated();
 
-        if ($validator->fails()) {
-            Log::error(self::LOG_PREFIX . 'Deal update validation failed', ['errors' => $validator->errors()]);
-            return response()->json([
-                'status' => 'Failed',
-                'message' => 'Validation failed',
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
-        $validatedData = $validator->validated();
         if (array_key_exists('current_turnover', $validatedData)) {
             $validatedData['current_turnover'] = $validatedData['current_turnover'] ?? 0;
         }
+
         if (array_key_exists('commission_formula_id', $validatedData)) {
             $commissionFormula = CommissionFormula::find($validatedData['commission_formula_id']);
             if ($commissionFormula) {
