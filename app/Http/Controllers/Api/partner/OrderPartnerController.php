@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\partner;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Services\Orders\OrderService;
 use Core\Enum\OrderEnum;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -16,9 +17,12 @@ class OrderPartnerController extends Controller
     private const LOG_PREFIX = '[OrderPartnerController] ';
     private const PAGINATION_LIMIT = 5;
 
-    public function __construct()
+    protected OrderService $orderService;
+
+    public function __construct(OrderService $orderService)
     {
         $this->middleware('check.url');
+        $this->orderService = $orderService;
     }
 
     public function index(Request $request)
@@ -39,20 +43,23 @@ class OrderPartnerController extends Controller
         }
 
         $userId = $request->input('user_id');
-
         $page = $request->input('page');
 
-        $query = Order::with(['user', 'OrderDetails'])
-            ->where('user_id', $userId);
+        $filters = [
+            'platform_id' => $request->input('platform_id')
+        ];
 
-        $totalCount = $query->count();
-        $orders = !is_null($page) ? $query->paginate(self::PAGINATION_LIMIT, ['*'], 'page', $page) : $query->get();
-
+        $result = $this->orderService->getUserOrders(
+            $userId,
+            $filters,
+            $page,
+            self::PAGINATION_LIMIT
+        );
 
         return response()->json([
             'status' => true,
-            'data' => $orders,
-            'total' => $totalCount
+            'data' => $result['orders'],
+            'total' => $result['total']
         ]);
     }
 
@@ -113,10 +120,8 @@ class OrderPartnerController extends Controller
                 'errors' => $validator->errors()
             ], \Illuminate\Http\Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-        $order = Order::with(['user', 'OrderDetails'])
-            ->where('user_id', $userId)
-            ->where('id', $orderId)
-            ->first();
+
+        $order = $this->orderService->findUserOrder($userId, $orderId);
 
         if (!$order) {
             Log::error(self::LOG_PREFIX . 'Order not found', ['deal_id' => $orderId, 'user_id' => $userId]);
