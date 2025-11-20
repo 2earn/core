@@ -192,6 +192,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::middleware(['IsSuperAdmin'])->group(function () {
                 Route::get('/{idPlatform}/UpdateCreate', \App\Livewire\DealsCreateUpdate::class)->name('create_update');
                 Route::get('/validation-requests', \App\Livewire\DealValidationRequests::class)->name('validation_requests');
+                Route::get('/change-requests', \App\Livewire\DealChangeRequests::class)->name('change_requests');
             });
             Route::get('/{id}/show', \App\Livewire\DealsShow::class)->name('show');
             Route::get('/archive', \App\Livewire\DealsArchive::class)->name('archive');
