@@ -1,58 +1,55 @@
 <div>
     @if($totalPending > 0)
-        <div class="table-responsive">
-            <table class="table table-sm table-hover mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th style="width: 10%;">{{__('ID')}}</th>
-                        <th style="width: 25%;">{{__('Deal Name')}}</th>
-                        <th style="width: 20%;">{{__('Platform')}}</th>
-                        <th style="width: 15%;">{{__('Changes')}}</th>
-                        <th style="width: 20%;">{{__('Requested By')}}</th>
-                        <th style="width: 10%;">{{__('Date')}}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($pendingRequests as $request)
-                        <tr>
-                            <td>
-                                <span class="badge bg-light text-dark">#{{$request->deal_id}}</span>
-                            </td>
-                            <td>
-                                <strong>{{$request->deal->name ?? 'N/A'}}</strong>
-                            </td>
-                            <td>
-                                @if($request->deal && $request->deal->platform)
-                                    <i class="fas fa-desktop me-1 text-muted"></i>
-                                    <small>{{$request->deal->platform->name}}</small>
-                                @else
-                                    <span class="text-muted">N/A</span>
-                                @endif
-                            </td>
-                            <td>
-                                @if($request->changes)
-                                    <span class="badge bg-success-subtle text-success">
-                                        {{ count($request->changes) }} {{__('field(s)')}}
-                                    </span>
-                                @endif
-                            </td>
-                            <td>
-                                @if($request->requestedBy)
-                                    <i class="fas fa-user me-1 text-muted"></i>
-                                    <small>{{$request->requestedBy->name}}</small>
-                                @else
-                                    <span class="text-muted">N/A</span>
-                                @endif
-                            </td>
-                            <td>
-                                <small class="text-muted">
-                                    {{$request->created_at->format('M d')}}
-                                </small>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+        <div class="row g-2">
+            @foreach($pendingRequests as $request)
+                <div class="col-12">
+                    <div class="card  hover-shadow">
+                        <div class="card-body p-3">
+                            <div class="row align-items-center">
+                                <div class="col-md-1 col-2">
+                                    <span class="badge bg-success-subtle text-success">#{{$request->deal_id}}</span>
+                                </div>
+                                <div class="col-md-3 col-10">
+                                    <h6 class="mb-0">{{$request->deal->name ?? 'N/A'}}</h6>
+                                </div>
+                                <div class="col-md-3 col-6">
+                                    @if($request->deal && $request->deal->platform)
+                                        <small class="text-muted">
+                                            <i class="fas fa-desktop me-1"></i>
+                                            {{$request->deal->platform->name}}
+                                        </small>
+                                    @else
+                                        <small class="text-muted">N/A</small>
+                                    @endif
+                                </div>
+                                <div class="col-md-2 col-6">
+                                    @if($request->changes)
+                                        <span class="badge bg-warning-subtle text-warning">
+                                            <i class="fas fa-edit me-1"></i>
+                                            {{ count($request->changes) }} {{__('field(s)')}}
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="col-md-2 col-6">
+                                    @if($request->requestedBy)
+                                        <small class="text-muted">
+                                            <i class="fas fa-user me-1"></i>
+                                            {{getUserDisplayedName($request->requestedBy->idUser)}}
+                                        </small>
+                                    @else
+                                        <small class="text-muted">N/A</small>
+                                    @endif
+                                </div>
+                                <div class="col-md-1 col-6 text-md-end mt-2 mt-md-0">
+                                    <small class="text-muted">
+                                        {{$request->created_at->format('Y-m-d H:i:s')}}
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
 
         @if($totalPending > $limit)
