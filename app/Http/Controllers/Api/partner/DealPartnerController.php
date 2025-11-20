@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Api\partner;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateDealRequest;
 use App\Models\CommissionFormula;
 use App\Models\Deal;
+use App\Models\DealValidationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -101,6 +104,7 @@ class DealPartnerController extends Controller
             'cash_tree' => 'nullable|numeric',
             'cash_cashback' => 'nullable|numeric',
             'created_by' => 'required|exists:users,id',
+            'notes' => 'nullable|string|max:1000',
         ]);
 
         if ($validator->fails()) {
@@ -125,13 +129,45 @@ class DealPartnerController extends Controller
             $validatedData['final_commission'] = $commissionFormula->final_commission;
         }
 
-        $deal = Deal::create($validatedData);
+        try {
+            DB::beginTransaction();
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Deal created successfully',
-            'data' => $deal
-        ], Response::HTTP_CREATED);
+            // Create the deal
+            $deal = Deal::create($validatedData);
+
+            // Create a validation request for the deal
+            DealValidationRequest::create([
+                'deal_id' => $deal->id,
+                'requested_by_id' => $request->input('created_by'),
+                'status' => 'pending',
+                'notes' => $request->input('notes', 'Deal validation request created automatically')
+            ]);
+
+            DB::commit();
+
+            Log::info(self::LOG_PREFIX . 'Deal and validation request created successfully', [
+                'deal_id' => $deal->id,
+                'user_id' => $request->input('user_id')
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Deal created successfully and validation request submitted',
+                'data' => $deal
+            ], Response::HTTP_CREATED);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error(self::LOG_PREFIX . 'Failed to create deal and validation request', [
+                'error' => $e->getMessage(),
+                'user_id' => $request->input('user_id')
+            ]);
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to create deal: ' . $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     public function show(Request $request, $dealId)
