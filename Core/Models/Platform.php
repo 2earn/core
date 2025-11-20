@@ -7,6 +7,7 @@ use App\Models\Coupon;
 use App\Models\Deal;
 use App\Models\Image;
 use App\Models\Item;
+use App\Models\PlatformChangeRequest;
 use App\Models\PlatformTypeChangeRequest;
 use App\Models\PlatformValidationRequest;
 use App\Models\ProductDealHistory;
@@ -111,6 +112,16 @@ class Platform extends Model
     public function pendingValidationRequest()
     {
         return $this->hasOne(PlatformValidationRequest::class)->where('status', 'pending')->latest();
+    }
+
+    public function changeRequests(): HasMany
+    {
+        return $this->hasMany(PlatformChangeRequest::class);
+    }
+
+    public function pendingChangeRequest()
+    {
+        return $this->hasOne(PlatformChangeRequest::class)->where('status', 'pending')->latest();
     }
 
     public function selected($idUser = null)

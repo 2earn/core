@@ -34,19 +34,25 @@
                                 {{__('Create platform')}}
                             </a>
                         </div>
-                        <div class="col-lg-6 col-md-6 text-md-center">
+                        <div class="col-lg-4 col-md-4 text-md-center">
                             <a href="{{route('platform_type_change_requests', app()->getLocale())}}"
                                class="btn btn-warning btn-sm px-3 me-2">
                                 <i class="ri-arrow-left-right-line align-middle me-1"></i>
                                 {{__('Type Change Requests')}}
                             </a>
                         </div>
-                        <div class="col-lg-6 col-md-6 text-md-center">
-
+                        <div class="col-lg-4 col-md-4 text-md-center">
                             <a href="{{route('platform_validation_requests', app()->getLocale())}}"
                                class="btn btn-primary btn-sm px-3">
                                 <i class="ri-shield-check-line align-middle me-1"></i>
                                 {{__('Validation Requests')}}
+                            </a>
+                        </div>
+                        <div class="col-lg-4 col-md-4 text-md-center">
+                            <a href="{{route('platform_change_requests', app()->getLocale())}}"
+                               class="btn btn-success btn-sm px-3">
+                                <i class="ri-file-edit-line align-middle me-1"></i>
+                                {{__('Platform Change Requests')}}
                             </a>
                         </div>
                     </div>
@@ -105,6 +111,17 @@
                                             <i class="ri-alert-line me-2 fs-5"></i>
                                             <div class="flex-grow-1">
                                                 <strong class="small">{{__('Pending Type Change Request')}}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                                @if($platform->pendingChangeRequest)
+                                    <div class="mt-3 pt-3 border-top">
+                                        <div class="alert alert-success py-2 px-3 mb-2 d-flex align-items-center"
+                                             role="alert">
+                                            <i class="ri-file-edit-line me-2 fs-5"></i>
+                                            <div class="flex-grow-1">
+                                                <strong class="small">{{__('Pending Platform Update Request')}}</strong>
                                             </div>
                                         </div>
                                     </div>
@@ -215,6 +232,27 @@
                                                 <a href="{{route('platform_type_change_requests', app()->getLocale())}}"
                                                    class="btn btn-warning btn-sm">
                                                     <i class="ri-check-double-line align-middle me-1"></i>{{__('Validate')}}
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                                @if($platform->pendingChangeRequest)
+                                    <div class="d-flex gap-2 w-100 mb-2">
+                                        <div class="alert alert-success p-2 mb-0 w-100" role="alert">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <div class="flex-grow-1">
+                                                    <small class="mb-0">
+                                                        <i class="ri-file-edit-line me-1"></i>
+                                                        <strong>{{__('Platform Update Pending')}}</strong>
+                                                        @if($platform->pendingChangeRequest->changes)
+                                                            <span class="ms-1">({{ count($platform->pendingChangeRequest->changes) }} {{__('field(s)')}})</span>
+                                                        @endif
+                                                    </small>
+                                                </div>
+                                                <a href="{{route('platform_change_requests', app()->getLocale())}}"
+                                                   class="btn btn-success btn-sm">
+                                                    <i class="ri-check-double-line align-middle me-1"></i>{{__('Review')}}
                                                 </a>
                                             </div>
                                         </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\partner;
 
 use App\Http\Controllers\Controller;
+use App\Models\PlatformChangeRequest;
 use App\Models\PlatformTypeChangeRequest;
 use App\Models\PlatformValidationRequest;
 use Core\Models\Platform;
@@ -59,11 +60,17 @@ class PlatformPartnerController extends Controller
         $platforms->each(function ($platform) {
             $platform->type_change_requests_count = PlatformTypeChangeRequest::where('platform_id', $platform->id)->count();
             $platform->validation_requests_count = PlatformValidationRequest::where('platform_id', $platform->id)->count();
+            $platform->change_requests_count = PlatformChangeRequest::where('platform_id', $platform->id)->count();
+
             $platform->typeChangeRequests = PlatformTypeChangeRequest::where('platform_id',  $platform->id)
                 ->orderBy('created_at', 'desc')
                 ->limit(3)
                 ->get();
             $platform->validationRequests = PlatformValidationRequest::where('platform_id',  $platform->id)
+                ->orderBy('created_at', 'desc')
+                ->limit(3)
+                ->get();
+            $platform->changeRequests = PlatformChangeRequest::where('platform_id',  $platform->id)
                 ->orderBy('created_at', 'desc')
                 ->limit(3)
                 ->get();
@@ -168,12 +175,17 @@ class PlatformPartnerController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
+        $changeRequests = PlatformChangeRequest::where('platform_id', $platformId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return response()->json([
             'status' => true,
             'data' => [
                 'platform' => $platform,
                 'type_change_requests' => $typeChangeRequests,
-                'validation_requests' => $validationRequests
+                'validation_requests' => $validationRequests,
+                'change_requests' => $changeRequests
             ]
         ]);
     }
@@ -185,7 +197,6 @@ class PlatformPartnerController extends Controller
             'description' => 'nullable|string',
             'link' => 'sometimes|url',
             'enabled' => 'sometimes|boolean',
-            'type' => 'sometimes|string',
             'show_profile' => 'sometimes|boolean',
             'image_link' => 'nullable|string',
             'updated_by' => 'required|exists:users,id',
@@ -204,13 +215,51 @@ class PlatformPartnerController extends Controller
             ], 422);
         }
 
-        $platform->update($validator->validated());
+        $validatedData = $validator->validated();
+        $updatedBy = $validatedData['updated_by'];
+        unset($validatedData['updated_by']);
+
+        // Filter out only the fields that are actually changing
+        $changes = [];
+        foreach ($validatedData as $field => $value) {
+            if ($platform->{$field} != $value) {
+                $changes[$field] = [
+                    'old' => $platform->{$field},
+                    'new' => $value
+                ];
+            }
+        }
+
+        // If no changes, return early
+        if (empty($changes)) {
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'No changes detected'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        // Create a change request
+        $changeRequest = PlatformChangeRequest::create([
+            'platform_id' => $platform->id,
+            'changes' => $changes,
+            'status' => 'pending',
+            'requested_by' => $updatedBy
+        ]);
+
+        Log::info(self::LOG_PREFIX . 'Platform change request created', [
+            'platform_id' => $platform->id,
+            'change_request_id' => $changeRequest->id,
+            'requested_by' => $updatedBy
+        ]);
 
         return response()->json([
             'status' => true,
-            'message' => 'Platform updated successfully',
-            'data' => $platform
-        ]);
+            'message' => 'Platform change request submitted successfully. Awaiting approval.',
+            'data' => [
+                'platform' => $platform,
+                'change_request' => $changeRequest
+            ]
+        ], Response::HTTP_CREATED);
     }
 
     public function changePlatformType(Request $request)
