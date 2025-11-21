@@ -170,46 +170,6 @@ class SurveyIndex extends Component
         return $surveys;
     }
 
-    public function duplicateSurvey($id)
-    {
-        $original = Survey::findOrFail($id);
-        $duplicate = $original->replicate();
-        $duplicate->name = $original->name . ' (Copy)';
-        $duplicate->description = $original->description . ' (Copy)';
-        $duplicate->enabled = false;
-        $duplicate->status = StatusSurvey::NEW->value;
-        $duplicate->created_at = now();
-        $duplicate->updated_at = now();
-        $duplicate->save();
-
-        createTranslaleModel($duplicate, 'name', $duplicate->name);
-        createTranslaleModel($duplicate, 'description', $duplicate->description);
-
-        if ($duplicate->targets->isEmpty()) {
-            $duplicate->targets()->attach([$original->targets->first()]);
-        }
-
-        $originalQuestion = $original->question()->first();
-        $duplicateQuestion = $originalQuestion->replicate();
-        $duplicateQuestion->survey_id = $duplicate->id;
-        $duplicateQuestion->content = $originalQuestion->content;
-        $duplicateQuestion->save();
-
-        createTranslaleModel($duplicateQuestion, 'content', $duplicateQuestion->content);
-
-        $originalQuestionChoices = $originalQuestion->serveyQuestionChoice()->get();
-        foreach ($originalQuestionChoices as $originalQuestionChoice) {
-            $duplicateQuestionChoice = $originalQuestionChoice->replicate();
-            $duplicateQuestionChoice->title = $originalQuestionChoice->title;
-            $duplicateQuestionChoice->question_id = $duplicateQuestion->id;
-            $duplicateQuestionChoice->save();
-            createTranslaleModel($duplicateQuestionChoice, 'title', $duplicateQuestionChoice->title);
-        }
-
-        $this->routeRedirectionParams = ['locale' => app()->getLocale(), 'idSurvey' => $duplicate->id];
-        return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('success', Lang::get('Survey duplicated Successfully'));
-
-    }
 
 
     public function render()
