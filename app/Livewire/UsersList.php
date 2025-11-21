@@ -75,7 +75,7 @@ class UsersList extends Component
             DB::raw('IFNULL(`vip`.`flashDeadline`,"##") as periode'),
             DB::raw('IFNULL(`vip`.`flashNote`,"##") as note'),
             DB::raw('IFNULL(`vip`.`flashMinAmount`,"##") as minshares'),
-            DB::raw('`vip`.`dateFNS` as date')
+            DB::raw('IFNULL(`vip`.`dateFNS`,"##") as date'),
         )
             ->join('metta_users as meta', 'meta.idUser', '=', 'users.idUser')
             ->join('countries', 'countries.id', '=', 'users.idCountry')

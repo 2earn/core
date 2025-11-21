@@ -5,6 +5,8 @@ namespace App\Services\BusinessSector;
 use App\Models\BusinessSector;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class BusinessSectorService
 {
@@ -283,6 +285,94 @@ class BusinessSectorService
             Log::error('Error searching business sectors: ' . $e->getMessage());
             return new EloquentCollection();
         }
+    }
+
+    /**
+     * Handle image upload for business sector
+     *
+     * @param BusinessSector $businessSector
+     * @param TemporaryUploadedFile|null $image
+     * @param string $imageType
+     * @return bool
+     */
+    public function handleImageUpload(BusinessSector $businessSector, ?TemporaryUploadedFile $image, string $imageType): bool
+    {
+        if (!$image) {
+            return false;
+        }
+
+        try {
+            // Delete old image if exists
+            $this->deleteBusinessSectorImage($businessSector, $imageType);
+
+            // Store new image
+            $imagePath = $image->store('business-sectors/' . $imageType, 'public2');
+
+            // Create image record
+            $relationMethod = $this->getImageRelationMethod($imageType);
+            $businessSector->{$relationMethod}()->create([
+                'url' => $imagePath,
+                'type' => $imageType,
+            ]);
+
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Error handling image upload: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Delete business sector image
+     *
+     * @param BusinessSector $businessSector
+     * @param string $imageType
+     * @return bool
+     */
+    public function deleteBusinessSectorImage(BusinessSector $businessSector, string $imageType): bool
+    {
+        try {
+            $relationMethod = $this->getImageRelationMethod($imageType);
+            $image = $businessSector->{$relationMethod};
+
+            if ($image) {
+                Storage::disk('public2')->delete($image->url);
+                $image->delete();
+            }
+
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Error deleting business sector image: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Get image relation method name based on type
+     *
+     * @param string $imageType
+     * @return string
+     */
+    private function getImageRelationMethod(string $imageType): string
+    {
+        return match($imageType) {
+            BusinessSector::IMAGE_TYPE_THUMBNAILS => 'thumbnailsImage',
+            BusinessSector::IMAGE_TYPE_THUMBNAILS_HOME => 'thumbnailsHomeImage',
+            BusinessSector::IMAGE_TYPE_LOGO => 'logoImage',
+            default => 'logoImage',
+        };
+    }
+
+    /**
+     * Get business sector by ID or fail
+     *
+     * @param int $id
+     * @return BusinessSector
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function getBusinessSectorByIdOrFail(int $id): BusinessSector
+    {
+        return BusinessSector::findOrFail($id);
     }
 }
 

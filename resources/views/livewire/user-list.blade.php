@@ -197,7 +197,7 @@
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    @if($user->periode || $user->minshares || $user->coeff || $user->date || $user->note)
+                                    @if($user->periode!="##" || $user->minshares!="##" || $user->coeff!="##" || $user->date!="##" || $user->note!="##")
                                         <div class="mb-3">
                                             <p class="text-primary fs-12 mb-2 fw-semibold">{{__('VIP history')}}</p>
                                             <div class="row g-2">
@@ -254,6 +254,9 @@
                                             </div>
                                         </div>
                                     @endif
+                                    <a href="{{route('user_details',['locale'=>app()->getLocale(),'idUser'=>$user->idUser])}}">
+                                        <span class="text-primary fs-12 mb-2  float-end">{{__('See more details')}}</span>
+                                    </a>
                                 </div>
 
                                 <div class="col-6">
@@ -343,9 +346,8 @@
                     </div>
                 @endforelse
 
-                {{-- Pagination --}}
-                <div class="d-flex justify-content-center mt-4">
-                    {{ $users->links() }}
+                <div class="row d-flex justify-content-center mt-4">
+                    {{ $users->links('vendor.livewire.bootstrap') }}
                 </div>
             </div>
         </div>

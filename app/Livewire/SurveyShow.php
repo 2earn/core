@@ -184,8 +184,8 @@ class SurveyShow extends Component
     {
         try {
             $survey = Survey::findOrFail($id);
-            if ($survey->status <= StatusSurvey::OPEN->value) {
-                return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('danger', Lang::get('Only Opned surveys can be duplicated'));
+            if (intval($survey->status) <= StatusSurvey::OPEN->value) {
+                return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('danger', Lang::get('Only Opened surveys can be duplicated'));
             }
             $duplicate = Communication::duplicateSurvey($id);
             $this->routeRedirectionParams = ['locale' => app()->getLocale(), 'idSurvey' => $duplicate->id];

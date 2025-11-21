@@ -3,7 +3,9 @@
 namespace App\Livewire;
 
 use App\Models\UserGuide;
+use App\Services\UserGuide\UserGuideService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -17,6 +19,12 @@ class UserGuideCreateUpdate extends Component
     public $file;
     public $file_path = '';
     public $routes = [];
+    protected UserGuideService $userGuideService;
+
+    public function boot(UserGuideService $userGuideService)
+    {
+        $this->userGuideService = $userGuideService;
+    }
 
     protected function rules()
     {
@@ -32,7 +40,7 @@ class UserGuideCreateUpdate extends Component
     {
         if ($id) {
             $this->userGuideId = $id;
-            $guide = UserGuide::findOrFail($id);
+            $guide = $this->userGuideService->getByIdOrFail($id);
             $this->title = $guide->title;
             $this->description = $guide->description;
             $this->file_path = $guide->file_path;
@@ -61,15 +69,14 @@ class UserGuideCreateUpdate extends Component
             }
         }
         if ($this->userGuideId) {
-            $guide = UserGuide::findOrFail($this->userGuideId);
-            $userGuide = $guide->update([
+            $this->userGuideService->update($this->userGuideId, [
                 'title' => $this->title,
                 'description' => $this->description,
                 'file_path' => $filePath,
                 'routes' => $this->routes,
             ]);
         } else {
-            $userGuide = UserGuide::create([
+            $userGuide = $this->userGuideService->create([
                 'title' => $this->title,
                 'description' => $this->description,
                 'file_path' => $filePath,
@@ -85,7 +92,7 @@ class UserGuideCreateUpdate extends Component
 
     protected function getAllRoutes()
     {
-        return collect(\Route::getRoutes())
+        return collect(Route::getRoutes())
             ->filter(function ($route) {
                 $name = $route->getName();
                 if (!$name || $route->getActionMethod() === 'closure') {

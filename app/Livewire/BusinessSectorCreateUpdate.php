@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\BusinessSector;
 use App\Models\TranslaleModel;
+use App\Services\BusinessSector\BusinessSectorService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -22,6 +23,7 @@ class BusinessSectorCreateUpdate extends Component
     public $thumbnailsHomeImage;
     public $logoImage;
     public $update = false;
+    protected BusinessSectorService $businessSectorService;
 
     protected $rules = [
         'name' => 'required',
@@ -30,6 +32,11 @@ class BusinessSectorCreateUpdate extends Component
         'thumbnailsHomeImage' => 'nullable|image|mimes:jpeg,png,jpg',
         'logoImage' => 'nullable|image|mimes:jpeg,png,jpg',
     ];
+
+    public function boot(BusinessSectorService $businessSectorService)
+    {
+        $this->businessSectorService = $businessSectorService;
+    }
 
     public function mount(Request $request)
     {
@@ -41,7 +48,7 @@ class BusinessSectorCreateUpdate extends Component
 
     public function edit($idBusinessSector)
     {
-        $businessSector = BusinessSector::findOrFail($idBusinessSector);
+        $businessSector = $this->businessSectorService->getBusinessSectorByIdOrFail($idBusinessSector);
         $this->idBusinessSector = $idBusinessSector;
         $this->name = $businessSector->name;
         $this->color = $businessSector->color;
@@ -62,12 +69,20 @@ class BusinessSectorCreateUpdate extends Component
 
     public function deleteExistingImage($field)
     {
-        $businessSector = BusinessSector::find($this->idBusinessSector);
+        $businessSector = $this->businessSectorService->getBusinessSectorById($this->idBusinessSector);
 
-        if ($businessSector && $businessSector->{$field}) {
-            Storage::disk('public2')->delete($businessSector->{$field}->url);
+        if ($businessSector) {
+            // Map field name to image type constant
+            $imageType = match($field) {
+                'thumbnailsImage' => BusinessSector::IMAGE_TYPE_THUMBNAILS,
+                'thumbnailsHomeImage' => BusinessSector::IMAGE_TYPE_THUMBNAILS_HOME,
+                'logoImage' => BusinessSector::IMAGE_TYPE_LOGO,
+                default => null,
+            };
 
-            $businessSector->{$field}()->delete();
+            if ($imageType) {
+                $this->businessSectorService->deleteBusinessSectorImage($businessSector, $imageType);
+            }
         }
 
         $this->{$field} = null;
@@ -78,43 +93,40 @@ class BusinessSectorCreateUpdate extends Component
         $this->validate();
 
         try {
-            $businessSector = BusinessSector::where('id', $this->idBusinessSector)->first();
-            $businessSector->update(['name' => $this->name, 'color' => $this->color, 'description' => $this->description]);
+            $businessSector = $this->businessSectorService->getBusinessSectorByIdOrFail($this->idBusinessSector);
+
+            // Update basic data
+            $this->businessSectorService->updateBusinessSector($this->idBusinessSector, [
+                'name' => $this->name,
+                'color' => $this->color,
+                'description' => $this->description
+            ]);
+
+            // Handle thumbnails image
             if ($this->thumbnailsImage) {
-                if ($businessSector->thumbnailsImage) {
-                    Storage::disk('public2')->delete($businessSector->thumbnailsImage->url);
-                }
-                $imagePath = $this->thumbnailsImage->store('business-sectors/' . BusinessSector::IMAGE_TYPE_THUMBNAILS, 'public2');
-                $businessSector->thumbnailsImage()->delete();
-                $businessSector->thumbnailsImage()->create([
-                    'url' => $imagePath,
-                    'type' => BusinessSector::IMAGE_TYPE_THUMBNAILS,
-                ]);
+                $this->businessSectorService->handleImageUpload(
+                    $businessSector,
+                    $this->thumbnailsImage,
+                    BusinessSector::IMAGE_TYPE_THUMBNAILS
+                );
             }
 
+            // Handle thumbnails home image
             if ($this->thumbnailsHomeImage) {
-                if ($businessSector->thumbnailsHomeImage) {
-                    Storage::disk('public2')->delete($businessSector->thumbnailsHomeImage->url);
-                }
-                $imagePath = $this->thumbnailsHomeImage->store('business-sectors/' . BusinessSector::IMAGE_TYPE_THUMBNAILS_HOME, 'public2');
-                $businessSector->thumbnailsHomeImage()->delete();
-                $businessSector->thumbnailsHomeImage()->create([
-                    'url' => $imagePath,
-                    'type' => BusinessSector::IMAGE_TYPE_THUMBNAILS_HOME,
-                ]);
+                $this->businessSectorService->handleImageUpload(
+                    $businessSector,
+                    $this->thumbnailsHomeImage,
+                    BusinessSector::IMAGE_TYPE_THUMBNAILS_HOME
+                );
             }
 
+            // Handle logo image
             if ($this->logoImage) {
-
-                if ($businessSector->logoImage) {
-                    Storage::disk('public2')->delete($businessSector->logoImage->url);
-                }
-                $imagePath = $this->logoImage->store('business-sectors/' . BusinessSector::IMAGE_TYPE_LOGO, 'public2');
-                $businessSector->logoImage()->delete();
-                $businessSector->logoImage()->create([
-                    'url' => $imagePath,
-                    'type' => BusinessSector::IMAGE_TYPE_LOGO,
-                ]);
+                $this->businessSectorService->handleImageUpload(
+                    $businessSector,
+                    $this->logoImage,
+                    BusinessSector::IMAGE_TYPE_LOGO
+                );
             }
 
         } catch (\Exception $exception) {
@@ -129,32 +141,47 @@ class BusinessSectorCreateUpdate extends Component
     public function storeBU()
     {
         $this->validate();
-        $businessSectorData = ['name' => $this->name, 'description' => $this->description ,'color' => $this->color];
+
         try {
-            $businessSector = BusinessSector::create($businessSectorData);
+            // Create business sector using service
+            $businessSector = $this->businessSectorService->createBusinessSector([
+                'name' => $this->name,
+                'description' => $this->description,
+                'color' => $this->color
+            ]);
+
+            if (!$businessSector) {
+                throw new \Exception('Failed to create business sector');
+            }
+
+            // Handle thumbnails image
             if ($this->thumbnailsImage) {
-                $imagePath = $this->thumbnailsImage->store('business-sectors/' . BusinessSector::IMAGE_TYPE_THUMBNAILS, 'public2');
-                $businessSector->thumbnailsImage()->create([
-                    'url' => $imagePath,
-                    'type' => BusinessSector::IMAGE_TYPE_THUMBNAILS,
-                ]);
+                $this->businessSectorService->handleImageUpload(
+                    $businessSector,
+                    $this->thumbnailsImage,
+                    BusinessSector::IMAGE_TYPE_THUMBNAILS
+                );
             }
 
+            // Handle thumbnails home image
             if ($this->thumbnailsHomeImage) {
-                $imagePath = $this->thumbnailsHomeImage->store('business-sectors/' . BusinessSector::IMAGE_TYPE_THUMBNAILS_HOME, 'public2');
-                $businessSector->thumbnailsHomeImage()->create([
-                    'url' => $imagePath,
-                    'type' => BusinessSector::IMAGE_TYPE_THUMBNAILS_HOME,
-                ]);
+                $this->businessSectorService->handleImageUpload(
+                    $businessSector,
+                    $this->thumbnailsHomeImage,
+                    BusinessSector::IMAGE_TYPE_THUMBNAILS_HOME
+                );
             }
 
+            // Handle logo image
             if ($this->logoImage) {
-                $imagePath = $this->logoImage->store('business-sectors/' . BusinessSector::IMAGE_TYPE_LOGO, 'public2');
-                $businessSector->logoImage()->create([
-                    'url' => $imagePath,
-                    'type' => BusinessSector::IMAGE_TYPE_LOGO,
-                ]);
+                $this->businessSectorService->handleImageUpload(
+                    $businessSector,
+                    $this->logoImage,
+                    BusinessSector::IMAGE_TYPE_LOGO
+                );
             }
+
+            // Create translations
             createTranslaleModel($businessSector, 'name', $this->name);
             createTranslaleModel($businessSector, 'description', $this->description);
 
@@ -167,7 +194,7 @@ class BusinessSectorCreateUpdate extends Component
 
     public function render()
     {
-        $params = ['businessSector' => BusinessSector::find($this->idBusinessSector)];
+        $params = ['businessSector' => $this->businessSectorService->getBusinessSectorById($this->idBusinessSector)];
         return view('livewire.business-sector-create-update', $params)->extends('layouts.master')->section('content');
     }
 }

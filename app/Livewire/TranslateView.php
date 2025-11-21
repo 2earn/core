@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Jobs\TranslationDatabaseToFiles;
 use App\Jobs\TranslationFilesToDatabase;
+use App\Services\Translation\TranslateTabsService;
 use Core\Models\translatetabs;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -17,6 +18,7 @@ class TranslateView extends Component
 
     const SEPARATION = ' : ';
     protected $paginationTheme = 'bootstrap';
+    protected TranslateTabsService $translateService;
 
     public $arabicValue = "";
     public $frenchValue = "";
@@ -59,6 +61,11 @@ class TranslateView extends Component
         'databaseToFile' => 'databaseToFile',
         'deleteTranslate' => 'deleteTranslate'
     ];
+
+    public function boot(TranslateTabsService $translateService)
+    {
+        $this->translateService = $translateService;
+    }
 
     public function mount()
     {
@@ -194,17 +201,7 @@ class TranslateView extends Component
 
     public function render()
     {
-        $translate = translatetabs::where(DB::raw('upper(name)'), 'like', '%' . strtoupper($this->search) . '%')
-            ->orWhere(DB::raw('BINARY `name`'), 'like', '%' . strtoupper($this->search) . '%')
-            ->orWhere(DB::raw('upper(valueFr)'), 'like', '%' . strtoupper($this->search) . '%')
-            ->orWhere(DB::raw('upper(valueEn)'), 'like', '%' . strtoupper($this->search) . '%')
-            ->orWhere(DB::raw('upper(valueEs)'), 'like', '%' . strtoupper($this->search) . '%')
-            ->orWhere(DB::raw('upper(valueTr)'), 'like', '%' . strtoupper($this->search) . '%')
-            ->orWhere(DB::raw('upper(valueRu)'), 'like', '%' . strtoupper($this->search) . '%')
-            ->orWhere(DB::raw('upper(valueDe)'), 'like', '%' . strtoupper($this->search) . '%')
-            ->orWhere(DB::raw('upper(value)'), 'like', '%' . strtoupper($this->search) . '%')
-            ->orderBy('id', 'desc')
-            ->paginate($this->nbrPagibation);
+        $translate = $this->translateService->getPaginated($this->search, $this->nbrPagibation);
         return view('livewire.translate-view', ["translates" => $translate])->extends('layouts.master')->section('content');
     }
 }

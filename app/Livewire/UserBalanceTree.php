@@ -2,11 +2,11 @@
 
 namespace App\Livewire;
 
+use App\Services\Balances\BalanceTreeService;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserBalanceTree extends Component
 {
@@ -27,26 +27,16 @@ class UserBalanceTree extends Component
      */
     public function getTransactionsData(): array
     {
-        $locale = app()->getLocale();
-        $token = generateUserToken();
 
         try {
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $token,
-            ])->get(route('api_user_tree', [
-                'locale' => $locale,
-            ]), [
-                'start' => ($this->getPage() - 1) * $this->perPage,
-                'length' => $this->perPage,
-            ]);
 
-            if ($response->successful()) {
-                $payload = $response->json();
-                return [
-                    'data' => $payload['data'] ?? [],
-                    'total' => $payload['recordsTotal'] ?? ($payload['recordsFiltered'] ?? 0),
-                ];
-            }
+            $balanceService = app(BalanceTreeService::class);
+            $response = $balanceService->getTreeUserDatatables(auth()->user()->idUser);
+            $data = json_decode($response->getContent(), true);
+            return [
+                'data' => $data['data'] ?? [],
+                'total' => $data['recordsTotal'] ?? ($data['recordsFiltered'] ?? 0),
+            ];
         } catch (\Throwable $e) {
             Log::error('Error fetching Tree Balance transactions: ' . $e->getMessage());
         }
