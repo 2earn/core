@@ -4,24 +4,31 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\UserGuide;
+use App\Services\UserGuide\UserGuideService;
 use Illuminate\Support\Facades\Route;
 
 class UserGuideShow extends Component
 {
     public $guideId;
     public $guide;
+    protected UserGuideService $userGuideService;
+
+    public function boot(UserGuideService $userGuideService)
+    {
+        $this->userGuideService = $userGuideService;
+    }
 
     public function mount($id)
     {
         $this->guideId = $id;
-        $this->guide = UserGuide::with('user')->findOrFail($id);
+        $this->guide = $this->userGuideService->getByIdOrFail($id);
     }
 
     protected function getRouteDetails($routeNames)
     {
         $details = [];
         foreach ($routeNames as $name) {
-            $route = \Route::getRoutes()->getByName($name);
+            $route = Route::getRoutes()->getByName($name);
             if ($route) {
                 $details[] = [
                     'name' => $name,

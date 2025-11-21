@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\UserGuide;
+use App\Services\UserGuide\UserGuideService;
 
 class UserGuideIndex extends Component
 {
@@ -13,6 +14,12 @@ class UserGuideIndex extends Component
     public $search = '';
     public $deleteId = null;
     protected $queryString = ['search'];
+    protected UserGuideService $userGuideService;
+
+    public function boot(UserGuideService $userGuideService)
+    {
+        $this->userGuideService = $userGuideService;
+    }
 
     public function updatingSearch()
     {
@@ -29,8 +36,7 @@ class UserGuideIndex extends Component
     public function delete()
     {
         if ($this->deleteId) {
-            $guide = UserGuide::findOrFail($this->deleteId);
-            $guide->delete();
+            $this->userGuideService->delete($this->deleteId);
             session()->flash('success', __('User guide deleted successfully.'));
             $this->deleteId = null;
             $this->resetPage();
@@ -41,13 +47,7 @@ class UserGuideIndex extends Component
 
     public function render()
     {
-        $userGuides = UserGuide::with('user')
-            ->where(function($query) {
-                $query->where('title', 'like', '%'.$this->search.'%')
-                      ->orWhere('description', 'like', '%'.$this->search.'%');
-            })
-            ->latest()
-            ->paginate(10);
+        $userGuides = $this->userGuideService->getPaginated($this->search, 10);
         return view('livewire.user-guide-index', compact('userGuides'))->extends('layouts.master')->section('content');
     }
 }
