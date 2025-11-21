@@ -23,7 +23,7 @@ class SharesSoldMarketStatus extends Component
 
     // Livewire properties
     public $search = '';
-    public $perPage = 1000;
+    public $perPage = 100;
     public $sortField = 'created_at';
     public $sortDirection = 'desc';
 

@@ -9,19 +9,9 @@
         @endslot
     @endcomponent
 
-    @if (session()->has('message'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('message') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-
-    @if (session()->has('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
+    <div class="row mb-3">
+        @include('layouts.flash-messages')
+    </div>
 
     <div class="row">
         <div class="col-12">
@@ -34,12 +24,10 @@
                                    placeholder="{{ __('Search by mobile or name...') }}">
                         </div>
                         <div class="col-md-6 text-end">
-                            <select wire:model.live="perPage" class="form-select d-inline-block w-auto">
-                                <option value="10">10</option>
-                                <option value="30">30</option>
+                            <select wire:model.live="perPage" class="form-select d-inline-block w-auto my-1">
                                 <option value="50">50</option>
                                 <option value="100">100</option>
-                                <option value="1000">1000</option>
+                                <option value="1000">200</option>
                             </select>
                         </div>
                     </div>
@@ -54,7 +42,8 @@
                                         <i class="ri-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-s-line"></i>
                                     @endif
                                 </button>
-                                <button type="button" class="btn btn-outline-primary btn-sm" wire:click="sortBy('created_at')">
+                                <button type="button" class="btn btn-outline-primary btn-sm"
+                                        wire:click="sortBy('created_at')">
                                     {{__('Sort by Date')}}
                                     @if($sortField === 'created_at')
                                         <i class="ri-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-s-line"></i>
@@ -72,7 +61,7 @@
                                 $sellPriceNow = number_format(actualActionValue(getSelledActions(true)) * $share->raw_value, 2);
                                 $gain = number_format(actualActionValue(getSelledActions(true)) * $share->raw_value - $share->unit_price * $share->raw_value, 2);
                                 $totalShares = number_format($share->raw_value, 0);
-                                $flagUrl = asset('assets/images/flags/' . strtolower($share->apha2) . '.svg');
+                                $flagUrl = Vite::asset('resources/images/flags/'.strtolower($share->apha2).'.svg');
                             @endphp
                             <div class="card mb-3 shadow-sm">
                                 <div class="card-body">
@@ -80,14 +69,18 @@
                                         <!-- User Info Section -->
                                         <div class="col-md-3 border-end">
                                             <div class="d-flex align-items-center mb-2">
-                                                <img src="{{ $flagUrl }}" alt="{{ strtolower($share->apha2) }}" class="avatar-xs me-2">
+                                                <img
+                                                    src="{{ $flagUrl }}"
+                                                    class="rounded m-2"
+                                                    height="32px">
                                                 <div>
                                                     <h6 class="mb-0">{{ $share->Name }}</h6>
                                                     <small class="text-muted">{{ $share->mobile }}</small>
                                                 </div>
                                             </div>
                                             <div class="mb-2">
-                                                <small class="text-muted">{{ \Carbon\Carbon::parse($share->created_at)->format('Y-m-d H:i:s') }}</small>
+                                                <small
+                                                    class="text-muted">{{ \Carbon\Carbon::parse($share->created_at)->format('Y-m-d H:i:s') }}</small>
                                             </div>
                                             <div>
                                                 @if($share->payed == 1)
@@ -140,7 +133,8 @@
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="text-muted small">{{__('gains')}}</div>
-                                                    <div class="fw-semibold {{ floatval(str_replace(',', '', $gain)) >= 0 ? 'text-success' : 'text-danger' }}">
+                                                    <div
+                                                        class="fw-semibold {{ floatval(str_replace(',', '', $gain)) >= 0 ? 'text-success' : 'text-danger' }}">
                                                         ${{ $gain }}
                                                     </div>
                                                 </div>
@@ -185,16 +179,22 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title">{{ __('Transfert Cash') }}</h5>
-                                <button type="button" class="btn-close" wire:click="closeModal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" wire:click="closeModal"
+                                        aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <div class="row g-3">
                                     <div class="col-xxl-6">
                                         <div class="input-group">
                                             <span class="input-group-text">
-                                                <img src="{{ $selectedAsset }}" alt="" class="avatar-xxs me-2">
+                                                                 <img
+                                                                     src="{{ Vite::asset('resources/images/flags/'.$selectedAsset.'.svg') }}"
+                                                                     class="rounded"
+                                                                     height="22">
+
                                             </span>
-                                            <input type="text" class="form-control" disabled value="{{ $selectedPhone }}">
+                                            <input type="text" class="form-control" disabled
+                                                   value="{{ $selectedPhone }}">
                                         </div>
                                     </div>
                                     <div class="col-xxl-6">
