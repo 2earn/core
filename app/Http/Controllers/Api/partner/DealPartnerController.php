@@ -8,6 +8,7 @@ use App\Models\CommissionFormula;
 use App\Models\Deal;
 use App\Models\DealChangeRequest;
 use App\Models\DealValidationRequest;
+use App\Services\Deals\DealService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -19,8 +20,11 @@ class DealPartnerController extends Controller
     private const LOG_PREFIX = '[DealPartnerController] ';
     private const PAGINATION_LIMIT = 5;
 
-    public function __construct()
+    private DealService $dealService;
+
+    public function __construct(DealService $dealService)
     {
+        $this->dealService = $dealService;
         $this->middleware('check.url');
     }
 
@@ -43,49 +47,24 @@ class DealPartnerController extends Controller
         }
 
         $userId = $request->input('user_id');
-        $platformId = $request->input('business_sector_id');
+        $platformId = $request->input('platform_id');
         $page = $request->input('page');
         $search = $request->input('search');
 
-        $query = Deal::with('platform');
-        if (!is_null($search) && $search !== '') {
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
-                    ->orWhereHas('platform', function ($platformQuery) use ($search) {
-                        $platformQuery->where('name', 'like', '%' . $search . '%');
-                    });
-            });
-        }
-        $query->whereHas('platform', function ($query) use ($userId, $platformId) {
-            $query->where(function ($q) use ($userId) {
-                $q->where('marketing_manager_id', $userId)
-                    ->orWhere('financial_manager_id', $userId)
-                    ->orWhere('owner_id', $userId);
-            });
+        // Get deals using the service
+        $deals = $this->dealService->getPartnerDeals(
+            $userId,
+            $platformId,
+            $search,
+            $page,
+            self::PAGINATION_LIMIT
+        );
 
-            if ($platformId) {
-                $query->where('platform_id', $platformId);
-            }
-        });
+        // Get total count
+        $totalCount = $this->dealService->getPartnerDealsCount($userId, $platformId, $search);
 
-
-        $totalCount = $query->count();
-
-        $deals = !is_null($page) ? $query->paginate(self::PAGINATION_LIMIT, ['*'], 'page', $page) : $query->get();
-
-        // Add change request counts to each deal
-        $deals->each(function ($deal) {
-            $deal->change_requests_count = DealChangeRequest::where('deal_id', $deal->id)->count();
-            $deal->changeRequests = DealChangeRequest::where('deal_id', $deal->id)
-                ->orderBy('created_at', 'desc')
-                ->limit(3)
-                ->get();
-            $deal->validation_requests_count = DealValidationRequest::where('deal_id', $deal->id)->count();
-            $deal->validationRequests = DealValidationRequest::where('deal_id', $deal->id)
-                ->orderBy('created_at', 'desc')
-                ->limit(3)
-                ->get();
-        });
+        // Enrich deals with change request and validation request data
+        $this->dealService->enrichDealsWithRequests($deals);
 
         return response()->json([
             'status' => true,
@@ -202,16 +181,8 @@ class DealPartnerController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $deal = Deal::with('platform')
-            ->where('id', $dealId)
-            ->whereHas('platform', function ($query) use ($userId) {
-                $query->where(function ($q) use ($userId) {
-                    $q->where('marketing_manager_id', $userId)
-                        ->orWhere('financial_manager_id', $userId)
-                        ->orWhere('owner_id', $userId);
-                });
-            })
-            ->first();
+        // Get deal using the service
+        $deal = $this->dealService->getPartnerDealById($dealId, $userId);
 
         if (!$deal) {
             Log::error(self::LOG_PREFIX . 'Deal not found', ['deal_id' => $dealId, 'user_id' => $userId]);
@@ -221,9 +192,8 @@ class DealPartnerController extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
 
-        $changeRequests = DealChangeRequest::where('deal_id', $dealId)
-            ->orderBy('created_at', 'desc')
-            ->get();
+        // Get change requests using the service
+        $changeRequests = $this->dealService->getDealChangeRequests($dealId);
 
         return response()->json([
             'status' => true,
@@ -321,16 +291,8 @@ class DealPartnerController extends Controller
 
         $userId = $request->input('user_id');
 
-        // Check if user has permission through platform
-        $hasPermission = $deal->platform()
-            ->where(function ($query) use ($userId) {
-                $query->where('marketing_manager_id', $userId)
-                    ->orWhere('financial_manager_id', $userId)
-                    ->orWhere('owner_id', $userId);
-            })
-            ->exists();
-
-        if (!$hasPermission) {
+        // Check permission using the service
+        if (!$this->dealService->userHasPermission($deal, $userId)) {
             Log::error(self::LOG_PREFIX . 'User does not have permission to change deal status', [
                 'deal_id' => $deal->id,
                 'user_id' => $userId
