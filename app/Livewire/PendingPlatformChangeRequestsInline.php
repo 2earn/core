@@ -2,27 +2,25 @@
 
 namespace App\Livewire;
 
-use App\Models\PlatformChangeRequest;
+use App\Services\Platform\PendingPlatformChangeRequestsInlineService;
 use Livewire\Component;
 
 class PendingPlatformChangeRequestsInline extends Component
 {
     public $limit = 5;
 
+    protected PendingPlatformChangeRequestsInlineService $service;
+
+    public function boot(PendingPlatformChangeRequestsInlineService $service)
+    {
+        $this->service = $service;
+    }
+
     public function render()
     {
-        $pendingRequests = PlatformChangeRequest::with(['platform', 'requestedBy'])
-            ->where('status', 'pending')
-            ->orderBy('created_at', 'desc')
-            ->limit($this->limit)
-            ->get();
+        $data = $this->service->getPendingRequestsWithTotal($this->limit);
 
-        $totalPending = PlatformChangeRequest::where('status', 'pending')->count();
-
-        return view('livewire.pending-platform-change-requests-inline', [
-            'pendingRequests' => $pendingRequests,
-            'totalPending' => $totalPending
-        ]);
+        return view('livewire.pending-platform-change-requests-inline', $data);
     }
 }
 

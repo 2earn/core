@@ -2,27 +2,25 @@
 
 namespace App\Livewire;
 
-use App\Models\DealChangeRequest;
+use App\Services\Deals\PendingDealChangeRequestsInlineService;
 use Livewire\Component;
 
 class PendingDealChangeRequestsInline extends Component
 {
     public $limit = 5;
 
+    protected PendingDealChangeRequestsInlineService $service;
+
+    public function boot(PendingDealChangeRequestsInlineService $service)
+    {
+        $this->service = $service;
+    }
+
     public function render()
     {
-        $pendingRequests = DealChangeRequest::with(['deal.platform', 'requestedBy'])
-            ->where('status', 'pending')
-            ->orderBy('created_at', 'desc')
-            ->limit($this->limit)
-            ->get();
+        $data = $this->service->getPendingRequestsWithTotal($this->limit);
 
-        $totalPending = DealChangeRequest::where('status', 'pending')->count();
-
-        return view('livewire.pending-deal-change-requests-inline', [
-            'pendingRequests' => $pendingRequests,
-            'totalPending' => $totalPending
-        ]);
+        return view('livewire.pending-deal-change-requests-inline', $data);
     }
 }
 
