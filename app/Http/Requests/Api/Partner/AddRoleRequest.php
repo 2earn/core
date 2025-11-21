@@ -52,6 +52,7 @@ class AddRoleRequest extends FormRequest
             'role.required' => 'Role is required',
             'role.string' => 'Role must be a string',
             'role.max' => 'Role name must not exceed 255 characters',
+            'role.exists' => 'The specified role does not exist',
         ];
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\partner;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Partner\AddRoleRequest;
+use App\Models\AssignPlatformRole;
 use App\Models\User;
 use Core\Models\Platform;
 use Illuminate\Http\Response;
@@ -14,18 +15,9 @@ class UserPartnerController extends Controller
 {
     private const LOG_PREFIX = '[UserPartnerController] ';
 
-
     public function __construct()
     {
         $this->middleware('check.url');
-    }
-
-    public function assignRole($user, $role, $platform)
-    {
-    if(!is_null($platform->{$role.'_id'})){
-
-    }
-
     }
 
     /**
@@ -45,20 +37,23 @@ class UserPartnerController extends Controller
 
             $user = User::findOrFail($validated['user_id']);
             $platform = Platform::findOrFail($validated['platform_id']);
-            switch ($validated['role']) {
-                case 'owner':
-                    $this->assignRole($user, 'owner', $platform);
-                    break;
-                case 'admin':
-                    $this->assignRole($user, 'financial_manager', $platform);
-                    break;
-                case 'editor':
-                    $this->assignRole($user, 'marketing_manager', $platform);
-                default:
-                    throw new \InvalidArgumentException('Invalid role specified');
-            }
 
-            Log::info(self::LOG_PREFIX . 'Role request sent successfully,waiting for approval', [
+            // Create or update the role assignment record
+            $assignPlatformRole = AssignPlatformRole::updateOrCreate(
+                [
+                    'platform_id' => $validated['platform_id'],
+                    'user_id' => $validated['user_id'],
+                    'role' => $validated['role']
+                ],
+                [
+                    'created_by' => auth()->id(),
+                    'updated_by' => auth()->id(),
+                ]
+            );
+
+
+            Log::info(self::LOG_PREFIX . 'Role assign request sent successfully, waiting for approval', [
+                'assignment_id' => $assignPlatformRole->id,
                 'user_id' => $validated['user_id'],
                 'platform_id' => $validated['platform_id'],
                 'role' => $validated['role'],
@@ -69,8 +64,9 @@ class UserPartnerController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Role assigned successfully',
+                'message' => 'Role assign request sent successfully, waiting for approval',
                 'data' => [
+                    'id' => $assignPlatformRole->id,
                     'user_id' => $user->id,
                     'platform_id' => $platform->id,
                     'role' => $validated['role']
@@ -79,6 +75,7 @@ class UserPartnerController extends Controller
 
         } catch (\Throwable $e) {
             DB::rollBack();
+
             Log::error(self::LOG_PREFIX . 'Failed to assign role', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
