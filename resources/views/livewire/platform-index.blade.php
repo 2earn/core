@@ -28,11 +28,12 @@
                         </div>
                         <div class="col-lg-6 col-md-6 text-md-end">
                             <a href="{{route('platform_all_requests', app()->getLocale())}}"
-                               class="btn px-2 mx-2">
-                                {{__('Requests')}}
+                               class="btn btn-sm btn-outline-info ms-auto">
+                                <i class="fas fa-list me-1"></i>
+                                {{__('All Requests')}}
                             </a>
                             <a href="{{route('platform_create_update', app()->getLocale())}}"
-                               class="btn btn-outline-info btn px-2 mx-2">
+                               class="btn btn-sm btn-outline-info ms-auto">
                                 {{__('Create platform')}}
                             </a>
                         </div>

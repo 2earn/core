@@ -11,52 +11,16 @@
     <div class="row">
         @include('layouts.flash-messages')
     </div>
-        @if(\App\Models\User::isSuperAdmin())
-            <div class="row mb-3">
-                <div class="col-12">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-header text-muted d-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-clipboard-check me-2"></i>
-                                <h5 class="card-title mb-0 text-muted">{{__('Pending Validation Requests')}}</h5>
-                            </div>
-                            <a href="{{route('deals_validation_requests', ['locale' => app()->getLocale()])}}"
-                               class="btn btn-sm btn-primary">
-                                <i class="fas fa-list me-1"></i>{{__('View All Requests')}}
-                            </a>
-                        </div>
-                        <div class="card-body p-3">
-                            @livewire('pending-deal-validation-requests-inline')
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-12">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-header text-muted d-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-file-edit me-2"></i>
-                                <h5 class="card-title mb-0 text-muted">{{__('Pending Change Requests')}}</h5>
-                            </div>
-                            <a href="{{route('deals_change_requests', ['locale' => app()->getLocale()])}}"
-                               class="btn btn-sm btn-success">
-                                <i class="fas fa-list me-1"></i>{{__('View All Change Requests')}}
-                            </a>
-                        </div>
-                        <div class="card-body p-3">
-                            @livewire('pending-deal-change-requests-inline')
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
     <div class="row">
         <div class="col-12">
             <div class="card shadow-sm border-0 mb-4">
                 <div class="card-header  text-muted d-flex align-items-center">
                     <i class="fas fa-filter me-2"></i>
                     <h5 class="card-title mb-0 text-muted">{{__('Filters')}}</h5>
+                    <a href="{{route('deals_all_requests', ['locale' => app()->getLocale()])}}"
+                       class="btn btn-sm btn-outline-info ms-auto">
+                        <i class="fas fa-list me-1"></i>{{__('All Requests')}}
+                    </a>
                 </div>
                 <div class="card-body p-4">
                     <div class="mb-4">
@@ -185,7 +149,8 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-start mb-3">
                                     <div class="flex-shrink-0">
-                                        <div class="avatar-sm rounded-circle bg-light d-flex align-items-center justify-content-center">
+                                        <div
+                                            class="avatar-sm rounded-circle bg-light d-flex align-items-center justify-content-center">
                                             <i class="fa-solid fa-circle-question text-info fa-lg"></i>
                                         </div>
                                     </div>
@@ -292,7 +257,8 @@
                                                 @endif
                                                 @if($deal->pendingChangeRequest->requestedBy)
                                                     <small class="d-block text-muted mt-1">
-                                                        <i class="fas fa-user me-1"></i>{{__('Requested by')}}: {{$deal->pendingChangeRequest->requestedBy->name}}
+                                                        <i class="fas fa-user me-1"></i>{{__('Requested by')}}
+                                                        : {{$deal->pendingChangeRequest->requestedBy->name}}
                                                     </small>
                                                 @endif
                                             </div>
