@@ -2,27 +2,25 @@
 
 namespace App\Livewire;
 
-use App\Models\DealValidationRequest;
+use App\Services\Deals\PendingDealValidationRequestsInlineService;
 use Livewire\Component;
 
 class PendingDealValidationRequestsInline extends Component
 {
     public $limit = 5;
 
+    protected PendingDealValidationRequestsInlineService $service;
+
+    public function boot(PendingDealValidationRequestsInlineService $service)
+    {
+        $this->service = $service;
+    }
+
     public function render()
     {
-        $pendingRequests = DealValidationRequest::with(['deal.platform', 'requestedBy'])
-            ->where('status', 'pending')
-            ->orderBy('created_at', 'desc')
-            ->limit($this->limit)
-            ->get();
+        $data = $this->service->getPendingRequestsWithTotal($this->limit);
 
-        $totalPending = DealValidationRequest::where('status', 'pending')->count();
-
-        return view('livewire.pending-deal-validation-requests-inline', [
-            'pendingRequests' => $pendingRequests,
-            'totalPending' => $totalPending
-        ]);
+        return view('livewire.pending-deal-validation-requests-inline', $data);
     }
 }
 
