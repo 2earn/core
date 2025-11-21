@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\Balances\BalanceService;
+use App\Services\Balances\BalanceTreeService;
 use Core\Enum\BalanceEnum;
 use Core\Services\settingsManager;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +16,8 @@ class UserssController extends Controller
 
     public function __construct(
         private readonly settingsManager $settingsManager,
-        private readonly BalanceService $balanceService
+        private readonly BalanceService $balanceService,
+        private readonly BalanceTreeService $treeService
     ) {
     }
 
@@ -40,20 +42,7 @@ class UserssController extends Controller
 
     public function getTreeUser()
     {
-        return datatables($this->getUserBalancesList(app()->getLocale(), auth()->user()->idUser, BalanceEnum::TREE->value, false))
-            ->addColumn('reference', function ($balance) {
-                return view('parts.datatable.balances-references', ['balance' => $balance]);
-            })
-            ->editColumn('value', function ($balcene) {
-                return formatSolde($balcene->value, 2) . ' ' . self::PERCENTAGE;
-            })
-            ->editColumn('current_balance', function ($balcene) {
-                return formatSolde($balcene->current_balance, 2) . ' ' . self::PERCENTAGE;
-            })
-            ->addColumn('complementary_information', function ($balance) {
-                return getBalanceCIView($balance);
-            })
-            ->make(true);
+        return $this->treeService->getTreeUserDatatables(auth()->user()->idUser);
     }
 
     public function getSmsUser()
