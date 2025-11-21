@@ -2,18 +2,23 @@
 
 namespace App\Livewire;
 
-use App\Models\AssignPlatformRole;
+use App\Services\Platform\PendingPlatformRoleAssignmentsInlineService;
 use Livewire\Component;
 
 class PendingPlatformRoleAssignmentsInline extends Component
 {
+    public $limit = 5;
+
+    protected PendingPlatformRoleAssignmentsInlineService $service;
+
+    public function boot(PendingPlatformRoleAssignmentsInlineService $service)
+    {
+        $this->service = $service;
+    }
+
     public function render()
     {
-        $pendingAssignments = AssignPlatformRole::where('status', AssignPlatformRole::STATUS_PENDING)
-            ->with(['platform', 'user'])
-            ->orderBy('created_at', 'desc')
-            ->take(5)
-            ->get();
+        $pendingAssignments = $this->service->getPendingAssignments($this->limit);
 
         return view('livewire.pending-platform-role-assignments-inline', [
             'pendingAssignments' => $pendingAssignments
