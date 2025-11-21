@@ -267,9 +267,11 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
                 Route::get('/', \App\Livewire\PlatformCreateUpdate::class)->name('create_update');
                 Route::get('/{id}', \App\Livewire\PlatformShow::class)->name('show');
                 Route::get('/{userId}/promotion', \App\Livewire\PlatformPromotion::class)->name('promotion');
+                Route::get('/all/requests', \App\Livewire\PendingPlatformRequests::class)->name('all_requests');
                 Route::get('/type-change/requests', \App\Livewire\PlatformTypeChangeRequests::class)->name('type_change_requests');
                 Route::get('/validation/requests', \App\Livewire\PlatformValidationRequests::class)->name('validation_requests');
                 Route::get('/change/requests', \App\Livewire\PlatformChangeRequests::class)->name('change_requests');
+                Route::get('/role/assignments', \App\Livewire\AssignPlatformRolesIndex::class)->name('role_assignments');
             });
 
             Route::prefix('/role')->name('role_')->group(function () {

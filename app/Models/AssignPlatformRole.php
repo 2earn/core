@@ -12,6 +12,13 @@ class AssignPlatformRole extends Model
     use HasAuditing;
 
     /**
+     * Status constants
+     */
+    const STATUS_PENDING = 'pending';
+    const STATUS_APPROVED = 'approved';
+    const STATUS_REJECTED = 'rejected';
+
+    /**
      * The table associated with the model.
      *
      * @var string
