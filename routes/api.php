@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\partner\ItemsPartnerController;
 use App\Http\Controllers\Api\partner\OrderDetailsPartnerController;
 use App\Http\Controllers\Api\partner\OrderPartnerController;
 use App\Http\Controllers\Api\partner\PlatformPartnerController;
+use App\Http\Controllers\Api\partner\UserPartnerController;
 use App\Http\Controllers\Api\payment\OrderSimulationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -128,6 +129,7 @@ Route::prefix('/partner/')->name('api_partner_')
             Route::post('items', [ItemsPartnerController::class, 'store'])->name('items_store');
             Route::put('items/{id}', [ItemsPartnerController::class, 'update'])->name('items_update');
             Route::post('platform/change', [PlatformPartnerController::class, 'changePlatformType'])->name('platform_change_type');
+            Route::post('users/add-role', [UserPartnerController::class, 'addRole'])->name('users_add_role');
         });
 
     });
