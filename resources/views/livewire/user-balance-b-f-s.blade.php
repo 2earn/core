@@ -53,11 +53,11 @@
                                                 <p class="text-uppercase fw-medium text-muted text-truncate mb-0">{{__('BFS_')}}</p>
                                             </div>
                                             <div class="flex-shrink-0">
-                                                <h5 class="
+                                                <h5 class=" badge
                                                     @if($type==$bfs['type'])
                                                 text-success
                                                  @else
-                                                text-muted
+                                                text-primary
                                                  @endif
                                                  fs-14 mb-0">
                                                     <i class="ri-money-dollar-circle-line fs-13 align-middle"></i> {{$bfs['type']}}
