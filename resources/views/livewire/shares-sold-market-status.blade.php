@@ -8,219 +8,218 @@
             {{ __('Shares Sold : market status') }}
         @endslot
     @endcomponent
+
+    <div class="row mb-3">
+        @include('layouts.flash-messages')
+    </div>
+
     <div class="row">
         <div class="col-12">
             <div class="card" id="marketList">
-                <div class="card-body table-responsive">
-                    <table id="shares-sold"
-                           class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
-                        <thead class="table-light">
-                        <tr class="head2earn  tabHeader2earn">
-                            <th>{{__('Details')}}</th>
-                            <th>{{__('Date transaction')}}</th>
-                            <th>{{__('Country')}}</th>
-                            <th>{{__('mobile')}}</th>
-                            <th>{{__('Name')}}</th>
-                            <th>{{__('total_shares')}}</th>
-                            <th>{{__('sell_price_now')}}</th>
-                            <th>{{__('gains')}}</th>
-                            <th>{{__('Real_Sold')}}</th>
-                            <th>{{__('Real_Sold_amount')}}</th>
-                            <th>{{__('total_price')}}</th>
-                            <th>{{__('number_of_shares')}}</th>
-                            <th>{{__('share_price')}}</th>
-                        </tr>
-                        </thead>
-                        <tfoot>
-                        </tfoot>
-                        <tbody class="body2earn">
-                        </tbody>
-                    </table>
+                <div class="card-body">
+                    <!-- Search and Filters -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <input type="text" wire:model.live.debounce.300ms="search" class="form-control"
+                                   placeholder="{{ __('Search by mobile or name...') }}">
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <select wire:model.live="perPage" class="form-select d-inline-block w-auto my-1">
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="1000">200</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Sort Controls -->
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-outline-primary btn-sm" wire:click="sortBy('id')">
+                                    {{__('Sort by ID')}}
+                                    @if($sortField === 'id')
+                                        <i class="ri-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-s-line"></i>
+                                    @endif
+                                </button>
+                                <button type="button" class="btn btn-outline-primary btn-sm"
+                                        wire:click="sortBy('created_at')">
+                                    {{__('Sort by Date')}}
+                                    @if($sortField === 'created_at')
+                                        <i class="ri-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-s-line"></i>
+                                    @endif
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Cards -->
+                    <div class="shares-list">
+                        @forelse($sharesSoldes as $share)
+                            @php
+                                $totalPrice = number_format($share->unit_price * $share->raw_value, 2);
+                                $sellPriceNow = number_format(actualActionValue(getSelledActions(true)) * $share->raw_value, 2);
+                                $gain = number_format(actualActionValue(getSelledActions(true)) * $share->raw_value - $share->unit_price * $share->raw_value, 2);
+                                $totalShares = number_format($share->raw_value, 0);
+                                $flagUrl = Vite::asset('resources/images/flags/'.strtolower($share->apha2).'.svg');
+                            @endphp
+                            <div class="card mb-3 shadow-sm">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <!-- User Info Section -->
+                                        <div class="col-md-3 border-end">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <img
+                                                    src="{{ $flagUrl }}"
+                                                    class="rounded m-2"
+                                                    height="32px">
+                                                <div>
+                                                    <h6 class="mb-0">{{ $share->Name }}</h6>
+                                                    <small class="text-muted">{{ $share->mobile }}</small>
+                                                </div>
+                                            </div>
+                                            <div class="mb-2">
+                                                <small
+                                                    class="text-muted">{{ \Carbon\Carbon::parse($share->created_at)->format('Y-m-d H:i:s') }}</small>
+                                            </div>
+                                            <div>
+                                                @if($share->payed == 1)
+                                                    <span class="badge bg-success fs-12" style="cursor: pointer;"
+                                                          wire:click="openModal({{ $share->id }}, '{{ $share->mobile }}', '{{ $totalPrice }}', '{{ $flagUrl }}')">
+                                                        {{__('Transfert Made')}}
+                                                    </span>
+                                                @elseif($share->payed == 0)
+                                                    <span class="badge bg-danger fs-12" style="cursor: pointer;"
+                                                          wire:click="openModal({{ $share->id }}, '{{ $share->mobile }}', '{{ $totalPrice }}', '{{ $flagUrl }}')">
+                                                        {{__('Free')}}
+                                                    </span>
+                                                @elseif($share->payed == 2)
+                                                    <span class="badge bg-warning fs-12" style="cursor: pointer;"
+                                                          wire:click="openModal({{ $share->id }}, '{{ $share->mobile }}', '{{ $totalPrice }}', '{{ $flagUrl }}')">
+                                                        {{__('Mixed')}}
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <!-- Shares Info Section -->
+                                        <div class="col-md-4 border-end">
+                                            <div class="row g-2">
+                                                <div class="col-6">
+                                                    <div class="text-muted small">{{__('total_shares')}}</div>
+                                                    <div class="fw-semibold">{{ $totalShares }}</div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="text-muted small">{{__('number_of_shares')}}</div>
+                                                    <div class="fw-semibold">{{ $share->value }}</div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="text-muted small">{{__('share_price')}}</div>
+                                                    <div class="fw-semibold">${{ $share->unit_price }}</div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="text-muted small">{{__('total_price')}}</div>
+                                                    <div class="fw-semibold">${{ $totalPrice }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Financial Info Section -->
+                                        <div class="col-md-4">
+                                            <div class="row g-2">
+                                                <div class="col-6">
+                                                    <div class="text-muted small">{{__('sell_price_now')}}</div>
+                                                    <div class="fw-semibold text-primary">${{ $sellPriceNow }}</div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="text-muted small">{{__('gains')}}</div>
+                                                    <div
+                                                        class="fw-semibold {{ floatval(str_replace(',', '', $gain)) >= 0 ? 'text-success' : 'text-danger' }}">
+                                                        ${{ $gain }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="text-muted small">{{__('Real_Sold_amount')}}</div>
+                                                    <div class="fw-semibold">${{ $share->current_balance }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Action Button -->
+                                        <div class="col-md-1 text-center">
+                                            <button class="btn btn-primary btn-sm"
+                                                    wire:click="openModal({{ $share->id }}, '{{ $share->mobile }}', '{{ $totalPrice }}', '{{ $flagUrl }}')">
+                                                <i class="ri-eye-line"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="card">
+                                <div class="card-body text-center py-5">
+                                    <i class="ri-file-list-3-line display-4 text-muted"></i>
+                                    <h5 class="mt-3">{{ __('No data available') }}</h5>
+                                </div>
+                            </div>
+                        @endforelse
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="mt-3">
+                        {{ $sharesSoldes->links() }}
+                    </div>
                 </div>
             </div>
-            <div class="modal fade" id="realsoldmodif" tabindex="-1" aria-labelledby="exampleModalgridLabel"
-                 aria-modal="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">{{ __('Transfert Cash') }}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="javascript:void(0);">
+
+            <!-- Modal -->
+            @if($showModal)
+                <div class="modal fade show" id="realsoldmodif" tabindex="-1" style="display: block;" aria-modal="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">{{ __('Transfert Cash') }}</h5>
+                                <button type="button" class="btn-close" wire:click="closeModal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
                                 <div class="row g-3">
                                     <div class="col-xxl-6">
                                         <div class="input-group">
-                                                    <span class="input-group-text">
-                                                        <img id="realsold-country" alt=""
-                                                             class="avatar-xxs me-2"></span>
-                                            <input type="text" class="form-control" disabled id="realsold-phone"
-                                                   aria-describedby="basic-addon1">
+                                            <span class="input-group-text">
+                                                                 <img
+                                                                     src="{{ Vite::asset('resources/images/flags/'.$selectedAsset.'.svg') }}"
+                                                                     class="rounded"
+                                                                     height="22">
+
+                                            </span>
+                                            <input type="text" class="form-control" disabled
+                                                   value="{{ $selectedPhone }}">
                                         </div>
                                     </div>
                                     <div class="col-xxl-6">
                                         <div class="input-group">
-                                            <input id="realsold-reciver" type="hidden">
-                                            <input type="number" class="form-control" id="realsold-ammount">
-                                            <input hidden type="number" class="form-control"
-                                                   id="realsold-ammount-total">
+                                            <input type="number" wire:model="selectedAmount" class="form-control">
                                             <span class="input-group-text">$</span>
-
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="hstack gap-2 justify-content-end">
-                                            <button type="button" class="btn btn-light"
-                                                    data-bs-dismiss="modal">{{ __('Cancel') }}</button>
-                                            <button type="button" id="realsold-submit"
-                                                    class="btn btn-primary">{{ __('Submit') }}</button>
+                                            <button type="button" class="btn btn-light" wire:click="closeModal">
+                                                {{ __('Cancel') }}
+                                            </button>
+                                            <button type="button" class="btn btn-primary" wire:click="updateBalance">
+                                                {{ __('Submit') }}
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="modal-backdrop fade show"></div>
+            @endif
         </div>
     </div>
-    <script type="module">
-        document.addEventListener("DOMContentLoaded", function () {
-
-            $('#shares-sold').DataTable(
-                {
-                    "order": [[0, "desc"]],
-                    responsive: true,
-                    retrieve: true,
-                    dom: 'Bfrtip',
-                    buttons: [
-                        {extend: 'copyHtml5', text: '<i class="ri-file-copy-2-line"></i>', titleAttr: 'Copy'},
-                        {extend: 'excelHtml5', text: '<i class="ri-file-excel-2-line"></i>', titleAttr: 'Excel'},
-                        {extend: 'csvHtml5', text: '<i class="ri-file-text-line"></i>', titleAttr: 'CSV'},
-                        {extend: 'pdfHtml5', text: '<i class="ri-file-pdf-line"></i>', titleAttr: 'PDF'}
-                    ],
-                    "fixedHeader": true,
-                    "processing": true,
-                    "serverSide": false,
-                    "pageLength": 1000,
-                    "aLengthMenu": [[10, 30, 50, 100, 1000], [10, 30, 50, 100, 1000]],
-                    search: {return: true},
-                    autoWidth: false,
-                    bAutoWidth: false,
-                    "ajax": {
-                        url: "{{route('api_shares_soldes',['locale'=> app()->getLocale()])}}",
-                        type: "GET",
-                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
-                        error: function (xhr, error, thrown) {
-                            loadDatatableModalError('shares-sold')
-                        }                    },
-                    "columns": [
-                        datatableControlBtn,
-                        {data: 'created_at'},
-                        {data: 'flag'},
-                        {data: 'mobile'},
-                        {data: 'Name'},
-                        {data: 'total_shares'},
-                        {data: 'sell_price_now'},
-                        {data: 'gain'},
-                        {data: 'payed'},
-                        {data: 'current_balance', "className": 'editable'},
-                        {data: 'total_price'},
-                        {data: 'value'},
-                        {data: 'unit_price'},
-                    ],
-                    "columnDefs":
-                        [
-                            {
-                                "targets": [7],
-                                render: function (data, type, row) {
-                                    if (Number(row.payed) === 1)
-                                        return '<span class="badge bg-success fs-14" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                            '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >{{__('Transfert Made')}}</span>';
-                                    if (Number(row.payed) === 0)
-                                        return '<span class="badge bg-danger fs-14" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                            '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >{{__('Free')}}</span>';
-                                    if (Number(row.payed) === 2)
-                                        return '<span class="badge bg-warning fs-14" data-id="' + row.id + '" data-phone="' + row.mobile +
-                                            '" data-asset="' + row.asset + '" data-amount="' + row.total_price + '" >{{__('Mixed')}}</span>';
-                                },
-                            },
-                        ],
-                    "language": {"url": urlLang}
-                }
-            );
-        });
-    </script>
-    <script type="module">
-        document.addEventListener("DOMContentLoaded", function () {
-
-            var select2_array = [];
-            var classAl = "text-end";
-            var tts = '{{config('app.available_locales')[app()->getLocale()]['direction']}}';
-            if (tts == 'rtl') {
-                classAl = "text-start";
-            }
-            var url = '';
-            $(document).on('click', '.badge', function () {
-                var id = $(this).data('id');
-                var phone = $(this).data('phone');
-                var amount = String($(this).data('amount')).replace(',', '');
-                var asset = $(this).data('asset');
-                $('#realsold-country').attr('src', asset);
-                $('#realsold-reciver').attr('value', id);
-                $('#realsold-phone').attr('value', phone);
-                $('#realsold-ammount').attr('value', amount);
-                $('#realsold-ammount-total').attr('value', amount);
-                $('#realsoldmodif').modal('show');
-                fetchAndUpdateCardContent();
-                $('#shares-sold').DataTable().ajax.reload();
-            });
-            $(document).on("click", "#realsold-submit", function () {
-                let reciver = $('#realsold-reciver').val();
-                let ammount = $('#realsold-ammount').val();
-                let total = $('#realsold-ammount-total').val()
-                $.ajax({
-                    url: "{{ route('update-balance-real', app()->getLocale()) }}",
-                    type: "POST",
-                    data: {total: total, amount: ammount, id: reciver, "_token": "{{ csrf_token() }}"},
-                    success: function (data) {
-                        $('#realsoldmodif').modal('hide');
-                        $('#shares-sold').DataTable().ajax.reload();
-                        fetchAndUpdateCardContent();
-                    }
-
-                });
-
-                function saveHA() {
-                    window.Livewire.dispatch('saveHA', [$("#tags").val()]);
-                }
-
-                function fetchAndUpdateCardContent() {
-                    $.ajax({
-                        url: '{{ route('get-updated-card-content',app()->getLocale()) }}', // Adjust the endpoint URL
-                        method: 'GET',
-                        success: function (data) {
-                            $('#realrev').html('$' + data.value);
-                        },
-                        error: function (xhr, status, error) {
-                            console.error(error)
-                        }
-                    });
-                }
-
-                $("#select2bfs").select2();
-
-                $("#select2bfs").on("select2:select select2:unselect", function (e) {
-                    var items = $(this).val();
-                    if ($(this).val() == null) {
-                        table_bfs.columns(3).search("").draw();
-                    } else {
-                        table_bfs.columns(3).search(items.join('|'), true, false).draw();
-                    }
-                })
-            });
-        });
-
-    </script>
 </div>

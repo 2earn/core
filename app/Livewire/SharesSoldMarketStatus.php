@@ -9,16 +9,31 @@ use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class SharesSoldMarketStatus extends Component
 {
+    use WithPagination;
+
     public $cashBalance;
     public $balanceForSopping;
     public $discountBalance;
     public $SMSBalance;
     public $cash = 25.033;
-    private settingsManager $settingsManager;
-    private BalancesManager $balancesManager;
+
+    // Livewire properties
+    public $search = '';
+    public $perPage = 100;
+    public $sortField = 'created_at';
+    public $sortDirection = 'desc';
+
+    // Modal properties
+    public $showModal = false;
+    public $selectedId;
+    public $selectedPhone;
+    public $selectedAmount;
+    public $selectedAmountTotal;
+    public $selectedAsset;
 
     protected $listeners = [
         'checkContactNumbre' => 'checkContactNumbre'
@@ -29,10 +44,99 @@ class SharesSoldMarketStatus extends Component
         dd('ddd');
     }
 
-    public function mount(settingsManager $settingsManager, BalancesManager $balancesManager)
+
+    public function updatingSearch()
     {
-        $this->settingsManager = $settingsManager;
-        $this->balancesManager = $balancesManager;
+        $this->resetPage();
+    }
+
+    public function sortBy($field)
+    {
+        if ($this->sortField === $field) {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortField = $field;
+            $this->sortDirection = 'asc';
+        }
+    }
+
+    public function openModal($id, $phone, $amount, $asset)
+    {
+        $this->selectedId = $id;
+        $this->selectedPhone = $phone;
+        $this->selectedAmount = str_replace(',', '', $amount);
+        $this->selectedAmountTotal = $this->selectedAmount;
+        $this->selectedAsset = $asset;
+        $this->showModal = true;
+    }
+
+    public function closeModal()
+    {
+        $this->showModal = false;
+        $this->reset(['selectedId', 'selectedPhone', 'selectedAmount', 'selectedAmountTotal', 'selectedAsset']);
+    }
+
+    public function updateBalance()
+    {
+        try {
+            // Call the update balance route logic
+            $data = [
+                'total' => $this->selectedAmountTotal,
+                'amount' => $this->selectedAmount,
+                'id' => $this->selectedId,
+            ];
+
+            // You would typically call a service here
+            DB::table('shares_balances')
+                ->where('id', $this->selectedId)
+                ->update([
+                    'current_balance' => $this->selectedAmount,
+                    'payed' => 1,
+                ]);
+
+            $this->closeModal();
+            $this->dispatch('balance-updated');
+
+            session()->flash('message', __('Balance updated successfully'));
+        } catch (\Exception $e) {
+            session()->flash('error', __('Error updating balance'));
+        }
+    }
+
+    private function getFormatedFlagResourceName($alpha2)
+    {
+        return asset('assets/images/flags/' . strtolower($alpha2) . '.svg');
+    }
+
+    public function getSharesSoldesData()
+    {
+        $query = DB::table('shares_balances')
+            ->select(
+                'current_balance',
+                'payed',
+                'countries.apha2',
+                'shares_balances.id',
+                DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS Name'),
+                'user.mobile',
+                DB::raw('CAST(value AS DECIMAL(10,0)) AS value'),
+                'shares_balances.value as raw_value',
+                DB::raw('CAST(shares_balances.unit_price AS DECIMAL(10,2)) AS unit_price'),
+                'shares_balances.created_at',
+                'shares_balances.payed as payed',
+                'shares_balances.beneficiary_id'
+            )
+            ->join('users as user', 'user.idUser', '=', 'shares_balances.beneficiary_id')
+            ->join('metta_users as meta', 'meta.idUser', '=', 'user.idUser')
+            ->join('countries', 'countries.id', '=', 'user.idCountry')
+            ->when($this->search, function($query) {
+                $query->where(function($q) {
+                    $q->where('user.mobile', 'like', '%' . $this->search . '%')
+                      ->orWhere(DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName))'), 'like', '%' . $this->search . '%');
+                });
+            })
+            ->orderBy($this->sortField, $this->sortDirection);
+
+        return $query->paginate($this->perPage);
     }
 
     public function getIp()
@@ -47,15 +151,18 @@ class SharesSoldMarketStatus extends Component
                 }
             }
         }
+        return null;
     }
 
-    public function render(settingsManager $settingsManager)
+    public function render(settingsManager $settingsManager, BalancesManager $balancesManager)
     {
         $user = $settingsManager->getAuthUser();
 
         if (!$user)
             dd('not found page');
-        $solde = $this->balancesManager->getBalances($user->idUser, -1);
+
+        $solde = $balancesManager->getBalances($user->idUser, -1);
+
         $this->cashBalance = $solde->soldeCB;
         $this->balanceForSopping = $solde->soldeBFS;
         $this->discountBalance = $solde->soldeDB;
@@ -63,8 +170,8 @@ class SharesSoldMarketStatus extends Component
 
 
         $arraySoldeD = [];
-        $solde = $this->balancesManager->getCurrentBalance($user->idUser, -1);
-        $s = $this->balancesManager->getBalances($user->idUser, -1);
+        $solde = $balancesManager->getCurrentBalance($user->idUser, -1);
+        $s = $balancesManager->getBalances($user->idUser, -1);
         $soldeCBd = $solde->soldeCB;
         $soldeBFSd = $solde->soldeBFS;
         $soldeDBd = $solde->soldeDB;
@@ -81,12 +188,15 @@ class SharesSoldMarketStatus extends Component
             ->where('beneficiary_id', $user->idUser)
             ->selectRaw('SUM(value) as total_sum')->first()->total_sum;
 
+        $sharesSoldes = $this->getSharesSoldesData();
+
         $params = [
             "solde" => $s,
             "vente_jour" => $vente_jour,
             "vente_total" => $vente_total,
             'arraySoldeD' => $arraySoldeD,
-            'usermetta_info' => $usermetta_info
+            'usermetta_info' => $usermetta_info,
+            'sharesSoldes' => $sharesSoldes,
         ];
         return view('livewire.shares-sold-market-status', $params)->extends('layouts.master')->section('content');
     }
