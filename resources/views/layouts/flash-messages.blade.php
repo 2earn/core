@@ -1,6 +1,6 @@
 @if(Session::has('success'))
     <div class="alert alert-success alert-top-border alert-dismissible fade show material-shadow" role="alert">
-        <i class="ri-notification-off-line me-3 align-middle fs-16 text-success"></i>
+        <i class="ri-notification-on-line me-3 align-middle fs-16 text-success"></i>
         {{ Session::get('success') }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>

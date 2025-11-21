@@ -215,6 +215,7 @@ class DealPartnerController extends Controller
                 $validatedData['initial_commission'] = $commissionFormula->initial_commission;
                 $validatedData['final_commission'] = $commissionFormula->final_commission;
             }
+            unset($validatedData['commission_formula_id']);
         }
 
         // Handle current_turnover
