@@ -15,7 +15,7 @@ class BusinessSectorShow extends Component
     protected $businessSectorService;
 
     protected $listeners = [
-        'deletebusinessSector' => 'deletebusinessSector'
+        'deleteBusinessSector' => 'deleteBusinessSector'
     ];
 
     public function boot(PlatformService $platformService, BusinessSectorService $businessSectorService)
@@ -32,7 +32,7 @@ class BusinessSectorShow extends Component
         $this->idBusinessSector = $id;
     }
 
-    public function deletebusinessSector($idBusinessSector)
+    public function deleteBusinessSector($idBusinessSector)
     {
         $success = $this->businessSectorService->deleteBusinessSector($idBusinessSector);
 
@@ -55,14 +55,12 @@ class BusinessSectorShow extends Component
 
     public function render()
     {
-        // Use BusinessSectorService to fetch business sector with images
         $businessSector = $this->businessSectorService->getBusinessSectorWithImages($this->idBusinessSector);
 
         if (is_null($businessSector)) {
             redirect()->route('business_sector_index', ['locale' => app()->getLocale()]);
         }
 
-        // Use PlatformService to fetch platforms with active deals
         $platforms = $this->platformService->getPlatformsWithActiveDeals($this->idBusinessSector);
 
         $params = [
