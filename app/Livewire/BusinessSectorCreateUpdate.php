@@ -72,7 +72,6 @@ class BusinessSectorCreateUpdate extends Component
         $businessSector = $this->businessSectorService->getBusinessSectorById($this->idBusinessSector);
 
         if ($businessSector) {
-            // Map field name to image type constant
             $imageType = match($field) {
                 'thumbnailsImage' => BusinessSector::IMAGE_TYPE_THUMBNAILS,
                 'thumbnailsHomeImage' => BusinessSector::IMAGE_TYPE_THUMBNAILS_HOME,
@@ -95,14 +94,12 @@ class BusinessSectorCreateUpdate extends Component
         try {
             $businessSector = $this->businessSectorService->getBusinessSectorByIdOrFail($this->idBusinessSector);
 
-            // Update basic data
             $this->businessSectorService->updateBusinessSector($this->idBusinessSector, [
                 'name' => $this->name,
                 'color' => $this->color,
                 'description' => $this->description
             ]);
 
-            // Handle thumbnails image
             if ($this->thumbnailsImage) {
                 $this->businessSectorService->handleImageUpload(
                     $businessSector,
@@ -111,7 +108,6 @@ class BusinessSectorCreateUpdate extends Component
                 );
             }
 
-            // Handle thumbnails home image
             if ($this->thumbnailsHomeImage) {
                 $this->businessSectorService->handleImageUpload(
                     $businessSector,
@@ -120,7 +116,6 @@ class BusinessSectorCreateUpdate extends Component
                 );
             }
 
-            // Handle logo image
             if ($this->logoImage) {
                 $this->businessSectorService->handleImageUpload(
                     $businessSector,
@@ -143,7 +138,6 @@ class BusinessSectorCreateUpdate extends Component
         $this->validate();
 
         try {
-            // Create business sector using service
             $businessSector = $this->businessSectorService->createBusinessSector([
                 'name' => $this->name,
                 'description' => $this->description,
@@ -154,7 +148,6 @@ class BusinessSectorCreateUpdate extends Component
                 throw new \Exception('Failed to create business sector');
             }
 
-            // Handle thumbnails image
             if ($this->thumbnailsImage) {
                 $this->businessSectorService->handleImageUpload(
                     $businessSector,
@@ -163,7 +156,6 @@ class BusinessSectorCreateUpdate extends Component
                 );
             }
 
-            // Handle thumbnails home image
             if ($this->thumbnailsHomeImage) {
                 $this->businessSectorService->handleImageUpload(
                     $businessSector,
@@ -172,7 +164,6 @@ class BusinessSectorCreateUpdate extends Component
                 );
             }
 
-            // Handle logo image
             if ($this->logoImage) {
                 $this->businessSectorService->handleImageUpload(
                     $businessSector,
@@ -181,7 +172,6 @@ class BusinessSectorCreateUpdate extends Component
                 );
             }
 
-            // Create translations
             createTranslaleModel($businessSector, 'name', $this->name);
             createTranslaleModel($businessSector, 'description', $this->description);
 
