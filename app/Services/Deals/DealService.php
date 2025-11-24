@@ -176,5 +176,69 @@ class DealService
             })
             ->exists();
     }
+
+    /**
+     * Get filtered deals for index page
+     *
+     * @param bool $isSuperAdmin
+     * @param int|null $userId
+     * @param string|null $keyword
+     * @param array $selectedStatuses
+     * @param array $selectedTypes
+     * @param array $selectedPlatforms
+     * @param int|null $perPage
+     * @return Collection|\Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getFilteredDeals(
+        bool $isSuperAdmin,
+        ?int $userId = null,
+        ?string $keyword = null,
+        array $selectedStatuses = [],
+        array $selectedTypes = [],
+        array $selectedPlatforms = [],
+        ?int $perPage = null
+    ) {
+        $query = Deal::query();
+
+        // Apply user permission filters
+        if ($isSuperAdmin) {
+            $query->whereNot('status', \Core\Enum\DealStatus::Archived->value);
+        } else {
+            $query->whereHas('platform', function ($query) use ($userId) {
+                $query->where('financial_manager_id', '=', $userId)
+                    ->orWhere('owner_id', '=', $userId)
+                    ->orWhere('marketing_manager_id', '=', $userId);
+            });
+        }
+
+        // Apply keyword filter
+        if ($keyword) {
+            $query->where('name', 'like', '%' . $keyword . '%');
+        }
+
+        // Apply status filter
+        if (!empty($selectedStatuses)) {
+            $query->whereIn('status', $selectedStatuses);
+        }
+
+        // Apply type filter
+        if (!empty($selectedTypes)) {
+            $query->whereIn('type', $selectedTypes);
+        }
+
+        // Apply platform filter
+        if (!empty($selectedPlatforms)) {
+            $query->whereIn('platform_id', $selectedPlatforms);
+        }
+
+        // Eager load relationships
+        $query->with(['platform', 'pendingChangeRequest.requestedBy']);
+
+        // Apply ordering
+        $query->orderBy('validated', 'ASC')->orderBy('platform_id', 'ASC');
+
+        // Return paginated or all results
+        return $perPage ? $query->paginate($perPage) : $query->get();
+    }
 }
 
