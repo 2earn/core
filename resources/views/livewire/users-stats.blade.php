@@ -1,12 +1,15 @@
+@php
+    $currency = config('app.currency');
+@endphp
 <div class="card-body" id="users-stats">
     <div class="row g-4 mb-4">
-        {{-- Cash Balance Card --}}
         <div class="col-xl-4 col-md-6">
             <div class="card border-0 shadow-sm h-100 overflow-hidden">
                 <div class="card-body p-4 bg-primary bg-opacity-10">
                     <div class="d-flex align-items-center mb-3">
                         <div class="flex-shrink-0">
-                            <div class="avatar-lg bg-primary bg-gradient rounded-3 d-flex align-items-center justify-content-center">
+                            <div
+                                class="avatar-lg bg-primary bg-gradient rounded-3 d-flex align-items-center justify-content-center">
                                 <i class="ri-exchange-dollar-line fs-1 text-white" aria-hidden="true"></i>
                             </div>
                         </div>
@@ -15,7 +18,8 @@
                                 {{__('Cash Balance')}}
                             </h5>
                             <div class="d-flex flex-wrap gap-2">
-                                <span class="badge bg-primary bg-opacity-75 fs-7 px-3 py-2 fw-semibold" title="{{ __('Admin') }}">
+                                <span class="badge bg-primary bg-opacity-75 fs-7 px-3 py-2 fw-semibold"
+                                      title="{{ __('Admin') }}">
                                     <i class="ri-building-line align-bottom me-1" aria-hidden="true"></i>
                                     {{number_format($adminCash, 2)}}
                                 </span>
@@ -31,23 +35,23 @@
                             <div>
                                 <p class="text-muted mb-1 small fw-medium">{{__('Total Balance')}}</p>
                                 <h2 class="mb-0 fw-bold text-primary ">
-                                    {{formatSolde($totalCashBalance)}}
+                                    {{formatSolde($totalCashBalance,3)}}
                                 </h2>
                             </div>
-                            <span class="text-muted fs-4 fw-semibold mb-2">{{config('app.currency')}}</span>
+                            <span class="text-muted fs-4 fw-semibold mb-2">{{$currency}}</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        {{-- BFS Card --}}
         <div class="col-xl-4 col-md-6">
             <div class="card border-0 shadow-sm h-100 overflow-hidden">
                 <div class="card-body p-4 bg-success bg-opacity-10">
                     <div class="d-flex align-items-center mb-3">
                         <div class="flex-shrink-0">
-                            <div class="avatar-lg bg-success bg-gradient rounded-3 d-flex align-items-center justify-content-center">
+                            <div
+                                class="avatar-lg bg-success bg-gradient rounded-3 d-flex align-items-center justify-content-center">
                                 <i class="ri-shopping-cart-2-line fs-1 text-white" aria-hidden="true"></i>
                             </div>
                         </div>
@@ -63,7 +67,7 @@
                             <div>
                                 <p class="text-muted mb-1 small fw-medium">{{__('Current Balance')}}</p>
                                 <h2 class="mb-0 fw-bold text-success ">
-                                    {{$bfsBalance}}
+                                    {{formatSolde($bfsBalance,3)}}
                                 </h2>
                             </div>
                             <span class="text-muted fs-4 fw-semibold mb-2">{{config('app.currency')}}</span>
@@ -73,13 +77,13 @@
             </div>
         </div>
 
-        {{-- Discount Balance Card --}}
         <div class="col-xl-4 col-md-6">
             <div class="card border-0 shadow-sm h-100 overflow-hidden">
                 <div class="card-body p-4 bg-warning bg-opacity-10">
                     <div class="d-flex align-items-center mb-3">
                         <div class="flex-shrink-0">
-                            <div class="avatar-lg bg-warning bg-gradient rounded-3 d-flex align-items-center justify-content-center">
+                            <div
+                                class="avatar-lg bg-warning bg-gradient rounded-3 d-flex align-items-center justify-content-center">
                                 <i class="ri-percent-line fs-1 text-white" aria-hidden="true"></i>
                             </div>
                         </div>
@@ -106,12 +110,13 @@
         </div>
     </div>
     <div class="row g-3">
-        <div class="col-xl-3 col-md-6">
+        <div class="col-lg-6 col-md-6">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body p-3">
                     <div class="d-flex align-items-center">
                         <div class="flex-shrink-0">
-                            <div class="avatar-md bg-info bg-opacity-10 rounded-2 d-flex align-items-center justify-content-center">
+                            <div
+                                class="avatar-md bg-info bg-opacity-10 rounded-2 d-flex align-items-center justify-content-center">
                                 <i class="ri-message-line fs-3 text-info" aria-hidden="true"></i>
                             </div>
                         </div>
@@ -133,12 +138,13 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
+        <div class="col-lg-6 col-md-6">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body p-3">
                     <div class="d-flex align-items-center">
                         <div class="flex-shrink-0">
-                            <div class="avatar-md bg-danger bg-opacity-10 rounded-2 d-flex align-items-center justify-content-center">
+                            <div
+                                class="avatar-md bg-danger bg-opacity-10 rounded-2 d-flex align-items-center justify-content-center">
                                 <i class="ri-stackshare-line fs-3 text-danger" aria-hidden="true"></i>
                             </div>
                         </div>
@@ -148,7 +154,7 @@
                             </p>
                             <div class="d-flex align-items-baseline">
                                 <h4 class="mb-0 fw-bold text-dark me-2">
-                                    {{$sharesSold}}
+                                    {{formatSolde($sharesSold,3)}}
                                 </h4>
                                 <small class="text-muted fw-medium">{{config('app.currency')}}</small>
                             </div>
@@ -163,14 +169,13 @@
                 </div>
             </div>
         </div>
-
-        {{-- Shares Revenue Card --}}
-        <div class="col-xl-3 col-md-6">
+        <div class="col-lg-6 col-md-6">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body p-3">
                     <div class="d-flex align-items-center">
                         <div class="flex-shrink-0">
-                            <div class="avatar-md bg-secondary bg-opacity-10 rounded-2 d-flex align-items-center justify-content-center">
+                            <div
+                                class="avatar-md bg-secondary bg-opacity-10 rounded-2 d-flex align-items-center justify-content-center">
                                 <i class="ri-swap-line fs-3 text-secondary" aria-hidden="true"></i>
                             </div>
                         </div>
@@ -180,7 +185,7 @@
                             </p>
                             <div class="d-flex align-items-baseline">
                                 <h4 class="mb-0 fw-bold text-dark me-2">
-                                    {{$sharesRevenue}}
+                                    {{formatSolde($sharesRevenue,3)}}
                                 </h4>
                                 <small class="text-muted fw-medium">{{config('app.currency')}}</small>
                             </div>
@@ -195,14 +200,13 @@
                 </div>
             </div>
         </div>
-
-        {{-- Cash Flow Card --}}
-        <div class="col-xl-3 col-md-6">
+        <div class="col-lg-6 col-md-6">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body p-3">
                     <div class="d-flex align-items-center">
                         <div class="flex-shrink-0">
-                            <div class="avatar-md bg-dark bg-opacity-10 rounded-2 d-flex align-items-center justify-content-center">
+                            <div
+                                class="avatar-md bg-dark bg-opacity-10 rounded-2 d-flex align-items-center justify-content-center">
                                 <i class="ri-exchange-funds-line fs-3 text-dark" aria-hidden="true"></i>
                             </div>
                         </div>
@@ -212,9 +216,9 @@
                             </p>
                             <div class="d-flex align-items-baseline">
                                 <h4 class="mb-0 fw-bold text-dark me-2">
-                                    {{$cashFlow}}
+                                    {{formatSolde($cashFlow,3)}}
                                 </h4>
-                                <small class="text-muted fw-medium">{{config('app.currency')}}</small>
+                                <small class="text-muted fw-medium">{{$currency}}</small>
                             </div>
                         </div>
                     </div>
