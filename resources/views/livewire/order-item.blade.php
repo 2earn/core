@@ -16,8 +16,8 @@
             </div>
         </div>
     @endif
-    <div class="card shadow-sm border">
-        <div class="card-header bg-light border-bottom">
+    <div class="card">
+        <div class="card-header">
             <div class="d-flex align-items-center flex-wrap gap-2">
                 <div class="d-flex align-items-center">
                     <i class="ri-file-list-line text-primary fs-18 me-2"></i>
@@ -104,16 +104,21 @@
                             @if($order->orderDetails()->count())
                                 <div class="mt-3">
                                     @foreach($order->orderDetails()->get() as $key => $orderDetail)
-                                        <div class="card border-0 shadow-sm mb-3 @if($orderDetail->item()->first()->deal()->exists()) border-start border-success border-4 @endif">
+                                        <div
+                                            class="card border-0 shadow-sm mb-3 @if($orderDetail->item()->first()->deal()->exists()) border-start border-success border-4 @endif">
                                             <div class="card-body p-4">
                                                 <!-- Order Item Number Badge -->
                                                 <div class="d-flex justify-content-between align-items-start mb-3">
                                                     <div class="d-flex align-items-center gap-2">
-                                                        <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                                                            <span class="fw-bold text-primary fs-5">{{$key + 1}}</span>
+                                                        <div
+                                                            class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                                                            style="width: 40px; height: 40px;">
+                                                                <span
+                                                                    class="fw-bold text-primary fs-5">{{$key + 1}}</span>
                                                         </div>
                                                         @if($orderDetail->item()->first()->deal()->exists())
-                                                            <span class="badge bg-success-subtle text-success px-3 py-2">
+                                                            <span
+                                                                class="badge bg-success-subtle text-success px-3 py-2">
                                                                 <i class="ri-gift-line me-1"></i>{{__('Deal Item')}}
                                                             </span>
                                                         @endif
@@ -129,51 +134,61 @@
                                                                     <i class="ri-information-line me-2"></i>{{__('Item Information')}}
                                                                 </h6>
                                                                 <div class="d-flex flex-column gap-2">
-                                                                    <div class="d-flex justify-content-between align-items-center p-2 bg-white rounded">
+                                                                    <div
+                                                                        class="d-flex justify-content-between align-items-center p-2 bg-white rounded">
                                                                         <span class="text-muted">
                                                                             <i class="ri-price-tag-line text-primary me-2"></i>{{__('REF')}} - {{__('Name')}}
                                                                         </span>
-                                                                        <span class="badge bg-primary-subtle text-primary">
+                                                                        <span
+                                                                            class="badge bg-primary-subtle text-primary">
                                                                             @if(\App\Models\User::isSuperAdmin() && $currentRouteName!="orders_detail")
                                                                                 <a href="{{route('items_detail',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->id])}}"
                                                                                    class="text-primary text-decoration-none">
                                                                                     #{{$orderDetail->item()->first()->ref}} - {{$orderDetail->item()->first()->name}}
                                                                                 </a>
                                                                             @else
-                                                                                #{{$orderDetail->item()->first()->ref}} - {{$orderDetail->item()->first()->name}}
+                                                                                #{{$orderDetail->item()->first()->ref}}
+                                                                                - {{$orderDetail->item()->first()->name}}
                                                                             @endif
                                                                         </span>
                                                                     </div>
-                                                                    <div class="d-flex justify-content-between align-items-center p-2 bg-white rounded">
+                                                                    <div
+                                                                        class="d-flex justify-content-between align-items-center p-2 bg-white rounded">
                                                                         <span class="text-muted">
                                                                             <i class="ri-money-dollar-circle-line text-success me-2"></i>{{__('Unit Price')}}
                                                                         </span>
-                                                                        <span class="badge bg-success-subtle text-success fs-6">
+                                                                        <span
+                                                                            class="badge bg-success-subtle text-success fs-6">
                                                                             {{$orderDetail->unit_price}} {{config('app.currency')}}
                                                                         </span>
                                                                     </div>
                                                                     @if($orderDetail->item()->first()?->platform()->exists())
-                                                                        <div class="d-flex justify-content-between align-items-center p-2 bg-white rounded">
+                                                                        <div
+                                                                            class="d-flex justify-content-between align-items-center p-2 bg-white rounded">
                                                                             <span class="text-muted">
                                                                                 <i class="ri-computer-line text-info me-2"></i>{{__('Platform')}}
                                                                             </span>
-                                                                            <span class="badge bg-info-subtle text-info">
+                                                                            <span
+                                                                                class="badge bg-info-subtle text-info">
                                                                                 {{__($orderDetail->item()->first()?->platform()->first()?->name)}}
                                                                             </span>
                                                                         </div>
                                                                     @endif
                                                                     @if($orderDetail->item()->first()->deal()->exists())
-                                                                        <div class="d-flex justify-content-between align-items-center p-2 bg-success bg-opacity-10 rounded">
+                                                                        <div
+                                                                            class="d-flex justify-content-between align-items-center p-2 bg-success bg-opacity-10 rounded">
                                                                             <span class="text-muted">
                                                                                 <i class="ri-gift-line text-success me-2"></i>{{__('Deal')}}
                                                                             </span>
                                                                             @if(\App\Models\User::isSuperAdmin())
                                                                                 <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$orderDetail->item()->first()->deal()->first()->id])}}"
                                                                                    class="badge bg-success text-white text-decoration-none">
-                                                                                    <i class="ri-fire-fill me-1"></i>{{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}
+                                                                                    <i class="ri-fire-fill me-1"></i>{{$orderDetail->item()->first()->deal()->first()->id}}
+                                                                                    - {{$orderDetail->item()->first()->deal()->first()->name}}
                                                                                 </a>
                                                                             @else
-                                                                                <span class="badge bg-success text-white">
+                                                                                <span
+                                                                                    class="badge bg-success text-white">
                                                                                     <i class="ri-fire-fill me-1"></i>{{$orderDetail->item()->first()->deal()->first()->id}} - {{$orderDetail->item()->first()->deal()->first()->name}}
                                                                                 </span>
                                                                             @endif
@@ -191,7 +206,8 @@
                                                                     <i class="ri-shopping-cart-line me-2"></i>{{__('Order Summary')}}
                                                                 </h6>
                                                                 <div class="d-flex flex-column gap-2">
-                                                                    <div class="d-flex justify-content-between align-items-center p-2 bg-white rounded">
+                                                                    <div
+                                                                        class="d-flex justify-content-between align-items-center p-2 bg-white rounded">
                                                                         <span class="text-muted">
                                                                             <i class="ri-hashtag me-2"></i>{{__('Quantity')}}
                                                                         </span>
@@ -199,7 +215,8 @@
                                                                             {{$orderDetail->qty}}
                                                                         </span>
                                                                     </div>
-                                                                    <div class="d-flex justify-content-between align-items-center p-2 bg-white rounded">
+                                                                    <div
+                                                                        class="d-flex justify-content-between align-items-center p-2 bg-white rounded">
                                                                         <span class="text-muted">
                                                                             <i class="ri-calculator-line me-2"></i>{{__('Calculation')}}
                                                                         </span>
@@ -207,24 +224,29 @@
                                                                             {{$orderDetail->qty}} × {{$orderDetail->unit_price}} {{config('app.currency')}}
                                                                         </span>
                                                                     </div>
-                                                                    <div class="d-flex justify-content-between align-items-center p-3 bg-primary bg-opacity-10 rounded border border-primary border-opacity-25">
+                                                                    <div
+                                                                        class="d-flex justify-content-between align-items-center p-3 bg-primary bg-opacity-10 rounded border border-primary border-opacity-25">
                                                                         <span class="fw-bold text-primary">
                                                                             <i class="ri-price-tag-3-line me-2"></i>{{__('Total Amount')}}
                                                                         </span>
-                                                                        <span class="badge bg-primary fs-5 px-3 py-2">
+                                                                        <span
+                                                                            class="badge bg-primary fs-5 px-3 py-2">
                                                                             {{$orderDetail->total_amount}} {{config('app.currency')}}
                                                                         </span>
                                                                     </div>
-                                                                    <div class="d-flex justify-content-between align-items-center p-2 bg-white rounded">
+                                                                    <div
+                                                                        class="d-flex justify-content-between align-items-center p-2 bg-white rounded">
                                                                         <span class="text-muted">
                                                                             <i class="ri-truck-line me-2"></i>{{__('Shipping')}}
                                                                         </span>
                                                                         @if($orderDetail->shipping)
-                                                                            <span class="badge bg-warning-subtle text-warning">
+                                                                            <span
+                                                                                class="badge bg-warning-subtle text-warning">
                                                                                 {{$orderDetail->shipping}} {{config('app.currency')}}
                                                                             </span>
                                                                         @else
-                                                                            <span class="badge bg-secondary-subtle text-secondary">
+                                                                            <span
+                                                                                class="badge bg-secondary-subtle text-secondary">
                                                                                 <i class="ri-close-circle-line me-1"></i>{{__('No shipping')}}
                                                                             </span>
                                                                         @endif
@@ -245,28 +267,38 @@
                                                             <div class="row g-3">
                                                                 <!-- Partner Discount -->
                                                                 <div class="col-md-3">
-                                                                    <div class="card border-0 bg-primary bg-opacity-10">
+                                                                    <div
+                                                                        class="card border-0 bg-primary bg-opacity-10">
                                                                         <div class="card-body p-3">
                                                                             <div class="text-center mb-2">
                                                                                 <i class="ri-user-star-line text-primary fs-4"></i>
                                                                             </div>
                                                                             <h6 class="text-center text-primary small mb-3">{{__('Partner Discount')}}</h6>
                                                                             <div class="d-flex flex-column gap-2">
-                                                                                <div class="d-flex justify-content-between align-items-center">
-                                                                                    <small class="text-muted">{{__('Percentage')}}</small>
-                                                                                    <span class="badge bg-primary-subtle text-primary">
+                                                                                <div
+                                                                                    class="d-flex justify-content-between align-items-center">
+                                                                                    <small
+                                                                                        class="text-muted">{{__('Percentage')}}</small>
+                                                                                    <span
+                                                                                        class="badge bg-primary-subtle text-primary">
                                                                                         {{$orderDetail->partner_discount_percentage}}%
                                                                                     </span>
                                                                                 </div>
-                                                                                <div class="d-flex justify-content-between align-items-center">
-                                                                                    <small class="text-muted">{{__('Discount')}}</small>
-                                                                                    <span class="text-danger fw-semibold">
+                                                                                <div
+                                                                                    class="d-flex justify-content-between align-items-center">
+                                                                                    <small
+                                                                                        class="text-muted">{{__('Discount')}}</small>
+                                                                                    <span
+                                                                                        class="text-danger fw-semibold">
                                                                                         -{{$orderDetail->partner_discount}}
                                                                                     </span>
                                                                                 </div>
-                                                                                <div class="d-flex justify-content-between align-items-center p-2 bg-white rounded">
-                                                                                    <small class="text-muted">{{__('After')}}</small>
-                                                                                    <span class="badge bg-success-subtle text-success">
+                                                                                <div
+                                                                                    class="d-flex justify-content-between align-items-center p-2 bg-white rounded">
+                                                                                    <small
+                                                                                        class="text-muted">{{__('After')}}</small>
+                                                                                    <span
+                                                                                        class="badge bg-success-subtle text-success">
                                                                                         {{$orderDetail->amount_after_partner_discount}}
                                                                                     </span>
                                                                                 </div>
@@ -277,28 +309,38 @@
 
                                                                 <!-- 2earn Discount -->
                                                                 <div class="col-md-3">
-                                                                    <div class="card border-0 bg-info bg-opacity-10">
+                                                                    <div
+                                                                        class="card border-0 bg-info bg-opacity-10">
                                                                         <div class="card-body p-3">
                                                                             <div class="text-center mb-2">
                                                                                 <i class="ri-gift-2-line text-info fs-4"></i>
                                                                             </div>
                                                                             <h6 class="text-center text-info small mb-3">{{__('2earn Discount')}}</h6>
                                                                             <div class="d-flex flex-column gap-2">
-                                                                                <div class="d-flex justify-content-between align-items-center">
-                                                                                    <small class="text-muted">{{__('Percentage')}}</small>
-                                                                                    <span class="badge bg-info-subtle text-info">
+                                                                                <div
+                                                                                    class="d-flex justify-content-between align-items-center">
+                                                                                    <small
+                                                                                        class="text-muted">{{__('Percentage')}}</small>
+                                                                                    <span
+                                                                                        class="badge bg-info-subtle text-info">
                                                                                         {{$orderDetail->earn_discount_percentage}}%
                                                                                     </span>
                                                                                 </div>
-                                                                                <div class="d-flex justify-content-between align-items-center">
-                                                                                    <small class="text-muted">{{__('Discount')}}</small>
-                                                                                    <span class="text-danger fw-semibold">
+                                                                                <div
+                                                                                    class="d-flex justify-content-between align-items-center">
+                                                                                    <small
+                                                                                        class="text-muted">{{__('Discount')}}</small>
+                                                                                    <span
+                                                                                        class="text-danger fw-semibold">
                                                                                         -{{$orderDetail->earn_discount}}
                                                                                     </span>
                                                                                 </div>
-                                                                                <div class="d-flex justify-content-between align-items-center p-2 bg-white rounded">
-                                                                                    <small class="text-muted">{{__('After')}}</small>
-                                                                                    <span class="badge bg-success-subtle text-success">
+                                                                                <div
+                                                                                    class="d-flex justify-content-between align-items-center p-2 bg-white rounded">
+                                                                                    <small
+                                                                                        class="text-muted">{{__('After')}}</small>
+                                                                                    <span
+                                                                                        class="badge bg-success-subtle text-success">
                                                                                         {{$orderDetail->amount_after_earn_discount}}
                                                                                     </span>
                                                                                 </div>
@@ -309,28 +351,38 @@
 
                                                                 <!-- Deal Discount -->
                                                                 <div class="col-md-3">
-                                                                    <div class="card border-0 bg-warning bg-opacity-10">
+                                                                    <div
+                                                                        class="card border-0 bg-warning bg-opacity-10">
                                                                         <div class="card-body p-3">
                                                                             <div class="text-center mb-2">
                                                                                 <i class="ri-fire-line text-warning fs-4"></i>
                                                                             </div>
                                                                             <h6 class="text-center text-warning small mb-3">{{__('Deal Discount')}}</h6>
                                                                             <div class="d-flex flex-column gap-2">
-                                                                                <div class="d-flex justify-content-between align-items-center">
-                                                                                    <small class="text-muted">{{__('Percentage')}}</small>
-                                                                                    <span class="badge bg-warning-subtle text-warning">
+                                                                                <div
+                                                                                    class="d-flex justify-content-between align-items-center">
+                                                                                    <small
+                                                                                        class="text-muted">{{__('Percentage')}}</small>
+                                                                                    <span
+                                                                                        class="badge bg-warning-subtle text-warning">
                                                                                         {{$orderDetail->deal_discount_percentage}}%
                                                                                     </span>
                                                                                 </div>
-                                                                                <div class="d-flex justify-content-between align-items-center">
-                                                                                    <small class="text-muted">{{__('Discount')}}</small>
-                                                                                    <span class="text-danger fw-semibold">
+                                                                                <div
+                                                                                    class="d-flex justify-content-between align-items-center">
+                                                                                    <small
+                                                                                        class="text-muted">{{__('Discount')}}</small>
+                                                                                    <span
+                                                                                        class="text-danger fw-semibold">
                                                                                         -{{$orderDetail->deal_discount}}
                                                                                     </span>
                                                                                 </div>
-                                                                                <div class="d-flex justify-content-between align-items-center p-2 bg-white rounded">
-                                                                                    <small class="text-muted">{{__('After')}}</small>
-                                                                                    <span class="badge bg-success-subtle text-success">
+                                                                                <div
+                                                                                    class="d-flex justify-content-between align-items-center p-2 bg-white rounded">
+                                                                                    <small
+                                                                                        class="text-muted">{{__('After')}}</small>
+                                                                                    <span
+                                                                                        class="badge bg-success-subtle text-success">
                                                                                         {{$orderDetail->amount_after_deal_discount}}
                                                                                     </span>
                                                                                 </div>
@@ -341,13 +393,16 @@
 
                                                                 <!-- Total Discount -->
                                                                 <div class="col-md-3">
-                                                                    <div class="card border-0 bg-success bg-opacity-10 h-100">
-                                                                        <div class="card-body p-3 d-flex flex-column justify-content-center align-items-center">
+                                                                    <div
+                                                                        class="card border-0 bg-success bg-opacity-10 h-100">
+                                                                        <div
+                                                                            class="card-body p-3 d-flex flex-column justify-content-center align-items-center">
                                                                             <div class="text-center mb-2">
                                                                                 <i class="ri-checkbox-circle-line text-success fs-4"></i>
                                                                             </div>
                                                                             <h6 class="text-center text-success mb-3">{{__('Total Discount')}}</h6>
-                                                                            <span class="badge bg-success fs-4 px-4 py-3">
+                                                                            <span
+                                                                                class="badge bg-success fs-4 px-4 py-3">
                                                                                 <i class="ri-discount-percent-line me-2"></i>{{$orderDetail->total_discount}} {{config('app.currency')}}
                                                                             </span>
                                                                         </div>
@@ -604,7 +659,8 @@
                                                             <th scope="col"
                                                                 class="text-end">{{__('Current balance')}}</th>
                                                             <th scope="col">{{__('Description')}}</th>
-                                                            <th scope="col" class="text-end">{{__('Percentage')}}</th>
+                                                            <th scope="col"
+                                                                class="text-end">{{__('Percentage')}}</th>
                                                             <th scope="col">{{__('Created at')}}</th>
                                                         </tr>
                                                         </thead>
@@ -691,7 +747,8 @@
                                                                 </div>
                                                             </td>
                                                             <td>
-                                                                <small class="text-muted">{{$cash->created_at}}</small>
+                                                                <small
+                                                                    class="text-muted">{{$cash->created_at}}</small>
                                                             </td>
                                                         </tr>
                                                         </tbody>
