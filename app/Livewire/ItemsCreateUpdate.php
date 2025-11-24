@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\BusinessSector;
 use App\Models\Deal;
 use App\Models\Item;
+use App\Services\Items\ItemService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -26,6 +27,13 @@ class ItemsCreateUpdate extends Component
     public $name, $ref, $price, $discount, $discount_2earn, $photo_link, $description, $stock;
 
     public $update = false;
+
+    protected ItemService $itemService;
+
+    public function boot(ItemService $itemService)
+    {
+        $this->itemService = $itemService;
+    }
 
     protected $rules = [
         'name' => 'required',
@@ -58,7 +66,7 @@ class ItemsCreateUpdate extends Component
 
     public function edit($idItem)
     {
-        $item = Item::findOrFail($idItem);
+        $item = $this->itemService->findItemOrFail($idItem);
         $this->idItem = $idItem;
         $this->name = $item->name;
         $this->ref = $item->ref;
@@ -84,7 +92,6 @@ class ItemsCreateUpdate extends Component
         $this->validate();
 
         try {
-            $item = BusinessSector::where('id', $this->idItem)->first();
             $dataItem = [
                 'name' => $this->name,
                 'ref' => $this->ref,
@@ -94,28 +101,19 @@ class ItemsCreateUpdate extends Component
                 'photo_link' => $this->photo_link,
                 'description' => $this->description,
                 'stock' => $this->stock,
-
             ];
+
             if (!is_null($this->deal_id)) {
                 $dataItem['deal_id'] = $this->deal_id;
             }
 
-            Item::where('id', $this->idItem)->update($dataItem);
-            $item = Item::where('id', $this->idItem)->first();
+            $this->itemService->updateItem($this->idItem, $dataItem);
+            $item = $this->itemService->findItemOrFail($this->idItem);
 
             if ($this->thumbnailsImage) {
-                if (!is_null($item->thumbnailsImage)) {
-                    Storage::disk('public2')->delete($item->thumbnailsImage->url);
-                }
-                $imagePath = $this->thumbnailsImage->store('business-sectors/' . Item::IMAGE_TYPE_THUMBNAILS, 'public2');
-                $item->thumbnailsImage()->delete();
-                $item->thumbnailsImage()->create([
-                    'url' => $imagePath,
-                    'type' => Item::IMAGE_TYPE_THUMBNAILS,
-                ]);
+                $this->itemService->handleImageUpload($item, $this->thumbnailsImage);
             }
         } catch (\Exception $exception) {
-            dd($exception);
             Log::error($exception->getMessage());
             return redirect()->route('items_detail', ['locale' => app()->getLocale(), 'id' => $this->idItem])->with('danger', Lang::get('Something goes wrong while updating Item'));
         }
@@ -141,13 +139,10 @@ class ItemsCreateUpdate extends Component
         ];
 
         try {
-            $item = Item::create($itemData);
+            $item = $this->itemService->createItem($itemData);
+
             if ($this->thumbnailsImage) {
-                $imagePath = $this->thumbnailsImage->store('business-sectors/' . Item::IMAGE_TYPE_THUMBNAILS, 'public2');
-                $item->thumbnailsImage()->create([
-                    'url' => $imagePath,
-                    'type' => $item::IMAGE_TYPE_THUMBNAILS,
-                ]);
+                $this->itemService->handleImageUpload($item, $this->thumbnailsImage);
             }
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -158,9 +153,8 @@ class ItemsCreateUpdate extends Component
 
     public function render()
     {
-
         $params = [
-            'item' => Item::find($this->idItem),
+            'item' => $this->itemService->findItem($this->idItem),
         ];
         return view('livewire.items-create-update', $params)->extends('layouts.master')->section('content');
     }

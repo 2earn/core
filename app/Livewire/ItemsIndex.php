@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\Item;
+use App\Services\Items\ItemService;
 use Illuminate\Support\Facades\Log;
 use Lang;
 use Illuminate\Support\Facades\Route;
@@ -20,10 +20,17 @@ class ItemsIndex extends Component
 
     public $listeners = ['delete' => 'delete'];
 
+    protected ItemService $itemService;
+
+    public function boot(ItemService $itemService)
+    {
+        $this->itemService = $itemService;
+    }
+
     public function delete($id)
     {
         try {
-            Item::findOrFail($id)->delete();
+            $this->itemService->deleteItem($id);
             return redirect()->route('items_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Item Deleted Successfully'));
         }catch (\Exception $exception){
             Log::error($exception->getMessage());
@@ -49,11 +56,7 @@ class ItemsIndex extends Component
 
     public function render()
     {
-        if (!is_null($this->search) && !empty($this->search)) {
-            $params['items'] = Item::where('name', 'like', '%' . $this->search . '%')->orderBy('created_at', 'desc')->paginate(self::PAGE_SIZE);
-        } else {
-            $params['items'] = Item::orderBy('created_at', 'desc')->paginate(self::PAGE_SIZE);
-        }
+        $params['items'] = $this->itemService->getItems($this->search, self::PAGE_SIZE);
         return view('livewire.items-index', $params)->extends('layouts.master')->section('content');
     }
 }
