@@ -14,9 +14,9 @@ class BusinessSectorService
      * Get all business sectors with optional filters
      *
      * @param array $filters
-     * @return EloquentCollection
+     * @return EloquentCollection|\Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function getBusinessSectors(array $filters = []): EloquentCollection
+    public function getBusinessSectors(array $filters = [])
     {
         try {
             $query = BusinessSector::query();
@@ -43,6 +43,11 @@ class BusinessSectorService
             $orderBy = $filters['order_by'] ?? 'created_at';
             $orderDirection = $filters['order_direction'] ?? 'desc';
             $query->orderBy($orderBy, $orderDirection);
+
+            // Return paginated results if PAGE_SIZE is specified
+            if (!empty($filters['PAGE_SIZE'])) {
+                return $query->paginate($filters['PAGE_SIZE']);
+            }
 
             return $query->get();
         } catch (\Exception $e) {
