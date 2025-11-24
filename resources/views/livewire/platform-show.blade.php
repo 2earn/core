@@ -13,11 +13,8 @@
     @endcomponent
 
     <div class="row">
-        <div class="col-12">
-            <div class="card border-0 shadow-sm overflow-hidden">
-                {{-- Cover Background --}}
+            <div class="col-12 card border-0 shadow-sm overflow-hidden">
                 <div class="bg-soft-primary" style="height: 120px;"></div>
-
                 <div class="card-body pt-0">
                     <div class="row">
                         <div class="col-lg-8">
@@ -84,8 +81,8 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-4">
-                            <div class="d-flex gap-2 justify-content-lg-end mt-3 mt-lg-0">
+                        <div class="col-lg-4 mt-2">
+                            <div class="d-flex justify-content-lg-end mx-2 mt-lg-0">
                                 @if($platform->link)
                                     <a href="{{$platform->link}}"
                                        target="_blank"
@@ -104,9 +101,8 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>
-    <div class="row mt-4">
+    <div class="row mt-2">
         <div class="col-xl-3 col-md-6">
             <div class="card border-0 shadow-sm card-animate">
                 <div class="card-body">
@@ -212,7 +208,7 @@
             </div>
         </div>
     </div>
-    <div class="row mt-4">
+    <div class="row mt-2">
         <div class="col-lg-6">
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-transparent border-bottom">
@@ -252,23 +248,21 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    <div class="d-grid gap-2">
                         <a href="{{route('platform_create_update',['locale'=>app()->getLocale(), 'id' => $platform->id])}}"
-                           class="btn btn-soft-info">
+                           class="btn btn-soft-info mx-2">
                             <i class="ri-pencil-line align-middle me-1"></i>{{__('Edit Platform')}}
                         </a>
                         @if($platform->link)
                             <a href="{{$platform->link}}"
                                target="_blank"
-                               class="btn btn-soft-secondary">
+                               class="btn btn-soft-secondary mx-2">
                                 <i class="ri-external-link-line align-middle me-1"></i>{{__('Visit Website')}}
                             </a>
                         @endif
                         <a href="{{route('platform_index',['locale'=>app()->getLocale()])}}"
-                           class="btn btn-soft-secondary">
+                           class="btn btn-soft-secondary mx-2">
                             <i class="ri-arrow-left-line align-middle me-1"></i>{{__('Back to List')}}
                         </a>
-                    </div>
                 </div>
             </div>
         </div>
