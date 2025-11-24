@@ -1,6 +1,6 @@
 <div class="row">
     <div class="card ribbon-box right border shadow-sm overflow-hidden material-shadow mb-4">
-        <div class="card-header border-bottom mt-2 border-info">
+        <div class="card-header border-bottom mt-2 ">
             @if(!in_array($currentRouteName,["surveys_show","surveys_participate","surveys_results"]))
                 <div class="ribbon ribbon-success ribbon-shape trending-ribbon" title="{{__('Survey')}}">
                     <i class="ri-bookmark-fill text-white align-bottom float-start me-1"></i>
@@ -28,7 +28,7 @@
 
                     <h5 class="mb-0 text-info">
                         @if(\App\Models\User::isSuperAdmin())
-                            <span class="badge bg-secondary me-2">{{$survey->id}}</span>
+                           {{$survey->id}} -
                         @endif
                         {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}
                     </h5>
@@ -647,7 +647,7 @@
             </div>
         @endif
 
-        <div class="card-header border-info">
+        <div class="card-header">
             <h5 class="mb-0 text-info"><i class="ri-question-line me-2"></i>{{__('Questions')}}</h5>
         </div>
 
@@ -709,12 +709,12 @@
                     <div class="col-lg-12">
                         <h6 class="text-info mb-3"><i class="ri-list-check-2 me-2"></i>{{__('Choices')}}</h6>
                         @forelse ($survey->question->serveyQuestionChoice as $choice)
-                            <div class="card mb-2 border">
-                                <div class="card-body p-3">
+                            <div class="card mb-2">
+                                <div class="card-body p-2">
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div class="flex-grow-1">
                                             <div class="d-flex align-items-start">
-                                                <span class="badge bg-secondary me-2">{{$loop->index+1}}</span>
+                                                <span class="me-2">{{$loop->index+1}} - </span>
                                                 <div>
                                                     <p class="mb-1 small">{{\App\Models\TranslaleModel::getTranslation($choice,'title',$choice->title)}}</p>
                                                     @if(\App\Models\User::isSuperAdmin())
@@ -788,7 +788,7 @@
         @if($survey->status>\Core\Enum\StatusSurvey::NEW->value )
             @if($survey->canShowResult() )
                 <div class="card">
-                    <div class="card-header border-info fw-medium text-muted mb-0">
+                    <div class="card-header fw-medium text-muted mb-0">
                         <h5 class="mt-2 text-info">{{__('Result')}} :</h5>
                     </div>
                     <div class="card-body">
@@ -800,7 +800,7 @@
 
         @if($currentRouteName=="surveys_show")
             <div class="card">
-                <div class="card-header border-info fw-medium text-muted mb-0">
+                <div class="card-header fw-medium text-muted mb-0">
                     <h5 class="mt-2 text-info">{{__('Likes')}} : ({{ $survey->likes->count() }})</h5>
                 </div>
                 @if(!$survey->isLikable())
