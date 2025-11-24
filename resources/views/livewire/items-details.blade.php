@@ -1,3 +1,7 @@
+@php
+    $currency = config('app.currency');
+    $percentage = config('app.percentage');
+@endphp
 <div class="{{getContainerType()}}">
     @section('title')
         {{ __('Items details') }}
@@ -15,9 +19,12 @@
     <div class="row">
         <div class="col-12">
             <div class="card shadow-sm border-0 mb-4">
-                <div class="card-header bg-gradient border-bottom border-primary border-2 d-flex justify-content-between align-items-center py-3 px-4">
+                <div
+                    class="card-header bg-gradient border-bottom border-primary border-2 d-flex justify-content-between align-items-center py-3 px-4">
                     <div class="d-flex align-items-center gap-3">
-                        <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                        <div
+                            class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                            style="width: 48px; height: 48px;">
                             <i class="ri-shopping-bag-line text-primary fs-4"></i>
                         </div>
                         <div>
@@ -73,38 +80,42 @@
 
                         <div class="col-lg-9 col-md-8">
                             <div class="list-group list-group-flush">
-                                <div class="list-group-item px-3 d-flex justify-content-between align-items-center py-3 border-bottom bg-light bg-opacity-50 rounded-top">
+                                <div
+                                    class="list-group-item px-3 d-flex justify-content-between align-items-center py-3 border-bottom bg-light bg-opacity-50 rounded-top">
                                     <div class="d-flex align-items-center gap-2">
                                         <i class="ri-price-tag-3-line text-success fs-5"></i>
                                         <h6 class="mb-0 fw-semibold text-dark">{{__('Price')}}</h6>
                                     </div>
-                                    <span class="badge bg-success fs-5 px-4 py-2 shadow-sm">
-                                        <i class="ri-money-dollar-circle-line me-1"></i>{{$item->price}} {{config('app.currency')}}
+                                    <span class="badge fs-5 px-4 py-2 shadow-sm">
+                                        <i class="ri-money-dollar-circle-line me-1"></i>{{$item->price}} {{$currency}}
                                     </span>
                                 </div>
 
-                                <div class="list-group-item px-3 d-flex justify-content-between align-items-center py-3 border-bottom">
+                                <div
+                                    class="list-group-item px-3 d-flex justify-content-between align-items-center py-3 border-bottom">
                                     <div class="d-flex align-items-center gap-2">
                                         <i class="ri-discount-percent-line text-warning fs-5"></i>
                                         <h6 class="mb-0 fw-semibold text-dark">{{__('Discount')}}</h6>
                                     </div>
                                     <span class="badge bg-warning text-dark fs-5 px-4 py-2 shadow-sm">
-                                        <i class="ri-percent-line me-1"></i>{{$item->discount}} {{config('app.percentage')}}
+                                        <i class="ri-percent-line me-1"></i>{{$item->discount}} {{$percentage}}
                                     </span>
                                 </div>
 
-                                <div class="list-group-item px-3 d-flex justify-content-between align-items-center py-3 border-bottom">
+                                <div
+                                    class="list-group-item px-3 d-flex justify-content-between align-items-center py-3 border-bottom">
                                     <div class="d-flex align-items-center gap-2">
                                         <i class="ri-gift-line text-info fs-5"></i>
                                         <h6 class="mb-0 fw-semibold text-dark">{{__('Discount 2earn')}}</h6>
                                     </div>
                                     <span class="badge bg-info fs-5 px-4 py-2 shadow-sm">
-                                        <i class="ri-percent-line me-1"></i>{{$item->discount_2earn}} {{config('app.percentage')}}
+                                        <i class="ri-percent-line me-1"></i>{{$item->discount_2earn}} {{$percentage}}
                                     </span>
                                 </div>
 
                                 @if ($item->stock)
-                                    <div class="list-group-item px-3 d-flex justify-content-between align-items-center py-3 border-bottom">
+                                    <div
+                                        class="list-group-item px-3 d-flex justify-content-between align-items-center py-3 border-bottom">
                                         <div class="d-flex align-items-center gap-2">
                                             <i class="ri-stack-line text-dark fs-5"></i>
                                             <h6 class="mb-0 fw-semibold text-dark">{{__('Stock')}}</h6>
@@ -115,7 +126,8 @@
                                     </div>
                                 @endif
 
-                                <div class="list-group-item px-3 d-flex justify-content-between align-items-center py-3 border-bottom">
+                                <div
+                                    class="list-group-item px-3 d-flex justify-content-between align-items-center py-3 border-bottom">
                                     <div class="d-flex align-items-center gap-2">
                                         <i class="ri-fire-line text-danger fs-5"></i>
                                         <h6 class="mb-0 fw-semibold text-dark">{{__('Deal')}}</h6>
@@ -125,12 +137,14 @@
                                             @if(\App\Models\User::isSuperAdmin())
                                                 <a href="{{route('deals_show',['locale'=>app()->getLocale(),'id'=>$item->deal->id])}}"
                                                    class="text-decoration-none">
-                                                    <span class="badge bg-primary-subtle text-primary fs-6 px-3 py-2 shadow-sm">
+                                                    <span
+                                                        class="badge bg-primary-subtle text-primary fs-6 px-3 py-2 shadow-sm">
                                                         <i class="ri-fire-fill me-1"></i>{{$item->deal->id}} - {{$item->deal->name}}
                                                     </span>
                                                 </a>
                                             @else
-                                                <span class="badge bg-primary-subtle text-primary fs-6 px-3 py-2 shadow-sm">
+                                                <span
+                                                    class="badge bg-primary-subtle text-primary fs-6 px-3 py-2 shadow-sm">
                                                     <i class="ri-fire-fill me-1"></i>{{$item->deal->id}} - {{$item->deal->name}}
                                                 </span>
                                             @endif
@@ -142,7 +156,8 @@
                                     </div>
                                 </div>
 
-                                <div class="list-group-item px-3 d-flex justify-content-between align-items-center py-3 rounded-bottom">
+                                <div
+                                    class="list-group-item px-3 d-flex justify-content-between align-items-center py-3 rounded-bottom">
                                     <div class="d-flex align-items-center gap-2">
                                         <i class="ri-store-2-line text-primary fs-5"></i>
                                         <h6 class="mb-0 fw-semibold text-dark">{{__('Platform')}}</h6>
@@ -152,12 +167,14 @@
                                             @if(\App\Models\User::isSuperAdmin())
                                                 <a href="{{route('platform_show',['locale'=>app()->getLocale(),'id'=>$item->platform->id])}}"
                                                    class="text-decoration-none">
-                                                    <span class="badge bg-primary-subtle text-primary fs-6 px-3 py-2 shadow-sm">
+                                                    <span
+                                                        class="badge bg-primary-subtle text-primary fs-6 px-3 py-2 shadow-sm">
                                                         <i class="ri-store-3-fill me-1"></i>{{$item->platform->id}} - {{$item->platform->name}}
                                                     </span>
                                                 </a>
                                             @else
-                                                <span class="badge bg-primary-subtle text-primary fs-6 px-3 py-2 shadow-sm">
+                                                <span
+                                                    class="badge bg-primary-subtle text-primary fs-6 px-3 py-2 shadow-sm">
                                                     <i class="ri-store-3-fill me-1"></i>{{$item->platform->id}} - {{$item->platform->name}}
                                                 </span>
                                             @endif

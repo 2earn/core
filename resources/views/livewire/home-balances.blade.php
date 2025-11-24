@@ -1,3 +1,6 @@
+@php
+    $currency = config('app.currency');
+@endphp
  <div class="row g-3" title="{{__('Soldes calculated at')}} : {{Carbon\Carbon::now()->toDateTimeString()}}">
         <!-- Cash balance -->
         <div class="col-md-4 col-lg-4 solde-cash">
@@ -35,7 +38,7 @@
                             <h3 class="mb-1 fs-20 fw-bold ff-secondary"
                                 aria-label="{{ __('Cash balance') }}: {{ formatSolde($cashBalance) }}">
                                 @if(app()->getLocale()!="ar")
-                                    <span class="me-1">{{config('app.currency')}}</span>
+                                    <span class="me-1">{{$currency}}</span>
                                     <span class="counter-value"
                                           data-target="{{intval($cashBalance)}}">{{formatSolde($cashBalance,0)}}</span>
                                     <small
@@ -44,7 +47,7 @@
                                     <small
                                         class="text-muted fs-13">{{ getDecimals($cashBalance) ? getDecimals($cashBalance) . $decimalSeperator : '' }}</small>
                                     <span class="counter-value">{{intval($cashBalance)}}</span>
-                                    <span class="ms-1">{{config('app.currency')}}</span>
+                                    <span class="ms-1">{{$currency}}</span>
                                 @endif
                             </h3>
                         </div>
@@ -92,7 +95,7 @@
                             <h3 class="mb-1 fs-20 fw-bold ff-secondary"
                                 aria-label="{{ __('Balance for Shopping') }}: {{ formatSolde($balanceForSopping) }}">
                                 @if(app()->getLocale()!="ar")
-                                    <span class="me-1">{{config('app.currency')}}</span>
+                                    <span class="me-1">{{$currency}}</span>
                                     <span class="counter-value"
                                           data-target="{{intval($balanceForSopping)}}">{{formatSolde($balanceForSopping,0)}}</span>
                                     <small
@@ -101,7 +104,7 @@
                                     <small
                                         class="text-muted fs-13">{{ getDecimals($balanceForSopping) ? getDecimals($balanceForSopping) . $decimalSeperator : '' }}</small>
                                     <span class="counter-value">{{formatSolde($balanceForSopping,0)}}</span>
-                                    <span class="ms-1">{{config('app.currency')}}</span>
+                                    <span class="ms-1">{{$currency}}</span>
                                 @endif
                             </h3>
                         </div>
@@ -146,7 +149,7 @@
                             <h3 class="mb-1 fs-20 fw-bold ff-secondary"
                                 aria-label="{{ __('Discounts Balance') }}: {{ formatSolde($discountBalance) }}">
                                 @if(app()->getLocale()!="ar")
-                                    <span class="me-1">{{config('app.currency')}}</span>
+                                    <span class="me-1">{{$currency}}</span>
                                     <span class="counter-value"
                                           data-target="{{intval($discountBalance)}}">{{intval($discountBalance)}}</span>
                                     <small
@@ -155,7 +158,7 @@
                                     <small
                                         class="text-muted fs-13">{{ getDecimals($discountBalance) ? getDecimals($discountBalance) . $decimalSeperator : '' }}</small>
                                     <span class="counter-value">{{formatSolde($discountBalance,0)}}</span>
-                                    <span class="ms-1">{{config('app.currency')}}</span>
+                                    <span class="ms-1">{{$currency}}</span>
                                 @endif
                             </h3>
                         </div>
@@ -288,13 +291,13 @@
                                 <span class="counter-value"
                                       data-target="{{$userSelledAction}}">{{formatSolde($userSelledAction,0)}}</span>
                                     <small class="text-muted fs-10">({{$actionsValues}}) <span
-                                            class="text-muted">{{config('app.currency')}}</span></small>
+                                            class="text-muted">{{$currency}}</span></small>
                                 </h3>
                             </div>
                             <div class="col-5">
                                            <span class="badge bg-light text-success ms-2"> <i
                                                    class="ri-arrow-up-line align-middle"></i> {{$userActualActionsProfit}} <span
-                                                   class="text-muted">{{config('app.currency')}}</span></span>
+                                                   class="text-muted">{{$currency}}</span></span>
                             </div>
                             <div class="col-12">
                                 <a href="{{route('business_hub_trading',app()->getLocale())}}"
