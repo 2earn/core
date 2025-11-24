@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use Core\Models\Platform;
+use App\Services\Platform\PlatformService;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
@@ -11,24 +11,31 @@ class PlatformShow extends Component
     public $idPlatform;
     public $currentRouteName;
 
+    protected PlatformService $platformService;
+
+    public function boot(PlatformService $platformService)
+    {
+        $this->platformService = $platformService;
+    }
+
     public function mount($id)
     {
         $this->idPlatform = $id;
         $this->currentRouteName = Route::currentRouteName();
-        $platform = Platform::FindOrFail($this->idPlatform);
-        if (!$platform->enabled) {
+
+        if (!$this->platformService->isPlatformEnabled($this->idPlatform)) {
             $this->redirect(route('platform_index', ['locale' => app()->getLocale()]), navigate: true);
         }
     }
 
     public function render()
     {
-        $platform = Platform::with(['businessSector', 'logoImage', 'deals', 'items', 'coupons'])
-            ->withCount(['deals', 'items', 'coupons'])
-            ->findOrFail($this->idPlatform);
+        $platform = $this->platformService->getPlatformForShow($this->idPlatform);
 
-        return view('livewire.platform-show', [
-            'platform' => $platform
-        ])->extends('layouts.master')->section('content');
+        if (!$platform) {
+            abort(404);
+        }
+
+        return view('livewire.platform-show', ['platform' => $platform])->extends('layouts.master')->section('content');
     }
 }
