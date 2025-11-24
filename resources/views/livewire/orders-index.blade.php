@@ -34,7 +34,7 @@
 
     <div class="row">
         @forelse($orders as $order)
-            <div class="col-12">
+            <div class="col-12 card">
                 @include('livewire.order-item', ['order' => $order])
             </div>
         @empty
