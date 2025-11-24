@@ -382,5 +382,36 @@ class PlatformService
             return false;
         }
     }
+
+    /**
+     * Get paginated platforms with search for admin index
+     *
+     * @param string|null $search
+     * @param int $perPage
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getPaginatedPlatforms(?string $search = null, int $perPage = 10)
+    {
+        try {
+            return Platform::with([
+                'businessSector',
+                'pendingTypeChangeRequest',
+                'pendingValidationRequest',
+                'pendingChangeRequest'
+            ])
+            ->when($search, function ($query) use ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%')
+                      ->orWhere('type', 'like', '%' . $search . '%')
+                      ->orWhere('id', 'like', '%' . $search . '%');
+                });
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage);
+        } catch (\Exception $e) {
+            Log::error('Error fetching paginated platforms: ' . $e->getMessage());
+            return Platform::paginate(0); // Return empty paginator
+        }
+    }
 }
 
