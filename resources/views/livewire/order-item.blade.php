@@ -1,4 +1,7 @@
 <div class="{{getContainerType()}}">
+    @php
+        $currency = config('app.currency');
+    @endphp
     @if($currentRouteName=="orders_detail")
         @section('title')
             {{ __('Order details') }} : {{__('Order id')}} : {{$order->id}}
@@ -159,7 +162,7 @@
                                                                         </span>
                                                                     <span
                                                                         class="badge bg-success-subtle text-success fs-6">
-                                                                            {{$orderDetail->unit_price}} {{config('app.currency')}}
+                                                                            {{$orderDetail->unit_price}} {{$currency}}
                                                                         </span>
                                                                 </div>
                                                                 @if($orderDetail->item()->first()?->platform()->exists())
@@ -221,7 +224,7 @@
                                                                             <i class="ri-calculator-line me-2"></i>{{__('Calculation')}}
                                                                         </span>
                                                                     <span class="text-dark">
-                                                                            {{$orderDetail->qty}} × {{$orderDetail->unit_price}} {{config('app.currency')}}
+                                                                            {{$orderDetail->qty}} × {{$orderDetail->unit_price}} {{$currency}}
                                                                         </span>
                                                                 </div>
                                                                 <div
@@ -231,7 +234,7 @@
                                                                         </span>
                                                                     <span
                                                                         class="badge bg-primary fs-5 px-3 py-2">
-                                                                            {{$orderDetail->total_amount}} {{config('app.currency')}}
+                                                                            {{$orderDetail->total_amount}} {{$currency}}
                                                                         </span>
                                                                 </div>
                                                                 <div
@@ -242,7 +245,7 @@
                                                                     @if($orderDetail->shipping)
                                                                         <span
                                                                             class="badge bg-warning-subtle text-warning">
-                                                                                {{$orderDetail->shipping}} {{config('app.currency')}}
+                                                                                {{$orderDetail->shipping}} {{$currency}}
                                                                             </span>
                                                                     @else
                                                                         <span
@@ -398,7 +401,7 @@
                                                                         <h6 class="text-center text-success mb-3">{{__('Total Discount')}}</h6>
                                                                         <span
                                                                             class="badge bg-success fs-4 px-4 py-3">
-                                                                                <i class="ri-discount-percent-line me-2"></i>{{$orderDetail->total_discount}} {{config('app.currency')}}
+                                                                                <i class="ri-discount-percent-line me-2"></i>{{$orderDetail->total_discount}} {{$currency}}
                                                                             </span>
                                                                     </div>
                                                                 </div>
@@ -456,7 +459,7 @@
                                                         <strong>{{__('Amount before discount')}}</strong>
                                                     </span>
                                             <span class="badge bg-light text-dark border">
-                                                        {{$order->deal_amount_before_discount}} {{config('app.currency')}}
+                                                        {{$order->deal_amount_before_discount}} {{$currency}}
                                                     </span>
                                         </li>
                                     @endif
@@ -467,7 +470,7 @@
                                                         <strong>{{__('Out of deal amount')}}</strong>
                                                     </span>
                                             <span class="badge bg-light text-dark border">
-                                                        {{$order->out_of_deal_amount}} {{config('app.currency')}}
+                                                        {{$order->out_of_deal_amount}} {{$currency}}
                                                     </span>
                                         </li>
                                     @endif
@@ -478,7 +481,7 @@
                                                         <strong>{{__('Total')}}</strong>
                                                     </span>
                                             <span class="badge bg-success fs-14">
-                                                        {{$order->out_of_deal_amount +$order->deal_amount_before_discount}} {{config('app.currency')}}
+                                                        {{$order->out_of_deal_amount +$order->deal_amount_before_discount}} {{$currency}}
                                                     </span>
                                         </li>
                                     @endif
@@ -504,7 +507,7 @@
                                                             <strong>{{__('Total final discount')}}</strong>
                                                         </span>
                                                 <span class="badge bg-success-subtle text-success">
-                                                            {{$order->total_final_discount}} {{config('app.currency')}}
+                                                            {{$order->total_final_discount}} {{$currency}}
                                                         </span>
                                             </li>
                                         @endif
@@ -518,12 +521,12 @@
                                                                 <strong>{{__('Total lost discount')}}</strong>
                                                             </span>
                                                     <span class="badge bg-danger-subtle text-danger">
-                                                                {{$order->total_lost_discount}} {{config('app.currency')}}
+                                                                {{$order->total_lost_discount}} {{$currency}}
                                                             </span>
                                                 </div>
                                                 <div class="alert alert-warning mb-0 small">
                                                     <i class="ri-information-line me-1"></i>
-                                                    {{__('You can top up your discount with')}} {{$order->total_lost_discount}} {{config('app.currency')}}
+                                                    {{__('You can top up your discount with')}} {{$order->total_lost_discount}} {{$currency}}
                                                 </div>
                                             </li>
                                         @endif
@@ -549,7 +552,7 @@
                                                         <strong>{{__('Amount after discount')}}</strong>
                                                     </span>
                                             <span class="badge bg-success fs-14">
-                                                        {{$order->amount_after_discount}} {{config('app.currency')}}
+                                                        {{$order->amount_after_discount}} {{$currency}}
                                                     </span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center bg-light">
@@ -558,7 +561,7 @@
                                                         <strong>{{__('Gain from BFSs soldes')}}</strong>
                                                     </span>
                                             <span class="badge bg-info-subtle text-info fs-14">
-                                                        {{$order->amount_after_discount-$order->paid_cash}} {{config('app.currency')}}
+                                                        {{$order->amount_after_discount-$order->paid_cash}} {{$currency}}
                                                     </span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -567,7 +570,7 @@
                                                         <strong>{{__('Paid cash')}}</strong>
                                                     </span>
                                             <span class="badge bg-danger fs-14">
-                                                        {{$order->paid_cash}} {{config('app.currency')}}
+                                                        {{$order->paid_cash}} {{$currency}}
                                                     </span>
                                         </li>
                                     </ul>
@@ -611,10 +614,10 @@
                                                         </td>
                                                         <td class="logoTopDBLabel text-end">
                                                             <h6 class="mb-0 text-danger">
-                                                                -{{$discount->value}} {{config('app.currency')}}</h6>
+                                                                -{{$discount->value}} {{$currency}}</h6>
                                                         </td>
                                                         <td class="logoTopDBLabel text-end">
-                                                            <h6 class="mb-0">{{$discount->current_balance}} {{config('app.currency')}}</h6>
+                                                            <h6 class="mb-0">{{$discount->current_balance}} {{$currency}}</h6>
                                                         </td>
                                                         <td>
                                                             <p class="mb-1 small">{{$discount->description}}</p>
@@ -665,10 +668,10 @@
                                                             </td>
                                                             <td class="logoTopBFSLabel text-end">
                                                                 <h6 class="mb-0 text-danger">
-                                                                    -{{$bfs->value}} {{config('app.currency')}}</h6>
+                                                                    -{{$bfs->value}} {{$currency}}</h6>
                                                             </td>
                                                             <td class="logoTopBFSLabel text-end">
-                                                                <h6 class="mb-0">{{$bfs->current_balance}} {{config('app.currency')}}</h6>
+                                                                <h6 class="mb-0">{{$bfs->current_balance}} {{$currency}}</h6>
                                                             </td>
                                                             <td>
                                                                 <p class="mb-1 small">{{$bfs->description}}</p>
@@ -722,10 +725,10 @@
                                                         </td>
                                                         <td class="logoTopCashLabel text-end">
                                                             <h6 class="mb-0 text-danger">
-                                                                -{{$cash->value}} {{config('app.currency')}}</h6>
+                                                                -{{$cash->value}} {{$currency}}</h6>
                                                         </td>
                                                         <td class="logoTopCashLabel text-end">
-                                                            <h6 class="mb-0">{{$cash->current_balance}} {{config('app.currency')}}</h6>
+                                                            <h6 class="mb-0">{{$cash->current_balance}} {{$currency}}</h6>
                                                         </td>
                                                         <td>
                                                             <p class="mb-1 small">{{$cash->description}}</p>
@@ -782,3 +785,4 @@
         </div>
     </div>
 </div>
+

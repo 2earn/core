@@ -1,3 +1,7 @@
+@php
+    $currency = config('app.currency');
+    $percentage = config('app.percentage');
+@endphp
 <div class="{{getContainerType()}}">
     @section('title')
         {{ __('Items details') }}
@@ -83,7 +87,7 @@
                                         <h6 class="mb-0 fw-semibold text-dark">{{__('Price')}}</h6>
                                     </div>
                                     <span class="badge fs-5 px-4 py-2 shadow-sm">
-                                        <i class="ri-money-dollar-circle-line me-1"></i>{{$item->price}} {{config('app.currency')}}
+                                        <i class="ri-money-dollar-circle-line me-1"></i>{{$item->price}} {{$currency}}
                                     </span>
                                 </div>
 
@@ -94,7 +98,7 @@
                                         <h6 class="mb-0 fw-semibold text-dark">{{__('Discount')}}</h6>
                                     </div>
                                     <span class="badge bg-warning text-dark fs-5 px-4 py-2 shadow-sm">
-                                        <i class="ri-percent-line me-1"></i>{{$item->discount}} {{config('app.percentage')}}
+                                        <i class="ri-percent-line me-1"></i>{{$item->discount}} {{$percentage}}
                                     </span>
                                 </div>
 
@@ -105,7 +109,7 @@
                                         <h6 class="mb-0 fw-semibold text-dark">{{__('Discount 2earn')}}</h6>
                                     </div>
                                     <span class="badge bg-info fs-5 px-4 py-2 shadow-sm">
-                                        <i class="ri-percent-line me-1"></i>{{$item->discount_2earn}} {{config('app.percentage')}}
+                                        <i class="ri-percent-line me-1"></i>{{$item->discount_2earn}} {{$percentage}}
                                     </span>
                                 </div>
 
