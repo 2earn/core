@@ -8,7 +8,7 @@
         @endslot
     @endcomponent
 
-    <div class="card mb-3 overflow-hidden">
+    <div class="row card mb-3 overflow-hidden">
         <div class="profile-foreground position-relative">
             <div class="profile-wid-bg">
                 @if ($businessSector?->thumbnailsImage)
@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    <div class="card">
+    <div class="row card">
         <div class="card-body">
             <div class="row g-4">
                 <div class="col-lg-8">
@@ -74,29 +74,27 @@
             </div>
 
             @if(\App\Models\User::isSuperAdmin())
-                <div class="border-top pt-3 mt-4">
-                    <div class="d-flex flex-wrap gap-2">
-                        <a href="{{ route('business_sector_create_update', ['locale' => app()->getLocale(), 'id' => $businessSector->id]) }}"
-                           class="btn btn-info">
-                            <i class="ri-edit-line align-bottom me-1"></i>{{ __('Edit') }}
-                        </a>
-                        <button wire:click="deletebusinessSector('{{ $businessSector->id }}')"
-                                class="btn btn-danger"
-                                onclick="return confirm('{{ __('Are you sure you want to delete this business sector?') }}')">
-                            <i class="ri-delete-bin-line align-bottom me-1"></i>{{ __('Delete') }}
-                            <span wire:loading wire:target="deletebusinessSector('{{ $businessSector->id }}')">
+                <div class="card-footer">
+                    <a href="{{ route('business_sector_create_update', ['locale' => app()->getLocale(), 'id' => $businessSector->id]) }}"
+                       class="btn btn-outline-info float-end mx-2">
+                        <i class="ri-edit-line align-bottom me-1"></i>{{ __('Edit') }}
+                    </a>
+                    <button wire:click="deleteBusinessSector('{{ $businessSector->id }}')"
+                            class="btn btn-outline-danger float-end"
+                            onclick="return confirm('{{ __('Are you sure you want to delete this business sector?') }}')">
+                        <i class="ri-delete-bin-line align-bottom me-1"></i>{{ __('Delete') }}
+                        <span wire:loading wire:target="deleteBusinessSector('{{ $businessSector->id }}')">
                                 <span class="spinner-border spinner-border-sm ms-1" role="status"
                                       aria-hidden="true"></span>
                             </span>
-                        </button>
-                    </div>
+                    </button>
                 </div>
             @endif
         </div>
     </div>
 
     @if($platforms->count() > 0)
-        <div class="card mt-3">
+        <div class="row card mt-3">
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">
                     <i class="ri-store-2-line align-bottom me-2"></i>{{ __('Platforms') }}
@@ -106,8 +104,7 @@
         </div>
         <div class="row g-3">
             @foreach($platforms as $platform)
-                <div class="col-12">
-                    <div class="card border shadow-sm">
+                    <div class="col-12 card">
                         <div class="card-body">
                             <div class="row g-4">
                                 <div class="col-lg-3 col-md-4">
@@ -220,11 +217,10 @@
                             </div>
                         @endif
                     </div>
-                </div>
             @endforeach
         </div>
     @else
-        <div class="card mt-3">
+        <div class="row card mt-3">
             <div class="card-body text-center py-5">
                 <div class="mb-3">
                     <i class="ri-store-2-line display-4 text-muted"></i>

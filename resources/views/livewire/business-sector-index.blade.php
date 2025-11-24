@@ -160,13 +160,13 @@
                             <i class="ri-edit-line align-middle me-1"></i>
                             {{__('Edit')}}
                         </a>
-                        <button wire:click="deletebusinessSector('{{$business_sector->id}}')"
+                        <button wire:click="deleteBusinessSector('{{$business_sector->id}}')"
                                 title="{{__('Delete business_sector')}}"
                                 class="btn btn-outline-danger btn-sm">
                             <i class="ri-delete-bin-line align-middle me-1"></i>
                             {{__('Delete')}}
                             <div wire:loading
-                                 wire:target="deletebusinessSector('{{$business_sector->id}}')">
+                                 wire:target="deleteBusinessSector('{{$business_sector->id}}')">
                                                 <span class="spinner-border spinner-border-sm ms-1" role="status"
                                                       aria-hidden="true"></span>
                             </div>
@@ -208,12 +208,6 @@
     @endforelse
 
     @if($business_sectors->hasPages())
-        <div class="card shadow-sm">
-            <div class="card-body p-0">
-                <div class="mt-4">
-                    {{ $business_sectors->links() }}
-                </div>
-            </div>
-        </div>
+        {{ $business_sectors->links('vendor.livewire.bootstrap') }}
     @endif
 </div>

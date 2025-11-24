@@ -2,8 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\BusinessSector;
-use App\Models\Faq;
+use App\Services\BusinessSector\BusinessSectorService;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
@@ -13,13 +12,21 @@ class BusinessSectorIndex extends Component
 {
     use WithPagination;
 
-    const PAGE_SIZE = 5;
+    const PAGE_SIZE = 4;
     public $search = '';
+    public $page ;
     public $currentRouteName;
     protected $paginationTheme = 'bootstrap';
+    protected $businessSectorService;
+
+    public function boot(BusinessSectorService $businessSectorService)
+    {
+        $this->businessSectorService = $businessSectorService;
+    }
+
 
     protected $listeners = [
-        'deletebusinessSector' => 'deletebusinessSector'
+        'deleteBusinessSector' => 'deleteBusinessSector'
     ];
 
     public function mount()
@@ -37,18 +44,15 @@ class BusinessSectorIndex extends Component
         $this->resetPage();
     }
 
-    public function deletebusinessSector($idBusinessSector)
+    public function deleteBusinessSector($idBusinessSector)
     {
-        BusinessSector::findOrFail($idBusinessSector)->delete();
+        $this->businessSectorService->deleteBusinessSector($idBusinessSector);
         return redirect()->route('business_sector_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Business sector Deleted Successfully'));
     }
+
     public function render()
     {
-        if (!is_null($this->search) && !empty($this->search)) {
-            $params['business_sectors'] = BusinessSector::where('name', 'like', '%' . $this->search . '%')->orderBy('created_at', 'desc')->paginate(self::PAGE_SIZE);
-        } else {
-            $params['business_sectors'] = BusinessSector::orderBy('created_at', 'desc')->paginate(self::PAGE_SIZE);
-        }
+        $params['business_sectors'] = $this->businessSectorService->getBusinessSectors(['search' => $this->search, 'PAGE_SIZE' => self::PAGE_SIZE, 'page' => $this->page]);
         return view('livewire.business-sector-index', $params)->extends('layouts.master')->section('content');
     }
 }

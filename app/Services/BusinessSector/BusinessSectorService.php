@@ -14,14 +14,13 @@ class BusinessSectorService
      * Get all business sectors with optional filters
      *
      * @param array $filters
-     * @return EloquentCollection
+     * @return EloquentCollection|\Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function getBusinessSectors(array $filters = []): EloquentCollection
+    public function getBusinessSectors(array $filters = [])
     {
         try {
             $query = BusinessSector::query();
 
-            // Apply search filter
             if (!empty($filters['search'])) {
                 $query->where(function($q) use ($filters) {
                     $q->where('name', 'like', '%' . $filters['search'] . '%')
@@ -29,20 +28,21 @@ class BusinessSectorService
                 });
             }
 
-            // Apply color filter
             if (!empty($filters['color'])) {
                 $query->where('color', $filters['color']);
             }
 
-            // Load relationships if specified
             if (!empty($filters['with'])) {
                 $query->with($filters['with']);
             }
 
-            // Apply ordering
             $orderBy = $filters['order_by'] ?? 'created_at';
             $orderDirection = $filters['order_direction'] ?? 'desc';
             $query->orderBy($orderBy, $orderDirection);
+
+            if (!empty($filters['PAGE_SIZE'])) {
+                return $query->paginate($filters['PAGE_SIZE']);
+            }
 
             return $query->get();
         } catch (\Exception $e) {
@@ -302,13 +302,10 @@ class BusinessSectorService
         }
 
         try {
-            // Delete old image if exists
             $this->deleteBusinessSectorImage($businessSector, $imageType);
 
-            // Store new image
             $imagePath = $image->store('business-sectors/' . $imageType, 'public2');
 
-            // Create image record
             $relationMethod = $this->getImageRelationMethod($imageType);
             $businessSector->{$relationMethod}()->create([
                 'url' => $imagePath,
