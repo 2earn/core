@@ -4,9 +4,10 @@ namespace App\Livewire;
 
 use App\Models\Deal;
 use App\Models\User;
+use App\Services\Deals\DealService;
+use App\Services\Platform\PlatformService;
 use Core\Enum\DealStatus;
 use Core\Enum\DealTypeEnum;
-use Core\Models\Platform;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -23,7 +24,7 @@ class DealsIndex extends Component
     public $listeners = [
         'delete' => 'delete',
         'updateDeal' => 'updateDeal',
-        'refreshDeals' => 'filterDeals'
+        'refreshDeals' => '$refresh'
     ];
     public $allPlatforms, $allTypes, $allStatuses, $currentRouteName;
 
@@ -31,69 +32,54 @@ class DealsIndex extends Component
     public $selectedStatuses = [];
     public $selectedTypes = [];
     public $selectedPlatforms = [];
-    public $choosenDeals = [];
+    public $perPage = 5;
+
+    protected DealService $dealService;
+    protected PlatformService $platformService;
+
+    public function boot(DealService $dealService, PlatformService $platformService)
+    {
+        $this->dealService = $dealService;
+        $this->platformService = $platformService;
+    }
 
     public function mount()
     {
         $this->currentRouteName = Route::currentRouteName();
+
         if (User::isSuperAdmin()) {
-            $this->allPlatforms = Platform::all();
+            $this->allPlatforms = $this->platformService->getEnabledPlatforms();
         } else {
-            $this->allPlatforms = Platform::where(function ($query) {
-                $query->where('financial_manager_id', '=', auth()->user()->id)
-                    ->orWhere('marketing_manager_id', '=', auth()->user()->id)
-                    ->orWhere('owner_id', '=', auth()->user()->id);
-            })->get();
+            $this->allPlatforms = $this->platformService->getPlatformsManagedByUser(
+                auth()->user()->id,
+                false
+            );
         }
+
         $this->allStatuses = DealStatus::cases();
         $this->allTypes = DealTypeEnum::cases();
-        $this->filterDeals();
     }
 
-    public function prepareQuery()
+    public function updatingKeyword()
     {
-        $query = Deal::query();
-
-        if (User::isSuperAdmin()) {
-            $query->whereNot('status', DealStatus::Archived->value);
-        } else {
-            $query->whereHas('platform', function ($query) {
-                $query->where('financial_manager_id', '=', auth()->user()->id)
-                    ->orWhere('owner_id', '=', auth()->user()->id)
-                    ->orWhere('marketing_manager_id', '=', auth()->user()->id);
-            });
-        }
-
-
-        if ($this->keyword) {
-            $query->where('name', 'like', '%' . $this->keyword . '%');
-        }
-        if (!empty($this->selectedStatuses)) {
-            $query->whereIn('status', $this->selectedStatuses);
-        }
-
-        if (!empty($this->selectedTypes)) {
-            $query->whereIn('type', $this->selectedTypes);
-        }
-
-        if (!empty($this->selectedPlatforms)) {
-            $query->whereIn('platform_id', $this->selectedPlatforms);
-        }
-
-        // Eager load relationships
-        $query->with(['platform', 'pendingChangeRequest.requestedBy']);
-
-        $query->orderBy('validated', 'ASC')->orderBy('platform_id', 'ASC');
-        Log::info($query->toSql());
-        Log::info($query->toRawSql());
-        return $query->get();
+        $this->resetPage();
     }
 
-    public function filterDeals()
+    public function updatingSelectedStatuses()
     {
-        $this->choosenDeals = $this->prepareQuery();
-        log::info(json_encode($this->choosenDeals));
+        $this->resetPage();
     }
+
+    public function updatingSelectedTypes()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingSelectedPlatforms()
+    {
+        $this->resetPage();
+    }
+
 
     public function updateDeal($id, $status)
     {
@@ -118,6 +104,18 @@ class DealsIndex extends Component
 
     public function render()
     {
-        return view('livewire.deals-index')->extends('layouts.master')->section('content');
+        $choosenDeals = $this->dealService->getFilteredDeals(
+            User::isSuperAdmin(),
+            auth()->user()->id,
+            $this->keyword,
+            $this->selectedStatuses,
+            $this->selectedTypes,
+            $this->selectedPlatforms,
+            $this->perPage
+        );
+
+        return view('livewire.deals-index', [
+            'choosenDeals' => $choosenDeals
+        ])->extends('layouts.master')->section('content');
     }
 }
