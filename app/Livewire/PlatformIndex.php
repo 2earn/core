@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Services\Platform\PlatformService;
 use Core\Models\Platform as ModelsPlatform;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -14,9 +15,16 @@ class PlatformIndex extends Component
 
     public $listeners = ['delete' => 'delete'];
     public $search = '';
-    public $perPage = 10;
+    public $perPage = 5;
 
     protected $queryString = ['search'];
+
+    protected PlatformService $platformService;
+
+    public function boot(PlatformService $platformService)
+    {
+        $this->platformService = $platformService;
+    }
 
     public function updatingSearch()
     {
@@ -36,16 +44,7 @@ class PlatformIndex extends Component
 
     public function render()
     {
-        $platforms = ModelsPlatform::with(['businessSector', 'pendingTypeChangeRequest', 'pendingValidationRequest', 'pendingChangeRequest'])
-            ->when($this->search, function ($query) {
-                $query->where(function ($q) {
-                    $q->where('name', 'like', '%' . $this->search . '%')
-                      ->orWhere('type', 'like', '%' . $this->search . '%')
-                      ->orWhere('id', 'like', '%' . $this->search . '%');
-                });
-            })
-            ->orderBy('created_at', 'desc')
-            ->paginate($this->perPage);
+        $platforms = $this->platformService->getPaginatedPlatforms($this->search, $this->perPage);
 
         return view('livewire.platform-index', [
             'platforms' => $platforms

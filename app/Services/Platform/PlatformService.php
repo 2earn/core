@@ -382,5 +382,71 @@ class PlatformService
             return false;
         }
     }
+
+    /**
+     * Get paginated platforms with search for admin index
+     *
+     * @param string|null $search
+     * @param int $perPage
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getPaginatedPlatforms(?string $search = null, int $perPage = 10)
+    {
+        try {
+            return Platform::with([
+                'businessSector',
+                'pendingTypeChangeRequest',
+                'pendingValidationRequest',
+                'pendingChangeRequest'
+            ])
+            ->when($search, function ($query) use ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%')
+                      ->orWhere('type', 'like', '%' . $search . '%')
+                      ->orWhere('id', 'like', '%' . $search . '%');
+                });
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage);
+        } catch (\Exception $e) {
+            Log::error('Error fetching paginated platforms: ' . $e->getMessage());
+            return Platform::paginate(0); // Return empty paginator
+        }
+    }
+
+    /**
+     * Get platform for show page with relationships and counts
+     *
+     * @param int $id
+     * @return Platform|null
+     */
+    public function getPlatformForShow(int $id): ?Platform
+    {
+        try {
+            return Platform::with(['businessSector', 'logoImage', 'deals', 'items', 'coupons'])
+                ->withCount(['deals', 'items', 'coupons'])
+                ->findOrFail($id);
+        } catch (\Exception $e) {
+            Log::error('Error fetching platform for show: ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Check if platform is enabled
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function isPlatformEnabled(int $id): bool
+    {
+        try {
+            $platform = Platform::find($id);
+            return $platform ? $platform->enabled : false;
+        } catch (\Exception $e) {
+            Log::error('Error checking if platform is enabled: ' . $e->getMessage());
+            return false;
+        }
+    }
 }
 
