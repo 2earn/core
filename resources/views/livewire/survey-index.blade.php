@@ -11,17 +11,15 @@
     @endif
 
     @if($currentRouteName=="surveys_index")
-        <div class="card">
-            <div class="row p-2">
-                <div class="col-6">
+        <div class="row">
+            <div class="col-12 card">
+                <div class="card-body d-flex justify-content-end ">
                     <input wire:model.live="search" type="text" id="simple-search"
                            class="form-control"
                            placeholder="{{__('Search Survey')}}">
-                </div>
-                <div class="col-6">
                     <a href="{{route('surveys_create_update', ['locale'=> app()->getLocale()] )}}"
                        title="{{__('Create matched target Survey')}}"
-                       class="btn btn-soft-secondary material-shadow-none mb-2 float-end">
+                       class="btn btn-soft-secondary mx-2 float-end">
                         {{__('Create Survey')}}
                     </a>
                 </div>
