@@ -21,12 +21,13 @@ class DealService
      * @return Collection|LengthAwarePaginator
      */
     public function getPartnerDeals(
-        int $userId,
-        ?int $platformId = null,
+        int     $userId,
+        ?int    $platformId = null,
         ?string $search = null,
-        ?int $page = null,
-        int $perPage = 5
-    ) {
+        ?int    $page = null,
+        int     $perPage = 5
+    )
+    {
         $query = Deal::with('platform');
 
         // Apply search filter
@@ -67,10 +68,11 @@ class DealService
      * @return int
      */
     public function getPartnerDealsCount(
-        int $userId,
-        ?int $platformId = null,
+        int     $userId,
+        ?int    $platformId = null,
         ?string $search = null
-    ): int {
+    ): int
+    {
         $query = Deal::query();
 
         // Apply search filter
@@ -160,6 +162,19 @@ class DealService
     }
 
     /**
+     * Get validation requests for a deal
+     *
+     * @param int $dealId
+     * @return Collection
+     */
+    public function getDealValidationRequests(int $dealId): Collection
+    {
+        return DealValidationRequest::where('deal_id', $dealId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }
+
+    /**
      * Check if user has permission to access a deal
      *
      * @param Deal $deal
@@ -190,14 +205,15 @@ class DealService
      * @return Collection|\Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function getFilteredDeals(
-        bool $isSuperAdmin,
-        ?int $userId = null,
+        bool    $isSuperAdmin,
+        ?int    $userId = null,
         ?string $keyword = null,
-        array $selectedStatuses = [],
-        array $selectedTypes = [],
-        array $selectedPlatforms = [],
-        ?int $perPage = null
-    ) {
+        array   $selectedStatuses = [],
+        array   $selectedTypes = [],
+        array   $selectedPlatforms = [],
+        ?int    $perPage = null
+    )
+    {
         $query = Deal::query();
 
         // Apply user permission filters

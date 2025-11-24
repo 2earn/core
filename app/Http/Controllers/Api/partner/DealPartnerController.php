@@ -194,11 +194,13 @@ class DealPartnerController extends Controller
 
         // Get change requests using the service
         $changeRequests = $this->dealService->getDealChangeRequests($dealId);
+        $validationRequests = $this->dealService->getDealValidationRequests($dealId);
 
         return response()->json([
             'status' => true,
             'data' => [
                 'deal' => $deal,
+                'validation_requests' => $validationRequests,
                 'change_requests' => $changeRequests
             ]
         ]);
