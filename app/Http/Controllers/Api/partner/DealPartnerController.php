@@ -81,6 +81,7 @@ class DealPartnerController extends Controller
             'description' => 'required|string',
             'type' => 'required|string',
             'status' => 'required|string',
+            'target_turnover' => 'nullable|numeric',
             'current_turnover' => 'nullable|numeric',
             'is_turnover' => 'nullable|boolean',
             'discount' => 'nullable|numeric',
@@ -128,7 +129,6 @@ class DealPartnerController extends Controller
 
             // Create the deal
             $deal = Deal::create($validatedData);
-
             // Create a validation request for the deal
             DealValidationRequest::create([
                 'deal_id' => $deal->id,
