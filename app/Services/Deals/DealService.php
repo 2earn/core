@@ -108,7 +108,7 @@ class DealService
      * @param int $userId
      * @return Deal|null
      */
-    public function getPartnerDealById(int $dealId, int $userId): ?Deal
+    public function getPartnerDealById($dealId, $userId): ?Deal
     {
         return Deal::with('platform')
             ->where('id', $dealId)
@@ -190,6 +190,52 @@ class DealService
                     ->orWhere('owner_id', $userId);
             })
             ->exists();
+    }
+
+    /**
+     * Create a validation request for a deal
+     *
+     * @param int $dealId
+     * @param int $requestedById
+     * @param string|null $notes
+     * @return DealValidationRequest
+     */
+    public function createValidationRequest(
+        int     $dealId,
+        int     $requestedById,
+        ?string $notes = null
+    ): DealValidationRequest
+    {
+        return DealValidationRequest::create([
+            'deal_id' => $dealId,
+            'requested_by_id' => $requestedById,
+            'status' => 'pending',
+            'notes' => $notes ?? 'Deal validation request created'
+        ]);
+    }
+
+    /**
+     * Create a change request for a deal
+     *
+     * @param int $dealId
+     * @param array $changes
+     * @param int $requestedBy
+     * @param string $status
+     * @return DealChangeRequest
+     */
+    public function createChangeRequest(
+        int    $dealId,
+        array  $changes,
+        int    $requestedBy,
+        string $status = 'pending'
+    ): DealChangeRequest
+    {
+        return DealChangeRequest::create([
+            'deal_id' => $dealId,
+            'changes' => $changes,
+            'status' => $status,
+            'requested_by' => $requestedBy
+        ]);
     }
 
     /**

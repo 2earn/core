@@ -143,7 +143,7 @@
         </div>
     </div>
 
-    <!-- Reject Modal -->
+
     @if($showRejectModal)
         <div class="modal fade show" style="display: block; background-color: rgba(0,0,0,0.5);" tabindex="-1"
              role="dialog">

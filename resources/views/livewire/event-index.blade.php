@@ -6,7 +6,7 @@
     @endcomponent
     @include('layouts.flash-messages')
     <div class="row card shadow-sm">
-        <div class="card-header bg-light border-bottom">
+        <div class="card-header">
             <div class="row align-items-center g-3">
                 @if(\App\Models\User::isSuperAdmin())
                     <div class="col-sm-12 col-md-6 col-lg-6 order-2 order-md-1">

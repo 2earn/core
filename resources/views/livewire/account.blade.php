@@ -476,7 +476,7 @@
                  aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content">
-                        <div class="modal-header bg-light border-bottom">
+                        <div class="modal-header">
                             <div class="d-flex align-items-center">
                                 <i class="ri-id-card-line fs-4 text-primary me-2"></i>
                                 <h5 class="modal-title text-primary fw-semibold mb-0" id="identies-viewer-title">{{ __('Identity Document') }}</h5>

@@ -9,21 +9,54 @@
             @include('layouts.flash-messages')
         </div>
         <div class="row">
-            <div class="card" wire:ignore>
+            <div class="card">
                 <div class="card-body">
-                    <table
-                        class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                        id="ActionHistorysTable">
-                        <thead class="table-light">
-                        <tr>
-                            <th>{{ __('Name of setting') }}</th>
-                            <th>{{ __('reponce') }}</th>
-                            <th>{{ __('Actions') }}</th>
-                        </tr>
-                        </thead>
-                        <tbody class="list form-check-all">
-                        </tbody>
-                    </table>
+                    <div class="mb-3">
+                        <input type="text" wire:model.live="search" class="form-control" placeholder="{{ __('Search...') }}">
+                    </div>
+
+                    <div class="list-group">
+                        @forelse($actionHistories as $share)
+                            <div class="list-group-item list-group-item-action mb-2 border rounded">
+                                <div class="row align-items-center">
+                                    <div class="col-md-5">
+                                        <div class="d-flex flex-column">
+                                            <small class="text-muted">{{ __('Name of setting') }}</small>
+                                            <span class="fw-semibold">{{ $share->title }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="d-flex flex-column">
+                                            <small class="text-muted">{{ __('reponce') }}</small>
+                                            <div class="mt-1">
+                                                @if ($share->reponce == 1)
+                                                    <span class="badge bg-success">{{__('create reponse')}}</span>
+                                                @else
+                                                    <span class="badge bg-info">{{__('sans reponse')}}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 text-end">
+                                        <a wire:click="editHA({{ $share->id }})" data-bs-toggle="modal" data-bs-target="#HistoryActionModal"
+                                           class="btn btn-sm btn-primary btn2earnTable" style="cursor: pointer;">
+                                            <i class="glyphicon glyphicon-edit"></i>
+                                            {{__('Update')}}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="alert alert-info text-center" role="alert">
+                                <i class="mdi mdi-information-outline me-2"></i>
+                                {{ __('No records found') }}
+                            </div>
+                        @endforelse
+                    </div>
+
+                    <div class="mt-3">
+                        {{ $actionHistories->links() }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -70,66 +103,7 @@
                 </div>
             </div>
         </div>
-        <script type="module">
-            function emitHA(idHa) {
-                if (idHa) {
-                    window.Livewire.dispatch('initHaFunction', [idHa]);
-                }
-            }
 
-            document.addEventListener("DOMContentLoaded", function () {
-
-                $('#ActionHistorysTable').DataTable(
-                    {
-                        retrieve: true,
-                        "colReorder": true,
-                        "orderCellsTop": true,
-                        "fixedHeader": true,
-                        initComplete: function () {
-                            this.api()
-                                .columns()
-                                .every(function () {
-                                    if ($.fn.dataTable.isDataTable('#ActionHistorysTable')) {
-                                        var that = $('#ActionHistorysTable').DataTable();
-                                    }
-                                    $('input', this.footer()).on('keydown', function (ev) {
-                                        if (ev.keyCode == 13) {
-                                            that.search(this.value).draw();
-                                        }
-                                    });
-                                });
-                        },
-                        "processing": true,
-                        search: {return: true},
-                        "ajax": {
-                            url: "{{route('api_action_history',['locale'=> app()->getLocale()])}}",
-                            type: "GET",
-                            headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
-                            error: function (xhr, error, thrown) {
-                                loadDatatableModalError('ActionHistorysTable')
-                            }
-                        },
-                        "columns": [
-                            {data: 'title'},
-                            {data: 'reponce'},
-                            {data: 'action', name: 'action', orderable: false, searchable: false},
-                        ],
-                        "language": {"url": urlLang},
-                        "drawCallback": function (settings, json) {
-                            $(".edit-ha-btn").each(function () {
-                                $(this).on("click", function () {
-                                    emitHA($(this).attr('data-id'))
-                                });
-                            });
-                        },
-                    }
-                );
-                $(".btn-close-amount").click(function () {
-                    location.reload();
-                });
-
-            });
-        </script>
     </div>
 </div>
 

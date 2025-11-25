@@ -1,5 +1,5 @@
-<div class="card shadow-sm">
-    <div class="card-header bg-light border-bottom">
+<div class="col-12 card shadow-sm">
+    <div class="card-header">
         <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center gap-3">
                 <div class="flex-shrink-0">

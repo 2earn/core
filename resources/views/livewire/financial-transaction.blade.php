@@ -10,7 +10,7 @@
         </div>
     </div>
     <div class="card shadow-sm">
-        <div class="card-header bg-light border-bottom">
+        <div class="card-header">
             <nav class="mt-3">
                 <ul id="pills-tab" class="nav nav-pills nav-justified gap-2" role="tablist">
                     <li class="nav-item" role="presentation">

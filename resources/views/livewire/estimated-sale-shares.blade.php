@@ -1,5 +1,5 @@
-<div class="card shadow-sm">
-    <div class="card-header bg-light border-bottom">
+<div class="col-12 card">
+    <div class="card-header">
         <div class="d-flex align-items-center">
             <div class="flex-shrink-0 me-3">
                 <div class="avatar-sm">
@@ -17,7 +17,7 @@
     <div class="card-body">
         <div class="row g-3">
             <div class="col-12">
-                <div class="card border-info bg-info-subtle mb-0">
+                <div class="card">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center gap-2">

@@ -9,9 +9,11 @@ use Core\Models\Setting;
 use Core\Services\settingsManager;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class ConfigurationHA extends Component
 {
+    use WithPagination;
     public $allAmounts;
     public int $idSetting;
     public string $parameterName;
@@ -30,6 +32,16 @@ class ConfigurationHA extends Component
         'initHAFunction' => 'initHAFunction',
         'saveHA' => 'saveHA'
     ];
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function editHA($id)
+    {
+        $this->initHAFunction($id);
+    }
 
 
     public function initHAFunction($id)
@@ -61,6 +73,15 @@ class ConfigurationHA extends Component
     public function render()
     {
         $this->allAmounts = Amount::all();
-        return view('livewire.configuration-ha')->extends('layouts.master')->section('content');
+
+        $actionHistories = action_historys::query()
+            ->when($this->search, function ($query) {
+                $query->where('title', 'like', '%' . $this->search . '%');
+            })
+            ->paginate(10);
+
+        return view('livewire.configuration-ha', [
+            'actionHistories' => $actionHistories
+        ])->extends('layouts.master')->section('content');
     }
 }

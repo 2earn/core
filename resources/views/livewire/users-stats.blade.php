@@ -99,7 +99,7 @@
                             <div>
                                 <p class="text-muted mb-1 small fw-medium">{{__('Total Amount')}}</p>
                                 <h2 class="mb-0 fw-bold text-warning ">
-                                    {{$discountBalance}}
+                                    {{formatSolde($discountBalance,3)}}
                                 </h2>
                             </div>
                             <span class="text-muted fs-4 fw-semibold mb-2">{{config('app.currency')}}</span>
