@@ -200,7 +200,7 @@
          wire:ignore.self>
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow">
-                <div class="modal-header bg-danger text-white border-0">
+                <div class="modal-header border-0">
                     <h5 class="modal-title" id="deleteNewsModalLabel">
                         <i class="fa fa-exclamation-triangle me-2"></i>{{ __('Confirm Delete') }}
                     </h5>
