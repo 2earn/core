@@ -153,7 +153,7 @@ export default {
       </div>
     </div>
     
-    <!-- Reject Modal -->
+    
     <modal v-if="rejectModalVisible" @close="rejectModalVisible = false">
       <h3>Reject Change Request</h3>
       <textarea v-model="rejectionReason" placeholder="Reason for rejection"></textarea>
