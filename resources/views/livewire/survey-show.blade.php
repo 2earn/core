@@ -1,5 +1,5 @@
-<div @class([
-    $currentRouteName == "surveys_show" => getContainerType()])>
+<div>
+
 
     @component('components.breadcrumb')
         @slot('title')
@@ -17,3 +17,4 @@
         @vite('resources/js/surveys.js')
     @endif
 </div>
+
