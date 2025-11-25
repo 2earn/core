@@ -1,18 +1,21 @@
 <div class="{{getContainerType()}}">
-    @component('components.breadcrumb')
-        @slot('title')
-            {{ __('Survey') }}
-            : {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}
-        @endslot
-    @endcomponent
-
-    <div class="row">
-            <div class="col-12">
+    <div>
+        <div>
+            @component('components.breadcrumb')
+                @slot('title')
+                    {{ __('Survey Show') }} : {{ $survey->id }}
+                    - {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}
+                @endslot
+            @endcomponent
+            <div class="row">
                 @include('layouts.flash-messages')
+            </div>
+            <div class="row">
                 @include('livewire.survey-item', ['survey' => $survey])
             </div>
+            @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
+                @vite('resources/js/surveys.js')
+            @endif
         </div>
-        @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
-            @vite('resources/js/surveys.js')
-        @endif
+    </div>
 </div>
