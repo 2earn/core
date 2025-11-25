@@ -130,12 +130,11 @@ class DealPartnerController extends Controller
             // Create the deal
             $deal = Deal::create($validatedData);
             // Create a validation request for the deal
-            DealValidationRequest::create([
-                'deal_id' => $deal->id,
-                'requested_by_id' => $request->input('created_by'),
-                'status' => 'pending',
-                'notes' => $request->input('notes', 'Deal validation request created automatically')
-            ]);
+            $this->dealService->createValidationRequest(
+                $deal->id,
+                $request->input('created_by'),
+                $request->input('notes', 'Deal validation request created automatically')
+            );
 
             DB::commit();
 
@@ -160,6 +159,103 @@ class DealPartnerController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Failed to create deal: ' . $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+    public function validateRequest(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|exists:users,id',
+            'deal_id' => 'required|exists:deals,id',
+        ]);
+
+        if ($validator->fails()) {
+            Log::error(self::LOG_PREFIX . 'Deal validation request validation failed', ['errors' => $validator->errors()]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $validatedData = $validator->validated();
+        $dealId = $validatedData['deal_id'];
+        $userId = $request->input('user_id');
+
+        $deal = $this->dealService->getPartnerDealById($dealId, $userId);
+
+        if (!$deal) {
+            Log::error(self::LOG_PREFIX . 'Deal not found', ['deal_id' => $dealId, 'user_id' => $userId]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Deal not found'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+
+        if ($deal->validated) {
+            Log::warning(self::LOG_PREFIX . 'Deal is already validated', [
+                'deal_id' => $dealId,
+                'user_id' => $userId
+            ]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Deal is already validated'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $existingRequest = DealValidationRequest::where('deal_id', $dealId)
+            ->where('status', 'pending')
+            ->first();
+
+        if ($existingRequest) {
+            Log::warning(self::LOG_PREFIX . 'Pending validation request already exists', [
+                'deal_id' => $dealId,
+                'request_id' => $existingRequest->id
+            ]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'A pending validation request already exists for this deal'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $validationRequest = $this->dealService->createValidationRequest(
+                $dealId,
+                $userId,
+                $request->input('notes', 'Deal validation request created')
+            );
+
+            DB::commit();
+
+            Log::info(self::LOG_PREFIX . 'Validation request created successfully', [
+                'deal_id' => $dealId,
+                'validation_request_id' => $validationRequest->id,
+                'user_id' => $userId
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Validation request submitted successfully',
+                'data' => [
+                    'deal_id' => $dealId,
+                    'validation_request' => $validationRequest
+                ]
+            ], Response::HTTP_CREATED);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error(self::LOG_PREFIX . 'Failed to create validation request', [
+                'error' => $e->getMessage(),
+                'deal_id' => $dealId,
+                'user_id' => $userId
+            ]);
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to create validation request: ' . $e->getMessage()
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -253,12 +349,11 @@ class DealPartnerController extends Controller
         }
 
         // Create a change request
-        $changeRequest = DealChangeRequest::create([
-            'deal_id' => $deal->id,
-            'changes' => $changes,
-            'status' => 'pending',
-            'requested_by' => $updatedBy
-        ]);
+        $changeRequest = $this->dealService->createChangeRequest(
+            $deal->id,
+            $changes,
+            $updatedBy
+        );
 
         Log::info(self::LOG_PREFIX . 'Deal change request created', [
             'deal_id' => $deal->id,
