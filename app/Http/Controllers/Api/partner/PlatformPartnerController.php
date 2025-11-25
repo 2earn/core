@@ -60,15 +60,15 @@ class PlatformPartnerController extends Controller
             $platform->validation_requests_count = PlatformValidationRequest::where('platform_id', $platform->id)->count();
             $platform->change_requests_count = PlatformChangeRequest::where('platform_id', $platform->id)->count();
 
-            $platform->typeChangeRequests = PlatformTypeChangeRequest::where('platform_id',  $platform->id)
+            $platform->typeChangeRequests = PlatformTypeChangeRequest::where('platform_id', $platform->id)
                 ->orderBy('created_at', 'desc')
                 ->limit(3)
                 ->get();
-            $platform->validationRequests = PlatformValidationRequest::where('platform_id',  $platform->id)
+            $platform->validationRequests = PlatformValidationRequest::where('platform_id', $platform->id)
                 ->orderBy('created_at', 'desc')
                 ->limit(3)
                 ->get();
-            $platform->changeRequests = PlatformChangeRequest::where('platform_id',  $platform->id)
+            $platform->changeRequests = PlatformChangeRequest::where('platform_id', $platform->id)
                 ->orderBy('created_at', 'desc')
                 ->limit(3)
                 ->get();
@@ -127,6 +127,47 @@ class PlatformPartnerController extends Controller
             'message' => 'Platform created successfully. Awaiting validation.',
             'data' => [
                 'platform' => $platform,
+                'validation_request' => $validationRequest
+            ]
+        ], Response::HTTP_CREATED);
+    }
+
+    public function validateRequest(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'owner_id' => 'required|exists:users,id',
+            'platform_id' => 'required|exists:platforms,id'
+        ]);
+
+        if ($validator->fails()) {
+            Log::error(self::LOG_PREFIX . 'Platform creation validation failed', ['errors' => $validator->errors()]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $data = $validator->validated();
+        $data['enabled'] = false;
+
+
+        $validationRequest = PlatformValidationRequest::create([
+            'platform_id' => $data['platform_id'],
+            'status' => 'pending'
+        ]);
+
+        Log::info(self::LOG_PREFIX . 'Validation request created', [
+            'platform_id' => $data['platform_id'],
+            'validation_request_id' => $validationRequest->id
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Validation request created. Awaiting validation.',
+            'data' => [
+                'platform' => $data['platform_id'],
                 'validation_request' => $validationRequest
             ]
         ], Response::HTTP_CREATED);

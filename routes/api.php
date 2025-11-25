@@ -129,6 +129,7 @@ Route::prefix('/partner/')->name('api_partner_')
             Route::post('items', [ItemsPartnerController::class, 'store'])->name('items_store');
             Route::put('items/{id}', [ItemsPartnerController::class, 'update'])->name('items_update');
             Route::post('platform/change', [PlatformPartnerController::class, 'changePlatformType'])->name('platform_change_type');
+            Route::post('platform/validate', [PlatformPartnerController::class, 'validateRequest'])->name('platform_validate_request');
             Route::post('users/add-role', [UserPartnerController::class, 'addRole'])->name('users_add_role');
         });
 
