@@ -1,13 +1,12 @@
-<div class="{{ getContainerType()}}">
+<div class="{{getContainerType()}}">
+    @component('components.breadcrumb')
+        @slot('title')
+            {{ __('Survey') }}
+            : {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}
+        @endslot
+    @endcomponent
 
-
-        @component('components.breadcrumb')
-            @slot('title')
-                {{ __('Survey Show') }} : {{ $survey->id }}
-                - {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}
-            @endslot
-        @endcomponent
-        <div class="row">
+    <div class="row">
             <div class="col-12">
                 @include('layouts.flash-messages')
                 @include('livewire.survey-item', ['survey' => $survey])
