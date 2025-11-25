@@ -1,5 +1,5 @@
 <div class="{{getContainerType()}}">
-@section('title')
+    @section('title')
         {{ __('e-Business Card (EBC)') }}
     @endsection
     @component('components.breadcrumb')
@@ -8,11 +8,11 @@
             {{ __('e-Business Card (EBC)') }}
         @endslot
     @endcomponent
-
-    <div class="card">
-        <div class="card-body">
-            @livewire('page-timer', ['deadline' => 'ebc_cs'])
+    <div class="row">
+        <div class="col-12 card">
+            <div class="card-body">
+                @livewire('page-timer', ['deadline' => 'ebc_cs'])
+            </div>
         </div>
     </div>
-
 </div>
