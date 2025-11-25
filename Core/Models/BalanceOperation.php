@@ -66,9 +66,9 @@ class BalanceOperation extends Model
         return $this->hasMany(TreeBalances::class);
     }
 
-    public function opeartionCategory(): HasOne
+    public function opeartionCategory()
     {
-        return $this->hasOne(OperationCategory::class);
+        return $this->belongsTo(OperationCategory::class, 'operation_category_id');
     }
 
     public function parent()
