@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\Hashtag;
+use App\Services\Hashtag\HashtagService;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -13,6 +13,13 @@ class HashtagIndex extends Component
     public $search = '';
     public $confirmingDelete = false;
     public $deleteId = null;
+
+    protected HashtagService $hashtagService;
+
+    public function boot(HashtagService $hashtagService)
+    {
+        $this->hashtagService = $hashtagService;
+    }
 
     public function updatingSearch()
     {
@@ -33,22 +40,26 @@ class HashtagIndex extends Component
 
     public function deleteConfirmed()
     {
-        $hashtag = Hashtag::findOrFail($this->deleteId);
-        $hashtag->delete();
+        $result = $this->hashtagService->deleteHashtag($this->deleteId);
+
+        if ($result) {
+            session()->flash('success', __('Hashtag deleted successfully.'));
+        } else {
+            session()->flash('danger', __('Error deleting hashtag.'));
+        }
+
         $this->deleteId = null;
         $this->confirmingDelete = false;
-        session()->flash('success', __('Hashtag deleted successfully.'));
     }
 
     public function render()
     {
-        $hashtags = Hashtag::query()
-            ->when($this->search, function ($query) {
-                $query->where('name', 'like', '%'.$this->search.'%')
-                      ->orWhere('slug', 'like', '%'.$this->search.'%');
-            })
-            ->orderByDesc('id')
-            ->paginate(10);
+        $hashtags = $this->hashtagService->getHashtags([
+            'search' => $this->search,
+            'order_by' => 'id',
+            'order_direction' => 'desc',
+            'PAGE_SIZE' => 4
+        ]);
 
         return view('livewire.hashtag-index', compact('hashtags'))->extends('layouts.master')->section('content');
     }
