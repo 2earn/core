@@ -10,7 +10,7 @@
     @include('layouts.flash-messages')
 
     <div class="card shadow border-0 mb-4">
-        <div class="card-header bg-gradient bg-light border-bottom py-4">
+        <div class="card-header bg-gradient py-4">
             <div class="row align-items-center g-3">
                 <div class="col-lg-8 col-md-7">
                     <h2 class="card-title mb-2 fw-bold text-dark">
@@ -119,7 +119,7 @@
         </div>
     </div>
     <div class="card shadow border-0">
-        <div class="card-header bg-gradient bg-light border-bottom py-3">
+        <div class="card-header bg-gradient py-3">
             <h5 class="mb-0 fw-bold text-dark">
                 <i class="fa fa-heart text-danger me-2"></i>{{__('Engagement')}}
             </h5>

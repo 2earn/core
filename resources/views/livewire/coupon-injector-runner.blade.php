@@ -15,7 +15,7 @@
     <div class="row g-3">
         <div class="col-12">
             <div class="card shadow-sm">
-                <div class="card-header bg-light border-bottom">
+                <div class="card-header">
                     <div class="d-flex align-items-center">
                         <div class="flex-shrink-0 me-3">
                             <div class="avatar-sm">

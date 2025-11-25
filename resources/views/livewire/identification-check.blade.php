@@ -228,7 +228,7 @@
                                     </div>
 
                                     <div class="card border mb-4">
-                                        <div class="card-header bg-light border-bottom">
+                                        <div class="card-header">
                                             <h6 class="mb-0 d-flex align-items-center">
                                                 <i class="ri-user-line fs-5 me-2 text-primary"></i>
                                                 {{__('Verify Your Information')}}
@@ -330,7 +330,7 @@
                                     <div class="row g-4">
                                         <div class="col-md-6">
                                             <div class="card border shadow-sm h-100">
-                                                <div class="card-header bg-light border-bottom">
+                                                <div class="card-header">
                                                     <h6 class="mb-0 d-flex align-items-center">
                                                         <i class="ri-bank-card-line fs-5 me-2 text-primary"></i>
                                                         {{ __('Front ID') }}
@@ -369,7 +369,7 @@
 
                                         <div class="col-md-6">
                                             <div class="card border shadow-sm h-100">
-                                                <div class="card-header bg-light border-bottom">
+                                                <div class="card-header">
                                                     <h6 class="mb-0 d-flex align-items-center">
                                                         <i class="ri-bank-card-line fs-5 me-2 text-primary"></i>
                                                         {{ __('Back ID') }}
@@ -468,7 +468,7 @@
                                         <div class="row g-4">
                                             <div class="col-lg-5">
                                                 <div class="card border shadow-sm h-100">
-                                                    <div class="card-header bg-light border-bottom">
+                                                    <div class="card-header">
                                                         <h6 class="mb-0 d-flex align-items-center">
                                                             <i class="ri-passport-line fs-5 me-2 text-primary"></i>
                                                             {{ __('International ID') }}
@@ -505,7 +505,7 @@
 
                                             <div class="col-lg-7">
                                                 <div class="card border shadow-sm h-100">
-                                                    <div class="card-header bg-light border-bottom">
+                                                    <div class="card-header">
                                                         <h6 class="mb-0 d-flex align-items-center">
                                                             <i class="ri-file-text-line fs-5 me-2 text-primary"></i>
                                                             {{__('Document Information')}}

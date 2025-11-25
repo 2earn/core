@@ -8,11 +8,6 @@
         @endslot
     @endcomponent
 
-    <style>
-        .cursor-pointer {
-            cursor: pointer;
-        }
-    </style>
 
     <div class="row mb-1">
         <div class="col-12">
@@ -20,205 +15,200 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12">
-            <livewire:buy-shares/>
-        </div>
-        <div class="col-12">
-            <div class="card shadow-sm">
-                <div class="card-header bg-light border-bottom">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0 me-3">
-                            <div class="avatar-sm">
-                                <div class="avatar-title bg-info-subtle text-info rounded-circle fs-18">
-                                    <i class="ri-stock-line"></i>
-                                </div>
+        <livewire:buy-shares/>
+        <div class="col-12 card shadow-sm">
+            <div class="card-header">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 me-3">
+                        <div class="avatar-sm">
+                            <div class="avatar-title bg-info-subtle text-info rounded-circle fs-18">
+                                <i class="ri-stock-line"></i>
                             </div>
                         </div>
-                        <div class="flex-grow-1">
-                            <h5 class="card-title mb-0 fw-semibold text-dark">{{__('Sale Shares')}}</h5>
-                            @if(\App\Models\User::isSuperAdmin())
-                                <p class="text-muted small mb-0">{{$selledActions}} / {{$totalActions}} {{__('shares sold')}}</p>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h5 class="card-title mb-0 fw-semibold text-dark">{{__('Sale Shares')}}</h5>
+                        @if(\App\Models\User::isSuperAdmin())
+                            <p class="text-muted small mb-0">{{$selledActions}}
+                                / {{$totalActions}} {{__('shares sold')}}</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="d-flex align-items-center gap-3"
+                     @if(\App\Models\User::isSuperAdmin())
+                         title="{{$selledActions." / ".$totalActions}}"
+                    @endif
+                >
+                    <div class="flex-shrink-0">
+                        <div class="avatar-md">
+                            <div class="avatar-title bg-primary-subtle text-primary rounded fs-24">
+                                <i class="ri-pie-chart-2-line"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="mb-0 text-muted">{{__('Sales Progress')}}</h6>
+                            <h5 class="mb-0 text-primary fw-bold">{{$precentageOfActions}}%</h5>
+                        </div>
+                        <div class="progress animated-progress custom-progress progress-label" style="height: 24px;">
+                            <div class="progress-bar bg-gradient bg-primary" role="progressbar"
+                                 style="width: {{$precentageOfActions}}%"
+                                 aria-valuenow="{{$selledActions}}" aria-valuemin="0"
+                                 aria-valuemax="{{$totalActions}}">
+                                <div class="label fw-semibold">{{$precentageOfActions}}%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if(!is_null($targetDate))
+                <div class="card-footer bg-light border-top">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="ri-calendar-event-line text-success fs-18"></i>
+                            <span class="text-muted fw-medium">{{__('Shares exchange estimated date')}}</span>
+                        </div>
+                        <span class="badge bg-success-subtle text-success fs-13 px-3 py-2">
+                                <i class="ri-time-line me-1"></i>{{$targetDate}}
+                            </span>
+                    </div>
+                </div>
+            @endif
+        </div>
+        <div class="col-12 card shadow-sm">
+            <div class="card-header">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 me-3">
+                        <div class="avatar-sm">
+                            <div class="avatar-title bg-success-subtle text-success rounded-circle fs-18">
+                                <i class="ri-line-chart-line"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h5 class="card-title mb-0 fw-semibold text-dark">{{__('Share Price Evolution')}}</h5>
+                        <p class="text-muted small mb-0">{{__('Track your investment performance')}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <div id="chart1" wire:ignore style="min-height: 350px;">
+                </div>
+            </div>
+        </div>
+        <div class="col-12 card shadow-sm">
+            <div class="card-header">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 me-3">
+                        <div class="avatar-sm">
+                            <div class="avatar-title bg-warning-subtle text-warning rounded-circle fs-18">
+                                <i class="ri-table-line"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h5 class="card-title mb-0 fw-semibold text-dark">{{__('Table of my shares purchases')}}</h5>
+                        <p class="text-muted small mb-0">{{__('Complete history of your transactions')}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center">
+                            <label class="me-2">{{__('Show')}}</label>
+                            <select wire:model.live="perPage" class="form-select form-select-sm" style="width: auto;">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            <span class="ms-2">{{__('entries')}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex justify-content-end">
+                            <input wire:model.live.debounce.300ms="search" type="text"
+                                   class="form-control form-control-sm" style="max-width: 250px;"
+                                   placeholder="{{__('Search')}}...">
+                        </div>
+                    </div>
+                </div>
+                @forelse($shares as $share)
+                    @php
+                        $earnings = ($share->value * $currentActionValue) - ($share->unit_price * $share->value);
+                    @endphp
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h6 class="mb-1 fw-bold text-primary">{{__('id')}}: {{ $share->id }}</h6>
+                                    <small class="text-muted">
+                                        <i class="ri-calendar-line me-1"></i>
+                                        {{ \Carbon\Carbon::parse($share->created_at)->format('Y-m-d H:i:s') }}
+                                    </small>
+                                </div>
+                                <span class="badge {{ $earnings >= 0 ? 'bg-success' : 'bg-danger' }}">
+                                            {{ number_format($earnings, 2) }}
+                                        </span>
+                            </div>
+
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <div class="p-2 bg-light rounded">
+                                        <small class="text-muted d-block">{{__('Number of shares')}}</small>
+                                        <strong>{{ number_format($share->value, 0) }}</strong>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-2 bg-light rounded">
+                                        <small class="text-muted d-block">{{__('Total shares')}}</small>
+                                        <strong>{{ $share->value }}</strong>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-2 bg-light rounded">
+                                        <small class="text-muted d-block">{{__('Total price')}}</small>
+                                        <strong>{{ number_format($share->unit_price * $share->value, 2) }}</strong>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-2 bg-light rounded">
+                                        <small class="text-muted d-block">{{__('Present value')}}</small>
+                                        <strong>{{ number_format($share->value * $currentActionValue, 2) }}</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @if(getBalanceCIView($share))
+                                <div class="mt-3 pt-3 border-top">
+                                    <small class="text-muted d-block mb-2">{{__('Complementary information')}}</small>
+                                    <div>{!! getBalanceCIView($share) !!}</div>
+                                </div>
                             @endif
                         </div>
                     </div>
-                </div>
-                <div class="card-body">
-                    <div class="d-flex align-items-center gap-3"
-                         @if(\App\Models\User::isSuperAdmin())
-                             title="{{$selledActions." / ".$totalActions}}"
-                        @endif
-                    >
-                        <div class="flex-shrink-0">
-                            <div class="avatar-md">
-                                <div class="avatar-title bg-primary-subtle text-primary rounded fs-24">
-                                    <i class="ri-pie-chart-2-line"></i>
-                                </div>
+                @empty
+                    <div class="text-center py-5">
+                        <div class="avatar-lg mx-auto mb-3">
+                            <div class="avatar-title bg-light text-muted rounded-circle">
+                                <i class="ri-inbox-line fs-1"></i>
                             </div>
                         </div>
-                        <div class="flex-grow-1">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <h6 class="mb-0 text-muted">{{__('Sales Progress')}}</h6>
-                                <h5 class="mb-0 text-primary fw-bold">{{$precentageOfActions}}%</h5>
-                            </div>
-                            <div class="progress animated-progress custom-progress progress-label" style="height: 24px;">
-                                <div class="progress-bar bg-gradient bg-primary" role="progressbar"
-                                     style="width: {{$precentageOfActions}}%"
-                                     aria-valuenow="{{$selledActions}}" aria-valuemin="0"
-                                     aria-valuemax="{{$totalActions}}">
-                                    <div class="label fw-semibold">{{$precentageOfActions}}%</div>
-                                </div>
-                            </div>
-                        </div>
+                        <h5 class="text-muted">{{__('No shares found')}}</h5>
                     </div>
-                </div>
-                @if(!is_null($targetDate))
-                    <div class="card-footer bg-light border-top">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="ri-calendar-event-line text-success fs-18"></i>
-                                <span class="text-muted fw-medium">{{__('Shares exchange estimated date')}}</span>
-                            </div>
-                            <span class="badge bg-success-subtle text-success fs-13 px-3 py-2">
-                                <i class="ri-time-line me-1"></i>{{$targetDate}}
-                            </span>
-                        </div>
-                    </div>
-                @endif
+                @endforelse
             </div>
-        </div>
-        <div class="col-12">
-            <div class="card shadow-sm">
-                <div class="card-header bg-light border-bottom">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0 me-3">
-                            <div class="avatar-sm">
-                                <div class="avatar-title bg-success-subtle text-success rounded-circle fs-18">
-                                    <i class="ri-line-chart-line"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-grow-1">
-                            <h5 class="card-title mb-0 fw-semibold text-dark">{{__('Share Price Evolution')}}</h5>
-                            <p class="text-muted small mb-0">{{__('Track your investment performance')}}</p>
-                        </div>
+            <div class="card-footer bg-light border-top">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="text-muted small">
+                        {{__('Showing')}} {{ $shares->firstItem() ?? 0 }} {{__('to')}} {{ $shares->lastItem() ?? 0 }} {{__('of')}} {{ $shares->total() }} {{__('entries')}}
                     </div>
-                </div>
-                <div class="card-body p-4">
-                    <div id="chart1" wire:ignore style="min-height: 350px;">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="card shadow-sm">
-                <div class="card-header bg-light border-bottom">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0 me-3">
-                            <div class="avatar-sm">
-                                <div class="avatar-title bg-warning-subtle text-warning rounded-circle fs-18">
-                                    <i class="ri-table-line"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex-grow-1">
-                            <h5 class="card-title mb-0 fw-semibold text-dark">{{__('Table of my shares purchases')}}</h5>
-                            <p class="text-muted small mb-0">{{__('Complete history of your transactions')}}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <div class="d-flex align-items-center">
-                                <label class="me-2">{{__('Show')}}</label>
-                                <select wire:model.live="perPage" class="form-select form-select-sm" style="width: auto;">
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                                <span class="ms-2">{{__('entries')}}</span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="d-flex justify-content-end">
-                                <input wire:model.live.debounce.300ms="search" type="text" class="form-control form-control-sm" style="max-width: 250px;" placeholder="{{__('Search')}}...">
-                            </div>
-                        </div>
-                    </div>
-                        @forelse($shares as $share)
-                            @php
-                                $earnings = ($share->value * $currentActionValue) - ($share->unit_price * $share->value);
-                            @endphp
-                            <div class="card mb-3 shadow-sm">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-start mb-3">
-                                        <div>
-                                            <h6 class="mb-1 fw-bold text-primary">{{__('id')}}: {{ $share->id }}</h6>
-                                            <small class="text-muted">
-                                                <i class="ri-calendar-line me-1"></i>
-                                                {{ \Carbon\Carbon::parse($share->created_at)->format('Y-m-d H:i:s') }}
-                                            </small>
-                                        </div>
-                                        <span class="badge {{ $earnings >= 0 ? 'bg-success' : 'bg-danger' }}">
-                                            {{ number_format($earnings, 2) }}
-                                        </span>
-                                    </div>
-
-                                    <div class="row g-2">
-                                        <div class="col-6">
-                                            <div class="p-2 bg-light rounded">
-                                                <small class="text-muted d-block">{{__('Number of shares')}}</small>
-                                                <strong>{{ number_format($share->value, 0) }}</strong>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="p-2 bg-light rounded">
-                                                <small class="text-muted d-block">{{__('Total shares')}}</small>
-                                                <strong>{{ $share->value }}</strong>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="p-2 bg-light rounded">
-                                                <small class="text-muted d-block">{{__('Total price')}}</small>
-                                                <strong>{{ number_format($share->unit_price * $share->value, 2) }}</strong>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="p-2 bg-light rounded">
-                                                <small class="text-muted d-block">{{__('Present value')}}</small>
-                                                <strong>{{ number_format($share->value * $currentActionValue, 2) }}</strong>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    @if(getBalanceCIView($share))
-                                        <div class="mt-3 pt-3 border-top">
-                                            <small class="text-muted d-block mb-2">{{__('Complementary information')}}</small>
-                                            <div>{!! getBalanceCIView($share) !!}</div>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        @empty
-                            <div class="text-center py-5">
-                                <div class="avatar-lg mx-auto mb-3">
-                                    <div class="avatar-title bg-light text-muted rounded-circle">
-                                        <i class="ri-inbox-line fs-1"></i>
-                                    </div>
-                                </div>
-                                <h5 class="text-muted">{{__('No shares found')}}</h5>
-                            </div>
-                        @endforelse
-                </div>
-                <div class="card-footer bg-light border-top">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="text-muted small">
-                            {{__('Showing')}} {{ $shares->firstItem() ?? 0 }} {{__('to')}} {{ $shares->lastItem() ?? 0 }} {{__('of')}} {{ $shares->total() }} {{__('entries')}}
-                        </div>
-                        <div>
-                            {{ $shares->links() }}
-                        </div>
+                    <div>
+                        {{ $shares->links() }}
                     </div>
                 </div>
             </div>
