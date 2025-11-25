@@ -10,24 +10,106 @@
     <div class="row">
         <div class="card">
             <div class="card-body">
-                <table
-                    class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap"
-                    id="amountsTable">
-                    <thead class="table-light">
-                    <tr>
-                        <th>{{ __('Name') }}</th>
-                        <th>{{ __('ShortName') }}</th>
-                        <th>{{ __('WithHoldinTax') }}</th>
-                        <th>{{ __('transfer') }}</th>
-                        <th>{{ __('PaymentRequest') }}</th>
-                        <th>{{ __('Cash') }}</th>
-                        <th>{{ __('Active') }}</th>
-                        <th>{{ __('Actions') }}</th>
-                    </tr>
-                    </thead>
-                    <tbody class="list form-check-all">
-                    </tbody>
-                </table>
+                <div class="mb-3">
+                    <input type="text" wire:model.live="search" class="form-control" placeholder="{{ __('Search...') }}">
+                </div>
+
+                <div class="list-group">
+                    @forelse($amounts as $amount)
+                        <div class="list-group-item list-group-item-action mb-3 border rounded">
+                            <div class="row align-items-center g-3">
+                                <div class="col-md-3">
+                                    <div class="d-flex flex-column">
+                                        <small class="text-muted">{{ __('Name') }}</small>
+                                        <span class="fw-semibold">{{ $amount->amountsname }}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="d-flex flex-column">
+                                        <small class="text-muted">{{ __('ShortName') }}</small>
+                                        <span>{{ $amount->amountsshortname }}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="d-flex flex-column">
+                                        <small class="text-muted">{{ __('WithHoldinTax') }}</small>
+                                        <div class="mt-1">
+                                            @if ($amount->amountswithholding_tax == 1)
+                                                <span class="badge bg-success">{{__('Yes')}}</span>
+                                            @else
+                                                <span class="badge bg-danger">{{__('No')}}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="d-flex flex-column">
+                                        <small class="text-muted">{{ __('transfer') }}</small>
+                                        <div class="mt-1">
+                                            @if ($amount->amountstransfer == 1)
+                                                <span class="badge bg-success">{{__('Yes')}}</span>
+                                            @else
+                                                <span class="badge bg-danger">{{__('No')}}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="d-flex flex-column">
+                                        <small class="text-muted">{{ __('PaymentRequest') }}</small>
+                                        <div class="mt-1">
+                                            @if ($amount->amountspaymentrequest == 1)
+                                                <span class="badge bg-success">{{__('Yes')}}</span>
+                                            @else
+                                                <span class="badge bg-danger">{{__('No')}}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="d-flex flex-column">
+                                        <small class="text-muted">{{ __('Cash') }}</small>
+                                        <div class="mt-1">
+                                            @if ($amount->amountscash == 1)
+                                                <span class="badge bg-success">{{__('Yes')}}</span>
+                                            @else
+                                                <span class="badge bg-danger">{{__('No')}}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="d-flex flex-column">
+                                        <small class="text-muted">{{ __('Active') }}</small>
+                                        <div class="mt-1">
+                                            @if ($amount->amountsactive == 1)
+                                                <span class="badge bg-success">{{__('Yes')}}</span>
+                                            @else
+                                                <span class="badge bg-danger">{{__('No')}}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 text-end">
+                                    <a wire:click="editAmounts({{ $amount->idamounts }})" data-bs-toggle="modal" data-bs-target="#AmountsModal"
+                                       class="btn btn-sm btn-primary btn2earnTable" style="cursor: pointer;">
+                                        <i class="glyphicon glyphicon-edit"></i>
+                                        {{__('Update')}}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="alert alert-info text-center" role="alert">
+                            <i class="mdi mdi-information-outline me-2"></i>
+                            {{ __('No records found') }}
+                        </div>
+                    @endforelse
+                </div>
+
+                <div class="mt-3">
+                    {{ $amounts->links() }}
+                </div>
             </div>
         </div>
     </div>
@@ -106,75 +188,7 @@
             </div>
         </div>
     </div>
-    <script type="module">
-        function emitAmount(idAmount) {
-            if (idAmount) {
-                window.Livewire.dispatch('initAmountsFunction', [idAmount]);
-            }
-        }
 
-        window.addEventListener('closeModalAmounts', event => {
-            $('#AmountsModal').modal('hide');
-            $('#amountsTable').DataTable().ajax.reload();
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            $('#amountsTable').DataTable(
-                {
-                    retrieve: true,
-                    "colReorder": true,
-                    "orderCellsTop": true,
-                    "fixedHeader": true,
-                    initComplete: function () {
-                        this.api()
-                            .columns()
-                            .every(function () {
-                                var that = $('#amountsTable').DataTable();
-                                $('input', this.footer()).on('keydown', function (ev) {
-                                    if (ev.keyCode == 13) {
-                                        that
-                                            .search(this.value)
-                                            .draw();
-                                    }
-                                });
-                            });
-                    },
-                    "processing": true,
-                    search: {return: true},
-                    "ajax": {
-                        url: "{{route('api_Amounts',['locale'=> app()->getLocale()])}}",
-                        type: "GET",
-                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
-                        error: function (xhr, error, thrown) {
-                            loadDatatableModalError('ub_table_processing')
-                        }
-                    },
-                    "columns": [
-                        {data: 'amountsname'},
-                        {data: 'amountsshortname'},
-                        {data: 'amountswithholding_tax'},
-                        {data: 'amountstransfer'},
-                        {data: 'amountspaymentrequest'},
-                        {data: 'amountscash'},
-                        {data: 'amountsactive'},
-                        {data: 'action', name: 'action', orderable: false, searchable: false},
-                    ],
-                    "language": {"url": urlLang},
-                    "drawCallback": function (settings, json) {
-                        $(".edit-amounts-btn").each(function () {
-                            $(this).on("click", function () {
-                                emitAmount($(this).attr('data-id'))
-                            });
-                        });
-                    },
-                }
-            );
-
-            $(".btn-close-amount").click(function () {
-                location.reload();
-            });
-        });
-    </script>
 </div>
 
 

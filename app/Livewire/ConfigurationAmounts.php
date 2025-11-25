@@ -6,9 +6,11 @@ use Core\Models\Amount;
 use Core\Services\settingsManager;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class ConfigurationAmounts extends Component
 {
+    use WithPagination;
 
     public $idamountsAm;
     public $amountsnameAm;
@@ -25,11 +27,16 @@ class ConfigurationAmounts extends Component
         'initAmountsFunction' => 'initAmountsFunction',
     ];
 
-    public function render(settingsManager $settingsManager)
+    public function updatingSearch()
     {
-        $this->allAmounts = Amount::all();
-        return view('livewire.configuration-amounts')->extends('layouts.master')->section('content');
+        $this->resetPage();
     }
+
+    public function editAmounts($id)
+    {
+        $this->initAmountsFunction($id);
+    }
+
 
     public function initAmountsFunction($id)
     {
@@ -65,6 +72,21 @@ class ConfigurationAmounts extends Component
             return redirect()->route('configuration_amounts', app()->getLocale())->with('danger', trans('Setting param updating failed'));
         }
         return redirect()->route('configuration_amounts', app()->getLocale())->with('success', trans('Setting param updated successfully'));
+    }
+
+
+    public function render(settingsManager $settingsManager)
+    {
+        $amounts = Amount::query()
+            ->when($this->search, function ($query) {
+                $query->where('amountsname', 'like', '%' . $this->search . '%')
+                      ->orWhere('amountsshortname', 'like', '%' . $this->search . '%');
+            })
+            ->paginate(10);
+
+        return view('livewire.configuration-amounts', [
+            'amounts' => $amounts
+        ])->extends('layouts.master')->section('content');
     }
 
 
