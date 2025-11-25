@@ -15,41 +15,43 @@
                         <input type="text" wire:model.live="search" class="form-control" placeholder="{{ __('Search...') }}">
                     </div>
 
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover">
-                            <thead class="table-light">
-                            <tr>
-                                <th>{{ __('Name of setting') }}</th>
-                                <th>{{ __('reponce') }}</th>
-                                <th>{{ __('Actions') }}</th>
-                            </tr>
-                            </thead>
-                            <tbody class="list form-check-all">
-                            @forelse($actionHistories as $share)
-                                <tr>
-                                    <td>{{ $share->title }}</td>
-                                    <td>
-                                        @if ($share->reponce == 1)
-                                            <span class="badge bg-success">{{__('create reponse')}}</span>
-                                        @else
-                                            <span class="badge bg-info">{{__('sans reponse')}}</span>
-                                        @endif
-                                    </td>
-                                    <td>
+                    <div class="list-group">
+                        @forelse($actionHistories as $share)
+                            <div class="list-group-item list-group-item-action mb-2 border rounded">
+                                <div class="row align-items-center">
+                                    <div class="col-md-5">
+                                        <div class="d-flex flex-column">
+                                            <small class="text-muted">{{ __('Name of setting') }}</small>
+                                            <span class="fw-semibold">{{ $share->title }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="d-flex flex-column">
+                                            <small class="text-muted">{{ __('reponce') }}</small>
+                                            <div class="mt-1">
+                                                @if ($share->reponce == 1)
+                                                    <span class="badge bg-success">{{__('create reponse')}}</span>
+                                                @else
+                                                    <span class="badge bg-info">{{__('sans reponse')}}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 text-end">
                                         <a wire:click="editHA({{ $share->id }})" data-bs-toggle="modal" data-bs-target="#HistoryActionModal"
-                                           class="btn btn-xs btn-primary btn2earnTable" style="cursor: pointer;">
+                                           class="btn btn-sm btn-primary btn2earnTable" style="cursor: pointer;">
                                             <i class="glyphicon glyphicon-edit"></i>
                                             {{__('Update')}}
                                         </a>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="3" class="text-center">{{ __('No records found') }}</td>
-                                </tr>
-                            @endforelse
-                            </tbody>
-                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="alert alert-info text-center" role="alert">
+                                <i class="mdi mdi-information-outline me-2"></i>
+                                {{ __('No records found') }}
+                            </div>
+                        @endforelse
                     </div>
 
                     <div class="mt-3">
