@@ -9,344 +9,204 @@
         @endslot
     @endcomponent
     <div class="row">
-        <div class="col-12">
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-white border-bottom py-3">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <h5 class="card-title mb-0 fw-semibold">{{__('My Portfolio Statistics')}}</h5>
-                        </div>
+        <div class="col-12 card shadow-sm border-0">
+            <div class="card-header bg-white border-bottom py-3">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <h5 class="card-title mb-0 fw-semibold">{{__('My Portfolio Statistics')}}</h5>
+                    </div>
 
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <ul class="nav nav-tabs nav-tabs-custom nav-justified mb-3" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#cash-balance" role="tab">
+                            <i class="ri-wallet-3-line me-2 fs-5 text-primary"></i>
+                            {{__('My Cash Balance')}}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#price-evolution" role="tab">
+                            <i class="ri-line-chart-line me-2 fs-5 text-success"></i>
+                            {{__('Share Price Evolution')}}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#share-sold" role="tab">
+                            <i class="ri-bar-chart-box-line me-2 fs-5 text-info"></i>
+                            {{__('Share Price sold')}}
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="tab-content text-muted">
+                    <div class="tab-pane active show" id="cash-balance" role="tabpanel">
+                        <div id="chart"></div>
+                    </div>
+                    <div class="tab-pane" id="price-evolution" role="tabpanel">
+                        <div id="chart1"></div>
+                    </div>
+                    <div class="tab-pane" id="share-sold" role="tabpanel">
+                        <div class="btn-group mb-3" role="group" aria-label="Date filter">
+                            <button id="date" type="button" class="btn btn-outline-secondary btn-sm">
+                                <i class="ri-calendar-line me-1"></i>{{__('By date')}}
+                            </button>
+                            <button id="week" type="button" class="btn btn-outline-secondary btn-sm">
+                                <i class="ri-calendar-2-line me-1"></i>{{__('By week')}}
+                            </button>
+                            <button id="month" type="button" class="btn btn-outline-secondary btn-sm">
+                                <i class="ri-calendar-check-line me-1"></i>{{__('By month')}}
+                            </button>
+                            <button id="day" type="button" class="btn btn-primary btn-sm">
+                                <i class="ri-calendar-event-line me-1"></i>{{__('By day')}}
+                            </button>
+                        </div>
+                        <div id="chart2"></div>
                     </div>
                 </div>
-                <div class="card-body p-4">
-                    <ul class="nav nav-tabs nav-tabs-custom nav-justified mb-3" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-bs-toggle="tab" href="#cash-balance" role="tab">
-                                <i class="ri-wallet-3-line me-2 fs-5 text-primary"></i>
-                                {{__('My Cash Balance')}}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" href="#price-evolution" role="tab">
-                                <i class="ri-line-chart-line me-2 fs-5 text-success"></i>
-                                {{__('Share Price Evolution')}}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" href="#share-sold" role="tab">
-                                <i class="ri-bar-chart-box-line me-2 fs-5 text-info"></i>
-                                {{__('Share Price sold')}}
-                            </a>
-                        </li>
-                    </ul>
-
-                    <div class="tab-content text-muted">
-                        <div class="tab-pane active show" id="cash-balance" role="tabpanel">
-                            <div id="chart"></div>
-                        </div>
-                        <div class="tab-pane" id="price-evolution" role="tabpanel">
-                            <div id="chart1"></div>
-                        </div>
-                        <div class="tab-pane" id="share-sold" role="tabpanel">
-                            <div class="btn-group mb-3" role="group" aria-label="Date filter">
-                                <button id="date" type="button" class="btn btn-outline-secondary btn-sm">
-                                    <i class="ri-calendar-line me-1"></i>{{__('By date')}}
-                                </button>
-                                <button id="week" type="button" class="btn btn-outline-secondary btn-sm">
-                                    <i class="ri-calendar-2-line me-1"></i>{{__('By week')}}
-                                </button>
-                                <button id="month" type="button" class="btn btn-outline-secondary btn-sm">
-                                    <i class="ri-calendar-check-line me-1"></i>{{__('By month')}}
-                                </button>
-                                <button id="day" type="button" class="btn btn-primary btn-sm">
-                                    <i class="ri-calendar-event-line me-1"></i>{{__('By day')}}
-                                </button>
+            </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-between mb-4 mt-4 p-3 bg-light rounded-3">
+            <div class="flex-grow-1">
+                <h5 class="mb-0 fw-semibold text-dark">
+                    <i class="ri-star-line me-2 text-warning"></i>{{__('Watchlist')}}
+                </h5>
+            </div>
+            <div class="flex-shrink-0">
+                <button class="btn btn-success btn-sm">
+                    <i class="ri-add-line align-bottom me-1"></i>{{__('Add Watchlist')}}
+                </button>
+            </div>
+        </div>
+        <div class="col-12 card row ">
+            <div class="col-xl-4 col-md-6">
+                <div class="card card-animate shadow-sm border-0 h-100">
+                    <div class="card-body p-4">
+                        <div class="float-end">
+                            <div class="dropdown">
+                                <a class="text-muted" href="#" data-bs-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false">
+                                    <i class="ri-more-2-fill fs-4"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a class="dropdown-item" href="#">
+                                        <i class="ri-eye-line me-2"></i>{{__('View Details')}}
+                                    </a>
+                                    <a class="dropdown-item text-danger" href="#">
+                                        <i class="ri-delete-bin-line me-2"></i>{{__('Remove Watchlist')}}
+                                    </a>
+                                </div>
                             </div>
-                            <div id="chart2"></div>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="avatar-sm bg-light rounded-circle p-2">
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/ltc.svg') }}"
+                                     class="img-fluid" alt="">
+                            </div>
+                            <h6 class="ms-3 mb-0 fs-15 fw-semibold">{{__('Sold Shares')}}</h6>
+                        </div>
+                        <div class="row align-items-end g-0 mt-4">
+                            <div class="col-7">
+                                <h4 class="mb-2 fw-bold text-dark">{{number_format(getSelledActions(),0)}}</h4>
+                                <p class="text-muted mb-0 fs-13">
+                                        <span class="badge bg-danger-subtle text-danger">
+                                            <i class="ri-arrow-down-line align-middle"></i>
+                                        </span>
+                                </p>
+                            </div>
+                            <div class="col-5">
+                                <div class="apex-charts crypto-widget"
+                                     data-colors='["--vz-danger", "--vz-transparent"]'
+                                     id="litecoin_sparkline_charts" dir="ltr"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="d-flex align-items-center justify-content-between mb-4 mt-4 p-3 bg-light rounded-3">
-                <div class="flex-grow-1">
-                    <h5 class="mb-0 fw-semibold text-dark">
-                        <i class="ri-star-line me-2 text-warning"></i>{{__('Watchlist')}}
-                    </h5>
-                </div>
-                <div class="flex-shrink-0">
-                    <button class="btn btn-success btn-sm">
-                        <i class="ri-add-line align-bottom me-1"></i>{{__('Add Watchlist')}}
-                    </button>
+            <div class="col-xl-4 col-md-6">
+                <div class="card card-animate shadow-sm border-0 h-100">
+                    <div class="card-body p-4">
+                        <div class="float-end">
+                            <div class="dropdown">
+                                <a class="text-muted" href="#" data-bs-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false">
+                                    <i class="ri-more-2-fill fs-4"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a class="dropdown-item" href="#">
+                                        <i class="ri-eye-line me-2"></i>{{__('View Details')}}
+                                    </a>
+                                    <a class="dropdown-item text-danger" href="#">
+                                        <i class="ri-delete-bin-line me-2"></i>{{__('Remove Watchlist')}}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="avatar-sm bg-light rounded-circle p-2">
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/eth.svg') }}"
+                                     class="img-fluid" alt="">
+                            </div>
+                            <h6 class="ms-3 mb-0 fs-15 fw-semibold">{{__('Gifted Shares')}}</h6>
+                        </div>
+                        <div class="row align-items-end g-0 mt-4">
+                            <div class="col-7">
+                                <h4 class="mb-2 fw-bold text-dark">{{number_format(getGiftedShares(),0)}}</h4>
+                                <p class="text-muted mb-0 fs-13">
+                                        <span class="badge bg-danger-subtle text-danger">
+                                            <i class="ri-arrow-down-line align-middle"></i>
+                                        </span>
+                                </p>
+                            </div>
+                            <div class="col-5">
+                                <div class="apex-charts crypto-widget"
+                                     data-colors='["--vz-danger", "--vz-transparent"]'
+                                     id="eathereum_sparkline_charts" dir="ltr"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row g-3">
-                <div class="col-xl-4 col-md-6">
-                    <div class="card card-animate shadow-sm border-0 h-100">
-                        <div class="card-body p-4">
-                            <div class="float-end">
-                                <div class="dropdown">
-                                    <a class="text-muted" href="#" data-bs-toggle="dropdown"
-                                       aria-haspopup="true" aria-expanded="false">
-                                        <i class="ri-more-2-fill fs-4"></i>
+            <div class="col-xl-4 col-md-6">
+                <div class="card card-animate shadow-sm border-0 h-100">
+                    <div class="card-body p-4">
+                        <div class="float-end">
+                            <div class="dropdown">
+                                <a class="text-muted" href="#" data-bs-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false">
+                                    <i class="ri-more-2-fill fs-4"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a class="dropdown-item" href="#">
+                                        <i class="ri-eye-line me-2"></i>{{__('View Details')}}
                                     </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">
-                                            <i class="ri-eye-line me-2"></i>{{__('View Details')}}
-                                        </a>
-                                        <a class="dropdown-item text-danger" href="#">
-                                            <i class="ri-delete-bin-line me-2"></i>{{__('Remove Watchlist')}}
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="avatar-sm bg-light rounded-circle p-2">
-                                    <img src="{{ Vite::asset('resources/images/svg/crypto-icons/ltc.svg') }}"
-                                         class="img-fluid" alt="">
-                                </div>
-                                <h6 class="ms-3 mb-0 fs-15 fw-semibold">{{__('Sold Shares')}}</h6>
-                            </div>
-                            <div class="row align-items-end g-0 mt-4">
-                                <div class="col-7">
-                                    <h4 class="mb-2 fw-bold text-dark">{{number_format(getSelledActions(),0)}}</h4>
-                                    <p class="text-muted mb-0 fs-13">
-                                        <span class="badge bg-danger-subtle text-danger">
-                                            <i class="ri-arrow-down-line align-middle"></i>
-                                        </span>
-                                    </p>
-                                </div>
-                                <div class="col-5">
-                                    <div class="apex-charts crypto-widget"
-                                         data-colors='["--vz-danger", "--vz-transparent"]'
-                                         id="litecoin_sparkline_charts" dir="ltr"></div>
+                                    <a class="dropdown-item text-danger" href="#">
+                                        <i class="ri-delete-bin-line me-2"></i>{{__('Remove Watchlist')}}
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-md-6">
-                    <div class="card card-animate shadow-sm border-0 h-100">
-                        <div class="card-body p-4">
-                            <div class="float-end">
-                                <div class="dropdown">
-                                    <a class="text-muted" href="#" data-bs-toggle="dropdown"
-                                       aria-haspopup="true" aria-expanded="false">
-                                        <i class="ri-more-2-fill fs-4"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">
-                                            <i class="ri-eye-line me-2"></i>{{__('View Details')}}
-                                        </a>
-                                        <a class="dropdown-item text-danger" href="#">
-                                            <i class="ri-delete-bin-line me-2"></i>{{__('Remove Watchlist')}}
-                                        </a>
-                                    </div>
-                                </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="avatar-sm bg-light rounded-circle p-2">
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/xmr.svg') }}"
+                                     class="img-fluid" alt="">
                             </div>
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="avatar-sm bg-light rounded-circle p-2">
-                                    <img src="{{ Vite::asset('resources/images/svg/crypto-icons/eth.svg') }}"
-                                         class="img-fluid" alt="">
-                                </div>
-                                <h6 class="ms-3 mb-0 fs-15 fw-semibold">{{__('Gifted Shares')}}</h6>
-                            </div>
-                            <div class="row align-items-end g-0 mt-4">
-                                <div class="col-7">
-                                    <h4 class="mb-2 fw-bold text-dark">{{number_format(getGiftedShares(),0)}}</h4>
-                                    <p class="text-muted mb-0 fs-13">
+                            <h6 class="ms-3 mb-0 fs-15 fw-semibold">{{__('Gifted/Sold Shares')}}</h6>
+                        </div>
+                        <div class="row align-items-end g-0 mt-4">
+                            <div class="col-7">
+                                @if(getSelledActions()>0)
+                                    <h4 class="mb-2 fw-bold text-dark">{{number_format(getGiftedShares()/getSelledActions()*100,2)}}
+                                        %</h4>
+                                @endif
+                                <p class="text-muted mb-0 fs-13">
                                         <span class="badge bg-danger-subtle text-danger">
                                             <i class="ri-arrow-down-line align-middle"></i>
                                         </span>
-                                    </p>
-                                </div>
-                                <div class="col-5">
-                                    <div class="apex-charts crypto-widget"
-                                         data-colors='["--vz-danger", "--vz-transparent"]'
-                                         id="eathereum_sparkline_charts" dir="ltr"></div>
-                                </div>
+                                </p>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-md-6">
-                    <div class="card card-animate shadow-sm border-0 h-100">
-                        <div class="card-body p-4">
-                            <div class="float-end">
-                                <div class="dropdown">
-                                    <a class="text-muted" href="#" data-bs-toggle="dropdown"
-                                       aria-haspopup="true" aria-expanded="false">
-                                        <i class="ri-more-2-fill fs-4"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">
-                                            <i class="ri-eye-line me-2"></i>{{__('View Details')}}
-                                        </a>
-                                        <a class="dropdown-item text-danger" href="#">
-                                            <i class="ri-delete-bin-line me-2"></i>{{__('Remove Watchlist')}}
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="avatar-sm bg-light rounded-circle p-2">
-                                    <img src="{{ Vite::asset('resources/images/svg/crypto-icons/xmr.svg') }}"
-                                         class="img-fluid" alt="">
-                                </div>
-                                <h6 class="ms-3 mb-0 fs-15 fw-semibold">{{__('Gifted/Sold Shares')}}</h6>
-                            </div>
-                            <div class="row align-items-end g-0 mt-4">
-                                <div class="col-7">
-                                    @if(getSelledActions()>0)
-                                        <h4 class="mb-2 fw-bold text-dark">{{number_format(getGiftedShares()/getSelledActions()*100,2)}}
-                                            %</h4>
-                                    @endif
-                                    <p class="text-muted mb-0 fs-13">
-                                        <span class="badge bg-danger-subtle text-danger">
-                                            <i class="ri-arrow-down-line align-middle"></i>
-                                        </span>
-                                    </p>
-                                </div>
-                                <div class="col-5">
-                                    <div class="apex-charts crypto-widget"
-                                         data-colors='["--vz-danger", "--vz-transparent"]'
-                                         id="binance_sparkline_charts" dir="ltr"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-md-6">
-                    <div class="card card-animate shadow-sm border-0 h-100">
-                        <div class="card-body p-4">
-                            <div class="float-end">
-                                <div class="dropdown">
-                                    <a class="text-muted" href="#" data-bs-toggle="dropdown"
-                                       aria-haspopup="true" aria-expanded="false">
-                                        <i class="ri-more-2-fill fs-4"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">
-                                            <i class="ri-eye-line me-2"></i>{{__('View Details')}}
-                                        </a>
-                                        <a class="dropdown-item text-danger" href="#">
-                                            <i class="ri-delete-bin-line me-2"></i>{{__('Remove Watchlist')}}
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="avatar-sm bg-light rounded-circle p-2">
-                                    <img src="{{ Vite::asset('resources/images/svg/crypto-icons/btc.svg') }}"
-                                         class="img-fluid" alt="">
-                                </div>
-                                <h6 class="ms-3 mb-0 fs-15 fw-semibold">{{__('Shares actual price')}}</h6>
-                            </div>
-                            <div class="row align-items-end g-0 mt-4">
-                                <div class="col-7">
-                                    <h4 class="mb-2 fw-bold text-dark">
-                                        <?php $val = number_format(actualActionValue(getSelledActions(true)), 2) ?>
-                                        @if(1>0)
-                                            ${{$val}}
-                                        @endif
-                                    </h4>
-                                    <p class="text-muted mb-0 fs-13">
-                                        <span class="badge bg-success-subtle text-success">
-                                            <i class="ri-arrow-up-line align-middle"></i>
-                                        </span>
-                                    </p>
-                                </div>
-                                <div class="col-5">
-                                    <div class="apex-charts crypto-widget"
-                                         data-colors='["--vz-success" , "--vz-transparent"]'
-                                         id="bitcoin_sparkline_charts" dir="ltr"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-md-6">
-                    <div class="card card-animate shadow-sm border-0 h-100">
-                        <div class="card-body p-4">
-                            <div class="float-end">
-                                <div class="dropdown">
-                                    <a class="text-muted" href="#" data-bs-toggle="dropdown"
-                                       aria-haspopup="true" aria-expanded="false">
-                                        <i class="ri-more-2-fill fs-4"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">
-                                            <i class="ri-eye-line me-2"></i>{{__('View Details')}}
-                                        </a>
-                                        <a class="dropdown-item text-danger" href="#">
-                                            <i class="ri-delete-bin-line me-2"></i>{{__('Remove Watchlist')}}
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="avatar-sm bg-light rounded-circle p-2">
-                                    <img src="{{ Vite::asset('resources/images/svg/crypto-icons/xmr.svg') }}"
-                                         class="img-fluid" alt="">
-                                </div>
-                                <h6 class="ms-3 mb-0 fs-15 fw-semibold">{{__('Revenue')}}</h6>
-                            </div>
-                            <div class="row align-items-end g-0 mt-4">
-                                <div class="col-7">
-                                    <h4 class="mb-2 fw-bold text-dark">${{number_format(getRevenuShares(),2)}}</h4>
-                                    <p class="text-muted mb-0 fs-13">
-                                        <span class="badge bg-danger-subtle text-danger">
-                                            <i class="ri-arrow-down-line align-middle"></i>
-                                        </span>
-                                    </p>
-                                </div>
-                                <div class="col-5">
-                                    <div class="apex-charts crypto-widget"
-                                         data-colors='["--vz-danger", "--vz-transparent"]'
-                                         id="binance_sparkline_charts" dir="ltr"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-md-6">
-                    <div class="card card-animate shadow-sm border-0 h-100">
-                        <div class="card-body p-4">
-                            <div class="float-end">
-                                <div class="dropdown">
-                                    <a class="text-muted" href="#" data-bs-toggle="dropdown"
-                                       aria-haspopup="true" aria-expanded="false">
-                                        <i class="ri-more-2-fill fs-4"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="#">
-                                            <i class="ri-eye-line me-2"></i>{{__('View Details')}}
-                                        </a>
-                                        <a class="dropdown-item text-danger" href="#">
-                                            <i class="ri-delete-bin-line me-2"></i>{{__('Remove Watchlist')}}
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="avatar-sm bg-light rounded-circle p-2">
-                                    <img src="{{ Vite::asset('resources/images/svg/crypto-icons/xmr.svg') }}"
-                                         class="img-fluid" alt="">
-                                </div>
-                                <h6 class="ms-3 mb-0 fs-15 fw-semibold">{{__('Transfer Made')}}</h6>
-                            </div>
-                            <div class="row align-items-end g-0 mt-4">
-                                <div class="col-7">
-                                    <h4 class="mb-2 fw-bold text-dark" id="realrev">
-                                        ${{number_format(getRevenuSharesReal(),2)}}
-                                    </h4>
-                                    <p class="text-muted mb-0 fs-13">
-                                        <span class="badge bg-danger-subtle text-danger">
-                                            <i class="ri-arrow-down-line align-middle"></i>
-                                        </span>
-                                    </p>
-                                </div>
+                            <div class="col-5">
                                 <div class="apex-charts crypto-widget"
                                      data-colors='["--vz-danger", "--vz-transparent"]'
                                      id="binance_sparkline_charts" dir="ltr"></div>
@@ -355,67 +215,202 @@
                     </div>
                 </div>
             </div>
+            <div class="col-xl-4 col-md-6">
+                <div class="card card-animate shadow-sm border-0 h-100">
+                    <div class="card-body p-4">
+                        <div class="float-end">
+                            <div class="dropdown">
+                                <a class="text-muted" href="#" data-bs-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false">
+                                    <i class="ri-more-2-fill fs-4"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a class="dropdown-item" href="#">
+                                        <i class="ri-eye-line me-2"></i>{{__('View Details')}}
+                                    </a>
+                                    <a class="dropdown-item text-danger" href="#">
+                                        <i class="ri-delete-bin-line me-2"></i>{{__('Remove Watchlist')}}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="avatar-sm bg-light rounded-circle p-2">
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/btc.svg') }}"
+                                     class="img-fluid" alt="">
+                            </div>
+                            <h6 class="ms-3 mb-0 fs-15 fw-semibold">{{__('Shares actual price')}}</h6>
+                        </div>
+                        <div class="row align-items-end g-0 mt-4">
+                            <div class="col-7">
+                                <h4 class="mb-2 fw-bold text-dark">
+                                    <?php $val = number_format(actualActionValue(getSelledActions(true)), 2) ?>
+                                    @if(1>0)
+                                        ${{$val}}
+                                    @endif
+                                </h4>
+                                <p class="text-muted mb-0 fs-13">
+                                        <span class="badge bg-success-subtle text-success">
+                                            <i class="ri-arrow-up-line align-middle"></i>
+                                        </span>
+                                </p>
+                            </div>
+                            <div class="col-5">
+                                <div class="apex-charts crypto-widget"
+                                     data-colors='["--vz-success" , "--vz-transparent"]'
+                                     id="bitcoin_sparkline_charts" dir="ltr"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+                <div class="card card-animate shadow-sm border-0 h-100">
+                    <div class="card-body p-4">
+                        <div class="float-end">
+                            <div class="dropdown">
+                                <a class="text-muted" href="#" data-bs-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false">
+                                    <i class="ri-more-2-fill fs-4"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a class="dropdown-item" href="#">
+                                        <i class="ri-eye-line me-2"></i>{{__('View Details')}}
+                                    </a>
+                                    <a class="dropdown-item text-danger" href="#">
+                                        <i class="ri-delete-bin-line me-2"></i>{{__('Remove Watchlist')}}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="avatar-sm bg-light rounded-circle p-2">
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/xmr.svg') }}"
+                                     class="img-fluid" alt="">
+                            </div>
+                            <h6 class="ms-3 mb-0 fs-15 fw-semibold">{{__('Revenue')}}</h6>
+                        </div>
+                        <div class="row align-items-end g-0 mt-4">
+                            <div class="col-7">
+                                <h4 class="mb-2 fw-bold text-dark">${{number_format(getRevenuShares(),2)}}</h4>
+                                <p class="text-muted mb-0 fs-13">
+                                        <span class="badge bg-danger-subtle text-danger">
+                                            <i class="ri-arrow-down-line align-middle"></i>
+                                        </span>
+                                </p>
+                            </div>
+                            <div class="col-5">
+                                <div class="apex-charts crypto-widget"
+                                     data-colors='["--vz-danger", "--vz-transparent"]'
+                                     id="binance_sparkline_charts" dir="ltr"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+                <div class="card card-animate shadow-sm border-0 h-100">
+                    <div class="card-body p-4">
+                        <div class="float-end">
+                            <div class="dropdown">
+                                <a class="text-muted" href="#" data-bs-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false">
+                                    <i class="ri-more-2-fill fs-4"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a class="dropdown-item" href="#">
+                                        <i class="ri-eye-line me-2"></i>{{__('View Details')}}
+                                    </a>
+                                    <a class="dropdown-item text-danger" href="#">
+                                        <i class="ri-delete-bin-line me-2"></i>{{__('Remove Watchlist')}}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="avatar-sm bg-light rounded-circle p-2">
+                                <img src="{{ Vite::asset('resources/images/svg/crypto-icons/xmr.svg') }}"
+                                     class="img-fluid" alt="">
+                            </div>
+                            <h6 class="ms-3 mb-0 fs-15 fw-semibold">{{__('Transfer Made')}}</h6>
+                        </div>
+                        <div class="row align-items-end g-0 mt-4">
+                            <div class="col-7">
+                                <h4 class="mb-2 fw-bold text-dark" id="realrev">
+                                    ${{number_format(getRevenuSharesReal(),2)}}
+                                </h4>
+                                <p class="text-muted mb-0 fs-13">
+                                        <span class="badge bg-danger-subtle text-danger">
+                                            <i class="ri-arrow-down-line align-middle"></i>
+                                        </span>
+                                </p>
+                            </div>
+                            <div class="apex-charts crypto-widget"
+                                 data-colors='["--vz-danger", "--vz-transparent"]'
+                                 id="binance_sparkline_charts" dir="ltr"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-12">
-            <div class="card shadow-sm border-0 mb-3">
-                <div class="card-body bg-soft-warning p-4">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <h5 class="fs-14 mb-3 fw-semibold text-dark">{{__('My Portfolio')}}</h5>
-                            <h2 class="mb-2 fw-bold text-dark">$<?php echo $solde->soldeCB / 1 ?></h2>
-                            <p class="text-muted mb-0">
+        <div class="col-12 card shadow-sm border-0 mb-3">
+            <div class="card-body bg-soft-warning p-4">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <h5 class="fs-14 mb-3 fw-semibold text-dark">{{__('My Portfolio')}}</h5>
+                        <h2 class="mb-2 fw-bold text-dark">$<?php echo $solde->soldeCB / 1 ?></h2>
+                        <p class="text-muted mb-0">
                                 <span class="badge bg-success-subtle text-success">
                                     <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
                                 </span>
-                            </p>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <div
-                                class="avatar-lg bg-white bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="ri-wallet-3-line text-warning fs-1"></i>
-                            </div>
+                        </p>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <div
+                            class="avatar-lg bg-white bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="ri-wallet-3-line text-warning fs-1"></i>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="card shadow-sm border-0 mb-3">
-                <div class="card-body p-4">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <h5 class="fs-14 mb-3 fw-semibold text-dark">{{__('Today\'s Cash Transfert')}}</h5>
-                            <h2 class="mb-2 fw-bold text-dark">$<?php echo $vente_jour / 1 ?></h2>
-                            <p class="text-muted mb-0">
+        </div>
+        <div class="col-12 card shadow-sm border-0 mb-3">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <h5 class="fs-14 mb-3 fw-semibold text-dark">{{__('Today\'s Cash Transfert')}}</h5>
+                        <h2 class="mb-2 fw-bold text-dark">$<?php echo $vente_jour / 1 ?></h2>
+                        <p class="text-muted mb-0">
                                 <span class="badge bg-success-subtle text-success">
                                     <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
                                 </span>
-                            </p>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <div
-                                class="avatar-lg bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="ri-hand-coin-line text-primary fs-1"></i>
-                            </div>
+                        </p>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <div
+                            class="avatar-lg bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="ri-hand-coin-line text-primary fs-1"></i>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="card shadow-sm border-0 mb-3">
-                <div class="card-body p-4">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <h5 class="fs-14 mb-3 fw-semibold text-dark">{{__('Overall Cash Transfert')}}</h5>
-                            <h2 class="mb-2 fw-bold text-dark">$<?php echo $vente_total / 1 ?></h2>
-                            <p class="text-muted mb-0">
+        </div>
+        <div class="col-12 card shadow-sm border-0 mb-3">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <h5 class="fs-14 mb-3 fw-semibold text-dark">{{__('Overall Cash Transfert')}}</h5>
+                        <h2 class="mb-2 fw-bold text-dark">$<?php echo $vente_total / 1 ?></h2>
+                        <p class="text-muted mb-0">
                                 <span class="badge bg-success-subtle text-success">
                                     <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
                                 </span>
-                            </p>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <div
-                                class="avatar-lg bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="ri-line-chart-line text-success fs-1"></i>
-                            </div>
+                        </p>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <div
+                            class="avatar-lg bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="ri-line-chart-line text-success fs-1"></i>
                         </div>
                     </div>
                 </div>
@@ -691,7 +686,7 @@
                     $.ajax({
                         url: url3,
                         method: 'GET',
-                        headers: {                            'Authorization': 'Bearer ' + token                        },
+                        headers: {'Authorization': 'Bearer ' + token},
                         dataType: 'json',
                         success: function (response) {
                             var series1 = {name: 'Sales-bar', type: 'bar', data: response};
