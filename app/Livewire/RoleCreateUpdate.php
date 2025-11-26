@@ -19,7 +19,7 @@ class RoleCreateUpdate extends Component
 
     public function mount(Request $request)
     {
-        $this->idRole = $request->query('id');
+        $this->idRole = $request->query('idRole');
         if (!is_null($this->idRole)) {
             $this->edit($this->idRole);
         }
