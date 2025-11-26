@@ -16,7 +16,7 @@
                 }
 @endphp
 <div class="row">
-    <div id="page-title-box" class=" col-12 page-title-box my-1 p-2 rounded">
+    <div id="page-title-box" class="col-12 page-title-box my-1 p-2 rounded">
         <nav id="nav-breadcrumb" class=" d-flex align-items-center" aria-label="{{ __('Breadcrumb') }}">
             <ol class="breadcrumb m-0 flex-grow-1">
                 <li class="breadcrumb-item">
@@ -66,7 +66,7 @@
             </a>
         </nav>
     </div>
-    <div class=" col-12 menu-fade-container mb-2 rounded-0" id="user-menu-container">
+    <div class="col-12 menu-fade-container mb-2 rounded-0" id="user-menu-container">
         <div class="card border-0 shadow-lg mt-2">
             <div
                 class="card-header bg-gradient bg-primary text-white d-flex justify-content-between align-items-center py-2">
@@ -233,7 +233,7 @@
         </div>
     </div>
     @if(User::isSuperAdmin())
-        <div class=" col-12  menu-fade-container mb-2 rounded-0" id="admin-menu-container">
+        <div class="menu-fade-container mb-2 rounded-0" id="admin-menu-container">
             <div class="card border-0 shadow-lg mt-2">
                 <div
                     class="card-header bg-gradient bg-danger text-white d-flex justify-content-between align-items-center py-2">
