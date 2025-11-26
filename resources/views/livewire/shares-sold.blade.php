@@ -92,268 +92,286 @@
             </div>
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-12 card border-0 bg-primary-subtle mb-3">
-            <div class="card-body py-3">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center">
-                        <div class="avatar-sm">
-                            <div class="avatar-title rounded bg-primary text-white fs-20">
-                                <i class="ri-star-line"></i>
+        <div class="row mb-3">
+        <div class="col-12">
+            <div class="card border-0 bg-primary-subtle">
+                <div class="card-body py-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <div class="avatar-sm">
+                                <div class="avatar-title rounded bg-primary text-white fs-20">
+                                    <i class="ri-star-line"></i>
+                                </div>
+                            </div>
+                            <div class="ms-3">
+                                <h5 class="mb-0 fw-semibold">{{__('Portfolio Metrics')}}</h5>
+                                <p class="text-muted mb-0 small">{{__('Key performance indicators')}}</p>
                             </div>
                         </div>
-                        <div class="ms-3">
-                            <h5 class="mb-0 fw-semibold">{{__('Portfolio Metrics')}}</h5>
-                            <p class="text-muted mb-0 small">{{__('Key performance indicators')}}</p>
+                        <div class="flex-shrink-0">
+                            <button class="btn btn-primary btn-sm shadow-sm">
+                                <i class="ri-add-line align-bottom me-1"></i>{{__('Add Watchlist')}}
+                            </button>
                         </div>
                     </div>
-                    <div class="flex-shrink-0">
-                        <button class="btn btn-primary btn-sm shadow-sm">
-                            <i class="ri-add-line align-bottom me-1"></i>{{__('Add Watchlist')}}
-                        </button>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="row g-3 mb-3">
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="card card-animate border-0 shadow-sm h-100 overflow-hidden">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="flex-grow-1">
+                            <div class="avatar-sm bg-danger-subtle rounded-3 mb-3">
+                                <div class="avatar-title bg-transparent text-danger fs-20">
+                                    <i class="ri-arrow-down-circle-line"></i>
+                                </div>
+                            </div>
+                            <h6 class="mb-1 text-muted fs-13">{{__('Sold Shares')}}</h6>
+                            <h3 class="mb-0 fw-bold">{{number_format(getSelledActions(),0)}}</h3>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-ghost-secondary" data-bs-toggle="dropdown">
+                                <i class="ri-more-2-fill"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" href="#"><i class="ri-eye-line me-2"></i>{{__('View Details')}}</a>
+                                <a class="dropdown-item text-danger" href="#"><i class="ri-delete-bin-line me-2"></i>{{__('Remove')}}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span class="badge bg-danger-subtle text-danger"><i class="ri-arrow-down-line align-middle"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="card card-animate border-0 shadow-sm h-100 overflow-hidden">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="flex-grow-1">
+                            <div class="avatar-sm bg-info-subtle rounded-3 mb-3">
+                                <div class="avatar-title bg-transparent text-info fs-20">
+                                    <i class="ri-gift-line"></i>
+                                </div>
+                            </div>
+                            <h6 class="mb-1 text-muted fs-13">{{__('Gifted Shares')}}</h6>
+                            <h3 class="mb-0 fw-bold">{{number_format(getGiftedShares(),0)}}</h3>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-ghost-secondary" data-bs-toggle="dropdown">
+                                <i class="ri-more-2-fill"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" href="#"><i class="ri-eye-line me-2"></i>{{__('View Details')}}</a>
+                                <a class="dropdown-item text-danger" href="#"><i class="ri-delete-bin-line me-2"></i>{{__('Remove')}}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span class="badge bg-info-subtle text-info"><i class="ri-information-line align-middle"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="card card-animate border-0 shadow-sm h-100 overflow-hidden">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="flex-grow-1">
+                            <div class="avatar-sm bg-warning-subtle rounded-3 mb-3">
+                                <div class="avatar-title bg-transparent text-warning fs-20">
+                                    <i class="ri-percent-line"></i>
+                                </div>
+                            </div>
+                            <h6 class="mb-1 text-muted fs-13">{{__('Gifted/Sold Ratio')}}</h6>
+                            <h3 class="mb-0 fw-bold">
+                                @if(getSelledActions()>0)
+                                    {{number_format(getGiftedShares()/getSelledActions()*100,2)}}%
+                                @else
+                                    0%
+                                @endif
+                            </h3>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-ghost-secondary" data-bs-toggle="dropdown">
+                                <i class="ri-more-2-fill"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" href="#"><i class="ri-eye-line me-2"></i>{{__('View Details')}}</a>
+                                <a class="dropdown-item text-danger" href="#"><i class="ri-delete-bin-line me-2"></i>{{__('Remove')}}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span class="badge bg-warning-subtle text-warning"><i class="ri-information-line align-middle"></i></span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-xl-4 col-md-6 m-2 card card-animate border-0 shadow-sm h-100 overflow-hidden">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <div class="flex-grow-1">
-                        <div class="avatar-sm bg-danger-subtle rounded-3 mb-3">
-                            <div class="avatar-title bg-transparent text-danger fs-20">
-                                <i class="ri-arrow-down-circle-line"></i>
+    <div class="row g-3 mb-3">
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="card card-animate border-0 shadow-sm h-100 overflow-hidden">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="flex-grow-1">
+                            <div class="avatar-sm bg-success-subtle rounded-3 mb-3">
+                                <div class="avatar-title bg-transparent text-success fs-20">
+                                    <i class="ri-money-dollar-circle-line"></i>
+                                </div>
+                            </div>
+                            <h6 class="mb-1 text-muted fs-13">{{__('Shares Actual Price')}}</h6>
+                            <h3 class="mb-0 fw-bold text-success">
+                                ${{number_format(actualActionValue(getSelledActions(true)), 2)}}
+                            </h3>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-ghost-secondary" data-bs-toggle="dropdown">
+                                <i class="ri-more-2-fill"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" href="#"><i class="ri-eye-line me-2"></i>{{__('View Details')}}</a>
+                                <a class="dropdown-item text-danger" href="#"><i class="ri-delete-bin-line me-2"></i>{{__('Remove')}}</a>
                             </div>
                         </div>
-                        <h6 class="mb-1 text-muted fs-13">{{__('Sold Shares')}}</h6>
-                        <h3 class="mb-0 fw-bold">{{number_format(getSelledActions(),0)}}</h3>
                     </div>
-                    <div class="dropdown">
-                        <button class="btn btn-sm btn-ghost-secondary" data-bs-toggle="dropdown">
-                            <i class="ri-more-2-fill"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <a class="dropdown-item" href="#"><i class="ri-eye-line me-2"></i>{{__('View Details')}}</a>
-                            <a class="dropdown-item text-danger" href="#"><i
-                                    class="ri-delete-bin-line me-2"></i>{{__('Remove')}}</a>
-                        </div>
+                    <div class="d-flex align-items-center">
+                        <span class="badge bg-success-subtle text-success"><i class="ri-arrow-up-line align-middle"></i></span>
                     </div>
-                </div>
-                <div class="d-flex align-items-center">
-                    <span class="badge bg-danger-subtle text-danger"><i
-                            class="ri-arrow-down-line align-middle"></i></span>
                 </div>
             </div>
         </div>
-        <div class="col-xl-4 col-md-6 m-2 card card-animate border-0 shadow-sm h-100 overflow-hidden">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <div class="flex-grow-1">
-                        <div class="avatar-sm bg-info-subtle rounded-3 mb-3">
-                            <div class="avatar-title bg-transparent text-info fs-20">
-                                <i class="ri-gift-line"></i>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="card card-animate border-0 shadow-sm h-100 overflow-hidden">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="flex-grow-1">
+                            <div class="avatar-sm bg-primary-subtle rounded-3 mb-3">
+                                <div class="avatar-title bg-transparent text-primary fs-20">
+                                    <i class="ri-funds-line"></i>
+                                </div>
+                            </div>
+                            <h6 class="mb-1 text-muted fs-13">{{__('Revenue')}}</h6>
+                            <h3 class="mb-0 fw-bold text-primary">${{number_format(getRevenuShares(),2)}}</h3>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-ghost-secondary" data-bs-toggle="dropdown">
+                                <i class="ri-more-2-fill"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" href="#"><i class="ri-eye-line me-2"></i>{{__('View Details')}}</a>
+                                <a class="dropdown-item text-danger" href="#"><i class="ri-delete-bin-line me-2"></i>{{__('Remove')}}</a>
                             </div>
                         </div>
-                        <h6 class="mb-1 text-muted fs-13">{{__('Gifted Shares')}}</h6>
-                        <h3 class="mb-0 fw-bold">{{number_format(getGiftedShares(),0)}}</h3>
                     </div>
-                    <div class="dropdown">
-                        <button class="btn btn-sm btn-ghost-secondary" data-bs-toggle="dropdown">
-                            <i class="ri-more-2-fill"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <a class="dropdown-item" href="#"><i class="ri-eye-line me-2"></i>{{__('View Details')}}</a>
-                            <a class="dropdown-item text-danger" href="#"><i
-                                    class="ri-delete-bin-line me-2"></i>{{__('Remove')}}</a>
-                        </div>
+                    <div class="d-flex align-items-center">
+                        <span class="badge bg-primary-subtle text-primary"><i class="ri-information-line align-middle"></i></span>
                     </div>
-                </div>
-                <div class="d-flex align-items-center">
-                    <span class="badge bg-info-subtle text-info"><i class="ri-information-line align-middle"></i></span>
                 </div>
             </div>
         </div>
-        <div class="col-xl-4 col-md-6 m-2 card card-animate border-0 shadow-sm h-100 overflow-hidden">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <div class="flex-grow-1">
-                        <div class="avatar-sm bg-warning-subtle rounded-3 mb-3">
-                            <div class="avatar-title bg-transparent text-warning fs-20">
-                                <i class="ri-percent-line"></i>
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="card card-animate border-0 shadow-sm h-100 overflow-hidden">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="flex-grow-1">
+                            <div class="avatar-sm bg-secondary-subtle rounded-3 mb-3">
+                                <div class="avatar-title bg-transparent text-secondary fs-20">
+                                    <i class="ri-exchange-dollar-line"></i>
+                                </div>
+                            </div>
+                            <h6 class="mb-1 text-muted fs-13">{{__('Transfer Made')}}</h6>
+                            <h3 class="mb-0 fw-bold text-secondary" id="realrev">
+                                ${{number_format(getRevenuSharesReal(),2)}}
+                            </h3>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-ghost-secondary" data-bs-toggle="dropdown">
+                                <i class="ri-more-2-fill"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" href="#"><i class="ri-eye-line me-2"></i>{{__('View Details')}}</a>
+                                <a class="dropdown-item text-danger" href="#"><i class="ri-delete-bin-line me-2"></i>{{__('Remove')}}</a>
                             </div>
                         </div>
-                        <h6 class="mb-1 text-muted fs-13">{{__('Gifted/Sold Ratio')}}</h6>
-                        <h3 class="mb-0 fw-bold">
-                            @if(getSelledActions()>0)
-                                {{number_format(getGiftedShares()/getSelledActions()*100,2)}}%
-                            @else
-                                0%
-                            @endif
-                        </h3>
                     </div>
-                    <div class="dropdown">
-                        <button class="btn btn-sm btn-ghost-secondary" data-bs-toggle="dropdown">
-                            <i class="ri-more-2-fill"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <a class="dropdown-item" href="#"><i class="ri-eye-line me-2"></i>{{__('View Details')}}</a>
-                            <a class="dropdown-item text-danger" href="#"><i
-                                    class="ri-delete-bin-line me-2"></i>{{__('Remove')}}</a>
-                        </div>
+                    <div class="d-flex align-items-center">
+                        <span class="badge bg-secondary-subtle text-secondary"><i class="ri-information-line align-middle"></i></span>
                     </div>
-                </div>
-                <div class="d-flex align-items-center">
-                    <span class="badge bg-warning-subtle text-warning"><i class="ri-information-line align-middle"></i></span>
                 </div>
             </div>
         </div>
-        <div class="col-xl-4 col-md-6 m-2 card card-animate border-0 shadow-sm h-100 overflow-hidden">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <div class="flex-grow-1">
-                        <div class="avatar-sm bg-success-subtle rounded-3 mb-3">
-                            <div class="avatar-title bg-transparent text-success fs-20">
-                                <i class="ri-money-dollar-circle-line"></i>
-                            </div>
-                        </div>
-                        <h6 class="mb-1 text-muted fs-13">{{__('Shares Actual Price')}}</h6>
-                        <h3 class="mb-0 fw-bold text-success">
-                            ${{number_format(actualActionValue(getSelledActions(true)), 2)}}
-                        </h3>
-                    </div>
-                    <div class="dropdown">
-                        <button class="btn btn-sm btn-ghost-secondary" data-bs-toggle="dropdown">
-                            <i class="ri-more-2-fill"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <a class="dropdown-item" href="#"><i class="ri-eye-line me-2"></i>{{__('View Details')}}</a>
-                            <a class="dropdown-item text-danger" href="#"><i
-                                    class="ri-delete-bin-line me-2"></i>{{__('Remove')}}</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex align-items-center">
-                    <span class="badge bg-success-subtle text-success"><i
-                            class="ri-arrow-up-line align-middle"></i></span>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-4 col-md-6 m-2 card card-animate border-0 shadow-sm h-100 overflow-hidden">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <div class="flex-grow-1">
-                        <div class="avatar-sm bg-primary-subtle rounded-3 mb-3">
-                            <div class="avatar-title bg-transparent text-primary fs-20">
-                                <i class="ri-funds-line"></i>
-                            </div>
-                        </div>
-                        <h6 class="mb-1 text-muted fs-13">{{__('Revenue')}}</h6>
-                        <h3 class="mb-0 fw-bold text-primary">${{number_format(getRevenuShares(),2)}}</h3>
-                    </div>
-                    <div class="dropdown">
-                        <button class="btn btn-sm btn-ghost-secondary" data-bs-toggle="dropdown">
-                            <i class="ri-more-2-fill"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <a class="dropdown-item" href="#"><i class="ri-eye-line me-2"></i>{{__('View Details')}}</a>
-                            <a class="dropdown-item text-danger" href="#"><i
-                                    class="ri-delete-bin-line me-2"></i>{{__('Remove')}}</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex align-items-center">
-                    <span class="badge bg-primary-subtle text-primary"><i class="ri-information-line align-middle"></i></span>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-4 col-md-6 m-2 card card-animate border-0 shadow-sm h-100 overflow-hidden">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <div class="flex-grow-1">
-                        <div class="avatar-sm bg-secondary-subtle rounded-3 mb-3">
-                            <div class="avatar-title bg-transparent text-secondary fs-20">
-                                <i class="ri-exchange-dollar-line"></i>
-                            </div>
-                        </div>
-                        <h6 class="mb-1 text-muted fs-13">{{__('Transfer Made')}}</h6>
-                        <h3 class="mb-0 fw-bold text-secondary" id="realrev">
-                            ${{number_format(getRevenuSharesReal(),2)}}
-                        </h3>
-                    </div>
-                    <div class="dropdown">
-                        <button class="btn btn-sm btn-ghost-secondary" data-bs-toggle="dropdown">
-                            <i class="ri-more-2-fill"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <a class="dropdown-item" href="#"><i class="ri-eye-line me-2"></i>{{__('View Details')}}</a>
-                            <a class="dropdown-item text-danger" href="#"><i
-                                    class="ri-delete-bin-line me-2"></i>{{__('Remove')}}</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex align-items-center">
-                    <span class="badge bg-secondary-subtle text-secondary"><i
-                            class="ri-information-line align-middle"></i></span>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-4 col-md-6 m-2 card border-0 shadow-sm overflow-hidden card-animate">
-            <div class="card-body bg-warning-subtle p-4">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="flex-grow-1">
-                        <p class="text-muted mb-2 fw-medium">{{__('My Portfolio')}}</p>
-                        <h2 class="mb-0 fw-bold">${{number_format($solde->soldeCB, 2)}}</h2>
-                        <span class="badge bg-success-subtle text-success mt-2">
+    </div>
+        <div class="row g-3 mb-4">
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="card border-0 shadow-sm overflow-hidden card-animate">
+                <div class="card-body bg-warning-subtle p-4">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="flex-grow-1">
+                            <p class="text-muted mb-2 fw-medium">{{__('My Portfolio')}}</p>
+                            <h2 class="mb-0 fw-bold">${{number_format($solde->soldeCB, 2)}}</h2>
+                            <span class="badge bg-success-subtle text-success mt-2">
                                 <i class="ri-arrow-right-up-line fs-13 align-middle"></i> {{__('Active')}}
                             </span>
-                    </div>
-                    <div class="flex-shrink-0">
-                        <div class="avatar-lg">
-                            <div class="avatar-title bg-white bg-opacity-50 rounded-circle">
-                                <i class="ri-wallet-3-line text-warning fs-1"></i>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <div class="avatar-lg">
+                                <div class="avatar-title bg-white bg-opacity-50 rounded-circle">
+                                    <i class="ri-wallet-3-line text-warning fs-1"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-xl-4 col-md-6 m-2 card border-0 shadow-sm overflow-hidden card-animate">
-            <div class="card-body bg-primary-subtle p-4">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="flex-grow-1">
-                        <p class="text-muted mb-2 fw-medium">{{__('Today\'s Cash Transfer')}}</p>
-                        <h2 class="mb-0 fw-bold">${{number_format($vente_jour ?? 0, 2)}}</h2>
-                        <span class="badge bg-success-subtle text-success mt-2">
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="card border-0 shadow-sm overflow-hidden card-animate">
+                <div class="card-body bg-primary-subtle p-4">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="flex-grow-1">
+                            <p class="text-muted mb-2 fw-medium">{{__('Today\'s Cash Transfer')}}</p>
+                            <h2 class="mb-0 fw-bold">${{number_format($vente_jour ?? 0, 2)}}</h2>
+                            <span class="badge bg-success-subtle text-success mt-2">
                                 <i class="ri-arrow-right-up-line fs-13 align-middle"></i> {{__('Today')}}
                             </span>
-                    </div>
-                    <div class="flex-shrink-0">
-                        <div class="avatar-lg">
-                            <div class="avatar-title bg-white bg-opacity-50 rounded-circle">
-                                <i class="ri-hand-coin-line text-primary fs-1"></i>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <div class="avatar-lg">
+                                <div class="avatar-title bg-white bg-opacity-50 rounded-circle">
+                                    <i class="ri-hand-coin-line text-primary fs-1"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-xl-4 col-md-6 m-2 card border-0 shadow-sm overflow-hidden card-animate">
-            <div class="card-body bg-success-subtle p-4">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="flex-grow-1">
-                        <p class="text-muted mb-2 fw-medium">{{__('Overall Cash Transfer')}}</p>
-                        <h2 class="mb-0 fw-bold">${{number_format($vente_total ?? 0, 2)}}</h2>
-                        <span class="badge bg-success-subtle text-success mt-2">
+
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="card border-0 shadow-sm overflow-hidden card-animate">
+                <div class="card-body bg-success-subtle p-4">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="flex-grow-1">
+                            <p class="text-muted mb-2 fw-medium">{{__('Overall Cash Transfer')}}</p>
+                            <h2 class="mb-0 fw-bold">${{number_format($vente_total ?? 0, 2)}}</h2>
+                            <span class="badge bg-success-subtle text-success mt-2">
                                 <i class="ri-arrow-right-up-line fs-13 align-middle"></i> {{__('Total')}}
                             </span>
-                    </div>
-                    <div class="flex-shrink-0">
-                        <div class="avatar-lg">
-                            <div class="avatar-title bg-white bg-opacity-50 rounded-circle">
-                                <i class="ri-line-chart-line text-success fs-1"></i>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <div class="avatar-lg">
+                                <div class="avatar-title bg-white bg-opacity-50 rounded-circle">
+                                    <i class="ri-line-chart-line text-success fs-1"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
