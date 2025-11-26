@@ -2,9 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\News;
-use App\Models\News as ModelsNews;
-use App\Services\Communication\Communication;
+use App\Services\News\NewsService;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -15,12 +13,19 @@ class NewsIndex extends Component
 {
     use WithPagination;
 
-    const PAGE_SIZE = 5;
+    const PAGE_SIZE = 3;
     public $search = '';
     public $currentRouteName;
     protected $paginationTheme = 'bootstrap';
     public $listeners = ['delete' => 'delete', 'duplicateNews' => 'duplicateNews', 'clearDeleteNewsId' => 'clearDeleteNewsId'];
     public $newsIdToDelete = null;
+
+    protected NewsService $newsService;
+
+    public function boot(NewsService $newsService)
+    {
+        $this->newsService = $newsService;
+    }
 
     public function mount()
     {
@@ -40,11 +45,10 @@ class NewsIndex extends Component
     public function duplicateNews($id)
     {
         try {
-            Communication::duplicateNews($id);
-
+            $this->newsService->duplicate($id);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect()->route('news_index', ['locale' => app()->getLocale()])->with('success', Lang::get('News Duplication failed'));
+            return redirect()->route('news_index', ['locale' => app()->getLocale()])->with('danger', Lang::get('News Duplication failed'));
         }
         return redirect()->route('news_index', ['locale' => app()->getLocale()])->with('success', Lang::get('News Duplicated Successfully'));
     }
@@ -58,7 +62,7 @@ class NewsIndex extends Component
     public function delete()
     {
         try {
-            ModelsNews::findOrFail($this->newsIdToDelete)->delete();
+            $this->newsService->delete($this->newsIdToDelete);
             $this->newsIdToDelete = null;
             $this->dispatch('hideDeleteModal');
             return redirect()->route('news_index', ['locale' => app()->getLocale()])->with('success', Lang::get('News Deleted Successfully'));
@@ -76,16 +80,7 @@ class NewsIndex extends Component
 
     public function render()
     {
-        if (!is_null($this->search) && !empty($this->search)) {
-            $params['newss'] = News::with(['hashtags', 'mainImage'])
-                ->where('title', 'like', '%' . $this->search . '%')
-                ->orderBy('created_at', 'desc')
-                ->paginate(self::PAGE_SIZE);
-        } else {
-            $params['newss'] = News::with(['hashtags', 'mainImage'])
-                ->orderBy('created_at', 'desc')
-                ->paginate(self::PAGE_SIZE);
-        }
+        $params['newss'] = $this->newsService->getPaginated($this->search, self::PAGE_SIZE);
         return view('livewire.news-index', $params)->extends('layouts.master')->section('content');
     }
 }

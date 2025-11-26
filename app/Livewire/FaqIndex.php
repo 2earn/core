@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\Faq;
+use App\Services\Faq\FaqService;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
@@ -16,6 +16,13 @@ class FaqIndex extends Component
     public $search = '';
     public $currentRouteName;
     protected $paginationTheme = 'bootstrap';
+
+    protected FaqService $faqService;
+
+    public function boot(FaqService $faqService)
+    {
+        $this->faqService = $faqService;
+    }
 
     public function mount()
     {
@@ -34,17 +41,13 @@ class FaqIndex extends Component
 
     public function deleteFaq($idFaq)
     {
-        Faq::findOrFail($idFaq)->delete();
+        $this->faqService->delete($idFaq);
         return redirect()->route('faq_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Faq Deleted Successfully'));
     }
 
     public function render()
     {
-        if (!is_null($this->search) && !empty($this->search)) {
-            $params['faqs'] = Faq::where('question', 'like', '%' . $this->search . '%')->orderBy('created_at', 'desc')->paginate(self::PAGE_SIZE);
-        } else {
-            $params['faqs'] = Faq::orderBy('created_at', 'desc')->paginate(self::PAGE_SIZE);
-        }
+        $params['faqs'] = $this->faqService->getPaginated($this->search, self::PAGE_SIZE);
         return view('livewire.faq-index', $params)->extends('layouts.master')->section('content');
     }
 }

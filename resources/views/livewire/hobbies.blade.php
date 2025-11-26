@@ -4,8 +4,8 @@
             {{ __('Hobbies') }}
         @endslot
     @endcomponent
-    <div class="{{getContainerType()}}">
-        <div class="card">
+    <div class="row">
+        <div class="col-12 card">
             <div class="card-body">
                 @livewire('page-timer', ['deadline'=>'hobbies_cs'])
             </div>

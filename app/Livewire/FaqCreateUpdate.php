@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\Faq;
+use App\Services\Faq\FaqService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -15,11 +15,17 @@ class FaqCreateUpdate extends Component
 
     public $update = false;
 
+    protected FaqService $faqService;
 
     protected $rules = [
         'question' => 'required',
         'answer' => 'required',
     ];
+
+    public function boot(FaqService $faqService)
+    {
+        $this->faqService = $faqService;
+    }
 
     public function mount(Request $request)
     {
@@ -32,7 +38,7 @@ class FaqCreateUpdate extends Component
 
     public function edit($idFaq)
     {
-        $faq = Faq::findOrFail($idFaq);
+        $faq = $this->faqService->getByIdOrFail($idFaq);
         $this->idFaq = $idFaq;
         $this->question = $faq->question;
         $this->answer = $faq->answer;
@@ -49,12 +55,10 @@ class FaqCreateUpdate extends Component
         $this->validate();
 
         try {
-            Faq::where('id', $this->idFaq)
-                ->update(
-                    [
-                        'question' => $this->question,
-                        'answer' => $this->answer
-                    ]);
+            $this->faqService->update($this->idFaq, [
+                'question' => $this->question,
+                'answer' => $this->answer
+            ]);
         } catch (\Exception $exception) {
             $this->cancel();
             Log::error($exception->getMessage());
@@ -72,7 +76,7 @@ class FaqCreateUpdate extends Component
             'answer' => $this->answer
         ];
         try {
-            $createdFAQ = Faq::create($faq);
+            $createdFAQ = $this->faqService->create($faq);
             createTranslaleModel($createdFAQ, 'question', $this->question);
             createTranslaleModel($createdFAQ, 'answer', $this->answer);
         } catch (\Exception $exception) {
@@ -84,7 +88,7 @@ class FaqCreateUpdate extends Component
 
     public function render()
     {
-        $params = ['faqs' => Faq::find($this->idFaq)];
+        $params = ['faqs' => $this->faqService->getById($this->idFaq)];
         return view('livewire.faq-create-update', $params)->extends('layouts.master')->section('content');
     }
 }
