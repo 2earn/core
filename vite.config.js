@@ -15,12 +15,16 @@ const folder = {
 const rands = Math.random().toString(36).slice(2, 7);
 
 export default defineConfig({
+    css: {
+        devSourcemap: false
+    },
     build: {
         chunkSizeWarningLimit: 5120,
         manifest: "manifest.json",
         assetsInlineLimit: 0,
         rtl: true,
         cssCodeSplit: true,
+        sourcemap: false,
         rollupOptions: {
             output: {
                 assetFileNames: (assetInfo) => {
@@ -41,6 +45,8 @@ export default defineConfig({
     plugins: [
         inject({
             $: 'jquery',
+            include: ['**/*.{js,jsx,ts,tsx,vue}', 'resources/js/**'],
+            exclude: ['**/*.css', '**/*.scss', '**/*.sass', '**/*.less']
         }),
         laravel({
             input: [
