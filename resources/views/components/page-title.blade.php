@@ -10,61 +10,63 @@
                                 'url' => $it['url'] ?? ($it['href'] ?? null),
                             ];
                         } else {
-                            $crumbs[] = ['label' => (string)$it, 'url' => null];
+                            $crumbs[] = ['label' => (string) $it, 'url' => null];
                         }
                     }
                 }
 @endphp
-<div id="page-title-box" class="col-12 page-title-box  my-2 p-1 px-3 rounded-3">
-    <nav id="nav-breadcrumb" class="col d-flex align-items-center" aria-label="{{ __('Breadcrumb') }}">
-        <ol class="breadcrumb m-0 flex-grow-1">
-            <li class="breadcrumb-item">
-                <a href="{{ route('home', app()->getLocale()) }}" title="{{ __('To Home') }}">
-                    <i class="ri-home-7-line align-middle" aria-hidden="true"></i>
-                    <span class="visually-hidden">{{ __('Home') }}</span>
-                </a>
-            </li>
-            @if($crumbs)
-                @foreach($crumbs as $index => $crumb)
-                    @php $isLast = $index === count($crumbs) - 1; @endphp
-                    <li class="breadcrumb-item @if($isLast) active @endif" @if($isLast) aria-current="page" @endif>
-                        @if(!$isLast && !empty($crumb['url']) && $crumb['url'] !== '#')
-                            <a href="{{ $crumb['url'] }}">{!! $crumb['label'] !!}</a>
-                        @else
-                            {!! $crumb['label'] !!}
-                        @endif
-                    </li>
-                @endforeach
-            @else
-                <li class="breadcrumb-item active" aria-current="page">
-                    {!! $pageTitle !!}
+<div class="row">
+    <div id="page-title-box" class=" col-12 page-title-box my-1 p-2 rounded">
+        <nav id="nav-breadcrumb" class=" d-flex align-items-center" aria-label="{{ __('Breadcrumb') }}">
+            <ol class="breadcrumb m-0 flex-grow-1">
+                <li class="breadcrumb-item">
+                    <a href="{{ route('home', app()->getLocale()) }}" title="{{ __('To Home') }}">
+                        <i class="ri-home-7-line align-middle" aria-hidden="true"></i>
+                        <span class="visually-hidden">{{ __('Home') }}</span>
+                    </a>
                 </li>
+                @if($crumbs)
+                    @foreach($crumbs as $index => $crumb)
+                        @php $isLast = $index === count($crumbs) - 1; @endphp
+                        <li class="breadcrumb-item @if($isLast) active @endif" @if($isLast) aria-current="page" @endif>
+                            @if(!$isLast && !empty($crumb['url']) && $crumb['url'] !== '#')
+                                <a href="{{ $crumb['url'] }}">{!! $crumb['label'] !!}</a>
+                            @else
+                                {!! $crumb['label'] !!}
+                            @endif
+                        </li>
+                    @endforeach
+                @else
+                    <li class="breadcrumb-item active" aria-current="page">
+                        {!! $pageTitle !!}
+                    </li>
+                @endif
+            </ol>
+
+            @if(!empty($helpUrl ?? null) && $helpUrl !== '#')
+                <a href="{{ $helpUrl }}" title="{{ __('Check the help page') }}"
+                   class="ms-2 icon-square">
+                    <i class="ri-question-line align-middle" aria-hidden="true"></i>
+                    <span class="visually-hidden">{{ __('Help') }}</span>
+                </a>
             @endif
-        </ol>
 
-        @if(!empty($helpUrl ?? null) && $helpUrl !== '#')
-            <a href="{{ $helpUrl }}" title="{{ __('Check the help page') }}"
+            @if(User::isSuperAdmin())
+                <a href="#" id="admin-menu-btn" title="{{ __('Admin menu') }}"
+                   class="ms-2 icon-square">
+                    <i class="ri-admin-line align-middle" aria-hidden="true"></i>
+                    <span class="visually-hidden">{{ __('Admin Menu') }}</span>
+                </a>
+            @endif
+
+            <a href="#" id="site-menu-btn" title="{{ __('Site menu') }}"
                class="ms-2 icon-square">
-                <i class="ri-question-line align-middle" aria-hidden="true"></i>
-                <span class="visually-hidden">{{ __('Help') }}</span>
+                <i class="ri-menu-line align-middle" aria-hidden="true"></i>
+                <span class="visually-hidden">{{ __('Menu') }}</span>
             </a>
-        @endif
-
-        @if(User::isSuperAdmin())
-            <a href="#" id="admin-menu-btn" title="{{ __('Admin menu') }}"
-               class="ms-2 icon-square">
-                <i class="ri-admin-line align-middle" aria-hidden="true"></i>
-                <span class="visually-hidden">{{ __('Admin Menu') }}</span>
-            </a>
-        @endif
-
-        <a href="#" id="site-menu-btn" title="{{ __('Site menu') }}"
-           class="ms-2 icon-square">
-            <i class="ri-menu-line align-middle" aria-hidden="true"></i>
-            <span class="visually-hidden">{{ __('Menu') }}</span>
-        </a>
-    </nav>
-    <div class="menu-fade-container mb-2" id="user-menu-container">
+        </nav>
+    </div>
+    <div class=" col-12 menu-fade-container mb-2 rounded-0" id="user-menu-container">
         <div class="card border-0 shadow-lg mt-2">
             <div
                 class="card-header bg-gradient bg-primary text-white d-flex justify-content-between align-items-center py-2">
@@ -231,7 +233,7 @@
         </div>
     </div>
     @if(User::isSuperAdmin())
-        <div class="menu-fade-container mb-2" id="admin-menu-container">
+        <div class=" col-12  menu-fade-container mb-2 rounded-0" id="admin-menu-container">
             <div class="card border-0 shadow-lg mt-2">
                 <div
                     class="card-header bg-gradient bg-danger text-white d-flex justify-content-between align-items-center py-2">
@@ -471,7 +473,6 @@
         </div>
     @endif
 </div>
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const siteMenuBtn = document.getElementById('site-menu-btn');
