@@ -5,6 +5,7 @@ use App\Models\TranslaleModel;
 use App\Models\User;
 use App\Services\Balances\BalancesFacade;
 use App\Services\Users\UserTokenFacade;
+use App\Services\Settings\SettingService;
 use Carbon\Carbon;
 use Core\Models\countrie;
 use Core\Models\Setting;
@@ -127,7 +128,7 @@ if (!function_exists('getUserByPhone')) {
 if (!function_exists('getUserByContact')) {
     function getUserByContact($phone)
     {
-        $hours = Setting::Where('idSETTINGS', '25')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
+        $hours = getSettingService()->getIntegerValue('25');
         $user = UserContact::where('fullphone_number', $phone)->where('availablity', '1')->whereRaw('TIMESTAMPDIFF(HOUR, reserved_at, NOW()) < ?', [$hours])
             ->orderBy('reserved_at')->pluck('idUser')->first();
         return $user ?? NULL;
@@ -138,8 +139,7 @@ if (!function_exists('getUserByContact')) {
 if (!function_exists('getSwitchBlock')) {
     function getSwitchBlock($id)
     {
-
-        $hours = Setting::Where('idSETTINGS', '29')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
+        $hours = getSettingService()->getIntegerValue('29');
         $user = \Core\Models\UserContact::where('id', $id)
             ->pluck('reserved_at')->first();
         if ($user) {
@@ -155,21 +155,21 @@ if (!function_exists('getHalfActionValue')) {
     function getHalfActionValue()
     {
         $selledActions = getSelledActions(true) * 1.05 / 2;
-        $setting = Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
-        $initial_value = $setting[0];
+        $settingValues = getSettingService()->getIntegerValues(['16', '17', '18']);
+        $initial_value = $settingValues['16'];
         $final_value = $initial_value * 5;
-        $total_actions = $setting[2];
+        $total_actions = $settingValues['18'];
         return ($final_value - $initial_value) / ($total_actions - 1) * ($selledActions + 1) + ($initial_value - ($final_value - $initial_value) / ($total_actions - 1));
     }
 }
 if (!function_exists('getGiftedActions')) {
     function getGiftedActions($actions)
     {
-        $setting = Setting::WhereIn('idSETTINGS', ['20', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
-        $max_bonus = $setting[0];
-        $total_actions = $setting[1];
+        $settingValues = getSettingService()->getIntegerValues(['20', '18']);
+        $max_bonus = $settingValues['20'];
+        $total_actions = $settingValues['18'];
 
-        $k = Setting::Where('idSETTINGS', '21')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
+        $k = getSettingService()->getDecimalValue('21');
 
         $a = (($total_actions * $max_bonus) / 100);
         $b = (1 - exp(-$k * $actions));
@@ -207,10 +207,10 @@ if (!function_exists('getFlashGiftedActions')) {
 if (!function_exists('actualActionValue')) {
     function actualActionValue($selled_actions, $formated = true)
     {
-        $setting = Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
-        $initial_value = $setting[0];
-        $final_value = $setting[1];
-        $total_actions = $setting[2];
+        $settingValues = getSettingService()->getIntegerValues(['16', '17', '18']);
+        $initial_value = $settingValues['16'];
+        $final_value = $settingValues['17'];
+        $total_actions = $settingValues['18'];
         $x = ($final_value - $initial_value) / ($total_actions - 1) * ($selled_actions + 1) + ($initial_value - ($final_value - $initial_value) / ($total_actions - 1));
         return $formated ? number_format($x, 2, '.', '') * 1 : $x;
     }
@@ -387,14 +387,14 @@ if (!function_exists('earnDebug')) {
 if (!function_exists('usdToSar')) {
     function usdToSar()
     {
-        return Setting::Where('idSETTINGS', '30')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
+        return getSettingService()->getDecimalValue('30');
     }
 }
 
 if (!function_exists('checkUserBalancesInReservation')) {
     function checkUserBalancesInReservation($idUser)
     {
-        $reservation = Setting::Where('idSETTINGS', '32')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
+        $reservation = getSettingService()->getIntegerValue('32');
         $result = DB::table('shares_balances as u')
             ->where('beneficiary_id', $idUser)
             ->select(DB::raw('TIMESTAMPDIFF(HOUR, ' . DB::raw('created_at') . ', NOW()))'))
@@ -519,10 +519,10 @@ if (!function_exists('getProfileMsgErreur')) {
 }
 
 if (!function_exists('checkExpiredSoonInternationalIdentity')) {
-    function getDiffOnDays($disiredDate)
+    function getDiffOnDays($disaredDate)
     {
         $now = new DateTime();
-        $input = DateTime::createFromFormat('Y-m-d', $disiredDate);
+        $input = DateTime::createFromFormat('Y-m-d', $disaredDate);
         return $now->diff($input)->format("%r%a");
     }
 }
@@ -581,40 +581,41 @@ if (!function_exists('getSqlFromPath')) {
         return File::get($path);
     }
 }
+if (!function_exists('getSettingService')) {
+    function getSettingService(): SettingService
+    {
+        return app(SettingService::class);
+    }
+}
+
 if (!function_exists('getSettingParam')) {
     function getSettingParam($paramName)
     {
-        return DB::table('settings')->where("ParameterName", "=", $paramName)->first();
+        return getSettingService()->getSettingByParameterName($paramName);
     }
 }
+
 if (!function_exists('getSettingDecimalParam')) {
     function getSettingDecimalParam($paramName, $default)
     {
-        $param = getSettingParam($paramName);
-        if (!is_null($param)) {
-            return $param->DecimalValue;
-        }
-        return $default;
+        $value = getSettingService()->getDecimalByParameterName($paramName);
+        return $value ?? $default;
     }
 }
+
 if (!function_exists('getSettingIntegerParam')) {
     function getSettingIntegerParam($paramName, $default)
     {
-        $param = getSettingParam($paramName);
-        if (!is_null($param)) {
-            return $param->IntegerValue;
-        }
-        return $default;
+        $value = getSettingService()->getIntegerByParameterName($paramName);
+        return $value ?? $default;
     }
 }
+
 if (!function_exists('getSettingStringParam')) {
     function getSettingStringParam($paramName, $default)
     {
-        $param = getSettingParam($paramName);
-        if (!is_null($param)) {
-            return (int)$param->StringValue;
-        }
-        return $default;
+        $value = getSettingService()->getStringByParameterName($paramName);
+        return $value ?? $default;
     }
 }
 
@@ -685,4 +686,3 @@ if (!function_exists('getContainerType')) {
         return getSettingStringParam('container-type', 'container');
     }
 }
-

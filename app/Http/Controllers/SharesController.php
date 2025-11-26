@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Services\Balances\BalanceService;
-use Core\Models\Setting;
+use App\Services\Settings\SettingService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Vite;
 
 class SharesController extends Controller
 {
     public function __construct(
-        private readonly BalanceService $balanceService
+        private readonly BalanceService $balanceService,
+        private readonly SettingService $settingService
     ) {
     }
 
@@ -238,10 +239,10 @@ class SharesController extends Controller
     {
         $limit = getSelledActions(true) * 1.05;
         $data = [];
-        $setting = Setting::WhereIn('idSETTINGS', ['16', '17', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
-        $initial_value = $setting[0];
+        $settingValues = $this->settingService->getIntegerValues(['16', '17', '18']);
+        $initial_value = $settingValues['16'];
         $final_value = $initial_value * 5;
-        $total_actions = $setting[2];
+        $total_actions = $settingValues['18'];
 
         for ($x = 0; $x <= $limit; $x += intval($limit / 20)) {
             $val = ($final_value - $initial_value) / ($total_actions - 1) * ($x + 1) + ($initial_value - ($final_value - $initial_value) / ($total_actions - 1));

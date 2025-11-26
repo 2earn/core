@@ -3,7 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\vip;
-use Core\Models\Setting;
+use App\Services\Settings\SettingService;
 use Core\Services\BalancesManager;
 use Livewire\Component;
 
@@ -114,16 +114,16 @@ class BuyShares extends Component
         $this->maxActions = intval($solde->soldeCB / actualActionValue(getSelledActions(true), false));
     }
 
-    public function render(BalancesManager $balancesManager)
+    public function render(BalancesManager $balancesManager, SettingService $settingService)
     {
         $this->initSoldes($balancesManager);
 
         $actualActionValue = actualActionValue(getSelledActions(true), false);
         if ($this->vip) {
-            $setting = Setting::WhereIn('idSETTINGS', ['20', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
-            $max_bonus = $setting[0];
-            $total_actions = $setting[1];
-            $k = Setting::Where('idSETTINGS', '21')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
+            $settingValues = $settingService->getIntegerValues(['20', '18']);
+            $max_bonus = $settingValues['20'];
+            $total_actions = $settingValues['18'];
+            $k = $settingService->getDecimalValue('21');
             $this->actions = find_actions($this->vip->solde, $total_actions, $max_bonus, $k, $this->vip->flashCoefficient);
             $this->benefices = ($this->vip->solde - find_actions($this->vip->solde, $total_actions, $max_bonus, $k, $this->vip->flashCoefficient)) * $actualActionValue;
             $this->cout = formatSolde($this->actions * $actualActionValue / (($this->actions * $this->vip->flashCoefficient) + getGiftedActions($this->actions)), 2);
