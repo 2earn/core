@@ -193,7 +193,6 @@ if (!function_exists('find_actions')) {
                 return $actions_guess;
             }
 
-            // Ajuster la valeur de guess en fonction de la différence
             $actions_guess -= ($calculated_result_final - $result_final) / (1 + $x);
         }
     }
