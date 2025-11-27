@@ -101,18 +101,6 @@
                             @error('commission_formula_id') <span class="text-danger">{{ $message }}</span>@enderror
                             <div class="form-text">{{__('Select a commission formula')}}</div>
                         </div>
-
-                        <div class="form-group col-3 mb-3">
-                            <label for="precision">{{__('Precision')}}</label>
-                            <span class="text-info float-end">{{__('0.00001')}}</span>
-
-                            <input type="number" class="form-control @error('precision') is-invalid @enderror"
-                                   id="precision"
-                                   wire:model.live="precision"
-                                   placeholder="{{__('Enter Precision')}}">
-                            @error('precision') <span class="text-danger">{{ $message }}</span>@enderror
-                            <div class="form-text">{{__('Required field')}}</div>
-                        </div>
                     </div>
                     <hr class="text-muted">
                     <div class="row">

@@ -50,8 +50,28 @@ class DealsCreateUpdate extends Component
         'target_turnover' => 'required',
         'start_date' => ['required', 'after_or_equal:today'],
         'end_date' => ['required', 'after:start_date'],
-        'commission_formula_id' => 'required|integer|exists:commission_formulas,id',
     ];
+
+    protected function rules()
+    {
+        $rules = [
+            'name' => 'required|min:5',
+            'description' => 'required|min:5',
+            'target_turnover' => 'required',
+            'end_date' => ['required', 'after:start_date'],
+        ];
+
+        // When creating a new deal, enforce start_date is today or later
+        if (!$this->update) {
+            $rules['start_date'] = ['required', 'after_or_equal:today'];
+            $rules['commission_formula_id'] = 'required|integer|exists:commission_formulas,id';
+        } else {
+            // When updating, allow any start_date
+            $rules['start_date'] = ['required'];
+        }
+
+        return $rules;
+    }
 
     public function mount(Request $request)
     {
@@ -96,8 +116,7 @@ class DealsCreateUpdate extends Component
         $this->proactive_cashback = $this->getDealParam('DEALS_PROACTIVE_CASHBACK_PERCENTAGE');
     }
 
-    public
-    function updatedCommissionFormulaId($commissionFormulaId)
+    public    function updatedCommissionFormulaId($commissionFormulaId)
     {
         if ($commissionFormulaId) {
             $formula = CommissionFormula::find($commissionFormulaId);
@@ -116,8 +135,8 @@ class DealsCreateUpdate extends Component
         $this->status = $deal->status;
         $this->description = $deal->description;
         $this->target_turnover = $deal->target_turnover;
-        $this->start_date = $deal->start_date;
-        $this->end_date = $deal->end_date;
+        $this->start_date = $deal->start_date ? \Carbon\Carbon::parse($deal->start_date)->format('Y-m-d') : null;
+        $this->end_date = $deal->end_date ? \Carbon\Carbon::parse($deal->end_date)->format('Y-m-d') : null;
         $this->items_profit_average = $deal->items_profit_average;
         $this->initial_commission = $deal->initial_commission;
         $this->final_commission = $deal->final_commission;
@@ -127,6 +146,7 @@ class DealsCreateUpdate extends Component
         $this->tree_remuneration = $deal->tree_remuneration;
         $this->proactive_cashback = $deal->proactive_cashback;
         $this->idPlatform = $deal->platform_id;
+        $this->commission_formula_id = null; // Not required for updates
         $this->update = true;
     }
 
@@ -140,7 +160,11 @@ class DealsCreateUpdate extends Component
     function updateDeal()
     {
         $this->validate();
-        $this->updatedCommissionFormulaId($this->commission_formula_id);
+
+        if ($this->commission_formula_id) {
+            $this->updatedCommissionFormulaId($this->commission_formula_id);
+        }
+
         $params = [
             'name' => $this->name,
             'description' => $this->description,
@@ -170,8 +194,7 @@ class DealsCreateUpdate extends Component
 
     }
 
-    public
-    function store()
+    public    function store()
     {
         $this->validate();
 
@@ -207,8 +230,7 @@ class DealsCreateUpdate extends Component
         return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Created Successfully'));
     }
 
-    public
-    function render()
+    public    function render()
     {
         $platform = Platform::find($this->idPlatform);
         return view('livewire.deals-create-update', ['platform' => $platform])->extends('layouts.master')->section('content');

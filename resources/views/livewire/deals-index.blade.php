@@ -226,6 +226,29 @@
                     <div class="row g-2 mb-3">
                         <div class="col-md-6 col-6">
                             <div class="p-2 bg-light rounded">
+                                <p class="text-info fs-12 mb-1">
+                                    <i class="fas fa-calendar-alt me-1"></i>{{__('Start Date')}}
+                                </p>
+                                <span class="badge bg-info-subtle text-info px-2 py-1">
+                                    {{$deal->start_date ? \Carbon\Carbon::parse($deal->start_date)->format('Y-m-d') : __('N/A')}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-6">
+                            <div class="p-2 bg-light rounded">
+                                <p class="text-danger fs-12 mb-1">
+                                    <i class="fas fa-calendar-times me-1"></i>{{__('End Date')}}
+                                </p>
+                                <span class="badge bg-danger-subtle text-danger px-2 py-1">
+                                    {{$deal->end_date ? \Carbon\Carbon::parse($deal->end_date)->format('Y-m-d') : __('N/A')}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-md-6 col-6">
+                            <div class="p-2 bg-light rounded">
                                 <p class="text-success fs-12 mb-1">
                                     <i class="fas fa-percent me-1"></i>{{__('Initial Commission')}}
                                 </p>

@@ -2,8 +2,7 @@
     @if($totalPending > 0)
         <div class="row g-2">
             @foreach($pendingRequests as $request)
-                <div class="col-12">
-                    <div class="card border-0 shadow-sm hover-shadow">
+                    <div class="col-12 card border-0 shadow-sm hover-shadow">
                         <div class="card-body p-3">
                             <div class="row align-items-center">
                                 <div class="col-md-1 col-2">
@@ -40,7 +39,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
             @endforeach
         </div>
 
