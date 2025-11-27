@@ -26,12 +26,12 @@
                         @endif
                     @endif
 
-                    <h5 class="mb-0 text-info">
+                    <h4 class="m-2">
                         @if(\App\Models\User::isSuperAdmin())
                            {{$survey->id}} -
                         @endif
                         {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}
-                    </h5>
+                    </h4>
                 </div>
             </div>
             @if(\App\Models\User::isSuperAdmin())

@@ -56,7 +56,6 @@
         <div class="col-12 card border-0 shadow-sm h-100">
             @forelse($events as $event)
                 <div class="row card shadow-sm">
-                    <!-- Card Header -->
                     <div class="card-header bg-white border-bottom">
                         <div class="d-flex justify-content-between align-items-start">
                             <div class="flex-grow-1">
@@ -150,8 +149,6 @@
                                         </div>
                                     </div>
                                 @endif
-
-                                <!-- Content -->
                                 <div class="mb-3">
                                     <h6 class="text-muted mb-2">
                                         <i class="fa fa-align-left me-2"></i>{{__('Content')}}

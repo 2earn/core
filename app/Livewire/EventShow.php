@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Comment;
 use App\Models\Event;
 use App\Models\User;
+use App\Services\Comments\CommentsService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -18,9 +19,12 @@ class EventShow extends Component
     public $likeCount = 0;
     public $liked = false;
 
-    public function mount($id)
+    private CommentsService $commentsService;
+
+    public function mount($id, CommentsService $commentsService)
     {
         $this->id = $id;
+        $this->commentsService = $commentsService;
         $this->event = Event::with(['mainImage', 'hashtags'])->findOrFail($id);
         $this->loadComments();
         $this->loadLikes();
@@ -28,28 +32,23 @@ class EventShow extends Component
 
     public function loadComments()
     {
-        $this->comments = $this->event->comments()
-            ->where('validated', true)
-            ->with('user')
-            ->orderByDesc('created_at')
-            ->get();
-        $this->unvalidatedComments = $this->event->comments()
-            ->where('validated', false)
-            ->orderByDesc('created_at')
-            ->get();
+        $this->comments = $this->commentsService->getValidatedComments($this->event);
+        $this->unvalidatedComments = $this->commentsService->getUnvalidatedComments($this->event);
     }
 
     public function validateComment($commentId)
     {
         if (!auth()->check() || !User::isSuperAdmin()) return;
-        Comment::validate($commentId);
+
+        $this->commentsService->validateComment($commentId, auth()->id());
         $this->loadComments();
     }
 
     public function deleteComment($commentId)
     {
         if (!auth()->check() || !User::isSuperAdmin()) return;
-        Comment::deleteComment($commentId);
+
+        $this->commentsService->deleteComment($commentId);
         $this->loadComments();
     }
 
@@ -65,11 +64,14 @@ class EventShow extends Component
         $this->validate([
             'commentContent' => 'required|string|max:500',
         ]);
-        $this->event->comments()->create([
-            'content' => $this->commentContent,
-            'user_id' => Auth::id(),
-            'validated' => false,
-        ]);
+
+        $this->commentsService->addComment(
+            commentable: $this->event,
+            content: $this->commentContent,
+            userId: Auth::id(),
+            validated: false
+        );
+
         $this->commentContent = '';
         $this->loadComments();
     }
