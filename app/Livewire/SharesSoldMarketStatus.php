@@ -4,6 +4,8 @@ namespace App\Livewire;
 
 
 use App\Models\CashBalances;
+use App\Services\Balances\CashBalancesService;
+use App\Services\Balances\ShareBalanceService;
 use Carbon\Carbon;
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
@@ -78,27 +80,17 @@ class SharesSoldMarketStatus extends Component
 
     public function updateBalance()
     {
-        try {
-            // Call the update balance route logic
-            $data = [
-                'total' => $this->selectedAmountTotal,
-                'amount' => $this->selectedAmount,
-                'id' => $this->selectedId,
-            ];
+        $shareBalanceService = app(ShareBalanceService::class);
+        $success = $shareBalanceService->updateShareBalance(
+            $this->selectedId,
+            $this->selectedAmount
+        );
 
-            // You would typically call a service here
-            DB::table('shares_balances')
-                ->where('id', $this->selectedId)
-                ->update([
-                    'current_balance' => $this->selectedAmount,
-                    'payed' => 1,
-                ]);
-
+        if ($success) {
             $this->closeModal();
             $this->dispatch('balance-updated');
-
             session()->flash('message', __('Balance updated successfully'));
-        } catch (\Exception $e) {
+        } else {
             session()->flash('error', __('Error updating balance'));
         }
     }
@@ -108,36 +100,6 @@ class SharesSoldMarketStatus extends Component
         return asset('assets/images/flags/' . strtolower($alpha2) . '.svg');
     }
 
-    public function getSharesSoldesData()
-    {
-        $query = DB::table('shares_balances')
-            ->select(
-                'current_balance',
-                'payed',
-                'countries.apha2',
-                'shares_balances.id',
-                DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS Name'),
-                'user.mobile',
-                DB::raw('CAST(value AS DECIMAL(10,0)) AS value'),
-                'shares_balances.value as raw_value',
-                DB::raw('CAST(shares_balances.unit_price AS DECIMAL(10,2)) AS unit_price'),
-                'shares_balances.created_at',
-                'shares_balances.payed as payed',
-                'shares_balances.beneficiary_id'
-            )
-            ->join('users as user', 'user.idUser', '=', 'shares_balances.beneficiary_id')
-            ->join('metta_users as meta', 'meta.idUser', '=', 'user.idUser')
-            ->join('countries', 'countries.id', '=', 'user.idCountry')
-            ->when($this->search, function($query) {
-                $query->where(function($q) {
-                    $q->where('user.mobile', 'like', '%' . $this->search . '%')
-                      ->orWhere(DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName))'), 'like', '%' . $this->search . '%');
-                });
-            })
-            ->orderBy($this->sortField, $this->sortDirection);
-
-        return $query->paginate($this->perPage);
-    }
 
     public function getIp()
     {
@@ -154,7 +116,12 @@ class SharesSoldMarketStatus extends Component
         return null;
     }
 
-    public function render(settingsManager $settingsManager, BalancesManager $balancesManager)
+    public function render(
+        settingsManager $settingsManager,
+        BalancesManager $balancesManager,
+        ShareBalanceService $shareBalanceService,
+        CashBalancesService $cashBalancesService
+    )
     {
         $user = $settingsManager->getAuthUser();
 
@@ -179,16 +146,17 @@ class SharesSoldMarketStatus extends Component
         array_push($arraySoldeD, $soldeBFSd);
         array_push($arraySoldeD, $soldeDBd);
         $usermetta_info = collect(DB::table('metta_users')->where('idUser', $user->idUser)->first());
-        $dateAujourdhui = Carbon::now()->format('Y-m-d');
-        $vente_jour = CashBalances::where('balance_operation_id', 42)
-            ->where('beneficiary_id', $user->idUser)
-            ->whereDate('created_at', '=', $dateAujourdhui)
-            ->selectRaw('SUM(value) as total_sum')->first()->total_sum;
-        $vente_total = CashBalances::where('balance_operation_id', 42)
-            ->where('beneficiary_id', $user->idUser)
-            ->selectRaw('SUM(value) as total_sum')->first()->total_sum;
 
-        $sharesSoldes = $this->getSharesSoldesData();
+        $salesData = $cashBalancesService->getSalesData($user->idUser, 42);
+        $vente_jour = $salesData['today'];
+        $vente_total = $salesData['total'];
+
+        $sharesSoldes = $shareBalanceService->getSharesSoldesData(
+            $this->search,
+            $this->perPage,
+            $this->sortField,
+            $this->sortDirection
+        );
 
         $params = [
             "solde" => $s,
@@ -201,9 +169,3 @@ class SharesSoldMarketStatus extends Component
         return view('livewire.shares-sold-market-status', $params)->extends('layouts.master')->section('content');
     }
 }
-
-
-
-
-
-
