@@ -469,6 +469,9 @@
     opacity: 0;
     transform: translateY(-20px);
     transition: opacity 0.3s ease, transform 0.3s ease;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+    border-radius: 3px !important;
 }
 
 .menu-fade-container.show {

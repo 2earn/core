@@ -13,6 +13,7 @@ use App\Models\vip;
 use App\Notifications\SharePurchase;
 use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
+use App\Services\Settings\SettingService;
 use App\Services\Sponsorship\SponsorshipFacade;
 use carbon;
 use Core\Enum\BalanceOperationsEnum;
@@ -23,7 +24,6 @@ use Core\Enum\TypeNotificationEnum;
 use Core\Models\BalanceOperation;
 use Core\Models\detail_financial_request;
 use Core\Models\FinancialRequest;
-use Core\Models\Setting;
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
 use Illuminate\Http\JsonResponse;
@@ -44,7 +44,11 @@ class ApiController extends BaseController
 {
     const DATE_FORMAT = 'd/m/Y H:i:s';
 
-    public function __construct(private readonly settingsManager $settingsManager, private UserRepository $userRepository)
+    public function __construct(
+        private readonly settingsManager $settingsManager,
+        private UserRepository $userRepository,
+        private SettingService $settingService
+    )
     {
     }
 
@@ -75,7 +79,7 @@ class ApiController extends BaseController
         $ref = BalancesFacade::getReference(BalanceOperationsEnum::OLD_ID_44->value);
 
 
-        $palier = Setting::Where('idSETTINGS', '19')->orderBy('idSETTINGS')->pluck('IntegerValue')->first();
+        $palier = $this->settingService->getIntegerValue('19');
         $reciver = Auth()->user()->idUser;
         $reciver_bfs = Auth()->user()->idUser;
         $a = "me";
@@ -306,7 +310,7 @@ class ApiController extends BaseController
         }
         $chaine = $data->cart_id;
         $user = explode('-', $chaine)[0];
-        $k = Setting::Where('idSETTINGS', '30')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
+        $k = $this->settingService->getDecimalValue('30');
         $msg = $settingsManager->getUserByIdUser($user)->mobile . " " . $data->payment_result->response_message;
         if ($data->success) {
             $msg = $msg . " transfert de " . $data->tran_total . $data->cart_currency . "(" . number_format($data->tran_total / $k, 2) . "$)";

@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Services\Settings\SettingService;
 use Core\Enum\NotificationSettingEnum;
 use Core\Enum\SettingsEnum;
-use Core\Models\Setting;
 use Core\Services\settingsManager;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -14,6 +14,7 @@ use Livewire\Component;
 class NotificationSettings extends Component
 {
     private settingsManager $settingsManager;
+    private SettingService $settingService;
     public $setting_notif;
     public $nbrSms;
     public $nbrSmsPossible;
@@ -21,9 +22,10 @@ class NotificationSettings extends Component
         'setting_notif.*.value' => 'required',
     ];
 
-    public function mount(settingsManager $settingsManager)
+    public function mount(settingsManager $settingsManager, SettingService $settingService)
     {
         $this->settingsManager = $settingsManager;
+        $this->settingService = $settingService;
     }
 
 
@@ -52,7 +54,7 @@ class NotificationSettings extends Component
         $this->settingsManager = $settingsManager;
         $this->setting_notif = $this->settingsManager->getNotificationSetting($this->settingsManager->getAuthUser()->idUser);
         $this->nbrSms = $this->setting_notif->where('id', '=', NotificationSettingEnum::SMSByWeek->value)->first()->value;
-        $this->nbrSmsPossible = Setting::where('idSETTINGS', SettingsEnum::NbrSmsPossible)->first()->DecimalValue;
+        $this->nbrSmsPossible = $this->settingService->getDecimalValue(SettingsEnum::NbrSmsPossible->value);
         return view('livewire.notification-settings')->extends('layouts.master')->section('content');
     }
 

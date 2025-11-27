@@ -8,9 +8,9 @@ use App\Models\CashBalances;
 use App\Models\SharesBalances;
 use App\Models\User;
 use App\Services\Balances\Balances;
+use App\Services\Settings\SettingService;
 use Core\Enum\BalanceOperationsEnum;
 use Core\Models\BalanceOperation;
-use Core\Models\Setting;
 use Core\Services\BalancesManager;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -26,17 +26,17 @@ class Sponsorship
     private $saleCount;
     private $retardatifReservation;
 
-    public function __construct(private UserRepository $userRepository, private BalancesManager $balancesManager)
+    public function __construct(private UserRepository $userRepository, private BalancesManager $balancesManager, private SettingService $settingService)
     {
         $settingIds = ['24', '25', '26', '27', '28', '31', '32'];
-        $setting = Setting::WhereIn('idSETTINGS', $settingIds)->orderBy('idSETTINGS')->pluck('IntegerValue');
-        $this->shares = $setting[0];
-        $this->reservation = $setting[1];
-        $this->amount = $setting[2];
-        $this->amountCash = $setting[3];
-        $this->amountBFS = $setting[4];
-        $this->saleCount = $setting[5];
-        $this->retardatifReservation = $setting[6];
+        $settingValues = $this->settingService->getIntegerValues($settingIds);
+        $this->shares = $settingValues['24'];
+        $this->reservation = $settingValues['25'];
+        $this->amount = $settingValues['26'];
+        $this->amountCash = $settingValues['27'];
+        $this->amountBFS = $settingValues['28'];
+        $this->saleCount = $settingValues['31'];
+        $this->retardatifReservation = $settingValues['32'];
     }
 
     public function checkDelayedSponsorship($upLine, $downLine): ?User

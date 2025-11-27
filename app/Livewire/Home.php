@@ -3,13 +3,14 @@
 namespace App\Livewire;
 
 
-use App\Models\vip;
-use Core\Models\Setting;
+use App\Models\vip as Vip;
+use App\Services\Settings\SettingService;
 use Core\Services\BalancesManager;
-use Core\Services\settingsManager;
+use Core\Services\settingsManager as SettingsManager;
 use DateInterval;
 use DateTime;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 use Livewire\Component;
 
 class Home extends Component
@@ -17,8 +18,9 @@ class Home extends Component
     const MAX_AMOUNT = 99999999;
     const MAX_ACTIONS = 9999999;
 
-    private settingsManager $settingsManager;
+    private SettingsManager $settingsManager;
     private BalancesManager $balancesManager;
+    private SettingService $settingService;
     public $ammount;
     public $ammountReal;
     public $action;
@@ -46,68 +48,89 @@ class Home extends Component
     ];
 
 
-    public function mount(settingsManager $settingsManager, BalancesManager $balancesManager)
+    public function mount(SettingsManager $settingsManager, BalancesManager $balancesManager, SettingService $settingService)
     {
         $this->settingsManager = $settingsManager;
         $this->balancesManager = $balancesManager;
+        $this->settingService = $settingService;
     }
 
-    public function getIp()
+    public function getIp(): ?string
     {
-        foreach (array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key) {
+        foreach (['HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR'] as $key) {
             if (array_key_exists($key, $_SERVER) === true) {
-                foreach (explode(',', $_SERVER[$key]) as $ip) {
-                    $ip = trim($ip);
-                    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false) {
-                        return $ip;
+                foreach (explode(',', $_SERVER[$key]) as $ipAddress) {
+                    $ipAddress = trim($ipAddress);
+                    if (filter_var($ipAddress, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false) {
+                        return $ipAddress;
                     }
                 }
             }
         }
+
+        return null;
     }
 
-    public function render(settingsManager $settingsManager, BalancesManager $balancesManager)
+    public function render(): View
     {
-        $user = $settingsManager->getAuthUser();
-        delUsertransaction($user->idUser);
+        $user = $this->settingsManager->getAuthUser();
+
         if (!$user) {
-            dd('not found page');
+            abort(404, 'User not found');
         }
 
-        // Get user metadata
-        $usermetta_info = collect(DB::table('metta_users')->where('idUser', $user->idUser)->first());
+        delUsertransaction($user->idUser);
 
-        // Get actual action value for flash sale calculation
+        $userMetaInfo = collect(DB::table('metta_users')->where('idUser', $user->idUser)->first());
+
         $actualActionValue = actualActionValue(getSelledActions(true), false);
 
         $params = [
-            'usermetta_info' => $usermetta_info,
+            'usermetta_info' => $userMetaInfo,
         ];
 
         // Check for VIP/Flash sale
-        $this->vip = vip::Where('idUser', '=', $user->idUser)
+        $this->vip = Vip::where('idUser', '=', $user->idUser)
             ->where('closed', '=', false)->first();
 
-
         if ($this->vip) {
-            $setting = Setting::WhereIn('idSETTINGS', ['20', '18'])->orderBy('idSETTINGS')->pluck('IntegerValue');
-            $max_bonus = $setting[0];
-            $total_actions = $setting[1];
-            $k = Setting::Where('idSETTINGS', '21')->orderBy('idSETTINGS')->pluck('DecimalValue')->first();
-            $this->actions = find_actions($this->vip->solde, $total_actions, $max_bonus, $k, $this->vip->flashCoefficient);
-            $this->benefices = ($this->vip->solde - find_actions($this->vip->solde, $total_actions, $max_bonus, $k, $this->vip->flashCoefficient)) * $actualActionValue;
-            $this->cout = formatSolde($this->actions * $actualActionValue / (($this->actions * $this->vip->flashCoefficient) + getGiftedActions($this->actions)), 2);
+            $vipIntegerValues = $this->settingService->getIntegerValues(['20', '18']);
+            $maxBonus = $vipIntegerValues['20'] ?? 0;
+            $totalActions = $vipIntegerValues['18'] ?? 0;
+            $flashCoefficient = $this->settingService->getDecimalValue('21') ?? 0.0;
+
+            $this->actions = find_actions(
+                $this->vip->solde,
+                $totalActions,
+                $maxBonus,
+                $flashCoefficient,
+                $this->vip->flashCoefficient
+            );
+
+            $this->benefices = (
+                $this->vip->solde -
+                find_actions($this->vip->solde, $totalActions, $maxBonus, $flashCoefficient, $this->vip->flashCoefficient)
+            ) * $actualActionValue;
+
+            $this->cout = formatSolde(
+                $this->actions * $actualActionValue /
+                (($this->actions * $this->vip->flashCoefficient) + getGiftedActions($this->actions)),
+                2
+            );
+
             $this->flashTimes = $this->vip->flashCoefficient;
             $this->flashPeriod = $this->vip->flashDeadline;
             $this->flashDate = $this->vip->dateFNS;
             $this->flashMinShares = $this->vip->flashMinAmount;
+
             $currentDateTime = new DateTime();
-            $dateFlash = new DateTime($this->flashDate);
-            $interval = new DateInterval('PT' . $this->flashPeriod . 'H');
-            $dateFlash = $dateFlash->add($interval);
-            $this->flashDate = $dateFlash->format('F j, Y G:i:s');
-            $this->flash = $currentDateTime < $dateFlash;
+            $flashWindowEnd = (new DateTime($this->flashDate))
+                ->add(new DateInterval('PT' . $this->flashPeriod . 'H'));
+
+            $this->flashDate = $flashWindowEnd->format('F j, Y G:i:s');
+            $this->flash = $currentDateTime < $flashWindowEnd;
         }
+
         return view('livewire.home', $params)->extends('layouts.master')->section('content');
     }
 }

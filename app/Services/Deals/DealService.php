@@ -273,17 +273,14 @@ class DealService
             });
         }
 
-        // Apply keyword filter
         if ($keyword) {
             $query->where('name', 'like', '%' . $keyword . '%');
         }
 
-        // Apply status filter
         if (!empty($selectedStatuses)) {
             $query->whereIn('status', $selectedStatuses);
         }
 
-        // Apply type filter
         if (!empty($selectedTypes)) {
             $query->whereIn('type', $selectedTypes);
         }
@@ -301,6 +298,17 @@ class DealService
 
         // Return paginated or all results
         return $perPage ? $query->paginate($perPage) : $query->get();
+    }
+
+    /**
+     * Create a new deal
+     *
+     * @param array $data
+     * @return Deal
+     */
+    public function create(array $data): Deal
+    {
+        return Deal::create($data);
     }
 }
 

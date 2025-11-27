@@ -127,9 +127,7 @@ class DealPartnerController extends Controller
         try {
             DB::beginTransaction();
 
-            // Create the deal
-            $deal = Deal::create($validatedData);
-            // Create a validation request for the deal
+            $deal = $this->dealService->create($validatedData);
             $this->dealService->createValidationRequest(
                 $deal->id,
                 $request->input('created_by'),
