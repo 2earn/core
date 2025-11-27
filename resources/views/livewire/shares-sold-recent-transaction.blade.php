@@ -11,56 +11,92 @@
     <div class="row">
         <div class="col-xxl-12">
             <div class="card">
-                <div class="card-body table-responsive">
-                    <table id="transfert" class="table table-striped table-bordered cell-border row-border table-hover mdl-data-table display nowrap">
-                        <thead class="table-light">
-                        <tr class="head2earn  tabHeader2earn">
-                            <th>{{__('value')}}</th>
-                            <th>{{__('Description')}}</th>
-                            <th>{{__('formatted_created_at')}}</th>
-                        </tr>
-                        </thead>
-                        <tbody class="body2earn">
-                        </tbody>
-                    </table>
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <input type="text"
+                                       wire:model.live.debounce.300ms="search"
+                                       class="form-control"
+                                       placeholder="{{ __('Search transactions...') }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <select wire:model.live="perPage" class="form-select d-inline-block w-auto">
+                                <option value="10">10</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Header Row -->
+                    <div class="row fw-bold border-bottom pb-2 mb-3 bg-light p-3">
+                        <div class="col-md-3">
+                            <span wire:click="sortBy('value')" style="cursor: pointer;">
+                                {{__('value')}}
+                                @if($sortField === 'value')
+                                    <i class="mdi mdi-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}"></i>
+                                @endif
+                            </span>
+                        </div>
+                        <div class="col-md-6">
+                            <span wire:click="sortBy('description')" style="cursor: pointer;">
+                                {{__('Description')}}
+                                @if($sortField === 'description')
+                                    <i class="mdi mdi-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}"></i>
+                                @endif
+                            </span>
+                        </div>
+                        <div class="col-md-3">
+                            <span wire:click="sortBy('created_at')" style="cursor: pointer;">
+                                {{__('formatted_created_at')}}
+                                @if($sortField === 'created_at')
+                                    <i class="mdi mdi-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}"></i>
+                                @endif
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Data Rows -->
+                    @forelse($transactions as $transaction)
+                        <div class="row border-bottom py-3 align-items-center hover-bg-light">
+                            <div class="col-md-3">
+                                <strong>{{ $transaction->value }}</strong>
+                            </div>
+                            <div class="col-md-6">
+                                {{ $transaction->description }}
+                            </div>
+                            <div class="col-md-3">
+                                {{ \Carbon\Carbon::parse($transaction->created_at)->format('Y-m-d H:i:s') }}
+                            </div>
+                        </div>
+                    @empty
+                        <div class="row">
+                            <div class="col-12 text-center py-5">
+                                <p class="text-muted">{{ __('No transactions found') }}</p>
+                            </div>
+                        </div>
+                    @endforelse
+
+                    <!-- Pagination -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            {{ $transactions->links() }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <script type="module">
-        document.addEventListener("DOMContentLoaded", function () {
 
-            $('#transfert').DataTable(
-                {
-                    "ordering": true,
-                    retrieve: true,
-                    "colReorder": false,
-                    "orderCellsTop": true,
-                    "fixedHeader": true,
-                    "order": [[2, 'desc']],
-                    "processing": true,
-                    "serverSide": false,
-                    "aLengthMenu": [[10, 30, 50], [10, 30, 50]],
-                    search: {return: true},
-                    autoWidth: false,
-                    bAutoWidth: false,
-                    "ajax": {
-                        url: "{{route('api_transfert',['locale'=> app()->getLocale()])}}",
-                        type: "GET",
-                        headers: {'Authorization': 'Bearer ' + "{{generateUserToken()}}"},
-                        error: function (xhr, error, thrown) {
-                            loadDatatableModalError('transfert')
-                        }                    },
-                    "columns": [
-                        {data: 'value'},
-                        {data: 'description'},
-                        {data: 'created_at'}
-                    ],
-                    "language": {"url": urlLang}
-                }
-            );
-        });
-    </script>
+    <style>
+        .hover-bg-light:hover {
+            background-color: #f8f9fa;
+            cursor: pointer;
+        }
+    </style>
 
     <script id="rendered-js" type="module">
         var options = {

@@ -5,24 +5,35 @@ namespace App\Livewire;
 
 use App\Models\CashBalances;
 use Carbon\Carbon;
+use Core\Enum\BalanceOperationsEnum;
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class SharesSoldRecentTransaction extends Component
 {
+    use WithPagination;
+
     public $cashBalance;
     public $balanceForSopping;
     public $discountBalance;
     public $SMSBalance;
     public $cash = 25.033;
+    public $perPage = 10;
+    public $search = '';
+    public $sortField = 'created_at';
+    public $sortDirection = 'desc';
+
     private settingsManager $settingsManager;
     private BalancesManager $balancesManager;
 
     protected $listeners = [
         'checkContactNumbre' => 'checkContactNumbre'
     ];
+
+    protected $queryString = ['search', 'sortField', 'sortDirection'];
 
     function checkContactNumbre()
     {
@@ -33,6 +44,21 @@ class SharesSoldRecentTransaction extends Component
     {
         $this->settingsManager = $settingsManager;
         $this->balancesManager = $balancesManager;
+    }
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function sortBy($field)
+    {
+        if ($this->sortField === $field) {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortField = $field;
+            $this->sortDirection = 'asc';
+        }
     }
 
     public function getIp()
@@ -81,12 +107,28 @@ class SharesSoldRecentTransaction extends Component
             ->where('beneficiary_id', $user->idUser)
             ->selectRaw('SUM(value) as total_sum')->first()->total_sum;
 
+        // Fetch transactions with pagination and search
+        $transactions = DB::table('cash_balances')
+            ->select('value', 'description', 'created_at')
+            ->where('balance_operation_id', BalanceOperationsEnum::OLD_ID_42->value)
+            ->where('beneficiary_id', $user->idUser)
+            ->whereNotNull('description')
+            ->when($this->search, function ($query) {
+                $query->where(function ($q) {
+                    $q->where('description', 'like', '%' . $this->search . '%')
+                      ->orWhere('value', 'like', '%' . $this->search . '%');
+                });
+            })
+            ->orderBy($this->sortField, $this->sortDirection)
+            ->paginate($this->perPage);
+
         $params = [
             "solde" => $s,
             "vente_jour" => $vente_jour,
             "vente_total" => $vente_total,
             'arraySoldeD' => $arraySoldeD,
-            'usermetta_info' => $usermetta_info
+            'usermetta_info' => $usermetta_info,
+            'transactions' => $transactions
         ];
         return view('livewire.shares-sold-recent-transaction', $params)->extends('layouts.master')->section('content');
     }
