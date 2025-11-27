@@ -3,12 +3,10 @@
 namespace App\Livewire;
 
 use App\Models\BusinessSector;
-use App\Models\TranslaleModel;
 use App\Services\BusinessSector\BusinessSectorService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -60,6 +58,7 @@ class BusinessSectorCreateUpdate extends Component
     {
         return redirect()->route('business_sector_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Business sector operation cancelled'));
     }
+
     public function removeImage($property)
     {
         if (property_exists($this, $property)) {
@@ -72,7 +71,7 @@ class BusinessSectorCreateUpdate extends Component
         $businessSector = $this->businessSectorService->getBusinessSectorById($this->idBusinessSector);
 
         if ($businessSector) {
-            $imageType = match($field) {
+            $imageType = match ($field) {
                 'thumbnailsImage' => BusinessSector::IMAGE_TYPE_THUMBNAILS,
                 'thumbnailsHomeImage' => BusinessSector::IMAGE_TYPE_THUMBNAILS_HOME,
                 'logoImage' => BusinessSector::IMAGE_TYPE_LOGO,
@@ -184,7 +183,11 @@ class BusinessSectorCreateUpdate extends Component
 
     public function render()
     {
-        $params = ['businessSector' => $this->businessSectorService->getBusinessSectorById($this->idBusinessSector)];
+        $params = ['businessSector' => null];
+        if (!is_null($this->idBusinessSector)) {
+            $params = ['businessSector' => $this->businessSectorService->getBusinessSectorById($this->idBusinessSector)];
+        }
+
         return view('livewire.business-sector-create-update', $params)->extends('layouts.master')->section('content');
     }
 }
