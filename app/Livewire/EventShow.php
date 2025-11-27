@@ -2,11 +2,13 @@
 
 namespace App\Livewire;
 
-use App\Models\Comment;
 use App\Models\Event;
 use App\Models\User;
 use App\Services\Comments\CommentsService;
+use App\Services\Communication\Communication;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class EventShow extends Component
@@ -18,8 +20,10 @@ class EventShow extends Component
     public $unvalidatedComments = [];
     public $likeCount = 0;
     public $liked = false;
+    public $eventIdToDelete = null;
 
     private CommentsService $commentsService;
+    public $listeners = ['delete' => 'delete', 'clearDeleteEventId' => 'clearDeleteEventId'];
 
     public function mount($id, CommentsService $commentsService)
     {
@@ -86,6 +90,42 @@ class EventShow extends Component
             $this->event->likes()->create(['user_id' => Auth::id()]);
         }
         $this->loadLikes();
+    }
+
+    public function clearDeleteEventId()
+    {
+        $this->eventIdToDelete = null;
+    }
+
+    public function duplicate($id)
+    {
+        try {
+            $duplication = Communication::duplicateEvent($id);
+            return redirect()->route('event_show', ['locale' => app()->getLocale(), 'id' => $duplication->id])->with('success', __('Event duplicated successfully'));
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return redirect()->route('event_show', ['locale' => app()->getLocale(), 'id' => $id])->with('error', __('Event duplication failed'));
+        }
+    }
+
+    public function delete()
+    {
+        try {
+            Event::destroy($this->eventIdToDelete);
+            $this->eventIdToDelete = null;
+            $this->dispatch('hideDeleteModal');
+            return redirect()->route('event_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Event deleted successfully'));
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            $this->dispatch('hideDeleteModal');
+            return redirect()->route('event_index', ['locale' => app()->getLocale()])->with('error', Lang::get('Event deletion failed'));
+        }
+    }
+
+    public function confirmDelete($id)
+    {
+        $this->eventIdToDelete = $id;
+        $this->dispatch('showDeleteModal');
     }
 
     public function render()
