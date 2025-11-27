@@ -46,7 +46,6 @@ class Trading extends Component
     public $actionValue = 0;
     public $targetDate = null;
 
-    // Livewire table properties
     public $perPage = 10;
     public $search = '';
     public $sortField = 'id';
@@ -66,10 +65,8 @@ class Trading extends Component
         $this->precentageOfSharesSale = round($this->selledActions / $this->numberSharesSale, 3) * 100;
         $this->userSelledActionNumber = round(SharesBalances::where('balance_operation_id', 44)->where('beneficiary_id', Auth()->user()->idUser)->selectRaw('SUM(value) as total_sum')->first()->total_sum);
 
-        //------------------------------
         $this->selledActionCursor = $this->selledActions;
         $this->totalPaied = round(SharesBalances::where('balance_operation_id', 44)->where('beneficiary_id', Auth()->user()->idUser)->selectRaw('SUM(total_amount) as total_sum')->first()->total_sum, 3);
-        //------------------------------
 
     }
 
