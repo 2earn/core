@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind('Sponsorship', function ($app) {
-            return new Sponsorship($app->make('App\DAL\UserRepository'), $app->make('Core\Services\BalancesManager'));
+            return new Sponsorship($app->make('App\DAL\UserRepository'), $app->make('Core\Services\BalancesManager'), $app->make('App\Services\Settings\SettingService'));
         });
 
         $this->app->bind('Targeting', function ($app) {

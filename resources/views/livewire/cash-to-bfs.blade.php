@@ -33,9 +33,8 @@
                                 <input type="number"
                                        name="montantExchange" id="montantExchange"
                                        wire:model.lazy="soldeExchange"
-                                       class="form-control form-control-lg text-center fw-bold"
+                                       class="form-control form-control text-center fw-bold"
                                        wire:keyup.debounce="updatetheSoldeExchange()"
-                                       placeholder="0.00"
                                        onpaste="handlePaste(event)">
                                 <span class="input-group-text bg-light text-muted">
                                     {{config('app.currency')}}

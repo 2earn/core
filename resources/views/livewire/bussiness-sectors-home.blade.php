@@ -1,7 +1,7 @@
 <div id="business" class="row card btn-light">
     <div class="container-fluid">
-        <div class="row my-4">
-            <div class="col-12 text-center">
+        <div class="row m-2">
+            <div class="col-12">
                 <h2 class="fw-bold mb-2">{{__('Business Sectors')}}</h2>
                 <p class="text-muted fs-15 mb-0">{{__('Explore our diverse range of business opportunities')}}</p>
             </div>
@@ -64,8 +64,6 @@
             </div>
             @endforeach
         </div>
-
-        <!-- View All Button -->
         <div class="row my-3">
             <div class="col-12 text-center">
                 <a href="{{route('business_sector_index',['locale'=> app()->getLocale()])}}"
