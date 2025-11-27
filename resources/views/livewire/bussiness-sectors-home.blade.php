@@ -1,7 +1,6 @@
-<div id="bussiness" class="row py-5">
+<div id="business" class="row card btn-light">
     <div class="container-fluid">
-        <!-- Section Header -->
-        <div class="row mb-4">
+        <div class="row my-4">
             <div class="col-12 text-center">
                 <h2 class="fw-bold mb-2">{{__('Business Sectors')}}</h2>
                 <p class="text-muted fs-15 mb-0">{{__('Explore our diverse range of business opportunities')}}</p>
@@ -67,7 +66,7 @@
         </div>
 
         <!-- View All Button -->
-        <div class="row mt-5">
+        <div class="row my-3">
             <div class="col-12 text-center">
                 <a href="{{route('business_sector_index',['locale'=> app()->getLocale()])}}"
                    class="btn btn-outline-primary btn-lg px-5 py-2 d-inline-flex align-items-center gap-2">

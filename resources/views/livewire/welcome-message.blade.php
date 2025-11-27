@@ -1,6 +1,5 @@
-<div class="row mb-1 mt-2">
-    <div class="col-12">
-        <div class="card border-0 bg-primary shadow-sm overflow-hidden">
+<div class="row">
+        <div class="col-12 card border-0 bg-primary shadow-sm overflow-hidden">
             <div class="card-body p-4 position-relative">
                 <div class="d-flex align-items-center flex-lg-row flex-column gap-3">
                     <div class="flex-shrink-0">
@@ -37,6 +36,5 @@
                 </div>
             </div>
         </div>
-    </div>
 </div>
 
