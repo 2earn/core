@@ -10,10 +10,7 @@
     @endcomponent
 
     <div class="row">
-        <div class="col-12">
-            @include('layouts.flash-messages')
-        </div>
-
+        @include('layouts.flash-messages')
         <div class="col-12 card">
             <div class="card-body">
                 <div class="row mt-2 align-items-center">

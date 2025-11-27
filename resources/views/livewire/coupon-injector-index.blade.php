@@ -7,8 +7,9 @@
             {{ __('Coupon') }}
         @endslot
     @endcomponent
-    @include('layouts.flash-messages')
     <div class="row">
+        @include('layouts.flash-messages')
+
         <div class="col-12 card">
             <div class="card-header border-info">
                 <div class="row">

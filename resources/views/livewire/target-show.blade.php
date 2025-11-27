@@ -13,12 +13,10 @@
     </div>
 
     <div class="row">
-        <!-- Target Item Card -->
         <div class="col-12 mb-3">
             @include('livewire.target-item', ['target' => $target])
         </div>
 
-        <!-- Target Details Card -->
         <div class="col-12">
             <div class="card shadow-sm">
                 <div class="card-header bg-white py-3">

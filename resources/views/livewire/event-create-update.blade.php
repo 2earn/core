@@ -10,12 +10,10 @@
     @endcomponent
 
     <div class="row">
-        <div class="col-12 card shadow-sm">
+        <div class="col-12 card">
             <div class="card-body">
                 <form wire:submit.prevent="save">
                     <input type="hidden" wire:model.live="idEvent">
-
-                    <!-- Basic Information Section -->
                     <div class="row mb-4">
                         <div class="col-md-8">
                             <label for="title" class="form-label fw-semibold">
@@ -160,7 +158,6 @@
                         <div class="form-text">{{__('Select one or more hashtags')}}</div>
                     </div>
 
-                    <!-- Action Buttons -->
                     <div class="d-flex justify-content-end gap-2 pt-3 border-top">
                         <button type="button"
                                 class="btn btn-outline-secondary px-4"
@@ -168,7 +165,7 @@
                             {{__('Cancel')}}
                         </button>
                         <button type="submit"
-                                class="btn btn-success px-4">
+                                class="btn btn-outline-success px-4">
                             {{ $update ? __('Update') : __('Create') }}
                         </button>
                     </div>

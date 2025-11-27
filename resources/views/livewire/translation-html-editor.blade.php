@@ -9,11 +9,9 @@
         @endslot
     @endcomponent
     <div class="row">
-        <div class="col-12">
             @include('layouts.flash-messages')
-        </div>
     </div>
-    <div class="card">
+    <div class="col-12 card">
         <div class="card-header">
             <ul class="list-group list-group-horizontal-md">
                 <li class="list-group-item">

@@ -14,63 +14,66 @@
         <div class="row">
             @include('layouts.flash-messages')
         </div>
-        <div class="row card">
-            <div class="card-header border-info">
-                <div class="d-flex align-items-center">
-                    <h6 class="card-title mb-0 flex-grow-1">{{ __('Role assign') }}</h6>
+        <div class="row">
+            <div class="col-12 card">
+                <div class="card-header border-info">
+                    <div class="d-flex align-items-center">
+                        <h6 class="card-title mb-0 flex-grow-1">{{ __('Role assign') }}</h6>
+                    </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <input type="text" class="form-control" placeholder="{{ __('PH_search') }}"
-                                               wire:model.live="search"/>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <input type="text" class="form-control" placeholder="{{ __('PH_search') }}"
+                                                   wire:model.live="search"/>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="card-body table-responsive">
-                                <table class="table table-striped table-bordered tableEditAdmin">
-                                    <thead>
-                                    <tr>
-                                        <th scope="Id">{{__('Id')}}</th>
-                                        <th scope="Name">{{ __('Name') }}</th>
-                                        <th scope="Number">{{ __('Mobile Number') }}</th>
-                                        <th scope="role">{{ __('Role') }}</th>
-                                        <th scope="Countrie">{{ __('Countrie') }}</th>
-                                        <th>{{ __('Action') }}</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach ($userRoles as $userRole)
+                                <div class="card-body table-responsive">
+                                    <table class="table table-striped table-bordered tableEditAdmin">
+                                        <thead>
                                         <tr>
-                                            <td>{{$userRole->id}}</td>
-                                            <td>
-                                               <span class="text-danger">{{getUserDisplayedName($userRole->idUser)}}</span>
-                                            </td>
-                                            <td>{{$userRole->mobile}}</td>
-                                            <td>{{__($userRole->role)}}</td>
-                                            <td>
-                                                <img class="avatar-xxs me-2"
-                                                     src="{{ Vite::asset("resources/images/flags/" . strtolower($userRole->apha2) . ".svg")}}">
-                                                {{__($userRole->countrie)}}
-                                            </td>
-                                            <td>
-                                                <button type="button" data-bs-toggle="modal"
-                                                        data-bs-target="#editAdminModal"
-                                                        wire:click="edit({{$userRole->id }})"
-                                                        class="btn btn-outline-secondary">
-                                                    {{ __('Edit') }}
-                                                </button>
-                                            </td>
+                                            <th scope="Id">{{__('Id')}}</th>
+                                            <th scope="Name">{{ __('Name') }}</th>
+                                            <th scope="Number">{{ __('Mobile Number') }}</th>
+                                            <th scope="role">{{ __('Role') }}</th>
+                                            <th scope="Countrie">{{ __('Countrie') }}</th>
+                                            <th>{{ __('Action') }}</th>
                                         </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                                {{$userRoles->links()}}
+                                        </thead>
+                                        <tbody>
+                                        @foreach ($userRoles as $userRole)
+                                            <tr>
+                                                <td>{{$userRole->id}}</td>
+                                                <td>
+                                                    <span
+                                                        class="text-danger">{{getUserDisplayedName($userRole->idUser)}}</span>
+                                                </td>
+                                                <td>{{$userRole->mobile}}</td>
+                                                <td>{{__($userRole->role)}}</td>
+                                                <td>
+                                                    <img class="avatar-xxs me-2"
+                                                         src="{{ Vite::asset("resources/images/flags/" . strtolower($userRole->apha2) . ".svg")}}">
+                                                    {{__($userRole->countrie)}}
+                                                </td>
+                                                <td>
+                                                    <button type="button" data-bs-toggle="modal"
+                                                            data-bs-target="#editAdminModal"
+                                                            wire:click="edit({{$userRole->id }})"
+                                                            class="btn btn-outline-secondary">
+                                                        {{ __('Edit') }}
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                    {{$userRoles->links()}}
+                                </div>
                             </div>
                         </div>
                     </div>

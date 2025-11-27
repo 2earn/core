@@ -15,36 +15,32 @@
         @include('layouts.flash-messages')
     </div>
 
-    <!-- Filters and Search -->
     <div class="row mb-4">
-        <div class="col-12">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body p-4">
-                    <div class="row g-3 align-items-center">
-                        <div class="col-lg-6 col-md-6">
-                            <div class="position-relative">
-                                <i class="ri-search-line position-absolute top-50 start-0 translate-middle-y ms-3 text-muted fs-5"></i>
-                                <input type="text"
-                                       class="form-control form-control ps-5 pe-3 border-0 bg-light"
-                                       wire:model.live.debounce.300ms="search"
-                                       placeholder="{{__('Search by platform name or ID...')}}">
-                            </div>
+        <div class="col-12 card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <div class="row g-3 align-items-center">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="position-relative">
+                            <i class="ri-search-line position-absolute top-50 start-0 translate-middle-y ms-3 text-muted fs-5"></i>
+                            <input type="text"
+                                   class="form-control form-control ps-5 pe-3 border-0 bg-light"
+                                   wire:model.live.debounce.300ms="search"
+                                   placeholder="{{__('Search by platform name or ID...')}}">
                         </div>
-                        <div class="col-lg-6 col-md-6">
-                            <select class="form-select border-0 bg-light" wire:model.live="statusFilter">
-                                <option value="all">{{__('All Statuses')}}</option>
-                                <option value="pending">{{__('Pending')}}</option>
-                                <option value="approved">{{__('Approved')}}</option>
-                                <option value="rejected">{{__('Rejected')}}</option>
-                            </select>
-                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <select class="form-select border-0 bg-light" wire:model.live="statusFilter">
+                            <option value="all">{{__('All Statuses')}}</option>
+                            <option value="pending">{{__('Pending')}}</option>
+                            <option value="approved">{{__('Approved')}}</option>
+                            <option value="rejected">{{__('Rejected')}}</option>
+                        </select>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Requests List -->
     <div class="row g-3">
         @forelse($requests as $request)
             <div class="col-12">
@@ -158,7 +154,8 @@
                             @if($request->status === 'rejected' && $request->rejection_reason)
                                 <div class="col-12 mt-3">
                                     <div class="alert alert-danger mb-0" role="alert">
-                                        <strong><i class="ri-error-warning-line me-1"></i>{{__('Rejection Reason')}}:</strong>
+                                        <strong><i class="ri-error-warning-line me-1"></i>{{__('Rejection Reason')}}
+                                            :</strong>
                                         <p class="mb-0 mt-2">{{$request->rejection_reason}}</p>
                                     </div>
                                 </div>
@@ -190,26 +187,23 @@
         @endforelse
     </div>
 
-    <!-- Pagination -->
     @if($requests->hasPages())
         <div class="row mt-4">
-            <div class="col-12">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body p-3">
-                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
-                            <div class="text-muted">
-                                <i class="ri-file-list-line me-1"></i>
-                                {{__('Showing')}}
-                                <span class="fw-semibold text-dark">{{$requests->firstItem() ?? 0}}</span>
-                                {{__('to')}}
-                                <span class="fw-semibold text-dark">{{$requests->lastItem() ?? 0}}</span>
-                                {{__('of')}}
-                                <span class="fw-semibold text-dark">{{$requests->total()}}</span>
-                                {{__('results')}}
-                            </div>
-                            <div>
-                                {{$requests->links()}}
-                            </div>
+            <div class="col-12 card border-0 shadow-sm">
+                <div class="card-body p-3">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                        <div class="text-muted">
+                            <i class="ri-file-list-line me-1"></i>
+                            {{__('Showing')}}
+                            <span class="fw-semibold text-dark">{{$requests->firstItem() ?? 0}}</span>
+                            {{__('to')}}
+                            <span class="fw-semibold text-dark">{{$requests->lastItem() ?? 0}}</span>
+                            {{__('of')}}
+                            <span class="fw-semibold text-dark">{{$requests->total()}}</span>
+                            {{__('results')}}
+                        </div>
+                        <div>
+                            {{$requests->links()}}
                         </div>
                     </div>
                 </div>
@@ -278,7 +272,7 @@
                                 placeholder="{{__('Enter the reason for rejecting this request (minimum 10 characters)...')}}"
                                 required></textarea>
                             @error('rejectionReason')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                             <div class="form-text">
                                 {{__('Minimum 10 characters, maximum 1000 characters')}}

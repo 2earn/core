@@ -11,8 +11,8 @@
     <div class="row ">
         @include('layouts.flash-messages')
     </div>
-    <div class="row card">
-        <div class="card mb-3">
+    <div class="row">
+        <div class="col-12 card mb-3">
             <div class="card-body row">
                 <div class="col-md-6">
                     <input type="text" class="form-control" placeholder="{{ __('Search user guides...') }}"

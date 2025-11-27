@@ -142,13 +142,10 @@
         </div>
     </div>
     <div class="row">
+        @include('layouts.flash-messages')
+    </div>
+    <div class="row">
         <div class="card-body">
-            <div class="row mb-3">
-                <div class="col-12">
-                    @include('layouts.flash-messages')
-                </div>
-            </div>
-
             <div class="row mb-4">
                 <div class="col-12">
                     <div class="card">

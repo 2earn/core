@@ -16,8 +16,7 @@
     </div>
 
     <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
+            <div class="col-12 card">
                 <div class="card-header">
                     <h5 class="card-title mb-0">
                         {{ $isEditMode ? __('Edit a contact') : __('Add a contact') }}
@@ -107,7 +106,6 @@
                     </form>
                 </div>
             </div>
-        </div>
     </div>
 
     <script>

@@ -9,9 +9,7 @@
         @endslot
     @endcomponent
     <div class="row">
-        <div class="col-12 mb-3">
             @include('layouts.flash-messages')
-        </div>
     </div>
     <div class="row g-3">
         <div class="col-12 card shadow-sm">

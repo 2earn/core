@@ -14,11 +14,8 @@
     <div class="row">
         @include('layouts.flash-messages')
     </div>
-
-    <!-- Filters and Search -->
     <div class="row mb-4">
-        <div class="col-12">
-            <div class="card border-0 shadow-sm">
+            <div class="col-12 card border-0 shadow-sm">
                 <div class="card-body p-4">
                     <div class="row g-3 align-items-center">
                         <div class="col-lg-6 col-md-6">
@@ -41,7 +38,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 
     <!-- Requests List -->

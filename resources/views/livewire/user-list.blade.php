@@ -14,7 +14,7 @@
     </div>
 
     <div class="row">
-        <div class="card">
+        <div class="col-12 card">
             <div class="card-header border-0">
                 <div class="row g-3 align-items-center">
                     <div class="col-sm-6 col-lg-3">
@@ -255,7 +255,8 @@
                                         </div>
                                     @endif
                                     <a href="{{route('user_details',['locale'=>app()->getLocale(),'idUser'=>$user->idUser])}}">
-                                        <span class="text-primary fs-12 mb-2  float-end">{{__('See more details')}}</span>
+                                        <span
+                                            class="text-primary fs-12 mb-2  float-end">{{__('See more details')}}</span>
                                     </a>
                                 </div>
 

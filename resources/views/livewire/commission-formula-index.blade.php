@@ -176,13 +176,10 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12">
                     @include('layouts.flash-messages')
-                </div>
             </div>
 
-            {{-- Card-based Layers Layout --}}
-            <div wire:loading.remov >
+            <div wire:loading.remove >
                 @if($formulas->count() > 0)
                     <div class="row g-3">
                         @foreach($formulas as $formula)

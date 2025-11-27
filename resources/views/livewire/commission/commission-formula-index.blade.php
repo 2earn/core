@@ -11,112 +11,98 @@
             {{ __('Management') }}
         @endslot
     @endcomponent
-
-    <div class="row mb-3">
+    <div class="row">
         @include('layouts.flash-messages')
     </div>
     <div class="row mb-3">
-        <div class="col-xl-3 col-md-6">
-            <div class="card card-animate">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <p class="text-uppercase fw-medium text-muted mb-0">{{ __('Total Formulas') }}</p>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <h5 class="text-success fs-14 mb-0">
-                                <i class="ri-list-check align-middle"></i>
-                            </h5>
-                        </div>
+        <div class="col-xl-3 col-md-6 card card-animate">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <p class="text-uppercase fw-medium text-muted mb-0">{{ __('Total Formulas') }}</p>
                     </div>
-                    <div class="d-flex align-items-end justify-content-between mt-4">
-                        <div>
-                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                    <div class="flex-shrink-0">
+                        <h5 class="text-success fs-14 mb-0">
+                            <i class="ri-list-check align-middle"></i>
+                        </h5>
+                    </div>
+                </div>
+                <div class="d-flex align-items-end justify-content-between mt-4">
+                    <div>
+                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">
                                 <span class="counter-value"
                                       data-target="{{ $statistics['total'] }}">{{ $statistics['total'] }}</span>
-                            </h4>
-                        </div>
+                        </h4>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="col-xl-3 col-md-6">
-            <div class="card card-animate">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <p class="text-uppercase fw-medium text-muted mb-0">{{ __('Active Formulas') }}</p>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <h5 class="text-success fs-14 mb-0">
-                                <i class="ri-checkbox-circle-line align-middle"></i>
-                            </h5>
-                        </div>
+        <div class="col-xl-3 col-md-6 card card-animate">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <p class="text-uppercase fw-medium text-muted mb-0">{{ __('Active Formulas') }}</p>
                     </div>
-                    <div class="d-flex align-items-end justify-content-between mt-4">
-                        <div>
-                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                    <div class="flex-shrink-0">
+                        <h5 class="text-success fs-14 mb-0">
+                            <i class="ri-checkbox-circle-line align-middle"></i>
+                        </h5>
+                    </div>
+                </div>
+                <div class="d-flex align-items-end justify-content-between mt-4">
+                    <div>
+                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">
                                 <span class="counter-value"
                                       data-target="{{ $statistics['active'] }}">{{ $statistics['active'] }}</span>
-                            </h4>
-                        </div>
+                        </h4>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="col-xl-3 col-md-6">
-            <div class="card card-animate">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <p class="text-uppercase fw-medium text-muted mb-0">{{ __('Avg Initial Commission') }}</p>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <h5 class="text-info fs-14 mb-0">
-                                <i class="ri-percent-line align-middle"></i>
-                            </h5>
-                        </div>
+        <div class="col-xl-3 col-md-6 card card-animate">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <p class="text-uppercase fw-medium text-muted mb-0">{{ __('Avg Initial Commission') }}</p>
                     </div>
-                    <div class="d-flex align-items-end justify-content-between mt-4">
-                        <div>
-                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                {{ number_format($statistics['avg_initial'], 2) }}%
-                            </h4>
-                        </div>
+                    <div class="flex-shrink-0">
+                        <h5 class="text-info fs-14 mb-0">
+                            <i class="ri-percent-line align-middle"></i>
+                        </h5>
+                    </div>
+                </div>
+                <div class="d-flex align-items-end justify-content-between mt-4">
+                    <div>
+                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                            {{ number_format($statistics['avg_initial'], 2) }}%
+                        </h4>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="col-xl-3 col-md-6">
-            <div class="card card-animate">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <p class="text-uppercase fw-medium text-muted mb-0">{{ __('Avg Final Commission') }}</p>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <h5 class="text-primary fs-14 mb-0">
-                                <i class="ri-percent-line align-middle"></i>
-                            </h5>
-                        </div>
+        <div class="col-xl-3 col-md-6 card card-animate">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <p class="text-uppercase fw-medium text-muted mb-0">{{ __('Avg Final Commission') }}</p>
                     </div>
-                    <div class="d-flex align-items-end justify-content-between mt-4">
-                        <div>
-                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                {{ number_format($statistics['avg_final'], 2) }}%
-                            </h4>
-                        </div>
+                    <div class="flex-shrink-0">
+                        <h5 class="text-primary fs-14 mb-0">
+                            <i class="ri-percent-line align-middle"></i>
+                        </h5>
+                    </div>
+                </div>
+                <div class="d-flex align-items-end justify-content-between mt-4">
+                    <div>
+                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                            {{ number_format($statistics['avg_final'], 2) }}%
+                        </h4>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    {{-- Main Card --}}
-    <div class="card">
+    <div class="col-12 card">
         <div class="card-header border-0">
             <div class="row g-4 align-items-center">
                 <div class="col-sm">
@@ -318,8 +304,6 @@
             </div>
         </div>
     </div>
-
-    {{-- Delete Confirmation Modal --}}
     @if($showDeleteModal)
         <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
             <div class="modal-dialog modal-dialog-centered">

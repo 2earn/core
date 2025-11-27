@@ -10,6 +10,9 @@
     @endcomponent
 
     <div class="row">
+        @include('layouts.flash-messages')
+    </div>
+    <div class="row">
         <div class="col-12">
             <div class="card shadow-sm">
                 <div class="card-header bg-white py-3">
@@ -22,12 +25,10 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    @include('layouts.flash-messages')
 
                     <form>
                         <input type="hidden" wire:model.live="id">
 
-                        <!-- Basic Information Section -->
                         <div class="mb-4">
                             <h6 class="fw-semibold text-secondary mb-3 pb-2 border-bottom">{{__('Basic Information')}}</h6>
                             <div class="row g-3">

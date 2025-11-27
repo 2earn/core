@@ -16,7 +16,6 @@
             @include('layouts.flash-messages')
         </div>
     @endif
-    <!-- Filters and Search -->
     <div class="row mb-4">
         <div class="col-12">
             <div class="card border-0 shadow-sm">

@@ -7,10 +7,9 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <h5 class="mb-2 text-info">
+                    <h4 class="m-2 ">
                         {{\App\Models\TranslaleModel::getTranslation($event,'title',$event->title)}}
-                    </h5>
-
+                    </h4>
                     @if(\App\Models\User::isSuperAdmin())
                         <p class="mx-2">
                             <a class="link-info float-end"

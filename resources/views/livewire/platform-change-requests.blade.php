@@ -15,7 +15,6 @@
         @include('layouts.flash-messages')
     </div>
 
-    <!-- Filters and Search -->
     <div class="row mb-4">
         <div class="col-12">
             <div class="card border-0 shadow-sm">
@@ -44,7 +43,6 @@
         </div>
     </div>
 
-    <!-- Requests List -->
     <div class="row g-3">
         @forelse($requests as $request)
             <div class="col-12">
@@ -192,7 +190,6 @@
         @endforelse
     </div>
 
-    <!-- Pagination -->
     @if($requests->hasPages())
         <div class="row mt-4">
             <div class="col-12">
@@ -219,7 +216,6 @@
         </div>
     @endif
 
-    <!-- View Changes Modal -->
     @if($showChangesModal)
         <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
             <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -283,7 +279,6 @@
         </div>
     @endif
 
-
     @if($showApproveModal)
         <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
             <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -338,7 +333,6 @@
             </div>
         </div>
     @endif
-
 
     @if($showRejectModal)
         <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">

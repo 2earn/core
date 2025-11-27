@@ -7,9 +7,7 @@
         @endcomponent
 
         <div class="row">
-            <div class="col-12">
-                @include('layouts.flash-messages')
-            </div>
+            @include('layouts.flash-messages')
         </div>
 
         <div class="row justify-content-center">
@@ -28,7 +26,8 @@
                                 <div>
                                     <h6 class="alert-heading mb-2">{{ __('Email Verification Required') }}</h6>
                                     <p class="mb-0">
-                                        {{ __('To change your email address, we will send a verification code to your phone number') }}:
+                                        {{ __('To change your email address, we will send a verification code to your phone number') }}
+                                        :
                                         <strong>{{ $numberActif }}</strong>
                                     </p>
                                 </div>
@@ -64,7 +63,7 @@
                                        aria-label="{{ __('New Email Address') }}"
                                        aria-required="true">
                                 @error('newEmail')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                                 <div class="form-text">
                                     <i class="ri-shield-check-line"></i>
@@ -80,7 +79,8 @@
                                         <i class="ri-send-plane-line me-1"></i>{{ __('Send Verification Code') }}
                                     </span>
                                     <span wire:loading wire:target="sendVerificationMail">
-                                        <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                                        <span class="spinner-border spinner-border-sm me-1" role="status"
+                                              aria-hidden="true"></span>
                                         {{ __('Sending') }}...
                                     </span>
                                 </button>
@@ -98,7 +98,8 @@
                         <div class="d-flex align-items-start text-muted">
                             <i class="ri-information-line fs-5 me-2 flex-shrink-0"></i>
                             <small>
-                                {{ __('After entering your new email address, you will receive two verification codes') }}:
+                                {{ __('After entering your new email address, you will receive two verification codes') }}
+                                :
                                 <ul class="mb-0 mt-2">
                                     <li>{{ __('First code via SMS to your phone number') }}</li>
                                     <li>{{ __('Second code via email to your new email address') }}</li>

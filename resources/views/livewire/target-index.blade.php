@@ -11,7 +11,7 @@
     @endif
 
     <div class="row">
-        <div class="card shadow-sm">
+        <div class="col-12 card shadow-sm">
             <div class="card-header bg-white py-3">
                 <div class="row align-items-center g-3">
                     <div class="col-12 col-md-6 col-lg-4">
