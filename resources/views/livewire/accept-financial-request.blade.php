@@ -1,8 +1,6 @@
 <div>
     <div class="row">
-        <div class="col-12">
-            @include('layouts.flash-messages')
-        </div>
+        @include('layouts.flash-messages')
     </div>
     <div class="card">
         <div class="card-header">

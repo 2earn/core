@@ -14,9 +14,7 @@
             @endslot
         @endcomponent
         <div class="row">
-            <div class="col-12 my-3">
-                @include('layouts.flash-messages')
-            </div>
+            @include('layouts.flash-messages')
         </div>
     @endif
     <div @class(['row','card' => $currentRouteName=="orders_detail"])>

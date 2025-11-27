@@ -15,10 +15,10 @@
     @endcomponent
 
     <div class="row">
+        @include('layouts.flash-messages')
+
         <div class="card col-12">
-            <div class="card-body">
-                @include('layouts.flash-messages')
-            </div>
+
             <div class="card-body">
 
                 <form wire:submit.prevent="save">

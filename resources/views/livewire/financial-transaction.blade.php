@@ -5,11 +5,9 @@
         @endslot
     @endcomponent
     <div class="row">
-        <div class="col-12">
             @include('layouts.flash-messages')
-        </div>
     </div>
-    <div class="card shadow-sm">
+    <div class="col-12 card shadow-sm">
         <div class="card-header">
             <nav class="mt-3">
                 <ul id="pills-tab" class="nav nav-pills nav-justified gap-2" role="tablist">

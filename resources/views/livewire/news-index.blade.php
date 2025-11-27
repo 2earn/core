@@ -4,7 +4,9 @@
             {{ __('News') }}
         @endslot
     @endcomponent
-    @include('layouts.flash-messages')
+    <div class="row">
+        @include('layouts.flash-messages')
+    </div>
     <div class="row">
         <div class="col-12 card shadow-sm mb-4">
             <div class="card-body">

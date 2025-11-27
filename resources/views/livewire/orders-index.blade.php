@@ -9,9 +9,7 @@
         @endslot
     @endcomponent
     <div class="row">
-        <div class="col-12">
             @include('layouts.flash-messages')
-        </div>
     </div>
     @if(\App\Models\User::isSuperAdmin())
         <div class="row d-none">
