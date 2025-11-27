@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 
 use App\Models\CashBalances;
+use App\Services\Balances\CashBalancesService;
 use Carbon\Carbon;
 use Core\Enum\BalanceOperationsEnum;
 use Core\Services\BalancesManager;
@@ -28,6 +29,7 @@ class SharesSoldRecentTransaction extends Component
 
     private settingsManager $settingsManager;
     private BalancesManager $balancesManager;
+    private CashBalancesService $cashBalancesService;
 
     protected $listeners = [
         'checkContactNumbre' => 'checkContactNumbre'
@@ -40,10 +42,11 @@ class SharesSoldRecentTransaction extends Component
         dd('ddd');
     }
 
-    public function mount(settingsManager $settingsManager, BalancesManager $balancesManager)
+    public function mount(settingsManager $settingsManager, BalancesManager $balancesManager, CashBalancesService $cashBalancesService)
     {
         $this->settingsManager = $settingsManager;
         $this->balancesManager = $balancesManager;
+        $this->cashBalancesService = $cashBalancesService;
     }
 
     public function updatingSearch()
@@ -75,13 +78,13 @@ class SharesSoldRecentTransaction extends Component
         }
     }
 
-    public function render(settingsManager $settingsManager)
+    public function render(settingsManager $settingsManager, BalancesManager $balancesManager)
     {
         $user = $settingsManager->getAuthUser();
 
         if (!$user)
             dd('not found page');
-        $solde = $this->balancesManager->getBalances($user->idUser, -1);
+        $solde = $balancesManager->getBalances($user->idUser, -1);
         $this->cashBalance = $solde->soldeCB;
         $this->balanceForSopping = $solde->soldeBFS;
         $this->discountBalance = $solde->soldeDB;
@@ -89,8 +92,8 @@ class SharesSoldRecentTransaction extends Component
 
 
         $arraySoldeD = [];
-        $solde = $this->balancesManager->getCurrentBalance($user->idUser, -1);
-        $s = $this->balancesManager->getBalances($user->idUser, -1);
+        $solde = $balancesManager->getCurrentBalance($user->idUser, -1);
+        $s = $balancesManager->getBalances($user->idUser, -1);
         $soldeCBd = $solde->soldeCB;
         $soldeBFSd = $solde->soldeBFS;
         $soldeDBd = $solde->soldeDB;
@@ -98,29 +101,20 @@ class SharesSoldRecentTransaction extends Component
         array_push($arraySoldeD, $soldeBFSd);
         array_push($arraySoldeD, $soldeDBd);
         $usermetta_info = collect(DB::table('metta_users')->where('idUser', $user->idUser)->first());
-        $dateAujourdhui = Carbon::now()->format('Y-m-d');
-        $vente_jour = CashBalances::where('balance_operation_id', 42)
-            ->where('beneficiary_id', $user->idUser)
-            ->whereDate('created_at', '=', $dateAujourdhui)
-            ->selectRaw('SUM(value) as total_sum')->first()->total_sum;
-        $vente_total = CashBalances::where('balance_operation_id', 42)
-            ->where('beneficiary_id', $user->idUser)
-            ->selectRaw('SUM(value) as total_sum')->first()->total_sum;
 
-        // Fetch transactions with pagination and search
-        $transactions = DB::table('cash_balances')
-            ->select('value', 'description', 'created_at')
-            ->where('balance_operation_id', BalanceOperationsEnum::OLD_ID_42->value)
-            ->where('beneficiary_id', $user->idUser)
-            ->whereNotNull('description')
-            ->when($this->search, function ($query) {
-                $query->where(function ($q) {
-                    $q->where('description', 'like', '%' . $this->search . '%')
-                      ->orWhere('value', 'like', '%' . $this->search . '%');
-                });
-            })
-            ->orderBy($this->sortField, $this->sortDirection)
-            ->paginate($this->perPage);
+        // Get sales data using CashBalancesService
+        $vente_jour = $this->cashBalancesService->getTodaySales($user->idUser, 42);
+        $vente_total = $this->cashBalancesService->getTotalSales($user->idUser, 42);
+
+        // Fetch transactions with pagination and search using CashBalancesService
+        $transactions = $this->cashBalancesService->getTransactions(
+            beneficiaryId: $user->idUser,
+            operationId: BalanceOperationsEnum::OLD_ID_42->value,
+            search: $this->search,
+            sortField: $this->sortField,
+            sortDirection: $this->sortDirection,
+            perPage: $this->perPage
+        );
 
         $params = [
             "solde" => $s,

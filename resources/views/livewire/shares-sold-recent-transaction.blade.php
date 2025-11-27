@@ -1,5 +1,5 @@
 <div class="{{getContainerType()}}">
-@section('title')
+    @section('title')
         {{ __('Shares Sold: Recent transaction') }}
     @endsection
     @component('components.breadcrumb')
@@ -9,259 +9,125 @@
         @endslot
     @endcomponent
     <div class="row">
-        <div class="col-xxl-12">
-            <div class="card">
-                <div class="card-header">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <input type="text"
-                                       wire:model.live.debounce.300ms="search"
-                                       class="form-control"
-                                       placeholder="{{ __('Search transactions...') }}">
-                            </div>
-                        </div>
-                        <div class="col-md-6 text-end">
-                            <select wire:model.live="perPage" class="form-select d-inline-block w-auto">
-                                <option value="10">10</option>
-                                <option value="30">30</option>
-                                <option value="50">50</option>
-                            </select>
+        <div class="col-12 card shadow-sm">
+            <div class="card-header bg-white border-bottom py-3">
+                <div class="row g-3 align-items-center">
+                    <div class="col-lg-8 col-md-6">
+                        <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="mdi mdi-magnify"></i>
+                                </span>
+                            <input type="text"
+                                   wire:model.live.debounce.300ms="search"
+                                   class="form-control border-start-0 ps-0"
+                                   placeholder="{{ __('Search by value or description...') }}">
                         </div>
                     </div>
-                </div>
-                <div class="card-body">
-                    <!-- Header Row -->
-                    <div class="row fw-bold border-bottom pb-2 mb-3 bg-light p-3">
-                        <div class="col-md-3">
-                            <span wire:click="sortBy('value')" style="cursor: pointer;">
-                                {{__('value')}}
-                                @if($sortField === 'value')
-                                    <i class="mdi mdi-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}"></i>
-                                @endif
-                            </span>
-                        </div>
-                        <div class="col-md-6">
-                            <span wire:click="sortBy('description')" style="cursor: pointer;">
-                                {{__('Description')}}
-                                @if($sortField === 'description')
-                                    <i class="mdi mdi-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}"></i>
-                                @endif
-                            </span>
-                        </div>
-                        <div class="col-md-3">
-                            <span wire:click="sortBy('created_at')" style="cursor: pointer;">
-                                {{__('formatted_created_at')}}
-                                @if($sortField === 'created_at')
-                                    <i class="mdi mdi-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}"></i>
-                                @endif
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Data Rows -->
-                    @forelse($transactions as $transaction)
-                        <div class="row border-bottom py-3 align-items-center hover-bg-light">
-                            <div class="col-md-3">
-                                <strong>{{ $transaction->value }}</strong>
-                            </div>
-                            <div class="col-md-6">
-                                {{ $transaction->description }}
-                            </div>
-                            <div class="col-md-3">
-                                {{ \Carbon\Carbon::parse($transaction->created_at)->format('Y-m-d H:i:s') }}
-                            </div>
-                        </div>
-                    @empty
-                        <div class="row">
-                            <div class="col-12 text-center py-5">
-                                <p class="text-muted">{{ __('No transactions found') }}</p>
-                            </div>
-                        </div>
-                    @endforelse
-
-                    <!-- Pagination -->
-                    <div class="row mt-4">
-                        <div class="col-12">
-                            {{ $transactions->links() }}
-                        </div>
+                    <div class="col-lg-4 col-md-6 text-md-end">
+                        <label class="me-2 text-muted small">{{ __('Show') }}</label>
+                        <select wire:model.live="perPage" class="form-select form-select-sm d-inline-block w-auto">
+                            <option value="10">10</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span class="ms-2 text-muted small">{{ __('entries') }}</span>
                     </div>
                 </div>
             </div>
+            <div class="card-body p-0">
+                <!-- Header Row -->
+                <div class="row g-0 fw-semibold text-uppercase small bg-light border-bottom mx-0 py-3 px-3">
+                    <div class="col-md-3 col-12 mb-2 mb-md-0">
+                            <span wire:click="sortBy('value')" class="text-primary user-select-none" role="button">
+                                <i class="mdi mdi-currency-usd me-1"></i>
+                                {{__('value')}}
+                                @if($sortField === 'value')
+                                    <i class="mdi mdi-menu-{{ $sortDirection === 'asc' ? 'up' : 'down' }} text-success"></i>
+                                @else
+                                    <i class="mdi mdi-unfold-more-horizontal text-muted opacity-50"></i>
+                                @endif
+                            </span>
+                    </div>
+                    <div class="col-md-6 col-12 mb-2 mb-md-0">
+                            <span wire:click="sortBy('description')" class="text-primary user-select-none"
+                                  role="button">
+                                <i class="mdi mdi-text-box-outline me-1"></i>
+                                {{__('Description')}}
+                                @if($sortField === 'description')
+                                    <i class="mdi mdi-menu-{{ $sortDirection === 'asc' ? 'up' : 'down' }} text-success"></i>
+                                @else
+                                    <i class="mdi mdi-unfold-more-horizontal text-muted opacity-50"></i>
+                                @endif
+                            </span>
+                    </div>
+                    <div class="col-md-3 col-12">
+                            <span wire:click="sortBy('created_at')" class="text-primary user-select-none" role="button">
+                                <i class="mdi mdi-clock-outline me-1"></i>
+                                {{__('formatted_created_at')}}
+                                @if($sortField === 'created_at')
+                                    <i class="mdi mdi-menu-{{ $sortDirection === 'asc' ? 'up' : 'down' }} text-success"></i>
+                                @else
+                                    <i class="mdi mdi-unfold-more-horizontal text-muted opacity-50"></i>
+                                @endif
+                            </span>
+                    </div>
+                </div>
+
+                <!-- Data Rows -->
+                @forelse($transactions as $transaction)
+                    <div class="row g-0 border-bottom mx-0 py-3 px-3 align-items-center bg-hover-light transition">
+                        <div class="col-md-3 col-12 mb-2 mb-md-0">
+                                <span class="badge bg-success-subtle text-success fs-6 px-3 py-2">
+                                    {{ number_format($transaction->value, 2) }}
+                                </span>
+                        </div>
+                        <div class="col-md-6 col-12 mb-2 mb-md-0">
+                            <div class="text-dark">{{ $transaction->description }}</div>
+                        </div>
+                        <div class="col-md-3 col-12">
+                            <small class="text-muted">
+                                <i class="mdi mdi-calendar me-1"></i>
+                                {{ \Carbon\Carbon::parse($transaction->created_at)->format('Y-m-d') }}
+                                <br class="d-md-none">
+                                <i class="mdi mdi-clock-outline me-1 ms-md-2"></i>
+                                {{ \Carbon\Carbon::parse($transaction->created_at)->format('H:i:s') }}
+                            </small>
+                        </div>
+                    </div>
+                @empty
+                    <div class="row g-0 mx-0">
+                        <div class="col-12 text-center py-5">
+                            <div class="mb-3">
+                                <i class="mdi mdi-folder-open-outline display-4 text-muted opacity-50"></i>
+                            </div>
+                            <h5 class="text-muted mb-1">{{ __('No transactions found') }}</h5>
+                            <p class="text-muted small mb-0">{{ __('Try adjusting your search criteria') }}</p>
+                        </div>
+                    </div>
+                @endforelse
+
+                <!-- Pagination -->
+                @if($transactions->hasPages())
+                    <div class="row g-0 mx-0 border-top bg-light">
+                        <div class="col-12 p-3">
+                            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                <div class="text-muted small">
+                                    {{ __('Showing') }}
+                                    <strong>{{ $transactions->firstItem() ?? 0 }}</strong>
+                                    {{ __('to') }}
+                                    <strong>{{ $transactions->lastItem() ?? 0 }}</strong>
+                                    {{ __('of') }}
+                                    <strong>{{ $transactions->total() }}</strong>
+                                    {{ __('results') }}
+                                </div>
+                                <div>
+                                    {{ $transactions->links() }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
-
-    <style>
-        .hover-bg-light:hover {
-            background-color: #f8f9fa;
-            cursor: pointer;
-        }
-    </style>
-
-    <script id="rendered-js" type="module">
-        var options = {
-            chart: {height: 350, type: 'area',},
-            dataLabels: {enabled: false},
-            series: [],
-            title: {text: 'Cash Balance',},
-            noData: {text: 'Loading...'},
-            xaxis: {type: 'datetime',}
-        }
-        var options1 = {
-            chart: {height: 350, type: 'area',},
-            dataLabels: {enabled: false},
-            series: [],
-            title: {text: 'Share Price Evolution',},
-            noData: {text: 'Loading...'},
-            xaxis: {type: 'numeric',}
-
-        }
-        var options2 = {
-            chart: {height: 350, type: 'line',},
-            plotOptions: {
-                bar: {
-                    borderRadius: 10,
-                    dataLabels: {
-                        position: 'top', enabled: true, formatter: function (val) {
-                            return val;
-                        }
-                    },
-                }
-            },
-            stroke: {width: 2, curve: 'smooth'},
-            series: [],
-            title: {text: 'Share Price Evolution',},
-            noData: {text: 'Loading...'},
-            xaxis: {type: 'date',}
-        }
-
-        document.addEventListener("DOMContentLoaded", function () {
-
-            var chartOrigin = document.querySelector('#chart');
-            var chart1Origin = document.querySelector('#chart1');
-            var chart2Origin = document.querySelector('#chart2');
-            if (chartOrigin) {
-                var chart = new ApexCharts(document.querySelector("#chart"), options);
-                chart.render();
-            }
-            if (chart1Origin) {
-                var chart1 = new ApexCharts(document.querySelector("#chart1"), options1);
-                chart1.render();
-            }
-            if (chart2Origin) {
-                var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
-                chart2.render();
-            }
-
-            if (chartOrigin) {
-                var url = '{{route('api_user_cash',['locale'=> app()->getLocale()])}}';
-                $.getJSON(url, function (response) {
-                    chart.updateSeries([{name: 'Balance', data: response}])
-                });
-            }
-            if (chart2Origin && chart1Origin) {
-                var url3 = '{{route('api_share_evolution_date',['locale'=> app()->getLocale()])}}';
-                $.getJSON(url3, function (response) {
-                    var series1 = {name: 'Sales-bar', type: 'bar', data: response};
-                    var series2 = {name: 'sales-line', type: 'line', data: response};
-                    chart2.updateSeries([series1, series2]);
-                });
-            }
-            $(document).on("click", "#date", function () {
-                if (chart2Origin) {
-                    var url3 = '{{route('api_share_evolution_date',['locale'=> app()->getLocale()])}}';
-                    $.getJSON(url3, function (response) {
-                        var series1 = {name: 'Sales-bar', type: 'bar', data: response};
-                        var series2 = {name: 'sales-line', type: 'line', data: response};
-
-                        chart2.updateSeries([series1, series2]);
-                    });
-                }
-            });
-            $(document).on("click", "#week", function () {
-                if (chart2Origin && chart1Origin) {
-                    var url3 = '{{ route('api_share_evolution_week', ['locale' => app()->getLocale()]) }}';
-                    var token = "{{ generateUserToken() }}";
-
-                    $.ajax({
-                        url: url3,
-                        method: 'GET',
-                        headers: {
-                            'Authorization': 'Bearer ' + token
-                        },
-                        dataType: 'json',
-                        success: function(response) {
-                            var series1 = { name: 'Sales-bar', type: 'bar', data: response };
-                            var series2 = { name: 'sales-line', type: 'line', data: response };
-                            chart2.updateSeries([series1, series2]);
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Error fetching weekly evolution data:', error);
-                        }
-                    });
-                }
-            });
-            $(document).on("click", "#month", function () {
-                if (chart2Origin && chart1Origin) {
-                    var url3 = '{{ route('api_share_evolution_month', ['locale' => app()->getLocale()]) }}';
-                    var token = "{{ generateUserToken() }}";
-
-                    $.ajax({
-                        url: url3,
-                        method: 'GET',
-                        headers: {
-                            'Authorization': 'Bearer ' + token
-                        },
-                        dataType: 'json',
-                        success: function(response) {
-                            var series1 = { name: 'Sales-bar', type: 'bar', data: response };
-                            var series2 = { name: 'sales-line', type: 'line', data: response };
-                            chart2.updateSeries([series1, series2]);
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Error fetching monthly evolution data:', error);
-                        }
-                    });
-                }
-            });
-            $(document).on("click", "#day", function () {
-                if (chart2Origin && chart1Origin) {
-                    var url3 = '{{ route('api_share_evolution_day', ['locale' => app()->getLocale()]) }}';
-                    var token = "{{ generateUserToken() }}";
-
-                    $.ajax({
-                        url: url3,
-                        method: 'GET',
-                        headers: {
-                            'Authorization': 'Bearer ' + token
-                        },
-                        dataType: 'json',
-                        success: function(response) {
-                            var series1 = { name: 'Sales-bar', type: 'bar', data: response };
-                            var series2 = { name: 'sales-line', type: 'line', data: response };
-                            chart2.updateSeries([series1, series2]);
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Error fetching daily evolution data:', error);
-                        }
-                    });
-                }
-            });
-            if (chart2Origin && chart1Origin) {
-                chart2.render();
-                var url1 = '{{route('api_share_evolution',['locale'=> app()->getLocale()])}}';
-                var url2 = '{{route('api_action_values',['locale'=> app()->getLocale()])}}';
-
-                $.when(
-                    $.getJSON(url1),
-                    $.getJSON(url2)
-                ).then(function (response1, response2) {
-                    var series1 = {name: 'Sales', type: 'area', data: response1[0]};
-
-                    var series2 = {name: 'Function', type: 'line', data: response2[0]};
-                    chart1.updateSeries([series1, series2]);
-                });
-            }
-        });
-    </script>
 </div>
