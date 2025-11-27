@@ -1,6 +1,5 @@
 <div class="row" id="stats">
     <div class="container-fluid">
-        <!-- Section Header -->
         <div class="row mb-4">
             <div class="col-12 text-center">
                 <h2 class="fw-bold mb-2">{{__('Statistics')}}</h2>
@@ -10,7 +9,7 @@
         <div class="card col-12">
             <div class="card-header border-info">
                 <div class="d-flex align-items-center">
-                    <h5 class="card-title mb-0 flex-grow-1 text-info">{{ __('we_are_present_in') }}</h5>
+                    <h4 class="card-title mb-0 flex-grow-1">{{ __('we_are_present_in') }}</h4>
                 </div>
             </div>
             <div class="card-body">
@@ -26,9 +25,9 @@
             </div>
         </div>
         <div class="card col-12">
-            <div class="card-header border-info">
+            <div class="card-header">
                 <div class="d-flex align-items-center">
-                    <h5 class="card-title mb-0 flex-grow-1 text-info">{{ __('Country ponderation') }}</h5>
+                    <h4 class="card-title mb-0 flex-grow-1">{{ __('Country ponderation') }}</h4>
                 </div>
             </div>
             <div class="card-body">
