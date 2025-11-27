@@ -2,15 +2,12 @@
 
 namespace App\Livewire;
 
-use App\Models\BusinessSector;
 use App\Models\Deal;
-use App\Models\Item;
 use App\Services\Items\ItemService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -153,9 +150,10 @@ class ItemsCreateUpdate extends Component
 
     public function render()
     {
-        $params = [
-            'item' => $this->itemService->findItem($this->idItem),
-        ];
+        $params = ['item' => null];
+        if (!is_null($this->idItem)) {
+            $params = ['item' => $this->itemService->findItem($this->idItem),];
+        }
         return view('livewire.items-create-update', $params)->extends('layouts.master')->section('content');
     }
 }
