@@ -89,7 +89,6 @@ class Home extends Component
             'usermetta_info' => $userMetaInfo,
         ];
 
-        // Check for VIP/Flash sale
         $this->vip = Vip::where('idUser', '=', $user->idUser)
             ->where('closed', '=', false)->first();
 
