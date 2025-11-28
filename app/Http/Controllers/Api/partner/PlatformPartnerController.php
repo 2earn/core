@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Validator;
 class PlatformPartnerController extends Controller
 {
     private const LOG_PREFIX = '[PlatformPartnerController] ';
-    private const PAGINATION_LIMIT = 5;
 
     protected $platformService;
 
@@ -31,11 +30,13 @@ class PlatformPartnerController extends Controller
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|integer|exists:users,id',
             'page' => 'nullable|integer|min:1',
+            'limit' => 'nullable|integer|min:1',
             'search' => 'nullable|string|max:255'
         ]);
 
         $userId = $request->input('user_id');
         $page = $request->input('page');
+        $limit = $request->input('limit');
         $search = $request->input('search');
 
         if ($validator->fails()) {
@@ -47,7 +48,7 @@ class PlatformPartnerController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $result = $this->platformService->getPlatformsForPartner($userId, $page, $search, self::PAGINATION_LIMIT);
+        $result = $this->platformService->getPlatformsForPartner($userId, $page, $search, $limit);
         $platforms = $result['platforms'];
         $totalCount = $result['total_count'];
 

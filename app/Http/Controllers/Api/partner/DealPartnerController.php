@@ -34,6 +34,7 @@ class DealPartnerController extends Controller
             'user_id' => 'required|integer|exists:users,id',
             'platform_id' => 'nullable|integer|exists:platforms,id',
             'page' => 'nullable|integer|min:1',
+            'limit' => 'nullable|integer|min:1',
             'search' => 'nullable|string|max:255'
         ]);
 
@@ -49,6 +50,7 @@ class DealPartnerController extends Controller
         $userId = $request->input('user_id');
         $platformId = $request->input('platform_id');
         $page = $request->input('page');
+        $limit = $request->input('limit');
         $search = $request->input('search');
 
         // Get deals using the service
@@ -57,7 +59,7 @@ class DealPartnerController extends Controller
             $platformId,
             $search,
             $page,
-            self::PAGINATION_LIMIT
+            $limit
         );
 
         // Get total count

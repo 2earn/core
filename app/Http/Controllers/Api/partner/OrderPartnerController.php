@@ -30,6 +30,7 @@ class OrderPartnerController extends Controller
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|integer|exists:users,id',
             'platform_id' => 'nullable|integer|exists:platforms,id',
+            'limit' => 'nullable|integer|min:1',
             'page' => 'nullable|integer|min:1'
         ]);
 
@@ -44,6 +45,7 @@ class OrderPartnerController extends Controller
 
         $userId = $request->input('user_id');
         $page = $request->input('page');
+        $limit = $request->input('limit');
 
         $filters = [
             'platform_id' => $request->input('platform_id')
@@ -53,7 +55,7 @@ class OrderPartnerController extends Controller
             $userId,
             $filters,
             $page,
-            self::PAGINATION_LIMIT
+            $limit
         );
 
         return response()->json([
