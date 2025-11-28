@@ -36,7 +36,7 @@ class PlatformPartnerController extends Controller
 
         $userId = $request->input('user_id');
         $page = $request->input('page');
-        $limit = $request->input('limit');
+        $limit = $request->input('limit') ?? 8;
         $search = $request->input('search');
 
         if ($validator->fails()) {

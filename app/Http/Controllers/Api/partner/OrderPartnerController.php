@@ -45,7 +45,7 @@ class OrderPartnerController extends Controller
 
         $userId = $request->input('user_id');
         $page = $request->input('page');
-        $limit = $request->input('limit');
+        $limit = $request->input('limit') ?? 8;
 
         $filters = [
             'platform_id' => $request->input('platform_id')

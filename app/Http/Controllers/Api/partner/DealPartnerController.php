@@ -50,7 +50,7 @@ class DealPartnerController extends Controller
         $userId = $request->input('user_id');
         $platformId = $request->input('platform_id');
         $page = $request->input('page');
-        $limit = $request->input('limit');
+        $limit = $request->input('limit') ?? 8;
         $search = $request->input('search');
 
         // Get deals using the service
