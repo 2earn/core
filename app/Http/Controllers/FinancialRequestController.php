@@ -10,7 +10,6 @@ use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class FinancialRequestController extends Controller
 {
-    //
     public function resetOutGoingNotification(settingsManager $settingsManager)
     {
 

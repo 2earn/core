@@ -15,7 +15,6 @@ class ContactUserController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
@@ -25,7 +24,6 @@ class ContactUserController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -36,7 +34,6 @@ class ContactUserController extends Controller
      */
     public function store(StoreContactUserRequest $request)
     {
-        //
     }
 
     /**
@@ -47,7 +44,6 @@ class ContactUserController extends Controller
      */
     public function show(ContactUser $contactUser)
     {
-        //
     }
 
     /**
@@ -58,7 +54,6 @@ class ContactUserController extends Controller
      */
     public function edit(ContactUser $contactUser)
     {
-        //
     }
 
     /**
@@ -70,7 +65,6 @@ class ContactUserController extends Controller
      */
     public function update(UpdateContactUserRequest $request, ContactUser $contactUser)
     {
-        //
     }
 
     /**
@@ -81,6 +75,5 @@ class ContactUserController extends Controller
      */
     public function destroy(ContactUser $contactUser)
     {
-        //
     }
 }
