@@ -190,10 +190,10 @@ class PlatformPartnerController extends Controller
         $data['enabled'] = false;
 
 
-        $validationRequest = PlatformValidationRequest::create([
-            'platform_id' => $data['platform_id'],
-            'status' => PlatformValidationRequest::STATUS_PENDING
-        ]);
+        $validationRequest = $this->platformValidationRequestService->createRequest(
+            $data['platform_id'],
+            $data['owner_id']
+        );
 
         Log::info(self::LOG_PREFIX . 'Validation request created', [
             'platform_id' => $data['platform_id'],
@@ -316,12 +316,11 @@ class PlatformPartnerController extends Controller
         }
 
         // Create a change request
-        $changeRequest = PlatformChangeRequest::create([
-            'platform_id' => $platform->id,
-            'changes' => $changes,
-            'status' => PlatformChangeRequest::STATUS_PENDING,
-            'requested_by' => $updatedBy
-        ]);
+        $changeRequest = $this->platformChangeRequestService->createRequest(
+            $platform->id,
+            $changes,
+            $updatedBy
+        );
 
         Log::info(self::LOG_PREFIX . 'Platform change request created', [
             'platform_id' => $platform->id,
@@ -449,7 +448,10 @@ class PlatformPartnerController extends Controller
         $rejectionReason = $request->input('rejection_reason');
 
         try {
-            $validationRequest = $this->platformValidationRequestService->findRequest($validationRequestId);
+            $validationRequest = $this->platformValidationRequestService->cancelRequest(
+                $validationRequestId,
+                $rejectionReason
+            );
         } catch (\Exception $e) {
             Log::error(self::LOG_PREFIX . 'Validation request not found', ['validation_request_id' => $validationRequestId]);
             return response()->json([
@@ -457,10 +459,6 @@ class PlatformPartnerController extends Controller
                 'message' => 'Validation request not found'
             ], Response::HTTP_NOT_FOUND);
         }
-
-        $validationRequest->status = PlatformValidationRequest::STATUS_CANCELLED;
-        $validationRequest->rejection_reason = $rejectionReason;
-        $validationRequest->save();
 
         Log::info(self::LOG_PREFIX . 'Validation request cancelled', [
             'validation_request_id' => $validationRequestId,
@@ -492,28 +490,24 @@ class PlatformPartnerController extends Controller
         $changeRequestId = $request->input('change_request_id');
 
         try {
-            $changeRequest = $this->platformChangeRequestService->findRequest($changeRequestId);
-        } catch (\Exception $e) {
+            $changeRequest = $this->platformChangeRequestService->cancelRequest($changeRequestId);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             Log::error(self::LOG_PREFIX . 'Change request not found', ['change_request_id' => $changeRequestId]);
             return response()->json([
                 'status' => 'Failed',
                 'message' => 'Change request not found'
             ], Response::HTTP_NOT_FOUND);
-        }
-
-        if (!$changeRequest->canBeCancelled()) {
+        } catch (\Exception $e) {
             Log::warning(self::LOG_PREFIX . 'Change request cannot be cancelled', [
                 'change_request_id' => $changeRequestId,
-                'current_status' => $changeRequest->status
+                'error' => $e->getMessage()
             ]);
             return response()->json([
                 'status' => 'Failed',
-                'message' => 'Only pending change requests can be cancelled. Current status: ' . $changeRequest->status
+                'message' => $e->getMessage()
             ], Response::HTTP_FORBIDDEN);
         }
 
-        $changeRequest->status = PlatformChangeRequest::STATUS_CANCELLED;
-        $changeRequest->save();
 
         Log::info(self::LOG_PREFIX . 'Change request cancelled', [
             'change_request_id' => $changeRequestId,

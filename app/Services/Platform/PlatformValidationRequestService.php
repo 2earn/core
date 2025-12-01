@@ -18,7 +18,7 @@ class PlatformValidationRequestService
     public function getPendingRequests(?int $limit = null): Collection
     {
         $query = PlatformValidationRequest::with(['platform', 'requestedBy'])
-            ->where('status', 'pending')
+            ->where('status', PlatformValidationRequest::STATUS_PENDING)
             ->orderBy('created_at', 'desc');
 
         if ($limit) {
@@ -100,7 +100,7 @@ class PlatformValidationRequestService
         $platform->save();
 
         // Update request status
-        $request->status = 'approved';
+        $request->status = PlatformValidationRequest::STATUS_APPROVED;
         $request->reviewed_by = $reviewedBy;
         $request->reviewed_at = now();
         $request->save();
@@ -126,7 +126,7 @@ class PlatformValidationRequestService
         }
 
         // Update request status
-        $request->status = 'rejected';
+        $request->status = PlatformValidationRequest::STATUS_REJECTED;
         $request->rejection_reason = $rejectionReason;
         $request->reviewed_by = $reviewedBy;
         $request->updated_by = $reviewedBy;

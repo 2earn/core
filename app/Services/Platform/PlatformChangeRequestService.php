@@ -18,7 +18,7 @@ class PlatformChangeRequestService
      */
     public function getPendingRequestsPaginated(int $page = 1, int $perPage = 20, ?int $platformId = null): LengthAwarePaginator
     {
-        $query = PlatformChangeRequest::where('status', 'pending')
+        $query = PlatformChangeRequest::where('status', PlatformChangeRequest::STATUS_PENDING)
             ->with(['platform', 'requestedBy']);
 
         if ($platformId) {
@@ -103,7 +103,7 @@ class PlatformChangeRequestService
     {
         $request = $this->findRequest($requestId);
 
-        if ($request->status !== 'pending') {
+        if ($request->status !== PlatformChangeRequest::STATUS_PENDING) {
             throw new \Exception('This request has already been processed');
         }
 
@@ -118,7 +118,7 @@ class PlatformChangeRequestService
         $platform->save();
 
         // Update request status
-        $request->status = 'approved';
+        $request->status = PlatformChangeRequest::STATUS_APPROVED;
         $request->reviewed_by = $reviewedBy;
         $request->reviewed_at = now();
         $request->save();
@@ -139,7 +139,7 @@ class PlatformChangeRequestService
     {
         $request = $this->findRequest($requestId);
 
-        if ($request->status !== 'pending') {
+        if ($request->status !== PlatformChangeRequest::STATUS_PENDING) {
             throw new \Exception('This request has already been processed');
         }
 
@@ -169,7 +169,7 @@ class PlatformChangeRequestService
         if ($search) {
             $query->whereHas('platform', function ($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%')
-                  ->orWhere('id', 'like', '%' . $search . '%');
+                    ->orWhere('id', 'like', '%' . $search . '%');
             });
         }
 
@@ -195,6 +195,45 @@ class PlatformChangeRequestService
     }
 
     /**
+     * Create a new platform change request
+     *
+     * @param int $platformId
+     * @param array $changes
+     * @param int $requestedBy
+     * @return PlatformChangeRequest
+     */
+    public function createRequest(int $platformId, array $changes, int $requestedBy): PlatformChangeRequest
+    {
+        return PlatformChangeRequest::create([
+            'platform_id' => $platformId,
+            'changes' => $changes,
+            'status' => PlatformChangeRequest::STATUS_PENDING,
+            'requested_by' => $requestedBy
+        ]);
+    }
+
+    /**
+     * Cancel a platform change request
+     *
+     * @param int $requestId
+     * @return PlatformChangeRequest
+     * @throws \Exception
+     */
+    public function cancelRequest(int $requestId): PlatformChangeRequest
+    {
+        $changeRequest = $this->findRequest($requestId);
+
+        if (!$changeRequest->canBeCancelled()) {
+            throw new \Exception('Only pending change requests can be cancelled. Current status: ' . $changeRequest->status);
+        }
+
+        $changeRequest->status = PlatformChangeRequest::STATUS_CANCELLED;
+        $changeRequest->save();
+
+        return $changeRequest;
+    }
+
+    /**
      * Get pending change requests
      *
      * @param int|null $limit
@@ -203,7 +242,7 @@ class PlatformChangeRequestService
     public function getPendingRequests(?int $limit = null): Collection
     {
         $query = PlatformChangeRequest::with(['platform', 'requestedBy'])
-            ->where('status', 'pending')
+            ->where('status', PlatformChangeRequest::STATUS_PENDING)
             ->orderBy('created_at', 'desc');
 
         if ($limit) {
@@ -221,11 +260,11 @@ class PlatformChangeRequestService
     public function getStatistics(): array
     {
         return [
-            'pending_count' => PlatformChangeRequest::where('status', 'pending')->count(),
-            'approved_count' => PlatformChangeRequest::where('status', 'approved')->count(),
-            'rejected_count' => PlatformChangeRequest::where('status', 'rejected')->count(),
+            'pending_count' => PlatformChangeRequest::where('status', PlatformChangeRequest::STATUS_PENDING)->count(),
+            'approved_count' => PlatformChangeRequest::where('status', PlatformChangeRequest::STATUS_APPROVED)->count(),
+            'rejected_count' => PlatformChangeRequest::where('status', PlatformChangeRequest::STATUS_REJECTED)->count(),
             'total_count' => PlatformChangeRequest::count(),
-            'recent_pending' => PlatformChangeRequest::where('status', 'pending')
+            'recent_pending' => PlatformChangeRequest::where('status', PlatformChangeRequest::STATUS_PENDING)
                 ->with(['platform', 'requestedBy'])
                 ->orderBy('created_at', 'desc')
                 ->limit(5)
@@ -245,7 +284,7 @@ class PlatformChangeRequestService
      */
     public function getTotalPending(): int
     {
-        return PlatformChangeRequest::where('status', 'pending')->count();
+        return PlatformChangeRequest::where('status', PlatformChangeRequest::STATUS_PENDING)->count();
     }
 }
 
