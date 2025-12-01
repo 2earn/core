@@ -499,17 +499,14 @@
                 return;
             }
 
-            // Email validation regex
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
                 alert('{{ __("Please enter a valid email address") }}');
                 return;
             }
 
-            // Dispatch Livewire event to send verification mail
             window.Livewire.dispatch('sendVerificationMail', [email]);
 
-            // Close the modal
             const modal = bootstrap.Modal.getInstance(document.getElementById('topmodal'));
             if (modal) {
                 modal.hide();
@@ -517,14 +514,13 @@
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            // Handle save button click
+
             document.getElementById('btnsaveUser')?.addEventListener('click', function () {
                 const childrenCount = document.getElementById('inputChild').value;
             @this.call('saveUser', childrenCount)
                 ;
             });
 
-            // Handle children count buttons
             document.getElementById('btnPlus')?.addEventListener('click', function () {
                 let input = document.getElementById('inputChild');
                 let currentValue = parseInt(input.value) || 0;
@@ -545,7 +541,6 @@
                 }
             });
 
-            // Allow Enter key to submit email in modal
             document.getElementById('inputEmailModal')?.addEventListener('keypress', function (e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();

@@ -123,7 +123,7 @@
 @script
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // SMS checkbox change handler
+
         $('#send').change(function () {
             if (this.checked && !{{$soldeSms}} > 0) {
                 Swal.fire({
@@ -147,7 +147,6 @@
             })
         });
 
-        // Password visibility toggles
         var toggleOldPassword = document.querySelector("#toggleOldPassword");
         if (toggleOldPassword) {
             var Oldpassword = document.querySelector("#oldpasswordInput");

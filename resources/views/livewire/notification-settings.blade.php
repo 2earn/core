@@ -161,7 +161,7 @@
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Update slider percentages dynamically
+
             const slider1 = document.querySelector('#slider-1');
             const pct1 = document.querySelector('.pct1');
             if (slider1 && pct1) {

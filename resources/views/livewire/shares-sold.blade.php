@@ -381,12 +381,11 @@
     </div>
     <script type="module">
         document.addEventListener("DOMContentLoaded", function () {
-            // Initialize DataTables
+
             initializeTransferTable();
             initializeSharesSoldTable();
         });
 
-        // Transfer DataTable
         function initializeTransferTable() {
             $('#transfert').DataTable({
                 "ordering": true,
@@ -418,7 +417,6 @@
             });
         }
 
-        // Shares Sold DataTable
         function initializeSharesSoldTable() {
             $('#shares-sold').DataTable({
                 "ordering": true,
@@ -481,7 +479,7 @@
         }
     </script>
     <script type="module">
-        // Chart Options
+
         const chartOptions = {
             chart: {height: 350, type: 'area'},
             dataLabels: {enabled: false},
@@ -528,7 +526,6 @@
 
             let chart, chart1, chart2;
 
-            // Initialize Charts
             if (chartOrigin) {
                 chart = new ApexCharts(chartOrigin, chartOptions);
                 chart.render();
@@ -547,7 +544,6 @@
                 loadShareEvolutionByDate(chart2, 'api_share_evolution_date');
             }
 
-            // Chart Data Loading Functions
             function loadCashBalanceData(chartInstance) {
                 $.ajax({
                     url: '{{ route('api_user_cash', ['locale' => app()->getLocale()]) }}',
@@ -602,7 +598,6 @@
                 });
             }
 
-            // Period Filter Event Handlers
             $(document).on("click", "#day", function () {
                 if (chart2) {
                     $(this).addClass('btn-primary').removeClass('btn-outline-primary');

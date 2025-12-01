@@ -1,5 +1,5 @@
 <div class="card mb-3 shadow-sm border">
-    {{-- Header --}}
+    
     <div class="card-header text- border-info">
         <div class="d-flex justify-content-between align-items-center">
             <h4 class="mb-0">
@@ -9,10 +9,9 @@
         </div>
     </div>
 
-    {{-- Main Content --}}
     <div class="card-body">
         <div class="row g-4">
-            {{-- Details Section --}}
+            
             <div class="col-md-6">
                 <h5 class="text-info border-bottom pb-2 mb-3">
                     <i class="bi bi-info-circle"></i> {{ __('Details') }}
@@ -46,7 +45,7 @@
                 </div>
             </div>
 
-            {{-- Links Section --}}
+            
             <div class="col-md-6">
                 <h5 class="text-info border-bottom pb-2 mb-3">
                     <i class="bi bi-link-45deg"></i> {{ __('Links') }}
@@ -75,7 +74,7 @@
             </div>
         </div>
 
-        {{-- Admin Actions --}}
+        
         @if(\App\Models\User::isSuperAdmin())
             <hr class="my-4">
             <div class="row g-3">
@@ -83,7 +82,7 @@
                     <h6 class="text-muted mb-3">{{ __('Actions') }}:</h6>
                 </div>
 
-                {{-- Primary Actions --}}
+                
                 <div class="col-md-6">
                     <div class="btn-group flex-wrap" role="group" aria-label="{{ __('Target actions') }}">
                         @if($currentRouteName !== "target_show")
@@ -118,7 +117,7 @@
                     </div>
                 </div>
 
-                {{-- Secondary Actions (Show Page Only) --}}
+                
                 @if($currentRouteName == "target_show")
                     <div class="col-md-6">
                         <div class="btn-group flex-wrap" role="group" aria-label="{{ __('Condition and group actions') }}">
@@ -138,7 +137,7 @@
             </div>
         @endif
 
-        {{-- Conditions Section --}}
+        
         @if($currentRouteName == "target_show" && $target->condition->isNotEmpty())
             <hr class="my-4">
             <div class="mb-4">
@@ -150,14 +149,14 @@
                     @foreach($target->condition as $condition)
                         <div class="list-group-item">
                             <div class="row align-items-center g-3">
-                                {{-- Index --}}
+                                
                                 <div class="col-auto">
                                     <span class="badge bg-secondary rounded-circle" style="width: 2rem; height: 2rem; display: inline-flex; align-items: center; justify-content: center;">
                                         {{ $loop->iteration }}
                                     </span>
                                 </div>
 
-                                {{-- Condition Display --}}
+                                
                                 <div class="col-md-6">
                                     <div class="d-flex flex-wrap gap-2 align-items-center">
                                         <span class="badge text- text-dark border fs-6">{{ $condition->operand }}</span>
@@ -166,7 +165,7 @@
                                     </div>
                                 </div>
 
-                                {{-- Actions --}}
+                                
                                 <div class="col-md-auto ms-auto">
                                     <div class="btn-group btn-group-sm" role="group">
                                         <a href="{{ route('target_condition_create_update', ['locale' => app()->getLocale(), 'idTarget' => $condition->target_id, 'idCondition' => $condition->id]) }}"
@@ -195,7 +194,7 @@
             </div>
         @endif
 
-        {{-- Groups Section --}}
+        
         @if($currentRouteName == "target_show" && $target->group->isNotEmpty())
             <hr class="my-4">
             <div class="mb-4">
@@ -207,7 +206,7 @@
                     @foreach($target->group as $group)
                         <div class="list-group-item">
                             <div class="row g-3">
-                                {{-- Group Header --}}
+                                
                                 <div class="col-12">
                                     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
                                         <div class="d-flex align-items-center gap-3">
@@ -219,7 +218,7 @@
                                             </h5>
                                         </div>
 
-                                        {{-- Group Actions --}}
+                                        
                                         <div class="btn-group btn-group-sm" role="group">
                                             <a href="{{ route('target_group_create_update', ['locale' => app()->getLocale(), 'idTarget' => $group->target_id, 'idGroup' => $group->id]) }}"
                                                class="btn btn-outline-info"
@@ -247,7 +246,7 @@
                                     </div>
                                 </div>
 
-                                {{-- Group Conditions --}}
+                                
                                 @if($group->condition->isNotEmpty())
                                     <div class="col-12">
                                         <div class="ms-4 border-start border-3 border-info ps-3">
@@ -259,14 +258,14 @@
                                                 @foreach($group->condition as $conditionItem)
                                                     <div class="list-group-item text-">
                                                         <div class="row align-items-center g-3">
-                                                            {{-- Condition Index --}}
+                                                            
                                                             <div class="col-auto">
                                                                 <span class="badge text- text-dark border" style="width: 1.75rem; height: 1.75rem; display: inline-flex; align-items: center; justify-content: center;">
                                                                     {{ $loop->iteration }}
                                                                 </span>
                                                             </div>
 
-                                                            {{-- Condition Display --}}
+                                                            
                                                             <div class="col-md-6">
                                                                 <div class="d-flex flex-wrap gap-2 align-items-center">
                                                                     <span class="badge bg-white text-dark border">{{ $conditionItem->operand }}</span>
@@ -275,7 +274,6 @@
                                                                 </div>
                                                             </div>
 
-                                                            {{-- Condition Actions --}}
                                                             <div class="col-md-auto ms-auto">
                                                                 <div class="btn-group btn-group-sm" role="group">
                                                                     <a href="{{ route('target_condition_create_update', ['locale' => app()->getLocale(), 'idTarget' => $group->target_id, 'idGroup' => $conditionItem->target_group_id, 'idCondition' => $conditionItem->id]) }}"

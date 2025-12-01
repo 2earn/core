@@ -125,7 +125,7 @@
 
         <div class="card-body border border-dashed border-end-0 border-start-0">
             <div class="row g-3">
-                {{-- Search --}}
+                
                 <div class="col-xxl-4 col-sm-6">
                     <div class="search-box">
                         <input type="text"
@@ -136,7 +136,7 @@
                     </div>
                 </div>
 
-                {{-- Active Filter --}}
+                
                 <div class="col-xxl-2 col-sm-4">
                     <div>
                         <select wire:model.live="filterActive" class="form-control">
@@ -147,7 +147,7 @@
                     </div>
                 </div>
 
-                {{-- Clear Filters --}}
+                
                 <div class="col-xxl-2 col-sm-4">
                     <div>
                         <button wire:click="clearFilters" class="btn btn-light w-100">
@@ -159,7 +159,7 @@
         </div>
 
         <div class="card-body">
-            {{-- Loading Indicator --}}
+            
             <div wire:loading class="text-center py-4">
                 <div class="spinner-border text-primary" role="status">
                     <span class="visually-hidden">{{ __('Loading...') }}</span>
@@ -259,21 +259,21 @@
                                 @if(\App\Models\User::isSuperAdmin())
                                     <td>
                                         <div class="hstack gap-2">
-                                            {{-- Toggle Active --}}
+                                            
                                             <button wire:click="toggleActive({{ $formula->id }})"
                                                     class="btn btn-sm btn-soft-{{ $formula->is_active ? 'warning' : 'success' }}"
                                                     title="{{ $formula->is_active ? __('Deactivate') : __('Activate') }}">
                                                 <i class="ri-{{ $formula->is_active ? 'pause' : 'play' }}-circle-line"></i>
                                             </button>
 
-                                            {{-- Edit --}}
+                                            
                                             <a href="{{ route('commission_formula_edit', ['locale' => app()->getLocale(), 'id' => $formula->id]) }}"
                                                class="btn btn-sm btn-soft-info"
                                                title="{{ __('Edit') }}">
                                                 <i class="ri-edit-2-line"></i>
                                             </a>
 
-                                            {{-- Delete --}}
+                                            
                                             <button wire:click="confirmDelete({{ $formula->id }})"
                                                     class="btn btn-sm btn-soft-danger"
                                                     title="{{ __('Delete') }}">

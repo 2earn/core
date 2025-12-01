@@ -61,7 +61,7 @@
                             </div>
                         </div>
 
-                        {{-- Final Commission --}}
+                        
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="final_commission" class="form-label">
@@ -87,7 +87,7 @@
                         </div>
                     </div>
 
-                    {{-- Commission Range Preview --}}
+                    
                     @if($initial_commission && $final_commission && $final_commission > $initial_commission)
                         <div class="alert alert-info border-0 mb-3" role="alert">
                             <div class="d-flex align-items-center">
@@ -104,7 +104,7 @@
                         </div>
                     @endif
 
-                    {{-- Description Field --}}
+                    
                     <div class="mb-3">
                         <label for="description" class="form-label">
                             {{ __('Description') }}
@@ -121,7 +121,7 @@
                             class="form-text">{{ __('Optional detailed description of when and how this formula should be used.') }}</div>
                     </div>
 
-                    {{-- Active Status --}}
+                    
                     <div class="mb-4">
                         <div class="form-check form-switch form-switch-lg">
                             <input type="checkbox"
@@ -145,7 +145,7 @@
                         </div>
                     </div>
 
-                    {{-- Action Buttons --}}
+                    
                     <div class="d-flex justify-content-end gap-2">
                         <button type="button" wire:click="cancel" class="btn btn-light">
                             <i class="ri-close-line align-middle me-1"></i>

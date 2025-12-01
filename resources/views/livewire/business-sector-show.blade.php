@@ -133,7 +133,7 @@
                                     @endif
                                 </div>
 
-                                {{-- Platform Details --}}
+                                
                                 <div class="col-lg-9 col-md-8">
                                     <h4 class="card-title mb-2">
                                         {{ \App\Models\TranslaleModel::getTranslation($platform, 'name', $platform->name) }}
@@ -187,7 +187,7 @@
                             </div>
                         </div>
 
-                        {{-- Platform Items/Deals --}}
+                        
                         @php
                             $hasItems = false;
                             foreach($platform->deals as $deal) {

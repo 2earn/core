@@ -19,7 +19,7 @@
                     <div class="row">
                         <div class="col-lg-8">
                             <div class="d-flex align-items-end mb-3" style="margin-top: -60px;">
-                                {{-- Platform Logo --}}
+                                
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar-xl border border-4 border-white rounded-circle bg-white shadow">
                                         @if ($platform?->logoImage)
@@ -34,7 +34,7 @@
                                     </div>
                                 </div>
 
-                                {{-- Platform Name and Info --}}
+                                
                                 <div class="flex-grow-1">
                                     <h3 class="mb-1" title="ID: {{$platform->id}}">
                                         {{\App\Models\TranslaleModel::getTranslation($platform,'name',$platform->name)}}

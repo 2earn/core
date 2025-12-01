@@ -8,7 +8,7 @@
            }
         @endphp
 
-        {{-- Main KYC Card --}}
+        
         <div class="card border-0 shadow-sm">
             <div class="card-body p-4">
                 <div class="row align-items-center">
@@ -69,7 +69,7 @@
             </div>
         </div>
 
-        {{-- Missing Fields Alert --}}
+        
         @if(!empty($errors_array))
             <div class="alert alert-warning alert-border-left alert-dismissible fade show shadow-sm mt-3" role="alert">
                 <div class="d-flex">
@@ -101,7 +101,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
-        {{-- Request Already Exists Modal --}}
+        
         <div class="modal fade" id="accountValidationModal" tabindex="-1" aria-labelledby="accountValidationModal"
              aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -135,7 +135,7 @@
             </div>
         </div>
 
-        {{-- Main Identification Modal --}}
+        
         <div wire:ignore class="modal fade" id="identificationModal" tabindex="-1"
              aria-labelledby="identificationModalLabel"
              aria-hidden="true">
@@ -208,7 +208,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="tab-content">
-                                {{-- Step 1: Personal Information --}}
+                                
                                 <div class="tab-pane fade show active" id="pills-bill-info" role="tabpanel"
                                      aria-labelledby="pills-bill-info-tab">
                                     <div class="alert alert-info border-0 mb-4 d-none"
@@ -314,7 +314,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                {{-- Step 2: National Identity Cards --}}
+                                
                                 <div class="tab-pane fade" id="pills-identities-card" role="tabpanel"
                                      aria-labelledby="pills-identities-card-tab">
                                     <div class="alert alert-info border-0 alert-border-left mb-4" role="alert">
@@ -422,7 +422,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                {{-- Step 3: International Identity Card --}}
+                                
                                 <div class="tab-pane fade" id="pills-inter-identities-card" role="tabpanel"
                                      aria-labelledby="pills-inter-identities-card-tab">
                                     <div class="alert alert-warning border-0 alert-border-left mb-4" role="alert">
