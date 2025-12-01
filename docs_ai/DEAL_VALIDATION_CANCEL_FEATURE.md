@@ -135,16 +135,12 @@ The `deal_validation_requests` table now has:
 
 ## Testing Checklist
 
-- [ ] Verify migration runs successfully
 - [ ] Test cancelling a pending validation request
 - [ ] Test attempting to cancel an approved validation request (should fail)
 - [ ] Test attempting to cancel a rejected validation request (should fail)
 - [ ] Test attempting to cancel an already cancelled validation request (should fail)
 - [ ] Test with valid and invalid validation_request_id
-- [ ] Test with valid and invalid user_id
-- [ ] Test with and without cancellation reason
 - [ ] Verify logging is working correctly
-- [ ] Verify cancelled_by relationship loads correctly
 - [ ] Test query scopes (scopeCancelled)
 
 ## Notes

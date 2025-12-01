@@ -429,4 +429,57 @@ class PlatformPartnerController extends Controller
         ], Response::HTTP_OK);
     }
 
+    public function cancelChangeRequest(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'change_request_id' => 'required|integer|exists:platform_change_requests,id',
+        ]);
+
+        if ($validator->fails()) {
+            Log::error(self::LOG_PREFIX . 'Cancel change request validation failed', ['errors' => $validator->errors()]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $changeRequestId = $request->input('change_request_id');
+
+        $changeRequest = PlatformChangeRequest::find($changeRequestId);
+
+        if (!$changeRequest) {
+            Log::error(self::LOG_PREFIX . 'Change request not found', ['change_request_id' => $changeRequestId]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Change request not found'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        if (!$changeRequest->canBeCancelled()) {
+            Log::warning(self::LOG_PREFIX . 'Change request cannot be cancelled', [
+                'change_request_id' => $changeRequestId,
+                'current_status' => $changeRequest->status
+            ]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Only pending change requests can be cancelled. Current status: ' . $changeRequest->status
+            ], Response::HTTP_FORBIDDEN);
+        }
+
+        $changeRequest->status = PlatformChangeRequest::STATUS_CANCELLED;
+        $changeRequest->save();
+
+        Log::info(self::LOG_PREFIX . 'Change request cancelled', [
+            'change_request_id' => $changeRequestId,
+            'platform_id' => $changeRequest->platform_id
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Change request cancelled successfully',
+            'data' => $changeRequest
+        ], Response::HTTP_OK);
+    }
+
 }
