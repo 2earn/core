@@ -38,7 +38,6 @@ class UserPartnerController extends Controller
             $user = User::findOrFail($validated['user_id']);
             $platform = Platform::findOrFail($validated['platform_id']);
 
-            // Create or update the role assignment record
             $assignPlatformRole = AssignPlatformRole::updateOrCreate(
                 [
                     'platform_id' => $validated['platform_id'],

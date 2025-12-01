@@ -13,7 +13,6 @@ class OrderDetailsPartnerController extends Controller
 {
     private const LOG_PREFIX = '[OrderDetailsPartnerController] ';
 
-
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [

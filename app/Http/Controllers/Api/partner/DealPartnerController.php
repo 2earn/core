@@ -53,7 +53,6 @@ class DealPartnerController extends Controller
         $limit = $request->input('limit') ?? 8;
         $search = $request->input('search');
 
-        // Get deals using the service
         $deals = $this->dealService->getPartnerDeals(
             $userId,
             $platformId,
@@ -62,10 +61,8 @@ class DealPartnerController extends Controller
             $limit
         );
 
-        // Get total count
         $totalCount = $this->dealService->getPartnerDealsCount($userId, $platformId, $search);
 
-        // Enrich deals with change request and validation request data
         $this->dealService->enrichDealsWithRequests($deals);
 
         return response()->json([
@@ -307,7 +304,6 @@ class DealPartnerController extends Controller
     {
         $validatedData = $request->validated();
 
-        // Process commission formula if changed
         if (array_key_exists('commission_formula_id', $validatedData)) {
             $commissionFormula = CommissionFormula::find($validatedData['commission_formula_id']);
             if ($commissionFormula) {
@@ -317,18 +313,14 @@ class DealPartnerController extends Controller
             unset($validatedData['commission_formula_id']);
         }
 
-        // Handle current_turnover
         if (array_key_exists('current_turnover', $validatedData)) {
             $validatedData['current_turnover'] = $validatedData['current_turnover'] ?? 0;
         }
 
-        // Get requested_by from request
         $requestedBy = $request->input('requested_by') ?? $request->input('user_id');
 
-        // Filter out only the fields that are actually changing
         $changes = [];
         foreach ($validatedData as $field => $value) {
-            // Skip the requested_by field from changes
             if ($field === 'requested_by') {
                 continue;
             }
@@ -341,7 +333,6 @@ class DealPartnerController extends Controller
             }
         }
 
-        // If no changes, return early
         if (empty($changes)) {
             return response()->json([
                 'status' => 'Failed',
@@ -349,7 +340,6 @@ class DealPartnerController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        // Create a change request
         $changeRequest = $this->dealService->createChangeRequest(
             $deal->id,
             $changes,

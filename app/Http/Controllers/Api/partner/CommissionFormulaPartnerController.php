@@ -51,7 +51,6 @@ class CommissionFormulaPartnerController extends Controller
         $page = $request->input('page');
         $filters = [];
 
-        // Handle active filter - check if parameter exists
         if ($request->has('active')) {
             $filters['is_active'] = $request->boolean('active');
         }

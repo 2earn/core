@@ -228,7 +228,6 @@ class OrderPartnerController extends Controller
             ], Response::HTTP_FORBIDDEN);
         }
 
-        // Validate the status value against OrderEnum
         $statusValue = $request->input('status');
         $orderStatus = OrderEnum::tryFrom($statusValue);
 
