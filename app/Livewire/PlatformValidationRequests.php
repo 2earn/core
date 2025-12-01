@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\PlatformValidationRequest;
+use App\Services\Platform\PlatformValidationRequestService;
 use Core\Models\Platform;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -29,6 +30,13 @@ class PlatformValidationRequests extends Component
     public $approveRequestId = null;
 
     protected $queryString = ['search', 'statusFilter'];
+
+    protected PlatformValidationRequestService $platformValidationRequestService;
+
+    public function boot(PlatformValidationRequestService $platformValidationRequestService)
+    {
+        $this->platformValidationRequestService = $platformValidationRequestService;
+    }
 
     public function updatingSearch()
     {
@@ -57,23 +65,10 @@ class PlatformValidationRequests extends Component
         try {
             DB::beginTransaction();
 
-            $request = PlatformValidationRequest::findOrFail($this->approveRequestId);
-
-            if ($request->status !== 'pending') {
-                session()->flash('danger', Lang::get('This request has already been processed'));
-                $this->closeApproveModal();
-                return;
-            }
-
-            // Enable the platform
-            $platform = Platform::findOrFail($request->platform_id);
-            $platform->enabled = true;
-            $platform->updated_by = Auth::id();
-            $platform->save();
-
-            // Update request status
-            $request->status = 'approved';
-            $request->save();
+            $request = $this->platformValidationRequestService->approveRequest(
+                $this->approveRequestId,
+                Auth::id()
+            );
 
             DB::commit();
 
@@ -122,17 +117,15 @@ class PlatformValidationRequests extends Component
         ]);
 
         try {
-            $request = PlatformValidationRequest::findOrFail($this->rejectRequestId);
+            DB::beginTransaction();
 
-            if ($request->status !== 'pending') {
-                session()->flash('danger', Lang::get('This request has already been processed'));
-                $this->closeRejectModal();
-                return;
-            }
+            $request = $this->platformValidationRequestService->rejectRequest(
+                $this->rejectRequestId,
+                Auth::id(),
+                $this->rejectionReason
+            );
 
-            $request->status = 'rejected';
-            $request->rejection_reason = $this->rejectionReason;
-            $request->save();
+            DB::commit();
 
             Log::info('[PlatformValidationRequests] Request rejected', [
                 'request_id' => $this->rejectRequestId,
@@ -144,6 +137,7 @@ class PlatformValidationRequests extends Component
             $this->closeRejectModal();
 
         } catch (\Exception $e) {
+            DB::rollBack();
             Log::error('[PlatformValidationRequests] Error rejecting request', [
                 'request_id' => $this->rejectRequestId,
                 'error' => $e->getMessage()
@@ -155,18 +149,11 @@ class PlatformValidationRequests extends Component
 
     public function render()
     {
-        $requests = PlatformValidationRequest::with('platform')
-            ->when($this->search, function ($query) {
-                $query->whereHas('platform', function ($q) {
-                    $q->where('name', 'like', '%' . $this->search . '%')
-                      ->orWhere('id', 'like', '%' . $this->search . '%');
-                });
-            })
-            ->when($this->statusFilter !== 'all', function ($query) {
-                $query->where('status', $this->statusFilter);
-            })
-            ->orderBy('created_at', 'desc')
-            ->paginate($this->perPage);
+        $requests = $this->platformValidationRequestService->getPaginatedRequests(
+            $this->statusFilter,
+            $this->search,
+            $this->perPage
+        );
 
         return view('livewire.platform-validation-requests', [
             'requests' => $requests

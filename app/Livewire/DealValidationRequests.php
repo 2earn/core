@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Deal;
 use App\Models\DealValidationRequest;
 use App\Models\User;
+use App\Services\Deals\PendingDealValidationRequestsInlineService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -38,6 +39,13 @@ class DealValidationRequests extends Component
         'refreshValidationRequests' => '$refresh'
     ];
 
+    protected PendingDealValidationRequestsInlineService $dealValidationRequestService;
+
+    public function boot(PendingDealValidationRequestsInlineService $dealValidationRequestService)
+    {
+        $this->dealValidationRequestService = $dealValidationRequestService;
+    }
+
     public function mount()
     {
         $this->currentRouteName = Route::currentRouteName();
@@ -70,23 +78,10 @@ class DealValidationRequests extends Component
         try {
             DB::beginTransaction();
 
-            $request = DealValidationRequest::findOrFail($this->approveRequestId);
-
-            if ($request->status !== 'pending') {
-                session()->flash('danger', Lang::get('This request has already been processed'));
-                $this->closeApproveModal();
-                return;
-            }
-
-            // Validate the deal
-            $deal = Deal::findOrFail($request->deal_id);
-            $deal->validated = true;
-            $deal->updated_by = Auth::id();
-            $deal->save();
-
-            // Update request status
-            $request->status = 'approved';
-            $request->save();
+            $request = $this->dealValidationRequestService->approveRequest(
+                $this->approveRequestId,
+                Auth::id()
+            );
 
             DB::commit();
 
@@ -137,18 +132,11 @@ class DealValidationRequests extends Component
         try {
             DB::beginTransaction();
 
-            $request = DealValidationRequest::findOrFail($this->rejectRequestId);
-
-            if ($request->status !== 'pending') {
-                session()->flash('danger', Lang::get('This request has already been processed'));
-                $this->closeRejectModal();
-                return;
-            }
-
-            // Update request status
-            $request->status = 'rejected';
-            $request->rejection_reason = $this->rejectionReason;
-            $request->save();
+            $request = $this->dealValidationRequestService->rejectRequest(
+                $this->rejectRequestId,
+                Auth::id(),
+                $this->rejectionReason
+            );
 
             DB::commit();
 
@@ -175,34 +163,13 @@ class DealValidationRequests extends Component
 
     public function render()
     {
-        $query = DealValidationRequest::with(['deal.platform', 'requestedBy'])
-            ->orderBy('created_at', 'desc');
-
-        // Apply status filter
-        if ($this->statusFilter && $this->statusFilter !== 'all') {
-            $query->where('status', $this->statusFilter);
-        }
-
-        // Apply search filter
-        if ($this->search) {
-            $query->whereHas('deal', function ($q) {
-                $q->where('name', 'like', '%' . $this->search . '%');
-            })->orWhereHas('requestedBy', function ($q) {
-                $q->where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('email', 'like', '%' . $this->search . '%');
-            });
-        }
-
-        // Only show requests for platforms the user manages (if not super admin)
-        if (!User::isSuperAdmin()) {
-            $query->whereHas('deal.platform', function ($q) {
-                $q->where('financial_manager_id', Auth::id())
-                    ->orWhere('marketing_manager_id', Auth::id())
-                    ->orWhere('owner_id', Auth::id());
-            });
-        }
-
-        $requests = $query->paginate($this->perPage);
+        $requests = $this->dealValidationRequestService->getPaginatedRequests(
+            $this->statusFilter,
+            $this->search,
+            Auth::id(),
+            User::isSuperAdmin(),
+            $this->perPage
+        );
 
         return view('livewire.deal-validation-requests', [
             'requests' => $requests

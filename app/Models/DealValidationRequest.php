@@ -18,6 +18,9 @@ class DealValidationRequest extends Model
     protected $fillable = [
         'deal_id',
         'requested_by_id',
+        'requested_by',
+        'reviewed_by',
+        'reviewed_at',
         'status',
         'rejection_reason',
         'notes',
@@ -26,6 +29,7 @@ class DealValidationRequest extends Model
     ];
 
     protected $casts = [
+        'reviewed_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
@@ -44,6 +48,14 @@ class DealValidationRequest extends Model
     public function requestedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'requested_by_id');
+    }
+
+    /**
+     * Get the user who reviewed the validation request.
+     */
+    public function reviewedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'reviewed_by');
     }
 
 

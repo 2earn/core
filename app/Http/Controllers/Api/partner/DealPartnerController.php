@@ -203,7 +203,7 @@ class DealPartnerController extends Controller
         }
 
         $existingRequest = DealValidationRequest::where('deal_id', $dealId)
-            ->where('status', 'pending')
+            ->where('status', DealValidationRequest::STATUS_PENDING)
             ->first();
 
         if ($existingRequest) {

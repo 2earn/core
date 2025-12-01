@@ -3,7 +3,9 @@
 namespace App\Livewire;
 
 use App\Models\PlatformChangeRequest;
+use App\Services\Platform\PlatformChangeRequestService;
 use Core\Models\Platform;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -35,6 +37,13 @@ class PlatformChangeRequests extends Component
 
     protected $queryString = ['search', 'statusFilter'];
 
+    protected PlatformChangeRequestService $platformChangeRequestService;
+
+    public function boot(PlatformChangeRequestService $platformChangeRequestService)
+    {
+        $this->platformChangeRequestService = $platformChangeRequestService;
+    }
+
     public function updatingSearch()
     {
         $this->resetPage();
@@ -47,7 +56,7 @@ class PlatformChangeRequests extends Component
 
     public function openChangesModal($requestId)
     {
-        $request = PlatformChangeRequest::with('platform')->findOrFail($requestId);
+        $request = $this->platformChangeRequestService->findRequestWithRelations($requestId, ['platform']);
         $this->viewChangesRequestId = $requestId;
         $this->viewChangesData = [
             'platform_name' => $request->platform->name ?? 'N/A',
@@ -67,7 +76,7 @@ class PlatformChangeRequests extends Component
 
     public function openApproveModal($requestId)
     {
-        $request = PlatformChangeRequest::findOrFail($requestId);
+        $request = $this->platformChangeRequestService->findRequest($requestId);
         $this->approveRequestId = $requestId;
         $this->approveRequestChanges = $request->changes;
         $this->showApproveModal = true;
@@ -85,28 +94,10 @@ class PlatformChangeRequests extends Component
         try {
             DB::beginTransaction();
 
-            $request = PlatformChangeRequest::findOrFail($this->approveRequestId);
-
-            if ($request->status !== 'pending') {
-                session()->flash('danger', Lang::get('This request has already been processed'));
-                $this->closeApproveModal();
-                return;
-            }
-
-            // Update platform with changes
-            $platform = Platform::findOrFail($request->platform_id);
-
-            foreach ($request->changes as $field => $change) {
-                $platform->{$field} = $change['new'];
-            }
-
-            $platform->save();
-
-            // Update request status
-            $request->status = 'approved';
-            $request->reviewed_by = auth()->id();
-            $request->reviewed_at = now();
-            $request->save();
+            $request = $this->platformChangeRequestService->approveRequest(
+                $this->approveRequestId,
+                Auth::id()
+            );
 
             DB::commit();
 
@@ -114,7 +105,7 @@ class PlatformChangeRequests extends Component
                 'request_id' => $this->approveRequestId,
                 'platform_id' => $request->platform_id,
                 'changes' => $request->changes,
-                'reviewed_by' => auth()->id(),
+                'reviewed_by' => Auth::id(),
             ]);
 
             session()->flash('success', Lang::get('Platform change request approved successfully'));
@@ -156,31 +147,28 @@ class PlatformChangeRequests extends Component
         ]);
 
         try {
-            $request = PlatformChangeRequest::findOrFail($this->rejectRequestId);
+            DB::beginTransaction();
 
-            if ($request->status !== 'pending') {
-                session()->flash('danger', Lang::get('This request has already been processed'));
-                $this->closeRejectModal();
-                return;
-            }
+            $request = $this->platformChangeRequestService->rejectRequest(
+                $this->rejectRequestId,
+                Auth::id(),
+                $this->rejectionReason
+            );
 
-            $request->status = 'rejected';
-            $request->rejection_reason = $this->rejectionReason;
-            $request->reviewed_by = auth()->id();
-            $request->reviewed_at = now();
-            $request->save();
+            DB::commit();
 
             Log::info('[PlatformChangeRequests] Request rejected', [
                 'request_id' => $this->rejectRequestId,
                 'platform_id' => $request->platform_id,
                 'rejection_reason' => $this->rejectionReason,
-                'reviewed_by' => auth()->id(),
+                'reviewed_by' => Auth::id(),
             ]);
 
             session()->flash('success', Lang::get('Platform change request rejected successfully'));
             $this->closeRejectModal();
 
         } catch (\Exception $e) {
+            DB::rollBack();
             Log::error('[PlatformChangeRequests] Error rejecting request', [
                 'request_id' => $this->rejectRequestId,
                 'error' => $e->getMessage()
@@ -211,18 +199,11 @@ class PlatformChangeRequests extends Component
 
     public function render()
     {
-        $requests = PlatformChangeRequest::with(['platform', 'requestedBy', 'reviewedBy'])
-            ->when($this->search, function ($query) {
-                $query->whereHas('platform', function ($q) {
-                    $q->where('name', 'like', '%' . $this->search . '%')
-                      ->orWhere('id', 'like', '%' . $this->search . '%');
-                });
-            })
-            ->when($this->statusFilter !== 'all', function ($query) {
-                $query->where('status', $this->statusFilter);
-            })
-            ->orderBy('created_at', 'desc')
-            ->paginate($this->perPage);
+        $requests = $this->platformChangeRequestService->getPaginatedRequests(
+            $this->statusFilter,
+            $this->search,
+            $this->perPage
+        );
 
         return view('livewire.platform-change-requests', [
             'requests' => $requests

@@ -49,5 +49,30 @@ class PendingDealChangeRequestsInlineService
             'totalPending' => $this->getTotalPending()
         ];
     }
+
+    /**
+     * Find a deal change request by ID
+     *
+     * @param int $requestId
+     * @return DealChangeRequest
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function findRequest(int $requestId): DealChangeRequest
+    {
+        return DealChangeRequest::findOrFail($requestId);
+    }
+
+    /**
+     * Find a deal change request by ID with relationships
+     *
+     * @param int $requestId
+     * @param array $relations
+     * @return DealChangeRequest
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function findRequestWithRelations(int $requestId, array $relations = []): DealChangeRequest
+    {
+        return DealChangeRequest::with($relations)->findOrFail($requestId);
+    }
 }
 

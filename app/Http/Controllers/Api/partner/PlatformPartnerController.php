@@ -115,7 +115,8 @@ class PlatformPartnerController extends Controller
 
         $validationRequest = PlatformValidationRequest::create([
             'platform_id' => $platform->id,
-            'status' => 'pending'
+            'status' => PlatformValidationRequest::STATUS_PENDING,
+            'requested_by' => $data['created_by']
         ]);
 
         Log::info(self::LOG_PREFIX . 'Platform created with validation request', [
@@ -156,7 +157,7 @@ class PlatformPartnerController extends Controller
 
         $validationRequest = PlatformValidationRequest::create([
             'platform_id' => $data['platform_id'],
-            'status' => 'pending'
+            'status' => PlatformValidationRequest::STATUS_PENDING
         ]);
 
         Log::info(self::LOG_PREFIX . 'Validation request created', [
@@ -276,7 +277,7 @@ class PlatformPartnerController extends Controller
         $changeRequest = PlatformChangeRequest::create([
             'platform_id' => $platform->id,
             'changes' => $changes,
-            'status' => 'pending',
+            'status' => PlatformChangeRequest::STATUS_PENDING,
             'requested_by' => $updatedBy
         ]);
 
@@ -301,6 +302,7 @@ class PlatformPartnerController extends Controller
         $validator = Validator::make($request->all(), [
             'platform_id' => 'required|integer|exists:platforms,id',
             'type_id' => 'required|integer|in:1,2,3',
+            'updated_by' => 'required|exists:users,id'
         ]);
 
         if ($validator->fails()) {
@@ -314,6 +316,7 @@ class PlatformPartnerController extends Controller
 
         $platformId = $request->input('platform_id');
         $newTypeId = $request->input('type_id');
+        $updatedBy = $request->input('updated_by');
 
         $platform = Platform::find($platformId);
 
@@ -367,7 +370,8 @@ class PlatformPartnerController extends Controller
             'platform_id' => $platformId,
             'old_type' => $oldTypeId,
             'new_type' => $newTypeId,
-            'status' => 'pending'
+            'status' => PlatformTypeChangeRequest::STATUS_PENDING,
+            'requested_by' => $updatedBy
         ]);
 
         Log::info(self::LOG_PREFIX . 'Platform type change request created', [
