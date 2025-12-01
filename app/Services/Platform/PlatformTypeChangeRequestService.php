@@ -175,5 +175,26 @@ class PlatformTypeChangeRequestService
     {
         return $this->getFilteredQuery($statusFilter, $search)->paginate($perPage);
     }
+
+    /**
+     * Create a new platform type change request
+     *
+     * @param int $platformId
+     * @param int $oldType
+     * @param int $newType
+     * @param int $requestedBy
+     * @return PlatformTypeChangeRequest
+     */
+    public function createRequest(int $platformId, int $oldType, int $newType, int $requestedBy): PlatformTypeChangeRequest
+    {
+        return PlatformTypeChangeRequest::create([
+            'platform_id' => $platformId,
+            'old_type' => $oldType,
+            'new_type' => $newType,
+            'status' => PlatformTypeChangeRequest::STATUS_PENDING,
+            'requested_by' => $requestedBy,
+            'updated_by' => $requestedBy
+        ]);
+    }
 }
 

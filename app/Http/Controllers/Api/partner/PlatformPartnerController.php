@@ -6,10 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\PlatformChangeRequest;
 use App\Models\PlatformTypeChangeRequest;
 use App\Models\PlatformValidationRequest;
+use App\Services\Platform\PlatformChangeRequestService;
 use App\Services\Platform\PlatformService;
+use App\Services\Platform\PlatformTypeChangeRequestService;
+use App\Services\Platform\PlatformValidationRequestService;
 use Core\Models\Platform;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,11 +22,21 @@ class PlatformPartnerController extends Controller
     private const LOG_PREFIX = '[PlatformPartnerController] ';
 
     protected $platformService;
+    protected $platformValidationRequestService;
+    protected $platformChangeRequestService;
+    protected $platformTypeChangeRequestService;
 
-    public function __construct(PlatformService $platformService)
-    {
+    public function __construct(
+        PlatformService $platformService,
+        PlatformValidationRequestService $platformValidationRequestService,
+        PlatformChangeRequestService $platformChangeRequestService,
+        PlatformTypeChangeRequestService $platformTypeChangeRequestService
+    ) {
         $this->middleware('check.url');
         $this->platformService = $platformService;
+        $this->platformValidationRequestService = $platformValidationRequestService;
+        $this->platformChangeRequestService = $platformChangeRequestService;
+        $this->platformTypeChangeRequestService = $platformTypeChangeRequestService;
     }
 
     public function index(Request $request)
@@ -57,19 +71,40 @@ class PlatformPartnerController extends Controller
         }]);
 
         $platforms->each(function ($platform) {
-            $platform->type_change_requests_count = PlatformTypeChangeRequest::where('platform_id', $platform->id)->count();
-            $platform->validation_requests_count = PlatformValidationRequest::where('platform_id', $platform->id)->count();
-            $platform->change_requests_count = PlatformChangeRequest::where('platform_id', $platform->id)->count();
+            // Use services to get counts
+            $platform->type_change_requests_count = $this->platformTypeChangeRequestService
+                ->getFilteredQuery(null, null)
+                ->where('platform_id', $platform->id)
+                ->count();
 
-            $platform->typeChangeRequests = PlatformTypeChangeRequest::where('platform_id', $platform->id)
+            $platform->validation_requests_count = $this->platformValidationRequestService
+                ->getFilteredQuery(null, null)
+                ->where('platform_id', $platform->id)
+                ->count();
+
+            $platform->change_requests_count = $this->platformChangeRequestService
+                ->getFilteredQuery(null, null)
+                ->where('platform_id', $platform->id)
+                ->count();
+
+            // Get recent requests using services
+            $platform->typeChangeRequests = $this->platformTypeChangeRequestService
+                ->getFilteredQuery(null, null)
+                ->where('platform_id', $platform->id)
                 ->orderBy('created_at', 'desc')
                 ->limit(3)
                 ->get();
-            $platform->validationRequests = PlatformValidationRequest::where('platform_id', $platform->id)
+
+            $platform->validationRequests = $this->platformValidationRequestService
+                ->getFilteredQuery(null, null)
+                ->where('platform_id', $platform->id)
                 ->orderBy('created_at', 'desc')
                 ->limit(3)
                 ->get();
-            $platform->changeRequests = PlatformChangeRequest::where('platform_id', $platform->id)
+
+            $platform->changeRequests = $this->platformChangeRequestService
+                ->getFilteredQuery(null, null)
+                ->where('platform_id', $platform->id)
                 ->orderBy('created_at', 'desc')
                 ->limit(3)
                 ->get();
@@ -202,15 +237,22 @@ class PlatformPartnerController extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
 
-        $typeChangeRequests = PlatformTypeChangeRequest::where('platform_id', $platformId)
+        // Use services to get requests
+        $typeChangeRequests = $this->platformTypeChangeRequestService
+            ->getFilteredQuery(null, null)
+            ->where('platform_id', $platformId)
             ->orderBy('created_at', 'desc')
             ->get();
 
-        $validationRequests = PlatformValidationRequest::where('platform_id', $platformId)
+        $validationRequests = $this->platformValidationRequestService
+            ->getFilteredQuery(null, null)
+            ->where('platform_id', $platformId)
             ->orderBy('created_at', 'desc')
             ->get();
 
-        $changeRequests = PlatformChangeRequest::where('platform_id', $platformId)
+        $changeRequests = $this->platformChangeRequestService
+            ->getFilteredQuery(null, null)
+            ->where('platform_id', $platformId)
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -366,13 +408,12 @@ class PlatformPartnerController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $changeRequest = PlatformTypeChangeRequest::create([
-            'platform_id' => $platformId,
-            'old_type' => $oldTypeId,
-            'new_type' => $newTypeId,
-            'status' => PlatformTypeChangeRequest::STATUS_PENDING,
-            'requested_by' => $updatedBy
-        ]);
+        $changeRequest = $this->platformTypeChangeRequestService->createRequest(
+            $platformId,
+            $oldTypeId,
+            $newTypeId,
+            $updatedBy
+        );
 
         Log::info(self::LOG_PREFIX . 'Platform type change request created', [
             'request_id' => $changeRequest->id,
@@ -407,9 +448,9 @@ class PlatformPartnerController extends Controller
         $validationRequestId = $request->input('validation_request_id');
         $rejectionReason = $request->input('rejection_reason');
 
-        $validationRequest = PlatformValidationRequest::find($validationRequestId);
-
-        if (!$validationRequest) {
+        try {
+            $validationRequest = $this->platformValidationRequestService->findRequest($validationRequestId);
+        } catch (\Exception $e) {
             Log::error(self::LOG_PREFIX . 'Validation request not found', ['validation_request_id' => $validationRequestId]);
             return response()->json([
                 'status' => 'Failed',
@@ -450,9 +491,9 @@ class PlatformPartnerController extends Controller
 
         $changeRequestId = $request->input('change_request_id');
 
-        $changeRequest = PlatformChangeRequest::find($changeRequestId);
-
-        if (!$changeRequest) {
+        try {
+            $changeRequest = $this->platformChangeRequestService->findRequest($changeRequestId);
+        } catch (\Exception $e) {
             Log::error(self::LOG_PREFIX . 'Change request not found', ['change_request_id' => $changeRequestId]);
             return response()->json([
                 'status' => 'Failed',
