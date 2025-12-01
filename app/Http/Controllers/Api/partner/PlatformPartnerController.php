@@ -384,4 +384,49 @@ class PlatformPartnerController extends Controller
         ], Response::HTTP_CREATED);
     }
 
+    public function cancelValidationRequest(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'validation_request_id' => 'required|integer|exists:platform_validation_requests,id',
+            'rejection_reason' => 'required|string|max:500'
+        ]);
+
+        if ($validator->fails()) {
+            Log::error(self::LOG_PREFIX . 'Cancel validation request validation failed', ['errors' => $validator->errors()]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $validationRequestId = $request->input('validation_request_id');
+        $rejectionReason = $request->input('rejection_reason');
+
+        $validationRequest = PlatformValidationRequest::find($validationRequestId);
+
+        if (!$validationRequest) {
+            Log::error(self::LOG_PREFIX . 'Validation request not found', ['validation_request_id' => $validationRequestId]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation request not found'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        $validationRequest->status = PlatformValidationRequest::STATUS_CANCELLED;
+        $validationRequest->rejection_reason = $rejectionReason;
+        $validationRequest->save();
+
+        Log::info(self::LOG_PREFIX . 'Validation request cancelled', [
+            'validation_request_id' => $validationRequestId,
+            'platform_id' => $validationRequest->platform_id,
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Validation request cancelled successfully',
+            'data' => $validationRequest
+        ], Response::HTTP_OK);
+    }
+
 }
