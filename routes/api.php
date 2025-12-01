@@ -132,6 +132,7 @@ Route::prefix('/partner/')->name('api_partner_')
             Route::post('platform/validate', [PlatformPartnerController::class, 'validateRequest'])->name('platform_validate_request');
             Route::post('platform/validation/cancel', [PlatformPartnerController::class, 'cancelValidationRequest'])->name('platform_validation_cancel');
             Route::post('deals/validate', [DealPartnerController::class, 'validateRequest'])->name('deal_validate_request');
+            Route::post('deals/validation/cancel', [DealPartnerController::class, 'cancelValidationRequest'])->name('deal_validation_cancel');
             Route::post('users/add-role', [UserPartnerController::class, 'addRole'])->name('users_add_role');
         });
 

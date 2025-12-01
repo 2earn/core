@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateDealRequest;
 use App\Models\CommissionFormula;
 use App\Models\Deal;
-use App\Models\DealChangeRequest;
 use App\Models\DealValidationRequest;
 use App\Services\Deals\DealService;
 use Illuminate\Http\Request;
@@ -130,7 +129,7 @@ class DealPartnerController extends Controller
             DB::beginTransaction();
 
             $deal = $this->dealService->create($validatedData);
-            $this->dealService->createValidationRequest(
+            $validationRequest = $this->dealService->createValidationRequest(
                 $deal->id,
                 $request->input('created_by'),
                 $request->input('notes', 'Deal validation request created automatically')
@@ -146,7 +145,7 @@ class DealPartnerController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Deal created successfully and validation request submitted',
-                'data' => $deal
+                'data' => ['deal' => $deal, 'validation_request' => $validationRequest]
             ], Response::HTTP_CREATED);
 
         } catch (\Exception $e) {
@@ -162,6 +161,7 @@ class DealPartnerController extends Controller
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
     public function validateRequest(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -389,7 +389,6 @@ class DealPartnerController extends Controller
 
         $userId = $request->input('user_id');
 
-        // Check permission using the service
         if (!$this->dealService->userHasPermission($deal, $userId)) {
             Log::error(self::LOG_PREFIX . 'User does not have permission to change deal status', [
                 'deal_id' => $deal->id,
@@ -409,5 +408,58 @@ class DealPartnerController extends Controller
             'message' => 'Deal status updated successfully',
             'data' => $deal
         ]);
+    }
+
+    public function cancelValidationRequest(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'validation_request_id' => 'required|integer|exists:deal_validation_requests,id',
+        ]);
+
+        if ($validator->fails()) {
+            Log::error(self::LOG_PREFIX . 'Cancel validation request validation failed', ['errors' => $validator->errors()]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $validationRequestId = $request->input('validation_request_id');
+
+        $validationRequest = DealValidationRequest::find($validationRequestId);
+
+        if (!$validationRequest) {
+            Log::error(self::LOG_PREFIX . 'Validation request not found', ['validation_request_id' => $validationRequestId]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation request not found'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        if (!$validationRequest->canBeCancelled()) {
+            Log::warning(self::LOG_PREFIX . 'Validation request cannot be cancelled', [
+                'validation_request_id' => $validationRequestId,
+                'current_status' => $validationRequest->status
+            ]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Only pending validation requests can be cancelled. Current status: ' . $validationRequest->status
+            ], Response::HTTP_FORBIDDEN);
+        }
+
+        $validationRequest->status = DealValidationRequest::STATUS_CANCELLED;
+        $validationRequest->save();
+
+        Log::info(self::LOG_PREFIX . 'Validation request cancelled', [
+            'validation_request_id' => $validationRequestId,
+            'deal_id' => $validationRequest->deal_id
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Validation request cancelled successfully',
+            'data' => $validationRequest
+        ], Response::HTTP_OK);
     }
 }
