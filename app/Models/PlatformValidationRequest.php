@@ -17,11 +17,28 @@ class PlatformValidationRequest extends Model
         'platform_id',
         'status',
         'rejection_reason',
+        'requested_by',
+        'reviewed_by',
+        'reviewed_at',
+    ];
+
+    protected $casts = [
+        'reviewed_at' => 'datetime',
     ];
 
     public function platform(): BelongsTo
     {
         return $this->belongsTo(Platform::class);
+    }
+
+    public function requestedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'requested_by');
+    }
+
+    public function reviewedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'reviewed_by');
     }
 
     public static function getStatuses(): array
