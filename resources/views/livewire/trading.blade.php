@@ -201,7 +201,7 @@
                     </div>
                 @endforelse
             </div>
-            <div class="card-footer bg-light border-top">
+            <div class="card-footer">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="text-muted small">
                         {{__('Showing')}} {{ $shares->firstItem() ?? 0 }} {{__('to')}} {{ $shares->lastItem() ?? 0 }} {{__('of')}} {{ $shares->total() }} {{__('entries')}}
@@ -212,9 +212,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12">
-            <livewire:estimated-sale-shares/>
-        </div>
+        <livewire:estimated-sale-shares/>
     </div>
     <script type="module">
         document.addEventListener("DOMContentLoaded", function () {
