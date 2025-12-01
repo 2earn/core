@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateDealRequest;
 use App\Models\CommissionFormula;
 use App\Models\Deal;
+use App\Models\DealChangeRequest;
 use App\Models\DealValidationRequest;
 use App\Services\Deals\DealService;
 use Illuminate\Http\Request;
@@ -321,14 +322,14 @@ class DealPartnerController extends Controller
             $validatedData['current_turnover'] = $validatedData['current_turnover'] ?? 0;
         }
 
-        // Get updated_by from request
-        $updatedBy = $request->input('updated_by') ?? $request->input('user_id');
+        // Get requested_by from request
+        $requestedBy = $request->input('requested_by') ?? $request->input('user_id');
 
         // Filter out only the fields that are actually changing
         $changes = [];
         foreach ($validatedData as $field => $value) {
-            // Skip the updated_by field from changes
-            if ($field === 'updated_by') {
+            // Skip the requested_by field from changes
+            if ($field === 'requested_by') {
                 continue;
             }
 
@@ -352,13 +353,12 @@ class DealPartnerController extends Controller
         $changeRequest = $this->dealService->createChangeRequest(
             $deal->id,
             $changes,
-            $updatedBy
+            $requestedBy
         );
-
         Log::info(self::LOG_PREFIX . 'Deal change request created', [
             'deal_id' => $deal->id,
             'change_request_id' => $changeRequest->id,
-            'requested_by' => $updatedBy
+            'requested_by' => $requestedBy
         ]);
 
         return response()->json([
@@ -460,6 +460,59 @@ class DealPartnerController extends Controller
             'status' => true,
             'message' => 'Validation request cancelled successfully',
             'data' => $validationRequest
+        ], Response::HTTP_OK);
+    }
+
+    public function cancelChangeRequest(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'change_request_id' => 'required|integer|exists:deal_change_requests,id',
+        ]);
+
+        if ($validator->fails()) {
+            Log::error(self::LOG_PREFIX . 'Cancel change request validation failed', ['errors' => $validator->errors()]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $changeRequestId = $request->input('change_request_id');
+
+        $changeRequest = DealChangeRequest::find($changeRequestId);
+
+        if (!$changeRequest) {
+            Log::error(self::LOG_PREFIX . 'Change request not found', ['change_request_id' => $changeRequestId]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Change request not found'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        if (!$changeRequest->canBeCancelled()) {
+            Log::warning(self::LOG_PREFIX . 'Change request cannot be cancelled', [
+                'change_request_id' => $changeRequestId,
+                'current_status' => $changeRequest->status
+            ]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Only pending change requests can be cancelled. Current status: ' . $changeRequest->status
+            ], Response::HTTP_FORBIDDEN);
+        }
+
+        $changeRequest->status = DealChangeRequest::STATUS_CANCELLED;
+        $changeRequest->save();
+
+        Log::info(self::LOG_PREFIX . 'Change request cancelled', [
+            'change_request_id' => $changeRequestId,
+            'deal_id' => $changeRequest->deal_id
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Change request cancelled successfully',
+            'data' => $changeRequest
         ], Response::HTTP_OK);
     }
 }
