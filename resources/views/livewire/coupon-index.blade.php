@@ -250,7 +250,6 @@
 
         document.addEventListener("DOMContentLoaded", function () {
             window.addEventListener('coupon-deleted', event => {
-                // Optional: Add any post-delete actions here
             });
         });
     </script>

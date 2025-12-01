@@ -35,17 +35,17 @@
                             <th>Actions</th>
                         </tr>
                         </thead>
-{{--                        <tbody class="body2earn" >--}}
-{{--                        <?php if (!($representatives->isEmpty())){ ?>--}}
-{{--                        @foreach($representatives as $rep)--}}
-{{--                            <tr id="reptt-{{$rep->idUser}}">--}}
-{{--                                <td>{{$rep->name}}</td>--}}
-{{--                                <td>{{$rep->fullphone_number}}</td>--}}
-{{--                                <td><a onclick="deletedata({{$rep->idUser}})" ><i class="fa fa-trash-o" aria-hidden="true" style="cursor: pointer;color: red; padding-left: 10px;" ></i></a></td>--}}
-{{--                            </tr>--}}
-{{--                        @endforeach--}}
-{{--                        <?php } ?>--}}
-{{--                        </tbody>--}}
+
+
+
+
+
+
+
+
+
+
+
                     </table>
                 </div>
             </div>

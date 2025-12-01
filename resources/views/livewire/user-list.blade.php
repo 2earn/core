@@ -129,7 +129,6 @@
                                     <div class="mb-3">
                                         <p class="text-primary fs-12 mb-2 fw-semibold">{{__('Soldes')}}</p>
                                         <div class="d-flex flex-wrap gap-2">
-                                            {{-- Cash Balance --}}
                                             <button type="button"
                                                     class="btn btn-soft-info btn-sm d-flex align-items-center shadow-sm cb"
                                                     data-bs-toggle="modal"
@@ -142,7 +141,6 @@
                                                     class="fw-semibold">{{number_format(getUserBalanceSoldes($user->idUser, 1), 2)}}</span>
                                             </button>
 
-                                            {{-- BFS Balance --}}
                                             <button type="button"
                                                     class="btn btn-soft-secondary btn-sm d-flex align-items-center shadow-sm bfs"
                                                     data-bs-toggle="modal"
@@ -155,7 +153,6 @@
                                                     class="fw-semibold">{{number_format(getUserBalanceSoldes($user->idUser, 2), 2)}}</span>
                                             </button>
 
-                                            {{-- Discount Balance --}}
                                             <button type="button"
                                                     class="btn btn-soft-primary btn-sm d-flex align-items-center shadow-sm db"
                                                     data-bs-toggle="modal"
@@ -168,7 +165,6 @@
                                                     class="fw-semibold">{{number_format(getUserBalanceSoldes($user->idUser, 3), 2)}}</span>
                                             </button>
 
-                                            {{-- SMS Balance --}}
                                             <button type="button"
                                                     class="btn btn-soft-warning btn-sm d-flex align-items-center shadow-sm smsb"
                                                     data-bs-toggle="modal"
@@ -181,7 +177,6 @@
                                                     class="fw-semibold">{{number_format(getUserBalanceSoldes($user->idUser, 5), 0)}}</span>
                                             </button>
 
-                                            {{-- Shares Balance --}}
                                             <button type="button"
                                                     class="btn btn-soft-success btn-sm d-flex align-items-center shadow-sm sh"
                                                     data-bs-toggle="modal"
@@ -419,7 +414,6 @@
         </div>
     </div>
 
-    {{-- Update Password Modal --}}
     <div class="modal fade" id="updatePassword" tabindex="-1" aria-labelledby="updatePasswordModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
@@ -462,7 +456,6 @@
         </div>
     </div>
 
-    {{-- VIP Modal --}}
     <div class="modal fade" id="vip" tabindex="-1" aria-labelledby="vipModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -547,7 +540,6 @@
         </div>
     </div>
 
-    {{-- Balance Details Modal --}}
     <div class="modal fade modal-xl" id="detail" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -583,7 +575,6 @@
         </div>
     </div>
 
-    {{-- Shares Balance Details Modal --}}
     <div class="modal fade modal-xl" id="detailsh" tabindex="-1" aria-labelledby="detailshModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
@@ -623,20 +614,19 @@
     <script type="module">
         var ammount = 0;
 
-        // Toggle password visibility
         function togglePassword(userId) {
             const hiddenEl = document.querySelector(`.password-hidden-${userId}`);
             const visibleEl = document.querySelector(`.password-visible-${userId}`);
             const iconEl = document.querySelector(`.password-toggle-icon-${userId}`);
 
             if (hiddenEl.classList.contains('d-none')) {
-                // Currently showing password, hide it
+
                 hiddenEl.classList.remove('d-none');
                 visibleEl.classList.add('d-none');
                 iconEl.classList.remove('ri-eye-off-line');
                 iconEl.classList.add('ri-eye-line');
             } else {
-                // Currently hiding password, show it
+
                 hiddenEl.classList.add('d-none');
                 visibleEl.classList.remove('d-none');
                 iconEl.classList.remove('ri-eye-line');
@@ -644,7 +634,6 @@
             }
         }
 
-        // Make function globally available
         window.togglePassword = togglePassword;
 
         function fireSwalInformMessage(iconSwal, titleSwal, textSwal) {
@@ -681,7 +670,7 @@
                             data: {user: user, msg: msg, "_token": "{{ csrf_token() }}"},
                             success: function (dataMessage) {
                                 fireSwalInformMessage('success', '{{__('Transfer success')}}', dataTransfert + ' ' + dataMessage);
-                                // Refresh the page to show updated balances
+
                                 setTimeout(() => window.location.reload(), 1500);
                             },
                             error: function (xhr, ajaxOptions, thrownError) {

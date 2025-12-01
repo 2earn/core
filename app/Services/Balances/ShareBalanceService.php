@@ -52,6 +52,150 @@ class ShareBalanceService
     }
 
     /**
+     * Get share balances list for a specific user
+     *
+     * @param int $idUser User ID
+     * @return \Illuminate\Support\Collection
+     */
+    public function getShareBalancesList(int $idUser)
+    {
+        return DB::table('shares_balances as u')
+            ->select(
+                'u.reference',
+                'u.created_at',
+                DB::raw("CASE WHEN b.direction = 'IN' THEN u.value ELSE -u.value END AS value"),
+                'u.beneficiary_id',
+                'u.balance_operation_id',
+                'u.real_amount',
+                'u.current_balance',
+                'u.unit_price',
+                'u.total_amount'
+            )
+            ->join('balance_operations as b', 'u.balance_operation_id', '=', 'b.id')
+            ->join('users as s', 'u.beneficiary_id', '=', 's.idUser')
+            ->where('u.beneficiary_id', $idUser)
+            ->orderBy('u.created_at')
+            ->get();
+    }
+
+    /**
+     * Get shares soldes query
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getSharesSoldesQuery()
+    {
+        return DB::table('shares_balances')
+            ->select(
+                'current_balance',
+                'payed',
+                'countries.apha2',
+                'shares_balances.id',
+                DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS Name'),
+                'user.mobile',
+                DB::raw('CAST(value AS DECIMAL(10,0)) AS value'),
+                'value',
+                DB::raw('CAST(shares_balances.unit_price AS DECIMAL(10,2)) AS unit_price'),
+                'shares_balances.created_at',
+                'shares_balances.payed as payed',
+                'shares_balances.beneficiary_id'
+            )
+            ->join('users as user', 'user.idUser', '=', 'shares_balances.beneficiary_id')
+            ->join('metta_users as meta', 'meta.idUser', '=', 'user.idUser')
+            ->join('countries', 'countries.id', '=', 'user.idCountry')
+            ->orderBy('created_at')
+            ->get();
+    }
+
+    /**
+     * Get share price evolution by date query
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getSharePriceEvolutionDateQuery()
+    {
+        return DB::table('shares_balances')
+            ->select(DB::raw('DATE(created_at) as x'), DB::raw('SUM(value) as y'))
+            ->where('balance_operation_id', 20)
+            ->groupBy('x')
+            ->get();
+    }
+
+    /**
+     * Get share price evolution by week query
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getSharePriceEvolutionWeekQuery()
+    {
+        return DB::table('shares_balances')
+            ->select(DB::raw(' concat(year(created_at),\'-\',WEEK(created_at, 1)) as x'), DB::raw('SUM(value) as y'), DB::raw(' WEEK(created_at, 1) as z'))
+            ->where('balance_operation_id', 44)
+            ->groupBy('x', 'z')
+            ->orderBy('z')
+            ->get();
+    }
+
+    /**
+     * Get share price evolution by month query
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getSharePriceEvolutionMonthQuery()
+    {
+        return DB::table('shares_balances')
+            ->select(DB::raw('DATE_FORMAT(created_at, \'%Y-%m\') as x'), DB::raw('SUM(value) as y'))
+            ->where('balance_operation_id', 44)
+            ->groupBy('x')
+            ->get();
+    }
+
+    /**
+     * Get share price evolution by day query
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getSharePriceEvolutionDayQuery()
+    {
+        return DB::table('shares_balances')
+            ->select(DB::raw('DAYNAME(created_at) as x'), DB::raw('SUM(value) as y'), DB::raw('DAYOFWEEK(created_at) as z'))
+            ->where('balance_operation_id', 44)
+            ->groupBy('x', 'z')
+            ->orderBy('z')
+            ->get();
+    }
+
+    /**
+     * Get share price evolution query
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getSharePriceEvolutionQuery()
+    {
+        return DB::table('shares_balances')
+            ->select(
+                DB::raw('CAST(SUM(value) OVER (ORDER BY id) AS DECIMAL(10,0))AS x'),
+                DB::raw('CAST(unit_price AS DECIMAL(10,2)) AS y')
+            )
+            ->where('balance_operation_id', 44)
+            ->orderBy('created_at')
+            ->get();
+    }
+
+    /**
+     * Get shares solde query for a specific user
+     *
+     * @param int $beneficiaryId User ID
+     * @return \Illuminate\Database\Query\Builder
+     */
+    public function getSharesSoldeQuery(int $beneficiaryId)
+    {
+        return DB::table('shares_balances')
+            ->where('beneficiary_id', $beneficiaryId)
+            ->orderBy('id', 'desc');
+    }
+
+    /**
      * Update share balance
      *
      * @param int $id Share balance ID

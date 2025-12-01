@@ -161,30 +161,27 @@
                     utilsScript: 'https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/utils.js'
                 });
             } else if (force && code !== '') {
-                // If reinitializing and we have a code, ensure country is set
+
                 try { window.itiLog.setCountry(code); } catch (e) { console.warn('setCountry failed', e); }
             }
 
-            // Bind events once (idempotent)
             if (!input.dataset.intlBound) {
                 input.addEventListener('keyup', updateHiddenFromIntl);
                 input.addEventListener('countrychange', updateHiddenFromIntl);
                 input.dataset.intlBound = 'true';
             }
 
-            // Initial sync
             updateHiddenFromIntl();
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Delay slightly to allow Livewire to populate hidden phoneCode
+
             setTimeout(() => setupIntlTelInput(false), 120);
         });
 
-        // Re-init after Livewire duplicate contact error (event dispatched from PHP)
         document.addEventListener('livewire:initialized', () => {
             window.Livewire.on('contactPhoneNeedsInit', () => {
-                // If in edit mode ensure we keep the original country; otherwise auto or entered
+
                 setTimeout(() => setupIntlTelInput(true), 160);
             });
         });
@@ -200,7 +197,6 @@
             const btnSpinner = document.getElementById("btnSpinner");
             const btnText = document.getElementById("btnText");
 
-            // Ensure intl-tel-input has processed the current value
             if (typeof itiLog !== 'undefined' && itiLog) {
                 var phone = itiLog.getNumber();
                 if (phone && phone.trim() !== '') {
@@ -218,7 +214,6 @@
             var inputName = inputname.value.trim();
             var out = inputlast.value.trim();
 
-            // Validate that we have the necessary phone data
             if (!inputName || !out || !phoneNumber) {
                 errorMsg.innerHTML = "{{ __('Please enter a valid phone number') }}";
                 errorMsg.classList.remove("d-none");
@@ -226,7 +221,7 @@
             }
 
             if (validateContact()) {
-                // Show loading state
+
                 saveBtn.disabled = true;
                 btnSpinner.classList.remove("d-none");
 
@@ -239,11 +234,11 @@
                             window.Livewire.dispatch('save', [phoneNumber, inputname.value.trim(), out]);
                             errorMsg.innerHTML = "";
                             errorMsg.classList.add("d-none");
-                            // Keep button disabled - Livewire will redirect after save
+
                         } else {
                             errorMsg.innerHTML = response.message;
                             errorMsg.classList.remove("d-none");
-                            // Hide loading state on error
+
                             saveBtn.disabled = false;
                             btnSpinner.classList.add("d-none");
                         }
@@ -251,7 +246,7 @@
                     error: function(xhr, status, error) {
                         errorMsg.innerHTML = "{{ __('Phone validation failed') }}";
                         errorMsg.classList.remove("d-none");
-                        // Hide loading state on error
+
                         saveBtn.disabled = false;
                         btnSpinner.classList.add("d-none");
                     }
@@ -286,7 +281,7 @@
         var itiLog; // Global variable to store the intl-tel-input instance
 
         document.addEventListener("DOMContentLoaded", function () {
-            // Wait a bit for Livewire to populate the field in edit mode
+
             setTimeout(function() {
                 var codePays = document.getElementById('codecode').textContent.trim();
                 var inputlog = document.querySelector("#intl-tel-input");
@@ -310,12 +305,11 @@
                     });
 
                     function initIntlTelInput() {
-                        // Wait for the plugin to be fully initialized
+
                         if (!itiLog) return;
 
                         var phone = itiLog.getNumber();
 
-                        // If phone is empty, don't process
                         if (!phone || phone.trim() === '') {
                             return;
                         }
@@ -335,7 +329,6 @@
                     inputlog.addEventListener('keyup', initIntlTelInput);
                     inputlog.addEventListener('countrychange', initIntlTelInput);
 
-                    // Initialize on load with a delay to ensure everything is loaded
                     setTimeout(function() {
                         initIntlTelInput();
                     }, 300);
@@ -347,7 +340,7 @@
     <script>
         document.addEventListener('livewire:initialized', () => {
             window.Livewire.on('contactPhoneNeedsInit', () => {
-                // Reinitialize intl-tel-input safely
+
                 setTimeout(() => {
                     const inputlog = document.querySelector('#intl-tel-input');
                     if (!inputlog) return;

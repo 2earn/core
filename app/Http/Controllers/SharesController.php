@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\Balances\BalanceService;
+use App\Services\Balances\ShareBalanceService;
 use App\Services\Settings\SettingService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Vite;
@@ -11,7 +12,8 @@ class SharesController extends Controller
 {
     public function __construct(
         private readonly BalanceService $balanceService,
-        private readonly SettingService $settingService
+        private readonly SettingService $settingService,
+        private readonly ShareBalanceService $shareBalanceService
     ) {
     }
 
@@ -23,22 +25,7 @@ class SharesController extends Controller
 
     public function list($idUser)
     {
-        $results = DB::table('shares_balances as u')
-            ->select(
-                'u.reference',
-                'u.created_at',
-                DB::raw("CASE WHEN b.direction = 'IN' THEN u.value ELSE -u.value END AS value"),
-                'u.beneficiary_id',
-                'u.balance_operation_id',
-                'u.real_amount',
-                'u.current_balance',
-                'u.unit_price',
-                'u.total_amount'
-            )
-            ->join('balance_operations as b', 'u.balance_operation_id', '=', 'b.id')
-            ->join('users as s', 'u.beneficiary_id', '=', 's.idUser')
-            ->where('u.beneficiary_id', $idUser)
-            ->orderBy('u.created_at')->get();
+        $results = $this->shareBalanceService->getShareBalancesList($idUser);
         return response()->json($results);
     }
 
@@ -63,26 +50,7 @@ class SharesController extends Controller
 
     public function getSharesSoldesQuery()
     {
-        return DB::table('shares_balances')
-            ->select(
-                'current_balance',
-                'payed',
-                'countries.apha2',
-                'shares_balances.id',
-                DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS Name'),
-                'user.mobile',
-                DB::raw('CAST(value AS DECIMAL(10,0)) AS value'),
-                'value',
-                DB::raw('CAST(shares_balances.unit_price AS DECIMAL(10,2)) AS unit_price'),
-                'shares_balances.created_at',
-                'shares_balances.payed as payed',
-                'shares_balances.beneficiary_id'
-            )
-            ->join('users as user', 'user.idUser', '=', 'shares_balances.beneficiary_id')
-            ->join('metta_users as meta', 'meta.idUser', '=', 'user.idUser')
-            ->join('countries', 'countries.id', '=', 'user.idCountry')
-            ->orderBy('created_at')
-            ->get();
+        return $this->shareBalanceService->getSharesSoldesQuery();
     }
 
     public function getSharesSoldes()
@@ -127,11 +95,7 @@ class SharesController extends Controller
 
     public function getSharePriceEvolutionDateQuery()
     {
-        return DB::table('shares_balances')
-            ->select(DB::raw('DATE(created_at) as x'), DB::raw('SUM(value) as y'))
-            ->where('balance_operation_id', 20)
-            ->groupBy('x')
-            ->get();
+        return $this->shareBalanceService->getSharePriceEvolutionDateQuery();
     }
 
     public function getSharePriceEvolutionDate()
@@ -145,12 +109,7 @@ class SharesController extends Controller
 
     public function getSharePriceEvolutionWeekQuery()
     {
-        return DB::table('shares_balances')
-            ->select(DB::raw(' concat(year(created_at),\'-\',WEEK(created_at, 1)) as x'), DB::raw('SUM(value) as y'), DB::raw(' WEEK(created_at, 1) as z'))
-            ->where('balance_operation_id', 44)
-            ->groupBy('x', 'z')
-            ->orderBy('z')
-            ->get();
+        return $this->shareBalanceService->getSharePriceEvolutionWeekQuery();
     }
 
     public function getSharePriceEvolutionWeek()
@@ -164,11 +123,7 @@ class SharesController extends Controller
 
     public function getSharePriceEvolutionMonthQuery()
     {
-        return DB::table('shares_balances')
-            ->select(DB::raw('DATE_FORMAT(created_at, \'%Y-%m\') as x'), DB::raw('SUM(value) as y'))
-            ->where('balance_operation_id', 44)
-            ->groupBy('x')
-            ->get();
+        return $this->shareBalanceService->getSharePriceEvolutionMonthQuery();
     }
 
     public function getSharePriceEvolutionMonth()
@@ -182,12 +137,7 @@ class SharesController extends Controller
 
     public function getSharePriceEvolutionDayQuery()
     {
-        return DB::table('shares_balances')
-            ->select(DB::raw('DAYNAME(created_at) as x'), DB::raw('SUM(value) as y'), DB::raw('DAYOFWEEK(created_at) as z'))
-            ->where('balance_operation_id', 44)
-            ->groupBy('x', 'z')
-            ->orderBy('z')
-            ->get();
+        return $this->shareBalanceService->getSharePriceEvolutionDayQuery();
     }
 
     public function getSharePriceEvolutionDay()
@@ -211,14 +161,7 @@ class SharesController extends Controller
 
     public function getSharePriceEvolutionQuery()
     {
-        return DB::table('shares_balances')
-            ->select(
-                DB::raw('CAST(SUM(value) OVER (ORDER BY id) AS DECIMAL(10,0))AS x'),
-                DB::raw('CAST(unit_price AS DECIMAL(10,2)) AS y')
-            )
-            ->where('balance_operation_id', 44)
-            ->orderBy('created_at')
-            ->get();
+        return $this->shareBalanceService->getSharePriceEvolutionQuery();
     }
 
     public function getFormatedFlagResourceName($flagName)
@@ -229,9 +172,7 @@ class SharesController extends Controller
 
     public function getSharesSoldeQuery()
     {
-        return DB::table('shares_balances')
-            ->where('beneficiary_id', Auth()->user()->idUser)
-            ->orderBy('id', 'desc');
+        return $this->shareBalanceService->getSharesSoldeQuery(Auth()->user()->idUser);
     }
 
 

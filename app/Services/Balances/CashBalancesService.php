@@ -5,6 +5,7 @@ namespace App\Services\Balances;
 use App\Models\CashBalances;
 use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 
 class CashBalancesService
@@ -57,6 +58,23 @@ class CashBalancesService
             'today' => $this->getTodaySales($beneficiaryId, $operationId),
             'total' => $this->getTotalSales($beneficiaryId, $operationId),
         ];
+    }
+
+    /**
+     * Get transfer query for a specific user
+     *
+     * @param int $beneficiaryId User ID
+     * @param int $operationId Balance operation ID
+     * @return Builder
+     */
+    public function getTransfertQuery(int $beneficiaryId, int $operationId): Builder
+    {
+        return DB::table('cash_balances')
+            ->select('value', 'description', 'created_at')
+            ->where('balance_operation_id', $operationId)
+            ->where('beneficiary_id', $beneficiaryId)
+            ->whereNotNull('description')
+            ->orderBy('created_at', 'DESC');
     }
 
     /**

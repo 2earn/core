@@ -11,7 +11,6 @@ class ContactsController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
@@ -19,7 +18,6 @@ class ContactsController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -27,7 +25,6 @@ class ContactsController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
@@ -35,7 +32,6 @@ class ContactsController extends Controller
      */
     public function show(string $id)
     {
-        //
     }
 
     /**
@@ -43,7 +39,6 @@ class ContactsController extends Controller
      */
     public function edit(string $id)
     {
-        //
     }
 
     /**
@@ -51,7 +46,6 @@ class ContactsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
     }
 
     /**
@@ -59,6 +53,5 @@ class ContactsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
     }
 }

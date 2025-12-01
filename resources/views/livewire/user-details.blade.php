@@ -10,7 +10,7 @@
     @endcomponent
 
     <div class="row g-4 mb-5">
-        {{-- User Profile Card --}}
+        
         <div class="col-xl-4">
             <article class="card ribbon-box border-0 shadow mb-lg-0 h-100">
                 <div class="card-body p-4">
@@ -42,7 +42,7 @@
                 </div>
             </article>
         </div>
-        {{-- National Identity Cards --}}
+        
         <div class="col-xl-4">
             <article class="card border-0 shadow h-100">
                 <div class="card-header bg-transparent border-0 pb-0">
@@ -87,7 +87,7 @@
                 </div>
             </article>
         </div>
-        {{-- International Identity Card --}}
+        
         <div class="col-xl-4">
             <article class="card border-0 shadow h-100">
                 <div class="card-header bg-transparent border-0 pb-0">
@@ -113,7 +113,7 @@
                 </div>
             </article>
         </div>
-        {{-- General Data --}}
+        
         <div class="col-xl-4">
             <article class="card border-0 shadow mb-lg-0 h-100">
                 <div class="card-header bg-transparent border-0 pb-0">
@@ -192,7 +192,7 @@
                 </div>
             </div>
         </div>
-        {{-- Detailed Data --}}
+        
         <div class="col-xl-4">
             <article class="card border-0 shadow mb-lg-0 h-100">
                 <div class="card-header bg-transparent border-0 pb-0">
@@ -275,7 +275,7 @@
     </div>
     <div class="row g-4 mb-5">
         @if($activeUser)
-            {{-- Main Balances Horizontal --}}
+            
             <div class="col-xl-6">
                 <article class="card border-0 shadow mb-lg-0 h-100">
                     <div class="card-header bg-transparent border-0 pb-0">
@@ -439,7 +439,7 @@
                     </div>
                 </article>
             </div>
-            {{-- Main Balances Vertical --}}
+            
             <div class="col-xl-6">
                 <article class="card border-0 shadow mb-lg-0 h-100">
                     <div class="card-header bg-transparent border-0 pb-0">
@@ -487,7 +487,7 @@
             </div>
         @endif
         @if(isset($metta->adresse))
-            {{-- Address Section --}}
+            
             <div class="col-xl-4">
                 <article class="card border-0 shadow mb-lg-0 h-100">
                     <div class="card-header bg-transparent border-0 pb-0">
@@ -507,7 +507,6 @@
         @endif
 
         @if(isset($vip))
-            {{-- VIP Section --}}
             <div class="col-xl-4">
                 <article class="card border-0 shadow mb-lg-0 h-100">
                     <div class="card-header bg-transparent border-0 pb-0">

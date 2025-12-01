@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CashBalances;
 use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
+use App\Services\Balances\CashBalancesService;
 use Core\Enum\BalanceOperationsEnum;
 use Core\Services\BalancesManager;
 use Illuminate\Http\Request as Req;
@@ -14,19 +15,14 @@ use Illuminate\Support\Facades\Log;
 
 class BalancesController extends Controller
 {
-    public function getTransfertQuery()
+    public function getTransfert(CashBalancesService $cashBalancesService)
     {
-        return DB::table('cash_balances')
-            ->select('value', 'description', 'created_at')
-            ->where('balance_operation_id', BalanceOperationsEnum::OLD_ID_42->value)
-            ->where('beneficiary_id', Auth()->user()->idUser)
-            ->whereNotNull('description')
-            ->orderBy('created_at', 'DESC');
-    }
+        $query = $cashBalancesService->getTransfertQuery(
+            Auth()->user()->idUser,
+            BalanceOperationsEnum::OLD_ID_42->value
+        );
 
-    public function getTransfert()
-    {
-        return datatables($this->getTransfertQuery())->make(true);
+        return datatables($query)->make(true);
     }
 
     public function addCash(Req $request, BalancesManager $balancesManager)

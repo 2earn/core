@@ -12,7 +12,7 @@
         @endslot
     @endcomponent
 
-    {{-- Statistics Cards --}}
+    
     <div class="row mb-3">
         <div class="col-xl-3 col-md-6">
             <div class="card card-animate">
@@ -111,7 +111,7 @@
         </div>
     </div>
 
-    {{-- Main Card --}}
+    
     <div class="card">
         <div class="card-header border-0">
             <div class="row g-4 align-items-center">
@@ -135,7 +135,7 @@
 
         <div class="card-body border border-dashed border-end-0 border-start-0">
             <div class="row g-3">
-                {{-- Search --}}
+                
                 <div class="col-xxl-4 col-sm-6">
                     <div class="search-box">
                         <input type="text"
@@ -146,7 +146,7 @@
                     </div>
                 </div>
 
-                {{-- Active Filter --}}
+                
                 <div class="col-xxl-2 col-sm-4">
                     <div>
                         <select wire:model.live="filterActive" class="form-control">
@@ -157,7 +157,7 @@
                     </div>
                 </div>
 
-                {{-- Clear Filters --}}
+                
                 <div class="col-xxl-2 col-sm-4">
                     <div>
                         <button wire:click="clearFilters" class="btn btn-light w-100">
@@ -169,7 +169,7 @@
         </div>
 
         <div class="card-body">
-            {{-- Loading Indicator --}}
+            
             <div wire:loading class="text-center py-4">
                 <div class="spinner-border text-primary" role="status">
                     <span class="visually-hidden">{{ __('Loading...') }}</span>
@@ -187,7 +187,7 @@
                                 <div class="card border shadow-none mb-0 {{ $formula->is_active ? '' : 'bg-light' }}">
                                     <div class="card-body">
                                         <div class="row align-items-center">
-                                            {{-- Left Section: Name and ID --}}
+                                            
                                             <div class="col-lg-3 col-md-4">
                                                 <div class="d-flex align-items-center gap-2">
                                                     <div class="flex-shrink-0">
@@ -208,7 +208,7 @@
                                                 </div>
                                             </div>
 
-                                            {{-- Middle Section: Commission Details --}}
+                                            
                                             <div class="col-lg-5 col-md-4">
                                                 <div class="row g-2">
                                                     <div class="col-auto">
@@ -244,10 +244,10 @@
                                                 </div>
                                             </div>
 
-                                            {{-- Right Section: Status, Date, Actions --}}
+                                            
                                             <div class="col-lg-4 col-md-4">
                                                 <div class="d-flex align-items-center justify-content-end gap-3">
-                                                    {{-- Status Badge --}}
+                                                    
                                                     <div class="text-center">
                                                         @if($formula->is_active)
                                                             <span class="badge badge-soft-success">
@@ -263,25 +263,25 @@
                                                         </p>
                                                     </div>
 
-                                                    {{-- Actions --}}
+                                                    
                                                     @if(\App\Models\User::isSuperAdmin())
                                                         <div class="flex-shrink-0">
                                                             <div class="hstack gap-1">
-                                                                {{-- Toggle Active --}}
+                                                                
                                                                 <button wire:click="toggleActive({{ $formula->id }})"
                                                                         class="btn btn-sm btn-soft-{{ $formula->is_active ? 'warning' : 'success' }}"
                                                                         title="{{ $formula->is_active ? __('Deactivate') : __('Activate') }}">
                                                                     <i class="ri-{{ $formula->is_active ? 'pause' : 'play' }}-circle-line"></i>
                                                                 </button>
 
-                                                                {{-- Edit --}}
+                                                                
                                                                 <a href="{{ route('commission_formula_edit', ['locale' => app()->getLocale(), 'id' => $formula->id]) }}"
                                                                    class="btn btn-sm btn-soft-info"
                                                                    title="{{ __('Edit') }}">
                                                                     <i class="ri-edit-2-line"></i>
                                                                 </a>
 
-                                                                {{-- Delete --}}
+                                                                
                                                                 <button wire:click="confirmDelete({{ $formula->id }})"
                                                                         class="btn btn-sm btn-soft-danger"
                                                                         title="{{ __('Delete') }}">
@@ -294,7 +294,7 @@
                                             </div>
                                         </div>
 
-                                        {{-- Description Row (if exists) --}}
+                                        
                                         @if($formula->description)
                                             <div class="row mt-3">
                                                 <div class="col-12">
@@ -331,7 +331,7 @@
         </div>
     </div>
 
-    {{-- Delete Confirmation Modal --}}
+    
     @if($showDeleteModal)
         <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
             <div class="modal-dialog modal-dialog-centered">

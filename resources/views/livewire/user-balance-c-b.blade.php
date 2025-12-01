@@ -175,21 +175,19 @@
         </div>
 
         @php
-            // Prepare server-side values safely for serialization to JS
+
             $currentUserId = optional(Auth::user())->idUser ?? null;
         @endphp
 
         <script type="module">
-            // Server values serialized safely
+
             const userTransaction = @json($userTransaction ?? null);
             const usdRate = Number(@json($usdRate));
             const paytabsRoute = @json($paytabsRoute);
 
-            // Cache USD DOM element
             const $usd = $('#usd');
             const usdEl = $usd.length ? $usd[0] : null;
 
-            // Show transaction result if available
             window.addEventListener('load', function () {
                 try {
                     console.log(userTransaction)
@@ -207,7 +205,6 @@
                 }
             });
 
-            // Update SAR equivalent and show summary when user clicks Validate
             $(document).on('click', '#validate', function () {
                 const amountInput = document.getElementById('amount1');
                 const rawVal = Number(amountInput.value) || 0;
@@ -227,7 +224,6 @@
                 }
             });
 
-            // Submit once to redirect to paytabs using SAR amount
             $(document).on('click', '#tran_paytabs', function () {
                 const btn = this;
                 const amountUsd = Number(document.getElementById('amount1').value) || 0;
@@ -250,7 +246,7 @@
                     url.searchParams.set('amount', amountSar.toFixed(2));
                     window.location.href = url.toString();
                 } catch (e) {
-                    // fallback: build simple query string
+
                     window.location.href = paytabsRoute + '?amount=' + encodeURIComponent(amountSar.toFixed(2));
                 }
             });

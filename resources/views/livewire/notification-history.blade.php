@@ -14,7 +14,7 @@
         @include('layouts.flash-messages')
     </div>
 
-    {{-- Main Content Card --}}
+    
     <div class="row">
             <div class="col-12 card shadow-sm">
                 <div class="card-header bg-primary bg-opacity-10 border-bottom">
@@ -71,7 +71,7 @@
                         </div>
                     </div>
 
-                    {{-- Advanced Column Filters --}}
+                    
                     <div class="card border shadow-sm mb-4">
                         <div class="card-header bg-light py-2">
                             <div class="d-flex align-items-center">
@@ -148,7 +148,7 @@
                         </div>
                     </div>
 
-                    {{-- Loading Indicator --}}
+                    
                     <div wire:loading.delay class="text-center py-5">
                         <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
                             <span class="visually-hidden">{{__('Loading...')}}</span>
@@ -156,13 +156,13 @@
                         <p class="text-muted">{{__('Loading notifications')}}...</p>
                     </div>
 
-                    {{-- Notification Items --}}
+                    
                     <div wire:loading.remove.delay>
                         @forelse($notifications as $index => $notification)
                             <div class="card border mb-3 shadow-sm">
                                 <div class="card-body p-0">
                                     <div class="row g-0">
-                                        {{-- Left Side - Main Details --}}
+                                        
                                         <div class="col-md-6 border-end">
                                             <div class="p-4 h-100">
                                                 <div class="d-flex align-items-start mb-3">
@@ -225,7 +225,7 @@
                                             </div>
                                         </div>
 
-                                        {{-- Right Side - Status & Response --}}
+                                        
                                         <div class="col-md-6">
                                             <div class="p-4 h-100 bg-light bg-opacity-50">
                                                 <div class="d-flex align-items-start mb-3">
@@ -293,7 +293,7 @@
                             </div>
                         @endforelse
 
-                        {{-- Pagination --}}
+                        
                         @if($notifications->hasPages())
                             <div class="mt-4 d-flex justify-content-between align-items-center">
                                 <div class="text-muted small">
