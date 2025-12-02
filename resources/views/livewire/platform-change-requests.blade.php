@@ -140,13 +140,15 @@
 
                     <!-- Additional Info -->
                     <div class="row mt-3 pt-3 border-top">
-                        <div class="col-md-6">
-                            <small class="text-muted">
-                                <i class="ri-user-line me-1"></i>
-                                <strong>{{__('Owner')}}:</strong>
-                                {{getUserDisplayedNameFromId($request->platform->owner_id) ?? 'N/A'}}
-                            </small>
-                        </div>
+                        @if(isset($request->platform?->owner_id))
+                            <div class="col-md-6">
+                                <small class="text-muted">
+                                    <i class="ri-user-line me-1"></i>
+                                    <strong>{{__('Owner')}}:</strong>
+                                    {{getUserDisplayedNameFromId($request->platform->owner_id) ?? 'N/A'}}
+                                </small>
+                            </div>
+                        @endif
                         <div class="col-md-6 text-md-end">
                             <small class="text-muted">
                                 <i class="ri-time-line me-1"></i>
