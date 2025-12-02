@@ -50,7 +50,7 @@
         </div>
     </div>
 
-    <div class="row mt-4">
+    <div class="row mt-2">
         <div class="col-xl-3 col-lg-6">
             <div class="card ribbon-box right overflow-hidden">
                 <div class="card-body text-center p-4">
@@ -66,7 +66,7 @@
                             <div id="chart-seller1" data-colors='["--vz-danger"]'></div>
                         </div>
                     </div>
-                    <div class="row mt-4">
+                    <div class="row mt-2">
                         <div class="col-lg-6 border-end-dashed border-end">
                             <h5>452</h5>
                             <span class="text-muted">Item Stock</span>
@@ -95,7 +95,7 @@
                             <div id="chart-seller2" data-colors='["--vz-success"]'></div>
                         </div>
                     </div>
-                    <div class="row mt-4">
+                    <div class="row mt-2">
                         <div class="col-lg-6 border-end-dashed border-end">
                             <h5>784</h5>
                             <span class="text-muted">Item Stock</span>
@@ -124,7 +124,7 @@
                             <div id="chart-seller3" data-colors='["--vz-warning"]'></div>
                         </div>
                     </div>
-                    <div class="row mt-4">
+                    <div class="row mt-2">
                         <div class="col-lg-6 border-end-dashed border-end">
                             <h5>320</h5>
                             <span class="text-muted">Item Stock</span>
@@ -156,7 +156,7 @@
                             <div id="chart-seller4" data-colors='["--vz-success"]'></div>
                         </div>
                     </div>
-                    <div class="row mt-4">
+                    <div class="row mt-2">
                         <div class="col-lg-6 border-end-dashed border-end">
                             <h5>159</h5>
                             <span class="text-muted">Item Stock</span>
@@ -185,7 +185,7 @@
                             <div id="chart-seller5" data-colors='["--vz-warning"]'></div>
                         </div>
                     </div>
-                    <div class="row mt-4">
+                    <div class="row mt-2">
                         <div class="col-lg-6 border-end-dashed border-end">
                             <h5>363</h5>
                             <span class="text-muted">Item Stock</span>
@@ -217,7 +217,7 @@
                             <div id="chart-seller6" data-colors='["--vz-success"]'></div>
                         </div>
                     </div>
-                    <div class="row mt-4">
+                    <div class="row mt-2">
                         <div class="col-lg-6 border-end-dashed border-end">
                             <h5>412</h5>
                             <span class="text-muted">Item Stock</span>
@@ -249,7 +249,7 @@
                             <div id="chart-seller7" data-colors='["--vz-danger"]'></div>
                         </div>
                     </div>
-                    <div class="row mt-4">
+                    <div class="row mt-2">
                         <div class="col-lg-6 border-end-dashed border-end">
                             <h5>945</h5>
                             <span class="text-muted">Item Stock</span>
@@ -278,7 +278,7 @@
                             <div id="chart-seller8" data-colors='["--vz-warning"]'></div>
                         </div>
                     </div>
-                    <div class="row mt-4">
+                    <div class="row mt-2">
                         <div class="col-lg-6 border-end-dashed border-end">
                             <h5>784</h5>
                             <span class="text-muted">Item Stock</span>

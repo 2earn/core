@@ -43,7 +43,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mt-4">
+                        <div class="row mt-2">
                             <div class="col-lg-6">
                                 <div>
                                     <h5 class="fs-13 mb-3">Additive</h5>
@@ -165,7 +165,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mt-4">
+                        <div class="row mt-2">
                             <div class="col-xxl-6">
                                 <div>
                                     <h5 class="fs-13 mb-3">Border Style</h5>

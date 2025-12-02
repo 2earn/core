@@ -112,7 +112,7 @@
                                     <div class="text-muted">( 5.50k Customer Review )</div>
                                 </div>
 
-                                <div class="row mt-4">
+                                <div class="row mt-2">
                                     <div class="col-lg-3 col-sm-6">
                                         <div class="p-2 border border-dashed rounded">
                                             <div class="d-flex align-items-center">

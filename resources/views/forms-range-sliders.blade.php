@@ -330,7 +330,7 @@
                     </div>
                     <!-- end row -->
 
-                    <div class="row mt-4">
+                    <div class="row mt-2">
                         <div class="col-xl-4 col-lg-6">
                             <div class="mt-4">
                                 <h5 class="fs-15">Info</h5>
@@ -361,7 +361,7 @@
                     </div>
                     <!-- end row -->
 
-                    <div class="row mt-4">
+                    <div class="row mt-2">
                         <div class="col-xl-4 col-lg-6">
                             <div class="mt-4">
                                 <h5 class="fs-15">Dark</h5>
@@ -456,7 +456,7 @@
                         </div>
                         <!-- end col -->
 
-                        <div class="row mt-4">
+                        <div class="row mt-2">
                             <div class="col-lg-6">
                                 <div class="mt-4">
                                     <h5 class="fs-15">Square Rangeslider</h5>
