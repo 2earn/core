@@ -266,7 +266,6 @@ class DealService
     {
         $query = Deal::query();
 
-        // Apply user permission filters
         if ($isSuperAdmin) {
             $query->whereNot('status', \Core\Enum\DealStatus::Archived->value);
         } else {
@@ -289,12 +288,10 @@ class DealService
             $query->whereIn('type', $selectedTypes);
         }
 
-        // Apply platform filter
         if (!empty($selectedPlatforms)) {
             $query->whereIn('platform_id', $selectedPlatforms);
         }
 
-        // Apply start date filters
         if ($startDateFrom) {
             $query->where('start_date', '>=', $startDateFrom);
         }
@@ -303,7 +300,6 @@ class DealService
             $query->where('start_date', '<=', $startDateTo);
         }
 
-        // Apply end date filters
         if ($endDateFrom) {
             $query->where('end_date', '>=', $endDateFrom);
         }
@@ -312,13 +308,10 @@ class DealService
             $query->where('end_date', '<=', $endDateTo);
         }
 
-        // Eager load relationships
         $query->with(['platform', 'pendingChangeRequest.requestedBy']);
 
-        // Apply ordering
         $query->orderBy('validated', 'ASC')->orderBy('platform_id', 'ASC');
 
-        // Return paginated or all results
         return $perPage ? $query->paginate($perPage) : $query->get();
     }
 

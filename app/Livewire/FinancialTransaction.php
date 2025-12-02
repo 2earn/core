@@ -9,7 +9,6 @@ use App\Services\FinancialRequest\FinancialRequestService;
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class FinancialTransaction extends Component
@@ -67,21 +66,6 @@ class FinancialTransaction extends Component
     }
 
 
-    public function getRequestIn()
-    {
-        $rechargeRequests = DB::table('recharge_requests')->select('recharge_requests.Date', 'users.name as USER', 'recharge_requests.payeePhone as userphone', 'recharge_requests.amount')
-            ->leftJoin('users', 'users.idUser', '=', 'recharge_requests.idPayee')
-            ->where('recharge_requests.idUser', auth()->user()->idUser)->get();
-    }
-
-    public function getRequestOut()
-    {
-        $rechargeRequests = DB::table('recharge_requests')
-            ->select('recharge_requests.Date', 'users.name as USER', 'recharge_requests.payeePhone as userphone', 'recharge_requests.amount')
-            ->leftJoin('users', 'users.idUser', '=', 'recharge_requests.idPayee')
-            ->where('recharge_requests.idSender', auth()->user()->idUser)->get();
-    }
-
     public function render(settingsManager $settingsManager, BalancesManager $balancesManager, FinancialRequestService $financialRequestService)
     {
         if ($this->showCanceled == null || $this->showCanceled == "") {
@@ -89,7 +73,6 @@ class FinancialTransaction extends Component
         }
         $userAuth = $settingsManager->getAuthUser();
 
-        $this->getRequestIn($settingsManager);
         $this->mobile = $userAuth->fullNumber;
         $this->soldecashB = floatval(Balances::getStoredUserBalances(auth()->user()->idUser, Balances::CASH_BALANCE)) - floatval($this->soldeExchange);
         $this->soldeBFS = floatval(Balances::getStoredBfss(auth()->user()->idUser, BFSsBalances::BFS_100)) - floatval($this->numberSmsExchange);
