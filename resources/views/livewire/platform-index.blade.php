@@ -264,7 +264,7 @@
         @endforelse
     </div>
     @if($platforms->hasPages())
-        <div class="row mt-4">
+        <div class="row mt-2">
             <div class="col-12 card border-0 shadow-sm">
                 <div class="card-body p-3">
                     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">

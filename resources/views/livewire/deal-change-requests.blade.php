@@ -166,7 +166,7 @@
 
     <!-- Pagination -->
     @if($requests->hasPages())
-        <div class="row mt-4">
+        <div class="row mt-2">
             <div class="col-12">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body p-3">

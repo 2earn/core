@@ -189,7 +189,7 @@
     </div>
     <!--end row-->
 
-    <div class="row mt-4">
+    <div class="row mt-2">
         <div class="col-lg-12">
             <div>
                 <h5 class="mb-4">Left Timeline</h5>
@@ -348,7 +348,7 @@
     <!--end row-->
 
 
-    <div class="row mt-4">
+    <div class="row mt-2">
         <div class="col-lg-12">
             <div>
                 <h5>Horizontal Timeline</h5>

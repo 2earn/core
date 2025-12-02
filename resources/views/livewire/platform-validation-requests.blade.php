@@ -172,24 +172,22 @@
 
     <!-- Pagination -->
     @if($requests->hasPages())
-        <div class="row mt-4">
-            <div class="col-12">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body p-3">
-                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
-                            <div class="text-muted">
-                                <i class="ri-file-list-line me-1"></i>
-                                {{__('Showing')}}
-                                <span class="fw-semibold text-dark">{{$requests->firstItem() ?? 0}}</span>
-                                {{__('to')}}
-                                <span class="fw-semibold text-dark">{{$requests->lastItem() ?? 0}}</span>
-                                {{__('of')}}
-                                <span class="fw-semibold text-dark">{{$requests->total()}}</span>
-                                {{__('results')}}
-                            </div>
-                            <div>
-                                {{$requests->links()}}
-                            </div>
+        <div class="row mt-2">
+            <div class="col-12 card border-0 shadow-sm">
+                <div class="card-body p-3">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                        <div class="text-muted">
+                            <i class="ri-file-list-line me-1"></i>
+                            {{__('Showing')}}
+                            <span class="fw-semibold text-dark">{{$requests->firstItem() ?? 0}}</span>
+                            {{__('to')}}
+                            <span class="fw-semibold text-dark">{{$requests->lastItem() ?? 0}}</span>
+                            {{__('of')}}
+                            <span class="fw-semibold text-dark">{{$requests->total()}}</span>
+                            {{__('results')}}
+                        </div>
+                        <div>
+                            {{$requests->links()}}
                         </div>
                     </div>
                 </div>

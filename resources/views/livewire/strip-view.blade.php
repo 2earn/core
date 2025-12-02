@@ -20,7 +20,7 @@
                                 XXXX XXXX XXXX XXXX
                             </div>
 
-                            <div class="row mt-4">
+                            <div class="row mt-2">
                                 <div class="col-4">
                                     <div>
                                         <div class="text-white-50">Card Holder</div>

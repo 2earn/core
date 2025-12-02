@@ -105,7 +105,7 @@
                         </div>
 
                         <!-- Action Buttons -->
-                        <div class="row mt-4">
+                        <div class="row mt-2">
                             <div class="col-12">
                                 <div class="d-flex justify-content-between flex-wrap gap-2">
                                     <button type="button" wire:click="cancel" class="btn btn-secondary">
