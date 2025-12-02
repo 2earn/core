@@ -49,7 +49,7 @@
                                                 <div class="row g-3">
                                                     <div class="col-6 col-md-4">
                                                         <small class="text-muted d-block mb-1">{{ __('date') }}</small>
-                                                        <strong class="d-block">{{ \Carbon\Carbon::parse($transaction['created_at'])->format('Y-m-d H:i:s') }}</strong>
+                                                        <strong class="d-block">{{ \Carbon\Carbon::parse($transaction['created_at'])->format(config('app.date_format')) }}</strong>
                                                     </div>
                                                     <div class="col-6 col-md-4">
                                                         <small class="text-muted d-block mb-1">{{ __('Balance') }}</small>

@@ -96,7 +96,7 @@
                                         <p class="text-xs font-weight-bold mb-0">{{ $assignment->creator->name ?? 'System' }}</p>
                                     </td>
                                     <td>
-                                        <p class="text-xs font-weight-bold mb-0">{{ $assignment->created_at->format('Y-m-d H:i') }}</p>
+                                        <p class="text-xs font-weight-bold mb-0">{{ $assignment->created_at->format(config('app.date_format')) }}</p>
                                     </td>
                                     <td class="align-middle">
                                         @if($assignment->status === 'pending')

@@ -20,7 +20,7 @@
                                 </div>
                                 <div class="col-md-3 col-6 text-md-end mt-2 mt-md-0">
                                     <small class="text-muted">
-                                        {{$request->created_at->format('M d, Y')}}
+                                        {{$request->created_at->format(config('app.date_format'))}}
                                     </small>
                                 </div>
                             </div>

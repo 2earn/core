@@ -1,3 +1,6 @@
+@php
+    $dateFormat = config('app.date_format');
+@endphp
 <div class="{{getContainerType()}}">
     @section('title')
         {{ __('Deals') }}
@@ -230,7 +233,7 @@
                                     <i class="fas fa-calendar-alt me-1"></i>{{__('Start Date')}}
                                 </p>
                                 <span class="badge bg-info-subtle text-info px-2 py-1">
-                                    {{$deal->start_date ? \Carbon\Carbon::parse($deal->start_date)->format('Y-m-d') : __('N/A')}}
+                                    {{$deal->start_date ? \Carbon\Carbon::parse($deal->start_date)->format($dateFormat) : __('N/A')}}
                                 </span>
                             </div>
                         </div>
@@ -240,7 +243,7 @@
                                     <i class="fas fa-calendar-times me-1"></i>{{__('End Date')}}
                                 </p>
                                 <span class="badge bg-danger-subtle text-danger px-2 py-1">
-                                    {{$deal->end_date ? \Carbon\Carbon::parse($deal->end_date)->format('Y-m-d') : __('N/A')}}
+                                    {{$deal->end_date ? \Carbon\Carbon::parse($deal->end_date)->format($dateFormat) : __('N/A')}}
                                 </span>
                             </div>
                         </div>

@@ -36,7 +36,7 @@ class RequestPublicUser extends Component
         if ($lastRequest) {
             $lastnumero = $lastRequest->numeroReq;
         }
-        $date = date('Y-m-d H:i:s');
+        $date = date(config('app.date_format'));
         $year = date('y', strtotime($date));
         $numer = (int)substr($lastnumero, -6);
         $ref = date('y') . substr((1000000 + $numer + 1), 1, 6);
@@ -69,7 +69,7 @@ class RequestPublicUser extends Component
         if (!$user) return;
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) return;
-        $date = date('Y-m-d H:i:s');
+        $date = date(config('app.date_format'));
         DB::table('recharge_requests')
             ->insert([
                 'Date' => $date,

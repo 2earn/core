@@ -218,7 +218,7 @@ class BalanceService
                 else return 0;
             })
             ->addColumn('formatted_created_at', function ($sharesBalances) {
-                return Carbon::parse($sharesBalances->created_at)->format('Y-m-d H:i:s');
+                return Carbon::parse($sharesBalances->created_at)->format(config('app.date_format'));
             })
             ->addColumn('total_shares', function ($sharesBalances) {
                 return $sharesBalances->value;

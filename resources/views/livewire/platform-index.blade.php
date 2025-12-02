@@ -137,7 +137,7 @@
                             <div class="col-sm-6 col-md-4 col-lg-4">
                                 <div class="rounded">
                                     <p class="text-muted mb-1 fs-6">{{__('Created')}}</p>
-                                    <h6 class="mb-0">{{$platform->created_at->format('M d, Y')}}</h6>
+                                    <h6 class="mb-0">{{$platform->created_at->format(config('app.date_format'))}}</h6>
                                 </div>
                             </div>
                         </div>

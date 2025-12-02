@@ -178,8 +178,8 @@ $vip = Vip::create([
 // Accessing audit information
 echo "Created by: " . $vip->creator->name;
 echo "Last updated by: " . $vip->updater->name;
-echo "Created at: " . $vip->created_at->format('Y-m-d H:i:s');
-echo "Updated at: " . $vip->updated_at->format('Y-m-d H:i:s');
+echo "Created at: " . $vip->created_at->format(config('app.date_format'));
+echo "Updated at: " . $vip->updated_at->format(config('app.date_format'));
 ```
 
 ## Files Created/Modified

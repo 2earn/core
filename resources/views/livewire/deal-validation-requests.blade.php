@@ -101,7 +101,7 @@
                                 @endif
                                 <p class="text-muted mb-0 mt-2 small">
                                     <i class="ri-calendar-line me-1"></i>
-                                    {{$request->created_at->format('M d, Y')}}
+                                    {{$request->created_at->format(config('app.date_format'))}}
                                 </p>
                             </div>
                         </div>

@@ -62,11 +62,11 @@
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <small class="text-muted">{{__('Created at')}}</small>
-                                                <div>{{ $role->created_at->format('Y-m-d H:i:s') }}</div>
+                                                <div>{{ $role->created_at->format(config('app.date_format')) }}</div>
                                             </div>
                                             <div class="col-md-6">
                                                 <small class="text-muted">{{__('Updated at')}}</small>
-                                                <div>{{ $role->updated_at->format('Y-m-d H:i:s') }}</div>
+                                                <div>{{ $role->updated_at->format(config('app.date_format')) }}</div>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-end align-items-center">

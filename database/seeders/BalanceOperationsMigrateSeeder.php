@@ -31,7 +31,7 @@ class BalanceOperationsMigrateSeeder extends Seeder
         ];
 
         $log = [];
-        $log[] = "Date: " . date('Y-m-d H:i:s');
+        $log[] = "Date: " . date(config('app.date_format'));
         $log[] = "Stratégie: Multiplication par 1000 pour éviter les croisements";
         $log[] = "";
 
@@ -292,9 +292,9 @@ class BalanceOperationsMigrateSeeder extends Seeder
             }
 
             echo "✅ Migration terminée avec succès!\n";
-            echo "Date: " . date('Y-m-d H:i:s') . "\n\n";
+            echo "Date: " . date(config('app.date_format')) . "\n\n";
             $log[] = "✅ Migration terminée";
-            $log[] = "Date: " . date('Y-m-d H:i:s');
+            $log[] = "Date: " . date(config('app.date_format'));
 
             // Sauvegarder le log
             file_put_contents(__DIR__ . '/migration_1000_factor_log.txt', implode("\n", $log));
@@ -302,7 +302,7 @@ class BalanceOperationsMigrateSeeder extends Seeder
             // Sauvegarder le rapport JSON
             $jsonReport = [
                 'success' => true,
-                'date' => date('Y-m-d H:i:s'),
+                'date' => date(config('app.date_format')),
                 'step2_migrations' => $step2Results,
                 'step3_non_migrated' => $nonMigrated,
                 'step4_finalizations' => $step4Results,

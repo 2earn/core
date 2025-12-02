@@ -27,15 +27,15 @@
                         <div class="d-flex gap-3 text-muted small flex-wrap">
                         <span>
                             <i class="fa fa-calendar text-primary me-1"></i>
-                            <strong>{{__('Published at')}}:</strong> {{ \Carbon\Carbon::parse($event->published_at)->format('M d, Y') }}
+                            <strong>{{__('Published at')}}:</strong> {{ \Carbon\Carbon::parse($event->published_at)->format(config('app.date_format')) }}
                         </span>
                             <span>
                             <i class="fa fa-clock text-success me-1"></i>
-                            <strong>{{__('Start at')}}:</strong> {{ \Carbon\Carbon::parse($event->start_at)->format('M d, Y H:i') }}
+                            <strong>{{__('Start at')}}:</strong> {{ \Carbon\Carbon::parse($event->start_at)->format(config('app.date_format')) }}
                         </span>
                             <span>
                             <i class="fa fa-clock text-danger me-1"></i>
-                            <strong>{{__('End at')}}:</strong> {{ \Carbon\Carbon::parse($event->end_at)->format('M d, Y H:i') }}
+                            <strong>{{__('End at')}}:</strong> {{ \Carbon\Carbon::parse($event->end_at)->format(config('app.date_format')) }}
                         </span>
                         </div>
                     </div>
@@ -148,12 +148,12 @@
 
                     <span class="float-end">
                     <i class="fa fa-calendar me-1"></i>
-                    <strong>{{__('Created at')}}:</strong> {{ $event->created_at->format('M d, Y H:i') }}
+                    <strong>{{__('Created at')}}:</strong> {{ $event->created_at->format(config('app.date_format')) }}
                 </span>
                     @if($event->updated_at)
                         <span class="float-end">
                         <i class="fa fa-edit me-1"></i>
-                        <strong>{{__('Updated at')}}:</strong> {{ $event->updated_at->format('M d, Y H:i') }}
+                        <strong>{{__('Updated at')}}:</strong> {{ $event->updated_at->format(config('app.date_format')) }}
                     </span>
                     @endif
                 </div>

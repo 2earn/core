@@ -11,7 +11,7 @@ use Livewire\Component;
 
 class IncomingRequest extends Component
 {
-    const DATE_FORMAT = 'Y-m-d H:i:s';
+    const DATE_FORMAT = config('app.date_format');
 
     public $showCanceled;
     public $filter;

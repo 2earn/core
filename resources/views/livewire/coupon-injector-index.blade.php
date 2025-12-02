@@ -104,7 +104,7 @@
                                                     <i class="mdi mdi-barcode"></i> SN: {{ $coupon->sn }}
                                                 </small>
                                                 <small class="text-muted">
-                                                    <i class="mdi mdi-calendar"></i> {{ $coupon->created_at->format('Y-m-d H:i') }}
+                                                    <i class="mdi mdi-calendar"></i> {{ $coupon->created_at->format(config('app.date_format')) }}
                                                 </small>
                                             </div>
                                         </div>

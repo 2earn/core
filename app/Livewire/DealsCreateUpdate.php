@@ -133,8 +133,8 @@ class DealsCreateUpdate extends Component
         $this->status = $deal->status;
         $this->description = $deal->description;
         $this->target_turnover = $deal->target_turnover;
-        $this->start_date = $deal->start_date ? \Carbon\Carbon::parse($deal->start_date)->format('Y-m-d\TH:i') : null;
-        $this->end_date = $deal->end_date ? \Carbon\Carbon::parse($deal->end_date)->format('Y-m-d\TH:i') : null;
+        $this->start_date = $deal->start_date ? \Carbon\Carbon::parse($deal->start_date)->format(config('app.date_format')) : null;
+        $this->end_date = $deal->end_date ? \Carbon\Carbon::parse($deal->end_date)->format(config('app.date_format')) : null;
         $this->items_profit_average = $deal->items_profit_average;
         $this->initial_commission = $deal->initial_commission;
         $this->final_commission = $deal->final_commission;

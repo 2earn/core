@@ -307,7 +307,7 @@ class settingsManager
 
         $userearn->mobile = $user->mobile;
         $userearn->fullphone_number = $user->fullphone_number;
-        $userearn->registred_at = date('Y-m-d H:i:s');
+        $userearn->registred_at = date(config('app.date_format'));
         $userearn->registred_from = 3;
         $userearn->isSMSSended = 0;
         $userearn->activationCodeValue = '';

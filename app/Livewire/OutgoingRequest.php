@@ -15,7 +15,7 @@ class OutgoingRequest extends Component
     public $requestToMee;
     public $filter;
 
-    const DATE_FORMAT = 'Y-m-d H:i:s';
+    const DATE_FORMAT = config('app.date_format');
 
     protected $listeners = [
         'ShowCanceled' => 'ShowCanceled',

@@ -16,7 +16,6 @@ use Livewire\Component;
 class FinancialTransaction extends Component
 {
 
-    const DATE_FORMAT = 'Y-m-d H:i:s';
 
     public $soldecashB;
     public $soldeBFS;
