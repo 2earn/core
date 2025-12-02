@@ -2,12 +2,11 @@
 
 namespace App\Livewire;
 
-use App\Models\CommissionFormula;
-use App\Models\Deal;
+use App\Services\Commission\CommissionFormulaService;
+use App\Services\Deals\DealService;
+use App\Services\Platform\PlatformService;
 use Core\Enum\DealStatus;
-use Core\Models\Platform;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -73,7 +72,7 @@ class DealsCreateUpdate extends Component
 
     public function mount(Request $request)
     {
-        $this->commissionFormulas = CommissionFormula::where('is_active', true)->get();
+        $this->commissionFormulas = app(CommissionFormulaService::class)->getActiveFormulas();
 
         $this->idDeal = $request->input('id');
         if (!is_null($this->idDeal)) {
@@ -86,11 +85,7 @@ class DealsCreateUpdate extends Component
 
     public function getDealParam($name)
     {
-        $param = DB::table('settings')->where("ParameterName", "=", $name)->first();
-        if (!is_null($param)) {
-            return $param->DecimalValue;
-        }
-        return 0;
+        return app(DealService::class)->getDealParameter($name);
     }
 
     public function init()
@@ -114,10 +109,10 @@ class DealsCreateUpdate extends Component
         $this->proactive_cashback = $this->getDealParam('DEALS_PROACTIVE_CASHBACK_PERCENTAGE');
     }
 
-    public    function updatedCommissionFormulaId($commissionFormulaId)
+    public function updatedCommissionFormulaId($commissionFormulaId)
     {
         if ($commissionFormulaId) {
-            $formula = CommissionFormula::find($commissionFormulaId);
+            $formula = app(CommissionFormulaService::class)->getCommissionFormulaById($commissionFormulaId);
             if ($formula) {
                 $this->initial_commission = $formula->initial_commission;
                 $this->final_commission = $formula->final_commission;
@@ -125,10 +120,9 @@ class DealsCreateUpdate extends Component
         }
     }
 
-    public
-    function edit()
+    public function edit()
     {
-        $deal = Deal::find($this->idDeal);
+        $deal = app(DealService::class)->find($this->idDeal);
         $this->name = $deal->name;
         $this->status = $deal->status;
         $this->description = $deal->description;
@@ -148,14 +142,12 @@ class DealsCreateUpdate extends Component
         $this->update = true;
     }
 
-    public
-    function cancel()
+    public function cancel()
     {
         return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale(), 'id' => $this->idDeal])->with('warning', Lang::get('Deal operation cancelled'));
     }
 
-    public
-    function updateDeal()
+    public function updateDeal()
     {
         $this->validate();
 
@@ -181,9 +173,8 @@ class DealsCreateUpdate extends Component
             'created_by_id' => auth()->user()->id
         ];
         try {
-            Deal::where('id', $this->idDeal)->update($params);
+            app(DealService::class)->update($this->idDeal, $params);
         } catch (\Exception $exception) {
-            dd($exception);
             $this->cancel();
             Log::error($exception->getMessage());
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while updating Deal'));
@@ -192,7 +183,7 @@ class DealsCreateUpdate extends Component
 
     }
 
-    public    function store()
+    public function store()
     {
         $this->validate();
 
@@ -220,7 +211,7 @@ class DealsCreateUpdate extends Component
         ];
 
         try {
-            Deal::create($params);
+            app(DealService::class)->create($params);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale(),])->with('danger', Lang::get('Something goes wrong while creating Deal'));
@@ -228,9 +219,9 @@ class DealsCreateUpdate extends Component
         return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Created Successfully'));
     }
 
-    public    function render()
+    public function render()
     {
-        $platform = Platform::find($this->idPlatform);
+        $platform = app(PlatformService::class)->getPlatformById($this->idPlatform);
         return view('livewire.deals-create-update', ['platform' => $platform])->extends('layouts.master')->section('content');
     }
 }

@@ -113,7 +113,6 @@ class DealChangeRequests extends Component
 
             $request->status = 'approved';
             $request->reviewed_by = Auth::id();
-            $request->updated_by = Auth::id();
             $request->reviewed_at = now();
             $request->save();
 

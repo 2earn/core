@@ -7,6 +7,7 @@ use App\Models\DealChangeRequest;
 use App\Models\DealValidationRequest;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 class DealService
 {
@@ -30,7 +31,6 @@ class DealService
     {
         $query = Deal::with('platform');
 
-        // Apply search filter
         if (!is_null($search) && $search !== '') {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%')
@@ -40,7 +40,6 @@ class DealService
             });
         }
 
-        // Filter by user permissions through platform
         $query->whereHas('platform', function ($query) use ($userId, $platformId) {
             $query->where(function ($q) use ($userId) {
                 $q->where('marketing_manager_id', $userId)
@@ -53,7 +52,6 @@ class DealService
             }
         });
 
-        // Return paginated or all results
         return !is_null($page)
             ? $query->paginate($perPage, ['*'], 'page', $page)
             : $query->get();
@@ -75,7 +73,6 @@ class DealService
     {
         $query = Deal::query();
 
-        // Apply search filter
         if (!is_null($search) && $search !== '') {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%')
@@ -85,7 +82,6 @@ class DealService
             });
         }
 
-        // Filter by user permissions through platform
         $query->whereHas('platform', function ($query) use ($userId, $platformId) {
             $query->where(function ($q) use ($userId) {
                 $q->where('marketing_manager_id', $userId)
@@ -135,17 +131,63 @@ class DealService
             : $deals;
 
         $dealsCollection->each(function ($deal) {
-            $deal->change_requests_count = DealChangeRequest::where('deal_id', $deal->id)->count();
-            $deal->changeRequests = DealChangeRequest::where('deal_id', $deal->id)
-                ->orderBy('created_at', 'desc')
-                ->limit(3)
-                ->get();
-            $deal->validation_requests_count = DealValidationRequest::where('deal_id', $deal->id)->count();
-            $deal->validationRequests = DealValidationRequest::where('deal_id', $deal->id)
-                ->orderBy('created_at', 'desc')
-                ->limit(3)
-                ->get();
+            $deal->change_requests_count = $this->getDealChangeRequestsCount($deal->id);
+            $deal->changeRequests = $this->getDealChangeRequestsLimited($deal->id, 3);
+            $deal->validation_requests_count = $this->getDealValidationRequestsCount($deal->id);
+            $deal->validationRequests = $this->getDealValidationRequestsLimited($deal->id, 3);
         });
+    }
+
+    /**
+     * Get count of change requests for a deal
+     *
+     * @param int $dealId
+     * @return int
+     */
+    public function getDealChangeRequestsCount(int $dealId): int
+    {
+        return DealChangeRequest::where('deal_id', $dealId)->count();
+    }
+
+    /**
+     * Get limited change requests for a deal
+     *
+     * @param int $dealId
+     * @param int $limit
+     * @return Collection
+     */
+    public function getDealChangeRequestsLimited(int $dealId, int $limit = 3): Collection
+    {
+        return DealChangeRequest::where('deal_id', $dealId)
+            ->orderBy('created_at', 'desc')
+            ->limit($limit)
+            ->get();
+    }
+
+    /**
+     * Get count of validation requests for a deal
+     *
+     * @param int $dealId
+     * @return int
+     */
+    public function getDealValidationRequestsCount(int $dealId): int
+    {
+        return DealValidationRequest::where('deal_id', $dealId)->count();
+    }
+
+    /**
+     * Get limited validation requests for a deal
+     *
+     * @param int $dealId
+     * @param int $limit
+     * @return Collection
+     */
+    public function getDealValidationRequestsLimited(int $dealId, int $limit = 3): Collection
+    {
+        return DealValidationRequest::where('deal_id', $dealId)
+            ->orderBy('created_at', 'desc')
+            ->limit($limit)
+            ->get();
     }
 
     /**
@@ -325,5 +367,60 @@ class DealService
     {
         return Deal::create($data);
     }
-}
 
+    /**
+     * Find a deal by ID
+     *
+     * @param int $id
+     * @return Deal|null
+     */
+    public function find(int $id): ?Deal
+    {
+        return Deal::find($id);
+    }
+
+    /**
+     * Update a deal
+     *
+     * @param int $id
+     * @param array $data
+     * @return bool
+     */
+    public function update(int $id, array $data): bool
+    {
+        return Deal::where('id', $id)->update($data);
+    }
+
+    /**
+     * Get deal parameter from settings
+     *
+     * @param string $name
+     * @return float|int
+     */
+    public function getDealParameter(string $name)
+    {
+        $param = DB::table('settings')->where("ParameterName", "=", $name)->first();
+        if (!is_null($param)) {
+            return $param->DecimalValue;
+        }
+        return 0;
+    }
+
+    /**
+     * Get archived deals with optional search filter
+     *
+     * @param string|null $search
+     * @param bool $isSuperAdmin
+     * @return Collection
+     */
+    public function getArchivedDeals(?string $search = null, bool $isSuperAdmin = false): Collection
+    {
+        $query = Deal::where('status', '=', \Core\Enum\DealStatus::Archived->value);
+
+        if (!is_null($search) && !empty($search)) {
+            $query->where('name', 'like', '%' . $search . '%');
+        }
+
+        return $query->get();
+    }
+}
