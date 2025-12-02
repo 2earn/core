@@ -11,7 +11,6 @@ use Livewire\Component;
 
 class IncomingRequest extends Component
 {
-    const DATE_FORMAT = config('app.date_format');
 
     public $showCanceled;
     public $filter;
@@ -45,7 +44,7 @@ class IncomingRequest extends Component
         }
 
         detail_financial_request::where('numeroRequest', '=', $numeroRequste)
-            ->update(['response' => 2, 'dateResponse' => date(self::DATE_FORMAT)]);
+            ->update(['response' => 2, 'dateResponse' => date( config('app.date_format'))]);
 
         $detailRest = detail_financial_request::where('numeroRequest', '=', $numeroRequste)
             ->where('response', '=', null)
@@ -53,7 +52,7 @@ class IncomingRequest extends Component
 
         if (count($detailRest) == 0) {
             FinancialRequest::where('numeroReq', '=', $numeroRequste)
-                ->update(['status' => 5, 'idUserAccepted' => $userAuth->idUser, 'dateAccepted' => date(self::DATE_FORMAT)]);
+                ->update(['status' => 5, 'idUserAccepted' => $userAuth->idUser, 'dateAccepted' => date( config('app.date_format'))]);
         }
 
         return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 5])->with('success', Lang::get('Financial request rejected successfully'));
