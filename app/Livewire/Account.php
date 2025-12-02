@@ -112,20 +112,16 @@ class Account extends Component
         try {
             $user = User::find($this->user['id']);
 
-            // Save profile image if uploaded
             if (!is_null($this->imageProfil)) {
                 User::saveProfileImage($user->idUser, $this->imageProfil);
                 $this->userProfileImage = User::getUserProfileImage($user->idUser);
             }
 
-            // Save is_public setting
             $user->is_public = $this->user['is_public'];
             $user->save();
 
-            // Update originalIsPublic to track new state
             $this->originalIsPublic = $this->user['is_public'];
 
-            // Clear the image upload
             $this->imageProfil = null;
 
             session()->flash('success', Lang::get('Profile settings saved successfully'));
@@ -142,7 +138,6 @@ class Account extends Component
         $this->errors_array = array();
         $this->PercentComplete = 0;
         if (isset($this->usermetta_info['enFirstName']) && trim($this->usermetta_info['enFirstName']) != "" && isset($this->usermetta_info['enLastName']) && trim($this->usermetta_info['enLastName']) != "") {
-
             $this->PercentComplete += 20;
         }
 
