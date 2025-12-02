@@ -2,8 +2,8 @@
 
 namespace App\Livewire;
 
-use App\Models\Deal;
 use App\Models\DealChangeRequest;
+use App\Services\Deals\DealService;
 use App\Services\Deals\PendingDealChangeRequestsInlineService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -103,7 +103,13 @@ class DealChangeRequests extends Component
                 return;
             }
 
-            $deal = Deal::findOrFail($request->deal_id);
+            $deal = app(DealService::class)->find($request->deal_id);
+
+            if (!$deal) {
+                session()->flash('danger', Lang::get('Deal not found'));
+                $this->closeApproveModal();
+                return;
+            }
 
             foreach ($request->changes as $field => $change) {
                 $deal->{$field} = $change['new'];

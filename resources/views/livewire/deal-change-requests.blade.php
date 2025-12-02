@@ -196,7 +196,7 @@
         <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
-                    <div class="modal-header bg-info text-white">
+                    <div class="modal-header">
                         <h5 class="modal-title">
                             <i class="ri-file-edit-line me-2"></i>{{__('Change Request Details')}}
                         </h5>

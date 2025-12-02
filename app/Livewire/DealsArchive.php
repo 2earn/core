@@ -2,10 +2,8 @@
 
 namespace App\Livewire;
 
-use App\Models\Survey;
 use App\Models\User;
 use App\Services\Deals\DealService;
-use Core\Enum\DealStatus;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 use Livewire\WithPagination;
