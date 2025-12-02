@@ -1,6 +1,6 @@
 {
     "success": true,
-    "date": "2025-11-21 15:30:48",
+    "date": "2025-12-01 14:29:39",
     "step2_migrations": {
         "cash_balances": {
             "16": {
@@ -13,15 +13,15 @@
             },
             "43": {
                 "temp_id": 21000,
-                "count": 185
+                "count": 187
             },
             "48": {
                 "temp_id": 15000,
-                "count": 208
+                "count": 212
             },
             "49": {
                 "temp_id": 59000,
-                "count": 104
+                "count": 106
             },
             "51": {
                 "temp_id": 61000,
@@ -47,7 +47,7 @@
             },
             "50": {
                 "temp_id": 60000,
-                "count": 104
+                "count": 106
             },
             "57": {
                 "temp_id": 41000,
@@ -65,7 +65,7 @@
         "discount_balances": {
             "6": {
                 "temp_id": 3000,
-                "count": 1242
+                "count": 1244
             },
             "47": {
                 "temp_id": 28000,
@@ -79,7 +79,7 @@
         "tree_balances": {
             "1": {
                 "temp_id": 4000,
-                "count": 1242
+                "count": 1244
             }
         },
         "sms_balances": {
@@ -91,11 +91,11 @@
         "shares_balances": {
             "44": {
                 "temp_id": 20000,
-                "count": 206
+                "count": 208
             },
             "52": {
                 "temp_id": 58000,
-                "count": 88
+                "count": 90
             },
             "53": {
                 "temp_id": 30000,
@@ -103,7 +103,7 @@
             },
             "54": {
                 "temp_id": 31000,
-                "count": 161
+                "count": 163
             },
             "55": {
                 "temp_id": 32000,
@@ -113,7 +113,7 @@
         "chance_balances": {
             "56": {
                 "temp_id": 7000,
-                "count": 1242
+                "count": 1244
             }
         }
     },
@@ -123,7 +123,7 @@
             {
                 "temp_id": 15000,
                 "final_id": 15,
-                "count": 208
+                "count": 212
             },
             {
                 "temp_id": 16000,
@@ -133,7 +133,7 @@
             {
                 "temp_id": 21000,
                 "final_id": 21,
-                "count": 185
+                "count": 187
             },
             {
                 "temp_id": 22000,
@@ -148,7 +148,7 @@
             {
                 "temp_id": 59000,
                 "final_id": 59,
-                "count": 104
+                "count": 106
             },
             {
                 "temp_id": 61000,
@@ -185,14 +185,14 @@
             {
                 "temp_id": 60000,
                 "final_id": 60,
-                "count": 104
+                "count": 106
             }
         ],
         "discount_balances": [
             {
                 "temp_id": 3000,
                 "final_id": 3,
-                "count": 1242
+                "count": 1244
             },
             {
                 "temp_id": 18000,
@@ -209,7 +209,7 @@
             {
                 "temp_id": 4000,
                 "final_id": 4,
-                "count": 1242
+                "count": 1244
             }
         ],
         "sms_balances": [
@@ -223,7 +223,7 @@
             {
                 "temp_id": 20000,
                 "final_id": 20,
-                "count": 206
+                "count": 208
             },
             {
                 "temp_id": 30000,
@@ -233,7 +233,7 @@
             {
                 "temp_id": 31000,
                 "final_id": 31,
-                "count": 161
+                "count": 163
             },
             {
                 "temp_id": 32000,
@@ -243,14 +243,14 @@
             {
                 "temp_id": 58000,
                 "final_id": 58,
-                "count": 88
+                "count": 90
             }
         ],
         "chance_balances": [
             {
                 "temp_id": 7000,
                 "final_id": 7,
-                "count": 1242
+                "count": 1244
             }
         ]
     },

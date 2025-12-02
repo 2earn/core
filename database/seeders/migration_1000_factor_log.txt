@@ -1,4 +1,4 @@
-Date: 2025-11-21 15:30:48
+Date: 2025-12-01 14:29:38
 Stratégie: Multiplication par 1000 pour éviter les croisements
 
 === ÉTAPE 1: Suppression des contraintes FK ===
@@ -8,60 +8,60 @@ Stratégie: Multiplication par 1000 pour éviter les croisements
 cash_balances:
    16 → 23000 (3)
    42 → 22000 (180)
-   43 → 21000 (185)
-   48 → 15000 (208)
-   49 → 59000 (104)
+   43 → 21000 (187)
+   48 → 15000 (212)
+   49 → 59000 (106)
    51 → 61000 (25)
    60 → 16000 (2)
    18 → 62000 (8)
-   Total: 715
+   Total: 723
 
 bfss_balances:
    13 → 24000 (3)
    46 → 27000 (110)
-   50 → 60000 (104)
+   50 → 60000 (106)
    57 → 41000 (4)
    59 → 17000 (1)
    38 → 17000 (2)
-   Total: 224
+   Total: 226
 
 discount_balances:
-   6 → 3000 (1242)
+   6 → 3000 (1244)
    47 → 28000 (198)
    58 → 18000 (2)
-   Total: 1442
+   Total: 1444
 
 tree_balances:
-   1 → 4000 (1242)
-   Total: 1242
+   1 → 4000 (1244)
+   Total: 1244
 
 sms_balances:
    39 → 19000 (2)
    Total: 2
 
 shares_balances:
-   44 → 20000 (206)
-   52 → 58000 (88)
+   44 → 20000 (208)
+   52 → 58000 (90)
    53 → 30000 (65)
-   54 → 31000 (161)
+   54 → 31000 (163)
    55 → 32000 (15)
-   Total: 535
+   Total: 541
 
 chance_balances:
-   56 → 7000 (1242)
-   Total: 1242
+   56 → 7000 (1244)
+   Total: 1244
 
 === ÉTAPE 3: IDs non migrés (< 1000) ===
 ✅ Aucun ID non migré
 
 === ÉTAPE 4: Division par 1000 ===
 cash_balances:
-   15000 → 15 (208)
+   15000 → 15 (212)
    16000 → 16 (2)
-   21000 → 21 (185)
+   21000 → 21 (187)
    22000 → 22 (180)
    23000 → 23 (3)
-   59000 → 59 (104)
+   59000 → 59 (106)
    61000 → 61 (25)
    62000 → 62 (8)
 
@@ -70,39 +70,39 @@ bfss_balances:
    24000 → 24 (3)
    27000 → 27 (110)
    41000 → 41 (4)
-   60000 → 60 (104)
+   60000 → 60 (106)
 
 discount_balances:
-   3000 → 3 (1242)
+   3000 → 3 (1244)
    18000 → 18 (2)
    28000 → 28 (198)
 
 tree_balances:
-   4000 → 4 (1242)
+   4000 → 4 (1244)
 
 sms_balances:
    19000 → 19 (2)
 
 shares_balances:
-   20000 → 20 (206)
+   20000 → 20 (208)
    30000 → 30 (65)
-   31000 → 31 (161)
+   31000 → 31 (163)
    32000 → 32 (15)
-   58000 → 58 (88)
+   58000 → 58 (90)
 
 chance_balances:
-   7000 → 7 (1242)
+   7000 → 7 (1244)
 
 === RAPPORT FINAL ===
 
 État des migrations:
-cash_balances         : ✅  715 migrés
-bfss_balances         : ✅  224 migrés
-discount_balances     : ✅ 1442 migrés
-tree_balances         : ✅ 1242 migrés
+cash_balances         : ✅  723 migrés
+bfss_balances         : ✅  226 migrés
+discount_balances     : ✅ 1444 migrés
+tree_balances         : ✅ 1244 migrés
 sms_balances          : ✅    2 migrés
-shares_balances       : ✅  535 migrés
-chance_balances       : ✅ 1242 migrés
+shares_balances       : ✅  541 migrés
+chance_balances       : ✅ 1244 migrés
 
 ✅ Migration terminée
-Date: 2025-11-21 15:30:48
+Date: 2025-12-01 14:29:39

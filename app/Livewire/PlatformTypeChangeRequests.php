@@ -3,8 +3,10 @@
 namespace App\Livewire;
 
 use App\Models\PlatformTypeChangeRequest;
+use App\Services\Platform\PlatformTypeChangeRequestService;
 use Core\Enum\PlatformType;
 use Core\Models\Platform;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -19,16 +21,21 @@ class PlatformTypeChangeRequests extends Component
     public $statusFilter = 'pending';
     public $perPage = 10;
 
-    // Rejection modal properties
     public $showRejectModal = false;
     public $rejectRequestId = null;
     public $rejectionReason = '';
 
-    // Approval modal properties
     public $showApproveModal = false;
     public $approveRequestId = null;
 
     protected $queryString = ['search', 'statusFilter'];
+
+    protected PlatformTypeChangeRequestService $platformTypeChangeRequestService;
+
+    public function boot(PlatformTypeChangeRequestService $platformTypeChangeRequestService)
+    {
+        $this->platformTypeChangeRequestService = $platformTypeChangeRequestService;
+    }
 
     public function updatingSearch()
     {
@@ -57,22 +64,10 @@ class PlatformTypeChangeRequests extends Component
         try {
             DB::beginTransaction();
 
-            $request = PlatformTypeChangeRequest::findOrFail($this->approveRequestId);
-
-            if ($request->status !== 'pending') {
-                session()->flash('danger', Lang::get('This request has already been processed'));
-                $this->closeApproveModal();
-                return;
-            }
-
-            // Update platform type
-            $platform = Platform::findOrFail($request->platform_id);
-            $platform->type = $request->new_type;
-            $platform->save();
-
-            // Update request status
-            $request->status = 'approved';
-            $request->save();
+            $request = $this->platformTypeChangeRequestService->approveRequest(
+                $this->approveRequestId,
+                Auth::id()
+            );
 
             DB::commit();
 
@@ -122,17 +117,15 @@ class PlatformTypeChangeRequests extends Component
         ]);
 
         try {
-            $request = PlatformTypeChangeRequest::findOrFail($this->rejectRequestId);
+            DB::beginTransaction();
 
-            if ($request->status !== 'pending') {
-                session()->flash('danger', Lang::get('This request has already been processed'));
-                $this->closeRejectModal();
-                return;
-            }
+            $request = $this->platformTypeChangeRequestService->rejectRequest(
+                $this->rejectRequestId,
+                Auth::id(),
+                $this->rejectionReason
+            );
 
-            $request->status = 'rejected';
-            $request->rejection_reason = $this->rejectionReason;
-            $request->save();
+            DB::commit();
 
             Log::info('[PlatformTypeChangeRequests] Request rejected', [
                 'request_id' => $this->rejectRequestId,
@@ -144,6 +137,7 @@ class PlatformTypeChangeRequests extends Component
             $this->closeRejectModal();
 
         } catch (\Exception $e) {
+            DB::rollBack();
             Log::error('[PlatformTypeChangeRequests] Error rejecting request', [
                 'request_id' => $this->rejectRequestId,
                 'error' => $e->getMessage()
@@ -160,18 +154,11 @@ class PlatformTypeChangeRequests extends Component
 
     public function render()
     {
-        $requests = PlatformTypeChangeRequest::with('platform')
-            ->when($this->search, function ($query) {
-                $query->whereHas('platform', function ($q) {
-                    $q->where('name', 'like', '%' . $this->search . '%')
-                      ->orWhere('id', 'like', '%' . $this->search . '%');
-                });
-            })
-            ->when($this->statusFilter !== 'all', function ($query) {
-                $query->where('status', $this->statusFilter);
-            })
-            ->orderBy('created_at', 'desc')
-            ->paginate($this->perPage);
+        $requests = $this->platformTypeChangeRequestService->getPaginatedRequests(
+            $this->statusFilter,
+            $this->search,
+            $this->perPage
+        );
 
         return view('livewire.platform-type-change-requests', [
             'requests' => $requests

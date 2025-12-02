@@ -53,7 +53,6 @@ class DealPartnerController extends Controller
         $limit = $request->input('limit') ?? 8;
         $search = $request->input('search');
 
-        // Get deals using the service
         $deals = $this->dealService->getPartnerDeals(
             $userId,
             $platformId,
@@ -62,10 +61,8 @@ class DealPartnerController extends Controller
             $limit
         );
 
-        // Get total count
         $totalCount = $this->dealService->getPartnerDealsCount($userId, $platformId, $search);
 
-        // Enrich deals with change request and validation request data
         $this->dealService->enrichDealsWithRequests($deals);
 
         return response()->json([
@@ -130,7 +127,7 @@ class DealPartnerController extends Controller
             DB::beginTransaction();
 
             $deal = $this->dealService->create($validatedData);
-            $this->dealService->createValidationRequest(
+            $validationRequest = $this->dealService->createValidationRequest(
                 $deal->id,
                 $request->input('created_by'),
                 $request->input('notes', 'Deal validation request created automatically')
@@ -146,7 +143,7 @@ class DealPartnerController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Deal created successfully and validation request submitted',
-                'data' => $deal
+                'data' => ['deal' => $deal, 'validation_request' => $validationRequest]
             ], Response::HTTP_CREATED);
 
         } catch (\Exception $e) {
@@ -162,6 +159,7 @@ class DealPartnerController extends Controller
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
     public function validateRequest(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -205,7 +203,7 @@ class DealPartnerController extends Controller
         }
 
         $existingRequest = DealValidationRequest::where('deal_id', $dealId)
-            ->where('status', 'pending')
+            ->where('status', DealValidationRequest::STATUS_PENDING)
             ->first();
 
         if ($existingRequest) {
@@ -306,7 +304,6 @@ class DealPartnerController extends Controller
     {
         $validatedData = $request->validated();
 
-        // Process commission formula if changed
         if (array_key_exists('commission_formula_id', $validatedData)) {
             $commissionFormula = CommissionFormula::find($validatedData['commission_formula_id']);
             if ($commissionFormula) {
@@ -316,19 +313,15 @@ class DealPartnerController extends Controller
             unset($validatedData['commission_formula_id']);
         }
 
-        // Handle current_turnover
         if (array_key_exists('current_turnover', $validatedData)) {
             $validatedData['current_turnover'] = $validatedData['current_turnover'] ?? 0;
         }
 
-        // Get updated_by from request
-        $updatedBy = $request->input('updated_by') ?? $request->input('user_id');
+        $requestedBy = $request->input('requested_by') ?? $request->input('user_id');
 
-        // Filter out only the fields that are actually changing
         $changes = [];
         foreach ($validatedData as $field => $value) {
-            // Skip the updated_by field from changes
-            if ($field === 'updated_by') {
+            if ($field === 'requested_by') {
                 continue;
             }
 
@@ -340,7 +333,6 @@ class DealPartnerController extends Controller
             }
         }
 
-        // If no changes, return early
         if (empty($changes)) {
             return response()->json([
                 'status' => 'Failed',
@@ -348,17 +340,15 @@ class DealPartnerController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        // Create a change request
         $changeRequest = $this->dealService->createChangeRequest(
             $deal->id,
             $changes,
-            $updatedBy
+            $requestedBy
         );
-
         Log::info(self::LOG_PREFIX . 'Deal change request created', [
             'deal_id' => $deal->id,
             'change_request_id' => $changeRequest->id,
-            'requested_by' => $updatedBy
+            'requested_by' => $requestedBy
         ]);
 
         return response()->json([
@@ -389,7 +379,6 @@ class DealPartnerController extends Controller
 
         $userId = $request->input('user_id');
 
-        // Check permission using the service
         if (!$this->dealService->userHasPermission($deal, $userId)) {
             Log::error(self::LOG_PREFIX . 'User does not have permission to change deal status', [
                 'deal_id' => $deal->id,
@@ -409,5 +398,111 @@ class DealPartnerController extends Controller
             'message' => 'Deal status updated successfully',
             'data' => $deal
         ]);
+    }
+
+    public function cancelValidationRequest(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'validation_request_id' => 'required|integer|exists:deal_validation_requests,id',
+        ]);
+
+        if ($validator->fails()) {
+            Log::error(self::LOG_PREFIX . 'Cancel validation request validation failed', ['errors' => $validator->errors()]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $validationRequestId = $request->input('validation_request_id');
+
+        $validationRequest = DealValidationRequest::find($validationRequestId);
+
+        if (!$validationRequest) {
+            Log::error(self::LOG_PREFIX . 'Validation request not found', ['validation_request_id' => $validationRequestId]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation request not found'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        if (!$validationRequest->canBeCancelled()) {
+            Log::warning(self::LOG_PREFIX . 'Validation request cannot be cancelled', [
+                'validation_request_id' => $validationRequestId,
+                'current_status' => $validationRequest->status
+            ]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Only pending validation requests can be cancelled. Current status: ' . $validationRequest->status
+            ], Response::HTTP_FORBIDDEN);
+        }
+
+        $validationRequest->status = DealValidationRequest::STATUS_CANCELLED;
+        $validationRequest->save();
+
+        Log::info(self::LOG_PREFIX . 'Validation request cancelled', [
+            'validation_request_id' => $validationRequestId,
+            'deal_id' => $validationRequest->deal_id
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Validation request cancelled successfully',
+            'data' => $validationRequest
+        ], Response::HTTP_OK);
+    }
+
+    public function cancelChangeRequest(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'change_request_id' => 'required|integer|exists:deal_change_requests,id',
+        ]);
+
+        if ($validator->fails()) {
+            Log::error(self::LOG_PREFIX . 'Cancel change request validation failed', ['errors' => $validator->errors()]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $changeRequestId = $request->input('change_request_id');
+
+        $changeRequest = DealChangeRequest::find($changeRequestId);
+
+        if (!$changeRequest) {
+            Log::error(self::LOG_PREFIX . 'Change request not found', ['change_request_id' => $changeRequestId]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Change request not found'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        if (!$changeRequest->canBeCancelled()) {
+            Log::warning(self::LOG_PREFIX . 'Change request cannot be cancelled', [
+                'change_request_id' => $changeRequestId,
+                'current_status' => $changeRequest->status
+            ]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Only pending change requests can be cancelled. Current status: ' . $changeRequest->status
+            ], Response::HTTP_FORBIDDEN);
+        }
+
+        $changeRequest->status = DealChangeRequest::STATUS_CANCELLED;
+        $changeRequest->save();
+
+        Log::info(self::LOG_PREFIX . 'Change request cancelled', [
+            'change_request_id' => $changeRequestId,
+            'deal_id' => $changeRequest->deal_id
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Change request cancelled successfully',
+            'data' => $changeRequest
+        ], Response::HTTP_OK);
     }
 }

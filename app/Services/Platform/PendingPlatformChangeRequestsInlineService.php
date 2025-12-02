@@ -16,7 +16,7 @@ class PendingPlatformChangeRequestsInlineService
     public function getPendingRequests(?int $limit = null): Collection
     {
         $query = PlatformChangeRequest::with(['platform', 'requestedBy'])
-            ->where('status', 'pending')
+            ->where('status', PlatformChangeRequest::STATUS_PENDING)
             ->orderBy('created_at', 'desc');
 
         if ($limit) {
@@ -33,7 +33,7 @@ class PendingPlatformChangeRequestsInlineService
      */
     public function getTotalPending(): int
     {
-        return PlatformChangeRequest::where('status', 'pending')->count();
+        return PlatformChangeRequest::where('status', PlatformChangeRequest::STATUS_PENDING)->count();
     }
 
     /**

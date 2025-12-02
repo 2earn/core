@@ -46,7 +46,7 @@ class UpdateDealRequest extends FormRequest
             'cash_jackpot' => 'nullable|numeric',
             'cash_tree' => 'nullable|numeric',
             'cash_cashback' => 'nullable|numeric',
-            'updated_by' => 'sometimes|exists:users,id',
+            'requested_by' => 'required|exists:users,id',
             'user_id' => 'sometimes|exists:users,id',
         ];
     }

@@ -2,23 +2,23 @@
 
 namespace App\Services\Platform;
 
-use App\Models\PlatformTypeChangeRequest;
+use App\Models\PlatformValidationRequest;
 use Core\Models\Platform;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
-class PlatformTypeChangeRequestService
+class PlatformValidationRequestService
 {
     /**
-     * Get pending platform type change requests
+     * Get pending platform validation requests
      *
      * @param int|null $limit
      * @return Collection
      */
     public function getPendingRequests(?int $limit = null): Collection
     {
-        $query = PlatformTypeChangeRequest::with(['platform', 'requestedBy'])
-            ->where('status', PlatformTypeChangeRequest::STATUS_PENDING)
+        $query = PlatformValidationRequest::with(['platform', 'requestedBy'])
+            ->where('status', PlatformValidationRequest::STATUS_PENDING)
             ->orderBy('created_at', 'desc');
 
         if ($limit) {
@@ -35,7 +35,7 @@ class PlatformTypeChangeRequestService
      */
     public function getTotalPending(): int
     {
-        return PlatformTypeChangeRequest::where('status', PlatformTypeChangeRequest::STATUS_PENDING)->count();
+        return PlatformValidationRequest::where('status', 'pending')->count();
     }
 
     /**
@@ -53,54 +53,54 @@ class PlatformTypeChangeRequestService
     }
 
     /**
-     * Find a platform type change request by ID
+     * Find a platform validation request by ID
      *
      * @param int $requestId
-     * @return PlatformTypeChangeRequest
+     * @return PlatformValidationRequest
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function findRequest(int $requestId): PlatformTypeChangeRequest
+    public function findRequest(int $requestId): PlatformValidationRequest
     {
-        return PlatformTypeChangeRequest::findOrFail($requestId);
+        return PlatformValidationRequest::findOrFail($requestId);
     }
 
     /**
-     * Find a platform type change request by ID with relationships
+     * Find a platform validation request by ID with relationships
      *
      * @param int $requestId
      * @param array $relations
-     * @return PlatformTypeChangeRequest
+     * @return PlatformValidationRequest
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function findRequestWithRelations(int $requestId, array $relations = []): PlatformTypeChangeRequest
+    public function findRequestWithRelations(int $requestId, array $relations = []): PlatformValidationRequest
     {
-        return PlatformTypeChangeRequest::with($relations)->findOrFail($requestId);
+        return PlatformValidationRequest::with($relations)->findOrFail($requestId);
     }
 
     /**
-     * Approve a platform type change request and update platform type
+     * Approve a platform validation request and enable the platform
      *
      * @param int $requestId
      * @param int $reviewedBy
-     * @return PlatformTypeChangeRequest
+     * @return PlatformValidationRequest
      * @throws \Exception
      */
-    public function approveRequest(int $requestId, int $reviewedBy): PlatformTypeChangeRequest
+    public function approveRequest(int $requestId, int $reviewedBy): PlatformValidationRequest
     {
         $request = $this->findRequest($requestId);
 
-        if ($request->status !== PlatformTypeChangeRequest::STATUS_PENDING) {
+        if ($request->status !== 'pending') {
             throw new \Exception('This request has already been processed');
         }
 
-        // Update platform type
+        // Enable the platform
         $platform = $request->platform;
-        $platform->type = $request->new_type;
+        $platform->enabled = true;
         $platform->updated_by = $reviewedBy;
         $platform->save();
 
         // Update request status
-        $request->status = PlatformTypeChangeRequest::STATUS_APPROVED;
+        $request->status = PlatformValidationRequest::STATUS_APPROVED;
         $request->reviewed_by = $reviewedBy;
         $request->reviewed_at = now();
         $request->save();
@@ -109,24 +109,24 @@ class PlatformTypeChangeRequestService
     }
 
     /**
-     * Reject a platform type change request
+     * Reject a platform validation request
      *
      * @param int $requestId
      * @param int $reviewedBy
      * @param string $rejectionReason
-     * @return PlatformTypeChangeRequest
+     * @return PlatformValidationRequest
      * @throws \Exception
      */
-    public function rejectRequest(int $requestId, int $reviewedBy, string $rejectionReason): PlatformTypeChangeRequest
+    public function rejectRequest(int $requestId, int $reviewedBy, string $rejectionReason): PlatformValidationRequest
     {
         $request = $this->findRequest($requestId);
 
-        if ($request->status !== PlatformTypeChangeRequest::STATUS_PENDING) {
+        if ($request->status !== 'pending') {
             throw new \Exception('This request has already been processed');
         }
 
         // Update request status
-        $request->status = PlatformTypeChangeRequest::STATUS_REJECTED;
+        $request->status = PlatformValidationRequest::STATUS_REJECTED;
         $request->rejection_reason = $rejectionReason;
         $request->reviewed_by = $reviewedBy;
         $request->updated_by = $reviewedBy;
@@ -137,7 +137,7 @@ class PlatformTypeChangeRequestService
     }
 
     /**
-     * Get filtered platform type change requests query
+     * Get filtered platform validation requests query
      *
      * @param string|null $statusFilter
      * @param string|null $search
@@ -145,7 +145,7 @@ class PlatformTypeChangeRequestService
      */
     public function getFilteredQuery(?string $statusFilter = null, ?string $search = null): \Illuminate\Database\Eloquent\Builder
     {
-        $query = PlatformTypeChangeRequest::with(['platform', 'requestedBy', 'reviewedBy']);
+        $query = PlatformValidationRequest::with(['platform', 'requestedBy', 'reviewedBy']);
 
         // Apply search filter
         if ($search) {
@@ -164,7 +164,7 @@ class PlatformTypeChangeRequestService
     }
 
     /**
-     * Get paginated filtered platform type change requests
+     * Get paginated filtered platform validation requests
      *
      * @param string|null $statusFilter
      * @param string|null $search
@@ -174,27 +174,6 @@ class PlatformTypeChangeRequestService
     public function getPaginatedRequests(?string $statusFilter = null, ?string $search = null, int $perPage = 10): LengthAwarePaginator
     {
         return $this->getFilteredQuery($statusFilter, $search)->paginate($perPage);
-    }
-
-    /**
-     * Create a new platform type change request
-     *
-     * @param int $platformId
-     * @param int $oldType
-     * @param int $newType
-     * @param int $requestedBy
-     * @return PlatformTypeChangeRequest
-     */
-    public function createRequest(int $platformId, int $oldType, int $newType, int $requestedBy): PlatformTypeChangeRequest
-    {
-        return PlatformTypeChangeRequest::create([
-            'platform_id' => $platformId,
-            'old_type' => $oldType,
-            'new_type' => $newType,
-            'status' => PlatformTypeChangeRequest::STATUS_PENDING,
-            'requested_by' => $requestedBy,
-            'updated_by' => $requestedBy
-        ]);
     }
 }
 

@@ -120,17 +120,21 @@ Route::prefix('/partner/')->name('api_partner_')
     ->group(function () {
         Route::middleware(['check.url'])->group(function () {
             Route::apiResource('platforms', PlatformPartnerController::class)->except('destroy');
-            Route::get('deals/commission-formulas', [CommissionFormulaPartnerController::class, 'index'])->name('deals_commission_formulas_index');
             Route::apiResource('deals', DealPartnerController::class)->except('destroy');
             Route::apiResource('orders', OrderPartnerController::class)->except('destroy');
             Route::apiResource('order-details', OrderDetailsPartnerController::class)->only(['store', 'update']);
+            Route::get('deals/commission-formulas', [CommissionFormulaPartnerController::class, 'index'])->name('deals_commission_formulas_index');
             Route::patch('orders/{order}/status', [OrderPartnerController::class, 'changeStatus'])->name('orders_change_status');
             Route::patch('deals/{deal}/status', [DealPartnerController::class, 'changeStatus'])->name('deals_change_status');
             Route::post('items', [ItemsPartnerController::class, 'store'])->name('items_store');
             Route::put('items/{id}', [ItemsPartnerController::class, 'update'])->name('items_update');
             Route::post('platform/change', [PlatformPartnerController::class, 'changePlatformType'])->name('platform_change_type');
             Route::post('platform/validate', [PlatformPartnerController::class, 'validateRequest'])->name('platform_validate_request');
+            Route::post('platform/validation/cancel', [PlatformPartnerController::class, 'cancelValidationRequest'])->name('platform_validation_cancel');
+            Route::post('platform/change/cancel', [PlatformPartnerController::class, 'cancelChangeRequest'])->name('platform_change_cancel');
             Route::post('deals/validate', [DealPartnerController::class, 'validateRequest'])->name('deal_validate_request');
+            Route::post('deals/validation/cancel', [DealPartnerController::class, 'cancelValidationRequest'])->name('deal_validation_cancel');
+            Route::post('deals/change/cancel', [DealPartnerController::class, 'cancelChangeRequest'])->name('deal_change_cancel');
             Route::post('users/add-role', [UserPartnerController::class, 'addRole'])->name('users_add_role');
         });
 

@@ -4,6 +4,8 @@ namespace App\Livewire;
 
 use App\Models\Deal;
 use App\Models\DealChangeRequest;
+use App\Services\Deals\PendingDealChangeRequestsInlineService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -35,6 +37,13 @@ class DealChangeRequests extends Component
 
     protected $queryString = ['search', 'statusFilter'];
 
+    protected PendingDealChangeRequestsInlineService $dealChangeRequestService;
+
+    public function boot(PendingDealChangeRequestsInlineService $dealChangeRequestService)
+    {
+        $this->dealChangeRequestService = $dealChangeRequestService;
+    }
+
     public function updatingSearch()
     {
         $this->resetPage();
@@ -47,7 +56,7 @@ class DealChangeRequests extends Component
 
     public function openChangesModal($requestId)
     {
-        $request = DealChangeRequest::with('deal')->findOrFail($requestId);
+        $request = $this->dealChangeRequestService->findRequestWithRelations($requestId, ['deal']);
         $this->viewChangesRequestId = $requestId;
         $this->viewChangesData = [
             'deal_name' => $request->deal->name ?? 'N/A',
@@ -68,7 +77,7 @@ class DealChangeRequests extends Component
 
     public function openApproveModal($requestId)
     {
-        $request = DealChangeRequest::findOrFail($requestId);
+        $request = $this->dealChangeRequestService->findRequest($requestId);
         $this->approveRequestId = $requestId;
         $this->approveRequestChanges = $request->changes;
         $this->showApproveModal = true;
@@ -86,7 +95,7 @@ class DealChangeRequests extends Component
         try {
             DB::beginTransaction();
 
-            $request = DealChangeRequest::findOrFail($this->approveRequestId);
+            $request = $this->dealChangeRequestService->findRequest($this->approveRequestId);
 
             if ($request->status !== 'pending') {
                 session()->flash('danger', Lang::get('This request has already been processed'));
@@ -94,7 +103,6 @@ class DealChangeRequests extends Component
                 return;
             }
 
-            // Update deal with changes
             $deal = Deal::findOrFail($request->deal_id);
 
             foreach ($request->changes as $field => $change) {
@@ -103,9 +111,9 @@ class DealChangeRequests extends Component
 
             $deal->save();
 
-            // Update request status
             $request->status = 'approved';
-            $request->reviewed_by = auth()->id();
+            $request->reviewed_by = Auth::id();
+            $request->updated_by = Auth::id();
             $request->reviewed_at = now();
             $request->save();
 
@@ -157,7 +165,7 @@ class DealChangeRequests extends Component
         ]);
 
         try {
-            $request = DealChangeRequest::findOrFail($this->rejectRequestId);
+            $request = $this->dealChangeRequestService->findRequest($this->rejectRequestId);
 
             if ($request->status !== 'pending') {
                 session()->flash('danger', Lang::get('This request has already been processed'));
@@ -167,7 +175,8 @@ class DealChangeRequests extends Component
 
             $request->status = 'rejected';
             $request->rejection_reason = $this->rejectionReason;
-            $request->reviewed_by = auth()->id();
+            $request->reviewed_by = Auth::id();
+            $request->updated_by = Auth::id();
             $request->reviewed_at = now();
             $request->save();
 
