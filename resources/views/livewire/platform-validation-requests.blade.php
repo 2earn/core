@@ -46,7 +46,7 @@
             <div class="col-12 card border-0 shadow-sm hover-shadow">
                 <div class="card-body p-4">
                     <div class="row align-items-center">
-                        <!-- Platform Info -->
+
                         <div class="col-lg-4 col-md-4 mb-3 mb-md-0">
                             <div class="d-flex align-items-center">
                                 @if($request->platform?->logoImage)
@@ -68,7 +68,7 @@
                             </div>
                         </div>
 
-                        <!-- Platform Details -->
+
                         <div class="col-lg-3 col-md-4 mb-3 mb-md-0">
                             <div>
                                 <p class="text-muted mb-1 small">{{__('Platform Type')}}</p>
@@ -78,7 +78,7 @@
                             </div>
                         </div>
 
-                        <!-- Status and Date -->
+
                         <div class="col-lg-2 col-md-4 mb-3 mb-md-0 text-center">
                             <div>
                                 @if($request->status === 'pending')
@@ -101,7 +101,7 @@
                             </div>
                         </div>
 
-                        <!-- Actions -->
+
                         <div class="col-lg-3 col-md-12 text-end">
                             @if($request->status === 'pending')
                                 <div class="d-flex gap-2 justify-content-end">
@@ -122,7 +122,7 @@
                         </div>
                     </div>
 
-                    <!-- Additional Info -->
+
                     <div class="row mt-3 pt-3 border-top">
                         <div class="col-md-6">
                             <small class="text-muted">
@@ -170,7 +170,7 @@
         @endforelse
     </div>
 
-    <!-- Pagination -->
+
     @if($requests->hasPages())
         <div class="row mt-2">
             <div class="col-12 card border-0 shadow-sm">

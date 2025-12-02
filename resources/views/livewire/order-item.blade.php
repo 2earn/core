@@ -243,7 +243,7 @@
                                                                     @if($orderDetail->shipping)
                                                                         <span
                                                                             class="badge bg-warning-subtle text-warning">
-                                                                                {{$orderDetail->shipping}} {{$currency}}
+                                                                                {{formatSolde($orderDetail->shipping,3)}} {{$currency}}
                                                                             </span>
                                                                     @else
                                                                         <span
@@ -289,7 +289,7 @@
                                                                                     class="text-muted">{{__('Discount')}}</small>
                                                                                 <span
                                                                                     class="text-danger fw-semibold">
-                                                                                        -{{$orderDetail->partner_discount}}
+                                                                                        -{{formatSolde($orderDetail->partner_discount)}}
                                                                                     </span>
                                                                             </div>
                                                                             <div
@@ -298,7 +298,7 @@
                                                                                     class="text-muted">{{__('After')}}</small>
                                                                                 <span
                                                                                     class="badge bg-success-subtle text-success">
-                                                                                        {{$orderDetail->amount_after_partner_discount}}
+                                                                                        {{formatSolde($orderDetail->amount_after_partner_discount)}}
                                                                                     </span>
                                                                             </div>
                                                                         </div>
@@ -331,7 +331,7 @@
                                                                                     class="text-muted">{{__('Discount')}}</small>
                                                                                 <span
                                                                                     class="text-danger fw-semibold">
-                                                                                        -{{$orderDetail->earn_discount}}
+                                                                                        -{{formatSolde($orderDetail->earn_discount)}}
                                                                                     </span>
                                                                             </div>
                                                                             <div
@@ -340,7 +340,7 @@
                                                                                     class="text-muted">{{__('After')}}</small>
                                                                                 <span
                                                                                     class="badge bg-success-subtle text-success">
-                                                                                        {{$orderDetail->amount_after_earn_discount}}
+                                                                                        {{formatSolde($orderDetail->amount_after_earn_discount)}}
                                                                                     </span>
                                                                             </div>
                                                                         </div>
@@ -372,7 +372,7 @@
                                                                                     class="text-muted">{{__('Discount')}}</small>
                                                                                 <span
                                                                                     class="text-danger fw-semibold">
-                                                                                        -{{$orderDetail->deal_discount}}
+                                                                                        -{{formatSolde($orderDetail->deal_discount)}}
                                                                                     </span>
                                                                             </div>
                                                                             <div
@@ -381,7 +381,7 @@
                                                                                     class="text-muted">{{__('After')}}</small>
                                                                                 <span
                                                                                     class="badge bg-success-subtle text-success">
-                                                                                        {{$orderDetail->amount_after_deal_discount}}
+                                                                                        {{formatSolde($orderDetail->amount_after_deal_discount)}}
                                                                                     </span>
                                                                             </div>
                                                                         </div>
@@ -399,7 +399,7 @@
                                                                         <h6 class="text-center text-success mb-3">{{__('Total Discount')}}</h6>
                                                                         <span
                                                                             class="badge bg-success fs-4 px-4 py-3">
-                                                                                <i class="ri-discount-percent-line me-2"></i>{{$orderDetail->total_discount}} {{$currency}}
+                                                                                <i class="ri-discount-percent-line me-2"></i>{{formatSolde($orderDetail->total_discount,3)}} {{$currency}}
                                                                             </span>
                                                                     </div>
                                                                 </div>
@@ -457,7 +457,7 @@
                                                         <strong>{{__('Amount before discount')}}</strong>
                                                     </span>
                                             <span class="badge bg-light text-dark border">
-                                                        {{$order->deal_amount_before_discount}} {{$currency}}
+                                                        {{formatSolde($order->deal_amount_before_discount)}} {{$currency}}
                                                     </span>
                                         </li>
                                     @endif
@@ -468,7 +468,7 @@
                                                         <strong>{{__('Out of deal amount')}}</strong>
                                                     </span>
                                             <span class="badge bg-light text-dark border">
-                                                        {{$order->out_of_deal_amount}} {{$currency}}
+                                                        {{formatSolde($order->out_of_deal_amount)}} {{$currency}}
                                                     </span>
                                         </li>
                                     @endif
@@ -479,7 +479,7 @@
                                                         <strong>{{__('Total')}}</strong>
                                                     </span>
                                             <span class="badge bg-success fs-14">
-                                                        {{$order->out_of_deal_amount +$order->deal_amount_before_discount}} {{$currency}}
+                                                        {{formatSolde($order->out_of_deal_amount +$order->deal_amount_before_discount)}} {{$currency}}
                                                     </span>
                                         </li>
                                     @endif
@@ -505,7 +505,7 @@
                                                             <strong>{{__('Total final discount')}}</strong>
                                                         </span>
                                                 <span class="badge bg-success-subtle text-success">
-                                                            {{$order->total_final_discount}} {{$currency}}
+                                                            {{formatSolde($order->total_final_discount)}} {{$currency}}
                                                         </span>
                                             </li>
                                         @endif
@@ -519,12 +519,12 @@
                                                                 <strong>{{__('Total lost discount')}}</strong>
                                                             </span>
                                                     <span class="badge bg-danger-subtle text-danger">
-                                                                {{$order->total_lost_discount}} {{$currency}}
+                                                                {{formatSolde($order->total_lost_discount)}} {{$currency}}
                                                             </span>
                                                 </div>
                                                 <div class="alert alert-warning mb-0 small">
                                                     <i class="ri-information-line me-1"></i>
-                                                    {{__('You can top up your discount with')}} {{$order->total_lost_discount}} {{$currency}}
+                                                    {{__('You can top up your discount with')}} {{formatSolde($order->total_lost_discount)}} {{$currency}}
                                                 </div>
                                             </li>
                                         @endif
@@ -550,7 +550,7 @@
                                                         <strong>{{__('Amount after discount')}}</strong>
                                                     </span>
                                             <span class="badge bg-success fs-14">
-                                                        {{$order->amount_after_discount}} {{$currency}}
+                                                        {{formatSolde($order->amount_after_discount)}} {{$currency}}
                                                     </span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center bg-light">
@@ -559,7 +559,7 @@
                                                         <strong>{{__('Gain from BFSs soldes')}}</strong>
                                                     </span>
                                             <span class="badge bg-info-subtle text-info fs-14">
-                                                        {{$order->amount_after_discount-$order->paid_cash}} {{$currency}}
+                                                        {{formatSolde($order->amount_after_discount-$order->paid_cash)}} {{$currency}}
                                                     </span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -568,7 +568,7 @@
                                                         <strong>{{__('Paid cash')}}</strong>
                                                     </span>
                                             <span class="badge bg-danger fs-14">
-                                                        {{$order->paid_cash}} {{$currency}}
+                                                        {{formatSolde($order->paid_cash)}} {{$currency}}
                                                     </span>
                                         </li>
                                     </ul>
@@ -612,10 +612,10 @@
                                                         </td>
                                                         <td class="logoTopDBLabel text-end">
                                                             <h6 class="mb-0 text-danger">
-                                                                -{{$discount->value}} {{$currency}}</h6>
+                                                                -{{formatSolde($discount->value)}} {{$currency}}</h6>
                                                         </td>
                                                         <td class="logoTopDBLabel text-end">
-                                                            <h6 class="mb-0">{{$discount->current_balance}} {{$currency}}</h6>
+                                                            <h6 class="mb-0">{{formatSolde($discount->current_balance)}} {{$currency}}</h6>
                                                         </td>
                                                         <td>
                                                             <p class="mb-1 small">{{$discount->description}}</p>
@@ -666,10 +666,10 @@
                                                             </td>
                                                             <td class="logoTopBFSLabel text-end">
                                                                 <h6 class="mb-0 text-danger">
-                                                                    -{{$bfs->value}} {{$currency}}</h6>
+                                                                    -{{formatSolde($bfs->value)}} {{$currency}}</h6>
                                                             </td>
                                                             <td class="logoTopBFSLabel text-end">
-                                                                <h6 class="mb-0">{{$bfs->current_balance}} {{$currency}}</h6>
+                                                                <h6 class="mb-0">{{formatSolde($bfs->current_balance)}} {{$currency}}</h6>
                                                             </td>
                                                             <td>
                                                                 <p class="mb-1 small">{{$bfs->description}}</p>
@@ -723,10 +723,10 @@
                                                         </td>
                                                         <td class="logoTopCashLabel text-end">
                                                             <h6 class="mb-0 text-danger">
-                                                                -{{$cash->value}} {{$currency}}</h6>
+                                                                -{{formatSolde($cash->value)}} {{$currency}}</h6>
                                                         </td>
                                                         <td class="logoTopCashLabel text-end">
-                                                            <h6 class="mb-0">{{$cash->current_balance}} {{$currency}}</h6>
+                                                            <h6 class="mb-0">{{formatSolde($cash->current_balance)}} {{$currency}}</h6>
                                                         </td>
                                                         <td>
                                                             <p class="mb-1 small">{{$cash->description}}</p>

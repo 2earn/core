@@ -126,7 +126,7 @@
                 </div>
             @endif
             @if($cart->total_cart>0)
-                <div class="card-footer bg-light">
+                <div class="card-footer">
                     <div class="d-flex justify-content-end gap-2">
                         <button wire:click="clearCart()"
                                 class="btn btn-warning">
