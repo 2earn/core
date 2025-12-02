@@ -29,7 +29,7 @@ class FinancialTransaction extends Component
     protected $listeners = [
         'exchangeSms' => 'exchangeSms',
         'redirectPay', 'redirectPay',
-        'redirectToTransfertCash' => 'redirectToTransfertCash',
+        'redirectToTransferCash' => 'redirectToTransferCash',
         'ShowCanceled' => 'ShowCanceled',
         'RejectRequest' => 'RejectRequest', 'refreshChildren' => '$refresh'
     ];
@@ -61,7 +61,7 @@ class FinancialTransaction extends Component
         return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'ShowCancel' => $val])->with('info', trans('Show cancelled requests'));
     }
 
-    public function redirectToTransfertCash($mnt, $req)
+    public function redirectToTransferCash($mnt, $req)
     {
         return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'montant' => $mnt, 'FinRequestN' => $req]);
     }

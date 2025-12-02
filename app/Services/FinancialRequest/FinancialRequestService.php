@@ -4,6 +4,7 @@ namespace App\Services\FinancialRequest;
 
 use Core\Models\detail_financial_request;
 use Core\Models\FinancialRequest;
+use Illuminate\Support\Facades\DB;
 
 class FinancialRequestService
 {
@@ -118,6 +119,36 @@ class FinancialRequestService
             ->with('details', 'details.User')
             ->orderBy('financial_request.date', 'desc')
             ->get(['financial_request.numeroReq', 'financial_request.date', 'u1.name', 'u1.mobile', 'financial_request.amount', 'financial_request.status as FStatus', 'financial_request.securityCode']);
+    }
+
+    /**
+     * Get incoming recharge requests for a user
+     *
+     * @param int $userId
+     * @return \Illuminate\Support\Collection
+     */
+    public function getRechargeRequestsIn(int $userId)
+    {
+        return DB::table('recharge_requests')
+            ->select('recharge_requests.Date', 'users.name as USER', 'recharge_requests.payeePhone as userphone', 'recharge_requests.amount')
+            ->leftJoin('users', 'users.idUser', '=', 'recharge_requests.idPayee')
+            ->where('recharge_requests.idUser', $userId)
+            ->get();
+    }
+
+    /**
+     * Get outgoing recharge requests for a user
+     *
+     * @param int $userId
+     * @return \Illuminate\Support\Collection
+     */
+    public function getRechargeRequestsOut(int $userId)
+    {
+        return DB::table('recharge_requests')
+            ->select('recharge_requests.Date', 'users.name as USER', 'recharge_requests.payeePhone as userphone', 'recharge_requests.amount')
+            ->leftJoin('users', 'users.idUser', '=', 'recharge_requests.idPayee')
+            ->where('recharge_requests.idSender', $userId)
+            ->get();
     }
 }
 
