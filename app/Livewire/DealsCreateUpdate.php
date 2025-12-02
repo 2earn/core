@@ -61,12 +61,10 @@ class DealsCreateUpdate extends Component
             'end_date' => ['required', 'after:start_date'],
         ];
 
-        // When creating a new deal, enforce start_date is today or later
         if (!$this->update) {
             $rules['start_date'] = ['required', 'after_or_equal:today'];
             $rules['commission_formula_id'] = 'required|integer|exists:commission_formulas,id';
         } else {
-            // When updating, allow any start_date
             $rules['start_date'] = ['required'];
         }
 
@@ -135,8 +133,8 @@ class DealsCreateUpdate extends Component
         $this->status = $deal->status;
         $this->description = $deal->description;
         $this->target_turnover = $deal->target_turnover;
-        $this->start_date = $deal->start_date ? \Carbon\Carbon::parse($deal->start_date)->format('Y-m-d') : null;
-        $this->end_date = $deal->end_date ? \Carbon\Carbon::parse($deal->end_date)->format('Y-m-d') : null;
+        $this->start_date = $deal->start_date ? \Carbon\Carbon::parse($deal->start_date)->format('Y-m-d\TH:i') : null;
+        $this->end_date = $deal->end_date ? \Carbon\Carbon::parse($deal->end_date)->format('Y-m-d\TH:i') : null;
         $this->items_profit_average = $deal->items_profit_average;
         $this->initial_commission = $deal->initial_commission;
         $this->final_commission = $deal->final_commission;
@@ -146,7 +144,7 @@ class DealsCreateUpdate extends Component
         $this->tree_remuneration = $deal->tree_remuneration;
         $this->proactive_cashback = $deal->proactive_cashback;
         $this->idPlatform = $deal->platform_id;
-        $this->commission_formula_id = null; // Not required for updates
+        $this->commission_formula_id = null;
         $this->update = true;
     }
 
