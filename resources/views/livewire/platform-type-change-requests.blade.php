@@ -167,8 +167,7 @@
                 </div>
             </div>
         @empty
-            <div class="col-12">
-                <div class="card border-0 shadow-sm">
+                <div class="col-12 card border-0 shadow-sm">
                     <div class="card-body text-center py-5">
                         <div class="avatar-xl mx-auto mb-4">
                             <div class="avatar-title bg-soft-info text-info rounded-circle">
@@ -185,7 +184,6 @@
                         </p>
                     </div>
                 </div>
-            </div>
         @endforelse
     </div>
 

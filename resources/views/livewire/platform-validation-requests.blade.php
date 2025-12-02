@@ -150,23 +150,21 @@
                 </div>
             </div>
         @empty
-            <div class="col-12">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body text-center py-5">
-                        <div class="avatar-xl mx-auto mb-4">
-                            <div class="avatar-title bg-soft-info text-info rounded-circle">
-                                <i class="ri-file-list-line display-4"></i>
-                            </div>
+            <div class="col-12 card border-0 shadow-sm">
+                <div class="card-body text-center py-5">
+                    <div class="avatar-xl mx-auto mb-4">
+                        <div class="avatar-title bg-soft-info text-info rounded-circle">
+                            <i class="ri-file-list-line display-4"></i>
                         </div>
-                        <h4 class="mb-2">{{__('No requests found')}}</h4>
-                        <p class="text-muted mb-4">
-                            @if($search)
-                                {{__('No requests match your search criteria')}}
-                            @else
-                                {{__('There are no platform validation requests at the moment')}}
-                            @endif
-                        </p>
                     </div>
+                    <h4 class="mb-2">{{__('No requests found')}}</h4>
+                    <p class="text-muted mb-4">
+                        @if($search)
+                            {{__('No requests match your search criteria')}}
+                        @else
+                            {{__('There are no platform validation requests at the moment')}}
+                        @endif
+                    </p>
                 </div>
             </div>
         @endforelse
