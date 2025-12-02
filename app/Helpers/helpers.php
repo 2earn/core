@@ -537,7 +537,7 @@ if (!function_exists('getValidCurrentDateTime')) {
         } else {
             $datetime = new \DateTime(date($date . ' H:i:s'));
         }
-        return $datetime->format('Y-m-d H:i:s');
+        return $datetime->format(config('app.date_format'));
     }
 }
 

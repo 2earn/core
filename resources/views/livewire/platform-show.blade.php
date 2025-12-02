@@ -19,7 +19,7 @@
                     <div class="row">
                         <div class="col-lg-8">
                             <div class="d-flex align-items-end mb-3" style="margin-top: -60px;">
-                                
+
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar-xl border border-4 border-white rounded-circle bg-white shadow">
                                         @if ($platform?->logoImage)
@@ -34,7 +34,7 @@
                                     </div>
                                 </div>
 
-                                
+
                                 <div class="flex-grow-1">
                                     <h3 class="mb-1" title="ID: {{$platform->id}}">
                                         {{\App\Models\TranslaleModel::getTranslation($platform,'name',$platform->name)}}
@@ -65,7 +65,7 @@
                                         @if($platform->created_at)
                                             <div class="text-muted">
                                                 <i class="ri-calendar-line align-middle me-1"></i>
-                                                <span>{{__('Joined')}} {{$platform->created_at->format('M d, Y')}}</span>
+                                                <span>{{__('Joined')}} {{$platform->created_at->format(config('app.date_format'))}}</span>
                                             </div>
                                         @endif
                                     </div>
@@ -308,12 +308,12 @@
                             @endif
                             <tr>
                                 <td class="text-muted">{{__('Created At')}}</td>
-                                <td class="fw-medium text-end">{{$platform->created_at->format('M d, Y')}}</td>
+                                <td class="fw-medium text-end">{{$platform->created_at->format(config('app.date_format'))}}</td>
                             </tr>
                             @if($platform->updated_at)
                                 <tr>
                                     <td class="text-muted">{{__('Updated At')}}</td>
-                                    <td class="fw-medium text-end">{{$platform->updated_at->format('M d, Y')}}</td>
+                                    <td class="fw-medium text-end">{{$platform->updated_at->format(config('app.date_format'))}}</td>
                                 </tr>
                             @endif
                             </tbody>

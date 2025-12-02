@@ -66,7 +66,7 @@ class Contacts extends Component
                     }
                 } else {
                     if ($contactUser->idUpline == 11111111) {
-                        $dateUpline = \DateTime::createFromFormat('Y-m-d H:i:s', $user->dateUpline);
+                        $dateUpline = \DateTime::createFromFormat(config('app.date_format'), $user->dateUpline);
                         $delaiDateUpline = $dateUpline->diff(now());
                         $diffDateUpline = ($delaiDateUpline->days * 24) + $delaiDateUpline->h;
                         if ($diffDateUpline < $sponsorshipRetardatifReservation->IntegerValue) {
@@ -83,7 +83,7 @@ class Contacts extends Component
                     $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Available'), 'success', true, false);
                 } else {
                     if (strtotime($contactUser->reserved_at)) {
-                        $reserved_at = \DateTime::createFromFormat('Y-m-d H:i:s', $user->reserved_at);
+                        $reserved_at = \DateTime::createFromFormat(config('app.date_format'), $user->reserved_at);
                         $delai = $reserved_at->diff(now());
                         $diff = ($delai->days * 24) + $delai->h;
                         $reste = $reservation - $diff;
@@ -93,7 +93,7 @@ class Contacts extends Component
                             $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Reserved for') . ' ' . $reste . ' ' . Lang::get('hours'), 'warning', false, true);
                         } else {
                             if (!is_null($user->reserved_at) and strtotime($user->reserved_at)) {
-                                $reserved_at = \DateTime::createFromFormat('Y-m-d H:i:s', $user->reserved_at);
+                                $reserved_at = \DateTime::createFromFormat(config('app.date_format'), $user->reserved_at);
                                 $interval = $reserved_at->diff(now());
                                 $delai = ($interval->days * 24) + $interval->h;
                                 $resteReserved = $reservation + $switchBlock - $delai;
@@ -107,7 +107,7 @@ class Contacts extends Component
                     } else {
                         if ($diff < $reservation) {
                             if (!is_null($user->reserved_at) and strtotime($user->reserved_at)) {
-                                $reserved_at = \DateTime::createFromFormat('Y-m-d H:i:s', $user->reserved_at);
+                                $reserved_at = \DateTime::createFromFormat(config('app.date_format'), $user->reserved_at);
                                 $interval = $reserved_at->diff(now());
                                 $diff = ($delai->days * 24) + $delai->h;
                                 $reste = $reservation - $diff;

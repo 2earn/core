@@ -98,16 +98,16 @@
                                 <div class="row mt-2">
                                     <div class="col-md-6 mb-2">
                                         <small class="text-muted">{{__('Attachment Date')}}</small>
-                                        <div>{{ $coupon->attachment_date ? \Carbon\Carbon::parse($coupon->attachment_date)->format('Y-m-d H:i') : '-' }}</div>
+                                        <div>{{ $coupon->attachment_date ? \Carbon\Carbon::parse($coupon->attachment_date)->format(config('app.date_format')) : '-' }}</div>
                                     </div>
                                     <div class="col-md-6 mb-2">
                                         <small class="text-muted">{{__('Consumption Date')}}</small>
-                                        <div>{{ $coupon->consumption_date ? \Carbon\Carbon::parse($coupon->consumption_date)->format('Y-m-d H:i') : '-' }}</div>
+                                        <div>{{ $coupon->consumption_date ? \Carbon\Carbon::parse($coupon->consumption_date)->format(config('app.date_format')) : '-' }}</div>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mt-3">
                                     <div class="small text-muted">
-                                        {{__('Created at')}}: {{ $coupon->created_at->format('Y-m-d H:i:s') }}
+                                        {{__('Created at')}}: {{ $coupon->created_at->format(config('app.date_format')) }}
                                     </div>
                                     <div>
                                         @if(!$coupon->consumed)

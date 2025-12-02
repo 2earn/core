@@ -32,6 +32,10 @@ class DealsIndex extends Component
     public $selectedStatuses = [];
     public $selectedTypes = [];
     public $selectedPlatforms = [];
+    public $startDateFrom = null;
+    public $startDateTo = null;
+    public $endDateFrom = null;
+    public $endDateTo = null;
     public $perPage = 5;
 
     protected DealService $dealService;
@@ -80,6 +84,26 @@ class DealsIndex extends Component
         $this->resetPage();
     }
 
+    public function updatingStartDateFrom()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingStartDateTo()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingEndDateFrom()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingEndDateTo()
+    {
+        $this->resetPage();
+    }
+
 
     public function updateDeal($id, $status)
     {
@@ -111,6 +135,10 @@ class DealsIndex extends Component
             $this->selectedStatuses,
             $this->selectedTypes,
             $this->selectedPlatforms,
+            $this->startDateFrom,
+            $this->startDateTo,
+            $this->endDateFrom,
+            $this->endDateTo,
             $this->perPage
         );
 

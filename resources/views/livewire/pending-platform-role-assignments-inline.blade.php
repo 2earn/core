@@ -42,7 +42,7 @@
                                 </span>
                             </td>
                             <td class="text-center">
-                                <small class="text-muted">{{$assignment->created_at->format('M d, Y')}}</small>
+                                <small class="text-muted">{{$assignment->created_at->format(config('app.date_format'))}}</small>
                             </td>
                             <td class="text-end">
                                 <a href="{{route('platform_role_assignments', ['locale' => app()->getLocale()])}}"

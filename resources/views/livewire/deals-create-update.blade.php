@@ -35,13 +35,13 @@
 
                         <div class="form-group col-3 mb-3">
                             <label for="start_date">{{__('Start Date')}}:</label>
-                            <input class="form-control" wire:model.live="start_date" type="date"
+                            <input class="form-control" wire:model.live="start_date" type="datetime-local"
                                    id="start_date" placeholder="{{__('Start Date')}}">
                             @error('start_date') <span class="text-danger">{{ $message }}</span>@enderror
                         </div>
                         <div class="form-group col-3 mb-3">
                             <label for="end_date">{{__('End Date')}}:</label>
-                            <input class="form-control" wire:model.live="end_date" type="date"
+                            <input class="form-control" wire:model.live="end_date" type="datetime-local"
                                    id="end_date" placeholder="{{__('End Date')}}">
                             @error('end_date') <span class="text-danger">{{ $message }}</span>@enderror
                         </div>

@@ -19,7 +19,7 @@ class CashBalancesService
      */
     public function getTodaySales(int $beneficiaryId, int $operationId = 42): ?float
     {
-        $today = Carbon::now()->format('Y-m-d');
+        $today = Carbon::now()->format(config('app.date_format'));
 
         return CashBalances::where('balance_operation_id', $operationId)
             ->where('beneficiary_id', $beneficiaryId)

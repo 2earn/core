@@ -147,7 +147,7 @@
                                     <h6 class="mb-1 fw-bold text-primary">{{__('id')}}: {{ $share->id }}</h6>
                                     <small class="text-muted">
                                         <i class="ri-calendar-line me-1"></i>
-                                        {{ \Carbon\Carbon::parse($share->created_at)->format('Y-m-d H:i:s') }}
+                                        {{ \Carbon\Carbon::parse($share->created_at)->format(config('app.date_format')) }}
                                     </small>
                                 </div>
                                 <span class="badge {{ $earnings >= 0 ? 'bg-success' : 'bg-danger' }}">
@@ -321,7 +321,7 @@
             }
 
             function startCountDownDate(dateVal) {
-                const d1 = new Date(Date.parse('{{ date('Y-m-d H:i:s')}}'));
+                const d1 = new Date(Date.parse('{{ date(config('app.date_format'))}}'));
                 const d2 = new Date();
                 return new Date(new Date(dateVal).getTime() + (d2 - d1));
             }

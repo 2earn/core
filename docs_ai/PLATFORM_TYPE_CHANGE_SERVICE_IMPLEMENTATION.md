@@ -201,7 +201,7 @@ public function handle(PlatformTypeChangeRequestService $service)
                 $request->platform->name,
                 $request->old_type,
                 $request->new_type,
-                $request->created_at->format('Y-m-d H:i')
+                $request->created_at->format(config('app.date_format'))
             ];
         })
     );

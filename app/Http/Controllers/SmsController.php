@@ -82,7 +82,7 @@ class SmsController extends Controller
             })
             ->editColumn('created_at', function ($sms) {
                 return '<div>' .
-                       '<div>' . $sms->created_at->format('Y-m-d') . '</div>' .
+                       '<div>' . $sms->created_at->format(config('app.date_format')) . '</div>' .
                        '<small class="text-muted">' . $sms->created_at->format('H:i:s') . '</small>' .
                        '</div>';
             })

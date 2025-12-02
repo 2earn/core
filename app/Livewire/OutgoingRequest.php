@@ -15,7 +15,6 @@ class OutgoingRequest extends Component
     public $requestToMee;
     public $filter;
 
-    const DATE_FORMAT = 'Y-m-d H:i:s';
 
     protected $listeners = [
         'ShowCanceled' => 'ShowCanceled',
@@ -43,7 +42,7 @@ class OutgoingRequest extends Component
             return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 4])->with('danger', Lang::get('Invalid financial request'));
         }
         FinancialRequest::where('numeroReq', '=', $num)->update(
-            ['status' => 3, 'idUserAccepted' => $userAuth->idUser, 'dateAccepted' => date(self::DATE_FORMAT)]
+            ['status' => 3, 'idUserAccepted' => $userAuth->idUser, 'dateAccepted' => date(config('app.date_format'))]
         );
         return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 4])->with('success', Lang::get('Delete request accepted'));
     }

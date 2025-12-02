@@ -45,9 +45,9 @@ class EventCreateUpdate extends Component
             $this->update = true;
             $this->edit($this->idEvent);
         } else {
-            $this->published_at = date('Y-m-d\TH:i');
-            $this->start_at = date('Y-m-d\TH:i');
-            $this->end_at = date('Y-m-d\TH:i');
+            $this->published_at = date(config('app.date_format'));
+            $this->start_at = date(config('app.date_format'));
+            $this->end_at = date(config('app.date_format'));
             $this->update = false;
             $this->enabled = false;
         }
@@ -65,9 +65,9 @@ class EventCreateUpdate extends Component
         $this->title = $event->title;
         $this->content = $event->content;
         $this->enabled = $event->enabled == 1 ? true : false;
-        $this->published_at = $event->published_at ? $event->published_at->format('Y-m-d\TH:i') : null;
-        $this->start_at = $event->start_at ? $event->start_at->format('Y-m-d\TH:i') : null;
-        $this->end_at = $event->end_at ? $event->end_at->format('Y-m-d\TH:i') : null;
+        $this->published_at = $event->published_at ? $event->published_at->format(config('app.date_format')) : null;
+        $this->start_at = $event->start_at ? $event->start_at->format(config('app.date_format')) : null;
+        $this->end_at = $event->end_at ? $event->end_at->format(config('app.date_format')) : null;
         $this->location = $event->location;
         $this->selectedHashtags = $event->hashtags()->get()->pluck('id')->toArray();
 

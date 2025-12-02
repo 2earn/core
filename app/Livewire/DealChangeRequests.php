@@ -63,7 +63,7 @@ class DealChangeRequests extends Component
             'platform_name' => $request->deal->platform->name ?? 'N/A',
             'changes' => $request->changes,
             'status' => $request->status,
-            'requested_at' => $request->created_at->format('Y-m-d H:i:s'),
+            'requested_at' => $request->created_at->format(config('app.date_format')),
         ];
         $this->showChangesModal = true;
     }
@@ -176,7 +176,6 @@ class DealChangeRequests extends Component
             $request->status = 'rejected';
             $request->rejection_reason = $this->rejectionReason;
             $request->reviewed_by = Auth::id();
-            $request->updated_by = Auth::id();
             $request->reviewed_at = now();
             $request->save();
 

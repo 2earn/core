@@ -257,12 +257,15 @@ class DealService
         array   $selectedStatuses = [],
         array   $selectedTypes = [],
         array   $selectedPlatforms = [],
+        ?string $startDateFrom = null,
+        ?string $startDateTo = null,
+        ?string $endDateFrom = null,
+        ?string $endDateTo = null,
         ?int    $perPage = null
     )
     {
         $query = Deal::query();
 
-        // Apply user permission filters
         if ($isSuperAdmin) {
             $query->whereNot('status', \Core\Enum\DealStatus::Archived->value);
         } else {
@@ -285,18 +288,30 @@ class DealService
             $query->whereIn('type', $selectedTypes);
         }
 
-        // Apply platform filter
         if (!empty($selectedPlatforms)) {
             $query->whereIn('platform_id', $selectedPlatforms);
         }
 
-        // Eager load relationships
+        if ($startDateFrom) {
+            $query->where('start_date', '>=', $startDateFrom);
+        }
+
+        if ($startDateTo) {
+            $query->where('start_date', '<=', $startDateTo);
+        }
+
+        if ($endDateFrom) {
+            $query->where('end_date', '>=', $endDateFrom);
+        }
+
+        if ($endDateTo) {
+            $query->where('end_date', '<=', $endDateTo);
+        }
+
         $query->with(['platform', 'pendingChangeRequest.requestedBy']);
 
-        // Apply ordering
         $query->orderBy('validated', 'ASC')->orderBy('platform_id', 'ASC');
 
-        // Return paginated or all results
         return $perPage ? $query->paginate($perPage) : $query->get();
     }
 

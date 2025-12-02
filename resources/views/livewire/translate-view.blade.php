@@ -360,11 +360,11 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                 <div class="mt-2 small text-muted">
                                                     <div class="mb-1">
                                                         <i class="ri-add-line me-1"></i>
-                                                        {{ \Carbon\Carbon::parse($value->created_at)->format('d M Y, H:i') }}
+                                                        {{ \Carbon\Carbon::parse($value->created_at)->format(config('app.date_format')) }}
                                                     </div>
                                                     <div>
                                                         <i class="ri-edit-2-line me-1"></i>
-                                                        {{ \Carbon\Carbon::parse($value->updated_at)->format('d M Y, H:i') }}
+                                                        {{ \Carbon\Carbon::parse($value->updated_at)->format(config('app.date_format')) }}
                                                     </div>
                                                 </div>
                                             </div>

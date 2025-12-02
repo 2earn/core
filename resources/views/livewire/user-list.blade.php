@@ -95,7 +95,7 @@
                                             {{__('Created')}}
                                         </p>
                                         <p class="text-dark fs-12 mb-0 mt-1 fw-medium">
-                                            {{ $user->created_at ? $user->created_at->format('Y-m-d H:i') : '-' }}
+                                            {{ $user->created_at ? $user->created_at->format(config('app.date_format')) : '-' }}
                                         </p>
                                     </div>
                                 </div>

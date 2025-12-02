@@ -56,11 +56,11 @@ class AcceptFinancialRequest extends Component
         $detailRequst = detail_financial_request::where('numeroRequest', '=', $num)->where('idUser', '=', $userAuth->idUser)->first();
         if (!$detailRequst) return;
         detail_financial_request::where('numeroRequest', '=', $num)->where('response', '=', null)
-            ->update(['response' => 3, 'dateResponse' => date('Y-m-d H:i:s')]);
+            ->update(['response' => 3, 'dateResponse' => date(config('app.date_format'))]);
         detail_financial_request::where('numeroRequest', '=', $num)->where('idUser', '=', $userAuth->idUser)
-            ->update(['response' => 1, 'dateResponse' => date('Y-m-d H:i:s')]);
+            ->update(['response' => 1, 'dateResponse' => date(config('app.date_format'))]);
         FinancialRequest::where('numeroReq', '=', $num)
-            ->update(['status' => 1, 'idUserAccepted' => $userAuth->idUser, 'dateAccepted' => date('Y-m-d H:i:s')]);
+            ->update(['status' => 1, 'idUserAccepted' => $userAuth->idUser, 'dateAccepted' => date(config('app.date_format'))]);
         return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 5])->with('success', Lang::get('accepted Request'));
     }
 

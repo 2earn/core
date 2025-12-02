@@ -79,7 +79,7 @@
                                         </div>
                                         <div class="mb-2">
                                             <small
-                                                class="text-muted">{{ \Carbon\Carbon::parse($share->created_at)->format('Y-m-d H:i:s') }}</small>
+                                                class="text-muted">{{ \Carbon\Carbon::parse($share->created_at)->format(config('app.date_format')) }}</small>
                                         </div>
                                         <div>
                                             @if($share->payed == 1)

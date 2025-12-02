@@ -1,3 +1,6 @@
+@php
+    $dateFormat = config('app.date_format');
+@endphp
 <div class="{{getContainerType()}}">
     @section('title')
         {{ __('Deals') }}
@@ -112,6 +115,48 @@
                                 @endforeach
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="row g-3 mt-3">
+                    <div class="col-sm-12 col-md-6 col-lg-3">
+                        <label class="form-label fw-bold text-muted">
+                            <i class="fas fa-calendar me-2"></i>{{__('Start Date From')}}
+                        </label>
+                        <input class="form-control shadow-sm"
+                               type="datetime-local"
+                               wire:model="startDateFrom"
+                               placeholder="{{__('Start Date From')}}">
+                    </div>
+
+                    <div class="col-sm-12 col-md-6 col-lg-3">
+                        <label class="form-label fw-bold text-muted">
+                            <i class="fas fa-calendar me-2"></i>{{__('Start Date To')}}
+                        </label>
+                        <input class="form-control shadow-sm"
+                               type="datetime-local"
+                               wire:model="startDateTo"
+                               placeholder="{{__('Start Date To')}}">
+                    </div>
+
+                    <div class="col-sm-12 col-md-6 col-lg-3">
+                        <label class="form-label fw-bold text-muted">
+                            <i class="fas fa-calendar me-2"></i>{{__('End Date From')}}
+                        </label>
+                        <input class="form-control shadow-sm"
+                               type="datetime-local"
+                               wire:model="endDateFrom"
+                               placeholder="{{__('End Date From')}}">
+                    </div>
+
+                    <div class="col-sm-12 col-md-6 col-lg-3">
+                        <label class="form-label fw-bold text-muted">
+                            <i class="fas fa-calendar me-2"></i>{{__('End Date To')}}
+                        </label>
+                        <input class="form-control shadow-sm"
+                               type="datetime-local"
+                               wire:model="endDateTo"
+                               placeholder="{{__('End Date To')}}">
                     </div>
                 </div>
             </div>
@@ -230,7 +275,7 @@
                                     <i class="fas fa-calendar-alt me-1"></i>{{__('Start Date')}}
                                 </p>
                                 <span class="badge bg-info-subtle text-info px-2 py-1">
-                                    {{$deal->start_date ? \Carbon\Carbon::parse($deal->start_date)->format('Y-m-d') : __('N/A')}}
+                                    {{$deal->start_date ? \Carbon\Carbon::parse($deal->start_date)->format($dateFormat) : __('N/A')}}
                                 </span>
                             </div>
                         </div>
@@ -240,7 +285,7 @@
                                     <i class="fas fa-calendar-times me-1"></i>{{__('End Date')}}
                                 </p>
                                 <span class="badge bg-danger-subtle text-danger px-2 py-1">
-                                    {{$deal->end_date ? \Carbon\Carbon::parse($deal->end_date)->format('Y-m-d') : __('N/A')}}
+                                    {{$deal->end_date ? \Carbon\Carbon::parse($deal->end_date)->format($dateFormat) : __('N/A')}}
                                 </span>
                             </div>
                         </div>
@@ -284,7 +329,7 @@
                                     @if($deal->pendingChangeRequest->requestedBy)
                                         <small class="d-block text-muted mt-1">
                                             <i class="fas fa-user me-1"></i>{{__('Requested by')}}
-                                            : {{$deal->pendingChangeRequest->requestedBy->name}}
+                                            : {{ getUserDisplayedNameFromId($deal->pendingChangeRequest->requestedBy->id)}}
                                         </small>
                                     @endif
                                 </div>

@@ -24,10 +24,10 @@
                                 <strong>{{ __('Created by:') }}</strong> {{ getUserDisplayedName($guide->user->idUser) ?? __('Unknown') }}
                             </p>
                             <p>
-                                <strong>{{ __('Created at:') }}</strong> {{ $guide->created_at ? $guide->created_at->format('Y-m-d H:i') : __('N/A') }}
+                                <strong>{{ __('Created at:') }}</strong> {{ $guide->created_at ? $guide->created_at->format(config('app.date_format')) : __('N/A') }}
                             </p>
                             <p>
-                                <strong>{{ __('Updated at:') }}</strong> {{ $guide->updated_at ? $guide->updated_at->format('Y-m-d H:i') : __('N/A') }}
+                                <strong>{{ __('Updated at:') }}</strong> {{ $guide->updated_at ? $guide->updated_at->format(config('app.date_format')) : __('N/A') }}
                             </p>
                             @if($guide->file_path && \Illuminate\Support\Facades\Storage::disk('public')->exists($guide->file_path))
                                 <p><strong>{{ __('Attachment:') }}</strong> <a

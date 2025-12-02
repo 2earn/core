@@ -178,7 +178,7 @@
                         <p class="card-text mb-0">
                             <i class="ri-calendar-line align-middle me-1 text-muted"></i>
                             <strong class="text-muted">{{__('Created at')}}:</strong>
-                            <small class="text-muted ms-1">{{$business_sector->created_at->format('M d, Y')}}</small>
+                            <small class="text-muted ms-1">{{$business_sector->created_at->format(config('app.date_format'))}}</small>
                         </p>
                     </div>
                     @if(\App\Models\User::isSuperAdmin())
@@ -187,7 +187,7 @@
                                 <i class="ri-time-line align-middle me-1 text-muted"></i>
                                 <strong class="text-muted">{{__('Updated at')}}:</strong>
                                 <small
-                                    class="text-muted ms-1">{{$business_sector->updated_at->format('M d, Y')}}</small>
+                                    class="text-muted ms-1">{{$business_sector->updated_at->format(config('app.date_format'))}}</small>
                             </p>
                         </div>
                     @endif

@@ -399,7 +399,7 @@
             }
 
             function startCountDownDate(dateVal) {
-                const d1 = new Date(Date.parse('{{ date('Y-m-d H:i:s')}}'));
+                const d1 = new Date(Date.parse('{{ date(config('app.date_format'))}}'));
                 const d2 = new Date();
                 return new Date(new Date(dateVal).getTime() + (d2 - d1));
             }

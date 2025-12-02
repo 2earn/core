@@ -62,12 +62,12 @@
                 <div class="d-flex gap-3 text-muted small flex-wrap">
                 <span>
                     <i class="fa fa-calendar me-1"></i>
-                    <strong>{{__('Created at')}}:</strong> {{ $news->created_at->format('M d, Y H:i') }}
+                    <strong>{{__('Created at')}}:</strong> {{ $news->created_at->format(config('app.date_format')) }}
                 </span>
                     @if($news->updated_at)
                         <span>
                         <i class="fa fa-edit me-1"></i>
-                        <strong>{{__('Updated at')}}:</strong> {{ $news->updated_at->format('M d, Y H:i') }}
+                        <strong>{{__('Updated at')}}:</strong> {{ $news->updated_at->format(config('app.date_format')) }}
                     </span>
                     @endif
                 </div>

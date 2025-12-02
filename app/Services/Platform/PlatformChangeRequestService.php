@@ -143,11 +143,9 @@ class PlatformChangeRequestService
             throw new \Exception('This request has already been processed');
         }
 
-        // Update request status
         $request->status = 'rejected';
         $request->rejection_reason = $rejectionReason;
         $request->reviewed_by = $reviewedBy;
-        $request->updated_by = $reviewedBy;
         $request->reviewed_at = now();
         $request->save();
 
