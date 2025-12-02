@@ -2,14 +2,14 @@
 
 namespace App\Livewire;
 
-use App\Models\CommittedInvestorRequest;
-use App\Models\InstructorRequest;
 use App\Services\Balances\Balances;
+use App\Services\CommittedInvestor\CommittedInvestorRequestService;
+use App\Services\InstructorRequest\InstructorRequestService;
+use App\Services\Settings\SettingsService;
 use App\Models\User;
 use Core\Enum\RequestStatus;
 use Core\Enum\BeInstructorRequestStatus;
 use Core\Enum\StatusRequest;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class AdditionalIncome extends Component
@@ -27,19 +27,24 @@ class AdditionalIncome extends Component
     public function sendInstructorRequest()
     {
         if ($this->isInstructor) {
-            $lastInstructorRequest = InstructorRequest::where('user_id', auth()->user()->id)
-                ->where('status', BeInstructorRequestStatus::InProgress->value)
-                ->orderBy('created_at', 'DESC')->first();
+            $instructorRequestService = app(InstructorRequestService::class);
+
+            $lastInstructorRequest = $instructorRequestService->getLastInstructorRequestByStatus(
+                auth()->user()->id,
+                BeInstructorRequestStatus::InProgress->value
+            );
 
             if (is_null($lastInstructorRequest)) {
-                $instructorRequest=  InstructorRequest::Create([
+                $instructorRequest = $instructorRequestService->createInstructorRequest([
                     'user_id' => auth()->user()->id,
                     'request_date' => now(),
                     'status' => BeInstructorRequestStatus::InProgress->value
                 ]);
-                User::find($instructorRequest->user_id)->update(['instructor' => BeInstructorRequestStatus::InProgress->value]);
 
-                return redirect()->route('business_hub_additional_income', app()->getLocale())->with('success', trans('Your instructor request is sent'));
+                if ($instructorRequest) {
+                    User::find($instructorRequest->user_id)->update(['instructor' => BeInstructorRequestStatus::InProgress->value]);
+                    return redirect()->route('business_hub_additional_income', app()->getLocale())->with('success', trans('Your instructor request is sent'));
+                }
             } else {
                 return redirect()->route('business_hub_additional_income', app()->getLocale())->with('warning', trans('You have one instructor request under reviewing'));
             }
@@ -50,12 +55,15 @@ class AdditionalIncome extends Component
     public function sendCommitedInvestorRequest()
     {
         if ($this->isCommitedInvestor) {
-            $lastCommittedInvestorRequest = CommittedInvestorRequest::where('user_id', auth()->user()->id)
-                ->where('status', RequestStatus::InProgress->value)
-                ->orderBy('created_at', 'DESC')->first();
+            $committedInvestorRequestService = app(CommittedInvestorRequestService::class);
+
+            $lastCommittedInvestorRequest = $committedInvestorRequestService->getLastCommittedInvestorRequestByStatus(
+                auth()->user()->id,
+                RequestStatus::InProgress->value
+            );
 
             if (is_null($lastCommittedInvestorRequest)) {
-                CommittedInvestorRequest::Create([
+                $committedInvestorRequestService->createCommittedInvestorRequest([
                     'user_id' => auth()->user()->id,
                     'request_date' => now(),
                     'status' => RequestStatus::InProgress->value
@@ -70,25 +78,21 @@ class AdditionalIncome extends Component
 
     public function getBeCommitedInvestorMinActions()
     {
-        $param = DB::table('settings')->where("ParameterName", "=", "BE_COMMITED_INVESTOR")->first();
-        if (!is_null($param)) {
-            return $param->IntegerValue;
-        } else {
-            return self::BE_COMMITED_INVESTOR;
-        }
+        return app(SettingsService::class)->getIntegerParameter('BE_COMMITED_INVESTOR', self::BE_COMMITED_INVESTOR);
     }
 
     public function render()
     {
+        $instructorRequestService = app(InstructorRequestService::class);
+        $committedInvestorRequestService = app(CommittedInvestorRequestService::class);
 
         $soldesAction = is_null(Balances::getStoredUserBalances(auth()->user()->idUser, Balances::SHARE_BALANCE)) ? 0 : Balances::getStoredUserBalances(auth()->user()->idUser, Balances::SHARE_BALANCE);
         $beCommitedInvestorMinActions = $this->getBeCommitedInvestorMinActions();
 
-        $lastCommittedInvestorRequest = CommittedInvestorRequest::where('user_id', auth()->user()->id)->orderBy('created_at', 'DESC')->first();
-        $lastInstructorRequest = InstructorRequest::where('user_id', auth()->user()->id)->orderBy('created_at', 'DESC')->first();
+        $lastCommittedInvestorRequest = $committedInvestorRequestService->getLastCommittedInvestorRequest(auth()->user()->id);
+        $lastInstructorRequest = $instructorRequestService->getLastInstructorRequest(auth()->user()->id);
 
-
-        $validatedUser = in_array(auth()->user()->status, [StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value, StatusRequest::ValidNational->value]);;
+        $validatedUser = in_array(auth()->user()->status, [StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value, StatusRequest::ValidNational->value]);
 
         if (auth()->user()->commited_investor == true || (!is_null($lastCommittedInvestorRequest) && $lastCommittedInvestorRequest->status == RequestStatus::InProgress->value)) {
             $this->isCommitedInvestor = true;
@@ -97,8 +101,6 @@ class AdditionalIncome extends Component
         if ($lastCommittedInvestorRequest?->status == RequestStatus::InProgress->value || auth()->user()->commited_investor == true || $soldesAction < $beCommitedInvestorMinActions) {
             $this->isCommitedInvestorDisabled = true;
         }
-
-
 
         if (auth()->user()->instructor == BeInstructorRequestStatus::Validated->value ||auth()->user()->instructor == BeInstructorRequestStatus::Validated2earn->value || (!is_null($lastInstructorRequest) && ($lastInstructorRequest->status == BeInstructorRequestStatus::InProgress->value))) {
             $this->isInstructor = true;

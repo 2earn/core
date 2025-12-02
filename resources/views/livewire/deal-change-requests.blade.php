@@ -40,11 +40,10 @@
             </div>
     </div>
 
-    <!-- Requests List -->
+
     <div class="row g-3">
         @forelse($requests as $request)
-            <div class="col-12">
-                <div class="card border-0 shadow-sm hover-shadow">
+                <div class="col-12 card border-0 shadow-sm hover-shadow">
                     <div class="card-body p-4">
                         <div class="row align-items-center">
                             <!-- Deal Info -->
@@ -142,7 +141,6 @@
                         @endif
                     </div>
                 </div>
-            </div>
         @empty
                 <div class="col-12 card border-0 shadow-sm">
                     <div class="card-body text-center py-5">

@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\DealChangeRequest;
+use App\Services\DealChangeRequest\DealChangeRequestService;
 use App\Services\Deals\DealService;
 use App\Services\Deals\PendingDealChangeRequestsInlineService;
 use Illuminate\Support\Facades\Auth;
@@ -20,17 +20,14 @@ class DealChangeRequests extends Component
     public $statusFilter = 'pending';
     public $perPage = 10;
 
-    // Rejection modal properties
     public $showRejectModal = false;
     public $rejectRequestId = null;
     public $rejectionReason = '';
 
-    // Approval modal properties
     public $showApproveModal = false;
     public $approveRequestId = null;
     public $approveRequestChanges = [];
 
-    // View changes modal
     public $showChangesModal = false;
     public $viewChangesRequestId = null;
     public $viewChangesData = [];
@@ -234,18 +231,13 @@ class DealChangeRequests extends Component
 
     public function render()
     {
-        $requests = DealChangeRequest::with(['deal.platform', 'requestedBy', 'reviewedBy'])
-            ->when($this->search, function ($query) {
-                $query->whereHas('deal', function ($q) {
-                    $q->where('name', 'like', '%' . $this->search . '%')
-                      ->orWhere('id', 'like', '%' . $this->search . '%');
-                });
-            })
-            ->when($this->statusFilter !== 'all', function ($query) {
-                $query->where('status', $this->statusFilter);
-            })
-            ->orderBy('created_at', 'desc')
-            ->paginate($this->perPage);
+        $dealChangeRequestService = app(DealChangeRequestService::class);
+
+        $requests = $dealChangeRequestService->getPaginatedRequests(
+            $this->search,
+            $this->statusFilter,
+            $this->perPage
+        );
 
         return view('livewire.deal-change-requests', [
             'requests' => $requests
