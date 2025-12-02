@@ -53,6 +53,25 @@ class PlatformValidationRequestService
     }
 
     /**
+     * Create a new platform validation request
+     *
+     * @param int $platformId
+     * @param int $requestedBy
+     * @return PlatformValidationRequest
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function createRequest(int $platformId, int $requestedBy): PlatformValidationRequest
+    {
+        $request = new PlatformValidationRequest();
+        $request->platform_id = $platformId;
+        $request->status = PlatformValidationRequest::STATUS_PENDING;
+        $request->requested_by = $requestedBy;
+        $request->save();
+
+        return $request;
+    }
+
+    /**
      * Find a platform validation request by ID
      *
      * @param int $requestId
@@ -151,7 +170,7 @@ class PlatformValidationRequestService
         if ($search) {
             $query->whereHas('platform', function ($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%')
-                  ->orWhere('id', 'like', '%' . $search . '%');
+                    ->orWhere('id', 'like', '%' . $search . '%');
             });
         }
 
