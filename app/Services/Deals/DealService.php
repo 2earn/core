@@ -257,6 +257,10 @@ class DealService
         array   $selectedStatuses = [],
         array   $selectedTypes = [],
         array   $selectedPlatforms = [],
+        ?string $startDateFrom = null,
+        ?string $startDateTo = null,
+        ?string $endDateFrom = null,
+        ?string $endDateTo = null,
         ?int    $perPage = null
     )
     {
@@ -288,6 +292,24 @@ class DealService
         // Apply platform filter
         if (!empty($selectedPlatforms)) {
             $query->whereIn('platform_id', $selectedPlatforms);
+        }
+
+        // Apply start date filters
+        if ($startDateFrom) {
+            $query->where('start_date', '>=', $startDateFrom);
+        }
+
+        if ($startDateTo) {
+            $query->where('start_date', '<=', $startDateTo);
+        }
+
+        // Apply end date filters
+        if ($endDateFrom) {
+            $query->where('end_date', '>=', $endDateFrom);
+        }
+
+        if ($endDateTo) {
+            $query->where('end_date', '<=', $endDateTo);
         }
 
         // Eager load relationships
