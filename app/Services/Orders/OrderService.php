@@ -23,17 +23,29 @@ class OrderService
             $query = Order::with(['user', 'OrderDetails'])
                 ->where('user_id', $userId);
 
-            // Apply platform filter if provided
             if (!empty($filters['platform_id'])) {
                 $query->where('platform_id', $filters['platform_id']);
             }
 
-            // Apply status filter if provided
             if (!empty($filters['status'])) {
                 $query->where('status', $filters['status']);
             }
 
-            // Apply date range filter if provided
+            if (!empty($filters['note'])) {
+                $query->where('note', 'LIKE', '%' . $filters['note'] . '%');
+            }
+
+            if (!empty($filters['created_by'])) {
+                $query->where('created_by', $filters['created_by']);
+            }
+
+            if (!empty($filters['user_search'])) {
+                $query->whereHas('user', function ($q) use ($filters) {
+                    $q->where('email', 'LIKE', '%' . $filters['user_search'] . '%')
+                      ->orWhere('name', 'LIKE', '%' . $filters['user_search'] . '%');
+                });
+            }
+
             if (!empty($filters['start_date'])) {
                 $query->where('created_at', '>=', $filters['start_date']);
             }
@@ -41,8 +53,6 @@ class OrderService
             if (!empty($filters['end_date'])) {
                 $query->where('created_at', '<=', $filters['end_date']);
             }
-
-            // Apply ordering
             $orderBy = $filters['order_by'] ?? 'created_at';
             $orderDirection = $filters['order_direction'] ?? 'desc';
             $query->orderBy($orderBy, $orderDirection);

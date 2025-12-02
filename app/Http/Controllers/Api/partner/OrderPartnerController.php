@@ -30,6 +30,10 @@ class OrderPartnerController extends Controller
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|integer|exists:users,id',
             'platform_id' => 'nullable|integer|exists:platforms,id',
+            'note' => 'nullable|string|max:255',
+            'status' => 'nullable|integer',
+            'created_by' => 'nullable|integer|exists:users,id',
+            'user_search' => 'nullable|string|max:255',
             'limit' => 'nullable|integer|min:1',
             'page' => 'nullable|integer|min:1'
         ]);
@@ -48,7 +52,11 @@ class OrderPartnerController extends Controller
         $limit = $request->input('limit') ?? 8;
 
         $filters = [
-            'platform_id' => $request->input('platform_id')
+            'platform_id' => $request->input('platform_id'),
+            'note' => $request->input('note'),
+            'status' => $request->input('status'),
+            'created_by' => $request->input('created_by'),
+            'user_search' => $request->input('user_search')
         ];
 
         $result = $this->orderService->getUserOrders(
