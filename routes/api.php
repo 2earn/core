@@ -120,10 +120,10 @@ Route::prefix('/partner/')->name('api_partner_')
     ->group(function () {
         Route::middleware(['check.url'])->group(function () {
             Route::apiResource('platforms', PlatformPartnerController::class)->except('destroy');
-            Route::get('deals/commission-formulas', [CommissionFormulaPartnerController::class, 'index'])->name('deals_commission_formulas_index');
             Route::apiResource('deals', DealPartnerController::class)->except('destroy');
             Route::apiResource('orders', OrderPartnerController::class)->except('destroy');
             Route::apiResource('order-details', OrderDetailsPartnerController::class)->only(['store', 'update']);
+            Route::get('deals/commission-formulas', [CommissionFormulaPartnerController::class, 'index'])->name('deals_commission_formulas_index');
             Route::patch('orders/{order}/status', [OrderPartnerController::class, 'changeStatus'])->name('orders_change_status');
             Route::patch('deals/{deal}/status', [DealPartnerController::class, 'changeStatus'])->name('deals_change_status');
             Route::post('items', [ItemsPartnerController::class, 'store'])->name('items_store');
