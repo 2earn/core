@@ -81,7 +81,7 @@
                                 </div>
                             </div>
 
-                            <!-- Status and Date -->
+
                             <div class="col-lg-2 col-md-4 mb-3 mb-md-0 text-center">
                                 <div>
                                     @if($request->status === 'pending')
@@ -104,7 +104,7 @@
                                 </div>
                             </div>
 
-                            <!-- Actions -->
+
                             <div class="col-lg-3 col-md-12 text-end">
                                 @if($request->status === 'pending')
                                     <div class="d-flex gap-2 justify-content-end">
@@ -129,7 +129,7 @@
                             </div>
                         </div>
 
-                        <!-- Additional Info -->
+
                         @if($request->status === 'rejected' && $request->rejection_reason)
                             <div class="row mt-3 pt-3 border-top">
                                 <div class="col-12">
@@ -164,7 +164,7 @@
         @endforelse
     </div>
 
-    <!-- Pagination -->
+
     @if($requests->hasPages())
         <div class="row mt-2">
             <div class="col-12">

@@ -164,7 +164,7 @@
                     @endforelse
                 </div>
 
-                <!-- Pagination -->
+
                 <div class="mt-3">
                     {{ $sharesSoldes->links() }}
                 </div>

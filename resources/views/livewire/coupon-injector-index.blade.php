@@ -203,7 +203,7 @@
                     @endforelse
                 </div>
 
-                <!-- Pagination -->
+
                 <div class="mt-3">
                     {{ $coupons->links() }}
                 </div>

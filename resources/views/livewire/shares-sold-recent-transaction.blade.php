@@ -106,7 +106,7 @@
                     </div>
                 @endforelse
 
-                <!-- Pagination -->
+
                 @if($transactions->hasPages())
                     <div class="row g-0 mx-0 border-top bg-light">
                         <div class="col-12 p-3">
