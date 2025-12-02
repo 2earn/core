@@ -84,7 +84,7 @@
                                 @if($request->requestedBy)
                                     <p class="text-muted mb-0 mt-2 small">
                                         <i class="ri-user-line me-1"></i>{{__('Requested by')}}
-                                        : {{$request->requestedBy->name}}
+                                        : {{getUserDisplayedNameFromId($request->requestedBy->id)}}
                                     </p>
                                 @endif
                             </div>

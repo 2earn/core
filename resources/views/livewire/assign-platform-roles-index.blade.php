@@ -9,140 +9,138 @@
         @endslot
     @endcomponent
     <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body pb-2">
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label for="search" class="form-label">{{__('Search')}}</label>
-                            <input type="text"
-                                   wire:model.live.debounce.300ms="search"
-                                   class="form-control"
-                                   placeholder="{{__('Search by user, platform, or role...')}}">
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label for="status" class="form-label">Status</label>
-                            <select wire:model.live="selectedStatus" class="form-select">
-                                <option value="all">{{__('All Statuses')}}</option>
-                                <option value="pending">{{__('Pending')}}</option>
-                                <option value="approved">{{__('Approved')}}</option>
-                                <option value="rejected">{{__('Rejected')}}</option>
-                            </select>
-                        </div>
+        @include('layouts.flash-messages')
+    </div>
+    <div class="row">
+        <div class="col-12 card">
+            <div class="card-body pb-2">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="search" class="form-label">{{__('Search')}}</label>
+                        <input type="text"
+                               wire:model.live.debounce.300ms="search"
+                               class="form-control"
+                               placeholder="{{__('Search by user, platform, or role...')}}">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <select wire:model.live="selectedStatus" class="form-select">
+                            <option value="all">{{__('All Statuses')}}</option>
+                            <option value="pending">{{__('Pending')}}</option>
+                            <option value="approved">{{__('Approved')}}</option>
+                            <option value="rejected">{{__('Rejected')}}</option>
+                        </select>
                     </div>
                 </div>
-                <div class="row mb-3">
-                    @include('layouts.flash-messages')
-                </div>
-                <div class="card-body px-0 pt-0 pb-2">
-                    <div class="table-responsive p-0">
-                        <table class="table align-items-center mb-0">
-                            <thead>
-                            <tr>
-                                <th >{{__('ID')}}</th>
-                                <th >{{__('User')}}
-                                </th>
-                                <th >
-                                    {{__('Platform')}}
-                                </th>
-                                <th >{{__('Role')}}
-                                </th>
-                                <th >{{__('Status')}}
-                                </th>
-                                <th >{{__('Created
+            </div>
+
+            <div class="card-body px-0 pt-0 pb-2">
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                        <tr>
+                            <th>{{__('ID')}}</th>
+                            <th>{{__('User')}}
+                            </th>
+                            <th>
+                                {{__('Platform')}}
+                            </th>
+                            <th>{{__('Role')}}
+                            </th>
+                            <th>{{__('Status')}}
+                            </th>
+                            <th>{{__('Created
                                     By')}}
-                                </th>
-                                <th >
-                                    {{__('CreatedAt')}}
-                                </th>
-                                <th >
-                                    {{__('Actions')}}
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @forelse($assignments as $assignment)
-                                <tr>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0 px-3">{{ $assignment->id }}</p>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm">
-                                                    {{getUserDisplayedNameFromId($assignment->user->id)}}
-                                                </h6>
-                                                <p class="text-xs text-secondary mb-0">{{ $assignment->user->email ?? 'N/A' }}</p>
-                                            </div>
+                            </th>
+                            <th>
+                                {{__('CreatedAt')}}
+                            </th>
+                            <th>
+                                {{__('Actions')}}
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @forelse($assignments as $assignment)
+                            <tr>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0 px-3">{{ $assignment->id }}</p>
+                                </td>
+                                <td>
+                                    <div class="d-flex px-2 py-1">
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="mb-0 text-sm">
+                                                {{getUserDisplayedNameFromId($assignment->user->id)}}
+                                            </h6>
+                                            <p class="text-xs text-secondary mb-0">{{ $assignment->user->email ?? 'N/A' }}</p>
                                         </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">{{ $assignment->platform->name ?? 'N/A' }}</p>
-                                    </td>
-                                    <td>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ $assignment->platform->name ?? 'N/A' }}</p>
+                                </td>
+                                <td>
                                         <span
                                             class="badge badge-sm bg-gradient-info">{{ ucfirst(str_replace('_', ' ', $assignment->role)) }}</span>
-                                    </td>
-                                    <td>
-                                        @if($assignment->status === 'pending')
-                                            <span class="badge badge-sm bg-gradient-warning">{{__('Pending')}}</span>
-                                        @elseif($assignment->status === 'approved')
-                                            <span class="badge badge-sm bg-gradient-success">{{__('Approved')}}</span>
-                                        @elseif($assignment->status === 'rejected')
-                                            <span class="badge badge-sm bg-gradient-danger">{{__('Rejected')}}</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">{{ $assignment->creator->name ?? 'System' }}</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">{{ $assignment->created_at->format(config('app.date_format')) }}</p>
-                                    </td>
-                                    <td class="align-middle">
-                                        @if($assignment->status === 'pending')
-                                            <button wire:click="openApproveModal({{ $assignment->id }})"
-                                                    class="btn btn-success btn-sm mb-0 me-1"
-                                                    title="Approve">
-                                                <i class="fas fa-check"></i> {{__('Approve')}}
-                                            </button>
-                                            <button wire:click="openRejectModal({{ $assignment->id }})"
-                                                    class="btn btn-danger btn-sm mb-0"
-                                                    title="Reject">
-                                                <i class="fas fa-times"></i> {{__('Reject')}}
-                                            </button>
-                                        @elseif($assignment->status === 'rejected')
-                                            <button type="button"
-                                                    class="btn btn-sm btn-outline-secondary mb-0"
-                                                    data-bs-toggle="tooltip"
-                                                    title="{{ $assignment->rejection_reason }}">
-                                                <i class="fas fa-info-circle"></i> {{__('View Reason')}}
-                                            </button>
-                                        @else
-                                            <span class="text-xs text-success">
+                                </td>
+                                <td>
+                                    @if($assignment->status === 'pending')
+                                        <span class="badge badge-sm bg-gradient-warning">{{__('Pending')}}</span>
+                                    @elseif($assignment->status === 'approved')
+                                        <span class="badge badge-sm bg-gradient-success">{{__('Approved')}}</span>
+                                    @elseif($assignment->status === 'rejected')
+                                        <span class="badge badge-sm bg-gradient-danger">{{__('Rejected')}}</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ $assignment->creator->name ?? 'System' }}</p>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{ $assignment->created_at->format(config('app.date_format')) }}</p>
+                                </td>
+                                <td class="align-middle">
+                                    @if($assignment->status === 'pending')
+                                        <button wire:click="openApproveModal({{ $assignment->id }})"
+                                                class="btn btn-success btn-sm mb-0 me-1"
+                                                title="Approve">
+                                            <i class="fas fa-check"></i> {{__('Approve')}}
+                                        </button>
+                                        <button wire:click="openRejectModal({{ $assignment->id }})"
+                                                class="btn btn-danger btn-sm mb-0"
+                                                title="Reject">
+                                            <i class="fas fa-times"></i> {{__('Reject')}}
+                                        </button>
+                                    @elseif($assignment->status === 'rejected')
+                                        <button type="button"
+                                                class="btn btn-sm btn-outline-secondary mb-0"
+                                                data-bs-toggle="tooltip"
+                                                title="{{ $assignment->rejection_reason }}">
+                                            <i class="fas fa-info-circle"></i> {{__('View Reason')}}
+                                        </button>
+                                    @else
+                                        <span class="text-xs text-success">
                                                     <i class="fas fa-check-circle"></i> {{__('Processed')}}
                                                 </span>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="8" class="text-center py-4">
-                                        <p class="text-xs text-secondary mb-0">{{__('No role assignments found')}}.</p>
-                                    </td>
-                                </tr>
-                            @endforelse
-                            </tbody>
-                        </table>
-                    </div>
+                                    @endif
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="8" class="text-center py-4">
+                                    <p class="text-xs text-secondary mb-0">{{__('No role assignments found')}}.</p>
+                                </td>
+                            </tr>
+                        @endforelse
+                        </tbody>
+                    </table>
                 </div>
+            </div>
 
-                <div class="card-footer">
-                    {{ $assignments->links() }}
-                </div>
+            <div class="card-footer">
+                {{ $assignments->links() }}
             </div>
         </div>
     </div>
-
 
     @if($showRejectModal)
         <div class="modal fade show" style="display: block; background-color: rgba(0,0,0,0.5);" tabindex="-1"
@@ -171,7 +169,8 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" wire:click="closeRejectModal" class="btn btn-secondary">{{__('Cancel')}}</button>
+                        <button type="button" wire:click="closeRejectModal"
+                                class="btn btn-secondary">{{__('Cancel')}}</button>
                         <button type="button" wire:click="reject" class="btn btn-danger">
                             <i class="fas fa-times"></i> {{__('Reject Assignment')}}
                         </button>

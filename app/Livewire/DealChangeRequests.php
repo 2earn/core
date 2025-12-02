@@ -176,7 +176,6 @@ class DealChangeRequests extends Component
             $request->status = 'rejected';
             $request->rejection_reason = $this->rejectionReason;
             $request->reviewed_by = Auth::id();
-            $request->updated_by = Auth::id();
             $request->reviewed_at = now();
             $request->save();
 
