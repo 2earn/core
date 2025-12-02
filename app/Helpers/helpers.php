@@ -430,6 +430,11 @@ if (!function_exists('getUserDisplayedNameFromId')) {
     function getUserDisplayedNameFromId($id)
     {
         $user = User::find($id);
+
+        if (!$user) {
+            return null;
+        }
+
         return getUserDisplayedName($user->idUser);
     }
 }
