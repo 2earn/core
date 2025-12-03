@@ -5,8 +5,6 @@ namespace App\Livewire;
 use App\Jobs\TranslationDatabaseToFiles;
 use App\Jobs\TranslationFilesToDatabase;
 use App\Services\Translation\TranslateTabsService;
-use Core\Models\translatetabs;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -32,13 +30,6 @@ class TranslateView extends Component
     public $name;
     public $idTranslate;
     public $tab = [];
-    public $tabfin = [];
-    public $tabfinFr = [];
-    public $tabfinEn = [];
-    public $tabfinTr = [];
-    public $tabfinEs = [];
-    public $tabfinRu = [];
-    public $tabfinDe = [];
 
     public $search = '';
     public $nbrPagibation = 10;
@@ -81,18 +72,8 @@ class TranslateView extends Component
 
     public function AddFieldTranslate($val)
     {
-        if (!translatetabs::where(DB::raw('BINARY `name`'), $val)->exists()) {
-            $translateTab = [
-                'name' => $val,
-                'value' => $val . ' AR',
-                'valueFr' => $val . ' FR',
-                'valueEn' => $val . ' EN',
-                'valueTr' => $val . ' TR',
-                'valueEs' => $val . ' ES',
-                'valueRu' => $val . ' RU',
-                'valueDe' => $val . ' DE'
-            ];
-            translatetabs::create($translateTab);
+        if (!$this->translateService->exists($val)) {
+            $this->translateService->create($val);
             return redirect()->route('translate', app()->getLocale())->with('success', trans('key added successfully') . self::SEPARATION . $val);
         } else {
             return redirect()->route('translate', app()->getLocale())->with('danger', trans('key exist!'));
@@ -101,7 +82,7 @@ class TranslateView extends Component
 
     public function deleteTranslate($idTranslate)
     {
-        translatetabs::where('id', $idTranslate)->delete();
+        $this->translateService->delete($idTranslate);
         return redirect()->route('translate', app()->getLocale())->with('success', Lang::get('Translation item deleted'));
     }
 
@@ -175,7 +156,7 @@ class TranslateView extends Component
                 'valueRu' => $this->russianValue,
                 'valueDe' => $this->germanValue,
             ];
-            translatetabs::where('id', $this->idTranslate)->update($params);
+            $this->translateService->update($this->idTranslate, $params);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('translate', ['locale' => app()->getLocale(), 'page' => $this->page])->with('danger', trans('Edit translation failed') . " " . Lang::get($exception->getMessage()));
@@ -185,7 +166,7 @@ class TranslateView extends Component
 
     public function initTranslate($idTranslate)
     {
-        $trans = translatetabs::find($idTranslate);
+        $trans = $this->translateService->getById($idTranslate);
         if ($trans) {
             $this->idTranslate = $trans->id;
             $this->name = $trans->name;

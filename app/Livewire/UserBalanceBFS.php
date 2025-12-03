@@ -44,7 +44,6 @@ class UserBalanceBFS extends Component
             $balanceService = app(BalanceService::class);
             $response = $balanceService->getPurchaseBFSUserDatatables(Auth()->user()->idUser, $this->type);
 
-            // Get the data from the datatables response
             $data = json_decode($response->getContent(), true);
 
             return [
@@ -64,8 +63,6 @@ class UserBalanceBFS extends Component
     public function render()
     {
         $result = $this->getTransactionsData();
-
-        // Create paginator instance
         $transactions = new LengthAwarePaginator(
             $result['data'],
             $result['total'],

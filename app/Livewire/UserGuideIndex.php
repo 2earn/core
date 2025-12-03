@@ -29,7 +29,6 @@ class UserGuideIndex extends Component
     public function confirmDelete($id)
     {
         $this->deleteId = $id;
-        // dispatch a browser event so JS listeners can open the modal
         $this->dispatchBrowserEvent('show-delete-modal');
     }
 
@@ -40,7 +39,6 @@ class UserGuideIndex extends Component
             session()->flash('success', __('User guide deleted successfully.'));
             $this->deleteId = null;
             $this->resetPage();
-            // hide the modal in the browser
             $this->dispatchBrowserEvent('hide-delete-modal');
         }
     }
