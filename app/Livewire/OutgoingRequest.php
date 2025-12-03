@@ -2,8 +2,7 @@
 
 namespace App\Livewire;
 
-use Core\Models\detail_financial_request;
-use Core\Models\FinancialRequest;
+use App\Services\FinancialRequest\FinancialRequestService;
 use Core\Services\settingsManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
@@ -32,18 +31,19 @@ class OutgoingRequest extends Component
         $this->filter = $filter;
     }
 
-    public function DeleteRequest($num, settingsManager $settingsManager)
+    public function DeleteRequest($num, settingsManager $settingsManager, FinancialRequestService $financialRequestService)
     {
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) return;
-        $financialRequest = FinancialRequest::where('numeroReq', '=', $num)->first();
+
+        $financialRequest = $financialRequestService->getByNumeroReq($num);
 
         if (!$financialRequest || $financialRequest->status != 0) {
             return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 4])->with('danger', Lang::get('Invalid financial request'));
         }
-        FinancialRequest::where('numeroReq', '=', $num)->update(
-            ['status' => 3, 'idUserAccepted' => $userAuth->idUser, 'dateAccepted' => date(config('app.date_format'))]
-        );
+
+        $financialRequestService->cancelFinancialRequest($num, $userAuth->idUser);
+
         return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 4])->with('success', Lang::get('Delete request accepted'));
     }
 
@@ -55,55 +55,31 @@ class OutgoingRequest extends Component
         return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 4, 'ShowCancel' => $val]);
     }
 
-    public function AcceptRequest($numeroRequste)
+    public function AcceptRequest($numeroRequste, FinancialRequestService $financialRequestService)
     {
-        $financialRequest = FinancialRequest::where('numeroReq', '=', $numeroRequste)->first();
+        $financialRequest = $financialRequestService->getByNumeroReq($numeroRequste);
+
         if (!$financialRequest) return;
         if ($financialRequest->status != 0) return;
+
         return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $numeroRequste]);
     }
 
-    public function render(settingsManager $settingsManager)
+    public function render(settingsManager $settingsManager, FinancialRequestService $financialRequestService)
     {
-
         $userAuth = $settingsManager->getAuthUser();
-        if ($this->showCanceled == '1') {
-            $requestFromMee = FinancialRequest::where('financial_request.idSender', $userAuth->idUser)
-                ->join('users as u1', 'financial_request.idSender', '=', 'u1.idUser')
-                ->with('details', 'details.User')
-                ->orderBy('financial_request.date', 'desc')
-                ->get(['financial_request.numeroReq', 'financial_request.date', 'u1.name', 'u1.mobile', 'financial_request.amount', 'financial_request.status as FStatus', 'financial_request.securityCode']);
-        } else {
-            $requestFromMee = FinancialRequest::where('financial_request.idSender', $userAuth->idUser)
-                ->where('financial_request.Status', '!=', '3')
-                ->join('users as u1', 'financial_request.idSender', '=', 'u1.idUser')
-                ->with('details', 'details.User')
-                ->orderBy('financial_request.date', 'desc')
-                ->get(['financial_request.numeroReq', 'financial_request.date', 'u1.name', 'u1.mobile', 'financial_request.amount', 'financial_request.status as FStatus', 'financial_request.securityCode']);
-        }
+
+        $showCanceled = $this->showCanceled == '1';
+        $requestFromMee = $financialRequestService->getRequestsFromUser($userAuth->idUser, $showCanceled);
 
         $params = [
-            'requestToMee' => detail_financial_request::join('financial_request', 'financial_request.numeroReq', '=', 'detail_financial_request.numeroRequest')
-                ->join('users', 'financial_request.idSender', '=', 'users.idUser')
-                ->where('detail_financial_request.idUser', $userAuth->idUser)
-                ->orderBy('financial_request.date', 'desc')
-                ->get(['financial_request.numeroReq', 'financial_request.date', 'users.name', 'users.mobile', 'financial_request.amount', 'financial_request.status'])
-            ,
+            'requestToMee' => $financialRequestService->getRequestsToUser($userAuth->idUser),
             'requestFromMee' => $requestFromMee,
-            'requestInOpen' => detail_financial_request::join('financial_request', 'financial_request.numeroReq', '=', 'detail_financial_request.numeroRequest')
-                ->where('detail_financial_request.idUser', $userAuth->idUser)
-                ->where('financial_request.Status', 0)
-                ->where('detail_financial_request.vu', 0)
-                ->count(),
-            'requestOutAccepted' => FinancialRequest::where('financial_request.idSender', $userAuth->idUser)
-                ->where('financial_request.Status', 1)
-                ->where('financial_request.vu', 0)
-                ->count(),
-            'requestOutRefused' => FinancialRequest::where('financial_request.idSender', $userAuth->idUser)
-                ->where('financial_request.Status', 5)
-                ->where('financial_request.vu', 0)
-                ->count()
+            'requestInOpen' => $financialRequestService->countRequestsInOpen($userAuth->idUser),
+            'requestOutAccepted' => $financialRequestService->countRequestsOutAccepted($userAuth->idUser),
+            'requestOutRefused' => $financialRequestService->countRequestsOutRefused($userAuth->idUser)
         ];
+
         return view('livewire.outgoing-request', $params);
     }
 }

@@ -333,6 +333,7 @@ try {
 ### Methods with database transactions:
 - ✅ `acceptFinancialRequest()` - 3 operations in transaction
 - ✅ `rejectFinancialRequest()` - 2-3 operations in transaction
+- ✅ `cancelFinancialRequest()` - 1 operation in transaction
 
 ### These methods guarantee:
 - **Atomicity**: All updates succeed or all fail

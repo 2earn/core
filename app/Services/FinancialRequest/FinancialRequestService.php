@@ -294,5 +294,40 @@ class FinancialRequestService
             throw $e;
         }
     }
+
+    /**
+     * Cancel a financial request
+     * Updates the request status to canceled (3)
+     *
+     * @param string $numeroReq
+     * @param int $cancelingUserId
+     * @return bool
+     * @throws \Exception
+     */
+    public function cancelFinancialRequest(string $numeroReq, int $cancelingUserId): bool
+    {
+        try {
+            DB::beginTransaction();
+
+            FinancialRequest::where('numeroReq', '=', $numeroReq)
+                ->update([
+                    'status' => 3,
+                    'idUserAccepted' => $cancelingUserId,
+                    'dateAccepted' => date(config('app.date_format'))
+                ]);
+
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error canceling financial request', [
+                'numeroReq' => $numeroReq,
+                'cancelingUserId' => $cancelingUserId,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
+        }
+    }
 }
 
