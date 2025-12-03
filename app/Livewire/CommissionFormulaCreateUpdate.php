@@ -11,7 +11,6 @@ class CommissionFormulaCreateUpdate extends Component
 {
     protected $commissionFormulaService;
 
-    // Form fields
     public $formulaId = null;
     public $name = '';
     public $initial_commission = '';
@@ -19,7 +18,6 @@ class CommissionFormulaCreateUpdate extends Component
     public $description = '';
     public $is_active = true;
 
-    // State
     public $isEditMode = false;
 
     protected $rules = [

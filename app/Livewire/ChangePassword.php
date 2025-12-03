@@ -51,11 +51,9 @@ class ChangePassword extends Component
                 ->where('idNotification', '=', NotificationSettingEnum::change_pwd_sms->value)->first();
             $this->sendPassSMS = $notSettings->value ?? true;
 
-            // Get SMS balance
             $this->soldeSms = $settingManager->getSoldeByAmount($authUser->idUser, BalanceEnum::SMS);
             $this->soldeSms = $this->soldeSms == null ? 0 : $this->soldeSms;
 
-            // Disable SMS if no balance
             if ($this->sendPassSMS && $this->soldeSms <= 0) {
                 $this->sendPassSMS = false;
             }

@@ -14,7 +14,6 @@ use Livewire\WithPagination;
 class Balances extends Component
 {
     use WithPagination;
-
     public $operation;
     public $io;
     public $source;

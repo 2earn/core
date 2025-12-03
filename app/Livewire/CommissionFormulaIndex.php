@@ -12,13 +12,11 @@ class CommissionFormulaIndex extends Component
 
     protected $commissionFormulaService;
 
-    // Filters
     public $search = '';
     public $filterActive = '';
     public $sortBy = 'created_at';
     public $sortDirection = 'desc';
 
-    // Modal state
     public $showDeleteModal = false;
     public $deleteId = null;
 
@@ -38,10 +36,6 @@ class CommissionFormulaIndex extends Component
         $this->commissionFormulaService = $commissionFormulaService;
     }
 
-    public function mount()
-    {
-        // Initialize component
-    }
 
     public function updatingSearch()
     {

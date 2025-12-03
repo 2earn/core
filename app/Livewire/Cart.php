@@ -19,7 +19,6 @@ class Cart extends Component
 
     public function removeCartItem($cartItem)
     {
-        Log::notice('removeCartItem '.$cartItem);
          Carts::removeItemFromCart($cartItem);
         $this->dispatch('updated-cart');
     }

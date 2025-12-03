@@ -268,5 +268,40 @@ class CouponService
             return null;
         }
     }
+
+    /**
+     * Get maximum available coupon amount for a platform and user
+     * Includes: available, expired reservations, and user's own active reservations
+     *
+     * @param int $platformId
+     * @param int $userId
+     * @return float
+     */
+    public function getMaxAvailableAmount(int $platformId, int $userId): float
+    {
+        try {
+            return Coupon::where(function ($query) use ($userId) {
+                $query
+                    ->orWhere('status', CouponStatusEnum::available->value)
+                    ->orWhere(function ($subQueryReservedForOther) {
+                        $subQueryReservedForOther->where('status', CouponStatusEnum::reserved->value)
+                            ->where('reserved_until', '<', now());
+                    })
+                    ->orWhere(function ($subQueryReservedForUser) use ($userId) {
+                        $subQueryReservedForUser->where('status', CouponStatusEnum::reserved->value)
+                            ->where('reserved_until', '>=', now())
+                            ->where('user_id', $userId);
+                    });
+            })
+                ->where('platform_id', $platformId)
+                ->sum('value') ?? 0;
+        } catch (\Exception $e) {
+            Log::error('Error calculating max available coupon amount: ' . $e->getMessage(), [
+                'platform_id' => $platformId,
+                'user_id' => $userId
+            ]);
+            return 0;
+        }
+    }
 }
 
