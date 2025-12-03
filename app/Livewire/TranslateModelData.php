@@ -101,7 +101,6 @@ class TranslateModelData extends Component
 
         $this->translationService->update($this->idTranslate, $params);
 
-        // Get all translations as key-value arrays
         $allTranslations = $this->translationService->getAllAsKeyValueArrays();
 
         $this->tabfin = $allTranslations['ar'];
