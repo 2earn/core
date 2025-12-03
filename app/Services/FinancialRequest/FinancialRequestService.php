@@ -5,6 +5,7 @@ namespace App\Services\FinancialRequest;
 use Core\Models\detail_financial_request;
 use Core\Models\FinancialRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class FinancialRequestService
 {
@@ -149,6 +150,97 @@ class FinancialRequestService
             ->leftJoin('users', 'users.idUser', '=', 'recharge_requests.idPayee')
             ->where('recharge_requests.idSender', $userId)
             ->get();
+    }
+
+    /**
+     * Get financial request by numero request
+     *
+     * @param string $numeroReq
+     * @return FinancialRequest|null
+     */
+    public function getByNumeroReq(string $numeroReq): ?FinancialRequest
+    {
+        return FinancialRequest::where('numeroReq', '=', $numeroReq)->first();
+    }
+
+    /**
+     * Get financial request with user details
+     *
+     * @param string $numeroReq
+     * @return mixed
+     */
+    public function getRequestWithUserDetails(string $numeroReq)
+    {
+        return FinancialRequest::join('users', 'financial_request.idSender', '=', 'users.idUser')
+            ->where('numeroReq', '=', $numeroReq)
+            ->get(['financial_request.numeroReq', 'financial_request.date', 'users.name', 'users.mobile', 'financial_request.amount', 'financial_request.status'])
+            ->first();
+    }
+
+    /**
+     * Get detail financial request for a specific user and request
+     *
+     * @param string $numeroReq
+     * @param int $userId
+     * @return detail_financial_request|null
+     */
+    public function getDetailRequest(string $numeroReq, int $userId): ?detail_financial_request
+    {
+        return detail_financial_request::where('numeroRequest', '=', $numeroReq)
+            ->where('idUser', '=', $userId)
+            ->first();
+    }
+
+    /**
+     * Accept a financial request
+     * Performs three database operations in a transaction:
+     * 1. Reject all other pending responses
+     * 2. Accept the current user's response
+     * 3. Update the main request status
+     *
+     * @param string $numeroReq
+     * @param int $acceptingUserId
+     * @return bool
+     * @throws \Exception
+     */
+    public function acceptFinancialRequest(string $numeroReq, int $acceptingUserId): bool
+    {
+        try {
+            DB::beginTransaction();
+
+            detail_financial_request::where('numeroRequest', '=', $numeroReq)
+                ->where('response', '=', null)
+                ->update([
+                    'response' => 3,
+                    'dateResponse' => date(config('app.date_format'))
+                ]);
+
+            detail_financial_request::where('numeroRequest', '=', $numeroReq)
+                ->where('idUser', '=', $acceptingUserId)
+                ->update([
+                    'response' => 1,
+                    'dateResponse' => date(config('app.date_format'))
+                ]);
+
+            FinancialRequest::where('numeroReq', '=', $numeroReq)
+                ->update([
+                    'status' => 1,
+                    'idUserAccepted' => $acceptingUserId,
+                    'dateAccepted' => date(config('app.date_format'))
+                ]);
+
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error accepting financial request', [
+                'numeroReq' => $numeroReq,
+                'acceptingUserId' => $acceptingUserId,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
+        }
     }
 }
 
