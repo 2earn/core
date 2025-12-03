@@ -6,6 +6,7 @@ use App\Models\BusinessSector;
 use App\Models\Deal;
 use App\Models\Item;
 use App\Models\Order;
+use App\Services\Orders\OrderService;
 use Core\Enum\OrderEnum;
 use Core\Models\Platform;
 use Illuminate\Support\Facades\Route;
@@ -65,39 +66,15 @@ class UserPurchaseHistory extends Component
 
     public function prepareQuery()
     {
-        $query = Order::query();
-        $query->where('user_id', auth()->user()->id);
-
-        if (!empty($this->selectedStatuses)) {
-            $query->whereIn('status', $this->selectedStatuses);
-        }
-
-        if (!empty($this->selectedPlatformIds)) {
-            $query->whereHas('OrderDetails.item', function ($q) {
-                $q->whereIn('platform_id', $this->selectedPlatformIds);
-            });
-        }
-
-        if (!empty($this->selectedDealIds)) {
-            $query->whereHas('OrderDetails.item', function ($q) {
-                $q->whereIn('deal_id', $this->selectedDealIds);
-            });
-        }
-
-        if (!empty($this->selectedItemsIds)) {
-            $query->whereHas('OrderDetails.item', function ($q) {
-                $q->whereIn('id', $this->selectedItemsIds);
-            });
-        }
-        if (!empty($this->selectedSectorsIds)) {
-            $query->whereHas('OrderDetails.item.platform.businessSector', function ($q) {
-                $q->whereIn('id', $this->selectedSectorsIds);
-            });
-        }
-
-        $query->orderBy('created_at', 'DESC');
-
-        return $query;
+        $orderService = app(OrderService::class);
+        return $orderService->getUserPurchaseHistoryQuery(
+            auth()->user()->id,
+            $this->selectedStatuses,
+            $this->selectedPlatformIds,
+            $this->selectedDealIds,
+            $this->selectedItemsIds,
+            $this->selectedSectorsIds
+        );
     }
 
     public function resetFilters()
@@ -115,10 +92,10 @@ class UserPurchaseHistory extends Component
 
     public function render()
     {
-        $choosenOrders = $this->prepareQuery()->paginate(5);
+        $chosenOrders = $this->prepareQuery()->paginate(5);
 
         return view('livewire.user-purchase-history', [
-            'choosenOrders' => $choosenOrders
+            'chosenOrders' => $chosenOrders
         ])->extends('layouts.master')->section('content');
     }
 }

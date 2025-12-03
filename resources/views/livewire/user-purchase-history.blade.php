@@ -152,9 +152,9 @@
             <h6 class="card-title mb-0 text-info">{{__('Results')}}</h6>
         </div>
         <div class="card-body col-lg-12">
-            @if($choosenOrders->count())
+            @if($chosenOrders->count())
                 <div class="row g-3">
-                    @foreach($choosenOrders as $key => $order)
+                    @foreach($chosenOrders as $key => $order)
                         <div class="col-12">
                             <div class="card border shadow-sm h-100">
                                 <div class="card-body">
@@ -300,7 +300,7 @@
 
                 <!-- Pagination Links -->
                 <div class="mt-4">
-                    {{ $choosenOrders->links() }}
+                    {{ $chosenOrders->links() }}
                 </div>
             @else
                 <div class="text-center py-5">
