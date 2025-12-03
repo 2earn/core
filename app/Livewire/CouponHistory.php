@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Coupon;
+use App\Services\Coupon\CouponService;
 use Core\Enum\CouponStatusEnum;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
@@ -46,10 +47,8 @@ class CouponHistory extends Component
     public function markAsConsumed($id)
     {
         try {
-            Coupon::findOrFail($id)->update([
-                'consumed' => 1,
-                'consumption_date' => now(),
-            ]);
+            $couponService = app(CouponService::class);
+            $couponService->markAsConsumed($id);
             session()->flash('success', Lang::get('Coupon consumed Successfully'));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -57,11 +56,12 @@ class CouponHistory extends Component
         }
     }
 
-    public function verifPassword($password,$sn)
+    public function verifPassword($password, $sn)
     {
         if (Hash::check($password, auth()->user()->password)) {
-            $coupon= Coupon::where('sn',$sn)->first();
-            $this->dispatch('showPin', ['title' => trans('This is the pin code'), 'html' => '<input class="form-control input-sm" value="'.$coupon->pin.'">']);
+            $couponService = app(CouponService::class);
+            $coupon = $couponService->getBySn($sn);
+            $this->dispatch('showPin', ['title' => trans('This is the pin code'), 'html' => '<input class="form-control input-sm" value="' . $coupon->pin . '">']);
         } else {
             $this->dispatch('cancelPin', ['title' => trans('Valid code'), 'text' => trans('Invalid code')]);
         }
@@ -69,20 +69,12 @@ class CouponHistory extends Component
 
     public function render()
     {
-        $coupons = Coupon::where('user_id', auth()->user()->id)
-            ->where('status', CouponStatusEnum::purchased->value)
-            ->when($this->search, function ($query) {
-                $query->where(function ($q) {
-                    $q->where('pin', 'like', '%' . $this->search . '%')
-                        ->orWhere('sn', 'like', '%' . $this->search . '%')
-                        ->orWhere('value', 'like', '%' . $this->search . '%')
-                        ->orWhereHas('platform', function ($query) {
-                            $query->where('name', 'like', '%' . $this->search . '%');
-                        });
-                });
-            })
-            ->orderBy('id', 'desc')
-            ->paginate($this->pageCount);
+        $couponService = app(CouponService::class);
+        $coupons = $couponService->getPurchasedCouponsPaginated(
+            auth()->user()->id,
+            $this->search,
+            (int)$this->pageCount
+        );
 
         return view('livewire.coupon-history', [
             'coupons' => $coupons
