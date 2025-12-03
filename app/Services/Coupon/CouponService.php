@@ -117,5 +117,79 @@ class CouponService
         $coupon = BalanceInjectorCoupon::findOrFail($id);
         return BalanceInjectorCoupon::consume($coupon);
     }
+
+    /**
+     * Get paginated coupons with search and sorting (admin view)
+     *
+     * @param string|null $search
+     * @param string $sortField
+     * @param string $sortDirection
+     * @param int $perPage
+     * @return LengthAwarePaginator
+     */
+    public function getCouponsPaginated(
+        ?string $search = null,
+        string $sortField = 'created_at',
+        string $sortDirection = 'desc',
+        int $perPage = 10
+    ): LengthAwarePaginator {
+        try {
+            $query = BalanceInjectorCoupon::query();
+
+            if ($search) {
+                $query->where(function($q) use ($search) {
+                    $q->where('pin', 'like', '%' . $search . '%')
+                      ->orWhere('sn', 'like', '%' . $search . '%')
+                      ->orWhere('value', 'like', '%' . $search . '%')
+                      ->orWhere('category', 'like', '%' . $search . '%');
+                });
+            }
+
+            return $query->orderBy($sortField, $sortDirection)->paginate($perPage);
+        } catch (\Exception $e) {
+            Log::error('Error fetching paginated coupons: ' . $e->getMessage(), [
+                'search' => $search,
+                'sort_field' => $sortField,
+                'sort_direction' => $sortDirection
+            ]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Delete a coupon by ID (admin delete)
+     *
+     * @param int $id
+     * @return bool
+     * @throws \Exception
+     */
+    public function deleteById(int $id): bool
+    {
+        try {
+            $coupon = BalanceInjectorCoupon::findOrFail($id);
+            return $coupon->delete();
+        } catch (\Exception $e) {
+            Log::error('Error deleting coupon: ' . $e->getMessage(), ['id' => $id]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Delete multiple coupons by IDs (only unconsumed ones)
+     *
+     * @param array $ids
+     * @return int Number of deleted coupons
+     */
+    public function deleteMultipleByIds(array $ids): int
+    {
+        try {
+            return BalanceInjectorCoupon::whereIn('id', $ids)
+                ->where('consumed', 0)
+                ->delete();
+        } catch (\Exception $e) {
+            Log::error('Error deleting multiple coupons: ' . $e->getMessage(), ['ids' => $ids]);
+            throw $e;
+        }
+    }
 }
 

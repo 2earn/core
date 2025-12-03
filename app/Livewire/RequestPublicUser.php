@@ -2,8 +2,9 @@
 
 namespace App\Livewire;
 
-use App\Models\User;
 use App\Notifications\FinancialRequestSent;
+use App\Services\FinancialRequest\FinancialRequestService;
+use App\Services\UserService;
 use Core\Enum\StatusRequest;
 use Core\Models\detail_financial_request;
 use Core\Services\settingsManager;
@@ -28,36 +29,18 @@ class RequestPublicUser extends Component
         if (!count($this->selectedUsers) > 0) {
             return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 2])->with('danger', Lang::get('No selected users'));
         };
+
         $userAuth = $settingsManager->getAuthUser();
-        $lastnumero = 0;
-        $lastRequest = DB::table('financial_request')
-            ->latest('numeroReq')
-            ->first();
-        if ($lastRequest) {
-            $lastnumero = $lastRequest->numeroReq;
-        }
-        $date = date(config('app.date_format'));
-        $year = date('y', strtotime($date));
-        $numer = (int)substr($lastnumero, -6);
-        $ref = date('y') . substr((1000000 + $numer + 1), 1, 6);
-        $data = [];
-        foreach ($this->selectedUsers as $val) {
-            if ($val != $userAuth->idUser) {
-                $new = ['numeroRequest' => $ref, 'idUser' => $val];
-                array_push($data, $new);
-            }
-        }
-        detail_financial_request::insert($data);
         $securityCode = $settingsManager->randomNewCodeOpt();
-        DB::table('financial_request')
-            ->insert([
-                'numeroReq' => $ref,
-                'idSender' => $userAuth->idUser,
-                'Date' => $date,
-                'amount' => $this->amount,
-                'status' => '0',
-                'securityCode' => $securityCode
-            ]);
+
+        $financialRequestService = app(FinancialRequestService::class);
+        $requestNumber = $financialRequestService->createFinancialRequest(
+            $userAuth->idUser,
+            $this->amount,
+            $this->selectedUsers,
+            $securityCode
+        );
+
         Auth::user()->notify(new FinancialRequestSent());
         return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 2])->with('success', Lang::get('Financial request sent successfully ,This is your security code') . ' : ' . $securityCode);
     }
@@ -94,11 +77,14 @@ class RequestPublicUser extends Component
     {
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) abort(404);
-        $users = User::where('is_public', 1)
-            ->where('idUser', '<>', $userAuth->idUser)
-            ->where('idCountry', $userAuth->idCountry)
-            ->where('status', '>', StatusRequest::OptValidated->value)
-            ->get();
+
+        $userService = app(UserService::class);
+        $users = $userService->getPublicUsers(
+            $userAuth->idUser,
+            $userAuth->idCountry,
+            StatusRequest::OptValidated->value
+        );
+
         return view('livewire.request-public-user', ['pub_users' => $users])->extends('layouts.master')->section('content');
     }
 }

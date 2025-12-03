@@ -61,7 +61,6 @@ class AssignPlatformRolesIndex extends Component
 
             $assignment = AssignPlatformRole::findOrFail($assignmentId);
 
-            // Check if already processed
             if ($assignment->status !== AssignPlatformRole::STATUS_PENDING) {
                 session()->flash('error', 'This assignment has already been processed.');
                 return;
@@ -69,7 +68,6 @@ class AssignPlatformRolesIndex extends Component
 
             $platform = Platform::findOrFail($assignment->platform_id);
 
-            // Update the platform based on the role
             switch ($assignment->role) {
                 case 'owner':
                     $platform->owner_id = $assignment->user_id;
@@ -87,7 +85,6 @@ class AssignPlatformRolesIndex extends Component
             $platform->updated_by = auth()->id();
             $platform->save();
 
-            // Update assignment status
             $assignment->status = AssignPlatformRole::STATUS_APPROVED;
             $assignment->updated_by = auth()->id();
             $assignment->save();
@@ -146,14 +143,12 @@ class AssignPlatformRolesIndex extends Component
 
             $assignment = AssignPlatformRole::findOrFail($this->selectedAssignmentId);
 
-            // Check if already processed
             if ($assignment->status !== AssignPlatformRole::STATUS_PENDING) {
                 session()->flash('error', 'This assignment has already been processed.');
                 $this->closeRejectModal();
                 return;
             }
 
-            // Update assignment status
             $assignment->status = AssignPlatformRole::STATUS_REJECTED;
             $assignment->rejection_reason = $this->rejectionReason;
             $assignment->updated_by = auth()->id();
@@ -191,12 +186,10 @@ class AssignPlatformRolesIndex extends Component
         $query = AssignPlatformRole::with(['platform', 'user'])
             ->orderBy('created_at', 'desc');
 
-        // Filter by status
         if ($this->selectedStatus !== 'all') {
             $query->where('status', $this->selectedStatus);
         }
 
-        // Search filter
         if (!empty($this->search)) {
             $query->where(function($q) {
                 $q->whereHas('user', function($userQuery) {

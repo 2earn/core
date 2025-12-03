@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\BalanceInjectorCoupon;
+use App\Services\Coupon\BalanceInjectorCouponService;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -50,7 +51,8 @@ class CouponInjectorIndex extends Component
     public function delete($id)
     {
         try {
-            BalanceInjectorCoupon::findOrFail($id)->delete();
+            $couponService = app(BalanceInjectorCouponService::class);
+            $couponService->delete($id);
             session()->flash('success', Lang::get('Coupon deleted successfully'));
             $this->selectedIds = array_diff($this->selectedIds, [$id]);
         } catch (\Exception $exception) {
@@ -67,9 +69,8 @@ class CouponInjectorIndex extends Component
                 return;
             }
 
-            BalanceInjectorCoupon::whereIn('id', $this->selectedIds)
-                ->where('consumed', 0)
-                ->delete();
+            $couponService = app(BalanceInjectorCouponService::class);
+            $couponService->deleteMultiple($this->selectedIds);
 
             session()->flash('success', Lang::get('Coupons deleted successfully (Only not consumed)'));
             $this->selectedIds = [];
@@ -82,17 +83,13 @@ class CouponInjectorIndex extends Component
 
     public function getCouponsProperty()
     {
-        return BalanceInjectorCoupon::query()
-            ->when($this->search, function ($query) {
-                $query->where(function ($q) {
-                    $q->where('pin', 'like', '%' . $this->search . '%')
-                        ->orWhere('sn', 'like', '%' . $this->search . '%')
-                        ->orWhere('value', 'like', '%' . $this->search . '%')
-                        ->orWhere('category', 'like', '%' . $this->search . '%');
-                });
-            })
-            ->orderBy($this->sortField, $this->sortDirection)
-            ->paginate(10);
+        $couponService = app(BalanceInjectorCouponService::class);
+        return $couponService->getPaginated(
+            $this->search,
+            $this->sortField,
+            $this->sortDirection,
+            10
+        );
     }
 
     public function render()
