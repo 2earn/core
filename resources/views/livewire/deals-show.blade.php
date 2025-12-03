@@ -1,4 +1,7 @@
 <div class="{{getContainerType()}}">
+    @php
+        $currency = config('app.currency');
+    @endphp
     @section('title')
         {{ __('Deals') }} > {{$deal->name}}
     @endsection
@@ -55,19 +58,18 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <p class="text-muted fs-12 mb-1">{{__('Current')}}</p>
-                                    <h5 class="mb-0 text-success">{{$deal->current_turnover}} {{config('app.currency')}}</h5>
+                                    <h5 class="mb-0 text-success">{{formatSolde($deal->current_turnover)}} {{$currency}}</h5>
                                 </div>
                                 <i class="ri-arrow-right-line text-muted fs-4"></i>
                                 <div>
                                     <p class="text-muted fs-12 mb-1">{{__('Target')}}</p>
-                                    <h5 class="mb-0 text-danger">{{$deal->target_turnover}} {{config('app.currency')}}</h5>
+                                    <h5 class="mb-0 text-danger">{{formatSolde($deal->target_turnover)}} {{$currency}}</h5>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Camembert Value Card -->
                 <div class="col-md-6 col-lg-4">
                     <div class="card border-0 bg-light h-100">
                         <div class="card-body">
@@ -77,7 +79,7 @@
                                 </div>
                                 <h6 class="mb-0 ms-3 text-muted">{{__('Camembert value')}}</h6>
                             </div>
-                            <h4 class="mb-0 text-primary">{{\App\Models\Deal::getCamombertPercentage($deal)}} {{config('app.currency')}}</h4>
+                            <h4 class="mb-0 text-primary">{{\App\Models\Deal::getCamombertPercentage($deal)}} {{$currency}}</h4>
                         </div>
                     </div>
                 </div>
@@ -165,11 +167,11 @@
                             <div class="vstack gap-3">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span class="text-muted">{{__('Total commission value')}}</span>
-                                    <span class="fw-semibold text-success">{{$deal->total_commission_value}} {{config('app.currency')}}</span>
+                                    <span class="fw-semibold text-success">{{formatSolde($deal->total_commission_value)}} {{$currency}}</span>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span class="text-muted">{{__('Total unused cashback value')}}</span>
-                                    <span class="fw-semibold text-info">{{$deal->total_unused_cashback_value}} {{config('app.currency')}}</span>
+                                    <span class="fw-semibold text-info">{{formatSolde($deal->total_unused_cashback_value)}} {{$currency}}</span>
                                 </div>
                             </div>
                         </div>
@@ -191,8 +193,8 @@
                                         <span class="badge bg-info-subtle text-info">{{$deal->earn_profit}} %</span>
                                     </div>
                                     <div class="d-flex gap-2 flex-wrap">
-                                        <small class="badge bg-success-subtle text-success">{{formatSolde($earn_profit,2)}} {{config('app.currency')}}</small>
-                                        <small class="badge bg-primary-subtle text-primary">{{formatSolde($deal->cash_company_profit,2)}} {{config('app.currency')}}</small>
+                                        <small class="badge bg-success-subtle text-success">{{formatSolde($earn_profit,2)}} {{$currency}}</small>
+                                        <small class="badge bg-primary-subtle text-primary">{{formatSolde($deal->cash_company_profit,2)}} {{$currency}}</small>
                                     </div>
                                 </div>
 
@@ -203,8 +205,8 @@
                                         <span class="badge bg-warning-subtle text-warning">{{$deal->jackpot}} %</span>
                                     </div>
                                     <div class="d-flex gap-2 flex-wrap">
-                                        <small class="badge bg-success-subtle text-success">{{formatSolde($jackpot,2)}} {{config('app.currency')}}</small>
-                                        <small class="badge bg-primary-subtle text-primary">{{formatSolde($deal->cash_jackpot,2)}} {{config('app.currency')}}</small>
+                                        <small class="badge bg-success-subtle text-success">{{formatSolde($jackpot,2)}} {{$currency}}</small>
+                                        <small class="badge bg-primary-subtle text-primary">{{formatSolde($deal->cash_jackpot,2)}} {{$currency}}</small>
                                     </div>
                                 </div>
 
@@ -215,8 +217,8 @@
                                         <span class="badge bg-success-subtle text-success">{{$deal->tree_remuneration}} %</span>
                                     </div>
                                     <div class="d-flex gap-2 flex-wrap">
-                                        <small class="badge bg-success-subtle text-success">{{formatSolde($tree_remuneration,2)}} {{config('app.currency')}}</small>
-                                        <small class="badge bg-primary-subtle text-primary">{{formatSolde($deal->cash_tree,2)}} {{config('app.currency')}}</small>
+                                        <small class="badge bg-success-subtle text-success">{{formatSolde($tree_remuneration,2)}} {{$currency}}</small>
+                                        <small class="badge bg-primary-subtle text-primary">{{formatSolde($deal->cash_tree,2)}} {{$currency}}</small>
                                     </div>
                                 </div>
 
@@ -227,8 +229,8 @@
                                         <span class="badge bg-primary-subtle text-primary">{{$deal->proactive_cashback}} %</span>
                                     </div>
                                     <div class="d-flex gap-2 flex-wrap">
-                                        <small class="badge bg-success-subtle text-success">{{formatSolde($proactive_cashback)}} {{config('app.currency')}}</small>
-                                        <small class="badge bg-primary-subtle text-primary">{{formatSolde($deal->cash_cashback,2)}} {{config('app.currency')}}</small>
+                                        <small class="badge bg-success-subtle text-success">{{formatSolde($proactive_cashback)}} {{$currency}}</small>
+                                        <small class="badge bg-primary-subtle text-primary">{{formatSolde($deal->cash_cashback,2)}} {{$currency}}</small>
                                     </div>
                                 </div>
                             </div>
