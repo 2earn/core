@@ -242,5 +242,57 @@ class FinancialRequestService
             throw $e;
         }
     }
+
+    /**
+     * Reject a financial request
+     * Updates the user's response to rejected (2)
+     * If all users have rejected, marks the main request as refused (status 5)
+     *
+     * @param string $numeroReq
+     * @param int $rejectingUserId
+     * @return bool
+     * @throws \Exception
+     */
+    public function rejectFinancialRequest(string $numeroReq, int $rejectingUserId): bool
+    {
+        try {
+            DB::beginTransaction();
+
+            // Update user's response to rejected
+            detail_financial_request::where('numeroRequest', '=', $numeroReq)
+                ->where('idUser', '=', $rejectingUserId)
+                ->update([
+                    'response' => 2,
+                    'dateResponse' => date(config('app.date_format'))
+                ]);
+
+            // Check if any pending responses remain
+            $remainingPending = detail_financial_request::where('numeroRequest', '=', $numeroReq)
+                ->where('response', '=', null)
+                ->count();
+
+            // If no pending responses remain, mark main request as refused
+            if ($remainingPending == 0) {
+                FinancialRequest::where('numeroReq', '=', $numeroReq)
+                    ->update([
+                        'status' => 5,
+                        'idUserAccepted' => $rejectingUserId,
+                        'dateAccepted' => date(config('app.date_format'))
+                    ]);
+            }
+
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error rejecting financial request', [
+                'numeroReq' => $numeroReq,
+                'rejectingUserId' => $rejectingUserId,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
+        }
+    }
 }
 
