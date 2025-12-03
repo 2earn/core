@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\SharesBalances;
 use App\Models\vip;
 use App\Services\Settings\SettingService;
+use App\Services\SharesService;
 use Core\Services\BalancesManager;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -54,6 +55,8 @@ class Trading extends Component
 
     public function mount()
     {
+        $sharesService = app(SharesService::class);
+
         $this->giftedShares = getSettingIntegerParam('GIFTED_SHARES', 0);
         $this->targetDate = getSettingStringParam('TARGET_DATE', 0);
         $this->totalActions = getSettingIntegerParam('Actions Number', 0) - $this->giftedShares;
@@ -63,10 +66,10 @@ class Trading extends Component
 
         $this->numberSharesSale = $this->totalActions - $this->giftedShares;
         $this->precentageOfSharesSale = round($this->selledActions / $this->numberSharesSale, 3) * 100;
-        $this->userSelledActionNumber = round(SharesBalances::where('balance_operation_id', 44)->where('beneficiary_id', Auth()->user()->idUser)->selectRaw('SUM(value) as total_sum')->first()->total_sum);
+        $this->userSelledActionNumber = round($sharesService->getUserSoldSharesValue(Auth()->user()->idUser));
 
         $this->selledActionCursor = $this->selledActions;
-        $this->totalPaied = round(SharesBalances::where('balance_operation_id', 44)->where('beneficiary_id', Auth()->user()->idUser)->selectRaw('SUM(total_amount) as total_sum')->first()->total_sum, 3);
+        $this->totalPaied = round($sharesService->getUserTotalPaid(Auth()->user()->idUser), 3);
 
     }
 
@@ -93,21 +96,14 @@ class Trading extends Component
 
     public function getSharesData()
     {
-        $query = SharesBalances::query()
-            ->where('beneficiary_id', auth()->user()->idUser)
-            ->select('*');
-
-        if ($this->search) {
-            $query->where(function($q) {
-                $q->where('id', 'like', '%' . $this->search . '%')
-                  ->orWhere('created_at', 'like', '%' . $this->search . '%')
-                  ->orWhere('value', 'like', '%' . $this->search . '%');
-            });
-        }
-
-        $query->orderBy($this->sortField, $this->sortDirection);
-
-        return $query->paginate($this->perPage);
+        $sharesService = app(SharesService::class);
+        return $sharesService->getSharesData(
+            auth()->user()->idUser,
+            $this->search,
+            $this->sortField,
+            $this->sortDirection,
+            $this->perPage
+        );
     }
 
 

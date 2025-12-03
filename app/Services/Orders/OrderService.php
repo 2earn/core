@@ -121,5 +121,72 @@ class OrderService
             throw $e;
         }
     }
+
+    /**
+     * Get user purchase history query with advanced filtering
+     *
+     * @param int $userId
+     * @param array $selectedStatuses
+     * @param array $selectedPlatformIds
+     * @param array $selectedDealIds
+     * @param array $selectedItemsIds
+     * @param array $selectedSectorsIds
+     * @return Builder
+     */
+    public function getUserPurchaseHistoryQuery(
+        int $userId,
+        array $selectedStatuses = [],
+        array $selectedPlatformIds = [],
+        array $selectedDealIds = [],
+        array $selectedItemsIds = [],
+        array $selectedSectorsIds = []
+    ): Builder {
+        try {
+            $query = Order::query();
+            $query->where('user_id', $userId);
+
+            if (!empty($selectedStatuses)) {
+                $query->whereIn('status', $selectedStatuses);
+            }
+
+            if (!empty($selectedPlatformIds)) {
+                $query->whereHas('OrderDetails.item', function ($q) use ($selectedPlatformIds) {
+                    $q->whereIn('platform_id', $selectedPlatformIds);
+                });
+            }
+
+            if (!empty($selectedDealIds)) {
+                $query->whereHas('OrderDetails.item', function ($q) use ($selectedDealIds) {
+                    $q->whereIn('deal_id', $selectedDealIds);
+                });
+            }
+
+            if (!empty($selectedItemsIds)) {
+                $query->whereHas('OrderDetails.item', function ($q) use ($selectedItemsIds) {
+                    $q->whereIn('id', $selectedItemsIds);
+                });
+            }
+
+            if (!empty($selectedSectorsIds)) {
+                $query->whereHas('OrderDetails.item.platform.businessSector', function ($q) use ($selectedSectorsIds) {
+                    $q->whereIn('id', $selectedSectorsIds);
+                });
+            }
+
+            $query->orderBy('created_at', 'DESC');
+
+            return $query;
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error building user purchase history query: ' . $e->getMessage(), [
+                'user_id' => $userId,
+                'selected_statuses' => $selectedStatuses,
+                'selected_platform_ids' => $selectedPlatformIds,
+                'selected_deal_ids' => $selectedDealIds,
+                'selected_items_ids' => $selectedItemsIds,
+                'selected_sectors_ids' => $selectedSectorsIds
+            ]);
+            throw $e;
+        }
+    }
 }
 

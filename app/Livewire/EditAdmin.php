@@ -3,7 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
+use App\Services\Role\RoleService;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -58,16 +58,9 @@ class EditAdmin extends Component
     }
     public function render()
     {
+        $roleService = app(RoleService::class);
+        $userRoles = $roleService->getUserRoles($this->search, 10);
 
-        $userRoles = DB::table('users')
-            ->leftjoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-            ->leftjoin('roles', 'model_has_roles.role_id', '=', 'roles.id')
-            ->leftjoin('countries', 'users.idCountry', '=', 'countries.id')
-            ->selectRaw('users.id, users.idUser, users.name,users.mobile,users.idCountry,ifnull(model_has_roles.model_id,0) as idrole, ifnull(roles.name,\'sansRole\') role ,countries.name countrie ,countries.apha2 apha2')
-            ->where('users.name', 'like', '%' . $this->search . '%')
-            ->orWhere('users.mobile', 'like', '%' . $this->search . '%')
-            ->orWhere('countries.name', 'like', '%' . $this->search . '%')
-            ->paginate(10);
         return view('livewire.edit-admin', ['userRoles' => $userRoles])->extends('layouts.master')->section('content');
     }
 

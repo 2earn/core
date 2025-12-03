@@ -4,6 +4,7 @@ namespace App\Services\Role;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
 class RoleService
@@ -113,6 +114,26 @@ class RoleService
     public function canDelete(int $id): bool
     {
         return $id > 4;
+    }
+
+    /**
+     * Get paginated user roles with search functionality
+     *
+     * @param string $search
+     * @param int $perPage
+     * @return LengthAwarePaginator
+     */
+    public function getUserRoles(string $search = '', int $perPage = 10): LengthAwarePaginator
+    {
+        return DB::table('users')
+            ->leftjoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->leftjoin('roles', 'model_has_roles.role_id', '=', 'roles.id')
+            ->leftjoin('countries', 'users.idCountry', '=', 'countries.id')
+            ->selectRaw('users.id, users.idUser, users.name,users.mobile,users.idCountry,ifnull(model_has_roles.model_id,0) as idrole, ifnull(roles.name,\'sansRole\') role ,countries.name countrie ,countries.apha2 apha2')
+            ->where('users.name', 'like', '%' . $search . '%')
+            ->orWhere('users.mobile', 'like', '%' . $search . '%')
+            ->orWhere('countries.name', 'like', '%' . $search . '%')
+            ->paginate($perPage);
     }
 }
 

@@ -3,7 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\User;
-use App\Models\vip;
+use App\Services\UserService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
@@ -58,49 +58,14 @@ class UsersList extends Component
 
     public function getUsers()
     {
-        $query = User::select(
-            'countries.apha2',
-            'countries.name as country',
-            'users.id',
-            'users.status',
-            'users.idUser',
-            'idUplineRegister',
-            DB::raw('CONCAT(COALESCE(meta.arFirstName, meta.enFirstName), " ", COALESCE(meta.arLastName, meta.enLastName)) AS name'),
-            'users.mobile',
-            'users.created_at',
-            'OptActivation',
-            'activationCodeValue',
-            'pass',
-            DB::raw('IFNULL(`vip`.`flashCoefficient`,"##") as coeff'),
-            DB::raw('IFNULL(`vip`.`flashDeadline`,"##") as periode'),
-            DB::raw('IFNULL(`vip`.`flashNote`,"##") as note'),
-            DB::raw('IFNULL(`vip`.`flashMinAmount`,"##") as minshares'),
-            DB::raw('IFNULL(`vip`.`dateFNS`,"##") as date'),
-        )
-            ->join('metta_users as meta', 'meta.idUser', '=', 'users.idUser')
-            ->join('countries', 'countries.id', '=', 'users.idCountry')
-            ->leftJoin('vip', function ($join) {
-                $join->on('vip.idUser', '=', 'users.idUser')->where('vip.closed', '=', 0);
-            });
 
-        if (!empty($this->search)) {
-            $query->where(function ($q) {
-                $q->where('users.mobile', 'like', '%' . $this->search . '%')
-                    ->orWhere('users.idUser', 'like', '%' . $this->search . '%')
-                    ->orWhere(DB::raw('CONCAT(COALESCE(meta.arFirstName, meta.enFirstName), " ", COALESCE(meta.arLastName, meta.enLastName))'), 'like', '%' . $this->search . '%');
-            });
-        }
-
-        return $query->orderBy($this->sortBy, $this->sortDirection)->paginate($this->pageCount);
     }
 
     public function render()
     {
-        $users = $this->getUsers();
-
-        return view('livewire.user-list', [
-            'users' => $users
-        ])->extends('layouts.master')->section('content');
+        $userService = app(UserService::class);
+        $users = $userService->getUsers($this->search, $this->sortBy, $this->sortDirection, $this->pageCount);
+        return view('livewire.user-list', ['users' => $users])->extends('layouts.master')->section('content');
     }
 }
 

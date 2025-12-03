@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Target;
+use App\Services\Targeting\TargetService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -41,7 +42,8 @@ class TargetCreateUpdate extends Component
 
     public function edit($idTarget)
     {
-        $target = Target::findOrFail($idTarget);
+        $targetService = app(TargetService::class);
+        $target = $targetService->getByIdOrFail($idTarget);
         $this->name = $target->name;
         $this->description = $target->description;
         $this->idTarget = $idTarget;
@@ -52,7 +54,11 @@ class TargetCreateUpdate extends Component
     {
         $this->validate();
         try {
-            $target = Target::where('id', $this->idTarget)->update(['name' => $this->name, 'description' => $this->description]);
+            $targetService = app(TargetService::class);
+            $targetService->update($this->idTarget, [
+                'name' => $this->name,
+                'description' => $this->description
+            ]);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('target_index', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while updating Target!!') );
@@ -64,7 +70,11 @@ class TargetCreateUpdate extends Component
     {
         $this->validate();
         try {
-            Target::create(['name' => $this->name, 'description' => $this->description]);
+            $targetService = app(TargetService::class);
+            $targetService->create([
+                'name' => $this->name,
+                'description' => $this->description
+            ]);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('target_index', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while creating Target!!') );
@@ -77,7 +87,8 @@ class TargetCreateUpdate extends Component
     {
         $params = [];
         if (!is_null($this->idTarget) && !empty($this->idTarget)) {
-            $params ['target'] = Target::findOrFail($this->idTarget);
+            $targetService = app(TargetService::class);
+            $params['target'] = $targetService->getByIdOrFail($this->idTarget);
         }
         return view('livewire.target-create-update', $params)->extends('layouts.master')->section('content');
     }
