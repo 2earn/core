@@ -13,95 +13,125 @@
             </div>
         </div>
         <div class="card-body pt-0">
-            <div class="table-responsive ">
-                <table
-                    class="table table-striped table-bordered"
-                    id="ReqFromMe_table2">
-                    <thead class="table-light">
-                    <tr>
-                        <th>#</th>
-                        <th>{{__('numeroReq')}}</th>
-                        <th>{{__('date')}}</th>
-                        <th>{{__('Amount')}}</th>
-                        <th>{{__('Status')}}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @forelse  ($requestFromMee as $value)
-                        <tr>
-                            <td onclick="hiddenTr({{$value->numeroReq}})">
-                                <i style="color: #51A351" class="fas fa-plus-circle"></i>
-                            </td>
-                            <td onclick="hiddenTr({{$value->numeroReq}})">
-                                <span>{{$value->numeroReq}}</span></td>
-                            <td onclick="hiddenTr({{$value->numeroReq}})">
-                                <span> {{$value->date}}</span>
-                            </td>
-                            <td onclick="hiddenTr({{$value->numeroReq}})">
-                                <span>{{$value->amount}}</span></td>
-                            <td>
-                            <span>
-                                                    @if($value->FStatus == 0)
-                                    <a class="p-1" style="background-color: #F89406;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding:@if(app()->getLocale()=="ar") 1px @else 5px @endif ; ">{{__('Opened')}}</a>
-                                    <a class="p-1" onclick="cancelRequestF('{{$value->numeroReq}}')"
-                                       style="background-color: #3595f6;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: @if(app()->getLocale()=="ar") 1px @else 5px @endif ; ">{{__('Cancel')}}</a>
-                                @elseif($value->FStatus == 1)
-                                    <a class="p-1" style="background-color: #51A351;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: @if(app()->getLocale()=="ar") 1px @else 5px @endif ; ">{{__('Accepted')}}</a>
-                                @elseif($value->FStatus == 3)
-                                    <a class="p-1" style="background-color: #f02602;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: @if(app()->getLocale()=="ar") 1px @else 5px @endif ; ">{{__('Canceled')}}</a>
-                                @else
-                                    <a class="p-1" style="background-color: #BD362F;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: @if(app()->getLocale()=="ar") 1px @else 5px @endif ; ">{{__('Rejected')}}</a>
-                                @endif
-                                                </span>
-                            </td>
-                        </tr>
-                        <tr hidden="true" id={{$value->numeroReq}}>
-                            <td colspan="12">
-                                <table class="table table-striped table-bordered table2earn "
-                                       style="width: 100%">
-                                    <thead>
-                                    <tr>
-                                        <th>{{__('user')}}</th>
-                                        <th>{{__('Mobile Number')}}</th>
-                                        <th>{{__('response')}}</th>
-                                        <th>{{__('dateResponse')}}</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach ($value->details  as $valueD)
-                                        @if($valueD->user !=null )
-                                            <tr>
-                                                <td><span> {{$valueD->User->name}}</span></td>
-                                                <td><span> {{$valueD->User->mobile}}</span></td>
-                                                <td>
-                                                                        <span>
-                                                                            @if($valueD->response == "" ||$valueD->response == null )
-                                                                                <a class="p-1" style="background-color: #F89406;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: 5px">{{__('No Response')}}</a>
-                                                                            @elseif($valueD->response == 1)
-                                                                                <a class="p-1"  style="background-color: #51A351;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: 5px">{{__('Accepted')}}</a>
-                                                                            @elseif($valueD->response == "2")
-                                                                                <a class="p-1"  style="background-color: #BD362F;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: 5px">{{__('Rejected')}}</a>
-                                                                            @elseif($valueD->response == "3")
-                                                                                <a class="p-1" style="background-color: #BD362F;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: 5px">{{__('Canceled')}}</a>
-                                                                            @endif
-                                                                        </span>
-                                                </td>
-                                                <td><span> {{$valueD->dateResponse}}</span></td>
-                                            </tr>
+            @forelse($requestFromMee as $value)
+                <div class="border rounded mb-3 overflow-hidden">
+                    <!-- Main Request Card -->
+                    <div class="p-3 cursor-pointer"
+                         style="background-color: #f8f9fa; cursor: pointer;"
+                         onclick="hiddenTr('{{$value->numeroReq}}')">
+                        <div class="row align-items-center">
+                            <!-- Expand Icon -->
+                            <div class="col-md-1 col-2 text-center">
+                                <i class="fas fa-plus-circle text-success" style="font-size: 1.2rem;" id="icon-{{$value->numeroReq}}"></i>
+                            </div>
+
+                            <!-- Request Number -->
+                            <div class="col-md-2 col-10 col-lg-2 mb-2 mb-md-0">
+                                <div class="text-muted small">{{__('numeroReq')}}</div>
+                                <div class="fw-semibold">{{$value->numeroReq}}</div>
+                            </div>
+
+                            <!-- Date -->
+                            <div class="col-md-2 col-6 mb-2 mb-md-0">
+                                <div class="text-muted small">{{__('date')}}</div>
+                                <div>{{$value->date}}</div>
+                            </div>
+
+                            <!-- Amount -->
+                            <div class="col-md-2 col-6 mb-2 mb-md-0">
+                                <div class="text-muted small">{{__('Amount')}}</div>
+                                <div class="fw-bold text-primary">{{formatSolde($value->amount,2)}}</div>
+                            </div>
+
+                            <!-- Status -->
+                            <div class="col-md-5 col-12">
+                                <div class="text-muted small">{{__('Status')}}</div>
+                                <div class="d-flex flex-wrap gap-2 mt-1">
+                                    @if($value->FStatus == 0)
+                                        <span class="badge bg-warning text-dark">{{__('Opened')}}</span>
+                                        <button onclick="event.stopPropagation(); cancelRequestF('{{$value->numeroReq}}')"
+                                                class="btn btn-info btn-sm">
+                                            <i class="fas fa-ban me-1"></i>{{__('Cancel')}}
+                                        </button>
+                                    @elseif($value->FStatus == 1)
+                                        <span class="badge bg-success">{{__('Accepted')}}</span>
+                                    @elseif($value->FStatus == 3)
+                                        <span class="badge bg-danger">{{__('Canceled')}}</span>
+                                    @else
+                                        <span class="badge bg-danger">{{__('Rejected')}}</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Details Section (Hidden by default) -->
+                    <div id="{{$value->numeroReq}}" class="border-top" style="display: none;">
+                        <div class="p-3 bg-light">
+                            <h6 class="mb-3">{{__('Request Details')}}</h6>
+
+                            @if(count($value->details) > 0)
+                                <div class="row g-3">
+                                    @foreach ($value->details as $valueD)
+                                        @if($valueD->user != null)
+                                            <div class="col-12">
+                                                <div class="card border">
+                                                    <div class="card-body p-3">
+                                                        <div class="row align-items-center">
+                                                            <!-- User Name -->
+                                                            <div class="col-md-3 col-6 mb-2 mb-md-0">
+                                                                <div class="text-muted small">{{__('user')}}</div>
+                                                                <div class="fw-semibold">{{$valueD->User->name}}</div>
+                                                            </div>
+
+                                                            <!-- Mobile Number -->
+                                                            <div class="col-md-3 col-6 mb-2 mb-md-0">
+                                                                <div class="text-muted small">{{__('Mobile Number')}}</div>
+                                                                <div>{{$valueD->User->mobile}}</div>
+                                                            </div>
+
+                                                            <!-- Response -->
+                                                            <div class="col-md-3 col-6 mb-2 mb-md-0">
+                                                                <div class="text-muted small">{{__('response')}}</div>
+                                                                <div>
+                                                                    @if($valueD->response == "" || $valueD->response == null)
+                                                                        <span class="badge bg-warning text-dark">{{__('No Response')}}</span>
+                                                                    @elseif($valueD->response == 1)
+                                                                        <span class="badge bg-success">{{__('Accepted')}}</span>
+                                                                    @elseif($valueD->response == "2")
+                                                                        <span class="badge bg-danger">{{__('Rejected')}}</span>
+                                                                    @elseif($valueD->response == "3")
+                                                                        <span class="badge bg-danger">{{__('Canceled')}}</span>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Date Response -->
+                                                            <div class="col-md-3 col-6 mb-2 mb-md-0">
+                                                                <div class="text-muted small">{{__('dateResponse')}}</div>
+                                                                <div>{{$valueD->dateResponse ?? '-'}}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         @endif
                                     @endforeach
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5">{{__('No Outgoing requests')}}</td>
-                        </tr>
-                    @endforelse
-                    </tbody>
-                </table>
-            </div>
+                                </div>
+                            @else
+                                <div class="text-center text-muted py-3">
+                                    <i class="fas fa-info-circle me-2"></i>{{__('No details available')}}
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="text-center py-5">
+                    <i class="fa-regular fa-folder-open fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">{{__('No Outgoing requests')}}</p>
+                </div>
+            @endforelse
         </div>
     </div>
     <div class="modal fade" id="financialTransactionModal" tabindex="-1"
@@ -144,7 +174,16 @@
         }
 
         function hiddenTr(num) {
-            $("#" + num).prop("hidden", !$("#" + num).prop("hidden"));
+            const element = $("#" + num);
+            const icon = $("#icon-" + num);
+
+            if (element.is(':visible')) {
+                element.slideUp(300);
+                icon.removeClass('fa-minus-circle').addClass('fa-plus-circle');
+            } else {
+                element.slideDown(300);
+                icon.removeClass('fa-plus-circle').addClass('fa-minus-circle');
+            }
         }
 
         function acceptRequst(numeroRequest) {

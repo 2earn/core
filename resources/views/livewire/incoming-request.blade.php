@@ -3,55 +3,80 @@
         <div class="card-header align-items-center d-flex">
             <h4 class="card-title mb-0 flex-grow-1">{{ __('Incoming request') }}</h4>
         </div>
-        <div class="card-body table-responsive">
-            <table
-                class="table table-striped table-bordered"
-                id="customerTable2"
-            >
-                <thead class="table-light">
-                <tr class="tabHeader2earn">
-                    <th>{{ __('Request') }}</th>
-                    <th>{{ __('date') }}</th>
-                    <th>{{ __('User phone') }}</th>
-                    <th>{{ __('Amount') }}</th>
-                    <th>{{ __('Status') }}</th>
-                    <th>{{ __('Actions') }}</th>
-                </tr>
-                </thead>
-                <tbody class="list form-check-all">
-                @foreach ($requestToMee as $value)
-                    <tr>
-                        <td>{{$value->numeroReq}}</td>
-                        <td>{{$value->date}}</td>
-                        <td>
-                            {{$value->mobile}}
-                        </td>
-                        <td>
-                            {{ formatSolde($value->amount,2) }}
-                        </td>
-                        <td>
-                        <span>
-                            @if($value->status == 0)
-                                <a style="background-color: #51A351;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: 5px">{{__('Opened')}}</a>
-                            @else
-                                <a style="background-color: #BD362F;color: #FFFFFF;border-color: transparent;border-radius: 3px;padding: 5px">{{__('Closed')}}</a>
-                            @endif
-                        </span>
-                        </td>
-                        <td>
-                            @if($value->status == 0)
-                                <i onclick="acceptRequest('{{$value->numeroReq}}')"
-                                   style="cursor:pointer; color: #51A351;font-size: 20px;margin: 5px 5px"
-                                   class="fa-regular fa-circle-check"></i>
-                                <i onclick="rejectRequest('{{$value->numeroReq}}')"
-                                   style="cursor:pointer; color: #BD362F;font-size: 20px;margin: 5px 5px"
-                                   class="fa-regular fa-circle-xmark"></i>
-                            @endif
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
+        <div class="card-body">
+            @if(count($requestToMee) > 0)
+                <div class="row g-3">
+                    @foreach ($requestToMee as $value)
+                        <div class="col-12">
+                            <div class="border rounded p-3 {{ $value->status == 0 ? 'border-success' : 'border-danger' }}" style="background-color: #f8f9fa;">
+                                <div class="row align-items-center">
+                                    <!-- Request Number -->
+                                    <div class="col-md-2 col-6 mb-2 mb-md-0">
+                                        <div class="text-muted small">{{ __('Request') }}</div>
+                                        <div class="fw-semibold">{{$value->numeroReq}}</div>
+                                    </div>
+
+                                    <!-- Date -->
+                                    <div class="col-md-2 col-6 mb-2 mb-md-0">
+                                        <div class="text-muted small">{{ __('date') }}</div>
+                                        <div>{{$value->date}}</div>
+                                    </div>
+
+                                    <!-- User Phone -->
+                                    <div class="col-md-2 col-6 mb-2 mb-md-0">
+                                        <div class="text-muted small">{{ __('User phone') }}</div>
+                                        <div>{{$value->mobile}}</div>
+                                    </div>
+
+                                    <!-- Amount -->
+                                    <div class="col-md-2 col-6 mb-2 mb-md-0">
+                                        <div class="text-muted small">{{ __('Amount') }}</div>
+                                        <div class="fw-bold text-primary">{{ formatSolde($value->amount,2) }}</div>
+                                    </div>
+
+                                    <!-- Status -->
+                                    <div class="col-md-2 col-6 mb-2 mb-md-0">
+                                        <div class="text-muted small">{{ __('Status') }}</div>
+                                        <div>
+                                            @if($value->status == 0)
+                                                <span class="badge bg-success">{{__('Opened')}}</span>
+                                            @else
+                                                <span class="badge bg-danger">{{__('Closed')}}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <!-- Actions -->
+                                    <div class="col-md-2 col-12 text-md-end">
+                                        <div class="text-muted small d-none d-md-block">{{ __('Actions') }}</div>
+                                        <div class="d-flex justify-content-md-end justify-content-start gap-2 mt-1">
+                                            @if($value->status == 0)
+                                                <button onclick="acceptRequest('{{$value->numeroReq}}')"
+                                                        class="btn btn-success btn-sm"
+                                                        title="{{__('Accept request')}}">
+                                                    <i class="fa-regular fa-circle-check"></i>
+                                                    <span class="d-none d-sm-inline ms-1">{{__('Accept')}}</span>
+                                                </button>
+                                                <button onclick="rejectRequest('{{$value->numeroReq}}')"
+                                                        class="btn btn-danger btn-sm"
+                                                        title="{{__('reject_request')}}">
+                                                    <i class="fa-regular fa-circle-xmark"></i>
+                                                    <span class="d-none d-sm-inline ms-1">{{__('Reject')}}</span>
+                                                </button>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <div class="text-center py-5">
+                    <i class="fa-regular fa-folder-open fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">{{ __('No incoming requests found') }}</p>
+                </div>
+            @endif
         </div>
     </div>
     <script>
