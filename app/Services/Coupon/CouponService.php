@@ -3,8 +3,6 @@
 namespace App\Services\Coupon;
 
 use App\Models\BalanceInjectorCoupon;
-use App\Models\Coupon;
-use Core\Enum\CouponStatusEnum;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
@@ -191,116 +189,6 @@ class CouponService
         } catch (\Exception $e) {
             Log::error('Error deleting multiple coupons: ' . $e->getMessage(), ['ids' => $ids]);
             throw $e;
-        }
-    }
-
-    /**
-     * Get purchased coupons for a user with search and pagination
-     *
-     * @param int $userId
-     * @param string|null $search
-     * @param int $perPage
-     * @return LengthAwarePaginator
-     */
-    public function getPurchasedCouponsPaginated(
-        int $userId,
-        ?string $search = null,
-        int $perPage = 10
-    ): LengthAwarePaginator {
-        try {
-            $query = Coupon::where('user_id', $userId)
-                ->where('status', CouponStatusEnum::purchased->value);
-
-            if ($search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('pin', 'like', '%' . $search . '%')
-                        ->orWhere('sn', 'like', '%' . $search . '%')
-                        ->orWhere('value', 'like', '%' . $search . '%')
-                        ->orWhereHas('platform', function ($query) use ($search) {
-                            $query->where('name', 'like', '%' . $search . '%');
-                        });
-                });
-            }
-
-            return $query->orderBy('id', 'desc')->paginate($perPage);
-        } catch (\Exception $e) {
-            Log::error('Error fetching purchased coupons: ' . $e->getMessage(), [
-                'user_id' => $userId,
-                'search' => $search
-            ]);
-            throw $e;
-        }
-    }
-
-    /**
-     * Mark a coupon as consumed
-     *
-     * @param int $id
-     * @return bool
-     * @throws \Exception
-     */
-    public function markAsConsumed(int $id): bool
-    {
-        try {
-            $coupon = Coupon::findOrFail($id);
-            return $coupon->update([
-                'consumed' => 1,
-                'consumption_date' => now(),
-            ]);
-        } catch (\Exception $e) {
-            Log::error('Error marking coupon as consumed: ' . $e->getMessage(), ['id' => $id]);
-            throw $e;
-        }
-    }
-
-    /**
-     * Get a coupon by serial number
-     *
-     * @param string $sn
-     * @return Coupon|null
-     */
-    public function getBySn(string $sn): ?Coupon
-    {
-        try {
-            return Coupon::where('sn', $sn)->first();
-        } catch (\Exception $e) {
-            Log::error('Error fetching coupon by SN: ' . $e->getMessage(), ['sn' => $sn]);
-            return null;
-        }
-    }
-
-    /**
-     * Get maximum available coupon amount for a platform and user
-     * Includes: available, expired reservations, and user's own active reservations
-     *
-     * @param int $platformId
-     * @param int $userId
-     * @return float
-     */
-    public function getMaxAvailableAmount(int $platformId, int $userId): float
-    {
-        try {
-            return Coupon::where(function ($query) use ($userId) {
-                $query
-                    ->orWhere('status', CouponStatusEnum::available->value)
-                    ->orWhere(function ($subQueryReservedForOther) {
-                        $subQueryReservedForOther->where('status', CouponStatusEnum::reserved->value)
-                            ->where('reserved_until', '<', now());
-                    })
-                    ->orWhere(function ($subQueryReservedForUser) use ($userId) {
-                        $subQueryReservedForUser->where('status', CouponStatusEnum::reserved->value)
-                            ->where('reserved_until', '>=', now())
-                            ->where('user_id', $userId);
-                    });
-            })
-                ->where('platform_id', $platformId)
-                ->sum('value') ?? 0;
-        } catch (\Exception $e) {
-            Log::error('Error calculating max available coupon amount: ' . $e->getMessage(), [
-                'platform_id' => $platformId,
-                'user_id' => $userId
-            ]);
-            return 0;
         }
     }
 }

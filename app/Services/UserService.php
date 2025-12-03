@@ -54,5 +54,22 @@ class UserService
 
         return $query->orderBy($sortBy, $sortDirection)->paginate($perPage);
     }
+
+    /**
+     * Get public users for financial requests
+     *
+     * @param int $excludeUserId User ID to exclude from results
+     * @param int $countryId Country ID filter
+     * @param int $minStatus Minimum status value
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getPublicUsers(int $excludeUserId, int $countryId, int $minStatus)
+    {
+        return User::where('is_public', 1)
+            ->where('idUser', '<>', $excludeUserId)
+            ->where('idCountry', $countryId)
+            ->where('status', '>', $minStatus)
+            ->get();
+    }
 }
 

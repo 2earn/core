@@ -1,4 +1,4 @@
-<div class="row">
+<div class="{{getContainerType()}}">
     @section('title')
         {{ __('BFS funding request') }}
     @endsection
@@ -8,8 +8,8 @@
             {{ __('BFS funding request') }}
         @endslot
     @endcomponent
-    <div class="col">
-        <div class="card" id="funding_form">
+    <div class="row">
+        <div class="col-12 card" id="funding_form">
             <div class="card-header">
                 <h4 class="card-title">{{ __('Demande_alimentation_BFS') }}</h4>
             </div>
