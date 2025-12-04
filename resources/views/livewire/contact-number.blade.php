@@ -97,7 +97,7 @@
                     </div>
                 </div>
             </div>
-            <div wire:ignore.self class="modal fade" id="AddContactNumberModel" tabindex="-1" style="z-index: 9000000"
+            <div wire:ignore.self class="modal fade" id="AddContactNumberModel" tabindex="-1"
                  aria-labelledby="AddContactNumberModelTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -194,11 +194,43 @@
                     $("#saveAddContactNumber").click(function (event) {
                         event.preventDefault();
                         event.stopImmediatePropagation();
-                        $('.btn-close-add').trigger('click')
                         window.Livewire.dispatch('preSaveContact', [$("#outputinitIntlTelInput").val(), $("#isoContactNumber").val(), $("#initIntlTelInput").val()]);
                     });
 
+                    // Handle showAlert event for displaying error/success messages
+                    window.addEventListener('showAlert', event => {
+                        const alertData = event.detail[0];
+                        Swal.fire({
+                            title: alertData.title || '{{ __("Notification") }}',
+                            text: alertData.text || '',
+                            icon: alertData.type || 'info',
+                            confirmButtonText: '{{ __("ok") }}',
+                            customClass: {
+                                confirmButton: 'btn btn-primary'
+                            }
+                        }).then(() => {
+                            // Reinitialize the input field after error
+                            const inputField = document.querySelector("#initIntlTelInput");
+                            if (inputField) {
+                                inputField.value = '';
+                                $("#outputinitIntlTelInput").val('');
+                                $("#ccodeinitIntlTelInput").val('');
+                                $("#isoContactNumber").val('');
+                                $('#saveAddContactNumber').prop("disabled", true);
+
+                                // Trigger the intl-tel-input to update
+                                if (typeof itiAddContactNumber !== 'undefined' && itiAddContactNumber) {
+                                    itiAddContactNumber.setNumber('');
+                                }
+                            }
+                        });
+                    });
+
                     window.addEventListener('PreAddNumber', event => {
+                        // Close the add contact modal since validation passed
+                        $('.btn-close-add').trigger('click');
+                        $('#AddContactNumberModel').modal('hide');
+
                         Swal.fire({
                             title: '{{ __('Your verification code') }}',
                             html: event.detail[0].msgSend + ' ' + '<br>' + event.detail[0].FullNumber + '<br>' + event.detail[0].userMail + '<br>' + '{{__('Your OTP Code')}}',
@@ -247,6 +279,8 @@
             </script>
             <script type="module">
                 var ipNumberContact = document.querySelector("#inputNumberContact");
+                var itiAddContactNumber; // Declare in outer scope for reuse
+
                 document.addEventListener("DOMContentLoaded", function () {
                     ipNumberContact.innerHTML = "<div class='input-group-prepend'> " +
                         "</div><input wire:model='' type='tel' name='initIntlTelInput' id='initIntlTelInput' class='form-control' onpaste='handlePaste(event)'" +
@@ -260,7 +294,7 @@
                     } catch (e) {
 
                     }
-                    var itiAddContactNumber = window.intlTelInput(inputAddContactNumber, {
+                    itiAddContactNumber = window.intlTelInput(inputAddContactNumber, {
                         initialCountry: "auto",
                         autoFormat: true,
                         separateDialCode: true,

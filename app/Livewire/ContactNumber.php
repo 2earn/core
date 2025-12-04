@@ -67,10 +67,20 @@ class ContactNumber extends Component
     }
 
 
-    public function preSaveContact($fullNumber, $isoP, $mobile, settingsManager $settingsManager)
+    public function preSaveContact($fullNumber, $isoP, $mobile, settingsManager $settingsManager, UserContactService $userContactService)
     {
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) return;
+
+        if ($userContactService->contactNumberExists($userAuth->idUser, $fullNumber)) {
+            $this->dispatch('showAlert', [
+                'type' => 'danger',
+                'title' => trans('Error'),
+                'text' => trans('This contact number already exists')
+            ]);
+            return;
+        }
+
         $country = $settingsManager->getCountryByIso($isoP);
         if (!$country) return;
         $check_exchange = $this->randomNewCodeOpt();

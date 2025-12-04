@@ -83,6 +83,36 @@ class UserContactService
     }
 
     /**
+     * Check if a contact number already exists for a user.
+     *
+     * @param int $userId
+     * @param string $fullNumber
+     * @return bool
+     */
+    public function contactNumberExists(int $userId, string $fullNumber): bool
+    {
+        return UserContactNumber::where('idUser', $userId)
+            ->where('fullNumber', $fullNumber)
+            ->exists();
+    }
+
+    /**
+     * Check if a contact number exists by mobile and country code.
+     *
+     * @param int $userId
+     * @param string $mobile
+     * @param string $iso
+     * @return bool
+     */
+    public function contactNumberExistsByMobile(int $userId, string $mobile, string $iso): bool
+    {
+        return UserContactNumber::where('idUser', $userId)
+            ->where('mobile', $mobile)
+            ->where('isoP', $iso)
+            ->exists();
+    }
+
+    /**
      * Create a new user contact number.
      *
      * @param int $userId
