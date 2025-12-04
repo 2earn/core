@@ -136,6 +136,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         Route::get('/financial/transaction/{filter?}', FinancialTransaction::class)->name('financial_transaction');
         Route::get('/contact-number', ContactNumber::class)->name('contact_number');
+        Route::get('/contact-number/add', \App\Livewire\AddContactNumber::class)->name('add_contact_number');
         Route::get('/change-email', \App\Livewire\ChangeEmail::class)->name('change_email');
         Route::get('/balances/exchange/funding/Request-public-user', RequestPublicUser::class)->name('user_request_public');
         Route::get('/balances/exchange/funding/strip', stripView::class)->name('payment_strip');
