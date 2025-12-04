@@ -22,38 +22,36 @@ class EventShow extends Component
     public $liked = false;
     public $eventIdToDelete = null;
 
-    private CommentsService $commentsService;
     public $listeners = ['delete' => 'delete', 'clearDeleteEventId' => 'clearDeleteEventId'];
 
     public function mount($id, CommentsService $commentsService)
     {
         $this->id = $id;
-        $this->commentsService = $commentsService;
         $this->event = Event::with(['mainImage', 'hashtags'])->findOrFail($id);
-        $this->loadComments();
+        $this->loadComments($commentsService);
         $this->loadLikes();
     }
 
-    public function loadComments()
+    public function loadComments(CommentsService $commentsService)
     {
-        $this->comments = $this->commentsService->getValidatedComments($this->event);
-        $this->unvalidatedComments = $this->commentsService->getUnvalidatedComments($this->event);
+        $this->comments = $commentsService->getValidatedComments($this->event);
+        $this->unvalidatedComments = $commentsService->getUnvalidatedComments($this->event);
     }
 
-    public function validateComment($commentId)
+    public function validateComment($commentId, CommentsService $commentsService)
     {
         if (!auth()->check() || !User::isSuperAdmin()) return;
 
-        $this->commentsService->validateComment($commentId, auth()->id());
-        $this->loadComments();
+        $commentsService->validateComment($commentId, auth()->id());
+        $this->loadComments($commentsService);
     }
 
-    public function deleteComment($commentId)
+    public function deleteComment($commentId, CommentsService $commentsService)
     {
         if (!auth()->check() || !User::isSuperAdmin()) return;
 
-        $this->commentsService->deleteComment($commentId);
-        $this->loadComments();
+        $commentsService->deleteComment($commentId);
+        $this->loadComments($commentsService);
     }
 
     public function loadLikes()
@@ -63,13 +61,13 @@ class EventShow extends Component
     }
 
 
-    public function addComment()
+    public function addComment(CommentsService $commentsService)
     {
         $this->validate([
             'commentContent' => 'required|string|max:500',
         ]);
 
-        $this->commentsService->addComment(
+        $commentsService->addComment(
             commentable: $this->event,
             content: $this->commentContent,
             userId: Auth::id(),
@@ -77,7 +75,7 @@ class EventShow extends Component
         );
 
         $this->commentContent = '';
-        $this->loadComments();
+        $this->loadComments($commentsService);
     }
 
     public function toggleLike()
