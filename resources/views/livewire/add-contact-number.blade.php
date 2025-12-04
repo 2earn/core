@@ -60,7 +60,6 @@
                     window.Livewire.dispatch('preSaveContact', [$("#outputinitIntlTelInput").val(), $("#isoContactNumber").val(), $("#initIntlTelInput").val()]);
                 });
 
-                // Handle showAlert event for displaying error/success messages
                 window.addEventListener('showAlert', event => {
                     const alertData = event.detail[0];
                     Swal.fire({
@@ -72,20 +71,68 @@
                             confirmButton: 'btn btn-primary'
                         }
                     }).then(() => {
-                        // Reinitialize the input field after error
-                        const inputField = document.querySelector("#initIntlTelInput");
-                        if (inputField) {
-                            inputField.value = '';
-                            $("#outputinitIntlTelInput").val('');
-                            $("#ccodeinitIntlTelInput").val('');
-                            $("#isoContactNumber").val('');
-                            $('#saveAddContactNumber').prop("disabled", true);
-
-                            // Trigger the intl-tel-input to update
-                            if (typeof itiAddContactNumber !== 'undefined' && itiAddContactNumber) {
-                                itiAddContactNumber.setNumber('');
+                        // Reinitialize the entire inputNumberContact div
+                        if (typeof itiAddContactNumber !== 'undefined' && itiAddContactNumber) {
+                            try {
+                                itiAddContactNumber.destroy();
+                            } catch (e) {
+                                console.log('Error destroying intl-tel-input:', e);
                             }
                         }
+
+                        // Recreate the input HTML
+                        const ipNumberContact = document.querySelector("#inputNumberContact");
+                        if (ipNumberContact) {
+                            ipNumberContact.innerHTML = "<div class='input-group-prepend'> " +
+                                "</div><input wire:model='' type='tel' name='initIntlTelInput' id='initIntlTelInput' class='form-control' onpaste='handlePaste(event)'" +
+                                "placeholder='{{ __("Mobile Number") }}'><span id='valid-msginitIntlTelInput' class='invisible'>✓ Valid</span><span id='error-msginitIntlTelInput' class='hide'></span>" +
+                                " <input type='hidden' name='fullnumber' id='outputinitIntlTelInput' class='form-control'><input type='hidden' name='ccodeinitIntlTelInput' id='ccodeinitIntlTelInput'>" +
+                                "<input type='hidden' name='isoContactNumber' id='isoContactNumber'>";
+
+                            // Reinitialize intl-tel-input
+                            const inputAddContactNumber = document.querySelector("#initIntlTelInput");
+                            if (inputAddContactNumber) {
+                                itiAddContactNumber = window.intlTelInput(inputAddContactNumber, {
+                                    initialCountry: "auto",
+                                    autoFormat: true,
+                                    separateDialCode: true,
+                                    useFullscreenPopup: false,
+                                    geoIpLookup: function (callback) {
+                                        $.get('https://ipinfo.io', function () {
+                                        }, "jsonp").always(function (resp) {
+                                            var countryCode13 = (resp && resp.country) ? resp.country : "TN";
+                                            callback(countryCode13);
+                                        });
+                                    },
+                                    utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/utils.js"
+                                });
+
+                                // Re-attach event listeners
+                                function initIntlTelInputValidation() {
+                                    var phoneCN = itiAddContactNumber.getNumber();
+                                    phoneCN = phoneCN.replace('+', '00');
+                                    var countryDataCN = itiAddContactNumber.getSelectedCountryData();
+                                    if (!phoneCN.startsWith('00' + countryDataCN.dialCode)) {
+                                        phoneCN = '00' + countryDataCN.dialCode + phoneCN;
+                                    }
+                                    $("#outputinitIntlTelInput").val(phoneCN);
+                                    $("#ccodeinitIntlTelInput").val(countryDataCN.dialCode);
+                                    $("#isoContactNumber").val(countryDataCN.iso2);
+                                    if (itiAddContactNumber.isValidNumber()) {
+                                        $('#saveAddContactNumber').prop("disabled", false)
+                                    } else {
+                                        $('#saveAddContactNumber').prop("disabled", true)
+                                    }
+                                }
+
+                                inputAddContactNumber.addEventListener('keyup', initIntlTelInputValidation);
+                                inputAddContactNumber.addEventListener('countrychange', initIntlTelInputValidation);
+                                initIntlTelInputValidation();
+                            }
+                        }
+
+                        // Disable save button
+                        $('#saveAddContactNumber').prop("disabled", true);
                     });
                 });
 
