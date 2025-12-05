@@ -155,12 +155,12 @@
                                          alt="Current Icon"
                                          class="img-thumbnail"
                                          style="max-width: 150px; max-height: 150px; object-fit: contain;"
-                                         onerror="this.src='{{ Vite::asset(\App\Models\CommissionFormula::DEFAULT_IMAGE_TYPE_LOGO) }}'">
+                                         onerror="this.src='{{ Vite::asset(\App\Models\CommissionFormula::DEFAULT_IMAGE_TYPE_ICON) }}'">
                                 </div>
                             @else
                                 <div>
                                     <p class="text-muted mb-2">{{ __('Default Icon:') }}</p>
-                                    <img src="{{ Vite::asset(\App\Models\CommissionFormula::DEFAULT_IMAGE_TYPE_LOGO) }}"
+                                    <img src="{{ Vite::asset(\App\Models\CommissionFormula::DEFAULT_IMAGE_TYPE_ICON) }}"
                                          alt="Default Icon"
                                          class="img-thumbnail"
                                          style="max-width: 150px; max-height: 150px; object-fit: contain;">

@@ -11,9 +11,10 @@
             {{ __('Management') }}
         @endslot
     @endcomponent
-
-
-    <div class="row mb-3">
+    <div class="row">
+        @include('layouts.flash-messages')
+    </div>
+    <div class="row ">
         <div class="col-xl-3 col-md-6">
             <div class="card card-animate">
                 <div class="card-body">
@@ -30,7 +31,8 @@
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
                             <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                <span class="counter-value" data-target="{{ $statistics['total'] }}">{{ $statistics['total'] }}</span>
+                                <span class="counter-value"
+                                      data-target="{{ $statistics['total'] }}">{{ $statistics['total'] }}</span>
                             </h4>
                         </div>
                     </div>
@@ -54,7 +56,8 @@
                     <div class="d-flex align-items-end justify-content-between mt-4">
                         <div>
                             <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                <span class="counter-value" data-target="{{ $statistics['active'] }}">{{ $statistics['active'] }}</span>
+                                <span class="counter-value"
+                                      data-target="{{ $statistics['active'] }}">{{ $statistics['active'] }}</span>
                             </h4>
                         </div>
                     </div>
@@ -175,11 +178,9 @@
                     <span class="visually-hidden">{{ __('Loading...') }}</span>
                 </div>
             </div>
-            <div class="row">
-                    @include('layouts.flash-messages')
-            </div>
 
-            <div wire:loading.remove >
+
+            <div wire:loading.remove>
                 @if($formulas->count() > 0)
                     <div class="row g-3">
                         @foreach($formulas as $formula)
@@ -191,10 +192,21 @@
                                             <div class="col-lg-3 col-md-4">
                                                 <div class="d-flex align-items-center gap-2">
                                                     <div class="flex-shrink-0">
-                                                        <div class="avatar-xs">
-                                                            <div class="avatar-title bg-soft-primary text-primary rounded-circle fs-16">
-                                                                <i class="ri-percent-line"></i>
-                                                            </div>
+                                                        <div class="avatar-sm">
+                                                            @if($formula->iconImage)
+                                                                <img
+                                                                    src="{{ asset('storage/' . $formula->iconImage->url) }}"
+                                                                    alt="{{ $formula->name }}"
+                                                                    class="avatar-sm rounded-circle"
+                                                                    style="width: 40px; height: 40px; object-fit: cover;"
+                                                                    onerror="this.src='{{ Vite::asset(\App\Models\CommissionFormula::DEFAULT_IMAGE_TYPE_ICON) }}'">
+                                                            @else
+                                                                <img
+                                                                    src="{{ Vite::asset(\App\Models\CommissionFormula::DEFAULT_IMAGE_TYPE_ICON) }}"
+                                                                    alt="{{ $formula->name }}"
+                                                                    class="avatar-sm rounded-circle"
+                                                                    style="width: 40px; height: 40px; object-fit: cover;">
+                                                            @endif
                                                         </div>
                                                     </div>
                                                     <div class="flex-grow-1">
@@ -350,7 +362,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-light" wire:click="cancelDelete">{{ __('Cancel') }}</button>
+                        <button type="button" class="btn btn-light"
+                                wire:click="cancelDelete">{{ __('Cancel') }}</button>
                         <button type="button" class="btn btn-danger" wire:click="deleteFormula">
                             <i class="ri-delete-bin-line align-bottom me-1"></i> {{ __('Delete') }}
                         </button>

@@ -151,11 +151,11 @@ class CommissionFormulaCreateUpdate extends Component
             }
 
             // Store new image
-            $imagePath = $this->iconImage->store('commission-formulas/' . CommissionFormula::IMAGE_TYPE_LOGO, 'public');
+            $imagePath = $this->iconImage->store('commission-formulas/' . CommissionFormula::IMAGE_TYPE_ICON, 'public');
 
             // Create image record
             $formula->iconImage()->create([
-                'type' => CommissionFormula::IMAGE_TYPE_LOGO,
+                'type' => CommissionFormula::IMAGE_TYPE_ICON,
                 'url' => $imagePath,
                 'created_by' => auth()->id(),
             ]);

@@ -11,8 +11,8 @@ class CommissionFormula extends Model
 {
     use HasFactory, HasAuditing, SoftDeletes;
 
-    const IMAGE_TYPE_LOGO = 'logo';
-    const DEFAULT_IMAGE_TYPE_LOGO = 'resources/images/commission-formulas/logo/default-commission-formula-logo.png';
+    const IMAGE_TYPE_ICON = 'icon';
+    const DEFAULT_IMAGE_TYPE_ICON = 'resources/images/commission-formulas/icon/default-commission-formula-icon.png';
 
     protected $fillable = [
         'initial_commission',
@@ -47,7 +47,7 @@ class CommissionFormula extends Model
      */
     public function iconImage()
     {
-        return $this->morphOne(Image::class, 'imageable')->where('type', '=', self::IMAGE_TYPE_LOGO);
+        return $this->morphOne(Image::class, 'imageable')->where('type', '=', self::IMAGE_TYPE_ICON);
     }
 
     /**
