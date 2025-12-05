@@ -9,7 +9,6 @@
     @endcomponent
     <div class="row">
         @include('layouts.flash-messages')
-
         <div class="col-12 card">
             <div class="card-header border-info">
                 <div class="row">
@@ -134,14 +133,8 @@
                                         </div>
 
                                         <!-- Action Buttons -->
-                                        <div class="col-lg-3 col-md-12">
+                                        <div class="col-lg-1 col-md-12">
                                             <div class="d-flex gap-2 justify-content-end flex-wrap">
-                                                <button type="button"
-                                                        class="btn btn-sm btn-info"
-                                                        data-bs-toggle="collapse"
-                                                        data-bs-target="#details-{{ $coupon->id }}">
-                                                    <i class="mdi mdi-information"></i> {{__('Details')}}
-                                                </button>
                                                 <button wire:click="delete({{ $coupon->id }})"
                                                         wire:confirm="{{__('Are you sure to delete this Coupon')}}? {{ $coupon->pin }}"
                                                         class="btn btn-sm btn-danger">
@@ -150,40 +143,15 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <hr class="my-3">
+                                    <div class="row">
 
-                                    <!-- Collapsible Details Section -->
-                                    <div id="details-{{ $coupon->id }}" class="collapse mt-3">
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="card bg-light">
-                                                    <div class="card-body">
-                                                        <h6 class="card-title">
-                                                            <i class="mdi mdi-information-outline"></i> {{__('Coupon Information')}}
-                                                        </h6>
-                                                        <ul class="list-unstyled mb-0">
-                                                            <li><strong>ID:</strong> {{ $coupon->id }}</li>
-                                                            <li><strong>PIN:</strong> {{ $coupon->pin }}</li>
-                                                            <li><strong>SN:</strong> {{ $coupon->sn }}</li>
-                                                            <li><strong>{{__('Created')}}
-                                                                    :</strong> {{ $coupon->created_at }}</li>
-                                                            @if($coupon->user_id)
-                                                                <li><strong>{{__('User ID')}}
-                                                                        :</strong> {{ $coupon->user_id }}</li>
-                                                            @endif
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="card bg-light">
-                                                    <div class="card-body">
-                                                        <h6 class="card-title">
-                                                            <i class="mdi mdi-calendar-clock"></i> {{__('Dates')}}
-                                                        </h6>
-                                                        @include('parts.datatable.coupon-injector-dates', ['coupon' => $coupon])
-                                                    </div>
-                                                </div>
+                                        <div class="col-md-12">
+                                            <div class="p-3 bg-light rounded">
+                                                <h6 class="mb-3">
+                                                    <i class="mdi mdi-calendar-clock text-primary"></i> {{__('Dates')}}
+                                                </h6>
+                                                @include('parts.datatable.coupon-injector-dates', ['coupon' => $coupon])
                                             </div>
                                         </div>
                                     </div>
