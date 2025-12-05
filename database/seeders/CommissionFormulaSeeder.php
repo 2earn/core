@@ -55,7 +55,6 @@ class CommissionFormulaSeeder extends Seeder
             CommissionFormula::create($formula);
         }
 
-        $this->command->info('Commission formulas seeded successfully!');
     }
 }
 

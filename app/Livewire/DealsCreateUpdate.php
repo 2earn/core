@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-use App\Services\Commission\CommissionFormulaService;
 use App\Services\Deals\DealService;
 use App\Services\Platform\PlatformService;
 use Core\Enum\DealStatus;
@@ -28,7 +27,6 @@ class DealsCreateUpdate extends Component
         $items_profit_average,
         $initial_commission,
         $final_commission,
-        $commission_formula_id,
         $discount;
 
     public $earn_profit,
@@ -39,8 +37,6 @@ class DealsCreateUpdate extends Component
     public $update = false;
 
     public $statusList;
-
-    public $commissionFormulas;
 
 
     protected $rules = [
@@ -58,11 +54,12 @@ class DealsCreateUpdate extends Component
             'description' => 'required|min:5',
             'target_turnover' => 'required',
             'end_date' => ['required', 'after:start_date'],
+            'initial_commission' => 'required|numeric|min:0|max:100',
+            'final_commission' => 'required|numeric|min:0|max:100|gte:initial_commission',
         ];
 
         if (!$this->update) {
             $rules['start_date'] = ['required', 'after_or_equal:today'];
-            $rules['commission_formula_id'] = 'required|integer|exists:commission_formulas,id';
         } else {
             $rules['start_date'] = ['required'];
         }
@@ -72,8 +69,6 @@ class DealsCreateUpdate extends Component
 
     public function mount(Request $request)
     {
-        $this->commissionFormulas = app(CommissionFormulaService::class)->getActiveFormulas();
-
         $this->idDeal = $request->input('id');
         if (!is_null($this->idDeal)) {
             $this->edit();
@@ -91,33 +86,17 @@ class DealsCreateUpdate extends Component
     public function init()
     {
         $this->status = DealStatus::New->value;
-        if (count($this->commissionFormulas)) {
-            $this->commission_formula_id = $this->commissionFormulas[0]->id;
-        } else {
-            $this->commission_formula_id = null;
-
-        }
+        $this->initial_commission = 0;
+        $this->final_commission = 0;
         $this->target_turnover = 1000;
         $this->start_date = $this->end_date =
         $this->items_profit_average =
-        $this->margin_percentage =
         $this->discount = 10;
         $this->current_turnover = 0;
         $this->earn_profit = $this->getDealParam('DEALS_EARN_PROFIT_PERCENTAGE');
         $this->jackpot = $this->getDealParam('DEALS_JACKPOT_PERCENTAGE');
         $this->tree_remuneration = $this->getDealParam('DEALS_TREE_REMUNERATION_PERCENTAGE');
         $this->proactive_cashback = $this->getDealParam('DEALS_PROACTIVE_CASHBACK_PERCENTAGE');
-    }
-
-    public function updatedCommissionFormulaId($commissionFormulaId)
-    {
-        if ($commissionFormulaId) {
-            $formula = app(CommissionFormulaService::class)->getCommissionFormulaById($commissionFormulaId);
-            if ($formula) {
-                $this->initial_commission = $formula->initial_commission;
-                $this->final_commission = $formula->final_commission;
-            }
-        }
     }
 
     public function edit()
@@ -127,8 +106,8 @@ class DealsCreateUpdate extends Component
         $this->status = $deal->status;
         $this->description = $deal->description;
         $this->target_turnover = $deal->target_turnover;
-        $this->start_date = $deal->start_date ? \Carbon\Carbon::parse($deal->start_date)->format(config('app.date_format')) : null;
-        $this->end_date = $deal->end_date ? \Carbon\Carbon::parse($deal->end_date)->format(config('app.date_format')) : null;
+        $this->start_date = $deal->start_date ? \Carbon\Carbon::parse($deal->start_date)->format('Y-m-d\TH:i') : null;
+        $this->end_date = $deal->end_date ? \Carbon\Carbon::parse($deal->end_date)->format('Y-m-d\TH:i') : null;
         $this->items_profit_average = $deal->items_profit_average;
         $this->initial_commission = $deal->initial_commission;
         $this->final_commission = $deal->final_commission;
@@ -138,7 +117,6 @@ class DealsCreateUpdate extends Component
         $this->tree_remuneration = $deal->tree_remuneration;
         $this->proactive_cashback = $deal->proactive_cashback;
         $this->idPlatform = $deal->platform_id;
-        $this->commission_formula_id = null;
         $this->update = true;
     }
 
@@ -150,10 +128,6 @@ class DealsCreateUpdate extends Component
     public function updateDeal()
     {
         $this->validate();
-
-        if ($this->commission_formula_id) {
-            $this->updatedCommissionFormulaId($this->commission_formula_id);
-        }
 
         $params = [
             'name' => $this->name,
@@ -186,8 +160,6 @@ class DealsCreateUpdate extends Component
     public function store()
     {
         $this->validate();
-
-        $this->updatedCommissionFormulaId($this->commission_formula_id);
 
         $params = [
             'name' => $this->name,
@@ -225,3 +197,4 @@ class DealsCreateUpdate extends Component
         return view('livewire.deals-create-update', ['platform' => $platform])->extends('layouts.master')->section('content');
     }
 }
+
