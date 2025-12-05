@@ -84,8 +84,10 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/change-password', ChangePasswordPage::class)->name('change_password');
         Route::get('/identification', IdentificationPage::class)->name('identification');
 
-        Route::get('/notification/history', NotificationHistory::class)->name('notification_history');
-        Route::get('/notification/settings', NotificationSettings::class)->name('notification_settings');
+        Route::prefix('/notification')->name('notification_')->group(function () {
+            Route::get('/history', NotificationHistory::class)->name('history');
+            Route::get('/settings', NotificationSettings::class)->name('settings');
+        });
 
         Route::prefix('/contacts')->name('contacts_')->group(function () {
             Route::get('/', Contacts::class)->name('index');

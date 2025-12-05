@@ -150,12 +150,9 @@ class NotificationHistory extends Component
             });
         }
 
-        // Convert to paginator
-        $currentPage = \Livewire\Livewire::originalUrl() ?
-            request()->query('page', 1) :
-            \Illuminate\Pagination\Paginator::resolveCurrentPage();
-
+        // Convert to paginator with proper Livewire support
         $perPage = (int)$this->pageCount;
+        $currentPage = $this->getPage('page');
         $total = $notifications->count();
         $items = $notifications->slice(($currentPage - 1) * $perPage, $perPage)->values();
 
@@ -164,8 +161,13 @@ class NotificationHistory extends Component
             $total,
             $perPage,
             $currentPage,
-            ['path' => request()->url(), 'query' => request()->query()]
+            [
+                'path' => \Illuminate\Pagination\Paginator::resolveCurrentPath(),
+                'pageName' => 'page',
+            ]
         );
+
+        $paginator->withQueryString();
 
         return view('livewire.notification-history', [
             'notifications' => $paginator
