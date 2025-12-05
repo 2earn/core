@@ -88,7 +88,10 @@ class FaqCreateUpdate extends Component
 
     public function render()
     {
-        $params = ['faqs' => $this->faqService->getById($this->idFaq)];
+        $params = [];
+        if (!is_null($this->idFaq)) {
+            $params = ['faqs' => $this->faqService->getById($this->idFaq)];
+        }
         return view('livewire.faq-create-update', $params)->extends('layouts.master')->section('content');
     }
 }
