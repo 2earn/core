@@ -354,13 +354,10 @@
                             @if(\Core\Models\Platform::canCheckDeals(auth()->user()->id))
                                 <a class="btn btn-sm btn-soft-secondary flex-fill"
                                    target="_blank"
+                                   title="{{__('For User Role')}}"
                                    href="{{route('sales_tracking',['locale'=>app()->getLocale(),'id'=>$deal->id])}}">
                                     <i class="fas fa-chart-line me-1"></i>
-                                    @if(\App\Models\User::isSuperAdmin())
-                                        {{ __('Platform Details') }}
-                                    @else
-                                        {{ __('Details') }}
-                                    @endif
+                                    {{ __('Deals details') }}
                                 </a>
                             @endif
                         @endif
