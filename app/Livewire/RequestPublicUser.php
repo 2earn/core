@@ -6,7 +6,6 @@ use App\Notifications\FinancialRequestSent;
 use App\Services\FinancialRequest\FinancialRequestService;
 use App\Services\UserService;
 use Core\Enum\StatusRequest;
-use Core\Models\detail_financial_request;
 use Core\Services\settingsManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,7 +33,7 @@ class RequestPublicUser extends Component
         $securityCode = $settingsManager->randomNewCodeOpt();
 
         $financialRequestService = app(FinancialRequestService::class);
-        $requestNumber = $financialRequestService->createFinancialRequest(
+        $financialRequestService->createFinancialRequest(
             $userAuth->idUser,
             $this->amount,
             $this->selectedUsers,

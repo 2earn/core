@@ -329,5 +329,41 @@ class FinancialRequestService
             throw $e;
         }
     }
+
+
+    public function createFinancialRequest($idUser, $amount, $selectedUsers, $securityCode)
+    {
+
+        $lastnumero = 0;
+        $lastRequest = DB::table('financial_request')
+            ->latest('numeroReq')
+            ->first();
+        if ($lastRequest) {
+            $lastnumero = $lastRequest->numeroReq;
+        }
+        $date = date('Y-m-d H:i:s');
+        $year = date('y', strtotime($date));
+        $numer = (int)substr($lastnumero, -6);
+        $ref = date('y') . substr((1000000 + $numer + 1), 1, 6);
+        $data = [];
+        foreach ($selectedUsers as $val) {
+            if ($val != $idUser) {
+                $new = ['numeroRequest' => $ref, 'idUser' => $val];
+                array_push($data, $new);
+            }
+        }
+        detail_financial_request::insert($data);
+        DB::table('financial_request')
+            ->insert([
+                'numeroReq' => $ref,
+                'idSender' => $idUser,
+                'Date' => $date,
+                'amount' => $amount,
+                'status' => '0',
+                'securityCode' => $securityCode
+            ]);
+
+
+    }
 }
 

@@ -32,7 +32,6 @@
                                 </span>
                                 <input type="number" name="fundAmountTXT" id="amount"
                                        class="form-control form-control-lg text-center fw-bold"
-                                       placeholder="0.00"
                                        onpaste="handlePaste(event)">
                                 <span class="input-group-text bg-light text-muted">
                                     {{config('app.currency')}}
@@ -189,12 +188,6 @@
                 return;
             }
             window.Livewire.dispatch('redirectPay', [theUrl, amount]);
-        });
-        var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
-        var urlLang = "https://cdn.datatables.net/plug-ins/1.12.1/i18n/" + lan + ".json";
-        $('#customerTable2').DataTable({
-            order: [[1, 'desc']],
-            "language": {"url": urlLang},
         });
     </script>
 </div>
