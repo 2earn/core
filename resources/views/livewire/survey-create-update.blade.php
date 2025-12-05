@@ -13,8 +13,7 @@
         @include('layouts.flash-messages')
     </div>
     <div class="row">
-        <div class="col-12">
-            <div class="card shadow-sm">
+            <div class="col-12 card shadow-sm">
                 <div class="card-header bg-white py-3">
                     <h5 class="mb-0">
                         @if($update)
@@ -424,6 +423,5 @@
                     </form>
                 </div>
             </div>
-        </div>
     </div>
 </div>
