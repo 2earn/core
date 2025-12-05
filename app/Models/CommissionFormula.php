@@ -38,6 +38,16 @@ class CommissionFormula extends Model
     }
 
     /**
+     * Get all deals using this commission plan
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function deals()
+    {
+        return $this->hasMany(Deal::class, 'plan', 'id');
+    }
+
+    /**
      * Calculate commission based on a value
      *
      * @param float $value
