@@ -18,9 +18,8 @@ class BalanceOperationService
                 $query->where(function ($q) use ($search) {
                     $q->where('id', 'like', '%' . $search . '%')
                         ->orWhere('operation', 'like', '%' . $search . '%')
-                        ->orWhere('note', 'like', '%' . $search . '%')
                         ->orWhere('balance_id', 'like', '%' . $search . '%')
-                        ->orWhere('parent_id', 'like', '%' . $search . '%');
+                        ->orWhere('parent_operation_id', 'like', '%' . $search . '%');
                 });
             })
             ->orderBy('id', 'desc')
