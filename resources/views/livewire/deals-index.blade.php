@@ -197,10 +197,28 @@
                 <div class="card-body">
                     <div class="d-flex align-items-start mb-3">
                         <div class="flex-shrink-0">
-                            <div
-                                class="avatar-sm rounded-circle bg-light d-flex align-items-center justify-content-center">
-                                <i class="fa-solid fa-circle-question text-info fa-lg"></i>
-                            </div>
+                            @if($deal->commissionPlan && $deal->commissionPlan->iconImage)
+                                <div class="avatar-sm rounded-circle bg-light d-flex align-items-center justify-content-center"
+                                     title="{{ $deal->commissionPlan->name }} ({{ $deal->commissionPlan->getCommissionRange() }})">
+                                    <img src="{{ asset('storage/' . $deal->commissionPlan->iconImage->url) }}"
+                                         alt="{{ $deal->commissionPlan->name }}"
+                                         class="avatar-sm rounded-circle"
+                                         style="width: 40px; height: 40px; object-fit: cover;"
+                                         onerror="this.src='{{ Vite::asset(\App\Models\CommissionFormula::DEFAULT_IMAGE_TYPE_ICON) }}'">
+                                </div>
+                            @elseif($deal->commissionPlan)
+                                <div class="avatar-sm rounded-circle bg-light d-flex align-items-center justify-content-center"
+                                     title="{{ $deal->commissionPlan->name }} ({{ $deal->commissionPlan->getCommissionRange() }})">
+                                    <img src="{{ Vite::asset(\App\Models\CommissionFormula::DEFAULT_IMAGE_TYPE_ICON) }}"
+                                         alt="{{ $deal->commissionPlan->name }}"
+                                         class="avatar-sm rounded-circle"
+                                         style="width: 40px; height: 40px; object-fit: cover;">
+                                </div>
+                            @else
+                                <div class="avatar-sm rounded-circle bg-light d-flex align-items-center justify-content-center">
+                                    <i class="fa-solid fa-circle-question text-info fa-lg"></i>
+                                </div>
+                            @endif
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <div class="d-flex justify-content-between align-items-start">
@@ -209,6 +227,15 @@
                                                     #{{$deal->id}}
                                                 </span>
                                     <h5 class="fs-15 mb-1">{{$deal->name}}</h5>
+                                    @if($deal->commissionPlan)
+                                        <p class="text-muted mb-0">
+                                            <i class="fas fa-award me-1"></i>
+                                            <strong class="text-success">{{ $deal->commissionPlan->name }}</strong>
+                                            <span class="badge bg-success-subtle text-success ms-1">
+                                                {{ $deal->commissionPlan->getCommissionRange() }}
+                                            </span>
+                                        </p>
+                                    @endif
                                     @if(isset($deal->platform))
                                         <p class="text-muted mb-0">
                                             <i class="fas fa-desktop me-1"></i>
