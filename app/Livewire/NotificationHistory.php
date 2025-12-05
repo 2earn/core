@@ -91,7 +91,7 @@ class NotificationHistory extends Component
         $this->resetPage();
     }
 
-    public function render()
+    public function getNotificationsProperty()
     {
         $notifications = app(settingsManager::class)->getHistory();
 
@@ -156,7 +156,7 @@ class NotificationHistory extends Component
         $total = $notifications->count();
         $items = $notifications->slice(($currentPage - 1) * $perPage, $perPage)->values();
 
-        $paginator = new \Illuminate\Pagination\LengthAwarePaginator(
+        return new \Illuminate\Pagination\LengthAwarePaginator(
             $items,
             $total,
             $perPage,
@@ -166,11 +166,12 @@ class NotificationHistory extends Component
                 'pageName' => 'page',
             ]
         );
+    }
 
-        $paginator->withQueryString();
-
+    public function render()
+    {
         return view('livewire.notification-history', [
-            'notifications' => $paginator
+            'notifications' => $this->notifications
         ])->extends('layouts.master')->section('content');
     }
 }
