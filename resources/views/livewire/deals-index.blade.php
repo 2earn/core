@@ -227,15 +227,6 @@
                                                     #{{$deal->id}}
                                                 </span>
                                     <h5 class="fs-15 mb-1">{{$deal->name}}</h5>
-                                    @if($deal->commissionPlan)
-                                        <p class="text-muted mb-0">
-                                            <i class="fas fa-award me-1"></i>
-                                            <strong class="text-success">{{ $deal->commissionPlan->name }}</strong>
-                                            <span class="badge bg-success-subtle text-success ms-1">
-                                                {{ $deal->commissionPlan->getCommissionRange() }}
-                                            </span>
-                                        </p>
-                                    @endif
                                     @if(isset($deal->platform))
                                         <p class="text-muted mb-0">
                                             <i class="fas fa-desktop me-1"></i>
@@ -256,6 +247,44 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Commission Plan Block -->
+                    @if($deal->commissionPlan)
+                        <div class="alert alert-success border-success mb-3" role="alert">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0 me-3">
+                                    @if($deal->commissionPlan->iconImage)
+                                        <img src="{{ asset('storage/' . $deal->commissionPlan->iconImage->url) }}"
+                                             alt="{{ $deal->commissionPlan->name }}"
+                                             class="rounded-circle"
+                                             style="width: 50px; height: 50px; object-fit: cover;"
+                                             onerror="this.src='{{ Vite::asset(\App\Models\CommissionFormula::DEFAULT_IMAGE_TYPE_ICON) }}'">
+                                    @else
+                                        <img src="{{ Vite::asset(\App\Models\CommissionFormula::DEFAULT_IMAGE_TYPE_ICON) }}"
+                                             alt="{{ $deal->commissionPlan->name }}"
+                                             class="rounded-circle"
+                                             style="width: 50px; height: 50px; object-fit: cover;">
+                                    @endif
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">
+                                        <i class="fas fa-award me-2 text-success"></i>
+                                        <strong>{{ $deal->commissionPlan->name }}</strong>
+                                    </h6>
+                                    <div class="d-flex align-items-center flex-wrap gap-2">
+                                        <span class="badge bg-success fs-6">
+                                            {{ $deal->commissionPlan->getCommissionRange() }}
+                                        </span>
+                                        @if($deal->commissionPlan->description)
+                                            <small class="text-muted">
+                                                {{ Str::limit($deal->commissionPlan->description, 100) }}
+                                            </small>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
 
                     <div class="row g-2 mb-3">
                         <div class="col-md-4 col-6">

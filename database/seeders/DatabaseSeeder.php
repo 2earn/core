@@ -25,7 +25,9 @@ class DatabaseSeeder extends Seeder
 
             UserGuideSeeder::class,
 
-            CommissionFormulaSeeder::class
+            CommissionFormulaSeeder::class,
+
+            AssignCommissionPlanToDealsSeeder::class
         ]);
     }
 }

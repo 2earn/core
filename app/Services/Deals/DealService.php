@@ -365,7 +365,6 @@ class DealService
      */
     public function create(array $data): Deal
     {
-        // Automatically determine the plan if not provided and commission values exist
         if (!isset($data['plan']) && isset($data['final_commission'])) {
             $data['plan'] = $this->determineNearestPlan($data['final_commission']);
         }
@@ -409,6 +408,11 @@ class DealService
      */
     public function update(int $id, array $data): bool
     {
+        // Automatically determine the plan if not provided and final_commission is being updated
+        if (!isset($data['plan']) && isset($data['final_commission'])) {
+            $data['plan'] = $this->determineNearestPlan($data['final_commission']);
+        }
+
         return Deal::where('id', $id)->update($data);
     }
 
