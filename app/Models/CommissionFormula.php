@@ -11,6 +11,9 @@ class CommissionFormula extends Model
 {
     use HasFactory, HasAuditing, SoftDeletes;
 
+    const IMAGE_TYPE_LOGO = 'logo';
+    const DEFAULT_IMAGE_TYPE_LOGO = 'resources/images/commission-formulas/logo/default-commission-formula-logo.png';
+
     protected $fillable = [
         'initial_commission',
         'final_commission',
@@ -35,6 +38,16 @@ class CommissionFormula extends Model
     public function getCommissionRange(): string
     {
         return $this->initial_commission . '% - ' . $this->final_commission . '%';
+    }
+
+    /**
+     * Get the icon image for this commission formula
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+     */
+    public function iconImage()
+    {
+        return $this->morphOne(Image::class, 'imageable')->where('type', '=', self::IMAGE_TYPE_LOGO);
     }
 
     /**
