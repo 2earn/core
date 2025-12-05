@@ -14,7 +14,7 @@
                 <form>
                     <input type="hidden" wire:model.live="id">
                     <div class="row">
-                        <div class="form-group col-3 mb-3">
+                        <div class="form-group col-6 mb-3">
                             <label for="name">{{__('Name')}}</label>
                             <input type="text" class="form-control @error('name') is-invalid @enderror"
                                    id="name"
@@ -23,7 +23,7 @@
                             @error('name') <span class="text-danger">{{ $message }}</span>@enderror
                             <div class="form-text">{{__('Required field')}}</div>
                         </div>
-                        <div class="form-group col-3 mb-3">
+                        <div class="form-group col-6 mb-3">
                             <label for="description">{{__('Description')}}</label>
                             <textarea class="form-control @error('description') is-invalid @enderror"
                                       id="description"
@@ -33,13 +33,13 @@
                             <div class="form-text">{{__('Required field')}}</div>
                         </div>
 
-                        <div class="form-group col-3 mb-3">
+                        <div class="form-group col-6 mb-3">
                             <label for="start_date">{{__('Start Date')}}:</label>
                             <input class="form-control" wire:model.live="start_date" type="datetime-local"
                                    id="start_date" placeholder="{{__('Start Date')}}">
                             @error('start_date') <span class="text-danger">{{ $message }}</span>@enderror
                         </div>
-                        <div class="form-group col-3 mb-3">
+                        <div class="form-group col-6 mb-3">
                             <label for="end_date">{{__('End Date')}}:</label>
                             <input class="form-control" wire:model.live="end_date" type="datetime-local"
                                    id="end_date" placeholder="{{__('End Date')}}">
@@ -48,7 +48,7 @@
                     </div>
                     <hr class="text-muted">
                     <div class="row">
-                        <div class="form-group col-3 mb-3">
+                        <div class="form-group col-2 mb-3">
                             <label for="provider_turnover">{{__('Out provider turnover')}}</label> <span
                                 class="text-info float-end">{{__('$')}}</span>
 
@@ -60,7 +60,7 @@
                             @error('provider_turnover') <span class="text-danger">{{ $message }}</span>@enderror
                             <div class="form-text">{{__('Required field')}}</div>
                         </div>
-                        <div class="form-group col-3 mb-3">
+                        <div class="form-group col-2 mb-3">
                             <label for="target_turnover">{{__('Target turnover')}}</label> <span
                                 class="text-info float-end">{{__('$')}}</span>
                             <input type="number"
@@ -71,7 +71,7 @@
                             @error('target_turnover') <span class="text-danger">{{ $message }}</span>@enderror
                             <div class="form-text">{{__('Required field')}}</div>
                         </div>
-                        <div class="form-group col-3 mb-3">
+                        <div class="form-group col-2 mb-3">
                             <label for="items_profit_average">{{__('Items profit average')}}</label>
                             <span class="text-info float-end">{{__('$')}}</span>
 
@@ -86,20 +86,29 @@
 
 
                         <div class="form-group col-3 mb-3">
-                            <label for="commission_formula_id">{{__('Commission Formula')}}</label>
-                            <select class="form-control @error('commission_formula_id') is-invalid @enderror"
-                                    id="commission_formula_id"
-                                    wire:model.live="commission_formula_id">
-                                <option value="">{{__('Select Commission Formula')}}</option>
-                                @foreach($commissionFormulas as $formula)
-                                    <option value="{{ $formula->id }}">
-                                        {{ $formula->name }} ({{ $formula->initial_commission }}%
-                                        - {{ $formula->final_commission }}%)
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('commission_formula_id') <span class="text-danger">{{ $message }}</span>@enderror
-                            <div class="form-text">{{__('Select a commission formula')}}</div>
+                            <label for="initial_commission">{{__('Initial Commission')}}</label>
+                            <span class="text-info float-end">{{__('%')}}</span>
+                            <input type="number"
+                                   step="0.01"
+                                   class="form-control @error('initial_commission') is-invalid @enderror"
+                                   id="initial_commission"
+                                   wire:model.live="initial_commission"
+                                   placeholder="{{__('Enter Initial Commission')}}">
+                            @error('initial_commission') <span class="text-danger">{{ $message }}</span>@enderror
+                            <div class="form-text">{{__('Required field')}}</div>
+                        </div>
+
+                        <div class="form-group col-3 mb-3">
+                            <label for="final_commission">{{__('Final Commission')}}</label>
+                            <span class="text-info float-end">{{__('%')}}</span>
+                            <input type="number"
+                                   step="0.01"
+                                   class="form-control @error('final_commission') is-invalid @enderror"
+                                   id="final_commission"
+                                   wire:model.live="final_commission"
+                                   placeholder="{{__('Enter Final Commission')}}">
+                            @error('final_commission') <span class="text-danger">{{ $message }}</span>@enderror
+                            <div class="form-text">{{__('Required field')}}</div>
                         </div>
                     </div>
                     <hr class="text-muted">
