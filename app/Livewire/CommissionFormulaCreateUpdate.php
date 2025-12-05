@@ -144,14 +144,14 @@ class CommissionFormulaCreateUpdate extends Component
         try {
             // Delete old image if exists
             if ($formula->iconImage) {
-                if (Storage::disk('public')->exists($formula->iconImage->url)) {
-                    Storage::disk('public')->delete($formula->iconImage->url);
+                if (Storage::disk('public2')->exists($formula->iconImage->url)) {
+                    Storage::disk('public2')->delete($formula->iconImage->url);
                 }
                 $formula->iconImage()->delete();
             }
 
             // Store new image
-            $imagePath = $this->iconImage->store('commission-formulas/' . CommissionFormula::IMAGE_TYPE_ICON, 'public');
+            $imagePath = $this->iconImage->store('commission-formulas/' . CommissionFormula::IMAGE_TYPE_ICON, 'public2');
 
             // Create image record
             $formula->iconImage()->create([

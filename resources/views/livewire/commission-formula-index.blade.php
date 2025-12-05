@@ -195,7 +195,7 @@
                                                         <div class="avatar-sm">
                                                             @if($formula->iconImage)
                                                                 <img
-                                                                    src="{{ asset('storage/' . $formula->iconImage->url) }}"
+                                                                    src="{{ asset('uploads/' . $formula->iconImage->url) }}"
                                                                     alt="{{ $formula->name }}"
                                                                     class="avatar-sm rounded-circle"
                                                                     style="width: 40px; height: 40px; object-fit: cover;"
