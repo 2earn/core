@@ -23,7 +23,14 @@ class UserDetails extends Component
 
     public function mount($idUser, Request $request)
     {
-        $user = User::find(Route::current()->parameter('idUser'));
+        $user = User::where('idUser', Route::current()->parameter('idUser'))->first();
+        if (!$user) {
+            $user = User::find(Route::current()->parameter('idUser'));
+            if (!$user) {
+                throw new \Exception('User not found');
+            }
+        }
+
         $this->userProfileImage = User::getUserProfileImage($user->idUser);
         $this->userNationalFrontImage = User::getNationalFrontImage($user->idUser);
         $this->userNationalBackImage = User::getNationalBackImage($user->idUser);
