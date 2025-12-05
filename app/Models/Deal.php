@@ -30,6 +30,7 @@ class Deal extends Model
         'end_date',
         'initial_commission',
         'final_commission',
+        'plan',
         'earn_profit',
         'jackpot',
         'tree_remuneration',
@@ -65,6 +66,11 @@ class Deal extends Model
     public function platform()
     {
         return $this->hasOne(Platform::class, 'id', 'platform_id');
+    }
+
+    public function commissionPlan()
+    {
+        return $this->belongsTo(CommissionFormula::class, 'plan', 'id');
     }
 
     public function cashBalance(): HasMany
@@ -167,6 +173,66 @@ class Deal extends Model
     {
         $commission = Deal::getCommissionPercentage($deal);
         return ($commission * $deal->current_turnover / 100) / 100 * $percentage;
+    }
+
+    /**
+     * Boot method to handle automatic plan determination
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($deal) {
+            if (!$deal->plan && $deal->initial_commission !== null && $deal->final_commission !== null) {
+                $deal->plan = self::determinePlan($deal->initial_commission, $deal->final_commission);
+            }
+        });
+
+        static::updating(function ($deal) {
+            if ($deal->isDirty(['initial_commission', 'final_commission'])) {
+                $deal->plan = self::determinePlan($deal->initial_commission, $deal->final_commission);
+            }
+        });
+    }
+
+    /**
+     * Determine the commission plan based on initial and final commission values
+     *
+     * @param float $initialCommission
+     * @param float $finalCommission
+     * @return int|null
+     */
+    public static function determinePlan($initialCommission, $finalCommission)
+    {
+        // Find the matching commission formula
+        $formula = CommissionFormula::where('is_active', true)
+            ->where('initial_commission', '<=', $initialCommission)
+            ->where('final_commission', '>=', $finalCommission)
+            ->orderBy('initial_commission', 'desc')
+            ->orderBy('final_commission', 'asc')
+            ->first();
+
+        return $formula ? $formula->id : null;
+    }
+
+    /**
+     * Get the plan name
+     *
+     * @return string|null
+     */
+    public function getPlanNameAttribute()
+    {
+        return $this->commissionPlan ? $this->commissionPlan->name : null;
+    }
+
+    /**
+     * Get the commission range from the plan
+     *
+     * @return string|null
+     */
+    public function getPlanCommissionRangeAttribute()
+    {
+        return $this->commissionPlan ? $this->commissionPlan->getCommissionRange() : null;
     }
 
 }

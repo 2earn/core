@@ -310,6 +310,7 @@ class BusinessSectorService
             $businessSector->{$relationMethod}()->create([
                 'url' => $imagePath,
                 'type' => $imageType,
+                'created_by' => auth()->id(),
             ]);
 
             return true;

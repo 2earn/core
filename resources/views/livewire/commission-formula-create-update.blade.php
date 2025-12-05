@@ -61,7 +61,7 @@
                             </div>
                         </div>
 
-                        
+
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="final_commission" class="form-label">
@@ -87,7 +87,7 @@
                         </div>
                     </div>
 
-                    
+
                     @if($initial_commission && $final_commission && $final_commission > $initial_commission)
                         <div class="alert alert-info border-0 mb-3" role="alert">
                             <div class="d-flex align-items-center">
@@ -104,7 +104,7 @@
                         </div>
                     @endif
 
-                    
+
                     <div class="mb-3">
                         <label for="description" class="form-label">
                             {{ __('Description') }}
@@ -121,7 +121,63 @@
                             class="form-text">{{ __('Optional detailed description of when and how this formula should be used.') }}</div>
                     </div>
 
-                    
+                    {{-- Icon Image Upload --}}
+                    <div class="mb-3">
+                        <label for="iconImage" class="form-label">
+                            {{ __('Icon/Logo') }}
+                        </label>
+                        <input type="file"
+                               wire:model="iconImage"
+                               id="iconImage"
+                               class="form-control @error('iconImage') is-invalid @enderror"
+                               accept="image/jpeg,image/png,image/jpg,image/svg+xml,image/webp">
+                        @error('iconImage')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                        <div class="form-text">{{ __('Upload an icon or logo for this commission formula (max 2MB). Formats: JPEG, PNG, JPG, SVG, WEBP') }}</div>
+
+                        {{-- Image Preview --}}
+                        <div class="mt-3">
+                            @if ($iconImage)
+                                <div class="d-flex align-items-center gap-3">
+                                    <div>
+                                        <p class="text-muted mb-2">{{ __('New Image Preview:') }}</p>
+                                        <img src="{{ $iconImage->temporaryUrl() }}"
+                                             alt="Icon Preview"
+                                             class="img-thumbnail"
+                                             style="max-width: 150px; max-height: 150px; object-fit: contain;">
+                                    </div>
+                                </div>
+                            @elseif ($existingIconUrl)
+                                <div>
+                                    <p class="text-muted mb-2">{{ __('Current Icon:') }}</p>
+                                    <img src="{{ asset('storage/' . $existingIconUrl) }}"
+                                         alt="Current Icon"
+                                         class="img-thumbnail"
+                                         style="max-width: 150px; max-height: 150px; object-fit: contain;"
+                                         onerror="this.src='{{ Vite::asset(\App\Models\CommissionFormula::DEFAULT_IMAGE_TYPE_ICON) }}'">
+                                </div>
+                            @else
+                                <div>
+                                    <p class="text-muted mb-2">{{ __('Default Icon:') }}</p>
+                                    <img src="{{ Vite::asset(\App\Models\CommissionFormula::DEFAULT_IMAGE_TYPE_ICON) }}"
+                                         alt="Default Icon"
+                                         class="img-thumbnail"
+                                         style="max-width: 150px; max-height: 150px; object-fit: contain;">
+                                </div>
+                            @endif
+                        </div>
+
+                        {{-- Loading indicator --}}
+                        <div wire:loading wire:target="iconImage" class="mt-2">
+                            <div class="d-flex align-items-center text-primary">
+                                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                <span>{{ __('Uploading image...') }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="mb-4">
                         <div class="form-check form-switch form-switch-lg">
                             <input type="checkbox"
@@ -145,7 +201,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="d-flex justify-content-end gap-2">
                         <button type="button" wire:click="cancel" class="btn btn-light">
                             <i class="ri-close-line align-middle me-1"></i>

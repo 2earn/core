@@ -350,7 +350,7 @@ class DealService
             $query->where('end_date', '<=', $endDateTo);
         }
 
-        $query->with(['platform', 'pendingChangeRequest.requestedBy']);
+        $query->with(['platform', 'pendingChangeRequest.requestedBy', 'commissionPlan.iconImage']);
 
         $query->orderBy('validated', 'ASC')->orderBy('platform_id', 'ASC');
 
@@ -365,7 +365,27 @@ class DealService
      */
     public function create(array $data): Deal
     {
+        if (!isset($data['plan']) && isset($data['final_commission'])) {
+            $data['plan'] = $this->determineNearestPlan($data['final_commission']);
+        }
+
         return Deal::create($data);
+    }
+
+    /**
+     * Determine the nearest commission plan based on final_commission value
+     *
+     * @param float $finalCommission
+     * @return int|null
+     */
+    private function determineNearestPlan(float $finalCommission): ?int
+    {
+        $formula = \App\Models\CommissionFormula::where('is_active', true)
+            ->selectRaw('*, ABS(final_commission - ?) as commission_diff', [$finalCommission])
+            ->orderBy('commission_diff', 'asc')
+            ->first();
+
+        return $formula ? $formula->id : null;
     }
 
     /**
@@ -388,6 +408,11 @@ class DealService
      */
     public function update(int $id, array $data): bool
     {
+        // Automatically determine the plan if not provided and final_commission is being updated
+        if (!isset($data['plan']) && isset($data['final_commission'])) {
+            $data['plan'] = $this->determineNearestPlan($data['final_commission']);
+        }
+
         return Deal::where('id', $id)->update($data);
     }
 

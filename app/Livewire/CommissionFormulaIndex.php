@@ -108,6 +108,7 @@ class CommissionFormulaIndex extends Component
             'search' => $this->search,
             'order_by' => $this->sortBy,
             'order_direction' => $this->sortDirection,
+            'with' => ['iconImage'], // Eager load icon images
         ];
 
         if ($this->filterActive !== '') {

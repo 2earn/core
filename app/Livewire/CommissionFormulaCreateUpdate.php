@@ -5,10 +5,15 @@ namespace App\Livewire;
 use App\Models\CommissionFormula;
 use App\Services\Commission\CommissionFormulaService;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class CommissionFormulaCreateUpdate extends Component
 {
+    use WithFileUploads;
+
     protected $commissionFormulaService;
 
     public $formulaId = null;
@@ -17,6 +22,8 @@ class CommissionFormulaCreateUpdate extends Component
     public $final_commission = '';
     public $description = '';
     public $is_active = true;
+    public $iconImage;
+    public $existingIconUrl = null;
 
     public $isEditMode = false;
 
@@ -26,6 +33,7 @@ class CommissionFormulaCreateUpdate extends Component
         'final_commission' => 'required|numeric|min:0|max:100|gt:initial_commission',
         'description' => 'nullable|string',
         'is_active' => 'boolean',
+        'iconImage' => 'nullable|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
     ];
 
     protected $messages = [
@@ -40,6 +48,9 @@ class CommissionFormulaCreateUpdate extends Component
         'final_commission.min' => 'The final commission must be at least 0.',
         'final_commission.max' => 'The final commission must not exceed 100.',
         'final_commission.gt' => 'The final commission must be greater than initial commission.',
+        'iconImage.image' => 'The icon must be an image file.',
+        'iconImage.mimes' => 'The icon must be a file of type: jpeg, png, jpg, svg, webp.',
+        'iconImage.max' => 'The icon size must not exceed 2MB.',
     ];
 
     public function boot(CommissionFormulaService $commissionFormulaService)
@@ -70,6 +81,11 @@ class CommissionFormulaCreateUpdate extends Component
         $this->final_commission = $formula->final_commission;
         $this->description = $formula->description;
         $this->is_active = $formula->is_active;
+
+        // Load existing icon image if available
+        if ($formula->iconImage) {
+            $this->existingIconUrl = $formula->iconImage->url;
+        }
     }
 
     public function updated($propertyName)
@@ -93,6 +109,11 @@ class CommissionFormulaCreateUpdate extends Component
             $formula = $this->commissionFormulaService->updateCommissionFormula($this->formulaId, $data);
 
             if ($formula) {
+                // Handle icon image upload for update
+                if ($this->iconImage) {
+                    $this->handleIconImageUpload($formula);
+                }
+
                 session()->flash('success', Lang::get('Commission formula updated successfully.'));
                 return redirect()->route('commission_formula_index', ['locale' => app()->getLocale()]);
             } else {
@@ -102,11 +123,45 @@ class CommissionFormulaCreateUpdate extends Component
             $formula = $this->commissionFormulaService->createCommissionFormula($data);
 
             if ($formula) {
+                // Handle icon image upload for create
+                if ($this->iconImage) {
+                    $this->handleIconImageUpload($formula);
+                }
+
                 session()->flash('success', Lang::get('Commission formula created successfully.'));
                 return redirect()->route('commission_formula_index', ['locale' => app()->getLocale()]);
             } else {
                 session()->flash('error', Lang::get('Failed to create commission formula.'));
             }
+        }
+    }
+
+    /**
+     * Handle icon image upload
+     */
+    private function handleIconImageUpload($formula)
+    {
+        try {
+            // Delete old image if exists
+            if ($formula->iconImage) {
+                if (Storage::disk('public2')->exists($formula->iconImage->url)) {
+                    Storage::disk('public2')->delete($formula->iconImage->url);
+                }
+                $formula->iconImage()->delete();
+            }
+
+            // Store new image
+            $imagePath = $this->iconImage->store('commission-formulas/' . CommissionFormula::IMAGE_TYPE_ICON, 'public2');
+
+            // Create image record
+            $formula->iconImage()->create([
+                'type' => CommissionFormula::IMAGE_TYPE_ICON,
+                'url' => $imagePath,
+                'created_by' => auth()->id(),
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Failed to upload icon image: ' . $e->getMessage());
         }
     }
 

@@ -199,7 +199,7 @@
                         <div class="flex-shrink-0">
                             <div
                                 class="avatar-sm rounded-circle bg-light d-flex align-items-center justify-content-center">
-                                <i class="fa-solid fa-circle-question text-info fa-lg"></i>
+                                <i class="fa fa-handshake text-info fa-lg"></i>
                             </div>
                         </div>
                         <div class="flex-grow-1 ms-3">
@@ -229,6 +229,44 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Commission Plan Block -->
+                    @if($deal->commissionPlan)
+                        <div class="alert alert-success border-success mb-3" role="alert">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0 me-3">
+                                    @if($deal->commissionPlan->iconImage)
+                                        <img src="{{ asset('uploads/' . $deal->commissionPlan->iconImage->url) }}"
+                                             alt="{{ $deal->commissionPlan->name }}"
+                                             class="rounded-circle"
+                                             style="width: 50px; height: 50px; object-fit: cover;"
+                                             onerror="this.src='{{ Vite::asset(\App\Models\CommissionFormula::DEFAULT_IMAGE_TYPE_ICON) }}'">
+                                    @else
+                                        <img src="{{ Vite::asset(\App\Models\CommissionFormula::DEFAULT_IMAGE_TYPE_ICON) }}"
+                                             alt="{{ $deal->commissionPlan->name }}"
+                                             class="rounded-circle"
+                                             style="width: 50px; height: 50px; object-fit: cover;">
+                                    @endif
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">
+                                        <i class="fas fa-award me-2 text-success"></i>
+                                        <strong>{{ $deal->commissionPlan->name }}</strong>
+                                    </h6>
+                                    <div class="d-flex align-items-center flex-wrap gap-2">
+                                        <span class="badge bg-success fs-6">
+                                            {{ $deal->commissionPlan->getCommissionRange() }}
+                                        </span>
+                                        @if($deal->commissionPlan->description)
+                                            <small class="text-muted">
+                                                {{ Str::limit($deal->commissionPlan->description, 100) }}
+                                            </small>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
 
                     <div class="row g-2 mb-3">
                         <div class="col-md-4 col-6">
@@ -269,47 +307,46 @@
                     </div>
 
                     <div class="row g-2 mb-3">
-                        <div class="col-md-6 col-6">
+                        <div class="col-md-6 col-12">
                             <div class="p-2 bg-light rounded">
-                                <p class="text-info fs-12 mb-1">
-                                    <i class="fas fa-calendar-alt me-1"></i>{{__('Start Date')}}
+                                <p class="text-info fs-12 mb-2">
+                                    <i class="fas fa-calendar-alt me-1"></i>{{__('Deal Period')}}
                                 </p>
-                                <span class="badge bg-info-subtle text-info px-2 py-1">
-                                    {{$deal->start_date ? \Carbon\Carbon::parse($deal->start_date)->format($dateFormat) : __('N/A')}}
-                                </span>
+                                <div class="d-flex flex-column gap-1">
+                                    <div>
+                                        <small class="text-muted">{{__('Start Date')}}:</small>
+                                        <span class="badge bg-info-subtle text-info px-2 py-1 ms-1">
+                                            {{$deal->start_date ? \Carbon\Carbon::parse($deal->start_date)->format($dateFormat) : __('N/A')}}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <small class="text-muted">{{__('End Date')}}:</small>
+                                        <span class="badge bg-danger-subtle text-danger px-2 py-1 ms-1">
+                                            {{$deal->end_date ? \Carbon\Carbon::parse($deal->end_date)->format($dateFormat) : __('N/A')}}
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6 col-6">
+                        <div class="col-md-6 col-12">
                             <div class="p-2 bg-light rounded">
-                                <p class="text-danger fs-12 mb-1">
-                                    <i class="fas fa-calendar-times me-1"></i>{{__('End Date')}}
+                                <p class="text-success fs-12 mb-2">
+                                    <i class="fas fa-percent me-1"></i>{{__('Commission Range')}}
                                 </p>
-                                <span class="badge bg-danger-subtle text-danger px-2 py-1">
-                                    {{$deal->end_date ? \Carbon\Carbon::parse($deal->end_date)->format($dateFormat) : __('N/A')}}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row g-2 mb-3">
-                        <div class="col-md-6 col-6">
-                            <div class="p-2 bg-light rounded">
-                                <p class="text-success fs-12 mb-1">
-                                    <i class="fas fa-percent me-1"></i>{{__('Initial Commission')}}
-                                </p>
-                                <span class="badge bg-success-subtle text-success px-2 py-1">
-                                                {{number_format($deal->initial_commission, 2)}}%
-                                            </span>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-6">
-                            <div class="p-2 bg-light rounded">
-                                <p class="text-warning fs-12 mb-1">
-                                    <i class="fas fa-percent me-1"></i>{{__('Final Commission')}}
-                                </p>
-                                <span class="badge bg-warning-subtle text-warning px-2 py-1">
-                                                {{number_format($deal->final_commission, 2)}}%
-                                            </span>
+                                <div class="d-flex flex-column gap-1">
+                                    <div>
+                                        <small class="text-muted">{{__('Initial')}}:</small>
+                                        <span class="badge bg-success-subtle text-success px-2 py-1 ms-1">
+                                            {{number_format($deal->initial_commission, 2)}}%
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <small class="text-muted">{{__('Final')}}:</small>
+                                        <span class="badge bg-warning-subtle text-warning px-2 py-1 ms-1">
+                                            {{number_format($deal->final_commission, 2)}}%
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
