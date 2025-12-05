@@ -23,7 +23,8 @@ class UpdateDealRequest extends FormRequest
     {
         return [
             'name' => 'sometimes|string|max:255',
-            'commission_formula_id' => 'sometimes|integer|exists:commission_formulas,id',
+            'initial_commission' => 'sometimes|numeric|min:0|max:100',
+            'final_commission' => 'sometimes|numeric|min:0|max:100|gte:initial_commission',
             'description' => 'sometimes|string',
             'type' => 'sometimes|string',
             'status' => 'sometimes|string',
@@ -33,8 +34,6 @@ class UpdateDealRequest extends FormRequest
             'discount' => 'nullable|numeric',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
-            'initial_commission' => 'nullable|numeric',
-            'final_commission' => 'nullable|numeric',
             'earn_profit' => 'nullable|numeric',
             'jackpot' => 'nullable|numeric',
             'tree_remuneration' => 'nullable|numeric',

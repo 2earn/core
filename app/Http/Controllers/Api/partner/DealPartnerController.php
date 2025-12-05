@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\partner;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateDealRequest;
-use App\Models\CommissionFormula;
 use App\Models\Deal;
 use App\Models\DealChangeRequest;
 use App\Models\DealValidationRequest;
@@ -76,7 +75,8 @@ class DealPartnerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'commission_formula_id' => 'required|integer|exists:commission_formulas,id',
+            'initial_commission' => 'required|numeric|min:0|max:100',
+            'final_commission' => 'required|numeric|min:0|max:100|gte:initial_commission',
             'description' => 'required|string',
             'type' => 'required|string',
             'status' => 'required|string',
@@ -116,12 +116,6 @@ class DealPartnerController extends Controller
         $validatedData['validated'] = false;
         $validatedData['current_turnover'] = $request->input('current_turnover', 0);
 
-        $commissionFormulaId = $request->input('commission_formula_id', 0);
-        $commissionFormula = CommissionFormula::find($commissionFormulaId);
-        if ($commissionFormula) {
-            $validatedData['initial_commission'] = $commissionFormula->initial_commission;
-            $validatedData['final_commission'] = $commissionFormula->final_commission;
-        }
 
         try {
             DB::beginTransaction();
@@ -304,14 +298,6 @@ class DealPartnerController extends Controller
     {
         $validatedData = $request->validated();
 
-        if (array_key_exists('commission_formula_id', $validatedData)) {
-            $commissionFormula = CommissionFormula::find($validatedData['commission_formula_id']);
-            if ($commissionFormula) {
-                $validatedData['initial_commission'] = $commissionFormula->initial_commission;
-                $validatedData['final_commission'] = $commissionFormula->final_commission;
-            }
-            unset($validatedData['commission_formula_id']);
-        }
 
         if (array_key_exists('current_turnover', $validatedData)) {
             $validatedData['current_turnover'] = $validatedData['current_turnover'] ?? 0;
