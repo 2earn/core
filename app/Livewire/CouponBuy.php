@@ -51,8 +51,7 @@ class CouponBuy extends Component
 
         $couponService = app(CouponService::class);
         $this->maxAmount = $couponService->getMaxAvailableAmount(
-            $this->idPlatform,
-            auth()->user()->id
+            $this->idPlatform
         );
 
         $this->time = getSettingIntegerParam('DELAY_FOR_COUPONS_SIMULATION', self::DELAY_FOR_COUPONS_SIMULATION);

@@ -3,6 +3,8 @@
 namespace App\Services\Coupon;
 
 use App\Models\BalanceInjectorCoupon;
+use App\Models\Coupon;
+use Core\Enum\CouponStatusEnum;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
@@ -45,11 +47,11 @@ class CouponService
         $query = BalanceInjectorCoupon::where('user_id', $userId);
 
         if ($search) {
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('pin', 'like', '%' . $search . '%')
-                  ->orWhere('sn', 'like', '%' . $search . '%')
-                  ->orWhere('category', 'like', '%' . $search . '%')
-                  ->orWhere('type', 'like', '%' . $search . '%');
+                    ->orWhere('sn', 'like', '%' . $search . '%')
+                    ->orWhere('category', 'like', '%' . $search . '%')
+                    ->orWhere('type', 'like', '%' . $search . '%');
             });
         }
 
@@ -129,19 +131,20 @@ class CouponService
      */
     public function getCouponsPaginated(
         ?string $search = null,
-        string $sortField = 'created_at',
-        string $sortDirection = 'desc',
-        int $perPage = 10
-    ): LengthAwarePaginator {
+        string  $sortField = 'created_at',
+        string  $sortDirection = 'desc',
+        int     $perPage = 10
+    ): LengthAwarePaginator
+    {
         try {
             $query = BalanceInjectorCoupon::query();
 
             if ($search) {
-                $query->where(function($q) use ($search) {
+                $query->where(function ($q) use ($search) {
                     $q->where('pin', 'like', '%' . $search . '%')
-                      ->orWhere('sn', 'like', '%' . $search . '%')
-                      ->orWhere('value', 'like', '%' . $search . '%')
-                      ->orWhere('category', 'like', '%' . $search . '%');
+                        ->orWhere('sn', 'like', '%' . $search . '%')
+                        ->orWhere('value', 'like', '%' . $search . '%')
+                        ->orWhere('category', 'like', '%' . $search . '%');
                 });
             }
 
@@ -180,6 +183,26 @@ class CouponService
      * @param array $ids
      * @return int Number of deleted coupons
      */
+    public function getMaxAvailableAmount($idPlatform): float
+    {
+        return Coupon::where(function ($query) {
+
+            $query
+                ->orWhere('status', CouponStatusEnum::available->value)
+                ->orWhere(function ($subQueryReservedForOther) {
+                    $subQueryReservedForOther->where('status', CouponStatusEnum::reserved->value)
+                        ->where('reserved_until', '<', now());
+                })
+                ->orWhere(function ($subQueryReservedForUser) {
+                    $subQueryReservedForUser->where('status', CouponStatusEnum::reserved->value)
+                        ->where('reserved_until', '>=', now())
+                        ->where('user_id', auth()->user()->id);
+                });
+        })
+            ->where('platform_id', $idPlatform)
+            ->sum('value');
+    }
+
     public function deleteMultipleByIds(array $ids): int
     {
         try {
@@ -190,6 +213,73 @@ class CouponService
             Log::error('Error deleting multiple coupons: ' . $e->getMessage(), ['ids' => $ids]);
             throw $e;
         }
+    }
+
+    /**
+     * Get paginated purchased coupons for a user with search
+     *
+     * @param int $userId
+     * @param string|null $search
+     * @param int $perPage
+     * @return LengthAwarePaginator
+     */
+    public function getPurchasedCouponsPaginated(int $userId, ?string $search = null, int $perPage = 10): LengthAwarePaginator
+    {
+        $query = Coupon::with('platform')
+            ->where('user_id', $userId)
+            ->whereNotNull('purchase_date');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('pin', 'like', '%' . $search . '%')
+                    ->orWhere('sn', 'like', '%' . $search . '%')
+                    ->orWhere('value', 'like', '%' . $search . '%')
+                    ->orWhereHas('platform', function ($platformQuery) use ($search) {
+                        $platformQuery->where('name', 'like', '%' . $search . '%');
+                    });
+            });
+        }
+
+        return $query->orderBy('purchase_date', 'desc')->paginate($perPage);
+    }
+
+    /**
+     * Mark a coupon as consumed
+     *
+     * @param int $id
+     * @return bool
+     * @throws \Exception
+     */
+    public function markAsConsumed(int $id): bool
+    {
+        try {
+            $coupon = Coupon::findOrFail($id);
+
+            if ($coupon->consumed) {
+                throw new \Exception('Coupon is already consumed');
+            }
+
+            $coupon->consumed = true;
+            $coupon->consumption_date = now();
+            $coupon->status = CouponStatusEnum::consumed->value;
+
+            return $coupon->save();
+        } catch (\Exception $e) {
+            Log::error('Error marking coupon as consumed: ' . $e->getMessage(), ['id' => $id]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Get a coupon by serial number (SN)
+     *
+     * @param string $sn
+     * @return Coupon
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function getBySn(string $sn): Coupon
+    {
+        return Coupon::where('sn', $sn)->firstOrFail();
     }
 }
 
