@@ -168,16 +168,14 @@ class SurveyCreateUpdate extends Component
         $this->showAttchivementChrono = $survey->showAttchivementChrono;
         $this->showAfterArchiving = $survey->showAfterArchiving;
         $this->showAttchivementGool = $survey->showAttchivementGool;
-        Log::info('Survey Start Date: ' . $survey->startDate);
-        Log::info('Survey end Date: ' . $survey->endDate);
-        $this->startDate = !is_null($survey->startDate) ? getValidCurrentDateTime($survey->startDate) : null;
-        $this->endDate = !is_null($survey->endDate) ? getValidCurrentDateTime($survey->endDate) : null;
+        $this->startDate = !is_null($survey->startDate) ? \Carbon\Carbon::parse($survey->startDate)->format('Y-m-d\TH:i') : null;
+        $this->endDate = !is_null($survey->endDate) ? \Carbon\Carbon::parse($survey->endDate)->format('Y-m-d\TH:i') : null;
         $this->goals = $survey->goals;
         $this->disabledResult = $survey->disabledResult;
         $this->disabledComment = $survey->disabledComment;
         $this->disabledLike = $survey->disabledLike;
-        if ($survey->targets->isEmpty()) {
-            $this->target = $survey->targets->first();
+        if ($survey->targets->isNotEmpty()) {
+            $this->target = $survey->targets->first()->id;
         }
 
         $this->update = true;
