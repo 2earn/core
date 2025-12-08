@@ -558,8 +558,6 @@ class DealService
             throw new \Exception('Deal not found or access denied');
         }
 
-        $startDate = $startDate ?? $deal->start_date;
-        $endDate = $endDate ?? $deal->end_date;
 
         $chartData = $this->getRevenueChartData($dealId, $startDate, $endDate, $viewMode);
 
@@ -591,41 +589,42 @@ class DealService
      * @return array
      */
     private function getRevenueChartData(
-        int    $dealId,
-        string $startDate,
-        string $endDate,
-        string $viewMode
+        int     $dealId,
+        ?string $startDate,
+        ?string $endDate,
+        string  $viewMode
     ): array
     {
-        // Determine date format and grouping based on view mode
-        $dateFormat = match($viewMode) {
+        $dateFormat = match ($viewMode) {
             'monthly' => '%Y-%m',
             'weekly' => '%Y-%u',
             'daily' => '%Y-%m-%d',
             default => '%Y-%m-%d'
         };
 
-        $displayFormat = match($viewMode) {
+        $displayFormat = match ($viewMode) {
             'monthly' => 'Y-m',
             'weekly' => 'Y-\WW',
             'daily' => 'Y-m-d',
             default => 'Y-m-d'
         };
 
-        // Query to get revenue data grouped by date
-        $revenueData = DB::table('orders')
+        $query = DB::table('orders')
             ->join('order_details', 'orders.id', '=', 'order_details.order_id')
             ->join('items', 'order_details.item_id', '=', 'items.id')
-            ->where('items.deal_id', $dealId)
-            ->whereBetween('orders.created_at', [$startDate, $endDate])
-            ->whereNotNull('orders.payment_datetime')
-            ->select(
-                DB::raw("DATE_FORMAT(orders.payment_datetime, '$dateFormat') as date_group"),
-                DB::raw('SUM(orders.deal_amount_for_partner) as revenue')
-            )
+            ->where('items.deal_id', $dealId);
+        if (!is_null($startDate) && !is_null($endDate)) {
+            $query = $query->whereBetween('orders.updated_at', [$startDate, $endDate]);
+        }
+        $query = $query->select(
+            DB::raw("items.deal_id"),
+            DB::raw("DATE_FORMAT(orders.updated_at, '$dateFormat') as date_group"),
+            DB::raw('SUM(order_details.total_amount) as revenue'),
+            DB::raw('items.deal_id as deal_id')
+        )
             ->groupBy('date_group')
-            ->orderBy('date_group', 'asc')
-            ->get();
+            ->orderBy('date_group', 'asc');
+        $revenueData = $query->get();
 
         $chartData = [];
         foreach ($revenueData as $data) {
@@ -656,18 +655,22 @@ class DealService
      * @return float
      */
     private function calculateDealRevenue(
-        int    $dealId,
-        string $startDate,
-        string $endDate
+        int     $dealId,
+        ?string $startDate,
+        ?string $endDate
     ): float
     {
-        $revenue = DB::table('orders')
+        $query = DB::table('orders')
             ->join('order_details', 'orders.id', '=', 'order_details.order_id')
             ->join('items', 'order_details.item_id', '=', 'items.id')
-            ->where('items.deal_id', $dealId)
-            ->whereBetween('orders.created_at', [$startDate, $endDate])
-            ->whereNotNull('orders.payment_datetime')
-            ->sum('orders.deal_amount_for_partner');
+            ->where('items.deal_id', $dealId);
+
+        if (!is_null($startDate) && !is_null($endDate)) {
+            $query = $query->whereBetween('orders.updated_at', [$startDate, $endDate]);
+        }
+
+        $query = $query->whereNotNull('orders.updated_at');
+        $revenue = $query->sum('order_details.total_amount');
 
         return (float)$revenue ?? 0;
     }

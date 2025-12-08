@@ -19,6 +19,8 @@ class OrderingSeeder extends Seeder
             Artisan::call('db:seed', ['--class' => 'Database\Seeders\ItemSeeder']);
             Log::notice('Starting Seeder CouponSeeder');
             Artisan::call('db:seed', ['--class' => 'Database\Seeders\CouponSeeder']);
+            Log::notice('Starting Seeder Update Platform Owners Seeder');
+            Artisan::call('db:seed', ['--class' => 'Database\Seeders\UpdatePlatformOwnersSeeder']);
         }
         Log::notice('Finish OrderingSeeder');
     }

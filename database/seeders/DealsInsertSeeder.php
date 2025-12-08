@@ -28,14 +28,13 @@ class DealsInsertSeeder extends Seeder
             $platforms = Platform::all();
             $initialCommission = rand(5, 25);
             foreach ($platforms as $platform) {
-                $dealNumber = rand(1, 5);
-                for ($i = 1; $i <= $dealNumber; $i++) {
+                for ($i = 1; $i <= 2; $i++) {
                     $platform->deals()->create([
-                        'name' => $platform->name .' ( '.$i. ') - Deal',
+                        'name' => $platform->name . ' - deal' . '  - ' . $i,
                         'description' => $faker->text() . ' RANDOM',
                         'validated' => TRUE,
                         'status' => DealStatus::Opened->value,
-                        'type' => $i == 1 ? DealTypeEnum::coupons->value : DealTypeEnum::public->value,
+                        'type' => DealTypeEnum::public->value,
                         'current_turnover' => 0,
                         'target_turnover' => 10000,
                         'is_turnover' => true,

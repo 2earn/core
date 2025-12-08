@@ -18,10 +18,11 @@ class OrdersTableSeeder extends Seeder
      */
     public function run()
     {
-        $items = Item::where('ref', '!=', '#0001')->take(5)->get();
+        $items = Item::with('deal')->where('ref', '!=', '#0001')->get();
         $userId = 384;
-        $ordersNumber = 20;
+        $ordersNumber = 100;
         $CreatedOrders = [];
+
         for ($i = 0; $i < $ordersNumber; $i++) {
             $order = Order::create([
                 'user_id' => $userId,
@@ -41,12 +42,19 @@ class OrdersTableSeeder extends Seeder
                 'total_final_discount_percentage' => 0,
                 'total_lost_discount' => 0,
                 'total_lost_discount_percentage' => 0,
+                'created_by' => $userId,
+                'updated_by' => $userId,
             ]);
 
             $totalOrder = 0;
             $totalQuantity = 0;
+            $dealStartDate = null;
+            $dealEndDate = null;
 
-            foreach ($items as $item) {
+            $numberOfItems = rand(2, min(5, $items->count()));
+            $selectedItems = $items->random($numberOfItems);
+
+            foreach ($selectedItems as $item) {
                 $quantity = rand(1, 3);
                 $unitPrice = $item->price;
                 $totalAmount = $quantity * $unitPrice;
@@ -69,18 +77,41 @@ class OrdersTableSeeder extends Seeder
                     'amount_after_deal_discount' => $totalAmount,
                     'total_discount' => 0,
                     'note' => 'Sample item',
+                    'created_by' => $userId,
+                    'updated_by' => $userId,
                 ]);
 
                 $totalOrder += $totalAmount;
                 $totalQuantity += $quantity;
+
+                if (is_null($dealStartDate) && $item->deal) {
+                    $dealStartDate = $item->deal->start_date;
+                    $dealEndDate = $item->deal->end_date;
+                }
             }
 
-            $order->update([
+            $randomDate = null;
+            if (!is_null($dealStartDate) && !is_null($dealEndDate)) {
+                $startTimestamp = strtotime($dealStartDate);
+                $endTimestamp = strtotime($dealEndDate);
+                $randomTimestamp = rand($startTimestamp, $endTimestamp);
+                $randomDate = date('Y-m-d H:i:s', $randomTimestamp);
+            }
+
+            $updateData = [
                 'total_order' => $totalOrder,
                 'total_order_quantity' => $totalQuantity,
                 'deal_amount_before_discount' => $totalOrder,
                 'amount_after_discount' => $totalOrder,
-            ]);
+            ];
+
+            if (!is_null($randomDate)) {
+                $updateData['created_at'] = $randomDate;
+                $updateData['updated_at'] = $randomDate;
+                $updateData['payment_datetime'] = $randomDate;
+            }
+
+            $order->update($updateData);
 
             $CreatedOrders[] = $order;
         }
