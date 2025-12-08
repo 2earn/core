@@ -43,7 +43,7 @@ class OrderService
             if (!empty($filters['user_search'])) {
                 $query->whereHas('user', function ($q) use ($filters) {
                     $q->where('email', 'LIKE', '%' . $filters['user_search'] . '%')
-                      ->orWhere('name', 'LIKE', '%' . $filters['user_search'] . '%');
+                        ->orWhere('name', 'LIKE', '%' . $filters['user_search'] . '%');
                 });
             }
 
@@ -214,11 +214,11 @@ class OrderService
 
             // Apply date filters
             if ($startDate) {
-                $query->where('updated_at', '>=', $startDate);
+                $query->where('payment_datetime', '>=', $startDate);
             }
 
             if ($endDate) {
-                $query->where('updated_at', '<=', $endDate);
+                $query->where('payment_datetime', '<=', $endDate);
             }
 
             // Apply user filter
@@ -388,4 +388,5 @@ class OrderService
         }
     }
 }
+
 
