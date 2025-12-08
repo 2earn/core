@@ -533,4 +533,179 @@ class DealService
             'global_revenue_percentage' => $globalRevenuePercentage
         ];
     }
+
+    /**
+     * Get deal performance chart data over time
+     *
+     * @param int $userId
+     * @param int $dealId
+     * @param string|null $startDate
+     * @param string|null $endDate
+     * @param string $viewMode (daily, weekly, monthly)
+     * @return array
+     */
+    public function getDealPerformanceChart(
+        int     $userId,
+        int     $dealId,
+        ?string $startDate = null,
+        ?string $endDate = null,
+        string  $viewMode = 'daily'
+    ): array
+    {
+        $deal = $this->getPartnerDealById($dealId, $userId);
+
+        if (!$deal) {
+            throw new \Exception('Deal not found or access denied');
+        }
+
+        $startDate = $startDate ?? $deal->start_date;
+        $endDate = $endDate ?? $deal->end_date;
+
+        $chartData = $this->getRevenueChartData($dealId, $startDate, $endDate, $viewMode);
+
+        $currentRevenue = $this->calculateDealRevenue($dealId, $startDate, $endDate);
+
+        $expectedProgress = $this->calculateExpectedProgress($deal->start_date, $deal->end_date);
+
+        $actualProgress = $deal->target_turnover > 0
+            ? round(($currentRevenue / $deal->target_turnover) * 100, 2)
+            : 0;
+
+        return [
+            'deal_id' => $deal->id,
+            'target_amount' => round($deal->target_turnover, 2),
+            'current_revenue' => round($currentRevenue, 2),
+            'expected_progress' => $expectedProgress,
+            'actual_progress' => $actualProgress,
+            'chart_data' => $chartData
+        ];
+    }
+
+    /**
+     * Get revenue chart data aggregated by view mode
+     *
+     * @param int $dealId
+     * @param string $startDate
+     * @param string $endDate
+     * @param string $viewMode
+     * @return array
+     */
+    private function getRevenueChartData(
+        int    $dealId,
+        string $startDate,
+        string $endDate,
+        string $viewMode
+    ): array
+    {
+        // Determine date format and grouping based on view mode
+        $dateFormat = match($viewMode) {
+            'monthly' => '%Y-%m',
+            'weekly' => '%Y-%u',
+            'daily' => '%Y-%m-%d',
+            default => '%Y-%m-%d'
+        };
+
+        $displayFormat = match($viewMode) {
+            'monthly' => 'Y-m',
+            'weekly' => 'Y-\WW',
+            'daily' => 'Y-m-d',
+            default => 'Y-m-d'
+        };
+
+        // Query to get revenue data grouped by date
+        $revenueData = DB::table('orders')
+            ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+            ->join('items', 'order_details.item_id', '=', 'items.id')
+            ->where('items.deal_id', $dealId)
+            ->whereBetween('orders.created_at', [$startDate, $endDate])
+            ->whereNotNull('orders.payment_datetime')
+            ->select(
+                DB::raw("DATE_FORMAT(orders.payment_datetime, '$dateFormat') as date_group"),
+                DB::raw('SUM(orders.deal_amount_for_partner) as revenue')
+            )
+            ->groupBy('date_group')
+            ->orderBy('date_group', 'asc')
+            ->get();
+
+        $chartData = [];
+        foreach ($revenueData as $data) {
+            if ($viewMode === 'weekly') {
+                list($year, $week) = explode('-', $data->date_group);
+                $date = $year . '-W' . str_pad($week, 2, '0', STR_PAD_LEFT);
+            } elseif ($viewMode === 'monthly') {
+                $date = $data->date_group . '-01';
+            } else {
+                $date = $data->date_group;
+            }
+
+            $chartData[] = [
+                'date' => $date,
+                'revenue' => round((float)$data->revenue, 2)
+            ];
+        }
+
+        return $chartData;
+    }
+
+    /**
+     * Calculate total revenue for a deal within date range
+     *
+     * @param int $dealId
+     * @param string $startDate
+     * @param string $endDate
+     * @return float
+     */
+    private function calculateDealRevenue(
+        int    $dealId,
+        string $startDate,
+        string $endDate
+    ): float
+    {
+        $revenue = DB::table('orders')
+            ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+            ->join('items', 'order_details.item_id', '=', 'items.id')
+            ->where('items.deal_id', $dealId)
+            ->whereBetween('orders.created_at', [$startDate, $endDate])
+            ->whereNotNull('orders.payment_datetime')
+            ->sum('orders.deal_amount_for_partner');
+
+        return (float)$revenue ?? 0;
+    }
+
+    /**
+     * Calculate expected progress based on time elapsed
+     *
+     * @param string $dealStartDate
+     * @param string $dealEndDate
+     * @return float
+     */
+    private function calculateExpectedProgress(
+        string $dealStartDate,
+        string $dealEndDate
+    ): float
+    {
+        $startDate = \Carbon\Carbon::parse($dealStartDate);
+        $endDate = \Carbon\Carbon::parse($dealEndDate);
+        $currentDate = \Carbon\Carbon::now();
+
+        // If current date is before start date
+        if ($currentDate->lt($startDate)) {
+            return 0;
+        }
+
+        // If current date is after end date
+        if ($currentDate->gt($endDate)) {
+            return 100;
+        }
+
+        // Calculate percentage of time elapsed
+        $totalDuration = $startDate->diffInDays($endDate);
+        $elapsedDuration = $startDate->diffInDays($currentDate);
+
+        if ($totalDuration == 0) {
+            return 100;
+        }
+
+        return round(($elapsedDuration / $totalDuration) * 100, 2);
+    }
 }
