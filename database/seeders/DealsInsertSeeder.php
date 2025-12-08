@@ -28,7 +28,7 @@ class DealsInsertSeeder extends Seeder
             $platforms = Platform::all();
             $initialCommission = rand(5, 25);
             foreach ($platforms as $platform) {
-                $dealNumber = rand(1, 3);
+                $dealNumber = rand(1, 5);
                 for ($i = 1; $i <= $dealNumber; $i++) {
                     $platform->deals()->create([
                         'name' => $platform->name .' ( '.$i. ') - Deal',

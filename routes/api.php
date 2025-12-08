@@ -135,6 +135,7 @@ Route::prefix('/partner/')->name('api_partner_')
             Route::post('deals/validate', [DealPartnerController::class, 'validateRequest'])->name('deal_validate_request');
             Route::post('deals/validation/cancel', [DealPartnerController::class, 'cancelValidationRequest'])->name('deal_validation_cancel');
             Route::post('deals/change/cancel', [DealPartnerController::class, 'cancelChangeRequest'])->name('deal_change_cancel');
+            Route::get('deals/dashboard/indicators', [DealPartnerController::class, 'dashboardIndicators'])->name('deals_dashboard_indicators');
             Route::post('users/add-role', [UserPartnerController::class, 'addRole'])->name('users_add_role');
         });
 

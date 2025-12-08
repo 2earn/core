@@ -408,7 +408,6 @@ class DealService
      */
     public function update(int $id, array $data): bool
     {
-        // Automatically determine the plan if not provided and final_commission is being updated
         if (!isset($data['plan']) && isset($data['final_commission'])) {
             $data['plan'] = $this->determineNearestPlan($data['final_commission']);
         }
@@ -447,5 +446,91 @@ class DealService
         }
 
         return $query->get();
+    }
+
+    /**
+     * Get dashboard indicators and progress for deals
+     *
+     * @param int $userId
+     * @param string|null $startDate
+     * @param string|null $endDate
+     * @param int|null $platformId
+     * @param int|null $dealId
+     * @return array
+     */
+    public function getDashboardIndicators(
+        int     $userId,
+        ?string $startDate = null,
+        ?string $endDate = null,
+        ?int    $platformId = null,
+        ?int    $dealId = null
+    ): array
+    {
+        $query = Deal::query()
+            ->whereHas('platform', function ($query) use ($userId) {
+                $query->where(function ($q) use ($userId) {
+                    $q->where('marketing_manager_id', $userId)
+                        ->orWhere('financial_manager_id', $userId)
+                        ->orWhere('owner_id', $userId);
+                });
+            });
+
+        if ($startDate) {
+            $query->where('start_date', '>=', $startDate);
+        }
+
+        if ($endDate) {
+            $query->where('end_date', '<=', $endDate);
+        }
+
+        if ($platformId) {
+            $query->where('platform_id', $platformId);
+        }
+
+        if ($dealId) {
+            $query->where('id', $dealId);
+        }
+
+        $baseQuery = clone $query;
+
+        $totalDeals = $query->count();
+
+        $pendingRequestDeals = (clone $baseQuery)
+            ->whereHas('validationRequests', function ($q) {
+                $q->where('status', DealValidationRequest::STATUS_PENDING);
+            })
+            ->count();
+
+        $validatedDeals = (clone $baseQuery)
+            ->where('validated', 1)
+            ->count();
+
+        $expiredDeals = (clone $baseQuery)
+            ->where('end_date', '<', now())
+            ->count();
+
+        $activeDealsCount = (clone $baseQuery)
+            ->where('status', \Core\Enum\DealStatus::Opened->value)
+            ->count();
+
+        $totalRevenue = (clone $baseQuery)
+            ->sum('current_turnover') ?? 0;
+
+        $totalTargetTurnover = (clone $baseQuery)
+            ->sum('target_turnover') ?? 0;
+
+        $globalRevenuePercentage = $totalTargetTurnover > 0
+            ? round(($totalRevenue / $totalTargetTurnover) * 100, 2)
+            : 0;
+
+        return [
+            'total_deals' => $totalDeals,
+            'pending_request_deals' => $pendingRequestDeals,
+            'validated_deals' => $validatedDeals,
+            'expired_deals' => $expiredDeals,
+            'active_deals_count' => $activeDealsCount,
+            'total_revenue' => round($totalRevenue, 2),
+            'global_revenue_percentage' => $globalRevenuePercentage
+        ];
     }
 }
