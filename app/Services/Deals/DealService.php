@@ -711,4 +711,9 @@ class DealService
 
         return round(($elapsedDuration / $totalDuration) * 100, 2);
     }
+
+    public function getAllDeals()
+    {
+        return Deal::select('id', 'name')->orderBy('name')->get();
+    }
 }

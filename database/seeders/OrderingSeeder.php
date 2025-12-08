@@ -13,12 +13,19 @@ class OrderingSeeder extends Seeder
     {
         Log::notice('Starting OrderingSeeder Seeder');
         if (app()->environment('local')) {
+
             Log::notice('Starting Seeder DealsInsertSeeder');
              Artisan::call('db:seed', ['--class' => 'Database\Seeders\DealsInsertSeeder']);
+
             Log::notice('Starting Seeder ItemSeeder');
             Artisan::call('db:seed', ['--class' => 'Database\Seeders\ItemSeeder']);
+
             Log::notice('Starting Seeder CouponSeeder');
             Artisan::call('db:seed', ['--class' => 'Database\Seeders\CouponSeeder']);
+
+            Log::notice('Starting Seeder AddCashSeeder');
+            Artisan::call('db:seed', ['--class' => 'Database\Seeders\AddCashSeeder']);
+
             Log::notice('Starting Seeder Update Platform Owners Seeder');
             Artisan::call('db:seed', ['--class' => 'Database\Seeders\UpdatePlatformOwnersSeeder']);
         }

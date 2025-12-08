@@ -2,8 +2,8 @@
 
 namespace App\Livewire;
 
-use App\Models\Deal;
-use App\Models\Item;
+use App\Services\Deals\DealService;
+use App\Services\Items\ItemService;
 use App\Services\Orders\OrderService;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -13,67 +13,52 @@ class OrderDashboard extends Component
 {
     use WithPagination;
 
-    // Filters
     public $startDate;
     public $endDate;
     public $dealId = null;
     public $productId = null;
     public $userId = null;
 
-    // Data
     public $statistics = [];
     public $deals = [];
     public $products = [];
 
-    // UI State
     public $loading = false;
     public $perPage = 20;
 
     protected $orderService;
+    protected $dealService;
+    protected $itemService;
 
     protected $paginationTheme = 'bootstrap';
 
-    public function boot(OrderService $orderService)
+    public function boot(OrderService $orderService, DealService $dealService, ItemService $itemService)
     {
         $this->orderService = $orderService;
+        $this->dealService = $dealService;
+        $this->itemService = $itemService;
     }
 
     public function mount()
     {
-        // Set default date range (last 30 days)
         $this->endDate = now()->format('Y-m-d');
-        $this->startDate = now()->subDays(30)->format('Y-m-d');
-
-        // Load deals and products for filters
+        $this->startDate = now()->subDays(100)->format('Y-m-d');
         $this->loadDeals();
-
-        // Load initial statistics
         $this->loadStatistics();
     }
 
     public function loadDeals()
     {
-        $this->deals = Deal::select('id', 'name')
-            ->orderBy('name')
-            ->get();
+        $this->deals = $this->dealService->getAllDeals();
     }
 
     public function loadProducts()
     {
-        $query = Item::select('id', 'name', 'ref')
-            ->where('ref', '!=', '#0001')
-            ->orderBy('name');
-
-        if ($this->dealId) {
-            $query->where('deal_id', $this->dealId);
-        }
-
-        $this->products = $query->get();
+        $this->products = $this->itemService->getItemsByDeal($this->dealId);
     }
 
     public function updatedDealId()
     {
-        // When deal changes, reload products for that deal
         $this->productId = null;
         $this->loadProducts();
         $this->loadStatistics();

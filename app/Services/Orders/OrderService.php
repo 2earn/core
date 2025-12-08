@@ -214,11 +214,11 @@ class OrderService
 
             // Apply date filters
             if ($startDate) {
-                $query->where('payment_datetime', '>=', $startDate);
+                $query->where('updated_at', '>=', $startDate);
             }
 
             if ($endDate) {
-                $query->where('payment_datetime', '<=', $endDate);
+                $query->where('updated_at', '<=', $endDate);
             }
 
             // Apply user filter

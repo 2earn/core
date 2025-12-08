@@ -53,11 +53,15 @@ class OrdersTableSeeder extends Seeder
             return;
         }
 
-        $userId = 384;
+        $userIds = [2,213,325,384,3716,3786];
+
         $ordersNumber = 1000;
         $CreatedOrders = [];
 
         for ($i = 0; $i < $ordersNumber; $i++) {
+
+            $userId = $userIds[array_rand($userIds)];
+
             $order = Order::create([
                 'user_id' => $userId,
                 'status' => OrderEnum::Ready,

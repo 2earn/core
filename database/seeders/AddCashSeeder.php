@@ -15,7 +15,7 @@ class AddCashSeeder extends Seeder
     public function run()
     {
         if (!App::isProduction()) {
-            $value = 10000;
+            $value = 100000;
             $balances = new Balances();
             foreach (self::USERS_IDS as $idUser) {
                 $userCurrentBalancehorisontal = Balances::getStoredUserBalances($idUser);
