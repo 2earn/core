@@ -217,10 +217,12 @@
                                 @endif
                             @endif
 
-                            <a href="{{route('platform_show', ['locale' => app()->getLocale(), 'id' => $platform->id])}}"
-                               class="btn btn-soft-secondary btn-sm">
-                                <i class="ri-eye-line align-middle me-1"></i>{{__('View')}}
-                            </a>
+                            @if($platform->enabled)
+                                <a href="{{route('platform_show', ['locale' => app()->getLocale(), 'id' => $platform->id])}}"
+                                   class="btn btn-soft-secondary btn-sm">
+                                    <i class="ri-eye-line align-middle me-1"></i>{{__('View')}}
+                                </a>
+                            @endif
                             @if(!$platform->pendingValidationRequest && !$platform->pendingTypeChangeRequest && $platform->enabled)
                                 <a href="{{route('deals_create_update', ['locale' => app()->getLocale(), 'idPlatform' => $platform->id])}}"
                                    class="btn btn-soft-primary btn-sm">
