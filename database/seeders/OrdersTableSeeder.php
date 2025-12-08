@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Services\Orders\Ordering;
 use Core\Enum\OrderEnum;
 use Illuminate\Database\Seeder;
 
@@ -19,8 +20,9 @@ class OrdersTableSeeder extends Seeder
     {
         $items = Item::where('ref', '!=', '#0001')->take(5)->get();
         $userId = 384;
-
-        for ($i = 0; $i < 5; $i++) {
+        $ordersNumber = 20;
+        $CreatedOrders = [];
+        for ($i = 0; $i < $ordersNumber; $i++) {
             $order = Order::create([
                 'user_id' => $userId,
                 'status' => OrderEnum::Ready,
@@ -79,6 +81,16 @@ class OrdersTableSeeder extends Seeder
                 'deal_amount_before_discount' => $totalOrder,
                 'amount_after_discount' => $totalOrder,
             ]);
+
+            $CreatedOrders[] = $order;
+        }
+        foreach ($CreatedOrders as $CreatedOrder) {
+
+            $simulation = Ordering::simulate($CreatedOrder);
+            if ($simulation) {
+                Ordering::run($simulation);
+            }
+
         }
     }
 }

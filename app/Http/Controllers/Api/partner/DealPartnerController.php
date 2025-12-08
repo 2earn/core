@@ -491,4 +491,66 @@ class DealPartnerController extends Controller
             'data' => $changeRequest
         ], Response::HTTP_OK);
     }
+
+    public function dashboardIndicators(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|integer|exists:users,id',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'platform_id' => 'nullable|integer|exists:platforms,id',
+            'deal_id' => 'nullable|integer|exists:deals,id'
+        ]);
+
+        if ($validator->fails()) {
+            Log::error(self::LOG_PREFIX . 'Dashboard indicators validation failed', ['errors' => $validator->errors()]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $userId = $request->input('user_id');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        $platformId = $request->input('platform_id');
+        $dealId = $request->input('deal_id');
+
+        try {
+            $indicators = $this->dealService->getDashboardIndicators(
+                $userId,
+                $startDate,
+                $endDate,
+                $platformId,
+                $dealId
+            );
+
+            Log::info(self::LOG_PREFIX . 'Dashboard indicators retrieved successfully', [
+                'user_id' => $userId,
+                'filters' => [
+                    'start_date' => $startDate,
+                    'end_date' => $endDate,
+                    'platform_id' => $platformId,
+                    'deal_id' => $dealId
+                ]
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'data' => $indicators
+            ], Response::HTTP_OK);
+
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Failed to retrieve dashboard indicators', [
+                'error' => $e->getMessage(),
+                'user_id' => $userId
+            ]);
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to retrieve dashboard indicators: ' . $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }
