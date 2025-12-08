@@ -553,4 +553,63 @@ class DealPartnerController extends Controller
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    public function performanceChart(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|integer|exists:users,id',
+            'deal_id' => 'required|integer|exists:deals,id',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'view_mode' => 'nullable|string|in:daily,weekly,monthly'
+        ]);
+
+        if ($validator->fails()) {
+            Log::error(self::LOG_PREFIX . 'Performance chart validation failed', ['errors' => $validator->errors()]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $userId = $request->input('user_id');
+        $dealId = $request->input('deal_id');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        $viewMode = $request->input('view_mode', 'daily');
+
+        try {
+            $performanceData = $this->dealService->getDealPerformanceChart(
+                $userId,
+                $dealId,
+                $startDate,
+                $endDate,
+                $viewMode
+            );
+
+            Log::info(self::LOG_PREFIX . 'Deal performance chart retrieved successfully', [
+                'deal_id' => $dealId,
+                'user_id' => $userId,
+                'view_mode' => $viewMode
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'data' => $performanceData
+            ], Response::HTTP_OK);
+
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Failed to retrieve deal performance chart', [
+                'error' => $e->getMessage(),
+                'deal_id' => $dealId,
+                'user_id' => $userId
+            ]);
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to retrieve deal performance chart: ' . $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }
