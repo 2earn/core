@@ -333,6 +333,36 @@ class OrderService
                 ->limit(10)
                 ->get();
 
+            // Recent orders list
+            $ordersList = Order::query()
+                ->when($startDate, function ($q) use ($startDate) {
+                    return $q->where('payment_datetime', '>=', $startDate);
+                })
+                ->when($endDate, function ($q) use ($endDate) {
+                    return $q->where('payment_datetime', '<=', $endDate);
+                })
+                ->when($userId, function ($q) use ($userId) {
+                    return $q->where('user_id', $userId);
+                })
+                ->when($dealId || $productId, function ($q) use ($dealId, $productId) {
+                    $q->whereHas('OrderDetails', function ($detailQuery) use ($dealId, $productId) {
+                        $detailQuery->whereHas('item', function ($itemQuery) use ($dealId, $productId) {
+                            if ($dealId) {
+                                $itemQuery->where('deal_id', $dealId);
+                            }
+                            if ($productId) {
+                                $itemQuery->where('id', $productId);
+                            }
+                        });
+                    });
+                })
+                ->whereNotNull('payment_datetime')
+                ->select('id', 'payment_datetime', 'total_order', 'paid_cash', 'status', 'user_id')
+                ->with('user:id,name,email')
+                ->orderBy('payment_datetime', 'desc')
+                ->limit(50)
+                ->get();
+
             return [
                 'summary' => [
                     'total_orders' => $totalOrders,
@@ -344,6 +374,7 @@ class OrderService
                 'orders_by_status' => $ordersByStatus,
                 'orders_by_deal' => $ordersByDeal,
                 'top_products' => $topProducts,
+                'orders_list' => $ordersList,
             ];
         } catch (\Exception $e) {
             Log::error(self::LOG_PREFIX . 'Error getting order dashboard statistics: ' . $e->getMessage(), [

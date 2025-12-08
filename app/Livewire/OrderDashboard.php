@@ -6,10 +6,13 @@ use App\Models\Deal;
 use App\Models\Item;
 use App\Services\Orders\OrderService;
 use Livewire\Component;
+use Livewire\WithPagination;
 use Illuminate\Support\Facades\Log;
 
 class OrderDashboard extends Component
 {
+    use WithPagination;
+
     // Filters
     public $startDate;
     public $endDate;
@@ -24,8 +27,11 @@ class OrderDashboard extends Component
 
     // UI State
     public $loading = false;
+    public $perPage = 20;
 
     protected $orderService;
+
+    protected $paginationTheme = 'bootstrap';
 
     public function boot(OrderService $orderService)
     {

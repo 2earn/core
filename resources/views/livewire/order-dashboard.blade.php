@@ -375,10 +375,130 @@
             </div>
         @endif
 
+        <!-- Orders List -->
+        @if(isset($statistics['orders_list']) && count($statistics['orders_list']) > 0)
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header align-items-center d-flex">
+                            <h4 class="card-title mb-0 flex-grow-1">
+                                <i class="ri-list-check-2 me-2"></i>{{ __('Recent Orders') }}
+                            </h4>
+                            <div class="flex-shrink-0">
+                                <span class="badge bg-primary-subtle text-primary">
+                                    {{ count($statistics['orders_list']) }} {{ __('orders') }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped table-nowrap align-middle mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th scope="col">{{ __('Order ID') }}</th>
+                                            <th scope="col">{{ __('Date') }}</th>
+                                            <th scope="col">{{ __('Customer') }}</th>
+                                            <th scope="col" class="text-end">{{ __('Revenue') }}</th>
+                                            <th scope="col" class="text-end">{{ __('Paid') }}</th>
+                                            <th scope="col" class="text-center">{{ __('Status') }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($statistics['orders_list'] as $order)
+                                            <tr>
+                                                <td>
+                                                    <a href="{{ route('orders_detail', ['locale' => app()->getLocale(), 'id' => $order->id]) }}"
+                                                       class="fw-medium link-primary">
+                                                        #{{ $order->id }}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <span class="text-muted">
+                                                        <i class="ri-calendar-line me-1"></i>
+                                                        {{ \Carbon\Carbon::parse($order->payment_datetime)->format('M d, Y') }}
+                                                    </span>
+                                                    <br>
+                                                    <small class="text-muted">
+                                                        {{ \Carbon\Carbon::parse($order->payment_datetime)->format('h:i A') }}
+                                                    </small>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="flex-shrink-0 me-2">
+                                                            <div class="avatar-xs">
+                                                                <div class="avatar-title bg-primary-subtle text-primary rounded-circle">
+                                                                    {{ substr($order->user->name ?? 'U', 0, 1) }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <h6 class="fs-14 mb-0">{{ $order->user->name ?? __('Unknown') }}</h6>
+                                                            <small class="text-muted">{{ $order->user->email ?? '' }}</small>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-end">
+                                                    <span class="text-success fw-semibold">
+                                                        {{ number_format($order->total_order, 2) }}
+                                                    </span>
+                                                </td>
+                                                <td class="text-end">
+                                                    <span class="text-info fw-semibold">
+                                                        {{ number_format($order->paid_cash, 2) }}
+                                                    </span>
+                                                </td>
+                                                <td class="text-center">
+                                                    @php
+                                                        $statusClass = match($order->status) {
+                                                            1 => 'bg-warning-subtle text-warning',
+                                                            2 => 'bg-success-subtle text-success',
+                                                            3 => 'bg-danger-subtle text-danger',
+                                                            default => 'bg-secondary-subtle text-secondary'
+                                                        };
+                                                        $statusText = match($order->status) {
+                                                            1 => __('Ready'),
+                                                            2 => __('Completed'),
+                                                            3 => __('Cancelled'),
+                                                            default => __('Unknown')
+                                                        };
+                                                    @endphp
+                                                    <span class="badge {{ $statusClass }}">
+                                                        {{ $statusText }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                    <tfoot class="table-light">
+                                        <tr>
+                                            <td colspan="3" class="text-end fw-semibold">{{ __('Total') }}:</td>
+                                            <td class="text-end">
+                                                <span class="text-success fw-bold fs-15">
+                                                    {{ number_format($statistics['orders_list']->sum('total_order'), 2) }}
+                                                </span>
+                                            </td>
+                                            <td class="text-end">
+                                                <span class="text-info fw-bold fs-15">
+                                                    {{ number_format($statistics['orders_list']->sum('paid_cash'), 2) }}
+                                                </span>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+        <!-- Empty State -->
         @if(isset($statistics['summary']) && $statistics['summary']['total_orders'] == 0)
             <div class="row">
-                <div class="col-12 card">
-                    <div class="card-body text-center py-5">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body text-center py-5">
                         <div class="avatar-xl mx-auto mb-4">
                             <div class="avatar-title bg-primary-subtle text-primary rounded-circle fs-1">
                                 <i class="ri-inbox-line"></i>
