@@ -14,7 +14,7 @@ class OrderingSeeder extends Seeder
         Log::notice('Starting OrderingSeeder Seeder');
         if (app()->environment('local')) {
             Log::notice('Starting Seeder DealsInsertSeeder');
-            Artisan::call('db:seed', ['--class' => 'Database\Seeders\DealsInsertSeeder']);
+             Artisan::call('db:seed', ['--class' => 'Database\Seeders\DealsInsertSeeder']);
             Log::notice('Starting Seeder ItemSeeder');
             Artisan::call('db:seed', ['--class' => 'Database\Seeders\ItemSeeder']);
             Log::notice('Starting Seeder CouponSeeder');

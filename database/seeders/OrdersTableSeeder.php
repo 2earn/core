@@ -8,6 +8,7 @@ use App\Models\OrderDetail;
 use App\Services\Orders\Ordering;
 use Core\Enum\OrderEnum;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Log;
 
 class OrdersTableSeeder extends Seeder
 {
@@ -18,9 +19,42 @@ class OrdersTableSeeder extends Seeder
      */
     public function run()
     {
-        $items = Item::with('deal')->where('ref', '!=', '#0001')->get();
+        $allItems = Item::with('deal')->where('ref', '!=', '#0001')->get();
+
+        $this->command->info("Total items found: " . $allItems->count());
+
+        // Group items by deal_id, filter items that have deals
+        $itemsByDeal = $allItems
+            ->filter(function ($item) {
+                // Only keep items that have a deal
+                return !is_null($item->deal_id) && !is_null($item->deal);
+            })
+            ->groupBy('deal_id')
+            ->filter(function ($items, $dealId) {
+                $firstItem = $items->first();
+                $hasDeal = !is_null($firstItem->deal);
+
+                if ($hasDeal) {
+                    $dealType = $firstItem->deal->type;
+                    $itemsCount = $items->count();
+                    $this->command->info("Deal ID {$dealId}: type = {$dealType}, items count = {$itemsCount}");
+
+                    return $itemsCount >= 2;
+                }
+
+                return false;
+            });
+
+        $this->command->info("Deals with 2+ items found: " . $itemsByDeal->count());
+
+        if ($itemsByDeal->isEmpty()) {
+            $this->command->error("No deals found with at least 2 items. Please ensure deals have multiple items.");
+            $this->command->warn("Tip: Each deal needs at least 2 items since orders select 2-5 items per deal.");
+            return;
+        }
+
         $userId = 384;
-        $ordersNumber = 100;
+        $ordersNumber = 1000;
         $CreatedOrders = [];
 
         for ($i = 0; $i < $ordersNumber; $i++) {
@@ -51,11 +85,19 @@ class OrdersTableSeeder extends Seeder
             $dealStartDate = null;
             $dealEndDate = null;
 
-            $numberOfItems = rand(2, min(5, $items->count()));
-            $selectedItems = $items->random($numberOfItems);
+
+            // Randomly select one deal from available product deals
+            $selectedDeal = $itemsByDeal->random();
+
+            // Get items from that deal
+            $dealItems = $selectedDeal;
+
+            // Randomly select 2-5 items from this deal's products
+            $numberOfItems = rand(2, min(5, $dealItems->count()));
+            $selectedItems = $dealItems->random($numberOfItems);
 
             foreach ($selectedItems as $item) {
-                $quantity = rand(1, 3);
+                $quantity = rand(1, 10);
                 $unitPrice = $item->price;
                 $totalAmount = $quantity * $unitPrice;
 
@@ -110,6 +152,7 @@ class OrdersTableSeeder extends Seeder
                 $updateData['updated_at'] = $randomDate;
                 $updateData['payment_datetime'] = $randomDate;
             }
+            Log::notice("sates : " . $randomDate);
 
             $order->update($updateData);
 
