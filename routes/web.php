@@ -146,6 +146,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/hobbies', Hobbies::class)->name('hobbies');
 
         Route::prefix('/orders')->name('orders_')->group(function () {
+            Route::get('/dashboard', \App\Livewire\OrderDashboard::class)->name('dashboard');
             Route::get('/index', \App\Livewire\OrdersIndex::class)->name('index');
             Route::get('/previous', \App\Livewire\OrdersPrevious::class)->name('previous');
             Route::get('/{id}/detail', \App\Livewire\OrderItem::class)->name('detail');
