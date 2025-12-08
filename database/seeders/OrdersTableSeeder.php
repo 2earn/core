@@ -48,7 +48,7 @@ class OrdersTableSeeder extends Seeder
             return;
         }
 
-        $userIds = [2,213,325,384,3716,3786];
+        $userIds = [2, 213, 325, 384, 3716, 3786];
 
         $ordersNumber = 100;
         $CreatedOrders = [];
@@ -146,12 +146,8 @@ class OrdersTableSeeder extends Seeder
                 'amount_after_discount' => $totalOrder,
             ];
 
-            if (!is_null($randomDate)) {
-                $updateData['created_at'] = $randomDate;
-                $updateData['updated_at'] = $randomDate;
-                $updateData['payment_datetime'] = $randomDate;
-            }
-            Log::notice("sates : " . $randomDate);
+            $updateData['created_at'] = $randomDate;
+            Log::notice("simulation_datetime + payment_datetime : " . $randomDate);
 
             $order->update($updateData);
 
@@ -162,6 +158,13 @@ class OrdersTableSeeder extends Seeder
             $simulation = Ordering::simulate($CreatedOrder);
             if ($simulation) {
                 Ordering::run($simulation);
+
+                $changer = Order::where('id', $CreatedOrder->id)->first();
+
+                $changer->update([
+                    'simulation_datetime' => $changer->created_at,
+                    'payment_datetime' => $changer->created_at,
+                ]);
             }
 
         }

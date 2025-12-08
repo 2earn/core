@@ -614,11 +614,11 @@ class DealService
             ->join('items', 'order_details.item_id', '=', 'items.id')
             ->where('items.deal_id', $dealId);
         if (!is_null($startDate) && !is_null($endDate)) {
-            $query = $query->whereBetween('orders.updated_at', [$startDate, $endDate]);
+            $query = $query->whereBetween('orders.payment_datetime', [$startDate, $endDate]);
         }
         $query = $query->select(
             DB::raw("items.deal_id"),
-            DB::raw("DATE_FORMAT(orders.updated_at, '$dateFormat') as date_group"),
+            DB::raw("DATE_FORMAT(orders.payment_datetime, '$dateFormat') as date_group"),
             DB::raw('SUM(order_details.total_amount) as revenue'),
             DB::raw('items.deal_id as deal_id')
         )
@@ -666,10 +666,10 @@ class DealService
             ->where('items.deal_id', $dealId);
 
         if (!is_null($startDate) && !is_null($endDate)) {
-            $query = $query->whereBetween('orders.updated_at', [$startDate, $endDate]);
+            $query = $query->whereBetween('orders.payment_datetime', [$startDate, $endDate]);
         }
 
-        $query = $query->whereNotNull('orders.updated_at');
+        $query = $query->whereNotNull('orders.payment_datetime');
         $revenue = $query->sum('order_details.total_amount');
 
         return (float)$revenue ?? 0;
