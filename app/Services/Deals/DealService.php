@@ -408,7 +408,6 @@ class DealService
      */
     public function update(int $id, array $data): bool
     {
-        // Automatically determine the plan if not provided and final_commission is being updated
         if (!isset($data['plan']) && isset($data['final_commission'])) {
             $data['plan'] = $this->determineNearestPlan($data['final_commission']);
         }
@@ -467,7 +466,6 @@ class DealService
         ?int    $dealId = null
     ): array
     {
-        // Base query with user permission check
         $query = Deal::query()
             ->whereHas('platform', function ($query) use ($userId) {
                 $query->where(function ($q) use ($userId) {
@@ -477,7 +475,6 @@ class DealService
                 });
             });
 
-        // Apply filters
         if ($startDate) {
             $query->where('start_date', '>=', $startDate);
         }
@@ -494,39 +491,31 @@ class DealService
             $query->where('id', $dealId);
         }
 
-        // Clone query for different calculations
         $baseQuery = clone $query;
 
-        // Total deals count
         $totalDeals = $query->count();
 
-        // Pending request deals (deals with pending validation requests)
         $pendingRequestDeals = (clone $baseQuery)
             ->whereHas('validationRequests', function ($q) {
                 $q->where('status', DealValidationRequest::STATUS_PENDING);
             })
             ->count();
 
-        // Validated deals
         $validatedDeals = (clone $baseQuery)
             ->where('validated', 1)
             ->count();
 
-        // Expired deals (end_date < NOW)
         $expiredDeals = (clone $baseQuery)
             ->where('end_date', '<', now())
             ->count();
 
-        // Active deals count (status = Opened which is 2)
         $activeDealsCount = (clone $baseQuery)
             ->where('status', \Core\Enum\DealStatus::Opened->value)
             ->count();
 
-        // Total revenue (sum of current_turnover)
         $totalRevenue = (clone $baseQuery)
             ->sum('current_turnover') ?? 0;
 
-        // Global revenue percentage
         $totalTargetTurnover = (clone $baseQuery)
             ->sum('target_turnover') ?? 0;
 
