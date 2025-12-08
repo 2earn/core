@@ -21,8 +21,6 @@ class OrdersTableSeeder extends Seeder
     {
         $allItems = Item::with('deal')->where('ref', '!=', '#0001')->get();
 
-        $this->command->info("Total items found: " . $allItems->count());
-
         // Group items by deal_id, filter items that have deals
         $itemsByDeal = $allItems
             ->filter(function ($item) {
@@ -37,15 +35,12 @@ class OrdersTableSeeder extends Seeder
                 if ($hasDeal) {
                     $dealType = $firstItem->deal->type;
                     $itemsCount = $items->count();
-                    $this->command->info("Deal ID {$dealId}: type = {$dealType}, items count = {$itemsCount}");
-
                     return $itemsCount >= 2;
                 }
 
                 return false;
             });
 
-        $this->command->info("Deals with 2+ items found: " . $itemsByDeal->count());
 
         if ($itemsByDeal->isEmpty()) {
             $this->command->error("No deals found with at least 2 items. Please ensure deals have multiple items.");
@@ -55,7 +50,7 @@ class OrdersTableSeeder extends Seeder
 
         $userIds = [2,213,325,384,3716,3786];
 
-        $ordersNumber = 1000;
+        $ordersNumber = 100;
         $CreatedOrders = [];
 
         for ($i = 0; $i < $ordersNumber; $i++) {

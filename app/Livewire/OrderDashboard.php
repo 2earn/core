@@ -41,8 +41,8 @@ class OrderDashboard extends Component
     public function mount()
     {
         // Set default date range (last 30 days)
-        $this->endDate = now()->format('Y-m-d');
-        $this->startDate = now()->subDays(30)->format('Y-m-d');
+        $this->endDate = now()->addDay()->format('Y-m-d');
+        $this->startDate = now()->subDays(365)->format('Y-m-d');
 
         // Load deals and products for filters
         $this->loadDeals();
@@ -117,8 +117,8 @@ class OrderDashboard extends Component
 
     public function resetFilters()
     {
-        $this->endDate = now()->format('Y-m-d');
-        $this->startDate = now()->subDays(30)->format('Y-m-d');
+        $this->endDate = now()->addDay()->format('Y-m-d');
+        $this->startDate = now()->subDays(365)->format('Y-m-d');
         $this->dealId = null;
         $this->productId = null;
         $this->products = [];
