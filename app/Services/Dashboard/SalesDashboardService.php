@@ -116,11 +116,20 @@ class SalesDashboardService
                 ->groupBy('date')
                 ->orderBy('date', 'asc')
                 ->get()
-                ->map(function ($item) use ($dateFormat) {
-                    return [
-                        'date' => \Carbon\Carbon::parse($item->date)->format($dateFormat),
-                        'revenue' => (float) $item->revenue
-                    ];
+                ->map(function ($item) use ($dateFormat, $viewMode) {
+                    if ($viewMode === 'weekly') {
+                        // For weekly, the date comes as 'YYYY-WW' format from DATE_FORMAT
+                        // Display it as is or format it nicely
+                        return [
+                            'date' => 'Week ' . $item->date,
+                            'revenue' => (float) $item->revenue
+                        ];
+                    } else {
+                        return [
+                            'date' => \Carbon\Carbon::parse($item->date)->format($dateFormat),
+                            'revenue' => (float) $item->revenue
+                        ];
+                    }
                 })
                 ->toArray();
 

@@ -289,9 +289,115 @@
 </div>
 
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>
+    let salesChart = null;
+
+    function initializeChart(chartData) {
+        const ctx = document.getElementById('salesChart');
+        if (!ctx) return;
+
+        if (salesChart) {
+            salesChart.destroy();
+        }
+
+        const labels = chartData.map(item => item.date);
+        const data = chartData.map(item => item.revenue);
+
+        salesChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '{{__('Revenue')}}',
+                    data: data,
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: 'rgb(75, 192, 192)',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += new Intl.NumberFormat('en-US', {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2
+                                    }).format(context.parsed.y);
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return new Intl.NumberFormat('en-US', {
+                                    notation: 'compact',
+                                    compactDisplay: 'short'
+                                }).format(value);
+                            }
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            maxRotation: 45,
+                            minRotation: 0
+                        }
+                    }
+                },
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false
+                }
+            }
+        });
+    }
+
     document.addEventListener('livewire:initialized', function() {
         console.log('Platform Sales Dashboard initialized');
+
+        const chartData = @json($chartData ?? []);
+        if (chartData && chartData.length > 0) {
+            initializeChart(chartData);
+        }
+    });
+
+    Livewire.on('chartDataUpdated', (chartData) => {
+        console.log('Chart data updated', chartData);
+        if (chartData && chartData.length > 0) {
+            initializeChart(chartData[0]);
+        }
+    });
+
+    window.addEventListener('resize', function() {
+        if (salesChart) {
+            salesChart.resize();
+        }
     });
 </script>
 @endpush
