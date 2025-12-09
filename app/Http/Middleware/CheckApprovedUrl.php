@@ -13,7 +13,7 @@ class CheckApprovedUrl
     public function handle(Request $request, Closure $next): Response
     {
         $approvedIps = [
-            '127.0.0.1'
+            '127.0.0.1','102.31.213.136'
         ];
 
         $requestIp = $request->ip();
