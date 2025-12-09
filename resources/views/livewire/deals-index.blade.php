@@ -11,22 +11,32 @@
             {{ __('Deals') }}
         @endslot
     @endcomponent
+
+    <div class="row">
+            <div class="col-12 card">
+                <div class="card-body d-flex align-items-center justify-content-end">
+                    <div class="d-flex gap-1">
+                        <a class="btn btn-outline-primary"
+                           href="{{ route('deals_dashboard', ['locale' => app()->getLocale()]) }}">
+                            <i class="fas fa-chart-line me-1"></i>{{__('Dashboard')}}
+                        </a>
+                        <a href="{{route('deals_all_requests', ['locale' => app()->getLocale()])}}"
+                           class="btn btn-outline-primary">
+                            <i class="fas fa-list me-1"></i>{{__('All Requests')}}
+                        </a>
+                    </div>
+                </div>
+            </div>
+    </div>
+
     <div class="row">
         @include('layouts.flash-messages')
     </div>
     <div class="row">
-        <div class="col-12 card shadow-sm border-0 mb-4">
-            <div class="card-header  text-muted d-flex align-items-center">
+        <div class="col-12 card">
+            <div class="card-header text-muted d-flex align-items-center">
                 <i class="fas fa-filter me-2"></i>
                 <h5 class="card-title mb-0 text-muted">{{__('Filters')}}</h5>
-                <a href="{{route('deals_all_requests', ['locale' => app()->getLocale()])}}"
-                   class="btn btn-sm btn-outline-info ms-auto">
-                    <i class="fas fa-list me-1"></i>{{__('All Requests')}}
-                </a>
-                <a class="btn btn-sm btn-outline-info ms-auto"
-                   href="{{ route('deals_dashboard', ['locale' => app()->getLocale()]) }}">
-                    {{__('Dashboard')}}
-                </a>
             </div>
             <div class="card-body p-4">
                 <div class="mb-4">

@@ -9,6 +9,26 @@
         @endslot
     @endcomponent
 
+    <!-- Navigation Submenu -->
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-body py-2">
+                    <div class="d-flex gap-2 justify-content-end">
+                        <a href="{{route('platform_all_requests', app()->getLocale())}}"
+                           class="btn btn-outline-primary">
+                            <i class="fas fa-list me-1"></i>{{__('All Requests')}}
+                        </a>
+                        <a href="{{route('platform_create_update', app()->getLocale())}}"
+                           class="btn btn-outline-primary">
+                            <i class="fas fa-plus me-1"></i>{{__('Create platform')}}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         @include('layouts.flash-messages')
     </div>
@@ -24,17 +44,6 @@
                                    wire:model.live.debounce.300ms="search"
                                    placeholder="{{__('Search platforms by name, type or ID...')}}">
                         </div>
-                    </div>
-                    <div class="col-12 text-md-end">
-                        <a href="{{route('platform_all_requests', app()->getLocale())}}"
-                           class="btn btn-sm btn-outline-info ms-auto">
-                            <i class="fas fa-list me-1"></i>
-                            {{__('All Requests')}}
-                        </a>
-                        <a href="{{route('platform_create_update', app()->getLocale())}}"
-                           class="btn btn-sm btn-outline-info ms-auto">
-                            {{__('Create platform')}}
-                        </a>
                     </div>
                 </div>
             </div>
