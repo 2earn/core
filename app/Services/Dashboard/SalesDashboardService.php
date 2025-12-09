@@ -3,7 +3,7 @@
 namespace App\Services\Dashboard;
 
 use App\Models\Order;
-use App\Models\OrderDetail;
+use App\Services\OrderDetailService;
 use App\Services\Platform\PlatformService;
 use Core\Enum\OrderEnum;
 use Illuminate\Support\Facades\Log;
@@ -13,10 +13,14 @@ class SalesDashboardService
     private const LOG_PREFIX = '[SalesDashboardService] ';
 
     private PlatformService $platformService;
+    private OrderDetailService $orderDetailService;
 
-    public function __construct(PlatformService $platformService)
-    {
+    public function __construct(
+        PlatformService $platformService,
+        OrderDetailService $orderDetailService
+    ) {
         $this->platformService = $platformService;
+        $this->orderDetailService = $orderDetailService;
     }
 
     /**
@@ -196,6 +200,36 @@ class SalesDashboardService
         }
 
         return $query;
+    }
+
+    /**
+     * Get top-selling products/services
+     *
+     * @param array $filters (start_date, end_date, platform_id, user_id, deal_id, limit)
+     * @return array
+     * @throws \Exception
+     */
+    public function getTopSellingProducts(array $filters = []): array
+    {
+        try {
+            if (!empty($filters['user_id']) && !empty($filters['platform_id'])) {
+                if (!$this->platformService->userHasRoleInPlatform($filters['user_id'], $filters['platform_id'])) {
+                    Log::warning(self::LOG_PREFIX . 'User does not have role in platform', [
+                        'user_id' => $filters['user_id'],
+                        'platform_id' => $filters['platform_id']
+                    ]);
+                    throw new \Exception('User does not have a role in this platform');
+                }
+            }
+
+            return $this->orderDetailService->getTopSellingProducts($filters);
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error in getTopSellingProducts: ' . $e->getMessage(), [
+                'filters' => $filters,
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
+        }
     }
 }
 
