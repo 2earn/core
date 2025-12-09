@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 class CommissionFormulaService
 {
     /**
-     * Get all commission formulas with optional filters
+     * Get all Plan label with optional filters
      *
      * @param array $filters
      * @return EloquentCollection
@@ -50,13 +50,13 @@ class CommissionFormulaService
 
             return $query->get();
         } catch (\Exception $e) {
-            Log::error('Error fetching commission formulas: ' . $e->getMessage());
+            Log::error('Error fetching Plan label: ' . $e->getMessage());
             return new EloquentCollection();
         }
     }
 
     /**
-     * Get only active commission formulas
+     * Get only active Plan label
      *
      * @return EloquentCollection
      */
@@ -67,7 +67,7 @@ class CommissionFormulaService
                 ->orderBy('initial_commission')
                 ->get();
         } catch (\Exception $e) {
-            Log::error('Error fetching active commission formulas: ' . $e->getMessage());
+            Log::error('Error fetching active Plan label: ' . $e->getMessage());
             return new EloquentCollection();
         }
     }
@@ -195,13 +195,13 @@ class CommissionFormulaService
                 ->orderBy('initial_commission')
                 ->get();
         } catch (\Exception $e) {
-            Log::error('Error fetching commission formulas for select: ' . $e->getMessage());
+            Log::error('Error fetching Plan label for select: ' . $e->getMessage());
             return new EloquentCollection();
         }
     }
 
     /**
-     * Get paginated commission formulas for API with optional filters
+     * Get paginated Plan label for API with optional filters
      *
      * @param array $filters
      * @param int|null $page
@@ -243,7 +243,7 @@ class CommissionFormulaService
                 'total' => $total
             ];
         } catch (\Exception $e) {
-            Log::error('Error fetching paginated commission formulas: ' . $e->getMessage());
+            Log::error('Error fetching paginated Plan label: ' . $e->getMessage());
             return [
                 'formulas' => new EloquentCollection(),
                 'total' => 0

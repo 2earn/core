@@ -281,11 +281,11 @@
                             </a>
                         </div>
                         <div class="col">
-                            <a href="{{route('commission_formula_index',app()->getLocale(),false )}}"
-                               class="nav-link menu-link p-1 rounded hover-bg {{$currentRouteName=='commission_formula_index'? 'active bg-light' : ''}}"
+                            <a href="{{route('plan_label_index',app()->getLocale(),false )}}"
+                               class="nav-link menu-link p-1 rounded hover-bg {{$currentRouteName=='plan_label_index'? 'active bg-light' : ''}}"
                                role="button">
                                 <i class="ri-percent-line me-2"></i>
-                                <span>{{__('Commission Formulas')}}</span>
+                                <span>{{__('Plan label')}}</span>
                             </a>
                         </div>
                         <div class="col">

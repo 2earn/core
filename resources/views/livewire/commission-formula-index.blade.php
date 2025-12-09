@@ -1,11 +1,11 @@
 <div class="{{getContainerType()}}">
     @section('title')
-        {{ __('Commission Formulas') }}
+        {{ __('Plan label') }}
     @endsection
 
     @component('components.breadcrumb')
         @slot('title')
-            {{ __('Commission Formulas') }}
+            {{ __('Plan label') }}
         @endslot
         @slot('li_1')
             {{ __('Management') }}
@@ -120,7 +120,7 @@
             <div class="row g-4 align-items-center">
                 <div class="col-sm">
                     <div>
-                        <h5 class="card-title mb-0">{{ __('Commission Formulas List') }}</h5>
+                        <h5 class="card-title mb-0">{{ __('Plan label List') }}</h5>
                     </div>
                 </div>
                 <div class="col-sm-auto">
@@ -329,7 +329,7 @@
                         <div class="mb-3">
                             <i class="ri-file-list-3-line display-4 text-muted"></i>
                         </div>
-                        <h5 class="mt-2">{{ __('No commission formulas found') }}</h5>
+                        <h5 class="mt-2">{{ __('No Plan label found') }}</h5>
                         <p class="text-muted">{{ __('Try adjusting your search or filter to find what you are looking for.') }}</p>
                         @if(\App\Models\User::isSuperAdmin())
                             <a href="{{ route('commission_formula_create', ['locale' => app()->getLocale()]) }}"

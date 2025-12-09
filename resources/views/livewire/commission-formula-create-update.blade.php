@@ -8,8 +8,8 @@
             {{ $isEditMode ? __('Edit Commission Formula') : __('Create Commission Formula') }}
         @endslot
         @slot('li_1')
-            <a href="{{ route('commission_formula_index', ['locale' => app()->getLocale()]) }}">
-                {{ __('Commission Formulas') }}
+            <a href="{{ route('plan_label_index', ['locale' => app()->getLocale()]) }}">
+                {{ __('Plan label') }}
             </a>
         @endslot
     @endcomponent

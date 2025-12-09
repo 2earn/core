@@ -322,7 +322,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
                 Route::get('/', \App\Livewire\CouponCreate::class)->name('create');
             });
 
-            Route::prefix('/commission/formula')->name('commission_formula_')->group(function () {
+            Route::prefix('/plan/label')->name('plan_label_')->group(function () {
                 Route::get('/index', \App\Livewire\PlanLabelIndex::class)->name('index');
                 Route::get('/create', \App\Livewire\PlanLabelCreateUpdate::class)->name('create');
                 Route::get('/edit/{id}', \App\Livewire\PlanLabelCreateUpdate::class)->name('edit');

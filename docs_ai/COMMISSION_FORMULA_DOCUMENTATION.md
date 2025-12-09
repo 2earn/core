@@ -100,7 +100,7 @@ $commission = $formula->calculateCommission(1000, 'initial'); // Returns 50 if i
 ### Scopes
 
 #### `active()`
-Get only active commission formulas.
+Get only active Plan label.
 
 **Example:**
 ```php
@@ -120,7 +120,7 @@ $formulas = CommissionFormula::withinRange(5, 20)->get();
 ### Available Methods
 
 #### 1. `getCommissionFormulas(array $filters = []): EloquentCollection`
-Get all commission formulas with optional filters.
+Get all Plan label with optional filters.
 
 **Filters:**
 - `is_active`: Filter by active status
@@ -141,7 +141,7 @@ $formulas = $commissionFormulaService->getCommissionFormulas([
 ```
 
 #### 2. `getActiveFormulas(): EloquentCollection`
-Get only active commission formulas.
+Get only active Plan label.
 
 **Example:**
 ```php

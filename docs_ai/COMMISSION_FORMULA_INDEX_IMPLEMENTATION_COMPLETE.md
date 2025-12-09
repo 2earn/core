@@ -42,8 +42,8 @@ Complete UI with:
 
 Added menu link:
 - ✅ Icon: `ri-percent-line`
-- ✅ Label: "Commission Formulas"
-- ✅ Route: `commission_formula_index`
+- ✅ Label: "Plan label"
+- ✅ Route: `plan_label_index`
 - ✅ Active state highlighting
 - ✅ Admin-only visibility
 
@@ -57,14 +57,14 @@ Route::prefix('/commission/formula')->name('commission_formula_')->group(functio
 });
 ```
 
-**Full route name**: `commission_formula_index`
+**Full route name**: `plan_label_index`
 **URL**: `/commission/formula/index`
 
 ## Features Implemented
 
 ### 📊 Statistics Dashboard
 Four cards displaying key metrics:
-1. **Total Formulas** - Count of all commission formulas
+1. **Total Formulas** - Count of all Plan label
 2. **Active Formulas** - Count of active formulas only
 3. **Avg Initial Commission** - Average of initial_commission values
 4. **Avg Final Commission** - Average of final_commission values
@@ -107,14 +107,14 @@ Four cards displaying key metrics:
 ### From Admin Menu
 1. Log in as Super Admin
 2. Look for the admin menu (page title component)
-3. Click on "Commission Formulas" link (with percent icon)
+3. Click on "Plan label" link (with percent icon)
 
 ### Direct URL
 Navigate to: `/commission/formula/index`
 
 ### Via Route Helper
 ```php
-route('commission_formula_index', ['locale' => app()->getLocale()])
+route('plan_label_index', ['locale' => app()->getLocale()])
 ```
 
 ## Component Usage
@@ -186,7 +186,7 @@ The index page is complete. For full CRUD functionality, you'll need:
 ```php
 // Already exists
 Route::get('/commission/formula/index', CommissionFormulaIndex::class)
-    ->name('commission_formula_index');
+    ->name('plan_label_index');
 
 // To be created
 Route::get('/commission/formula/create', CommissionFormulaCreate::class)
@@ -252,7 +252,7 @@ ID | Name         | Range      | Initial | Final  | Status  | Actions
 ```
 📄 (Large file icon)
 
-No commission formulas found
+No Plan label found
 
 Try adjusting your search or filter to find 
 what you are looking for.
@@ -317,6 +317,6 @@ php artisan db:seed --class=CommissionFormulaSeeder
 **Status**: ✅ Complete and Ready to Use
 **Date**: November 19, 2025
 **Access URL**: `/commission/formula/index`
-**Route Name**: `commission_formula_index`
+**Route Name**: `plan_label_index`
 **Component**: `App\Livewire\CommissionFormulaIndex`
 

@@ -1,7 +1,7 @@
 # Commission Formula Create/Update Component Documentation
 
 ## Overview
-The `CommissionFormulaCreateUpdate` component is a comprehensive Livewire component that handles both creating new commission formulas and editing existing ones in a single, unified interface.
+The `CommissionFormulaCreateUpdate` component is a comprehensive Livewire component that handles both creating new Plan label and editing existing ones in a single, unified interface.
 
 ## Files Created
 
@@ -136,7 +136,7 @@ Save the formula (create or update based on mode).
 ### 6. `cancel()`
 Cancel the form and return to index page.
 
-**Returns:** Redirect to commission_formula_index
+**Returns:** Redirect to plan_label_index
 
 ## View Features
 
@@ -202,7 +202,7 @@ Route::prefix('/commission/formula')->name('commission_formula_')->group(functio
 ```
 
 ### Route Names
-1. **commission_formula_index** - List page
+1. **plan_label_index** - List page
 2. **commission_formula_create** - Create page
 3. **commission_formula_edit** - Edit page (requires id parameter)
 
