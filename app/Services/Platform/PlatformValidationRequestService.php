@@ -3,7 +3,6 @@
 namespace App\Services\Platform;
 
 use App\Models\PlatformValidationRequest;
-use Core\Models\Platform;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -144,12 +143,36 @@ class PlatformValidationRequestService
             throw new \Exception('This request has already been processed');
         }
 
-        // Update request status
         $request->status = PlatformValidationRequest::STATUS_REJECTED;
         $request->rejection_reason = $rejectionReason;
         $request->reviewed_by = $reviewedBy;
         $request->updated_by = $reviewedBy;
         $request->reviewed_at = now();
+        $request->save();
+
+        return $request;
+    }
+
+    /**
+     * Cancel a platform validation request
+     *
+     * @param int $requestId
+     * @param int $cancelledBy
+     * @return PlatformValidationRequest
+     * @throws \Exception
+     */
+    public function cancelRequest(int $requestId, int $cancelledBy, string $rejectionReason): PlatformValidationRequest
+    {
+        $request = $this->findRequest($requestId);
+
+        if ($request->status !== PlatformValidationRequest::STATUS_PENDING) {
+            throw new \Exception('Only pending requests can be cancelled');
+        }
+
+        $request->status = PlatformValidationRequest::STATUS_CANCELLED;
+        $request->reviewed_by = $cancelledBy;
+        $request->reviewed_at = now();
+        $request->rejection_reason = $rejectionReason;
         $request->save();
 
         return $request;
