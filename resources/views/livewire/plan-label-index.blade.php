@@ -167,125 +167,168 @@
             </div>
 
 
-            <div class="table-responsive" wire:loading.remove>
+            <div wire:loading.remove>
                 @if($labels->count() > 0)
-                    <table class="table table-nowrap table-striped-columns align-middle mb-0">
-                        <thead class="table-light">
-                        <tr>
-                            <th scope="col">
-                                <a href="#" wire:click.prevent="sortBy('id')" class="text-muted">
-                                    {{ __('ID') }}
-                                    @if($sortBy === 'id')
-                                        <i class="ri-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-s-line"></i>
-                                    @endif
-                                </a>
-                            </th>
-                            <th scope="col">
-                                <a href="#" wire:click.prevent="sortBy('name')" class="text-muted">
-                                    {{ __('Name') }}
-                                    @if($sortBy === 'name')
-                                        <i class="ri-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-s-line"></i>
-                                    @endif
-                                </a>
-                            </th>
-                            <th scope="col">{{ __('Commission Range') }}</th>
-                            <th scope="col">{{ __('Initial') }}</th>
-                            <th scope="col">{{ __('Final') }}</th>
-                            <th scope="col">{{ __('Description') }}</th>
-                            <th scope="col">
-                                <a href="#" wire:click.prevent="sortBy('is_active')" class="text-muted">
-                                    {{ __('Status') }}
-                                    @if($sortBy === 'is_active')
-                                        <i class="ri-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-s-line"></i>
-                                    @endif
-                                </a>
-                            </th>
-                            <th scope="col">
-                                <a href="#" wire:click.prevent="sortBy('created_at')" class="text-muted">
-                                    {{ __('Created') }}
-                                    @if($sortBy === 'created_at')
-                                        <i class="ri-arrow-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-s-line"></i>
-                                    @endif
-                                </a>
-                            </th>
-                            @if(\App\Models\User::isSuperAdmin())
-                                <th scope="col">{{ __('Actions') }}</th>
-                            @endif
-                        </tr>
-                        </thead>
-                        <tbody>
+                    <div class="row g-3">
                         @foreach($labels as $formula)
-                            <tr>
-                                <td class="fw-medium">{{ $formula->id }}</td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex-grow-1">
-                                            <h6 class="fs-14 mb-1">{{ $formula->name ?: __('No Name') }}</h6>
+                            <div class="col-12">
+                                <div class="card border mb-0">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-lg-8">
+                                                <div class="d-flex align-items-start">
+                                                    <div class="flex-shrink-0 me-3">
+                                                        <div class="avatar-sm">
+                                                            <div class="avatar-title bg-soft-primary text-primary rounded fs-20">
+                                                                <i class="ri-price-tag-3-line"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <div class="d-flex align-items-center mb-2">
+                                                            <h5 class="fs-15 mb-0 me-2">{{ $formula->name ?: __('No Name') }}</h5>
+                                                            <span class="badge badge-soft-secondary me-2">#{{ $formula->id }}</span>
+                                                            @if($formula->is_active)
+                                                                <span class="badge badge-soft-success">
+                                                                    <i class="ri-checkbox-circle-line align-middle me-1"></i>{{ __('Active') }}
+                                                                </span>
+                                                            @else
+                                                                <span class="badge badge-soft-danger">
+                                                                    <i class="ri-close-circle-line align-middle me-1"></i>{{ __('Inactive') }}
+                                                                </span>
+                                                            @endif
+                                                        </div>
+
+                                                        @if($formula->description)
+                                                            <p class="text-muted mb-3">{{ Str::limit($formula->description, 100) }}</p>
+                                                        @endif
+
+                                                        <div class="row g-2">
+                                                            <div class="col-auto">
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="flex-shrink-0 me-2">
+                                                                        <i class="ri-percent-line text-info"></i>
+                                                                    </div>
+                                                                    <div class="flex-grow-1">
+                                                                        <p class="text-muted mb-0 fs-12">{{ __('Initial') }}</p>
+                                                                        <span class="badge badge-soft-info fs-11">{{ number_format($formula->initial_commission, 2) }}%</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-auto">
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="flex-shrink-0 me-2">
+                                                                        <i class="ri-percent-line text-success"></i>
+                                                                    </div>
+                                                                    <div class="flex-grow-1">
+                                                                        <p class="text-muted mb-0 fs-12">{{ __('Final') }}</p>
+                                                                        <span class="badge badge-soft-success fs-11">{{ number_format($formula->final_commission, 2) }}%</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-auto">
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="flex-shrink-0 me-2">
+                                                                        <i class="ri-price-tag-line text-primary"></i>
+                                                                    </div>
+                                                                    <div class="flex-grow-1">
+                                                                        <p class="text-muted mb-0 fs-12">{{ __('Range') }}</p>
+                                                                        <span class="badge badge-soft-primary fs-11">{{ $formula->getCommissionRange() }}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            @if($formula->step)
+                                                                <div class="col-auto">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <div class="flex-shrink-0 me-2">
+                                                                            <i class="ri-sort-asc text-warning"></i>
+                                                                        </div>
+                                                                        <div class="flex-grow-1">
+                                                                            <p class="text-muted mb-0 fs-12">{{ __('Step') }}</p>
+                                                                            <span class="badge badge-soft-warning fs-11">{{ $formula->step }}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            @endif
+
+                                                            @if($formula->rate)
+                                                                <div class="col-auto">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <div class="flex-shrink-0 me-2">
+                                                                            <i class="ri-dashboard-line text-danger"></i>
+                                                                        </div>
+                                                                        <div class="flex-grow-1">
+                                                                            <p class="text-muted mb-0 fs-12">{{ __('Rate') }}</p>
+                                                                            <span class="badge badge-soft-danger fs-11">{{ number_format($formula->rate, 2) }}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            @endif
+
+                                                            @if($formula->stars)
+                                                                <div class="col-auto">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <div class="flex-shrink-0 me-2">
+                                                                            <i class="ri-star-fill text-warning"></i>
+                                                                        </div>
+                                                                        <div class="flex-grow-1">
+                                                                            <p class="text-muted mb-0 fs-12">{{ __('Stars') }}</p>
+                                                                            <div>
+                                                                                @for($i = 1; $i <= 5; $i++)
+                                                                                    <i class="ri-star-{{ $i <= $formula->stars ? 'fill' : 'line' }} text-warning fs-12"></i>
+                                                                                @endfor
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <div class="d-flex flex-column align-items-lg-end">
+                                                    <div class="mb-2">
+                                                        <small class="text-muted">
+                                                            <i class="ri-calendar-line align-middle me-1"></i>
+                                                            {{ $formula->created_at->format('Y-m-d') }}
+                                                        </small>
+                                                    </div>
+
+                                                    @if(\App\Models\User::isSuperAdmin())
+                                                        <div class="hstack gap-2">
+                                                            <button wire:click="toggleActive({{ $formula->id }})"
+                                                                    class="btn btn-sm btn-soft-{{ $formula->is_active ? 'warning' : 'success' }}"
+                                                                    title="{{ $formula->is_active ? __('Deactivate') : __('Activate') }}">
+                                                                <i class="ri-{{ $formula->is_active ? 'pause' : 'play' }}-circle-line align-middle me-1"></i>
+                                                                {{ $formula->is_active ? __('Deactivate') : __('Activate') }}
+                                                            </button>
+
+                                                            <a href="{{ route('plan_label_edit', ['locale' => app()->getLocale(), 'id' => $formula->id]) }}"
+                                                               class="btn btn-sm btn-soft-info"
+                                                               title="{{ __('Edit') }}">
+                                                                <i class="ri-edit-2-line"></i>
+                                                            </a>
+
+                                                            <button wire:click="confirmDelete({{ $formula->id }})"
+                                                                    class="btn btn-sm btn-soft-danger"
+                                                                    title="{{ __('Delete') }}">
+                                                                <i class="ri-delete-bin-line"></i>
+                                                            </button>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </td>
-                                <td>
-                                        <span class="badge badge-soft-primary fs-12">
-                                            {{ $formula->getCommissionRange() }}
-                                        </span>
-                                </td>
-                                <td>
-                                        <span class="badge badge-soft-info">
-                                            {{ number_format($formula->initial_commission, 2) }}%
-                                        </span>
-                                </td>
-                                <td>
-                                        <span class="badge badge-soft-success">
-                                            {{ number_format($formula->final_commission, 2) }}%
-                                        </span>
-                                </td>
-                                <td>
-                                    <div class="text-muted" style="max-width: 250px;">
-                                        {{ Str::limit($formula->description, 50) }}
-                                    </div>
-                                </td>
-                                <td>
-                                    @if($formula->is_active)
-                                        <span class="badge badge-soft-success">
-                                                <i class="ri-checkbox-circle-line align-middle me-1"></i>{{ __('Active') }}
-                                            </span>
-                                    @else
-                                        <span class="badge badge-soft-danger">
-                                                <i class="ri-close-circle-line align-middle me-1"></i>{{ __('Inactive') }}
-                                            </span>
-                                    @endif
-                                </td>
-                                <td>{{ $formula->created_at->format('Y-m-d') }}</td>
-                                @if(\App\Models\User::isSuperAdmin())
-                                    <td>
-                                        <div class="hstack gap-2">
-
-                                            <button wire:click="toggleActive({{ $formula->id }})"
-                                                    class="btn btn-sm btn-soft-{{ $formula->is_active ? 'warning' : 'success' }}"
-                                                    title="{{ $formula->is_active ? __('Deactivate') : __('Activate') }}">
-                                                <i class="ri-{{ $formula->is_active ? 'pause' : 'play' }}-circle-line"></i>
-                                            </button>
-
-
-                                            <a href="{{ route('plan_label_edit', ['locale' => app()->getLocale(), 'id' => $formula->id]) }}"
-                                               class="btn btn-sm btn-soft-info"
-                                               title="{{ __('Edit') }}">
-                                                <i class="ri-edit-2-line"></i>
-                                            </a>
-
-
-                                            <button wire:click="confirmDelete({{ $formula->id }})"
-                                                    class="btn btn-sm btn-soft-danger"
-                                                    title="{{ __('Delete') }}">
-                                                <i class="ri-delete-bin-line"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                @endif
-                            </tr>
+                                </div>
+                            </div>
                         @endforeach
-                        </tbody>
-                    </table>
+                    </div>
                 @else
                     <div class="text-center py-5">
                         <div class="mb-3">
@@ -294,7 +337,7 @@
                         <h5 class="mt-2">{{ __('No Plan label found') }}</h5>
                         <p class="text-muted">{{ __('Try adjusting your search or filter to find what you are looking for.') }}</p>
                         @if(\App\Models\User::isSuperAdmin())
-                            <a href="{{ route('commission_formula_create', ['locale' => app()->getLocale()]) }}"
+                            <a href="{{ route('plan_label_create', ['locale' => app()->getLocale()]) }}"
                                class="btn btn-success mt-3">
                                 <i class="ri-add-line align-bottom me-1"></i> {{ __('Add First Formula') }}
                             </a>
@@ -324,7 +367,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light"
                                 wire:click="cancelDelete">{{ __('Cancel') }}</button>
-                        <button type="button" class="btn btn-danger" wire:click="deleteFormula">
+                        <button type="button" class="btn btn-danger" wire:click="deleteLabel">
                             <i class="ri-delete-bin-line align-bottom me-1"></i> {{ __('Delete') }}
                         </button>
                     </div>
