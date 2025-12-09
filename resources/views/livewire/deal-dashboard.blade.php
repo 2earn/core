@@ -27,7 +27,8 @@
                             <select wire:model.live="selectedPlatformId" id="platformFilter" class="form-select">
                                 <option value="">{{ __('All Platforms') }}</option>
                                 @foreach($availablePlatforms as $platform)
-                                    <option value="{{ $platform->id }}">{{ $platform->name }}</option>
+                                    <option value="{{ $platform->id }}">{{ $platform->id }}
+                                        - {{ $platform->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -41,7 +42,8 @@
                         <select wire:model.live="dealId" id="dealFilter" class="form-select" required>
                             <option value="">{{ __('Select Deal') }}</option>
                             @foreach($availableDeals as $dealOption)
-                                <option value="{{ $dealOption->id }}">{{ $dealOption->name }}</option>
+                                <option value="{{ $dealOption->id }}">{{ $dealOption->id }}
+                                    - {{ $dealOption->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -235,7 +237,7 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    <canvas id="dealPerformanceChart" style="height: 400px;"></canvas>
+                    <div id="dealPerformanceChart" style="height: 400px;" wire:ignore></div>
                 </div>
             </div>
         @endif
@@ -256,160 +258,231 @@
     </div>
 
     @push('scripts')
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
         <script>
             let dealChart = null;
+            let chartEventListenerRegistered = false;
+            let pendingChartData = @json($chartData ?? []);
 
             function initChart() {
-                const ctx = document.getElementById('dealPerformanceChart');
-                if (!ctx) {
-                    console.log('Chart canvas not found');
+                const chartElement = document.querySelector('#dealPerformanceChart');
+                if (!chartElement) {
+                    console.log('Chart element not found');
                     return;
                 }
 
-                if (dealChart) {
-                    dealChart.destroy();
-                }
+                console.log('Initializing chart');
 
-                try {
-                    dealChart = new Chart(ctx.getContext('2d'), {
-                        type: 'line',
-                        data: {
-                            labels: [],
-                            datasets: [{
-                                label: '{{ __("Revenue") }}',
-                                data: [],
-                                borderColor: 'rgb(75, 192, 192)',
-                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                                tension: 0.4,
-                                fill: true,
-                                pointRadius: 4,
-                                pointHoverRadius: 6
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: {
-                                    position: 'top',
-                                    labels: {
-                                        font: {
-                                            size: 14
-                                        }
-                                    }
-                                },
-                                tooltip: {
-                                    callbacks: {
-                                        label: function (context) {
-                                            let label = context.dataset.label || '';
-                                            if (label) {
-                                                label += ': ';
-                                            }
-                                            if (context.parsed.y !== null) {
-                                                label += new Intl.NumberFormat('en-US', {
-                                                    style: 'currency',
-                                                    currency: '{{ config("app.currency_code", "USD") }}'
-                                                }).format(context.parsed.y);
-                                            }
-                                            return label;
-                                        }
-                                    }
+                dealChart = echarts.init(chartElement);
+
+                const option = {
+                    title: {
+                        text: '{{ __("Revenue") }}',
+                        left: 'center'
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        formatter: function(params) {
+                            if (params && params.length > 0) {
+                                const value = params[0].value;
+                                const formattedValue = new Intl.NumberFormat('en-US', {
+                                    style: 'currency',
+                                    currency: '{{ config("app.currency_code", "USD") }}'
+                                }).format(value);
+                                return params[0].name + '<br/>' + params[0].marker + ' {{ __("Revenue") }}: ' + formattedValue;
+                            }
+                            return '';
+                        }
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {
+                                title: '{{ __("Download") }}'
+                            },
+                            dataZoom: {
+                                title: {
+                                    zoom: '{{ __("Zoom") }}',
+                                    back: '{{ __("Reset") }}'
                                 }
                             },
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    ticks: {
-                                        callback: function (value) {
-                                            return new Intl.NumberFormat('en-US', {
-                                                style: 'currency',
-                                                currency: '{{ config("app.currency_code", "USD") }}',
-                                                minimumFractionDigits: 0,
-                                                maximumFractionDigits: 0
-                                            }).format(value);
-                                        }
-                                    }
-                                },
-                                x: {
-                                    grid: {
-                                        display: true
-                                    }
-                                }
+                            restore: {
+                                title: '{{ __("Restore") }}'
                             }
                         }
-                    });
-                    console.log('Chart initialized successfully');
-                } catch (error) {
-                    console.error('Error initializing chart:', error);
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: [],
+                        name: '{{ __("Date") }}',
+                        nameLocation: 'middle',
+                        nameGap: 30
+                    },
+                    yAxis: {
+                        type: 'value',
+                        name: '{{ __("Revenue") }}',
+                        axisLabel: {
+                            formatter: function(value) {
+                                return new Intl.NumberFormat('en-US', {
+                                    style: 'currency',
+                                    currency: '{{ config("app.currency_code", "USD") }}',
+                                    minimumFractionDigits: 0,
+                                    maximumFractionDigits: 0
+                                }).format(value);
+                            }
+                        }
+                    },
+                    series: [{
+                        name: '{{ __("Revenue") }}',
+                        type: 'line',
+                        data: [],
+                        smooth: true,
+                        areaStyle: {
+                            color: {
+                                type: 'linear',
+                                x: 0,
+                                y: 0,
+                                x2: 0,
+                                y2: 1,
+                                colorStops: [{
+                                    offset: 0,
+                                    color: 'rgba(75, 192, 192, 0.7)'
+                                }, {
+                                    offset: 1,
+                                    color: 'rgba(75, 192, 192, 0.1)'
+                                }]
+                            }
+                        },
+                        lineStyle: {
+                            color: '#4bc0c0',
+                            width: 2
+                        },
+                        itemStyle: {
+                            color: '#4bc0c0'
+                        }
+                    }],
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '10%',
+                        containLabel: true
+                    }
+                };
+
+                dealChart.setOption(option);
+
+                // Update chart with pending data if available
+                if (pendingChartData && pendingChartData.length > 0) {
+                    console.log('Updating chart with pending data:', pendingChartData);
+                    updateChart(pendingChartData);
                 }
+
+                window.addEventListener('resize', function() {
+                    if (dealChart) {
+                        dealChart.resize();
+                    }
+                });
             }
 
             function updateChart(chartData) {
-                console.log('Updating chart with data:', chartData);
+                console.log('updateChart called with data:', chartData);
+
+                const chartElement = document.querySelector('#dealPerformanceChart');
+                if (!chartElement) {
+                    console.log('Chart element not found');
+                    return;
+                }
+
+                if (!dealChart) {
+                    console.log('Chart not initialized, initializing now');
+                    initChart();
+                    return; // Chart will be updated in initChart
+                }
 
                 if (!chartData || chartData.length === 0) {
                     console.log('No chart data provided');
+                    dealChart.setOption({
+                        xAxis: {
+                            data: []
+                        },
+                        series: [{
+                            data: []
+                        }]
+                    });
                     return;
                 }
 
-                if (!dealChart) {
-                    console.log('Chart not initialized, initializing now...');
-                    initChart();
-                }
+                const labels = chartData.map(item => item.date);
+                const data = chartData.map(item => parseFloat(item.revenue));
 
-                if (!dealChart) {
-                    console.error('Failed to initialize chart');
-                    return;
-                }
+                console.log('Chart labels:', labels);
+                console.log('Chart data:', data);
 
-                try {
-                    const labels = chartData.map(item => item.date);
-                    const data = chartData.map(item => parseFloat(item.revenue));
-
-                    dealChart.data.labels = labels;
-                    dealChart.data.datasets[0].data = data;
-                    dealChart.update('active');
-                    console.log('Chart updated successfully');
-                } catch (error) {
-                    console.error('Error updating chart:', error);
-                }
+                dealChart.setOption({
+                    xAxis: {
+                        data: labels
+                    },
+                    series: [{
+                        data: data
+                    }]
+                });
             }
 
-            // Wait for both Chart.js and Livewire to be ready
             function setupChart() {
-                if (typeof Chart === 'undefined') {
-                    console.log('Chart.js not loaded yet, retrying...');
+                if (typeof echarts === 'undefined') {
+                    console.log('Echarts not loaded yet, waiting...');
                     setTimeout(setupChart, 100);
                     return;
                 }
 
                 if (typeof Livewire === 'undefined') {
-                    console.log('Livewire not loaded yet, retrying...');
+                    console.log('Livewire not loaded yet, waiting...');
                     setTimeout(setupChart, 100);
                     return;
                 }
 
-                console.log('Chart.js and Livewire ready, initializing...');
+                console.log('Setting up chart');
 
-                // Initialize chart
-                initChart();
+                if (!chartEventListenerRegistered) {
+                    chartEventListenerRegistered = true;
 
-                // Listen for Livewire events
-                Livewire.on('chartDataUpdated', (event) => {
-                    console.log('Received chartDataUpdated event:', event);
-                    const data = Array.isArray(event) ? event[0] : event;
-                    if (data && data.chartData) {
-                        updateChart(data.chartData);
-                    } else {
-                        console.warn('Invalid chart data received:', data);
+                    Livewire.on('chartDataUpdated', (event) => {
+                        console.log('chartDataUpdated event received:', event);
+                        const data = Array.isArray(event) ? event[0] : event;
+                        if (data && data.chartData) {
+                            pendingChartData = data.chartData;
+                            updateChart(data.chartData);
+                        }
+                    });
+                }
+
+                // Initialize chart after a short delay to ensure DOM is ready
+                setTimeout(() => {
+                    const chartElement = document.querySelector('#dealPerformanceChart');
+                    if (chartElement) {
+                        initChart();
                     }
-                });
-
-                console.log('Chart setup complete');
+                }, 100);
             }
 
-            // Start setup when document is ready
+            // Re-initialize chart after Livewire updates
+            document.addEventListener('livewire:update', () => {
+                console.log('Livewire updated, re-initializing chart');
+                setTimeout(() => {
+                    const chartElement = document.querySelector('#dealPerformanceChart');
+                    if (chartElement) {
+                        // Get latest chart data from Livewire component
+                        pendingChartData = @this.chartData || [];
+                        console.log('Chart data from component:', pendingChartData);
+                        initChart();
+                    }
+                }, 150);
+            });
+
+            document.addEventListener('livewire:navigating', () => {
+                console.log('Livewire navigating, destroying chart');
+                chartEventListenerRegistered = false;
+            });
+
             if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', setupChart);
             } else {

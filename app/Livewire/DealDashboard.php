@@ -85,7 +85,7 @@ class DealDashboard extends Component
             $this->startDate = Carbon::now()->subDays(30)->format('Y-m-d');
         }
         if (!$this->endDate) {
-            $this->endDate = Carbon::now()->format('Y-m-d');
+            $this->endDate = Carbon::now()->addDay()->format('Y-m-d');
         }
 
         // Load initial data
@@ -223,6 +223,14 @@ class DealDashboard extends Component
 
     public function render()
     {
+        // Dispatch chart data after rendering if we have chart data
+        if (!empty($this->chartData)) {
+            $this->dispatch('chartDataUpdated', [
+                'chartData' => $this->chartData,
+                'viewMode' => $this->viewMode
+            ]);
+        }
+
         return view('livewire.deal-dashboard', [
             'currency' => config('app.currency', '$')
         ])->extends('layouts.master')->section('content');
