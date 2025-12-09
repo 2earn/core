@@ -22,14 +22,6 @@ class CommissionFormulaPartnerController extends Controller
         $this->commissionFormulaService = $commissionFormulaService;
     }
 
-    /**
-     * Expose a list of commission formulas (optionally paginated & searchable)
-     *
-     * Query Params:
-     * - page: optional integer (>=1) for pagination
-     * - search: optional string to search by name
-     * - active: optional boolean (1|0) filter by is_active
-     */
     public function index(Request $request)
     {
         $validator = Validator::make($request->all(), [
