@@ -244,10 +244,10 @@
                                              alt="{{ $deal->commissionPlan->name }}"
                                              class="rounded-circle"
                                              style="width: 50px; height: 50px; object-fit: cover;"
-                                             onerror="this.src='{{ Vite::asset(\App\Models\CommissionFormula::DEFAULT_IMAGE_TYPE_ICON) }}'">
+                                             onerror="this.src='{{ Vite::asset(\App\Models\PlanLabel::DEFAULT_IMAGE_TYPE_ICON) }}'">
                                     @else
                                         <img
-                                            src="{{ Vite::asset(\App\Models\CommissionFormula::DEFAULT_IMAGE_TYPE_ICON) }}"
+                                            src="{{ Vite::asset(\App\Models\PlanLabel::DEFAULT_IMAGE_TYPE_ICON) }}"
                                             alt="{{ $deal->commissionPlan->name }}"
                                             class="rounded-circle"
                                             style="width: 50px; height: 50px; object-fit: cover;">

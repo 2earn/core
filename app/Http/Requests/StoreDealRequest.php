@@ -25,7 +25,7 @@ class StoreDealRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'commission_formula_id' => 'required|integer|exists:commission_formulas,id',
+            'plan_labels_id' => 'required|integer|exists:plan_labels,id',
             'description' => 'required|string',
             'validated' => 'required|boolean',
             'type' => 'required|string',

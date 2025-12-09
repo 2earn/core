@@ -323,9 +323,9 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             });
 
             Route::prefix('/commission/formula')->name('commission_formula_')->group(function () {
-                Route::get('/index', \App\Livewire\CommissionFormulaIndex::class)->name('index');
-                Route::get('/create', \App\Livewire\CommissionFormulaCreateUpdate::class)->name('create');
-                Route::get('/edit/{id}', \App\Livewire\CommissionFormulaCreateUpdate::class)->name('edit');
+                Route::get('/index', \App\Livewire\PlanLabelIndex::class)->name('index');
+                Route::get('/create', \App\Livewire\PlanLabelCreateUpdate::class)->name('create');
+                Route::get('/edit/{id}', \App\Livewire\PlanLabelCreateUpdate::class)->name('edit');
             });
 
             Route::prefix('/coupon/injector')->name('coupon_injector_')->group(function () {
