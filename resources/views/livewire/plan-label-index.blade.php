@@ -367,7 +367,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light"
                                 wire:click="cancelDelete">{{ __('Cancel') }}</button>
-                        <button type="button" class="btn btn-danger" wire:click="deleteFormula">
+                        <button type="button" class="btn btn-danger" wire:click="deleteLabel">
                             <i class="ri-delete-bin-line align-bottom me-1"></i> {{ __('Delete') }}
                         </button>
                     </div>
