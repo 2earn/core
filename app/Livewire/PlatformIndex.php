@@ -2,7 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Models\BusinessSector;
 use App\Services\Platform\PlatformService;
+use Core\Enum\PlatformType;
 use Core\Models\Platform as ModelsPlatform;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -16,8 +18,11 @@ class PlatformIndex extends Component
     public $listeners = ['delete' => 'delete'];
     public $search = '';
     public $perPage = 5;
+    public $selectedBusinessSectors = [];
+    public $selectedTypes = [];
+    public $selectedEnabled = [];
 
-    protected $queryString = ['search'];
+    protected $queryString = ['search', 'selectedBusinessSectors', 'selectedTypes', 'selectedEnabled'];
 
     protected PlatformService $platformService;
 
@@ -27,6 +32,21 @@ class PlatformIndex extends Component
     }
 
     public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingSelectedBusinessSectors()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingSelectedTypes()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingSelectedEnabled()
     {
         $this->resetPage();
     }
@@ -44,10 +64,21 @@ class PlatformIndex extends Component
 
     public function render()
     {
-        $platforms = $this->platformService->getPaginatedPlatforms($this->search, $this->perPage);
+        $platforms = $this->platformService->getPaginatedPlatforms(
+            $this->search,
+            $this->perPage,
+            $this->selectedBusinessSectors,
+            $this->selectedTypes,
+            $this->selectedEnabled
+        );
+
+        $allBusinessSectors = BusinessSector::orderBy('name')->get();
+        $allTypes = PlatformType::cases();
 
         return view('livewire.platform-index', [
-            'platforms' => $platforms
+            'platforms' => $platforms,
+            'allBusinessSectors' => $allBusinessSectors,
+            'allTypes' => $allTypes
         ])->extends('layouts.master')->section('content');
     }
 }

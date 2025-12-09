@@ -8,22 +8,18 @@
             {{ __('Platform') }}
         @endslot
     @endcomponent
-
-    <!-- Navigation Submenu -->
-    <div class="row mb-3">
-        <div class="col-12">
-            <div class="card shadow-sm border-0">
-                <div class="card-body py-2">
-                    <div class="d-flex gap-2 justify-content-end">
-                        <a href="{{route('platform_all_requests', app()->getLocale())}}"
-                           class="btn btn-outline-primary">
-                            <i class="fas fa-list me-1"></i>{{__('All Requests')}}
-                        </a>
-                        <a href="{{route('platform_create_update', app()->getLocale())}}"
-                           class="btn btn-outline-primary">
-                            <i class="fas fa-plus me-1"></i>{{__('Create platform')}}
-                        </a>
-                    </div>
+    <div class="row ">
+        <div class="col-12 card shadow-sm border-0">
+            <div class="card-body py-2">
+                <div class="d-flex gap-2 justify-content-end">
+                    <a href="{{route('platform_all_requests', app()->getLocale())}}"
+                       class="btn btn-outline-primary">
+                        <i class="fas fa-list me-1"></i>{{__('All Requests')}}
+                    </a>
+                    <a href="{{route('platform_create_update', app()->getLocale())}}"
+                       class="btn btn-outline-primary">
+                        <i class="fas fa-plus me-1"></i>{{__('Create platform')}}
+                    </a>
                 </div>
             </div>
         </div>
@@ -32,6 +28,117 @@
     <div class="row">
         @include('layouts.flash-messages')
     </div>
+
+    <!-- Filters Section -->
+    <div class="row mb-3">
+        <div class="col-12 card shadow-sm border-0">
+            <div class="card-header text-muted d-flex align-items-center">
+                <i class="fas fa-filter me-2"></i>
+                <h5 class="card-title mb-0 text-muted">{{__('Filters')}}</h5>
+            </div>
+            <div class="card-body p-4">
+                <div class="row g-3">
+                    <!-- Business Sector Filter -->
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-muted mb-3">
+                            <i class="fas fa-building me-2"></i>{{__('Business Sector')}}
+                        </label>
+                        <div class="bg-light p-3 rounded border">
+                            <div class="row g-2">
+                                @foreach($allBusinessSectors as $sector)
+                                    <div class="col-12">
+                                        <div class="form-check form-switch" dir="ltr">
+                                            <input type="checkbox"
+                                                   class="form-check-input"
+                                                   wire:model.live="selectedBusinessSectors"
+                                                   value="{{$sector->id}}"
+                                                   id="sector.{{$sector->id}}"
+                                                   style="cursor: pointer;">
+                                            <label class="form-check-label"
+                                                   for="sector.{{$sector->id}}"
+                                                   style="cursor: pointer;">
+                                                {{__($sector->name)}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Type Filter -->
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-muted mb-3">
+                            <i class="fas fa-tag me-2"></i>{{__('Type')}}
+                        </label>
+                        <div class="bg-light p-3 rounded border">
+                            <div class="row g-2">
+                                @foreach($allTypes as $type)
+                                    <div class="col-12">
+                                        <div class="form-check form-switch" dir="ltr">
+                                            <input type="checkbox"
+                                                   class="form-check-input"
+                                                   wire:model.live="selectedTypes"
+                                                   value="{{$type->value}}"
+                                                   id="type.{{$type->value}}"
+                                                   style="cursor: pointer;">
+                                            <label class="form-check-label"
+                                                   for="type.{{$type->value}}"
+                                                   style="cursor: pointer;">
+                                                {{__($type->name)}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Enabled Filter -->
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-muted mb-3">
+                            <i class="fas fa-power-off me-2"></i>{{__('Status')}}
+                        </label>
+                        <div class="bg-light p-3 rounded border">
+                            <div class="row g-2">
+                                <div class="col-12">
+                                    <div class="form-check form-switch" dir="ltr">
+                                        <input type="checkbox"
+                                               class="form-check-input"
+                                               wire:model.live="selectedEnabled"
+                                               value="1"
+                                               id="enabled.1"
+                                               style="cursor: pointer;">
+                                        <label class="form-check-label"
+                                               for="enabled.1"
+                                               style="cursor: pointer;">
+                                            {{__('Enabled')}}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-check form-switch" dir="ltr">
+                                        <input type="checkbox"
+                                               class="form-check-input"
+                                               wire:model.live="selectedEnabled"
+                                               value="0"
+                                               id="enabled.0"
+                                               style="cursor: pointer;">
+                                        <label class="form-check-label"
+                                               for="enabled.0"
+                                               style="cursor: pointer;">
+                                            {{__('Disabled')}}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-12 card border-0 shadow-sm">
             <div class="card-body p-4">
