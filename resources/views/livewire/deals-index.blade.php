@@ -23,6 +23,10 @@
                    class="btn btn-sm btn-outline-info ms-auto">
                     <i class="fas fa-list me-1"></i>{{__('All Requests')}}
                 </a>
+                <a class="btn btn-sm btn-outline-info ms-auto"
+                   href="{{ route('deals_dashboard', ['locale' => app()->getLocale()]) }}">
+                    {{__('Dashboard')}}
+                </a>
             </div>
             <div class="card-body p-4">
                 <div class="mb-4">
@@ -242,10 +246,11 @@
                                              style="width: 50px; height: 50px; object-fit: cover;"
                                              onerror="this.src='{{ Vite::asset(\App\Models\CommissionFormula::DEFAULT_IMAGE_TYPE_ICON) }}'">
                                     @else
-                                        <img src="{{ Vite::asset(\App\Models\CommissionFormula::DEFAULT_IMAGE_TYPE_ICON) }}"
-                                             alt="{{ $deal->commissionPlan->name }}"
-                                             class="rounded-circle"
-                                             style="width: 50px; height: 50px; object-fit: cover;">
+                                        <img
+                                            src="{{ Vite::asset(\App\Models\CommissionFormula::DEFAULT_IMAGE_TYPE_ICON) }}"
+                                            alt="{{ $deal->commissionPlan->name }}"
+                                            class="rounded-circle"
+                                            style="width: 50px; height: 50px; object-fit: cover;">
                                     @endif
                                 </div>
                                 <div class="flex-grow-1">
@@ -424,8 +429,13 @@
                                 {{__('Delete')}}
                             </button>
                         @endif
-                    </div>
 
+                        <a href="{{ route('deals_dashboard', ['locale' => app()->getLocale(), 'dealId' => $deal->id]) }}"
+                           class="btn btn-sm btn-soft-success flex-fill">
+                            <i class="ri-bar-chart-line me-1"></i>
+                            {{__('Dashboard')}}
+                        </a>
+                    </div>
                     @if($deal->validated)
                         <div class="d-flex gap-2 flex-wrap mt-2">
                             @if($deal->status== \Core\Enum\DealStatus::New->value)

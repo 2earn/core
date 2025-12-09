@@ -190,6 +190,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         Route::prefix('/deals')->name('deals_')->group(function () {
             Route::get('/index', \App\Livewire\DealsIndex::class)->name('index');
+            Route::get('/dashboard/{dealId?}', \App\Livewire\DealDashboard::class)->name('dashboard');
             Route::middleware(['IsSuperAdmin'])->group(function () {
                 Route::get('/{idPlatform}/manage', \App\Livewire\DealsCreateUpdate::class)->name('create_update');
                 Route::get('/validation-requests', \App\Livewire\DealValidationRequests::class)->name('validation_requests');
