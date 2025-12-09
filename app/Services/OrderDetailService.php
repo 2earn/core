@@ -66,5 +66,67 @@ class OrderDetailService
             throw $e;
         }
     }
+
+    /**
+     * Get sales evolution data
+     *
+     * @param array $filters (start_date, end_date, platform_id, view_mode)
+     * @return array
+     */
+    public function getSalesEvolutionData(array $filters = []): array
+    {
+        try {
+            $viewMode = $filters['view_mode'] ?? 'daily';
+            $startDate = $filters['start_date'] ?? now()->subDays(30)->format('Y-m-d');
+            $endDate = $filters['end_date'] ?? now()->format('Y-m-d');
+
+            $dateGroupBy = $this->getDateGroupByForViewMode($viewMode);
+
+            $query = OrderDetail::query()
+                ->join('orders', 'order_details.order_id', '=', 'orders.id')
+                ->where('orders.payment_result', true)
+                ->whereBetween('orders.created_at', [$startDate, $endDate]);
+
+            if (!empty($filters['platform_id'])) {
+                $query->join('items', 'order_details.item_id', '=', 'items.id')
+                    ->where('items.platform_id', $filters['platform_id']);
+            }
+
+            $results = $query
+                ->selectRaw("$dateGroupBy as date, SUM(order_details.amount_after_deal_discount) as revenue")
+                ->groupBy('date')
+                ->orderBy('date', 'asc')
+                ->get();
+
+            Log::info(self::LOG_PREFIX . 'Sales evolution data retrieved successfully', [
+                'filters' => $filters,
+                'count' => $results->count()
+            ]);
+
+            return $results->toArray();
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error fetching sales evolution data: ' . $e->getMessage(), [
+                'filters' => $filters,
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Get date grouping SQL for view mode
+     *
+     * @param string $viewMode
+     * @return string
+     */
+    private function getDateGroupByForViewMode(string $viewMode): string
+    {
+        return match ($viewMode) {
+            'daily' => "DATE(orders.created_at)",
+            'weekly' => "DATE_FORMAT(orders.created_at, '%Y-%u')",
+            'monthly' => "DATE_FORMAT(orders.created_at, '%Y-%m')",
+            default => "DATE(orders.created_at)",
+        };
+    }
 }
 

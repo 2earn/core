@@ -103,39 +103,27 @@ class SalesDashboardService
             $endDate = $filters['end_date'] ?? now()->format('Y-m-d');
 
             $dateFormat = $this->getDateFormatByViewMode($viewMode);
-            $dateGroupBy = $this->getDateGroupByViewMode($viewMode);
 
-            $query = OrderDetail::query()
-                ->join('orders', 'order_details.order_id', '=', 'orders.id')
-                ->where('orders.payment_result', true)
-                ->whereBetween('orders.created_at', [$startDate, $endDate]);
+            $results = $this->orderDetailService->getSalesEvolutionData([
+                'start_date' => $startDate,
+                'end_date' => $endDate,
+                'platform_id' => $filters['platform_id'] ?? null,
+                'view_mode' => $viewMode,
+            ]);
 
-            if (!empty($filters['platform_id'])) {
-                $query->join('items', 'order_details.item_id', '=', 'items.id')
-                    ->where('items.platform_id', $filters['platform_id']);
-            }
-
-            $chartData = $query
-                ->selectRaw("$dateGroupBy as date, SUM(order_details.amount_after_deal_discount) as revenue")
-                ->groupBy('date')
-                ->orderBy('date', 'asc')
-                ->get()
-                ->map(function ($item) use ($dateFormat, $viewMode) {
-                    if ($viewMode === 'weekly') {
-                        // For weekly, the date comes as 'YYYY-WW' format from DATE_FORMAT
-                        // Display it as is or format it nicely
-                        return [
-                            'date' => 'Week ' . $item->date,
-                            'revenue' => (float) $item->revenue
-                        ];
-                    } else {
-                        return [
-                            'date' => \Carbon\Carbon::parse($item->date)->format($dateFormat),
-                            'revenue' => (float) $item->revenue
-                        ];
-                    }
-                })
-                ->toArray();
+            $chartData = array_map(function ($item) use ($dateFormat, $viewMode) {
+                if ($viewMode === 'weekly') {
+                    return [
+                        'date' => 'Week ' . $item['date'],
+                        'revenue' => (float) $item['revenue']
+                    ];
+                } else {
+                    return [
+                        'date' => \Carbon\Carbon::parse($item['date'])->format($dateFormat),
+                        'revenue' => (float) $item['revenue']
+                    ];
+                }
+            }, $results);
 
             return [
                 'chart_data' => $chartData,
@@ -163,15 +151,6 @@ class SalesDashboardService
         };
     }
 
-    private function getDateGroupByViewMode(string $viewMode): string
-    {
-        return match ($viewMode) {
-            'daily' => "DATE(orders.created_at)",
-            'weekly' => "DATE_FORMAT(orders.created_at, '%Y-%u')",
-            'monthly' => "DATE_FORMAT(orders.created_at, '%Y-%m')",
-            default => "DATE(orders.created_at)",
-        };
-    }
 
     /**
      * Build base query with filters
