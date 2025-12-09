@@ -82,6 +82,7 @@ class SalesDashboardController extends Controller
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
             'platform_id' => 'nullable|integer|exists:platforms,id',
+            'deal_id' => 'nullable|integer|exists:deals,id',
             'user_id' => 'required|integer|exists:users,id',
             'limit' => 'nullable|integer|min:1|max:100',
         ]);
@@ -100,6 +101,7 @@ class SalesDashboardController extends Controller
                 'start_date' => $request->input('start_date'),
                 'end_date' => $request->input('end_date'),
                 'platform_id' => $request->input('platform_id'),
+                'deal_id' => $request->input('deal_id'),
                 'user_id' => $request->input('user_id'),
                 'limit' => $request->input('limit', 10),
             ];

@@ -25,6 +25,7 @@ api_partner_api_sales_dashboard_top_products
 | `start_date` | date | No | Valid date format | Start date for filtering orders |
 | `end_date` | date | No | Valid date, after_or_equal:start_date | End date for filtering orders |
 | `platform_id` | integer | No | exists:platforms,id | Filter by specific platform |
+| `deal_id` | integer | No | exists:deals,id | Filter by specific deal |
 | `user_id` | integer | Yes | exists:users,id | User ID for authorization check |
 | `limit` | integer | No | min:1, max:100 | Number of top products to return (default: 10) |
 
@@ -115,6 +116,11 @@ api_partner_api_sales_dashboard_top_products
 - When `platform_id` is provided, only products from that platform are included
 - Filters on `items.platform_id`
 
+#### Deal Filtering
+- When `deal_id` is provided, only products from that deal are included
+- Filters on `items.deal_id`
+- Useful for tracking performance of specific deals
+
 ## Database Schema
 
 ### Tables Used
@@ -154,6 +160,11 @@ GET /api/partner/sales/dashboard/top-products?user_id=123&start_date=2025-01-01&
 ### Example 4: Get Top Products for Specific Platform and Date Range
 ```bash
 GET /api/partner/sales/dashboard/top-products?user_id=123&platform_id=5&start_date=2025-01-01&end_date=2025-03-31&limit=10
+```
+
+### Example 5: Get Top Products for Specific Deal
+```bash
+GET /api/partner/sales/dashboard/top-products?user_id=123&deal_id=10&start_date=2025-01-01&end_date=2025-12-31&limit=15
 ```
 
 ## Frontend Integration

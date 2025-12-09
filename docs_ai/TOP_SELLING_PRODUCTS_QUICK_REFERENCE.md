@@ -10,6 +10,7 @@ GET /api/partner/sales/dashboard/top-products
 - `start_date` (optional): Filter start date
 - `end_date` (optional): Filter end date  
 - `platform_id` (optional): Specific platform filter
+- `deal_id` (optional): Specific deal filter
 - `limit` (optional): Number of results (default: 10, max: 100)
 
 ## Response
@@ -32,7 +33,7 @@ GET /api/partner/sales/dashboard/top-products
 GET /api/partner/sales/dashboard/top-products?user_id=123
 
 # With all filters
-GET /api/partner/sales/dashboard/top-products?user_id=123&platform_id=5&start_date=2025-01-01&end_date=2025-12-31&limit=20
+GET /api/partner/sales/dashboard/top-products?user_id=123&platform_id=5&deal_id=10&start_date=2025-01-01&end_date=2025-12-31&limit=20
 ```
 
 ## Key Points
