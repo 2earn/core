@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Api\partner;
 
 use App\Http\Controllers\Controller;
-use App\Models\PlatformChangeRequest;
-use App\Models\PlatformTypeChangeRequest;
 use App\Models\PlatformValidationRequest;
 use App\Services\Platform\PlatformChangeRequestService;
 use App\Services\Platform\PlatformService;
@@ -13,7 +11,6 @@ use App\Services\Platform\PlatformValidationRequestService;
 use Core\Models\Platform;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -27,11 +24,12 @@ class PlatformPartnerController extends Controller
     protected $platformTypeChangeRequestService;
 
     public function __construct(
-        PlatformService $platformService,
+        PlatformService                  $platformService,
         PlatformValidationRequestService $platformValidationRequestService,
-        PlatformChangeRequestService $platformChangeRequestService,
+        PlatformChangeRequestService     $platformChangeRequestService,
         PlatformTypeChangeRequestService $platformTypeChangeRequestService
-    ) {
+    )
+    {
         $this->middleware('check.url');
         $this->platformService = $platformService;
         $this->platformValidationRequestService = $platformValidationRequestService;
@@ -432,6 +430,7 @@ class PlatformPartnerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'validation_request_id' => 'required|integer|exists:platform_validation_requests,id',
+            'cancelled_by' => 'required|exists:users,id',
             'rejection_reason' => 'required|string|max:500'
         ]);
 
@@ -446,11 +445,13 @@ class PlatformPartnerController extends Controller
 
         $validationRequestId = $request->input('validation_request_id');
         $rejectionReason = $request->input('rejection_reason');
+        $cancelled_by = $request->input('cancelled_by');
 
         try {
             $validationRequest = $this->platformValidationRequestService->cancelRequest(
                 $validationRequestId,
-                $rejectionReason
+                $cancelled_by,
+                $rejectionReason,
             );
         } catch (\Exception $e) {
             Log::error(self::LOG_PREFIX . 'Validation request not found', ['validation_request_id' => $validationRequestId]);
