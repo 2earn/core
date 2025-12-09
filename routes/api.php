@@ -139,6 +139,7 @@ Route::prefix('/partner/')->name('api_partner_')
             Route::get('deals/performance/chart', [DealPartnerController::class, 'performanceChart'])->name('deals_performance_chart');
             Route::post('users/add-role', [UserPartnerController::class, 'addRole'])->name('users_add_role');
             Route::get('/sales/dashboard/kpis', [SalesDashboardController::class, 'getKpis'])->name('api_sales_dashboard_kpis');
+            Route::get('/sales/dashboard/top-products', [SalesDashboardController::class, 'getTopSellingProducts'])->name('api_sales_dashboard_top_products');
         });
 
     });
