@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\Admin\SalesDashboardController;
 use App\Http\Controllers\Api\mobile\BalanceController;
 use App\Http\Controllers\Api\mobile\CashBalanceController;
 use App\Http\Controllers\Api\mobile\UserController;
@@ -10,6 +9,7 @@ use App\Http\Controllers\Api\partner\ItemsPartnerController;
 use App\Http\Controllers\Api\partner\OrderDetailsPartnerController;
 use App\Http\Controllers\Api\partner\OrderPartnerController;
 use App\Http\Controllers\Api\partner\PlatformPartnerController;
+use App\Http\Controllers\Api\partner\SalesDashboardController;
 use App\Http\Controllers\Api\partner\UserPartnerController;
 use App\Http\Controllers\Api\payment\OrderSimulationController;
 use Illuminate\Http\Request;

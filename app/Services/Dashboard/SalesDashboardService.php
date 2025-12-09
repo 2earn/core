@@ -4,23 +4,42 @@ namespace App\Services\Dashboard;
 
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Services\Platform\PlatformService;
 use Core\Enum\OrderEnum;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class SalesDashboardService
 {
     private const LOG_PREFIX = '[SalesDashboardService] ';
 
+    private PlatformService $platformService;
+
+    public function __construct(PlatformService $platformService)
+    {
+        $this->platformService = $platformService;
+    }
+
     /**
      * Get KPI data for sales dashboard
      *
      * @param array $filters
      * @return array
+     * @throws \Exception
      */
     public function getKpiData(array $filters = []): array
     {
         try {
+            // Check if user has role in platform when both are provided
+            if (!empty($filters['user_id']) && !empty($filters['platform_id'])) {
+                if (!$this->platformService->userHasRoleInPlatform($filters['user_id'], $filters['platform_id'])) {
+                    Log::warning(self::LOG_PREFIX . 'User does not have role in platform', [
+                        'user_id' => $filters['user_id'],
+                        'platform_id' => $filters['platform_id']
+                    ]);
+                    throw new \Exception('User does not have a role in this platform');
+                }
+            }
+
             $query = $this->buildBaseQuery($filters);
 
             // Get total sales (all orders)

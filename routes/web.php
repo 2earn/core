@@ -269,6 +269,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
                 Route::get('/index', \App\Livewire\PlatformIndex::class)->name('index');
                 Route::get('/', \App\Livewire\PlatformCreateUpdate::class)->name('create_update');
                 Route::get('/{id}', \App\Livewire\PlatformShow::class)->name('show');
+                Route::get('/{platformId}/sales-dashboard', \App\Livewire\PlatformSalesDashboard::class)->name('sales_dashboard');
                 Route::get('/{userId}/promotion', \App\Livewire\PlatformPromotion::class)->name('promotion');
                 Route::get('/all/requests', \App\Livewire\PendingPlatformRequests::class)->name('all_requests');
                 Route::get('/type-change/requests', \App\Livewire\PlatformTypeChangeRequests::class)->name('type_change_requests');

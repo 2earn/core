@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Admin;
+namespace App\Http\Controllers\Api\partner;
 
 use App\Http\Controllers\Controller;
 use App\Services\Dashboard\SalesDashboardService;
@@ -10,10 +10,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Controller for Sales Dashboard KPIs
- * Provides top KPI cards for sales analytics
- */
 class SalesDashboardController extends Controller
 {
     private const LOG_PREFIX = '[SalesDashboardController] ';
@@ -25,18 +21,13 @@ class SalesDashboardController extends Controller
         $this->dashboardService = $dashboardService;
     }
 
-    /**
-     * Get KPI metrics for sales dashboard
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function getKpis(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
             'platform_id' => 'nullable|integer|exists:platforms,id',
+            'user_id' => 'required|integer|exists:users,id',
         ]);
 
         if ($validator->fails()) {
@@ -53,9 +44,9 @@ class SalesDashboardController extends Controller
                 'start_date' => $request->input('start_date'),
                 'end_date' => $request->input('end_date'),
                 'platform_id' => $request->input('platform_id'),
+                'user_id' => $request->input('user_id'),
             ];
 
-            // Remove null values
             $filters = array_filter($filters, function ($value) {
                 return !is_null($value);
             });
