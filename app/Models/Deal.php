@@ -70,7 +70,7 @@ class Deal extends Model
 
     public function commissionPlan()
     {
-        return $this->belongsTo(CommissionFormula::class, 'plan', 'id');
+        return $this->belongsTo(PlanLabel::class, 'plan', 'id');
     }
 
     public function cashBalance(): HasMany
@@ -204,8 +204,7 @@ class Deal extends Model
      */
     public static function determinePlan($initialCommission, $finalCommission)
     {
-        // Find the matching commission formula
-        $formula = CommissionFormula::where('is_active', true)
+        $formula = PlanLabel::where('is_active', true)
             ->where('initial_commission', '<=', $initialCommission)
             ->where('final_commission', '>=', $finalCommission)
             ->orderBy('initial_commission', 'desc')

@@ -73,7 +73,7 @@ class CommissionFormulaCreateUpdate extends Component
 
         if (!$formula) {
             session()->flash('error', Lang::get('Commission formula not found.'));
-            return redirect()->route('commission_formula_index', ['locale' => app()->getLocale()]);
+            return redirect()->route('plan_label_index', ['locale' => app()->getLocale()]);
         }
 
         $this->name = $formula->name;
@@ -115,7 +115,7 @@ class CommissionFormulaCreateUpdate extends Component
                 }
 
                 session()->flash('success', Lang::get('Commission formula updated successfully.'));
-                return redirect()->route('commission_formula_index', ['locale' => app()->getLocale()]);
+                return redirect()->route('plan_label_index', ['locale' => app()->getLocale()]);
             } else {
                 session()->flash('error', Lang::get('Failed to update commission formula.'));
             }
@@ -129,7 +129,7 @@ class CommissionFormulaCreateUpdate extends Component
                 }
 
                 session()->flash('success', Lang::get('Commission formula created successfully.'));
-                return redirect()->route('commission_formula_index', ['locale' => app()->getLocale()]);
+                return redirect()->route('plan_label_index', ['locale' => app()->getLocale()]);
             } else {
                 session()->flash('error', Lang::get('Failed to create commission formula.'));
             }
@@ -167,7 +167,7 @@ class CommissionFormulaCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('commission_formula_index', ['locale' => app()->getLocale()]);
+        return redirect()->route('plan_label_index', ['locale' => app()->getLocale()]);
     }
 
     public function render()

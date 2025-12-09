@@ -2,7 +2,7 @@
 
 ## ✅ Problem Solved
 
-**Issue**: When filtering commission formulas with `active=0` or `active=false`, the API returned 0 results instead of showing inactive formulas.
+**Issue**: When filtering Plan label with `active=0` or `active=false`, the API returned 0 results instead of showing inactive formulas.
 
 **Root Cause**: Using `isset()` to check for filter presence skipped the filter when the value was `0` or `false`.
 

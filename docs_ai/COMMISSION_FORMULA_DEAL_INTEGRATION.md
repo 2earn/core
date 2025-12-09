@@ -31,11 +31,11 @@ Added `commission_formula_id` column to the `deals` table:
 
 **Properties Added:**
 - `$commission_formula_id` - Stores the selected commission formula ID
-- `$commissionFormulas` - Collection of active commission formulas
+- `$commissionFormulas` - Collection of active Plan label
 
 **Methods Modified:**
 
-1. **mount()** - Loads active commission formulas:
+1. **mount()** - Loads active Plan label:
    ```php
    $this->commissionFormulas = \App\Models\CommissionFormula::where('is_active', true)->get();
    ```
@@ -176,7 +176,7 @@ Added `commission_formula_id` column to the `deals` table:
 1. **Consistency**: Commission values are always consistent with the selected formula
 2. **Ease of Use**: No manual entry required for commission percentages
 3. **Traceability**: Each deal can be traced back to its commission formula
-4. **Flexibility**: Commission formulas can be updated centrally without affecting existing deals
+4. **Flexibility**: Plan label can be updated centrally without affecting existing deals
 5. **Validation**: Read-only fields prevent accidental modifications
 6. **Performance**: Eager loading prevents N+1 query issues
 
@@ -199,7 +199,7 @@ commission_formulas
 ## Notes
 
 - The migration sets the foreign key with `onDelete('set null')` to preserve deal data if a commission formula is deleted
-- Only active commission formulas (`is_active = true`) are shown in the dropdown
+- Only active Plan label (`is_active = true`) are shown in the dropdown
 - Commission values are formatted to 2 decimal places in the display
 - The implementation uses Livewire's reactive properties for real-time updates
 

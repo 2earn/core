@@ -1,7 +1,7 @@
 # Commission Formula Active Filter Fix
 
 ## Problem
-When applying the `active` filter with value `false` or `0`, the API was returning 0 rows instead of the inactive commission formulas.
+When applying the `active` filter with value `false` or `0`, the API was returning 0 rows instead of the inactive Plan label.
 
 ## Root Cause
 The issue was caused by two problems in the filter logic:

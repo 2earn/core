@@ -170,7 +170,7 @@ php artisan migrate
 php artisan migrate:rollback
 
 # Seed sample data
-php artisan db:seed --class=CommissionFormulaSeeder
+php artisan db:seed --class=PlanLabelSeeder
 ```
 
 ## Sample Seeded Data

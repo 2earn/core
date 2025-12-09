@@ -13,7 +13,7 @@ The `DealsIndex.php` component was trying to eager load a `commissionFormula` re
 - Checked the Deal model - no `commissionFormula()` relationship defined
 - Checked the deals table migration - no `commission_formula_id` column exists
 - The system only stores `initial_commission` and `final_commission` values directly in the deals table
-- Commission formulas are referenced during deal creation but not stored as a foreign key
+- Plan label are referenced during deal creation but not stored as a foreign key
 
 ## Solution Applied
 
@@ -69,7 +69,7 @@ When integrating the deal change request system, I added `commissionFormula` to 
 
 ## Current Architecture
 
-### How Commission Formulas Work:
+### How Plan label Work:
 1. User selects a commission formula when creating/updating a deal
 2. System reads `initial_commission` and `final_commission` from the formula
 3. These values are stored directly in the deals table

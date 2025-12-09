@@ -12,14 +12,14 @@ use App\Livewire\Commission\CommissionFormulaIndex;
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/commission-formulas', CommissionFormulaIndex::class)
-        ->name('commission_formula_index');
+        ->name('plan_label_index');
 });
 ```
 
 ## Features at a Glance
 
 ### ✅ Display
-- Table list with all commission formulas
+- Table list with all Plan label
 - 4 statistics cards (total, active, avg commissions)
 - Responsive design
 
@@ -110,7 +110,7 @@ wire:loading.remove
 
 ### Edit
 ```blade
-<a href="{{ route('commission_formula_edit', ['locale' => app()->getLocale(), 'id' => $id]) }}" 
+<a href="{{ route('plan_label_edit', ['locale' => app()->getLocale(), 'id' => $id]) }}" 
    class="btn btn-sm btn-soft-info">
     <i class="ri-edit-2-line"></i>
 </a>
@@ -142,9 +142,9 @@ Shows when no formulas found:
 ```blade
 <div class="text-center py-5">
     <i class="ri-file-list-3-line display-4 text-muted"></i>
-    <h5 class="mt-2">{{ __('No commission formulas found') }}</h5>
+    <h5 class="mt-2">{{ __('No Plan label found') }}</h5>
     <p class="text-muted">{{ __('Try adjusting your search...') }}</p>
-    <a href="{{ route('commission_formula_create') }}" class="btn btn-success mt-3">
+    <a href="{{ route('plan_label_create') }}" class="btn btn-success mt-3">
         <i class="ri-add-line"></i> {{ __('Add First Formula') }}
     </a>
 </div>
@@ -210,13 +210,13 @@ public function render()
 The component expects these routes:
 ```php
 Route::get('/commission-formulas', CommissionFormulaIndex::class)
-    ->name('commission_formula_index');
+    ->name('plan_label_index');
 
 Route::get('/commission-formulas/create', CommissionFormulaCreate::class)
-    ->name('commission_formula_create');
+    ->name('plan_label_create');
 
 Route::get('/commission-formulas/{id}/edit', CommissionFormulaEdit::class)
-    ->name('commission_formula_edit');
+    ->name('plan_label_edit');
 ```
 
 ## Admin Check

@@ -1,7 +1,7 @@
 # Commission Formula Service Documentation
 
 ## Overview
-The `CommissionFormulaService` provides a centralized service layer for managing commission formulas throughout the application. It encapsulates all business logic related to commission formula operations, ensuring consistent behavior and easier maintenance.
+The `CommissionFormulaService` provides a centralized service layer for managing Plan label throughout the application. It encapsulates all business logic related to commission formula operations, ensuring consistent behavior and easier maintenance.
 
 **Location:** `app/Services/Commission/CommissionFormulaService.php`
 
@@ -15,7 +15,7 @@ The `CommissionFormulaService` provides a centralized service layer for managing
 
 ### 1. getCommissionFormulas(array $filters = []): EloquentCollection
 
-Get all commission formulas with optional filters.
+Get all Plan label with optional filters.
 
 **Parameters:**
 - `$filters` (array): Optional filters to apply
@@ -44,7 +44,7 @@ $formulas = $service->getCommissionFormulas([
 
 ### 2. getActiveFormulas(): EloquentCollection
 
-Get only active commission formulas, ordered by initial commission.
+Get only active Plan label, ordered by initial commission.
 
 **Returns:** `EloquentCollection` of active CommissionFormula models
 
@@ -204,7 +204,7 @@ $formulas = $service->getForSelect();
 
 ### 10. getPaginatedFormulas(array $filters = [], ?int $page = null, int $perPage = 10): array
 
-Get paginated commission formulas for API responses with commission_range appended.
+Get paginated Plan label for API responses with commission_range appended.
 
 **Parameters:**
 - `$filters` (array): Optional filters

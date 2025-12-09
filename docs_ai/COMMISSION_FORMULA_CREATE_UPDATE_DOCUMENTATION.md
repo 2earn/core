@@ -1,7 +1,7 @@
 # Commission Formula Create/Update Component Documentation
 
 ## Overview
-The `CommissionFormulaCreateUpdate` component is a comprehensive Livewire component that handles both creating new commission formulas and editing existing ones in a single, unified interface.
+The `CommissionFormulaCreateUpdate` component is a comprehensive Livewire component that handles both creating new Plan label and editing existing ones in a single, unified interface.
 
 ## Files Created
 
@@ -136,7 +136,7 @@ Save the formula (create or update based on mode).
 ### 6. `cancel()`
 Cancel the form and return to index page.
 
-**Returns:** Redirect to commission_formula_index
+**Returns:** Redirect to plan_label_index
 
 ## View Features
 
@@ -202,9 +202,9 @@ Route::prefix('/commission/formula')->name('commission_formula_')->group(functio
 ```
 
 ### Route Names
-1. **commission_formula_index** - List page
-2. **commission_formula_create** - Create page
-3. **commission_formula_edit** - Edit page (requires id parameter)
+1. **plan_label_index** - List page
+2. **plan_label_create** - Create page
+3. **plan_label_edit** - Edit page (requires id parameter)
 
 ### URLs
 - **List**: `/commission/formula/index`
@@ -215,14 +215,14 @@ Route::prefix('/commission/formula')->name('commission_formula_')->group(functio
 
 ### Access Create Form
 ```blade
-<a href="{{ route('commission_formula_create', ['locale' => app()->getLocale()]) }}">
+<a href="{{ route('plan_label_create', ['locale' => app()->getLocale()]) }}">
     Add Formula
 </a>
 ```
 
 ### Access Edit Form
 ```blade
-<a href="{{ route('commission_formula_edit', ['locale' => app()->getLocale(), 'id' => $formula->id]) }}">
+<a href="{{ route('plan_label_edit', ['locale' => app()->getLocale(), 'id' => $formula->id]) }}">
     Edit
 </a>
 ```
@@ -230,10 +230,10 @@ Route::prefix('/commission/formula')->name('commission_formula_')->group(functio
 ### Direct Navigation
 ```php
 // Create
-return redirect()->route('commission_formula_create', ['locale' => app()->getLocale()]);
+return redirect()->route('plan_label_create', ['locale' => app()->getLocale()]);
 
 // Edit
-return redirect()->route('commission_formula_edit', [
+return redirect()->route('plan_label_edit', [
     'locale' => app()->getLocale(),
     'id' => $formulaId
 ]);

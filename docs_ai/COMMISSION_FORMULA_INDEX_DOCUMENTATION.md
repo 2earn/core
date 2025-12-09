@@ -1,7 +1,7 @@
 # Commission Formula Index Component Documentation
 
 ## Overview
-The `CommissionFormulaIndex` component is a comprehensive Livewire component that displays a list of commission formulas with search, filtering, sorting, and CRUD operations.
+The `CommissionFormulaIndex` component is a comprehensive Livewire component that displays a list of Plan label with search, filtering, sorting, and CRUD operations.
 
 ## Files Created
 
@@ -14,7 +14,7 @@ The `CommissionFormulaIndex` component is a comprehensive Livewire component tha
 ## Component Features
 
 ### 🎯 Core Functionality
-- ✅ Display list of commission formulas in a table
+- ✅ Display list of Plan label in a table
 - ✅ Real-time search (name/description)
 - ✅ Filter by active status
 - ✅ Sortable columns (ID, name, status, created date)
@@ -34,7 +34,7 @@ The `CommissionFormulaIndex` component is a comprehensive Livewire component tha
 
 ### 📊 Statistics Display
 Four statistic cards showing:
-1. **Total Formulas** - Total count of all commission formulas
+1. **Total Formulas** - Total count of all Plan label
 2. **Active Formulas** - Count of active formulas
 3. **Avg Initial Commission** - Average of all initial_commission values
 4. **Avg Final Commission** - Average of all final_commission values
@@ -121,7 +121,7 @@ Reset all filters and sorting to defaults.
 Render the component with data.
 
 **Returns:**
-- `formulas` - Collection of commission formulas
+- `formulas` - Collection of Plan label
 - `statistics` - Statistics array
 
 ## View Features
@@ -148,7 +148,7 @@ Four cards displaying key metrics with icons:
 ### Empty State
 When no formulas found:
 - Large file icon
-- "No commission formulas found" message
+- "No Plan label found" message
 - Helpful text about adjusting filters
 - "Add First Formula" button (admin only)
 
@@ -165,7 +165,7 @@ Add to your routes file (`web.php`):
 
 ```php
 Route::get('/commission-formulas', App\Livewire\Commission\CommissionFormulaIndex::class)
-    ->name('commission_formula_index');
+    ->name('plan_label_index');
 ```
 
 ### Access the Component
@@ -173,8 +173,8 @@ Navigate to: `/commission-formulas`
 
 ### Required Routes
 The component expects these routes to exist:
-- `commission_formula_create` - Create new formula
-- `commission_formula_edit` - Edit formula (requires `id` parameter)
+- `plan_label_create` - Create new formula
+- `plan_label_edit` - Edit formula (requires `id` parameter)
 
 ### Required Permissions
 Admin-only features (controlled by `\App\Models\User::isSuperAdmin()`):
@@ -347,14 +347,14 @@ Modify the statistics cards in the view or add new cards:
 
 ### Example Test
 ```php
-public function test_can_view_commission_formula_index()
+public function test_can_view_plan_label_index()
 {
     $user = User::factory()->create(['role' => 'admin']);
     
     $this->actingAs($user)
-        ->get(route('commission_formula_index'))
+        ->get(route('plan_label_index'))
         ->assertStatus(200)
-        ->assertSee('Commission Formulas');
+        ->assertSee('Plan label');
 }
 
 public function test_can_search_formulas()
@@ -385,8 +385,8 @@ use App\Livewire\Commission\CommissionFormulaIndex;
 ### Issue: Routes not working
 **Solution**: Add required routes for create and edit:
 ```php
-Route::get('/commission-formulas/create', ...)->name('commission_formula_create');
-Route::get('/commission-formulas/{id}/edit', ...)->name('commission_formula_edit');
+Route::get('/commission-formulas/create', ...)->name('plan_label_create');
+Route::get('/commission-formulas/{id}/edit', ...)->name('plan_label_edit');
 ```
 
 ## Future Enhancements

@@ -414,7 +414,13 @@ class PlatformService
      * @param int $perPage
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function getPaginatedPlatforms(?string $search = null, int $perPage = 10)
+    public function getPaginatedPlatforms(
+        ?string $search = null,
+        int $perPage = 10,
+        array $businessSectors = [],
+        array $types = [],
+        array $enabled = []
+    )
     {
         try {
             return Platform::with([
@@ -429,6 +435,17 @@ class PlatformService
                       ->orWhere('type', 'like', '%' . $search . '%')
                       ->orWhere('id', 'like', '%' . $search . '%');
                 });
+            })
+            ->when(!empty($businessSectors), function ($query) use ($businessSectors) {
+                $query->whereIn('business_sector_id', $businessSectors);
+            })
+            ->when(!empty($types), function ($query) use ($types) {
+                $query->whereIn('type', $types);
+            })
+            ->when(!empty($enabled), function ($query) use ($enabled) {
+                if (count($enabled) === 1) {
+                    $query->where('enabled', $enabled[0]);
+                }
             })
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);

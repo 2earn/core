@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\CommissionFormula;
+use App\Models\PlanLabel;
 use App\Models\Deal;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -43,11 +43,11 @@ class AssignCommissionPlanToDealsSeeder extends Seeder
                     $deal->save();
                     $updated++;
 
-                    $formula = CommissionFormula::find($planId);
+                    $formula = PlanLabel::find($planId);
                     $this->command->line("✓ Deal #{$deal->id} '{$deal->name}' assigned to plan: {$formula->name} (Final Commission: {$deal->final_commission}%)");
                 } else {
                     $skipped++;
-                    $this->command->warn("⚠ Deal #{$deal->id} '{$deal->name}' skipped - no active commission formula found (Final Commission: {$deal->final_commission}%)");
+                    $this->command->warn("⚠ Deal #{$deal->id} '{$deal->name}' skipped - no active plan label found (Final Commission: {$deal->final_commission}%)");
                 }
             } catch (\Exception $e) {
                 $errors++;
@@ -82,7 +82,7 @@ class AssignCommissionPlanToDealsSeeder extends Seeder
      */
     private function determineNearestPlan(float $finalCommission): ?int
     {
-        $formula = CommissionFormula::where('is_active', true)
+        $formula = PlanLabel::where('is_active', true)
             ->selectRaw('*, ABS(final_commission - ?) as commission_diff', [$finalCommission])
             ->orderBy('commission_diff', 'asc')
             ->first();
