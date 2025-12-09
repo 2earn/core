@@ -1,11 +1,11 @@
 <div class="{{getContainerType()}}">
     @section('title')
-        {{ __('Commission Formulas') }}
+        {{ __('Plan label') }}
     @endsection
 
     @component('components.breadcrumb')
         @slot('title')
-            {{ __('Commission Formulas') }}
+            {{ __('Plan label') }}
         @endslot
         @slot('li_1')
             {{ __('Management') }}
@@ -107,13 +107,13 @@
             <div class="row g-4 align-items-center">
                 <div class="col-sm">
                     <div>
-                        <h5 class="card-title mb-0">{{ __('Commission Formulas List') }}</h5>
+                        <h5 class="card-title mb-0">{{ __('Plan label List') }}</h5>
                     </div>
                 </div>
                 <div class="col-sm-auto">
                     <div class="d-flex flex-wrap align-items-start gap-2">
                         @if(\App\Models\User::isSuperAdmin())
-                            <a href="{{ route('commission_formula_create', ['locale' => app()->getLocale()]) }}"
+                            <a href="{{ route('plan_label_create', ['locale' => app()->getLocale()]) }}"
                                class="btn btn-success add-btn">
                                 <i class="ri-add-line align-bottom me-1"></i> {{ __('Add Formula') }}
                             </a>
@@ -125,7 +125,7 @@
 
         <div class="card-body border border-dashed border-end-0 border-start-0">
             <div class="row g-3">
-                
+
                 <div class="col-xxl-4 col-sm-6">
                     <div class="search-box">
                         <input type="text"
@@ -136,7 +136,7 @@
                     </div>
                 </div>
 
-                
+
                 <div class="col-xxl-2 col-sm-4">
                     <div>
                         <select wire:model.live="filterActive" class="form-control">
@@ -147,7 +147,7 @@
                     </div>
                 </div>
 
-                
+
                 <div class="col-xxl-2 col-sm-4">
                     <div>
                         <button wire:click="clearFilters" class="btn btn-light w-100">
@@ -159,7 +159,7 @@
         </div>
 
         <div class="card-body">
-            
+
             <div wire:loading class="text-center py-4">
                 <div class="spinner-border text-primary" role="status">
                     <span class="visually-hidden">{{ __('Loading...') }}</span>
@@ -168,7 +168,7 @@
 
 
             <div class="table-responsive" wire:loading.remove>
-                @if($formulas->count() > 0)
+                @if($labels->count() > 0)
                     <table class="table table-nowrap table-striped-columns align-middle mb-0">
                         <thead class="table-light">
                         <tr>
@@ -214,7 +214,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($formulas as $formula)
+                        @foreach($labels as $formula)
                             <tr>
                                 <td class="fw-medium">{{ $formula->id }}</td>
                                 <td>
@@ -259,21 +259,21 @@
                                 @if(\App\Models\User::isSuperAdmin())
                                     <td>
                                         <div class="hstack gap-2">
-                                            
+
                                             <button wire:click="toggleActive({{ $formula->id }})"
                                                     class="btn btn-sm btn-soft-{{ $formula->is_active ? 'warning' : 'success' }}"
                                                     title="{{ $formula->is_active ? __('Deactivate') : __('Activate') }}">
                                                 <i class="ri-{{ $formula->is_active ? 'pause' : 'play' }}-circle-line"></i>
                                             </button>
 
-                                            
-                                            <a href="{{ route('commission_formula_edit', ['locale' => app()->getLocale(), 'id' => $formula->id]) }}"
+
+                                            <a href="{{ route('plan_label_edit', ['locale' => app()->getLocale(), 'id' => $formula->id]) }}"
                                                class="btn btn-sm btn-soft-info"
                                                title="{{ __('Edit') }}">
                                                 <i class="ri-edit-2-line"></i>
                                             </a>
 
-                                            
+
                                             <button wire:click="confirmDelete({{ $formula->id }})"
                                                     class="btn btn-sm btn-soft-danger"
                                                     title="{{ __('Delete') }}">
@@ -291,7 +291,7 @@
                         <div class="mb-3">
                             <i class="ri-file-list-3-line display-4 text-muted"></i>
                         </div>
-                        <h5 class="mt-2">{{ __('No commission formulas found') }}</h5>
+                        <h5 class="mt-2">{{ __('No Plan label found') }}</h5>
                         <p class="text-muted">{{ __('Try adjusting your search or filter to find what you are looking for.') }}</p>
                         @if(\App\Models\User::isSuperAdmin())
                             <a href="{{ route('commission_formula_create', ['locale' => app()->getLocale()]) }}"
