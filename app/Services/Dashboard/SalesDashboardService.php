@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Services\Platform\PlatformService;
 use Core\Enum\OrderEnum;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class SalesDashboardService
@@ -113,7 +114,7 @@ class SalesDashboardService
     /**
      * Get top-selling products/services
      *
-     * @param array $filters (start_date, end_date, platform_id, user_id, limit)
+     * @param array $filters (start_date, end_date, platform_id, user_id, deal_id, limit)
      * @return array
      * @throws \Exception
      */
@@ -149,8 +150,12 @@ class SalesDashboardService
                 $query->where('items.platform_id', $filters['platform_id']);
             }
 
+            if (!empty($filters['deal_id'])) {
+                $query->where('items.deal_id', $filters['deal_id']);
+            }
+
             $topProducts = $query
-                ->select('items.name as product_name', \DB::raw('SUM(order_details.qty) as sale_count'))
+                ->select('items.name as product_name', DB::raw('SUM(order_details.qty) as sale_count'))
                 ->groupBy('items.id', 'items.name')
                 ->orderByDesc('sale_count')
                 ->limit($limit)
