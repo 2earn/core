@@ -3,10 +3,9 @@
 namespace App\Services\Dashboard;
 
 use App\Models\Order;
-use App\Models\OrderDetail;
+use App\Services\OrderDetailService;
 use App\Services\Platform\PlatformService;
 use Core\Enum\OrderEnum;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class SalesDashboardService
@@ -14,10 +13,14 @@ class SalesDashboardService
     private const LOG_PREFIX = '[SalesDashboardService] ';
 
     private PlatformService $platformService;
+    private OrderDetailService $orderDetailService;
 
-    public function __construct(PlatformService $platformService)
-    {
+    public function __construct(
+        PlatformService $platformService,
+        OrderDetailService $orderDetailService
+    ) {
         $this->platformService = $platformService;
+        $this->orderDetailService = $orderDetailService;
     }
 
     /**
@@ -131,50 +134,9 @@ class SalesDashboardService
                 }
             }
 
-            $limit = $filters['limit'] ?? 10;
-
-            $query = OrderDetail::query()
-                ->join('orders', 'order_details.order_id', '=', 'orders.id')
-                ->join('items', 'order_details.item_id', '=', 'items.id')
-                ->where('orders.status', OrderEnum::Dispatched->value);
-
-            if (!empty($filters['start_date'])) {
-                $query->where('orders.created_at', '>=', $filters['start_date']);
-            }
-
-            if (!empty($filters['end_date'])) {
-                $query->where('orders.created_at', '<=', $filters['end_date']);
-            }
-
-            if (!empty($filters['platform_id'])) {
-                $query->where('items.platform_id', $filters['platform_id']);
-            }
-
-            if (!empty($filters['deal_id'])) {
-                $query->where('items.deal_id', $filters['deal_id']);
-            }
-
-            $topProducts = $query
-                ->select('items.name as product_name', DB::raw('SUM(order_details.qty) as sale_count'))
-                ->groupBy('items.id', 'items.name')
-                ->orderByDesc('sale_count')
-                ->limit($limit)
-                ->get()
-                ->map(function ($item) {
-                    return [
-                        'product_name' => $item->product_name,
-                        'sale_count' => (int) $item->sale_count,
-                    ];
-                });
-
-            Log::info(self::LOG_PREFIX . 'Top-selling products retrieved successfully', [
-                'filters' => $filters,
-                'count' => $topProducts->count()
-            ]);
-
-            return $topProducts->toArray();
+            return $this->orderDetailService->getTopSellingProducts($filters);
         } catch (\Exception $e) {
-            Log::error(self::LOG_PREFIX . 'Error fetching top-selling products: ' . $e->getMessage(), [
+            Log::error(self::LOG_PREFIX . 'Error in getTopSellingProducts: ' . $e->getMessage(), [
                 'filters' => $filters,
                 'trace' => $e->getTraceAsString()
             ]);

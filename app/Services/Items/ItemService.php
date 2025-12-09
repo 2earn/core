@@ -4,6 +4,8 @@ namespace App\Services\Items;
 
 use App\Models\Item;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
@@ -134,5 +136,30 @@ class ItemService
         }
 
         return $query->get();
+    }
+
+    /**
+     * Aggregate top-selling items from a query builder
+     *
+     * @param Builder $query Query builder with order_details joined to orders and items
+     * @param int $limit Maximum number of items to return
+     * @return array Array of products with name and sale count
+     */
+    public function aggregateTopSellingItems(Builder $query, int $limit = 10): array
+    {
+        $topProducts = $query
+            ->select('items.name as product_name', DB::raw('SUM(order_details.qty) as sale_count'))
+            ->groupBy('items.id', 'items.name')
+            ->orderByDesc('sale_count')
+            ->limit($limit)
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'product_name' => $item->product_name,
+                    'sale_count' => (int) $item->sale_count,
+                ];
+            });
+
+        return $topProducts->toArray();
     }
 }
