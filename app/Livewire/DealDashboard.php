@@ -53,7 +53,6 @@ class DealDashboard extends Component
     {
         $this->userId = auth()->id();
 
-        // Load available platforms
         if (User::isSuperAdmin()) {
             $this->availablePlatforms = $this->platformService->getEnabledPlatforms();
         } else {
@@ -63,18 +62,14 @@ class DealDashboard extends Component
             );
         }
 
-        // Load available deals
         $this->loadAvailableDeals();
 
-        // Set deal ID if provided
         if ($dealId) {
             $this->dealId = $dealId;
         } elseif (!empty($this->availableDeals)) {
-            // Default to first available deal
             $this->dealId = $this->availableDeals->first()->id;
         }
 
-        // Set default date range (last 30 days)
         if (!$this->startDate) {
             $this->startDate = Carbon::now()->subDays(30)->format('Y-m-d');
         }
@@ -82,7 +77,6 @@ class DealDashboard extends Component
             $this->endDate = Carbon::now()->addDay()->format('Y-m-d');
         }
 
-        // Load initial data
         if ($this->dealId) {
             $this->loadPerformanceData();
         }
@@ -104,7 +98,7 @@ class DealDashboard extends Component
             $query->where('platform_id', $this->selectedPlatformId);
         }
 
-        $this->availableDeals = $query->where('status', '!=', 4) // Exclude archived
+        $this->availableDeals = $query->where('status', '!=', 4)
             ->orderBy('created_at', 'desc')
             ->get(['id', 'name', 'platform_id', 'status']);
     }
@@ -113,7 +107,6 @@ class DealDashboard extends Component
     {
         $this->loadAvailableDeals();
 
-        // Reset deal selection if current deal is not in filtered list
         if ($this->dealId && !$this->availableDeals->contains('id', $this->dealId)) {
             $this->dealId = $this->availableDeals->first()?->id;
         }
@@ -176,7 +169,6 @@ class DealDashboard extends Component
             $this->actualProgress = $performanceData['actual_progress'] ?? 0;
             $this->chartData = $performanceData['chart_data'] ?? [];
 
-            // Load deal details
             $this->deal = Deal::find($this->dealId);
 
             $this->dispatch('chartDataUpdated', [
