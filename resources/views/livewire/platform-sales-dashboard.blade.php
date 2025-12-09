@@ -58,7 +58,7 @@
                     <i class="ri-filter-3-line align-middle me-2"></i>{{__('Filters')}}
                 </h5>
                 <div class="row g-3">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label for="startDate" class="form-label">{{__('Start Date')}}</label>
                         <input type="date"
                                class="form-control"
@@ -66,7 +66,7 @@
                                wire:model.live="startDate"
                                max="{{date('Y-m-d')}}">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label for="endDate" class="form-label">{{__('End Date')}}</label>
                         <input type="date"
                                class="form-control"
@@ -74,7 +74,17 @@
                                wire:model.live="endDate"
                                max="{{date('Y-m-d')}}">
                     </div>
-                    <div class="col-md-4 d-flex align-items-end">
+                    <div class="col-md-3">
+                        <label for="viewMode" class="form-label">{{__('View Mode')}}</label>
+                        <select class="form-select"
+                                id="viewMode"
+                                wire:model.live="viewMode">
+                            <option value="daily">{{__('Daily')}}</option>
+                            <option value="weekly">{{__('Weekly')}}</option>
+                            <option value="monthly">{{__('Monthly')}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-end">
                         <button type="button"
                                 class="btn btn-soft-info w-100"
                                 wire:click="resetFilters">
@@ -192,6 +202,37 @@
         </div>
     </div>
 
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h5 class="card-title mb-0">
+                            <i class="ri-line-chart-line align-middle me-2"></i>{{__('Sales Evolution')}}
+                        </h5>
+                        <span class="badge bg-soft-info text-info">
+                            {{ucfirst($viewMode)}} {{__('View')}}
+                        </span>
+                    </div>
+                    <div id="salesEvolutionChart" style="min-height: 350px;">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                    @if(empty($chartData))
+                        <div class="text-center py-5">
+                            <div class="avatar-xl mx-auto mb-4">
+                                <div class="avatar-title bg-soft-info text-info rounded-circle">
+                                    <i class="ri-line-chart-line display-4"></i>
+                                </div>
+                            </div>
+                            <h5 class="mb-2">{{__('No Chart Data Available')}}</h5>
+                            <p class="text-muted">{{__('There is no sales data for the selected period')}}</p>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-12">
             <div class="card border-0 shadow-sm">
@@ -248,9 +289,115 @@
 </div>
 
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>
+    let salesChart = null;
+
+    function initializeChart(chartData) {
+        const ctx = document.getElementById('salesChart');
+        if (!ctx) return;
+
+        if (salesChart) {
+            salesChart.destroy();
+        }
+
+        const labels = chartData.map(item => item.date);
+        const data = chartData.map(item => item.revenue);
+
+        salesChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '{{__('Revenue')}}',
+                    data: data,
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: 'rgb(75, 192, 192)',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += new Intl.NumberFormat('en-US', {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2
+                                    }).format(context.parsed.y);
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return new Intl.NumberFormat('en-US', {
+                                    notation: 'compact',
+                                    compactDisplay: 'short'
+                                }).format(value);
+                            }
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            maxRotation: 45,
+                            minRotation: 0
+                        }
+                    }
+                },
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false
+                }
+            }
+        });
+    }
+
     document.addEventListener('livewire:initialized', function() {
         console.log('Platform Sales Dashboard initialized');
+
+        const chartData = @json($chartData ?? []);
+        if (chartData && chartData.length > 0) {
+            initializeChart(chartData);
+        }
+    });
+
+    Livewire.on('chartDataUpdated', (chartData) => {
+        console.log('Chart data updated', chartData);
+        if (chartData && chartData.length > 0) {
+            initializeChart(chartData[0]);
+        }
+    });
+
+    window.addEventListener('resize', function() {
+        if (salesChart) {
+            salesChart.resize();
+        }
     });
 </script>
 @endpush
