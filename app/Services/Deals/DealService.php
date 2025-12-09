@@ -5,6 +5,7 @@ namespace App\Services\Deals;
 use App\Models\Deal;
 use App\Models\DealChangeRequest;
 use App\Models\DealValidationRequest;
+use App\Models\PlanLabel;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
@@ -352,7 +353,7 @@ class DealService
 
         $query->with(['platform', 'pendingChangeRequest.requestedBy', 'commissionPlan.iconImage']);
 
-        $query->orderBy('validated', 'ASC')->orderBy('platform_id', 'ASC');
+        $query->orderBy('created_at', 'ASC')->orderBy('validated', 'ASC')->orderBy('platform_id', 'ASC');
 
         return $perPage ? $query->paginate($perPage) : $query->get();
     }
@@ -380,7 +381,7 @@ class DealService
      */
     private function determineNearestPlan(float $finalCommission): ?int
     {
-        $formula = \App\Models\CommissionFormula::where('is_active', true)
+        $formula = PlanLabel::where('is_active', true)
             ->selectRaw('*, ABS(final_commission - ?) as commission_diff', [$finalCommission])
             ->orderBy('commission_diff', 'asc')
             ->first();
