@@ -18,19 +18,13 @@ class DealDashboard extends Component
     public $startDate;
     public $endDate;
     public $viewMode = 'daily';
-
-    // Performance data
     public $targetAmount = 0;
     public $currentRevenue = 0;
     public $expectedProgress = 0;
     public $actualProgress = 0;
     public $chartData = [];
-
-    // Loading states
     public $loading = false;
     public $error = null;
-
-    // Available deals for selection
     public $availableDeals = [];
     public $availablePlatforms = [];
     public $selectedPlatformId = null;
@@ -223,7 +217,6 @@ class DealDashboard extends Component
 
     public function render()
     {
-        // Dispatch chart data after rendering if we have chart data
         if (!empty($this->chartData)) {
             $this->dispatch('chartDataUpdated', [
                 'chartData' => $this->chartData,

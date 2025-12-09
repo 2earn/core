@@ -262,16 +262,23 @@
         <script>
             let dealChart = null;
             let chartEventListenerRegistered = false;
-            let pendingChartData = @json($chartData ?? []);
+
+            function destroyChart() {
+                if (dealChart) {
+                    dealChart.dispose();
+                    dealChart = null;
+                }
+            }
 
             function initChart() {
                 const chartElement = document.querySelector('#dealPerformanceChart');
                 if (!chartElement) {
-                    console.log('Chart element not found');
                     return;
                 }
 
-                console.log('Initializing chart');
+                if (dealChart) {
+                    return;
+                }
 
                 dealChart = echarts.init(chartElement);
 
@@ -370,36 +377,25 @@
 
                 dealChart.setOption(option);
 
-                // Update chart with pending data if available
-                if (pendingChartData && pendingChartData.length > 0) {
-                    console.log('Updating chart with pending data:', pendingChartData);
-                    updateChart(pendingChartData);
-                }
-
-                window.addEventListener('resize', function() {
+                const resizeHandler = function() {
                     if (dealChart) {
                         dealChart.resize();
                     }
-                });
+                };
+
+                window.removeEventListener('resize', resizeHandler);
+                window.addEventListener('resize', resizeHandler);
             }
 
             function updateChart(chartData) {
-                console.log('updateChart called with data:', chartData);
-
-                const chartElement = document.querySelector('#dealPerformanceChart');
-                if (!chartElement) {
-                    console.log('Chart element not found');
-                    return;
-                }
-
                 if (!dealChart) {
-                    console.log('Chart not initialized, initializing now');
                     initChart();
-                    return; // Chart will be updated in initChart
+                    if (!dealChart) {
+                        return;
+                    }
                 }
 
                 if (!chartData || chartData.length === 0) {
-                    console.log('No chart data provided');
                     dealChart.setOption({
                         xAxis: {
                             data: []
@@ -414,9 +410,6 @@
                 const labels = chartData.map(item => item.date);
                 const data = chartData.map(item => parseFloat(item.revenue));
 
-                console.log('Chart labels:', labels);
-                console.log('Chart data:', data);
-
                 dealChart.setOption({
                     xAxis: {
                         data: labels
@@ -429,33 +422,26 @@
 
             function setupChart() {
                 if (typeof echarts === 'undefined') {
-                    console.log('Echarts not loaded yet, waiting...');
                     setTimeout(setupChart, 100);
                     return;
                 }
 
                 if (typeof Livewire === 'undefined') {
-                    console.log('Livewire not loaded yet, waiting...');
                     setTimeout(setupChart, 100);
                     return;
                 }
-
-                console.log('Setting up chart');
 
                 if (!chartEventListenerRegistered) {
                     chartEventListenerRegistered = true;
 
                     Livewire.on('chartDataUpdated', (event) => {
-                        console.log('chartDataUpdated event received:', event);
                         const data = Array.isArray(event) ? event[0] : event;
                         if (data && data.chartData) {
-                            pendingChartData = data.chartData;
                             updateChart(data.chartData);
                         }
                     });
                 }
 
-                // Initialize chart after a short delay to ensure DOM is ready
                 setTimeout(() => {
                     const chartElement = document.querySelector('#dealPerformanceChart');
                     if (chartElement) {
@@ -464,22 +450,8 @@
                 }, 100);
             }
 
-            // Re-initialize chart after Livewire updates
-            document.addEventListener('livewire:update', () => {
-                console.log('Livewire updated, re-initializing chart');
-                setTimeout(() => {
-                    const chartElement = document.querySelector('#dealPerformanceChart');
-                    if (chartElement) {
-                        // Get latest chart data from Livewire component
-                        pendingChartData = @this.chartData || [];
-                        console.log('Chart data from component:', pendingChartData);
-                        initChart();
-                    }
-                }, 150);
-            });
-
             document.addEventListener('livewire:navigating', () => {
-                console.log('Livewire navigating, destroying chart');
+                destroyChart();
                 chartEventListenerRegistered = false;
             });
 
