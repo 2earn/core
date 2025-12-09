@@ -173,8 +173,8 @@ Navigate to: `/commission-formulas`
 
 ### Required Routes
 The component expects these routes to exist:
-- `commission_formula_create` - Create new formula
-- `commission_formula_edit` - Edit formula (requires `id` parameter)
+- `plan_label_create` - Create new formula
+- `plan_label_edit` - Edit formula (requires `id` parameter)
 
 ### Required Permissions
 Admin-only features (controlled by `\App\Models\User::isSuperAdmin()`):
@@ -385,8 +385,8 @@ use App\Livewire\Commission\CommissionFormulaIndex;
 ### Issue: Routes not working
 **Solution**: Add required routes for create and edit:
 ```php
-Route::get('/commission-formulas/create', ...)->name('commission_formula_create');
-Route::get('/commission-formulas/{id}/edit', ...)->name('commission_formula_edit');
+Route::get('/commission-formulas/create', ...)->name('plan_label_create');
+Route::get('/commission-formulas/{id}/edit', ...)->name('plan_label_edit');
 ```
 
 ## Future Enhancements

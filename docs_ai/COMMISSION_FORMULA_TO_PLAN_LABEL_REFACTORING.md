@@ -137,11 +137,11 @@ Route::prefix('/commission/formula')->name('commission_formula_')->group(functio
 
 ## Seeder Updates
 
-### File: `database/seeders/CommissionFormulaSeeder.php`
+### File: `database/seeders/PlanLabelSeeder.php`
 **Updated:**
 - Import changed from `CommissionFormula` to `PlanLabel`
 - All `CommissionFormula::create()` calls changed to `PlanLabel::create()`
-- **Note:** Seeder class name kept as `CommissionFormulaSeeder` for backward compatibility
+- **Note:** Seeder class name kept as `PlanLabelSeeder` for backward compatibility
 
 **Seeder Data Now Includes:**
 - All original fields

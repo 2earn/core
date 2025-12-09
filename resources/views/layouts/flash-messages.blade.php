@@ -6,6 +6,14 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 @endif
+@if(Session::has('error'))
+    <div class="col-12 text-danger  alert alert-danger alert-top-border alert-dismissible fade show material-shadow"
+         role="alert">
+        <i class="ri-error-warning-line me-3 align-middle fs-16 text-danger"></i>
+        {{ Session::get('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
 @if(Session::has('danger'))
     <div class="col-12 text-danger  alert alert-danger alert-top-border alert-dismissible fade show material-shadow"
          role="alert">

@@ -1,11 +1,11 @@
 <div class="{{getContainerType()}}">
     @section('title')
-        {{ $isEditMode ? __('Edit Commission Formula') : __('Create Commission Formula') }}
+        {{ $isEditMode ? __('Edit Plan label') : __('Create Plan label') }}
     @endsection
 
     @component('components.breadcrumb')
         @slot('title')
-            {{ $isEditMode ? __('Edit Commission Formula') : __('Create Commission Formula') }}
+            {{ $isEditMode ? __('Edit Plan label') : __('Create Plan label') }}
         @endslot
         @slot('li_1')
             <a href="{{ route('plan_label_index', ['locale' => app()->getLocale()]) }}">
@@ -34,7 +34,7 @@
                         @error('name')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                        <div class="form-text">{{ __('A descriptive name for this commission formula.') }}</div>
+                        <div class="form-text">{{ __('A descriptive name for this Plan label.') }}</div>
                     </div>
 
                     <div class="row">
@@ -113,7 +113,7 @@
                                   id="description"
                                   class="form-control @error('description') is-invalid @enderror"
                                   rows="4"
-                                  placeholder="{{ __('Enter a detailed description of this commission formula...') }}"></textarea>
+                                  placeholder="{{ __('Enter a detailed description of this Plan label...') }}"></textarea>
                         @error('description')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -134,7 +134,7 @@
                         @error('iconImage')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                        <div class="form-text">{{ __('Upload an icon or logo for this commission formula (max 2MB). Formats: JPEG, PNG, JPG, SVG, WEBP') }}</div>
+                        <div class="form-text">{{ __('Upload an icon or logo for this Plan label (max 2MB). Formats: JPEG, PNG, JPG, SVG, WEBP') }}</div>
 
                         {{-- Image Preview --}}
                         <div class="mt-3">
@@ -155,12 +155,12 @@
                                          alt="Current Icon"
                                          class="img-thumbnail"
                                          style="max-width: 150px; max-height: 150px; object-fit: contain;"
-                                         onerror="this.src='{{ Vite::asset(\App\Models\CommissionFormula::DEFAULT_IMAGE_TYPE_ICON) }}'">
+                                         onerror="this.src='{{ Vite::asset(\App\Models\PlanLabel::DEFAULT_IMAGE_TYPE_ICON) }}'">
                                 </div>
                             @else
                                 <div>
                                     <p class="text-muted mb-2">{{ __('Default Icon:') }}</p>
-                                    <img src="{{ Vite::asset(\App\Models\CommissionFormula::DEFAULT_IMAGE_TYPE_ICON) }}"
+                                    <img src="{{ Vite::asset(\App\Models\PlanLabel::DEFAULT_IMAGE_TYPE_ICON) }}"
                                          alt="Default Icon"
                                          class="img-thumbnail"
                                          style="max-width: 150px; max-height: 150px; object-fit: contain;">
@@ -210,7 +210,7 @@
                         <button type="submit" class="btn btn-outline-success" wire:loading.attr="disabled">
                                 <span wire:loading.remove wire:target="save">
                                     <i class="ri-save-line align-middle me-1"></i>
-                                    {{ $isEditMode ? __('Update Formula') : __('Create Formula') }}
+                                    {{ $isEditMode ? __('Update Plan') : __('Create Plan') }}
                                 </span>
                             <span wire:loading wire:target="save">
                                     <span class="spinner-border spinner-border-sm me-1" role="status"

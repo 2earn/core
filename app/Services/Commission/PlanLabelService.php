@@ -76,6 +76,13 @@ class PlanLabelService
     public function createPlanLabel(array $data): ?PlanLabel
     {
         try {
+            if (!isset($data['created_by']) && auth()->check()) {
+                $data['created_by'] = auth()->id();
+            }
+            if (!isset($data['updated_by']) && auth()->check()) {
+                $data['updated_by'] = auth()->id();
+            }
+
             return PlanLabel::create($data);
         } catch (\Exception $e) {
             Log::error('Error creating plan label: ' . $e->getMessage());
@@ -86,6 +93,10 @@ class PlanLabelService
     public function updatePlanLabel(int $id, array $data): ?PlanLabel
     {
         try {
+            if (!isset($data['updated_by']) && auth()->check()) {
+                $data['updated_by'] = auth()->id();
+            }
+
             $label = PlanLabel::findOrFail($id);
             $label->update($data);
             return $label->fresh();

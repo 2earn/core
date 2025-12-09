@@ -120,35 +120,44 @@ class PlanLabelCreateUpdate extends Component
             'final_commission' => $this->final_commission,
             'description' => $this->description,
             'is_active' => $this->is_active,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ];
 
-        if ($this->isEditMode) {
-            $label = $this->planLabelService->updatePlanLabel($this->labelId, $data);
+        try {
+            if ($this->isEditMode) {
+                $label = $this->planLabelService->updatePlanLabel($this->labelId, $data);
 
-            if ($label) {
-                if ($this->iconImage) {
-                    $this->handleIconImageUpload($label);
+                if ($label) {
+                    if ($this->iconImage) {
+                        $this->handleIconImageUpload($label);
+                    }
+
+                    session()->flash('success', Lang::get('Plan label updated successfully.'));
+                    return redirect()->route('plan_label_index', ['locale' => app()->getLocale()]);
+                } else {
+                    session()->flash('error', Lang::get('Failed to update plan label.'));
                 }
-
-                session()->flash('success', Lang::get('Plan label updated successfully.'));
-                return redirect()->route('plan_label_index', ['locale' => app()->getLocale()]);
             } else {
-                session()->flash('error', Lang::get('Failed to update plan label.'));
-            }
-        } else {
-            $label = $this->planLabelService->createPlanLabel($data);
+                $label = $this->planLabelService->createPlanLabel($data);
 
-            if ($label) {
-                if ($this->iconImage) {
-                    $this->handleIconImageUpload($label);
+                if ($label) {
+                    if ($this->iconImage) {
+                        $this->handleIconImageUpload($label);
+                    }
+
+                    session()->flash('success', Lang::get('Plan label created successfully.'));
+                    return redirect()->route('plan_label_index', ['locale' => app()->getLocale()]);
+                } else {
+                    session()->flash('error', Lang::get('Failed to create plan label.'));
                 }
-
-                session()->flash('success', Lang::get('Plan label created successfully.'));
-                return redirect()->route('plan_label_index', ['locale' => app()->getLocale()]);
-            } else {
-                session()->flash('error', Lang::get('Failed to create plan label.'));
             }
+        } catch (\Exception $e) {
+            Log::error('Error saving plan label: ' . $e->getMessage());
+            session()->flash('error', Lang::get('An error occurred while saving the plan label.'));
         }
+
+        return redirect()->route('plan_label_index', ['locale' => app()->getLocale()]);
     }
 
     private function handleIconImageUpload($label)

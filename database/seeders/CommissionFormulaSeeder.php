@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\PlanLabel;
 use Illuminate\Database\Seeder;
 
-class CommissionFormulaSeeder extends Seeder
+class PlanLabelSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,7 @@ class CommissionFormulaSeeder extends Seeder
     {
         $formulas = [
             [
-                'name' => 'Modest',
+                'name' => 'Basic',
                 'description' => 'Basic commission plan for new partners',
                 'initial_commission' => 1.00,
                 'final_commission' => 7.00,

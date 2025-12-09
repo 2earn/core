@@ -18,7 +18,7 @@ The `CommissionFormula` model represents commission combinations with initial an
 **File**: `database/factories/CommissionFormulaFactory.php`
 
 ### 5. Seeder
-**File**: `database/seeders/CommissionFormulaSeeder.php`
+**File**: `database/seeders/PlanLabelSeeder.php`
 
 ## Database Schema
 
@@ -338,7 +338,7 @@ CommissionFormula::factory()->count(5)->create();
 Run the seeder to populate with sample data:
 
 ```bash
-php artisan db:seed --class=CommissionFormulaSeeder
+php artisan db:seed --class=PlanLabelSeeder
 ```
 
 This will create 5 predefined commission plans:

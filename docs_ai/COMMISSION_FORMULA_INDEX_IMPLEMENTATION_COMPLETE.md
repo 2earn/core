@@ -89,7 +89,7 @@ Four cards displaying key metrics:
 
 ### ⚡ Actions (Admin Only)
 1. **Toggle Status** - Enable/disable formulas with one click
-2. **Edit** - Navigate to edit page (requires commission_formula_edit route)
+2. **Edit** - Navigate to edit page (requires plan_label_edit route)
 3. **Delete** - Soft delete with confirmation modal
 
 ### 🎨 UI/UX Features
@@ -190,10 +190,10 @@ Route::get('/commission/formula/index', CommissionFormulaIndex::class)
 
 // To be created
 Route::get('/commission/formula/create', CommissionFormulaCreate::class)
-    ->name('commission_formula_create');
+    ->name('plan_label_create');
 
 Route::get('/commission/formula/{id}/edit', CommissionFormulaEdit::class)
-    ->name('commission_formula_edit');
+    ->name('plan_label_edit');
 ```
 
 ## Service Integration
@@ -303,7 +303,7 @@ php artisan route:clear
 ### Issue: Statistics showing 0
 **Solution**: Seed database with sample data
 ```bash
-php artisan db:seed --class=CommissionFormulaSeeder
+php artisan db:seed --class=PlanLabelSeeder
 ```
 
 ### Issue: Delete/Edit links not working

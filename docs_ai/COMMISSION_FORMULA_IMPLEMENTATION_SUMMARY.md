@@ -36,7 +36,7 @@ I've successfully created a comprehensive **CommissionFormula** model with all n
 - ✅ Ensures final_commission > initial_commission
 
 ### 5. Seeder
-**File**: `database/seeders/CommissionFormulaSeeder.php`
+**File**: `database/seeders/PlanLabelSeeder.php`
 - ✅ Seeds 5 predefined commission plans
 - ✅ Range from Starter (5-10%) to VIP (20-30%)
 
@@ -162,7 +162,7 @@ php artisan migrate
 
 ### Seed Sample Data
 ```bash
-php artisan db:seed --class=CommissionFormulaSeeder
+php artisan db:seed --class=PlanLabelSeeder
 ```
 
 ### Complete Setup
