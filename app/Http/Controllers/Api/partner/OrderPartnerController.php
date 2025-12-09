@@ -203,9 +203,6 @@ class OrderPartnerController extends Controller
         ]);
     }
 
-    /**
-     * Change the status of an order.
-     */
     public function changeStatus(Request $request, Order $order): JsonResponse
     {
         $validator = Validator::make($request->all(), [

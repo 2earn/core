@@ -20,14 +20,6 @@ class UserPartnerController extends Controller
         $this->middleware('check.url');
     }
 
-    /**
-     * Add a role to a user on a specific platform
-     *
-     * Request body:
-     * - platform_id: integer (required) - ID of the platform
-     * - user_id: integer (required) - ID of the user
-     * - role: string (required) - Name of the role to assign
-     */
     public function addRole(AddRoleRequest $request)
     {
         $validated = $request->validated();
