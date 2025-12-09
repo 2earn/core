@@ -146,6 +146,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/hobbies', Hobbies::class)->name('hobbies');
 
         Route::prefix('/orders')->name('orders_')->group(function () {
+            Route::get('/dashboard', \App\Livewire\OrderDashboard::class)->name('dashboard');
             Route::get('/index', \App\Livewire\OrdersIndex::class)->name('index');
             Route::get('/previous', \App\Livewire\OrdersPrevious::class)->name('previous');
             Route::get('/{id}/detail', \App\Livewire\OrderItem::class)->name('detail');
@@ -189,6 +190,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         Route::prefix('/deals')->name('deals_')->group(function () {
             Route::get('/index', \App\Livewire\DealsIndex::class)->name('index');
+            Route::get('/dashboard/{dealId?}', \App\Livewire\DealDashboard::class)->name('dashboard');
             Route::middleware(['IsSuperAdmin'])->group(function () {
                 Route::get('/{idPlatform}/manage', \App\Livewire\DealsCreateUpdate::class)->name('create_update');
                 Route::get('/validation-requests', \App\Livewire\DealValidationRequests::class)->name('validation_requests');

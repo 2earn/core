@@ -116,5 +116,23 @@ class ItemService
         $item = Item::findOrFail($id);
         return $item->delete();
     }
-}
 
+    /**
+     * Get items by deal ID
+     *
+     * @param int|null $dealId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getItemsByDeal(?int $dealId = null)
+    {
+        $query = Item::select('id', 'name', 'ref')
+            ->where('ref', '!=', '#0001')
+            ->orderBy('name');
+
+        if ($dealId) {
+            $query->where('deal_id', $dealId);
+        }
+
+        return $query->get();
+    }
+}

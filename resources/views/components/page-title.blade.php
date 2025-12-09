@@ -305,6 +305,14 @@
                             </a>
                         </div>
                         <div class="col">
+                            <a href="{{route('orders_dashboard',['locale'=>app()->getLocale()],false )}}"
+                               class="nav-link menu-link p-1 rounded hover-bg {{$currentRouteName=='order_dashboard'? 'active bg-light' : ''}}"
+                               role="button">
+                                <i class="ri-dashboard-line me-2"></i>
+                                <span>{{__('Order Dashboard')}}</span>
+                            </a>
+                        </div>
+                        <div class="col">
                             <a href="{{route('user_list',['locale'=>app()->getLocale()],false )}}"
                                class="nav-link menu-link p-1 rounded hover-bg {{$currentRouteName=='user_list'? 'active bg-light' : ''}}"
                                role="button">

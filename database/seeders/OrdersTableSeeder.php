@@ -8,6 +8,7 @@ use App\Models\OrderDetail;
 use App\Services\Orders\Ordering;
 use Core\Enum\OrderEnum;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Log;
 
 class OrdersTableSeeder extends Seeder
 {
@@ -18,11 +19,44 @@ class OrdersTableSeeder extends Seeder
      */
     public function run()
     {
-        $items = Item::where('ref', '!=', '#0001')->take(5)->get();
-        $userId = 384;
-        $ordersNumber = 20;
+        $allItems = Item::with('deal')->where('ref', '!=', '#0001')->get();
+
+        // Group items by deal_id, filter items that have deals
+        $itemsByDeal = $allItems
+            ->filter(function ($item) {
+                // Only keep items that have a deal
+                return !is_null($item->deal_id) && !is_null($item->deal);
+            })
+            ->groupBy('deal_id')
+            ->filter(function ($items, $dealId) {
+                $firstItem = $items->first();
+                $hasDeal = !is_null($firstItem->deal);
+
+                if ($hasDeal) {
+                    $dealType = $firstItem->deal->type;
+                    $itemsCount = $items->count();
+                    return $itemsCount >= 2;
+                }
+
+                return false;
+            });
+
+
+        if ($itemsByDeal->isEmpty()) {
+            $this->command->error("No deals found with at least 2 items. Please ensure deals have multiple items.");
+            $this->command->warn("Tip: Each deal needs at least 2 items since orders select 2-5 items per deal.");
+            return;
+        }
+
+        $userIds = [2, 213, 325, 384, 3716, 3786];
+
+        $ordersNumber = 100;
         $CreatedOrders = [];
+
         for ($i = 0; $i < $ordersNumber; $i++) {
+
+            $userId = $userIds[array_rand($userIds)];
+
             $order = Order::create([
                 'user_id' => $userId,
                 'status' => OrderEnum::Ready,
@@ -41,13 +75,28 @@ class OrdersTableSeeder extends Seeder
                 'total_final_discount_percentage' => 0,
                 'total_lost_discount' => 0,
                 'total_lost_discount_percentage' => 0,
+                'created_by' => $userId,
+                'updated_by' => $userId,
             ]);
 
             $totalOrder = 0;
             $totalQuantity = 0;
+            $dealStartDate = null;
+            $dealEndDate = null;
 
-            foreach ($items as $item) {
-                $quantity = rand(1, 3);
+
+            // Randomly select one deal from available product deals
+            $selectedDeal = $itemsByDeal->random();
+
+            // Get items from that deal
+            $dealItems = $selectedDeal;
+
+            // Randomly select 2-5 items from this deal's products
+            $numberOfItems = rand(2, min(5, $dealItems->count()));
+            $selectedItems = $dealItems->random($numberOfItems);
+
+            foreach ($selectedItems as $item) {
+                $quantity = rand(1, 10);
                 $unitPrice = $item->price;
                 $totalAmount = $quantity * $unitPrice;
 
@@ -69,18 +118,38 @@ class OrdersTableSeeder extends Seeder
                     'amount_after_deal_discount' => $totalAmount,
                     'total_discount' => 0,
                     'note' => 'Sample item',
+                    'created_by' => $userId,
+                    'updated_by' => $userId,
                 ]);
 
                 $totalOrder += $totalAmount;
                 $totalQuantity += $quantity;
+
+                if (is_null($dealStartDate) && $item->deal) {
+                    $dealStartDate = $item->deal->start_date;
+                    $dealEndDate = $item->deal->end_date;
+                }
             }
 
-            $order->update([
+            $randomDate = null;
+            if (!is_null($dealStartDate) && !is_null($dealEndDate)) {
+                $startTimestamp = strtotime($dealStartDate);
+                $endTimestamp = strtotime($dealEndDate);
+                $randomTimestamp = rand($startTimestamp, $endTimestamp);
+                $randomDate = date('Y-m-d H:i:s', $randomTimestamp);
+            }
+
+            $updateData = [
                 'total_order' => $totalOrder,
                 'total_order_quantity' => $totalQuantity,
                 'deal_amount_before_discount' => $totalOrder,
                 'amount_after_discount' => $totalOrder,
-            ]);
+            ];
+
+            $updateData['created_at'] = $randomDate;
+            Log::notice("simulation_datetime + payment_datetime : " . $randomDate);
+
+            $order->update($updateData);
 
             $CreatedOrders[] = $order;
         }
@@ -89,6 +158,13 @@ class OrdersTableSeeder extends Seeder
             $simulation = Ordering::simulate($CreatedOrder);
             if ($simulation) {
                 Ordering::run($simulation);
+
+                $changer = Order::where('id', $CreatedOrder->id)->first();
+
+                $changer->update([
+                    'simulation_datetime' => $changer->created_at,
+                    'payment_datetime' => $changer->created_at,
+                ]);
             }
 
         }

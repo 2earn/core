@@ -13,12 +13,25 @@ class OrderingSeeder extends Seeder
     {
         Log::notice('Starting OrderingSeeder Seeder');
         if (app()->environment('local')) {
-            Log::notice('Starting Seeder DealsInsertSeeder');
+
+            $this->command->info('Starting Seeder DealsInsertSeeder');
             Artisan::call('db:seed', ['--class' => 'Database\Seeders\DealsInsertSeeder']);
-            Log::notice('Starting Seeder ItemSeeder');
+            $this->command->info('End Seeder DealsInsertSeeder');
+
+            $this->command->info('Starting Seeder ItemSeeder');
             Artisan::call('db:seed', ['--class' => 'Database\Seeders\ItemSeeder']);
-            Log::notice('Starting Seeder CouponSeeder');
+
+            $this->command->info('Starting Seeder CouponSeeder');
             Artisan::call('db:seed', ['--class' => 'Database\Seeders\CouponSeeder']);
+
+            $this->command->info('Starting Seeder AddCashSeeder');
+            Artisan::call('db:seed', ['--class' => 'Database\Seeders\AddCashSeeder']);
+
+            $this->command->info('Starting Seeder Update Platform Owners Seeder');
+            Artisan::call('db:seed', ['--class' => 'Database\Seeders\UpdatePlatformOwnersSeeder']);
+
+            $this->command->info('Starting Seeder Order Simulation Payment Seeder');
+            Artisan::call('db:seed', ['--class' => 'Database\Seeders\OrderSimulationPaymentSeeder']);
         }
         Log::notice('Finish OrderingSeeder');
     }
