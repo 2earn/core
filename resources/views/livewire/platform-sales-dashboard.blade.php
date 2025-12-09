@@ -58,7 +58,7 @@
                     <i class="ri-filter-3-line align-middle me-2"></i>{{__('Filters')}}
                 </h5>
                 <div class="row g-3">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label for="startDate" class="form-label">{{__('Start Date')}}</label>
                         <input type="date"
                                class="form-control"
@@ -66,7 +66,7 @@
                                wire:model.live="startDate"
                                max="{{date('Y-m-d')}}">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label for="endDate" class="form-label">{{__('End Date')}}</label>
                         <input type="date"
                                class="form-control"
@@ -74,7 +74,17 @@
                                wire:model.live="endDate"
                                max="{{date('Y-m-d')}}">
                     </div>
-                    <div class="col-md-4 d-flex align-items-end">
+                    <div class="col-md-3">
+                        <label for="viewMode" class="form-label">{{__('View Mode')}}</label>
+                        <select class="form-select"
+                                id="viewMode"
+                                wire:model.live="viewMode">
+                            <option value="daily">{{__('Daily')}}</option>
+                            <option value="weekly">{{__('Weekly')}}</option>
+                            <option value="monthly">{{__('Monthly')}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-end">
                         <button type="button"
                                 class="btn btn-soft-info w-100"
                                 wire:click="resetFilters">
@@ -187,6 +197,37 @@
                             </span>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h5 class="card-title mb-0">
+                            <i class="ri-line-chart-line align-middle me-2"></i>{{__('Sales Evolution')}}
+                        </h5>
+                        <span class="badge bg-soft-info text-info">
+                            {{ucfirst($viewMode)}} {{__('View')}}
+                        </span>
+                    </div>
+                    <div id="salesEvolutionChart" style="min-height: 350px;">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                    @if(empty($chartData))
+                        <div class="text-center py-5">
+                            <div class="avatar-xl mx-auto mb-4">
+                                <div class="avatar-title bg-soft-info text-info rounded-circle">
+                                    <i class="ri-line-chart-line display-4"></i>
+                                </div>
+                            </div>
+                            <h5 class="mb-2">{{__('No Chart Data Available')}}</h5>
+                            <p class="text-muted">{{__('There is no sales data for the selected period')}}</p>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
