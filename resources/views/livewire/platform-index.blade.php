@@ -222,6 +222,10 @@
                                    class="btn btn-soft-secondary btn-sm">
                                     <i class="ri-eye-line align-middle me-1"></i>{{__('View')}}
                                 </a>
+                                <a href="{{route('platform_sales_dashboard', ['locale' => app()->getLocale(), 'platformId' => $platform->id])}}"
+                                   class="btn btn-soft-success btn-sm">
+                                    <i class="ri-bar-chart-line align-middle me-1"></i>{{__('View Sales')}}
+                                </a>
                             @endif
                             @if(!$platform->pendingValidationRequest && !$platform->pendingTypeChangeRequest && $platform->enabled)
                                 <a href="{{route('deals_create_update', ['locale' => app()->getLocale(), 'idPlatform' => $platform->id])}}"

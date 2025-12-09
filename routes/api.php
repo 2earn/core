@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\partner\ItemsPartnerController;
 use App\Http\Controllers\Api\partner\OrderDetailsPartnerController;
 use App\Http\Controllers\Api\partner\OrderPartnerController;
 use App\Http\Controllers\Api\partner\PlatformPartnerController;
+use App\Http\Controllers\Api\partner\SalesDashboardController;
 use App\Http\Controllers\Api\partner\UserPartnerController;
 use App\Http\Controllers\Api\payment\OrderSimulationController;
 use Illuminate\Http\Request;
@@ -69,7 +70,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/user/sms', [App\Http\Controllers\UserssController::class, 'getSmsUser'])->name('api_user_sms');
         Route::get('/user/chance', [App\Http\Controllers\UserssController::class, 'getChanceUser'])->name('api_user_chance');
         Route::get('/target/{idTarget}/data', [\App\Http\Controllers\TargetController::class, 'getTargetData'])->name('api_target_data');
-
 
         Route::get('/api/shares/solde', [App\Http\Controllers\SharesController::class, 'getSharesSolde'])->name('api_shares_solde');
         Route::get('/api/shares/soldes', [App\Http\Controllers\SharesController::class, 'getSharesSoldes'])->name('api_shares_soldes');
@@ -138,6 +138,7 @@ Route::prefix('/partner/')->name('api_partner_')
             Route::get('deals/dashboard/indicators', [DealPartnerController::class, 'dashboardIndicators'])->name('deals_dashboard_indicators');
             Route::get('deals/performance/chart', [DealPartnerController::class, 'performanceChart'])->name('deals_performance_chart');
             Route::post('users/add-role', [UserPartnerController::class, 'addRole'])->name('users_add_role');
+            Route::get('/sales/dashboard/kpis', [SalesDashboardController::class, 'getKpis'])->name('api_sales_dashboard_kpis');
         });
 
     });
