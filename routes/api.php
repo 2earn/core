@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\SalesDashboardController;
 use App\Http\Controllers\Api\mobile\BalanceController;
 use App\Http\Controllers\Api\mobile\CashBalanceController;
 use App\Http\Controllers\Api\mobile\UserController;
@@ -70,7 +71,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/user/chance', [App\Http\Controllers\UserssController::class, 'getChanceUser'])->name('api_user_chance');
         Route::get('/target/{idTarget}/data', [\App\Http\Controllers\TargetController::class, 'getTargetData'])->name('api_target_data');
 
-
         Route::get('/api/shares/solde', [App\Http\Controllers\SharesController::class, 'getSharesSolde'])->name('api_shares_solde');
         Route::get('/api/shares/soldes', [App\Http\Controllers\SharesController::class, 'getSharesSoldes'])->name('api_shares_soldes');
         Route::get('/api/shares/evolution', [App\Http\Controllers\SharesController::class, 'getSharePriceEvolution'])->name('api_share_evolution');
@@ -138,6 +138,7 @@ Route::prefix('/partner/')->name('api_partner_')
             Route::get('deals/dashboard/indicators', [DealPartnerController::class, 'dashboardIndicators'])->name('deals_dashboard_indicators');
             Route::get('deals/performance/chart', [DealPartnerController::class, 'performanceChart'])->name('deals_performance_chart');
             Route::post('users/add-role', [UserPartnerController::class, 'addRole'])->name('users_add_role');
+            Route::get('/sales/dashboard/kpis', [SalesDashboardController::class, 'getKpis'])->name('api_sales_dashboard_kpis');
         });
 
     });
