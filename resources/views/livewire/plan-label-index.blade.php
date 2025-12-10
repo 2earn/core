@@ -213,10 +213,10 @@
                                                                         alt="{{ $formula->name }}"
                                                                         class="avatar-sm rounded-circle"
                                                                         style="width: 40px; height: 40px; object-fit: cover;"
-                                                                        onerror="this.src='{{ Vite::asset(\App\Models\CommissionFormula::DEFAULT_IMAGE_TYPE_ICON) }}'">
+                                                                        onerror="this.src='{{ Vite::asset(\App\Models\PlanLabel::DEFAULT_IMAGE_TYPE_ICON) }}'">
                                                                 @else
                                                                     <img
-                                                                        src="{{ Vite::asset(\App\Models\CommissionFormula::DEFAULT_IMAGE_TYPE_ICON) }}"
+                                                                        src="{{ Vite::asset(\App\Models\PlanLabel::DEFAULT_IMAGE_TYPE_ICON) }}"
                                                                         alt="{{ $formula->name }}"
                                                                         class="avatar-sm rounded-circle"
                                                                         style="width: 40px; height: 40px; object-fit: cover;">
