@@ -446,6 +446,11 @@
                     const chartElement = document.querySelector('#dealPerformanceChart');
                     if (chartElement) {
                         initChart();
+                        // Load initial chart data from Livewire component
+                        const initialChartData = @json($chartData ?? []);
+                        if (initialChartData && initialChartData.length > 0) {
+                            updateChart(initialChartData);
+                        }
                     }
                 }, 100);
             }
