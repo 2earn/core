@@ -160,6 +160,19 @@
                         </div>
                     </div>
 
+                    <div class="col-xxl-2 col-sm-4">
+                        <div>
+                            <select wire:model.live="filterStars" class="form-control">
+                                <option value="">{{ __('All Stars') }}</option>
+                                <option value="1">⭐ 1 {{ __('Star') }}</option>
+                                <option value="2">⭐⭐ 2 {{ __('Stars') }}</option>
+                                <option value="3">⭐⭐⭐ 3 {{ __('Stars') }}</option>
+                                <option value="4">⭐⭐⭐⭐ 4 {{ __('Stars') }}</option>
+                                <option value="5">⭐⭐⭐⭐⭐ 5 {{ __('Stars') }}</option>
+                            </select>
+                        </div>
+                    </div>
+
 
                     <div class="col-xxl-2 col-sm-4">
                         <div>
@@ -254,6 +267,45 @@
                                                             </span>
                                                             </div>
                                                         </div>
+                                                        @if($formula->step)
+                                                        <div class="col-auto">
+                                                            <div class="vr h-100"></div>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <div class="text-center">
+                                                                <p class="text-muted mb-1 fs-11 text-uppercase">{{ __('Step') }}</p>
+                                                                <span class="badge badge-soft-secondary fs-12">
+                                                                {{ $formula->step }}
+                                                            </span>
+                                                            </div>
+                                                        </div>
+                                                        @endif
+                                                        @if($formula->rate)
+                                                        <div class="col-auto">
+                                                            <div class="text-center">
+                                                                <p class="text-muted mb-1 fs-11 text-uppercase">{{ __('Rate') }}</p>
+                                                                <span class="badge badge-soft-warning fs-12">
+                                                                {{ number_format($formula->rate, 2) }}
+                                                            </span>
+                                                            </div>
+                                                        </div>
+                                                        @endif
+                                                        @if($formula->stars)
+                                                        <div class="col-auto">
+                                                            <div class="text-center">
+                                                                <p class="text-muted mb-1 fs-11 text-uppercase">{{ __('Stars') }}</p>
+                                                                <span class="text-warning fs-13">
+                                                                @for($i = 1; $i <= 5; $i++)
+                                                                    @if($i <= $formula->stars)
+                                                                        <i class="ri-star-fill"></i>
+                                                                    @else
+                                                                        <i class="ri-star-line text-muted"></i>
+                                                                    @endif
+                                                                @endfor
+                                                            </span>
+                                                            </div>
+                                                        </div>
+                                                        @endif
                                                     </div>
                                                 </div>
 

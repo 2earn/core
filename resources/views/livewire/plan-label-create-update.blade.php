@@ -38,6 +38,65 @@
                     </div>
 
                     <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="step" class="form-label">
+                                    {{ __('Step') }}
+                                </label>
+                                <input type="number"
+                                       wire:model.blur="step"
+                                       id="step"
+                                       class="form-control @error('step') is-invalid @enderror"
+                                       placeholder="{{ __('Enter step value') }}"
+                                       min="0">
+                                @error('step')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <div class="form-text">{{ __('Step value for this plan') }}</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="rate" class="form-label">
+                                    {{ __('Rate') }}
+                                </label>
+                                <input type="number"
+                                       wire:model.blur="rate"
+                                       id="rate"
+                                       class="form-control @error('rate') is-invalid @enderror"
+                                       placeholder="{{ __('Enter rate value') }}"
+                                       step="0.01"
+                                       min="0">
+                                @error('rate')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <div class="form-text">{{ __('Rate value for this plan') }}</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="stars" class="form-label">
+                                    {{ __('Stars') }}
+                                </label>
+                                <select wire:model.blur="stars" id="stars" class="form-control @error('stars') is-invalid @enderror">
+                                    <option value="">{{ __('Select stars') }}</option>
+                                    <option value="1">1 {{ __('Star') }}</option>
+                                    <option value="2">2 {{ __('Stars') }}</option>
+                                    <option value="3">3 {{ __('Stars') }}</option>
+                                    <option value="4">4 {{ __('Stars') }}</option>
+                                    <option value="5">5 {{ __('Stars') }}</option>
+                                </select>
+                                @error('stars')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <div class="form-text">{{ __('Star rating (1-5)') }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="initial_commission" class="form-label">
