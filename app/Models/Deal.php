@@ -24,6 +24,7 @@ class Deal extends Model
         'status',
         'current_turnover',
         'target_turnover',
+        'second_target_turnover',
         'is_turnover',
         'discount',
         'start_date',
@@ -45,6 +46,17 @@ class Deal extends Model
         'cash_cashback',
         'created_by',
         'updated_by',
+        'items_profit_average',
+    ];
+
+    protected $casts = [
+        'current_turnover' => 'float',
+        'target_turnover' => 'float',
+        'second_target_turnover' => 'float',
+        'items_profit_average' => 'float',
+        'initial_commission' => 'float',
+        'final_commission' => 'float',
+        'validated' => 'boolean',
     ];
 
 
