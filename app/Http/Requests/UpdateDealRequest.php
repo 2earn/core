@@ -30,6 +30,8 @@ class UpdateDealRequest extends FormRequest
             'status' => 'sometimes|string',
             'current_turnover' => 'nullable|numeric',
             'target_turnover' => 'nullable|numeric',
+            'second_target_turnover' => 'nullable|numeric',
+            'items_profit_average' => 'nullable|numeric',
             'is_turnover' => 'nullable|boolean',
             'discount' => 'nullable|numeric',
             'start_date' => 'nullable|date',

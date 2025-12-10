@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\partner;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreDealRequest;
 use App\Http\Requests\UpdateDealRequest;
 use App\Models\Deal;
 use App\Models\DealChangeRequest;
@@ -71,46 +72,9 @@ class DealPartnerController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreDealRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'initial_commission' => 'required|numeric|min:0|max:100',
-            'final_commission' => 'required|numeric|min:0|max:100|gte:initial_commission',
-            'description' => 'required|string',
-            'type' => 'required|string',
-            'status' => 'required|string',
-            'target_turnover' => 'nullable|numeric',
-            'current_turnover' => 'nullable|numeric',
-            'is_turnover' => 'nullable|boolean',
-            'discount' => 'nullable|numeric',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'earn_profit' => 'nullable|numeric',
-            'jackpot' => 'nullable|numeric',
-            'tree_remuneration' => 'nullable|numeric',
-            'proactive_cashback' => 'nullable|numeric',
-            'total_commission_value' => 'nullable|numeric',
-            'total_unused_cashback_value' => 'nullable|numeric',
-            'platform_id' => 'required|exists:platforms,id',
-            'cash_company_profit' => 'nullable|numeric',
-            'cash_jackpot' => 'nullable|numeric',
-            'cash_tree' => 'nullable|numeric',
-            'cash_cashback' => 'nullable|numeric',
-            'created_by' => 'required|exists:users,id',
-            'notes' => 'nullable|string|max:1000',
-        ]);
-
-        if ($validator->fails()) {
-            Log::error(self::LOG_PREFIX . 'Deal creation validation failed', ['errors' => $validator->errors()]);
-            return response()->json([
-                'status' => 'Failed',
-                'message' => 'Validation failed',
-                'errors' => $validator->errors()
-            ], Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
-
-        $validatedData = $validator->validated();
+        $validatedData = $request->validated();
 
         $validatedData['created_by_id'] = $request->input('user_id');
         $validatedData['validated'] = false;
