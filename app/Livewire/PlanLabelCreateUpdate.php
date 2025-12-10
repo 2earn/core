@@ -14,13 +14,10 @@ class PlanLabelCreateUpdate extends Component
 {
     use WithFileUploads;
 
-    protected $planLabelService;
+    protected $PlanLabelService;
 
-    public $labelId = null;
+    public $formulaId = null;
     public $name = '';
-    public $step = '';
-    public $rate = '';
-    public $stars = '';
     public $initial_commission = '';
     public $final_commission = '';
     public $description = '';
@@ -32,9 +29,6 @@ class PlanLabelCreateUpdate extends Component
 
     protected $rules = [
         'name' => 'required|string|max:255',
-        'step' => 'nullable|integer',
-        'rate' => 'nullable|numeric|min:0',
-        'stars' => 'nullable|integer|min:1|max:5',
         'initial_commission' => 'required|numeric|min:0|max:100',
         'final_commission' => 'required|numeric|min:0|max:100|gt:initial_commission',
         'description' => 'nullable|string',
@@ -45,12 +39,6 @@ class PlanLabelCreateUpdate extends Component
     protected $messages = [
         'name.required' => 'The name field is required.',
         'name.max' => 'The name must not exceed 255 characters.',
-        'step.integer' => 'The step must be an integer.',
-        'rate.numeric' => 'The rate must be a number.',
-        'rate.min' => 'The rate must be at least 0.',
-        'stars.integer' => 'The stars must be an integer.',
-        'stars.min' => 'The stars must be at least 1.',
-        'stars.max' => 'The stars must not exceed 5.',
         'initial_commission.required' => 'The initial commission field is required.',
         'initial_commission.numeric' => 'The initial commission must be a number.',
         'initial_commission.min' => 'The initial commission must be at least 0.',
@@ -65,40 +53,37 @@ class PlanLabelCreateUpdate extends Component
         'iconImage.max' => 'The icon size must not exceed 2MB.',
     ];
 
-    public function boot(PlanLabelService $planLabelService)
+    public function boot(PlanLabelService $PlanLabelService)
     {
-        $this->planLabelService = $planLabelService;
+        $this->PlanLabelService = $PlanLabelService;
     }
 
     public function mount($id = null)
     {
         if ($id) {
             $this->isEditMode = true;
-            $this->labelId = $id;
-            $this->loadLabel($id);
+            $this->formulaId = $id;
+            $this->loadFormula($id);
         }
     }
 
-    public function loadLabel($id)
+    public function loadFormula($id)
     {
-        $label = $this->planLabelService->getPlanLabelById($id);
+        $formula = $this->PlanLabelService->getPlanLabelById($id);
 
-        if (!$label) {
+        if (!$formula) {
             session()->flash('error', Lang::get('Plan label not found.'));
             return redirect()->route('plan_label_index', ['locale' => app()->getLocale()]);
         }
 
-        $this->name = $label->name;
-        $this->step = $label->step;
-        $this->rate = $label->rate;
-        $this->stars = $label->stars;
-        $this->initial_commission = $label->initial_commission;
-        $this->final_commission = $label->final_commission;
-        $this->description = $label->description;
-        $this->is_active = $label->is_active;
+        $this->name = $formula->name;
+        $this->initial_commission = $formula->initial_commission;
+        $this->final_commission = $formula->final_commission;
+        $this->description = $formula->description;
+        $this->is_active = $formula->is_active;
 
-        if ($label->iconImage) {
-            $this->existingIconUrl = $label->iconImage->url;
+        if ($formula->iconImage) {
+            $this->existingIconUrl = $formula->iconImage->url;
         }
     }
 
@@ -113,66 +98,58 @@ class PlanLabelCreateUpdate extends Component
 
         $data = [
             'name' => $this->name,
-            'step' => $this->step ?: null,
-            'rate' => $this->rate ?: null,
-            'stars' => $this->stars ?: null,
             'initial_commission' => $this->initial_commission,
             'final_commission' => $this->final_commission,
             'description' => $this->description,
             'is_active' => $this->is_active,
-            'created_by' => auth()->id(),
-            'updated_by' => auth()->id(),
         ];
 
-        try {
-            if ($this->isEditMode) {
-                $label = $this->planLabelService->updatePlanLabel($this->labelId, $data);
+        if ($this->isEditMode) {
+            $formula = $this->PlanLabelService->updatePlanLabel($this->formulaId, $data);
 
-                if ($label) {
-                    if ($this->iconImage) {
-                        $this->handleIconImageUpload($label);
-                    }
-
-                    session()->flash('success', Lang::get('Plan label updated successfully.'));
-                    return redirect()->route('plan_label_index', ['locale' => app()->getLocale()]);
-                } else {
-                    session()->flash('error', Lang::get('Failed to update plan label.'));
+            if ($formula) {
+                if ($this->iconImage) {
+                    $this->handleIconImageUpload($formula);
                 }
+
+                session()->flash('success', Lang::get('Plan label updated successfully.') . ' : ' . $this->name);
+                return redirect()->route('plan_label_index', ['locale' => app()->getLocale()]);
             } else {
-                $label = $this->planLabelService->createPlanLabel($data);
-
-                if ($label) {
-                    if ($this->iconImage) {
-                        $this->handleIconImageUpload($label);
-                    }
-
-                    session()->flash('success', Lang::get('Plan label created successfully.'));
-                    return redirect()->route('plan_label_index', ['locale' => app()->getLocale()]);
-                } else {
-                    session()->flash('error', Lang::get('Failed to create plan label.'));
-                }
+                session()->flash('error', Lang::get('Failed to update Plan label.'));
             }
-        } catch (\Exception $e) {
-            Log::error('Error saving plan label: ' . $e->getMessage());
-            session()->flash('error', Lang::get('An error occurred while saving the plan label.'));
-        }
+        } else {
+            $formula = $this->PlanLabelService->createPlanLabel($data);
 
-        return redirect()->route('plan_label_index', ['locale' => app()->getLocale()]);
+            if ($formula) {
+                if ($this->iconImage) {
+                    $this->handleIconImageUpload($formula);
+                }
+
+                session()->flash('success', Lang::get('Plan label created successfully.'));
+                return redirect()->route('plan_label_index', ['locale' => app()->getLocale()]);
+            } else {
+                session()->flash('error', Lang::get('Failed to create Plan label.'));
+            }
+        }
     }
 
-    private function handleIconImageUpload($label)
+    /**
+     * Handle icon image upload
+     */
+    private function handleIconImageUpload($formula)
     {
         try {
-            if ($label->iconImage) {
-                if (Storage::disk('public2')->exists($label->iconImage->url)) {
-                    Storage::disk('public2')->delete($label->iconImage->url);
+            // Delete old image if exists
+            if ($formula->iconImage) {
+                if (Storage::disk('public2')->exists($formula->iconImage->url)) {
+                    Storage::disk('public2')->delete($formula->iconImage->url);
                 }
-                $label->iconImage()->delete();
+                $formula->iconImage()->delete();
             }
 
-            $imagePath = $this->iconImage->store('plan-labels/' . PlanLabel::IMAGE_TYPE_ICON, 'public2');
+            $imagePath = $this->iconImage->store('plan-label/' . PlanLabel::IMAGE_TYPE_ICON, 'public2');
 
-            $label->iconImage()->create([
+            $formula->iconImage()->create([
                 'type' => PlanLabel::IMAGE_TYPE_ICON,
                 'url' => $imagePath,
                 'created_by' => auth()->id(),
@@ -195,4 +172,3 @@ class PlanLabelCreateUpdate extends Component
             ->section('content');
     }
 }
-
