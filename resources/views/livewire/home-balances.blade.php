@@ -4,10 +4,16 @@
 <div class="row">
     <div class="col-12 card btn-light">
         <div class="card-header row">
-            <div class="col-12"><h4>{{__('Users balances Recaps')}}</h4></div>
+            <div class="row m-2">
+                <div class="col-12">
+                    <h2 class="fw-bold mb-2">{{__('Users balances Recaps')}} <small
+                            class="text-muted  float-end">{{__('Soldes calculated at')}}
+                            : {{Carbon\Carbon::now()->toDateTimeString()}}</small></h2>
+
+                </div>
+            </div>
         </div>
-        <div class="card-body row g-2"
-             title="{{__('Soldes calculated at')}} : {{Carbon\Carbon::now()->toDateTimeString()}}">
+        <div class="card-body row g-2">
             <div class="col-md-4 col-lg-4">
                 <div class="solde-cash card card-body card-animate shadow-sm hover-scale">
                     <div class="d-flex mb-4 align-items-center">

@@ -17288,3 +17288,21 @@ html {
     }
 }
 
+/* ============================================
+   ?? MODERN PAGE TITLE & BREADCRUMB - RTL
+   ============================================ */
+.breadcrumb-actions {
+    margin-right: auto;
+    margin-left: 0;
+}
+.btn-icon-modern::before {
+    right: 0;
+    left: auto;
+}
+.menu-link-modern::before {
+    right: -100%;
+    left: auto;
+}
+.menu-link-modern:hover::before {
+    right: 100%;
+}
