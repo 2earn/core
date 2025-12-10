@@ -51,6 +51,8 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/tailwind.css',
+                'resources/css/modern-enhancements.css',
+                'resources/css/modern-enhancements-rtl.css',
                 'resources/sass/app.scss',
                 'resources/css/dataTables.bootstrap.css',
                 'resources/css/rowReorder.bootstrap.css',
