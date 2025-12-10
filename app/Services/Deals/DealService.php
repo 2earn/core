@@ -353,7 +353,9 @@ class DealService
 
         $query->with(['platform', 'pendingChangeRequest.requestedBy', 'commissionPlan.iconImage']);
 
-        $query->orderBy('created_at', 'ASC')->orderBy('validated', 'ASC')->orderBy('platform_id', 'ASC');
+        $query->orderBy('created_at', 'desc')
+            ->orderBy('validated', 'asc')
+            ->orderBy('platform_id', 'asc');
 
         return $perPage ? $query->paginate($perPage) : $query->get();
     }

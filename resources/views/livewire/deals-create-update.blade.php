@@ -48,7 +48,7 @@
                     </div>
                     <hr class="text-muted">
                     <div class="row">
-                        <div class="form-group col-2 mb-3">
+                        <div class="form-group col-4">
                             <label for="provider_turnover">{{__('Out provider turnover')}}</label> <span
                                 class="text-info float-end">{{__('$')}}</span>
 
@@ -60,7 +60,7 @@
                             @error('provider_turnover') <span class="text-danger">{{ $message }}</span>@enderror
                             <div class="form-text">{{__('Required field')}}</div>
                         </div>
-                        <div class="form-group col-2 mb-3">
+                        <div class="form-group col-4">
                             <label for="target_turnover">{{__('Target turnover')}}</label> <span
                                 class="text-info float-end">{{__('$')}}</span>
                             <input type="number"
@@ -71,7 +71,17 @@
                             @error('target_turnover') <span class="text-danger">{{ $message }}</span>@enderror
                             <div class="form-text">{{__('Required field')}}</div>
                         </div>
-                        <div class="form-group col-2 mb-3">
+                        <div class="form-group col-4">
+                            <label for="second_target_turnover">{{__('Second Target Turnover')}}</label> <span
+                                class="text-info float-end">{{__('$')}}</span>
+                            <input type="number"
+                                   class="form-control @error('second_target_turnover') is-invalid @enderror"
+                                   id="second_target_turnover"
+                                   wire:model.live="second_target_turnover"
+                                   placeholder="{{__('Enter Second Target Turnover')}}">
+                            @error('second_target_turnover') <span class="text-danger">{{ $message }}</span>@enderror
+                        </div>
+                        <div class="form-group col-4">
                             <label for="items_profit_average">{{__('Items profit average')}}</label>
                             <span class="text-info float-end">{{__('$')}}</span>
 
@@ -85,7 +95,7 @@
                         </div>
 
 
-                        <div class="form-group col-3 mb-3">
+                        <div class="form-group col-4">
                             <label for="initial_commission">{{__('Initial Commission')}}</label>
                             <span class="text-info float-end">{{__('%')}}</span>
                             <input type="number"
@@ -98,7 +108,7 @@
                             <div class="form-text">{{__('Required field')}}</div>
                         </div>
 
-                        <div class="form-group col-3 mb-3">
+                        <div class="form-group col-4">
                             <label for="final_commission">{{__('Final Commission')}}</label>
                             <span class="text-info float-end">{{__('%')}}</span>
                             <input type="number"
@@ -113,7 +123,7 @@
                     </div>
                     <hr class="text-muted">
                     <div class="row">
-                        <div class="form-group col-3 mb-3">
+                        <div class="form-group col-4">
                             <label for="earn_profit">{{__('2earn profit')}}</label> <span
                                 class="text-info float-end">{{__('%')}}</span>
 
@@ -125,7 +135,7 @@
                             @error('earn_profit') <span class="text-danger">{{ $message }}</span>@enderror
                             <div class="form-text">{{__('Required field')}}</div>
                         </div>
-                        <div class="form-group col-3 mb-3">
+                        <div class="form-group col-4">
                             <label for="tree_remuneration">{{__('tree_remuneration')}}</label> <span
                                 class="text-info float-end">{{__('%')}}</span>
 
@@ -137,7 +147,7 @@
                             @error('tree_remuneration') <span class="text-danger">{{ $message }}</span>@enderror
                             <div class="form-text">{{__('Required field')}}</div>
                         </div>
-                        <div class="form-group col-3 mb-3">
+                        <div class="form-group col-4">
                             <label for="earn_profit">{{__('proactive_cashback')}}</label> <span
                                 class="text-info float-end">{{__('%')}}</span>
 
@@ -149,7 +159,7 @@
                             @error('proactive_cashback') <span class="text-danger">{{ $message }}</span>@enderror
                             <div class="form-text">{{__('Required field')}}</div>
                         </div>
-                        <div class="form-group col-3 mb-3">
+                        <div class="form-group col-4">
                             <label for="jackpot">{{__('jackpot')}}</label> <span
                                 class="text-info float-end">{{__('%')}}</span>
 

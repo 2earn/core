@@ -25,17 +25,19 @@ class StoreDealRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'plan_labels_id' => 'required|integer|exists:plan_labels,id',
+            'initial_commission' => 'required|numeric|min:0|max:100',
+            'final_commission' => 'required|numeric|min:0|max:100|gte:initial_commission',
             'description' => 'required|string',
-            'validated' => 'required|boolean',
             'type' => 'required|string',
             'status' => 'required|string',
             'target_turnover' => 'nullable|numeric',
+            'second_target_turnover' => 'nullable|numeric',
             'current_turnover' => 'nullable|numeric',
+            'items_profit_average' => 'nullable|numeric',
             'is_turnover' => 'nullable|boolean',
             'discount' => 'nullable|numeric',
-            'start_date' => 'nullable|date',
-            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
             'earn_profit' => 'nullable|numeric',
             'jackpot' => 'nullable|numeric',
             'tree_remuneration' => 'nullable|numeric',
@@ -48,6 +50,7 @@ class StoreDealRequest extends FormRequest
             'cash_tree' => 'nullable|numeric',
             'cash_cashback' => 'nullable|numeric',
             'created_by' => 'required|exists:users,id',
+            'notes' => 'nullable|string|max:1000',
         ];
     }
 
@@ -60,19 +63,22 @@ class StoreDealRequest extends FormRequest
     {
         return [
             'name' => __('deal name'),
-            'commission_formula_id' => __('commission formula'),
+            'initial_commission' => __('initial commission'),
+            'final_commission' => __('final commission'),
             'description' => __('description'),
-            'validated' => __('validation status'),
             'type' => __('deal type'),
             'status' => __('deal status'),
             'target_turnover' => __('target turnover'),
+            'second_target_turnover' => __('second target turnover'),
             'current_turnover' => __('current turnover'),
+            'items_profit_average' => __('items profit average'),
             'is_turnover' => __('turnover flag'),
             'discount' => __('discount'),
             'start_date' => __('start date'),
             'end_date' => __('end date'),
             'platform_id' => __('platform'),
             'created_by' => __('creator'),
+            'notes' => __('notes'),
         ];
     }
 
@@ -85,12 +91,15 @@ class StoreDealRequest extends FormRequest
     {
         return [
             'name.required' => __('The deal name is required'),
-            'commission_formula_id.required' => __('Please select a commission formula'),
-            'commission_formula_id.exists' => __('The selected commission formula does not exist'),
+            'initial_commission.required' => __('The initial commission is required'),
+            'final_commission.required' => __('The final commission is required'),
+            'final_commission.gte' => __('The final commission must be greater than or equal to the initial commission'),
             'description.required' => __('The deal description is required'),
             'platform_id.required' => __('Please select a platform'),
             'platform_id.exists' => __('The selected platform does not exist'),
             'end_date.after_or_equal' => __('The end date must be after or equal to the start date'),
+            'start_date.required' => __('The start date is required'),
+            'end_date.required' => __('The end date is required'),
         ];
     }
 }

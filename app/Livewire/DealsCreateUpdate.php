@@ -22,6 +22,7 @@ class DealsCreateUpdate extends Component
         $status,
         $current_turnover,
         $target_turnover,
+        $second_target_turnover,
         $start_date,
         $end_date,
         $items_profit_average,
@@ -89,6 +90,7 @@ class DealsCreateUpdate extends Component
         $this->initial_commission = 0;
         $this->final_commission = 0;
         $this->target_turnover = 1000;
+        $this->second_target_turnover = null;
         $this->start_date = $this->end_date =
         $this->items_profit_average =
         $this->discount = 10;
@@ -106,6 +108,7 @@ class DealsCreateUpdate extends Component
         $this->status = $deal->status;
         $this->description = $deal->description;
         $this->target_turnover = $deal->target_turnover;
+        $this->second_target_turnover = $deal->second_target_turnover;
         $this->start_date = $deal->start_date ? \Carbon\Carbon::parse($deal->start_date)->format('Y-m-d\TH:i') : null;
         $this->end_date = $deal->end_date ? \Carbon\Carbon::parse($deal->end_date)->format('Y-m-d\TH:i') : null;
         $this->items_profit_average = $deal->items_profit_average;
@@ -134,6 +137,7 @@ class DealsCreateUpdate extends Component
             'description' => $this->description,
             'status' => $this->status,
             'target_turnover' => $this->target_turnover,
+            'second_target_turnover' => $this->second_target_turnover,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'items_profit_average' => $this->items_profit_average,
@@ -168,6 +172,7 @@ class DealsCreateUpdate extends Component
             'status' => $this->status,
             'current_turnover' => 0,
             'target_turnover' => $this->target_turnover,
+            'second_target_turnover' => $this->second_target_turnover,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'items_profit_average' => $this->items_profit_average,
@@ -186,7 +191,7 @@ class DealsCreateUpdate extends Component
             app(DealService::class)->create($params);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale(),])->with('danger', Lang::get('Something goes wrong while creating Deal'));
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale(),])->with('danger', Lang::get('Something goes wrong while creating Deal').' '.$exception->getMessage());
         }
         return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Deal Created Successfully'));
     }

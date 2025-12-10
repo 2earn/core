@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Services\Deals\DealService;
 use App\Services\Platform\PlatformService;
 use Carbon\Carbon;
+use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
@@ -49,8 +50,9 @@ class DealDashboard extends Component
         $this->platformService = $platformService;
     }
 
-    public function mount($dealId = null)
+    public function mount($dealId)
     {
+
         $this->userId = auth()->id();
 
         if (User::isSuperAdmin()) {
@@ -209,12 +211,6 @@ class DealDashboard extends Component
 
     public function render()
     {
-        if (!empty($this->chartData)) {
-            $this->dispatch('chartDataUpdated', [
-                'chartData' => $this->chartData,
-                'viewMode' => $this->viewMode
-            ]);
-        }
 
         return view('livewire.deal-dashboard', [
             'currency' => config('app.currency', '$')
