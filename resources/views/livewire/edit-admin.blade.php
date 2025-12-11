@@ -24,55 +24,98 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
+                            <div class="card ra-tazzy-border shadow-sm">
+                                <div class="card-header bg-light border-bottom">
                                     <div class="row">
                                         <div class="col-12">
-                                            <input type="text" class="form-control" placeholder="{{ __('PH_search') }}"
-                                                   wire:model.live="search"/>
+                                            <div class="input-group">
+                                                <span class="input-group-text bg-white border-end-0">
+                                                    <i class="ri-search-line"></i>
+                                                </span>
+                                                <input type="text" class="form-control border-start-0 ps-0"
+                                                       placeholder="{{ __('PH_search') }}"
+                                                       wire:model.live="search"/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-body table-responsive">
-                                    <table class="table table-striped table-bordered tableEditAdmin">
-                                        <thead>
-                                        <tr>
-                                            <th scope="Id">{{__('Id')}}</th>
-                                            <th scope="Name">{{ __('Name') }}</th>
-                                            <th scope="Number">{{ __('Mobile Number') }}</th>
-                                            <th scope="role">{{ __('Role') }}</th>
-                                            <th scope="Countrie">{{ __('Countrie') }}</th>
-                                            <th>{{ __('Action') }}</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach ($userRoles as $userRole)
-                                            <tr>
-                                                <td>{{$userRole->id}}</td>
-                                                <td>
-                                                    <span
-                                                        class="text-danger">{{getUserDisplayedName($userRole->idUser)}}</span>
-                                                </td>
-                                                <td>{{$userRole->mobile}}</td>
-                                                <td>{{__($userRole->role)}}</td>
-                                                <td>
-                                                    <img class="avatar-xxs me-2"
-                                                         src="{{ Vite::asset("resources/images/flags/" . strtolower($userRole->apha2) . ".svg")}}">
-                                                    {{__($userRole->countrie)}}
-                                                </td>
-                                                <td>
-                                                    <button type="button" data-bs-toggle="modal"
-                                                            data-bs-target="#editAdminModal"
-                                                            wire:click="edit({{$userRole->id }})"
-                                                            class="btn btn-outline-secondary">
-                                                        {{ __('Edit') }}
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
-                                    {{$userRoles->links()}}
+                                <div class="card-body p-0">
+                                    <!-- Header Row -->
+                                    <div class="d-none d-md-block bg-light border-bottom">
+                                        <div class="row fw-semibold text-muted py-3 mx-0 text-uppercase small">
+                                            <div class="col-md-1 ps-4">{{__('Id')}}</div>
+                                            <div class="col-md-2">{{ __('Name') }}</div>
+                                            <div class="col-md-2">{{ __('Mobile Number') }}</div>
+                                            <div class="col-md-2">{{ __('Role') }}</div>
+                                            <div class="col-md-2">{{ __('Countrie') }}</div>
+                                            <div class="col-md-3">{{ __('Action') }}</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Data Rows -->
+                                    @foreach ($userRoles as $userRole)
+                                        <div class="row border-bottom py-3 mx-0 align-items-center user-row-hover">
+                                            <div class="col-md-1 col-12 ps-4">
+                                                <span class="d-md-none fw-bold text-muted small">{{__('Id')}}: </span>
+                                                <span class="badge bg-soft-primary text-primary rounded-pill">
+                                                    #{{$userRole->id}}
+                                                </span>
+                                            </div>
+                                            <div class="col-md-2 col-12 mt-2 mt-md-0">
+                                                <span class="d-md-none fw-bold text-muted small d-block mb-1">{{ __('Name') }}: </span>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar-xs me-2">
+                                                        <div class="avatar-title bg-soft-danger text-danger rounded-circle">
+                                                            {{strtoupper(substr(getUserDisplayedName($userRole->idUser), 0, 1))}}
+                                                        </div>
+                                                    </div>
+                                                    <span class="fw-medium">{{getUserDisplayedName($userRole->idUser)}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 col-12 mt-2 mt-md-0">
+                                                <span class="d-md-none fw-bold text-muted small d-block mb-1">{{ __('Mobile Number') }}: </span>
+                                                <span class="text-muted">
+                                                    <i class="ri-phone-line me-1"></i>{{$userRole->mobile}}
+                                                </span>
+                                            </div>
+                                            <div class="col-md-2 col-12 mt-2 mt-md-0">
+                                                <span class="d-md-none fw-bold text-muted small d-block mb-1">{{ __('Role') }}: </span>
+                                                <span class="badge bg-soft-info text-info px-3 py-2 rounded-3">
+                                                    {{__($userRole->role)}}
+                                                </span>
+                                            </div>
+                                            <div class="col-md-2 col-12 mt-2 mt-md-0">
+                                                <span class="d-md-none fw-bold text-muted small d-block mb-1">{{ __('Countrie') }}: </span>
+                                                <div class="d-flex align-items-center">
+                                                    <img class="avatar-xxs me-2 rounded" style="width: 20px; height: 15px; object-fit: cover;"
+                                                         src="{{ Vite::asset("resources/images/flags/" . strtolower($userRole->apha2) . ".svg")}}"
+                                                         alt="{{$userRole->countrie}}">
+                                                    <span class="text-muted">{{__($userRole->countrie)}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-12 mt-3 mt-md-0">
+                                                <button type="button" data-bs-toggle="modal"
+                                                        data-bs-target="#editAdminModal"
+                                                        wire:click="edit({{$userRole->id }})"
+                                                        class="btn btn-soft-primary btn-sm w-100 w-md-auto rounded-3">
+                                                    <i class="ri-edit-2-line me-1"></i>{{ __('Edit') }}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @endforeach
+
+                                    <!-- Empty State -->
+                                    @if($userRoles->isEmpty())
+                                        <div class="text-center py-5">
+                                            <i class="ri-user-search-line display-4 text-muted"></i>
+                                            <p class="text-muted mt-3">{{ __('No users found') }}</p>
+                                        </div>
+                                    @endif
+
+                                    <!-- Pagination -->
+                                    <div class="p-3 bg-light border-top">
+                                        {{$userRoles->links()}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
