@@ -699,6 +699,7 @@
 .pagination .page-item.active .page-link {
     background: linear-gradient(135deg, #009fe3 0%, #0090cc 100%) !important;
     border-color: #009fe3 !important;
+    color:white;
 }
 
 /* Modern Progress Bar */

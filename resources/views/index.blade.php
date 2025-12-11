@@ -1322,7 +1322,7 @@
                         </div>
                     </div>
 
-                    <div class="card sidebar-alert bg-light border-0 text-center mx-4 mb-0 mt-3">
+                    <div class="card sidebar-alert text-center mx-4 mb-0 mt-3">
                         <div class="card-body">
                             <img src="{{Vite::asset('resources/images/giftbox.png')}}" alt="">
                             <div class="mt-4">

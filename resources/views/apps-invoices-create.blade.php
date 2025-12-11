@@ -37,13 +37,13 @@ Create Invoice
                                     <label for="companyAddress">Address</label>
                                 </div>
                                 <div class="mb-2">
-                                    <textarea class="form-control bg-light border-0" id="companyAddress" rows="3" placeholder="Company Address" required></textarea>
+                                    <textarea class="form-control" id="companyAddress" rows="3" placeholder="Company Address" required></textarea>
                                     <div class="invalid-feedback">
                                         Please enter a address
                                     </div>
                                 </div>
                                 <div>
-                                    <input type="text" class="form-control bg-light border-0" id="companyaddpostalcode" minlength="5" maxlength="6" placeholder="Enter Postal Code" required />
+                                    <input type="text" class="form-control" id="companyaddpostalcode" minlength="5" maxlength="6" placeholder="Enter Postal Code" required />
                                     <div class="invalid-feedback">
                                         The US zip code must contain 5 digits, Ex. 45678
                                     </div>
@@ -53,25 +53,25 @@ Create Invoice
                         <!--end col-->
                         <div class="col-lg-4 ms-auto">
                             <div class="mb-2">
-                                <input type="text" class="form-control bg-light border-0" id="registrationNumber" maxlength="12" placeholder="Legal Registration No" required />
+                                <input type="text" class="form-control" id="registrationNumber" maxlength="12" placeholder="Legal Registration No" required />
                                 <div class="invalid-feedback">
                                     Please enter a registration no, Ex., 012345678912
                                 </div>
                             </div>
                             <div class="mb-2">
-                                <input type="email" class="form-control bg-light border-0" id="companyEmail" placeholder="Email Address" required />
+                                <input type="email" class="form-control" id="companyEmail" placeholder="Email Address" required />
                                 <div class="invalid-feedback">
                                     Please enter a valid email, Ex., example@gamil.com
                                 </div>
                             </div>
                             <div class="mb-2">
-                                <input type="text" class="form-control bg-light border-0" id="companyWebsite" placeholder="Website" required />
+                                <input type="text" class="form-control" id="companyWebsite" placeholder="Website" required />
                                 <div class="invalid-feedback">
                                     Please enter a website, Ex., www.example.com
                                 </div>
                             </div>
                             <div>
-                                <input type="text" class="form-control bg-light border-0" data-plugin="cleave-phone" id="compnayContactno" placeholder="Contact No" required />
+                                <input type="text" class="form-control" data-plugin="cleave-phone" id="compnayContactno" placeholder="Contact No" required />
                                 <div class="invalid-feedback">
                                     Please enter a contact number
                                 </div>
@@ -84,20 +84,20 @@ Create Invoice
                     <div class="row g-3">
                         <div class="col-lg-3 col-sm-6">
                             <label for="invoicenoInput">Invoice No</label>
-                            <input type="text" class="form-control bg-light border-0" id="invoicenoInput" placeholder="Invoice No" value="#VL25000355" readonly="readonly" />
+                            <input type="text" class="form-control" id="invoicenoInput" placeholder="Invoice No" value="#VL25000355" readonly="readonly" />
                         </div>
                         <!--end col-->
                         <div class="col-lg-3 col-sm-6">
                             <div>
                                 <label for="date-field">Date</label>
-                                <input type="text" class="form-control bg-light border-0" id="date-field" data-provider="flatpickr" data-time="true" placeholder="Select Date-time">
+                                <input type="text" class="form-control" id="date-field" data-provider="flatpickr" data-time="true" placeholder="Select Date-time">
                             </div>
                         </div>
                         <!--end col-->
                         <div class="col-lg-3 col-sm-6">
                             <label for="choices-payment-status">Payment Status</label>
                             <div class="input-light">
-                                <select class="form-control bg-light border-0" data-choices data-choices-search-false id="choices-payment-status" required>
+                                <select class="form-control" data-choices data-choices-search-false id="choices-payment-status" required>
                                     <option value="">Select Payment Status</option>
                                     <option value="Paid">Paid</option>
                                     <option value="Unpaid">Unpaid</option>
@@ -109,7 +109,7 @@ Create Invoice
                         <div class="col-lg-3 col-sm-6">
                             <div>
                                 <label for="totalamountInput">Total Amount</label>
-                                <input type="text" class="form-control bg-light border-0" id="totalamountInput" placeholder="$0.00" readonly />
+                                <input type="text" class="form-control" id="totalamountInput" placeholder="$0.00" readonly />
                             </div>
                         </div>
                         <!--end col-->
@@ -124,25 +124,25 @@ Create Invoice
                                     Address</label>
                             </div>
                             <div class="mb-2">
-                                <input type="text" class="form-control bg-light border-0" id="billingName" placeholder="Full Name" required />
+                                <input type="text" class="form-control" id="billingName" placeholder="Full Name" required />
                                 <div class="invalid-feedback">
                                     Please enter a full name
                                 </div>
                             </div>
                             <div class="mb-2">
-                                <textarea class="form-control bg-light border-0" id="billingAddress" rows="3" placeholder="Address" required></textarea>
+                                <textarea class="form-control" id="billingAddress" rows="3" placeholder="Address" required></textarea>
                                 <div class="invalid-feedback">
                                     Please enter a address
                                 </div>
                             </div>
                             <div class="mb-2">
-                                <input type="text" class="form-control bg-light border-0" data-plugin="cleave-phone" id="billingPhoneno" placeholder="(123)456-7890" required />
+                                <input type="text" class="form-control" data-plugin="cleave-phone" id="billingPhoneno" placeholder="(123)456-7890" required />
                                 <div class="invalid-feedback">
                                     Please enter a phone number
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <input type="text" class="form-control bg-light border-0" id="billingTaxno" placeholder="Tax Number" required />
+                                <input type="text" class="form-control" id="billingTaxno" placeholder="Tax Number" required />
                                 <div class="invalid-feedback">
                                     Please enter a tax number
                                 </div>
@@ -163,25 +163,25 @@ Create Invoice
                                             Address</label>
                                     </div>
                                     <div class="mb-2">
-                                        <input type="text" class="form-control bg-light border-0" id="shippingName" placeholder="Full Name" required />
+                                        <input type="text" class="form-control" id="shippingName" placeholder="Full Name" required />
                                         <div class="invalid-feedback">
                                             Please enter a full name
                                         </div>
                                     </div>
                                     <div class="mb-2">
-                                        <textarea class="form-control bg-light border-0" id="shippingAddress" rows="3" placeholder="Address" required></textarea>
+                                        <textarea class="form-control" id="shippingAddress" rows="3" placeholder="Address" required></textarea>
                                         <div class="invalid-feedback">
                                             Please enter a address
                                         </div>
                                     </div>
                                     <div class="mb-2">
-                                        <input type="text" class="form-control bg-light border-0" data-plugin="cleave-phone" id="shippingPhoneno" placeholder="(123)456-7890" required />
+                                        <input type="text" class="form-control" data-plugin="cleave-phone" id="shippingPhoneno" placeholder="(123)456-7890" required />
                                         <div class="invalid-feedback">
                                             Please enter a phone number
                                         </div>
                                     </div>
                                     <div>
-                                        <input type="text" class="form-control bg-light border-0" id="shippingTaxno" placeholder="Tax Number" required />
+                                        <input type="text" class="form-control" id="shippingTaxno" placeholder="Tax Number" required />
                                         <div class="invalid-feedback">
                                             Please enter a tax number
                                         </div>
@@ -223,15 +223,15 @@ Create Invoice
                                     <th scope="row" class="product-id">1</th>
                                     <td class="text-start">
                                         <div class="mb-2">
-                                            <input type="text" class="form-control bg-light border-0" id="productName-1" placeholder="Product Name" required />
+                                            <input type="text" class="form-control" id="productName-1" placeholder="Product Name" required />
                                             <div class="invalid-feedback">
                                                 Please enter a product name
                                             </div>
                                         </div>
-                                        <textarea class="form-control bg-light border-0" id="productDetails-1" rows="2" placeholder="Product Details"></textarea>
+                                        <textarea class="form-control" id="productDetails-1" rows="2" placeholder="Product Details"></textarea>
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control product-price bg-light border-0" id="productRate-1" step="0.01" placeholder="0.00" required />
+                                        <input type="number" class="form-control product-price" id="productRate-1" step="0.01" placeholder="0.00" required />
                                         <div class="invalid-feedback">
                                             Please enter a rate
                                         </div>
@@ -245,7 +245,7 @@ Create Invoice
                                     </td>
                                     <td class="text-end">
                                         <div>
-                                            <input type="text" class="form-control bg-light border-0 product-line-price" id="productPrice-1" placeholder="$0.00" readonly />
+                                            <input type="text" class="form-control product-line-price" id="productPrice-1" placeholder="$0.00" readonly />
                                         </div>
                                     </td>
                                     <td class="product-removal">
@@ -272,31 +272,31 @@ Create Invoice
                                                 <tr>
                                                     <th scope="row">Sub Total</th>
                                                     <td style="width:150px;">
-                                                        <input type="text" class="form-control bg-light border-0" id="cart-subtotal" placeholder="$0.00" readonly />
+                                                        <input type="text" class="form-control" id="cart-subtotal" placeholder="$0.00" readonly />
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Estimated Tax (12.5%)</th>
                                                     <td>
-                                                        <input type="text" class="form-control bg-light border-0" id="cart-tax" placeholder="$0.00" readonly />
+                                                        <input type="text" class="form-control" id="cart-tax" placeholder="$0.00" readonly />
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Discount <small class="text-muted">(VELZON15)</small></th>
                                                     <td>
-                                                        <input type="text" class="form-control bg-light border-0" id="cart-discount" placeholder="$0.00" readonly />
+                                                        <input type="text" class="form-control" id="cart-discount" placeholder="$0.00" readonly />
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Shipping Charge</th>
                                                     <td>
-                                                        <input type="text" class="form-control bg-light border-0" id="cart-shipping" placeholder="$0.00" readonly />
+                                                        <input type="text" class="form-control" id="cart-shipping" placeholder="$0.00" readonly />
                                                     </td>
                                                 </tr>
                                                 <tr class="border-top border-top-dashed">
                                                     <th scope="row">Total Amount</th>
                                                     <td>
-                                                        <input type="text" class="form-control bg-light border-0" id="cart-total" placeholder="$0.00" readonly />
+                                                        <input type="text" class="form-control" id="cart-total" placeholder="$0.00" readonly />
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -313,7 +313,7 @@ Create Invoice
                             <div class="mb-2">
                                 <label for="choices-payment-type" class="form-label text-muted text-uppercase fw-semibold">Payment Details</label>
                                 <div class="input-light">
-                                    <select class="form-control bg-light border-0" data-choices data-choices-search-false data-choices-removeItem id="choices-payment-type">
+                                    <select class="form-control" data-choices data-choices-search-false data-choices-removeItem id="choices-payment-type">
                                         <option value="">Payment Method</option>
                                         <option value="Mastercard">Mastercard</option>
                                         <option value="Credit Card">Credit Card</option>
@@ -323,13 +323,13 @@ Create Invoice
                                 </div>
                             </div>
                             <div class="mb-2">
-                                <input class="form-control bg-light border-0" type="text" id="cardholderName" placeholder="Card Holder Name">
+                                <input class="form-control" type="text" id="cardholderName" placeholder="Card Holder Name">
                             </div>
                             <div class="mb-2">
-                                <input class="form-control bg-light border-0" type="text" id="cardNumber" placeholder="xxxx xxxx xxxx xxxx">
+                                <input class="form-control" type="text" id="cardNumber" placeholder="xxxx xxxx xxxx xxxx">
                             </div>
                             <div>
-                                <input class="form-control  bg-light border-0" type="text" id="amountTotalPay" placeholder="$0.00" readonly />
+                                <input class="form-control " type="text" id="amountTotalPay" placeholder="$0.00" readonly />
                             </div>
                         </div>
                         <!--end col-->

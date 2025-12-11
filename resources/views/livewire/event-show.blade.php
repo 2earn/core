@@ -237,7 +237,7 @@
                         @endforelse
                     </div>
                     @auth
-                        <div class="card bg-light border-0 shadow-sm mb-3">
+                        <div class="card shadow-sm mb-3">
                             <div class="card-body p-4">
                                 <h6 class="fw-bold mb-3">
                                     <i class="fa fa-pencil-alt me-2 text-primary"></i>{{__('Add your comment')}}

@@ -88,7 +88,7 @@
             </div>
 
             <div class="col-lg-12">
-                <div class="card bg-light border-0">
+                <div class="card">
                     <div class="card-body p-3">
                         <div class="form-check form-switch">
                             <input wire:model.live="sendPassSMS"
