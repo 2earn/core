@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="card ribbon-box right border shadow-none overflow-hidden material-shadow">
+    <div class="col-12 card card-border-danger">
         <div class="card-body">
             <div class="ribbon ribbon-danger ribbon-shape trending-ribbon">
                 <i class="ri-newspaper-fill text-white align-bottom float-start me-1"></i> <span
