@@ -17307,3 +17307,4 @@ html {
 .menu-link-modern:hover::before {
     right: 100%;
 }
+.per-page-width{width: 80px;}

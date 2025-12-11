@@ -6,9 +6,10 @@
         <div class="card-header row">
             <div class="row m-2">
                 <div class="col-12">
-                    <h2 class="fw-bold mb-2">{{__('Users balances Recaps')}} <small
-                            class="text-muted  float-end">{{__('Soldes calculated at')}}
-                            : {{Carbon\Carbon::now()->toDateTimeString()}}</small></h2>
+                    <h5 class="fw-bold mb-2">{{__('Users balances Recaps')}}</h5>
+                    <p class="text-muted fs-15 mb-0">{{__('Soldes calculated at')}}
+                        : {{Carbon\Carbon::now()->toDateTimeString()}}</p>
+
 
                 </div>
             </div>
@@ -55,7 +56,7 @@
                         @endif
                     </h6>
                     <a href="{{route('user_balance_cb' , app()->getLocale() )}}"
-                       class="btn btn-outline-primary btn-sm">{{ __('see_details') }}</a>
+                       class="link-info text-decoration-none float-end">{{ __('see_details') }}</a>
                 </div>
             </div>
 
@@ -102,7 +103,7 @@
                         @endif
                     </h6>
                     <a href="{{route('user_balance_bfs' , app()->getLocale() )}}"
-                       class="btn btn-outline-primary btn-sm">{{ __('see_details') }}</a>
+                       class="link-info text-decoration-none float-end">{{ __('see_details') }}</a>
                 </div>
             </div>
 
@@ -148,7 +149,7 @@
                         @endif
                     </h6>
                     <a href="{{route('user_balance_db' , app()->getLocale() )}}"
-                       class="btn btn-outline-primary btn-sm">{{ __('see_details') }}</a>
+                       class="link-info text-decoration-none float-end">{{ __('see_details') }}</a>
                 </div>
             </div>
 
@@ -175,7 +176,7 @@
                         <span class="counter-value" data-target="{{$SMSBalance}}">{{$SMSBalance}}</span>
                     </h6>
                     <a href="{{route('user_balance_sms' , app()->getLocale() )}}"
-                       class="btn btn-outline-primary btn-sm">{{ __('see_details') }}</a>
+                       class="link-info text-decoration-none float-end">{{ __('see_details') }}</a>
                 </div>
             </div>
 
@@ -200,7 +201,7 @@
                         <span>{{ $treeBalance }}</span> %
                     </h6>
                     <a href="{{route('user_balance_tree' , app()->getLocale() )}}"
-                       class="btn btn-outline-primary btn-sm">{{ __('see_details') }}</a>
+                       class="link-info text-decoration-none float-end">{{ __('see_details') }}</a>
                 </div>
             </div>
 
@@ -227,7 +228,7 @@
                         <span class="counter-value" data-target="{{$chanceBalance}}">{{$chanceBalance}}</span>
                     </h6>
                     <a href="{{route('user_balance_chance' , app()->getLocale() )}}"
-                       class="btn btn-outline-primary btn-sm">{{ __('see_details') }}</a>
+                       class="link-info text-decoration-none float-end float-end">{{ __('see_details') }}</a>
                 </div>
             </div>
 
@@ -268,12 +269,10 @@
                         </p>
                     </div>
                     <a href="{{route('business_hub_trading',app()->getLocale())}}"
-                       class="btn btn-outline-primary btn-sm @if($flash) btn-flash @endif">{{ __('Buy Shares') }}</a>
+                       class="link-info text-decoration-none float-end float-end @if($flash) btn-flash @endif"
+                       style="transition: all 0.3s ease; border-width: 2px;">{{ __('Buy Shares') }}</a>
                 </div>
             </div>
-        </div>
-        <div class="card-footer text-center text-muted small">
-            {{ __('updated') }}: {{ Carbon\Carbon::now()->format('H:i') }}
         </div>
     </div>
 </div>

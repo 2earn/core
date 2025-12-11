@@ -136,8 +136,7 @@
                             <label for="nbrSms" class="mb-0">{{ __('accepts to receive') }}</label>
                             <select id="nbrSms"
                                     wire:model="nbrSms"
-                                    class="form-select form-select-sm"
-                                    style="width: auto;">
+                                    class="form-select form-select-sm per-page-width">
                                 @for($i = 0; $i <= $nbrSmsPossible; $i++)
                                     <option value="{{ $i }}">{{ $i }}</option>
                                 @endfor

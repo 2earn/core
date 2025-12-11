@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row m-2">
             <div class="col-12">
-                <h2 class="fw-bold mb-2">{{__('Business Sectors')}}</h2>
+                <h5 class="fw-bold mb-2">{{__('Business Sectors')}}</h5>
                 <p class="text-muted fs-15 mb-0">{{__('Explore our diverse range of business opportunities')}}</p>
             </div>
         </div>
