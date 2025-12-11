@@ -1,41 +1,33 @@
 <div class="row" id="stats">
-    <div class="container-fluid">
-        <div class="row mb-4">
-            <div class="col-12 text-center">
-                <h2 class="fw-bold mb-2">{{__('Statistics')}}</h2>
-                <p class="text-muted fs-15 mb-0">{{__('Explore our statistics')}}</p>
+    <div class="card col-12">
+        <div class="card-header border-info">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title mb-0 flex-grow-1">{{ __('we_are_present_in') }}</h4>
             </div>
         </div>
-        <div class="card col-12">
-            <div class="card-header border-info">
-                <div class="d-flex align-items-center">
-                    <h4 class="card-title mb-0 flex-grow-1">{{ __('we_are_present_in') }}</h4>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-12" style="padding-right: 0;padding-left: 0;">
-                        <div class="card border-0 " style="height: 480px;box-shadow: none">
-                            <div class="card-body" wire:ignore>
-                                <div id="any4"></div>
-                            </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12" style="padding-right: 0;padding-left: 0;">
+                    <div class="card border-0 " style="height: 480px;box-shadow: none">
+                        <div class="card-body" wire:ignore>
+                            <div id="any4"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="card col-12">
-            <div class="card-header">
-                <div class="d-flex align-items-center">
-                    <h4 class="card-title mb-0 flex-grow-1">{{ __('Country ponderation') }}</h4>
-                </div>
+    </div>
+    <div class="card col-12">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title mb-0 flex-grow-1">{{ __('Country ponderation') }}</h4>
             </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="card border-0 " style="height: 480px;box-shadow: none">
-                        <div class="card-body" wire:ignore>
-                            <div id="any5"></div>
-                        </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="card border-0 " style="height: 480px;box-shadow: none">
+                    <div class="card-body" wire:ignore>
+                        <div id="any5"></div>
                     </div>
                 </div>
             </div>
@@ -118,12 +110,13 @@
                 }
             });
         }
+
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initHomeStatsCharts);
         } else {
             initHomeStatsCharts();
         }
-        document.addEventListener('livewire:load', function() {
+        document.addEventListener('livewire:load', function () {
             setTimeout(initHomeStatsCharts, 100);
         });
     </script>

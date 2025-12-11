@@ -2,6 +2,106 @@
     <div>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+        <style>
+            /* User Row Hover Effects */
+            .user-row-hover {
+                transition: all 0.3s ease;
+                cursor: pointer;
+            }
+
+            .user-row-hover:hover {
+                background-color: #f8f9fa;
+                transform: translateX(4px);
+                box-shadow: -4px 0 0 0 #009fe3;
+            }
+
+            /* Enhanced Badge Styles */
+            .badge.rounded-pill {
+                font-weight: 500;
+                letter-spacing: 0.3px;
+            }
+
+            /* Avatar Enhancement */
+            .avatar-xs {
+                width: 32px;
+                height: 32px;
+            }
+
+            .avatar-title {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 14px;
+                font-weight: 600;
+            }
+
+            /* Soft Button Enhancement */
+            .btn-soft-primary {
+                background-color: rgba(0, 159, 227, 0.1);
+                border: 1px solid rgba(0, 159, 227, 0.2);
+                color: #009fe3;
+                transition: all 0.3s ease;
+            }
+
+            .btn-soft-primary:hover {
+                background-color: #009fe3;
+                border-color: #009fe3;
+                color: #fff;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0, 159, 227, 0.3);
+            }
+
+            /* Search Input Enhancement */
+            .input-group-text {
+                transition: all 0.3s ease;
+            }
+
+            .form-control:focus ~ .input-group-text {
+                color: #009fe3;
+            }
+
+            /* Flag Image Enhancement */
+            .avatar-xxs.rounded {
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            }
+
+            /* Badge Soft Variants */
+            .bg-soft-primary {
+                background-color: rgba(0, 159, 227, 0.15) !important;
+            }
+
+            .bg-soft-info {
+                background-color: rgba(23, 162, 184, 0.15) !important;
+            }
+
+            .bg-soft-danger {
+                background-color: rgba(220, 53, 69, 0.15) !important;
+            }
+
+            /* Card Border Enhancement */
+            .ra-tazzy-border {
+                border: 2px solid transparent;
+                border-image: linear-gradient(135deg, #009fe3, #17a2b8, #009fe3);
+                border-image-slice: 1;
+                border-radius: 0.5rem;
+                overflow: hidden;
+            }
+
+            /* Rounded Enhancement */
+            .rounded-3 {
+                border-radius: 0.5rem !important;
+            }
+
+            /* Empty State */
+            .ri-user-search-line {
+                animation: fadeIn 0.5s ease-in;
+            }
+
+            @keyframes fadeIn {
+                from { opacity: 0; transform: scale(0.8); }
+                to { opacity: 1; transform: scale(1); }
+            }
+        </style>
         <div wire:loading>
         </div>
 

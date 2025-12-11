@@ -108,15 +108,15 @@
     <link rel="manifest" href="{{ asset('/manifest.json') }}">
     @laravelPWA
     @if(config('app.available_locales')[app()->getLocale()]['direction'] === 'rtl')
-        @vite(['resources/css/tailwind.css','resources/css/modern-enhancements.css','resources/css/modern-enhancements-rtl.css','resources/css/bootstrap-rtl.css','resources/css/icons-rtl.css','resources/css/app-rtl.css','resources/css/custom-rtl.css'])
+        @vite(['resources/css/tailwind.css','resources/css/modern-enhancements.css','resources/css/modern-enhancements-rtl.css','resources/css/menumodals.css','resources/css/bootstrap-rtl.css','resources/css/icons-rtl.css','resources/css/app-rtl.css','resources/css/custom-rtl.css'])
     @else
-        @vite(['resources/css/tailwind.css','resources/css/modern-enhancements.css','resources/css/bootstrap.min.css','resources/css/icons.css','resources/css/app.css','resources/css/custom.css'])
+        @vite(['resources/css/tailwind.css','resources/css/modern-enhancements.css','resources/css/menumodals.css','resources/css/bootstrap.min.css','resources/css/icons.css','resources/css/app.css','resources/css/custom.css'])
     @endif
 </head>
 <body>
 @section('body')
     @livewireScripts
-    @vite(['resources/css/menumodals.css','resources/css/select2.min.css','resources/css/dataTables.bootstrap.css','resources/css/material-components-web.min.css','resources/js/layout.js'])
+    @vite(['resources/css/select2.min.css','resources/css/dataTables.bootstrap.css','resources/css/material-components-web.min.css','resources/js/layout.js'])
     @vite(['resources/css/intlTelInput.min.css','resources/fontawesome/all.min.css','resources/js/sweetalert2@11.js','resources/js/app.js','resources/js/intlTelInput.js'])
     <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PMK39HQQ"

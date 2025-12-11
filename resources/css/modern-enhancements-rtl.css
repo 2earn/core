@@ -1,6 +1,65 @@
 /* RTL-Specific Modern Design Enhancements for 2Earn.cash */
 
 @layer components {
+    /* RTL Page Title Box */
+    .page-title-box {
+        background-color: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        direction: rtl;
+        text-align: right;
+    }
+
+    [data-layout-mode="dark"] .page-title-box {
+        background-color: rgba(31, 41, 55, 0.95);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .page-title-box .breadcrumb {
+        direction: rtl;
+        text-align: right;
+    }
+
+    .page-title-box h4 {
+        direction: rtl;
+        text-align: right;
+    }
+
+    /* RTL Modern Page Title Box */
+    #page-title-box.page-title-box-modern {
+        direction: rtl;
+        text-align: right;
+    }
+
+    .breadcrumb-modern {
+        direction: rtl;
+    }
+
+    .breadcrumb-link-modern {
+        direction: rtl;
+    }
+
+    .breadcrumb-actions {
+        margin-right: auto;
+        margin-left: 0;
+    }
+
+    .menu-modern-container {
+        direction: rtl;
+    }
+
+    .menu-modern-header {
+        direction: rtl;
+    }
+
+    .btn-icon-modern::before {
+        right: 0;
+        left: auto;
+    }
+
     /* RTL Card Styles */
     .card-modern-header {
         direction: rtl;
