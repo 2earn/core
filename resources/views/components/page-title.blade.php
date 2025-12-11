@@ -169,7 +169,7 @@
                     <div class="col">
                         <a href="{{route($sidebarBiographyArray[8], app()->getLocale(),false)}}"
                            class="menu-link-modern {{$currentRouteName==$sidebarBiographyArray[8]? 'active' : ''}}">
-                            <i class="ri-id-card-line"></i>
+                            <i class="ri-sd-card-fill"></i>
                             <span>{{ __('e-Business Card (EBC)') }}</span>
                         </a>
                     </div>
