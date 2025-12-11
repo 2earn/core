@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\OperationCategory;
+use App\Services\Balances\OperationCategoryService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -18,6 +18,13 @@ class OperationCategoryCreateUpdate extends Component
 
     protected $rules = ['name' => 'required'];
 
+    protected $operationCategoryService;
+
+    public function boot(OperationCategoryService $operationCategoryService)
+    {
+        $this->operationCategoryService = $operationCategoryService;
+    }
+
     public function mount(Request $request)
     {
         $this->idCategory = $request->input('idCategory');
@@ -28,7 +35,7 @@ class OperationCategoryCreateUpdate extends Component
 
     public function edit($idCategory)
     {
-        $category = OperationCategory::find($idCategory);
+        $category = $this->operationCategoryService->getCategoryById($idCategory);
         $this->idCategory = $idCategory;
         $this->name = $category->name;
         $this->code = $category->code;
@@ -45,12 +52,11 @@ class OperationCategoryCreateUpdate extends Component
     {
         $this->validate();
         try {
-            OperationCategory::where('id', $this->idCategory)
-                ->update([
-                    'name' => $this->name,
-                    'code' => $this->code,
-                    'description' => $this->description
-                ]);
+            $this->operationCategoryService->updateCategory($this->idCategory, [
+                'name' => $this->name,
+                'code' => $this->code,
+                'description' => $this->description
+            ]);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('balances_categories_index', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while updating Operation category '));
@@ -62,7 +68,7 @@ class OperationCategoryCreateUpdate extends Component
     {
         $this->validate();
         try {
-            OperationCategory::create([
+            $this->operationCategoryService->createCategory([
                 'name' => $this->name,
                 'code' => $this->code,
                 'description' => $this->description
@@ -76,7 +82,7 @@ class OperationCategoryCreateUpdate extends Component
 
     public function render()
     {
-        $params = ['operationCategory' => OperationCategory::find($this->idCategory)];
+        $params = ['operationCategory' => $this->operationCategoryService->getCategoryById($this->idCategory)];
         return view('livewire.operation-category-create-update', $params)->extends('layouts.master')->section('content');
     }
 }

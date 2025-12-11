@@ -16857,6 +16857,7 @@ html {
     -webkit-backdrop-filter: blur(10px);
     border-top: none;
     overflow: hidden;
+    border-radius: 15px;
 }
 
 [data-layout-mode="dark"] .footer.modern-footer {

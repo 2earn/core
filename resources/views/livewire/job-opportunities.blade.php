@@ -7,9 +7,11 @@
             {{ __('Job Opportunities') }}
         @endslot
     @endcomponent
-    <div class="card">
-        <div class="card-body">
-            @livewire('page-timer', ['deadline'=>'job_opportunity_cs'])
+    <div class="row">
+        <div class="col-12 card">
+            <div class="card-body">
+                @livewire('page-timer', ['deadline'=>'job_opportunity_cs'])
+            </div>
         </div>
     </div>
 </div>

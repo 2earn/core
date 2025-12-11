@@ -127,7 +127,6 @@
                         </div>
                     </div>
 
-
                     <div class="row mt-3 pt-3 border-top">
                         <div class="col-md-4">
                             <small class="text-muted">
@@ -195,7 +194,7 @@
     </div>
 
     @if($requests->hasPages())
-        <div class="row mt-2">
+        <div class="row">
             <div class="col-12 card border-0 shadow-sm">
                 <div class="card-body p-3">
                     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">

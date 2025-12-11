@@ -17189,6 +17189,7 @@ html {
     -webkit-backdrop-filter: blur(10px);
     border-top: none;
     overflow: hidden;
+    border-radius: 15px;
 }
 /* Dark Mode Footer */
 [data-layout-mode="dark"] .footer.modern-footer {
