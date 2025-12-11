@@ -236,7 +236,7 @@
         </div>
     </div>
     @if(User::isSuperAdmin())
-        <div class="menu-modern-container mb-2" id="admin-menu-container">
+        <div class="col-12 menu-modern-container mb-2" id="admin-menu-container">
             <div class="menu-modern-card">
                 <div class="menu-modern-header menu-admin">
                     <div class="menu-header-content">

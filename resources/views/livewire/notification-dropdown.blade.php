@@ -57,7 +57,7 @@
             </div>
         @endif
 
-        <div class="overflow-y-auto overflow-x-hidden" style="max-height: 345px;">
+        <div class="overflow-y-auto overflow-x-hidden" style="max-height: 333px;">
             @forelse($notifications as $notification)
                 @include(\App\Helpers\NotificationHelper::getTemplate($notification) , ['notification' => $notification])
             @empty

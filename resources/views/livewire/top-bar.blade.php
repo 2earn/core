@@ -236,7 +236,7 @@
                                     </span>
                                     </div>
                                     <div class="d-flex flex-column overflow-hidden">
-                                        <p class="text-uppercase fw-medium mb-0 small {{ $bal['labelClass'] }}">{{ $bal['title'] }}</p>
+                                        <p class="text-uppercase fw-medium mb-0 sold-label-md small d-none d-md-block {{ $bal['labelClass'] }}">{{ $bal['title'] }}</p>
                                         <h5 class="fs-10 mb-0 {{ $bal['textClass'] }}"
                                             aria-hidden="true">{{ $bal['value'] }}</h5>
                                     </div>
