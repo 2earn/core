@@ -5892,8 +5892,7 @@ a, button {
 }
 
 .btn-ghost-secondary {
-    color: #7084c7;
-    border-color: transparent
+    color: var(--vz-gray-700)
 }
 
 .btn-ghost-secondary:active, .btn-ghost-secondary:focus, .btn-ghost-secondary:hover {
@@ -17041,6 +17040,7 @@ body.modal-open {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
+
 
 #page-topbar .header-profile-user:hover {
     transform: translateY(-3px) scale(1.05);
