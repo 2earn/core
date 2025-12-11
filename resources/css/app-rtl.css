@@ -5485,7 +5485,7 @@ a, button {
 
 .btn-label {
     position: relative;
-    padding-right: 44px
+    padding-right: 44px !important;
 }
 
 .btn-label .label-icon {
