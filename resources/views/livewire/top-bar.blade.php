@@ -6,7 +6,7 @@
                     <div class="d-flex">
                         <div class="ms-1 header-item d-flex">
                             <a href="{{ route('home', app()->getLocale()) }}" class="m-2" title="{{ __('To Home') }}">
-                                <img src="{{ Vite::asset('resources/images/logo2earn.png') }}" height="54px"
+                                <img src="{{ Vite::asset('resources/images/logo2earn.png') }}" height="62px"
                                      alt="{{ config('app.name') }}">
                             </a>
                         </div>
