@@ -16,7 +16,13 @@ const rands = Math.random().toString(36).slice(2, 7);
 
 export default defineConfig({
     css: {
-        devSourcemap: false
+        devSourcemap: false,
+        preprocessorOptions: {
+            scss: {
+                api: 'modern-compiler',
+                silenceDeprecations: ['color-functions', 'import', 'mixed-decls', 'global-builtin']
+            }
+        }
     },
     build: {
         chunkSizeWarningLimit: 5120,
