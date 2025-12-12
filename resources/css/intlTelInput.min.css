@@ -205,7 +205,7 @@
 .iti--allow-dropdown input.iti__tel-input, .iti--allow-dropdown input.iti__tel-input[type=tel], .iti--allow-dropdown input.iti__tel-input[type=text] {
     padding-right: var(--iti-input-padding);
     padding-left: var(--iti-selected-country-arrow-padding);
-    margin-left: 0
+    margin-left: 100px;
 }
 
 [dir=rtl] .iti--allow-dropdown input.iti__tel-input, [dir=rtl] .iti--allow-dropdown input.iti__tel-input[type=tel], [dir=rtl] .iti--allow-dropdown input.iti__tel-input[type=text] {
