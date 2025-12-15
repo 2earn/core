@@ -72,7 +72,7 @@
         </div>
         <div class="card-footer text-muted">
             <a href="{{ route('event_show', ['locale' => app()->getLocale(), 'id' => $event->id]) }}"
-               class="btn btn-outline-primary btn-sm mx-1 float-end">
+               class="btn btn-outline-secondary  btn-sm ">
                 {{ __('View details') }}
             </a>
 

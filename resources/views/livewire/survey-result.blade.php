@@ -8,9 +8,7 @@
         @endcomponent
     @endif
     @if($showDetail)
-        <div class="card-body row">
-            @include('livewire.survey-item', ['survey' => $survey])
-        </div>
+        @include('livewire.survey-item', ['survey' => $survey])
     @endif
     <div class="card-body row">
         <div class="card">

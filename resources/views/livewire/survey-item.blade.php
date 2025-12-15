@@ -10,16 +10,6 @@
                             <i class="ri-home-gear-line me-1"></i> {{__('Home')}}
                         </a>
                     @endif
-                    @if(\App\Models\User::isSuperAdmin())
-                        @if(in_array($currentRouteName,["surveys_show","surveys_participate","surveys_results"]))
-                            <a href="{{route('surveys_index', app()->getLocale())}}"
-                               class="btn btn-outline-info btn-sm"
-                               title="{{__('To Surveys list')}}">
-                                <i class="ri-bookmark-fill me-1"></i> {{__('Surveys')}}
-                            </a>
-                        @endif
-                    @endif
-
                     <h4 class="m-2">
                         @if(\App\Models\User::isSuperAdmin())
                             {{$survey->id}} -
@@ -110,7 +100,8 @@
                                 <h6 class="card-subtitle mb-3 text-muted">{{__('Achievement Settings')}}</h6>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                        <span><i class="ri-time-line me-2"></i>{{__('Show attchivement Chrono')}}</span>
+                                            <span><i
+                                                    class="ri-time-line me-2"></i>{{__('Show attchivement Chrono')}}</span>
                                         <span
                                             class="badge bg-info px-2 py-1">{{__(\Core\Enum\TargetType::tryFrom($survey->showAttchivementChrono)?->name)}}</span>
                                     </li>
@@ -120,7 +111,8 @@
                                             class="badge bg-info px-2 py-1">{{__(\Core\Enum\TargetType::tryFrom($survey->showAttchivementGool)?->name)}}</span>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                        <span><i class="ri-archive-line me-2"></i>{{__('Show after archiving')}}</span>
+                                            <span><i
+                                                    class="ri-archive-line me-2"></i>{{__('Show after archiving')}}</span>
                                         <span
                                             class="badge bg-info px-2 py-1">{{__(\Core\Enum\TargetType::tryFrom($survey->showAfterArchiving)?->name)}}</span>
                                     </li>
@@ -218,10 +210,12 @@
                         @endif
 
                         @if($survey->goals != null && !empty($survey->goals))
-                            <div class="col-sm-12 {{ $survey->canShowAttchivementGools() ? 'col-md-6' : 'col-md-12' }}">
+                            <div
+                                class="col-sm-12 {{ $survey->canShowAttchivementGools() ? 'col-md-6' : 'col-md-12' }}">
                                 <div class="card border-0  h-100">
                                     <div class="card-body">
-                                        <h6 class="text-info mb-2"><i class="ri-flag-line me-2"></i>{{__('Goals')}}</h6>
+                                        <h6 class="text-info mb-2"><i class="ri-flag-line me-2"></i>{{__('Goals')}}
+                                        </h6>
                                         <p class="mb-0">{{$survey->goals}}</p>
                                     </div>
                                 </div>
@@ -242,7 +236,8 @@
             </span>
                         </div>
                         <div class="card-body">
-                            <h6 class="text-info mb-3"><i class="ri-file-text-line me-2"></i>{{__('Description')}}</h6>
+                            <h6 class="text-info mb-3"><i class="ri-file-text-line me-2"></i>{{__('Description')}}
+                            </h6>
                             <div class="text-muted">
                                 @if($currentRouteName=="surveys_show")
                                     {!! \App\Models\TranslaleModel::getTranslation($survey,'description',$survey->description) !!}
@@ -289,7 +284,8 @@
         @if(\App\Models\User::isSuperAdmin() && in_array($currentRouteName,["surveys_show"]))
             @if(!is_null($survey->disabledResult) or !is_null($survey->disabledComment) or !is_null($survey->disabledLike) or !is_null($survey->disabledBtnDescription))
                 <div class="card-body  border-top">
-                    <h6 class="text-warning mb-3"><i class="ri-error-warning-line me-2"></i>{{__('Disabled Messages')}}
+                    <h6 class="text-warning mb-3"><i
+                            class="ri-error-warning-line me-2"></i>{{__('Disabled Messages')}}
                     </h6>
                     <div class="row g-3">
                         @if($survey->disabledBtnDescription != null && !$survey->enabled)
@@ -668,7 +664,8 @@
                         <div class="col-lg-12">
                             <div class="card border-0 ">
                                 <div class="card-body">
-                                    <h6 class="text-info mb-2"><i class="ri-text me-2"></i>{{__('Question Content')}}
+                                    <h6 class="text-info mb-2"><i
+                                            class="ri-text me-2"></i>{{__('Question Content')}}
                                     </h6>
                                     <blockquote class="blockquote mb-2">
                                         <p class="text-muted">{{\App\Models\TranslaleModel::getTranslation($survey->question,'content',$survey->question->content)}}</p>
@@ -826,7 +823,8 @@
 
                     @if($survey->isLikable())
                         <div class="col-12">
-                            <h6 class="text-info mb-3"><i class="ri-user-heart-line me-2"></i>{{__('Users who liked')}}
+                            <h6 class="text-info mb-3"><i
+                                    class="ri-user-heart-line me-2"></i>{{__('Users who liked')}}
                             </h6>
                             @php
                                 $likeNumber = $survey->likes->count();
@@ -836,7 +834,8 @@
                                     <div class="card-body p-3">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="d-flex align-items-center">
-                                                <span class="badge bg-primary me-2">{{$likeNumber-$loop->index}}</span>
+                                                    <span
+                                                        class="badge bg-primary me-2">{{$likeNumber-$loop->index}}</span>
                                                 <strong
                                                     class="text-dark">{{ getUserDisplayedName($like->user->idUser)}}</strong>
                                             </div>
@@ -886,7 +885,8 @@
                                                     <li class="list-group-item mt-2">
 
                                                         <blockquote class="blockquote ml-2 mt-2">
-                                                            <span class=" text-muted mx-3">{{$comment->content }}</span>
+                                                                <span
+                                                                    class=" text-muted mx-3">{{$comment->content }}</span>
                                                         </blockquote>
 
                                                         <span class="text-muted float-end"
@@ -951,7 +951,8 @@
                                                   maxlength="190" id="disableNote"
                                                   wire:model.live="disableNote"
                                                   placeholder="{{__('Enter Disable Note')}}"></textarea>
-                                        @error('disableNote') <span class="text-danger">{{ $message }}</span>@enderror
+                                        @error('disableNote') <span
+                                            class="text-danger">{{ $message }}</span>@enderror
                                         <div class="form-text">{{__('Required field')}}</div>
                                     </div>
                                 </div>
@@ -977,12 +978,22 @@
                     </div>
                     <div class="d-flex align-items-center">
                         <i class="ri-chat-3-line text-info fs-5 me-2"></i>
-                        <span class="fw-medium">{{ $survey->comments()->where('validated',true)->count() ?? 0 }}</span>
+                        <span
+                            class="fw-medium">{{ $survey->comments()->where('validated',true)->count() ?? 0 }}</span>
                         <span class="text-muted ms-1">{{ __('Comments') }}</span>
                     </div>
+                    @if(\App\Models\User::isSuperAdmin())
+                        @if(in_array($currentRouteName,["surveys_show","surveys_participate","surveys_results"]))
+                            <a href="{{route('surveys_index', app()->getLocale())}}"
+                               class="btn btn-outline-info btn-sm"
+                               title="{{__('To Surveys list')}}">
+                                <i class="ri-bookmark-fill me-1"></i> {{__('Surveys')}}
+                            </a>
+                        @endif
+                    @endif
                 </div>
             </div>
         @endif
-
     </div>
 </div>
+

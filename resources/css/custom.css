@@ -42,39 +42,39 @@
 
 /* News Item Card Styles */
 .news-item {
-    background: linear-gradient(135deg, #e0f7ff 0%, #b3e5fc 75%);
-    border-left: 4px solid #0dcaf0;
+    background: linear-gradient(135deg, #f5fbff 0%, #e8f6fb 75%);
+    border-left: 4px solid #b3d9f2;
     transition: all 0.3s ease;
 }
 
 .news-item:hover {
-    box-shadow: 0 8px 16px rgba(13, 202, 240, 0.3);
+    box-shadow: 0 8px 16px rgba(179, 217, 242, 0.3);
     transform: translateY(-2px);
 }
 
 
 /* Event Item Card Styles */
 .event-item {
-    background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 75%);
-    border-left: 4px solid #9c27b0;
+    background: linear-gradient(135deg, #ffebee 0%, #fce4ec 75%);
+    border-left: 4px solid #ef9a9a;
     transition: all 0.3s ease;
 }
 
 .event-item:hover {
-    box-shadow: 0 8px 16px rgba(156, 39, 176, 0.3);
+    box-shadow: 0 8px 16px rgba(239, 154, 154, 0.3);
     transform: translateY(-2px);
 }
 
 
-/* --- Item Card Styles */
+/* Survey Item Card Styles */
 .survey-item {
-    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 75%);
-    border-left: 4px solid #ff9800;
+    background: linear-gradient(135deg, #fffbf5 0%, #fef6ed 75%);
+    border-left: 4px solid #e8d4b8;
     transition: all 0.3s ease;
 }
 
 .survey-item:hover {
-    box-shadow: 0 8px 16px rgba(255, 152, 0, 0.3);
+    box-shadow: 0 8px 16px rgba(232, 212, 184, 0.3);
     transform: translateY(-2px);
 }
 
@@ -644,3 +644,50 @@ div.dt-processing {
 .text-discount {
     color: #009fe3 !important;
 }
+
+/* Modern Business Sectors Button */
+.btn-view-all-sectors {
+    border-radius: 50px;
+    background: linear-gradient(135deg, #405189 0%, #0ab39c 100%);
+    border: none;
+    box-shadow: 0 8px 20px rgba(64, 81, 137, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-view-all-sectors::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-view-all-sectors:hover::before {
+    left: 100%;
+}
+
+.btn-view-all-sectors:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(64, 81, 137, 0.4);
+    background: #0ab39c;
+    border-color: #0ab39c;
+}
+
+.btn-view-all-sectors:active {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(64, 81, 137, 0.3);
+}
+
+.btn-view-all-sectors i.arrow-icon {
+    transition: transform 0.3s ease;
+}
+
+.btn-view-all-sectors:hover i.arrow-icon {
+    transform: translateX(5px);
+}
+

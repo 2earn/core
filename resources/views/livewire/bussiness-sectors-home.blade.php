@@ -9,7 +9,7 @@
                 @foreach($businessSectors as $businessSector)
                     <div class="col-sm-12 col-md-6 col-lg-3">
                         <div class="card border-0 shadow-sm h-100 overflow-hidden card-animate">
-                            <!-- Image Section with Gradient Overlay -->
+                            <!-- Image Section -->
                             <div class="position-relative overflow-hidden" style="height: 220px;">
                                 @if ($businessSector->thumbnailsHomeImage)
                                     <img src="{{ asset('uploads/' . $businessSector->thumbnailsHomeImage->url) }}"
@@ -23,11 +23,11 @@
                                         class="img-fluid w-100 h-100"
                                         style="object-fit: cover;">
                                 @endif
-                                <!-- Gradient Overlay -->
-                                <div class="position-absolute bottom-0 start-0 end-0 p-3"
-                                     style="background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);">
-                                    <h5 class="text-white fw-semibold mb-0">{{$businessSector->name}}</h5>
-                                </div>
+                            </div>
+
+                            <!-- Card Title -->
+                            <div class="card-header bg-white border-bottom">
+                                <h5 class="fw-semibold mb-0">{{$businessSector->name}}</h5>
                             </div>
 
                             <!-- Card Content -->
@@ -64,12 +64,13 @@
                     </div>
                 @endforeach
             </div>
-            <div class="row my-3">
+            <div class="row my-5">
                 <div class="col-12 text-center">
                     <a href="{{route('business_sector_index',['locale'=> app()->getLocale()])}}"
-                       class="btn btn-outline-primary btn-lg px-5 py-2 d-inline-flex align-items-center gap-2">
-                        <span class="fw-semibold">{{__('View All Business Sectors')}}</span>
-                        <i class="ri-arrow-right-line fs-18"></i>
+                       class="btn btn-view-all-sectors btn-lg px-5 py-3 d-inline-flex align-items-center gap-3">
+                        <i class="ri-grid-line fs-18"></i>
+                        <span class="fw-semibold text-white">{{__('View All Business Sectors')}}</span>
+                        <i class="ri-arrow-right-line fs-18 ms-1 arrow-icon"></i>
                     </a>
                 </div>
             </div>
