@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-12 card card-border-danger news-item">
+    <div class="col-12 card news-item">
         <div class="card-body">
             <div class="row">
                 <div class="col-12">

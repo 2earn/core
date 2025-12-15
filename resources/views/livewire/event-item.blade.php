@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-12 card card-border-primary">
+    <div class="col-12 card event-item">
         <div class="card-body">
             <div class="row">
                 <div class="col-12">
