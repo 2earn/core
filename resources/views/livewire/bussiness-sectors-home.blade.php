@@ -69,7 +69,7 @@
                     <a href="{{route('business_sector_index',['locale'=> app()->getLocale()])}}"
                        class="btn btn-view-all-sectors btn-lg px-5 py-3 d-inline-flex align-items-center gap-3">
                         <i class="ri-grid-line fs-18"></i>
-                        <span class="fw-semibold text-white">{{__('View All Business Sectors')}}</span>
+                        <span class="fw-semibold text-muted">{{__('View All Business Sectors')}}</span>
                         <i class="ri-arrow-right-line fs-18 ms-1 arrow-icon"></i>
                     </a>
                 </div>

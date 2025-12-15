@@ -511,7 +511,7 @@ div.dt-processing {
 /* Modern Business Sectors Button */
 .btn-view-all-sectors {
     border-radius: 50px;
-    background: linear-gradient(135deg, #405189 0%, #0ab39c 100%);
+    color: #807d7d;
     border: none;
     box-shadow: 0 8px 20px rgba(64, 81, 137, 0.3);
     transition: all 0.3s ease;
