@@ -3,16 +3,10 @@
 @endphp
 <div class="row">
     <div class="col-12 card btn-light">
-        <div class="card-header row">
-            <div class="row m-2">
-                <div class="col-12">
-                    <h5 class="fw-bold mb-2">{{__('Users balances Recaps')}}</h5>
-                    <p class="text-muted fs-15 mb-0">{{__('Soldes calculated at')}}
-                        : {{Carbon\Carbon::now()->toDateTimeString()}}</p>
-
-
-                </div>
-            </div>
+        <div class="card-header ">
+            <h5 class="fw-bold mb-2">{{__('Users balances Recaps')}}</h5>
+            <p class="text-muted fs-15 mb-0">{{__('Soldes calculated at')}}
+                : {{Carbon\Carbon::now()->toDateTimeString()}}</p>
         </div>
         <div class="card-body row g-2">
             <div class="col-md-4 col-lg-4">

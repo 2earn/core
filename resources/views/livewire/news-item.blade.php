@@ -1,10 +1,6 @@
 <div class="row">
-    <div class="col-12 card card-border-danger">
+    <div class="col-12 card card-border-danger news-item">
         <div class="card-body">
-            <div class="ribbon ribbon-danger ribbon-shape trending-ribbon">
-                <i class="ri-newspaper-fill text-white align-bottom float-start me-1"></i> <span
-                    class="trending-ribbon-text text-light">{{__('News')}}</span>
-            </div>
             <div class="row">
                 <div class="col-12">
                     <h5 class="mb-2 text-info">

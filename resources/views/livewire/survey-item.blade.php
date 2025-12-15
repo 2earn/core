@@ -640,120 +640,123 @@
                 @endif
             </div>
         @endif
-
-        <div class="card-header">
-            <h5 class="mb-0 text-info"><i class="ri-question-line me-2"></i>{{__('Questions')}}</h5>
-        </div>
+        @if(intval($survey->status)!==\Core\Enum\StatusSurvey::OPEN->value && !$survey->enabled)
+            <div class="card-header">
+                <h5 class="mb-0 text-info"><i class="ri-question-line me-2"></i>{{__('Questions')}}</h5>
+            </div>
+        @endif
 
         <div class="card-body">
             @if($survey->question)
-                <div class="d-flex flex-wrap gap-2 mb-3">
+                @if(intval($survey->status)!==\Core\Enum\StatusSurvey::OPEN->value && !$survey->enabled)
+                    <div class="d-flex flex-wrap gap-2 mb-3">
                         <span
                             class="badge {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'bg-success' : 'bg-primary' }} px-3 py-2">
                             <i class="ri-checkbox-multiple-line me-1"></i>
                             {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? __('Multiple') : __('Unique') }}
                         </span>
 
-                    @if($survey->question->selection== \Core\Enum\Selection::MULTIPLE->value)
-                        <span class="badge bg-info px-3 py-2">
+                        @if($survey->question->selection== \Core\Enum\Selection::MULTIPLE->value)
+                            <span class="badge bg-info px-3 py-2">
                                 <i class="ri-list-check me-1"></i>
                                 {{__('Max')}} : {{$survey->question->maxResponse}}
                             </span>
-                    @endif
+                        @endif
 
-                    @if(!empty($survey->question->disableNote))
-                        <span class="badge bg-warning px-3 py-2">
+                        @if(!empty($survey->question->disableNote))
+                            <span class="badge bg-warning px-3 py-2">
                                 <i class="ri-error-warning-line me-1"></i>
                                 {{__('Disable Note')}} : {{$survey->question->disableNote}}
                             </span>
-                    @endif
-                </div>
-                <div class="row g-3">
-                    <div class="col-lg-12">
-                        <div class="card border-0 ">
-                            <div class="card-body">
-                                <h6 class="text-info mb-2"><i class="ri-text me-2"></i>{{__('Question Content')}}
-                                </h6>
-                                <blockquote class="blockquote mb-2">
-                                    <p class="text-muted">{{\App\Models\TranslaleModel::getTranslation($survey->question,'content',$survey->question->content)}}</p>
-                                </blockquote>
-                                @if(\App\Models\User::isSuperAdmin())
-                                    <a class="link-info text-decoration-none small"
-                                       href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey->question,'content')])}}">
-                                        <i class="ri-translate-2 align-bottom me-1"></i>{{__('Update Translation')}}
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-
-                        @if(\App\Models\User::isSuperAdmin() && intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
-                            <div class="mt-3 d-flex gap-2">
-                                <a href="{{route('surveys_question_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id,'IdQuestion'=>$survey->question->id] )}}"
-                                   class="btn btn-warning btn-sm">
-                                    <i class="ri-edit-line me-1"></i>{{__('Edit')}}
-                                </a>
-                                <a href="{{route('surveys_question_choice_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id,'idQuestion'=>$survey->question->id] )}}"
-                                   class="btn btn-success btn-sm">
-                                    <i class="ri-add-line me-1"></i>{{__('Add Choice')}}
-                                </a>
-                            </div>
                         @endif
                     </div>
-
-                    <div class="col-lg-12">
-                        <h6 class="text-info mb-3"><i class="ri-list-check-2 me-2"></i>{{__('Choices')}}</h6>
-                        @forelse ($survey->question->serveyQuestionChoice as $choice)
-                            <div class="card mb-2">
-                                <div class="card-body p-2">
-                                    <div class="d-flex justify-content-between align-items-start">
-                                        <div class="flex-grow-1">
-                                            <div class="d-flex align-items-start">
-                                                <span class="me-2">{{$loop->index+1}} - </span>
-                                                <div>
-                                                    <p class="mb-1 small">{{\App\Models\TranslaleModel::getTranslation($choice,'title',$choice->title)}}</p>
-                                                    @if(\App\Models\User::isSuperAdmin())
-                                                        <a class="link-info text-decoration-none small"
-                                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($choice,'title')])}}">
-                                                            <i class="ri-translate"></i>
-                                                        </a>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        @if(\App\Models\User::isSuperAdmin() && intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
-                                            <div class="btn-group btn-group-sm ms-2">
-                                                <a href="{{route('surveys_question_choice_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id,'idQuestion'=>$survey->question->id,'idChoice'=>$choice->id] )}}"
-                                                   title="{{__('Update Choice')}}"
-                                                   class="btn btn-outline-info btn-sm">
-                                                    <i class="ri-edit-line"></i>
-                                                </a>
-                                                <a wire:click="removeChoice('{{$choice->id}}')"
-                                                   title="{{__('Remove Choice')}}"
-                                                   class="btn btn-outline-danger btn-sm">
-                                                    <i class="ri-delete-bin-line"></i>
-                                                </a>
-                                            </div>
-                                        @endif
-                                    </div>
+                    <div class="row g-3">
+                        <div class="col-lg-12">
+                            <div class="card border-0 ">
+                                <div class="card-body">
+                                    <h6 class="text-info mb-2"><i class="ri-text me-2"></i>{{__('Question Content')}}
+                                    </h6>
+                                    <blockquote class="blockquote mb-2">
+                                        <p class="text-muted">{{\App\Models\TranslaleModel::getTranslation($survey->question,'content',$survey->question->content)}}</p>
+                                    </blockquote>
+                                    @if(\App\Models\User::isSuperAdmin())
+                                        <a class="link-info text-decoration-none small"
+                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey->question,'content')])}}">
+                                            <i class="ri-translate-2 align-bottom me-1"></i>{{__('Update Translation')}}
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
-                        @empty
-                            <div class="alert alert-warning mb-0">
-                                <i class="ri-error-warning-line me-2"></i>{{__('No Choices')}}
-                            </div>
-                        @endforelse
 
-                        @if(!$survey->question)
-                            <div class="mt-3">
-                                <a wire:click="removeQuestion('{{$question->id}}')"
-                                   class="btn btn-danger btn-sm">
-                                    <i class="ri-delete-bin-line me-1"></i>{{__('Remove')}}
-                                </a>
-                            </div>
-                        @endif
+                            @if(\App\Models\User::isSuperAdmin() && intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
+                                <div class="mt-3 d-flex gap-2">
+                                    <a href="{{route('surveys_question_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id,'IdQuestion'=>$survey->question->id] )}}"
+                                       class="btn btn-warning btn-sm">
+                                        <i class="ri-edit-line me-1"></i>{{__('Edit')}}
+                                    </a>
+                                    <a href="{{route('surveys_question_choice_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id,'idQuestion'=>$survey->question->id] )}}"
+                                       class="btn btn-success btn-sm">
+                                        <i class="ri-add-line me-1"></i>{{__('Add Choice')}}
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="col-lg-12">
+                            <h6 class="text-info mb-3"><i class="ri-list-check-2 me-2"></i>{{__('Choices')}}</h6>
+                            @forelse ($survey->question->serveyQuestionChoice as $choice)
+                                <div class="card mb-2">
+                                    <div class="card-body p-2">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div class="flex-grow-1">
+                                                <div class="d-flex align-items-start">
+                                                    <span class="me-2">{{$loop->index+1}} - </span>
+                                                    <div>
+                                                        <p class="mb-1 small">{{\App\Models\TranslaleModel::getTranslation($choice,'title',$choice->title)}}</p>
+                                                        @if(\App\Models\User::isSuperAdmin())
+                                                            <a class="link-info text-decoration-none small"
+                                                               href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($choice,'title')])}}">
+                                                                <i class="ri-translate"></i>
+                                                            </a>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            @if(\App\Models\User::isSuperAdmin() && intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
+                                                <div class="btn-group btn-group-sm ms-2">
+                                                    <a href="{{route('surveys_question_choice_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id,'idQuestion'=>$survey->question->id,'idChoice'=>$choice->id] )}}"
+                                                       title="{{__('Update Choice')}}"
+                                                       class="btn btn-outline-info btn-sm">
+                                                        <i class="ri-edit-line"></i>
+                                                    </a>
+                                                    <a wire:click="removeChoice('{{$choice->id}}')"
+                                                       title="{{__('Remove Choice')}}"
+                                                       class="btn btn-outline-danger btn-sm">
+                                                        <i class="ri-delete-bin-line"></i>
+                                                    </a>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            @empty
+                                <div class="alert alert-warning mb-0">
+                                    <i class="ri-error-warning-line me-2"></i>{{__('No Choices')}}
+                                </div>
+                            @endforelse
+
+                            @if(!$survey->question)
+                                <div class="mt-3">
+                                    <a wire:click="removeQuestion('{{$question->id}}')"
+                                       class="btn btn-danger btn-sm">
+                                        <i class="ri-delete-bin-line me-1"></i>{{__('Remove')}}
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
                     </div>
-                </div>
+                @endif
             @else
                 <div class="alert alert-info mb-0">
                     <i class="ri-information-line me-2"></i>{{__('No questions')}}.
