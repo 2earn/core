@@ -15,8 +15,7 @@
             </div>
             <div class="row">
                 @if(!$disabled)
-                    <div
-                            class="col-12 card shadow-sm @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif">
+                    <div  class="col-sm-12 card shadow-sm @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif">
                         <div class="card-header bg-transparent border-bottom">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center">
@@ -165,7 +164,7 @@
                 @if(Route::getCurrentRoute()->getName()=="validate_account")
                     <livewire:user-form-content :paramIdUser="$user['idUser']"/>
                 @else
-                    <div class="col-12 card shadow-sm">
+                    <div class="col-sm-12 card shadow-sm">
                         <div class="card-header bg-transparent border-bottom">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center">
@@ -193,7 +192,7 @@
                         </div>
                     </div>
                 @endif
-                <div class="col-4 card shadow-sm" id="profile">
+                <div class="col-sm-12 col-md-6 col-lg-4 card shadow-sm" id="profile">
                     <div class="card-header bg-transparent border-bottom">
                         <div class="d-flex align-items-center">
                             <i class="ri-user-3-line fs-4 text-info me-2"></i>
@@ -296,7 +295,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-8">
+                <div class="col-sm-12 col-md-12 col-lg-12">
                     <livewire:identity-cards :userId="$user['idUser']"/>
                 </div>
             </div>

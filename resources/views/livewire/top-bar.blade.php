@@ -1,4 +1,4 @@
-<div class="{{getContainerType()}} mb-3">
+<div class="{{getContainerType()}} mb-1">
     <div class="row">
         <header class="col-12" id="page-topbar">
             <div class="layout-width">

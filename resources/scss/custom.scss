@@ -3,13 +3,10 @@ Template Name: Velzon - Admin & Dashboard Template
 Author: Themesbrand
 Website: https://themesbrand.com/
 Contact: support@themesbrand.com
-File: Custom Css File
+File: Custom SCSS File
 */
 
-.toggle-checkboxFree:checked + .toggle-switch {
-    background: #0ae30a !important;
-}
-.toggle-checkboxPay:checked + .toggle-switch {
-    background: #f02602 !important;
-}
+// Content has been moved to:
+// - resources/css/custom.css (LTR styles)
+// - resources/css/custom-rtl.css (RTL styles)
 
