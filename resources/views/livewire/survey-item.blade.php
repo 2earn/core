@@ -1,6 +1,6 @@
 <div class="row">
-    <div class="col-12 card border survey-item">
-        <div class="card-header border-bottom mt-2 ">
+    <div class="col-12 card  survey-item">
+        <div class="card-header mt-2 ">
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                 <div class="d-flex align-items-center flex-wrap gap-2">
                     @if(in_array($currentRouteName,["surveys_show","surveys_participate","surveys_results"]))
@@ -161,48 +161,45 @@
             <div class="row g-4">
                 @if($survey->canShowAttchivementChrono())
                     <div class="col-sm-12 col-md-6 col-lg-6">
-                        <div class="card border-0  h-100">
-                            <div class="card-body">
-                                @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
-                                    <div class="survey-countdown connect-page" title="{{$survey->endDate}}">
-                                        <div class="survey-countdown-body">
-                                            <div class="survey-cd survey-cd-{{$survey->id}}"
-                                                 id="survey-cd-{{$survey->id}}"
-                                                 data-start="{{$survey->startDate}}"
-                                                 data-end="{{$survey->endDate}}">
-                                                <div class="counter timer">
-                                                    <h5 class="title text-info mb-3"><i
-                                                            class="ri-time-line me-2"></i>{{__('time remaining')}}</h5>
-                                                    <div class="counter-boxes d-flex justify-content-around flex-wrap">
-                                                        <div class="count-box text-center">
-                                                            <h3 class="value day text-primary">0</h3>
-                                                            <span class="text-muted">{{__('Days')}}</span>
-                                                        </div>
-                                                        <div class="count-box text-center">
-                                                            <h3 class="value hour text-primary">0</h3>
-                                                            <span class="text-muted">{{__('Hours')}}</span>
-                                                        </div>
-                                                        <div class="count-box text-center">
-                                                            <h3 class="value minute text-primary">0</h3>
-                                                            <span class="text-muted">{{__('Minutes')}}</span>
-                                                        </div>
-                                                        <div class="count-box text-center">
-                                                            <h3 class="value second text-primary">0</h3>
-                                                            <span class="text-muted">{{__('Seconds')}}</span>
-                                                        </div>
-                                                    </div>
+
+                        @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
+                            <div class="survey-countdown connect-page" title="{{$survey->endDate}}">
+                                <div class="survey-countdown-body">
+                                    <div class="survey-cd survey-cd-{{$survey->id}}"
+                                         id="survey-cd-{{$survey->id}}"
+                                         data-start="{{$survey->startDate}}"
+                                         data-end="{{$survey->endDate}}">
+                                        <div class="counter timer">
+                                            <h5 class="title text-info mb-3"><i
+                                                    class="ri-time-line me-2"></i>{{__('time remaining')}}</h5>
+                                            <div class="counter-boxes d-flex justify-content-around flex-wrap">
+                                                <div class="count-box text-center">
+                                                    <h3 class="value day text-primary">0</h3>
+                                                    <span class="text-muted">{{__('Days')}}</span>
+                                                </div>
+                                                <div class="count-box text-center">
+                                                    <h3 class="value hour text-primary">0</h3>
+                                                    <span class="text-muted">{{__('Hours')}}</span>
+                                                </div>
+                                                <div class="count-box text-center">
+                                                    <h3 class="value minute text-primary">0</h3>
+                                                    <span class="text-muted">{{__('Minutes')}}</span>
+                                                </div>
+                                                <div class="count-box text-center">
+                                                    <h3 class="value second text-primary">0</h3>
+                                                    <span class="text-muted">{{__('Seconds')}}</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                @else
-                                    <h6 class="text-info mb-2"><i
-                                            class="ri-time-line me-2"></i>{{__('Chrono Achievement')}}
-                                    </h6>
-                                    <h3 class="text-primary">{{$survey->getChronoAttchivement()}} %</h3>
-                                @endif
+                                </div>
                             </div>
-                        </div>
+                        @else
+                            <h6 class="text-info mb-2"><i
+                                    class="ri-time-line me-2"></i>{{__('Chrono Achievement')}}
+                            </h6>
+                            <h3 class="text-primary">{{$survey->getChronoAttchivement()}} %</h3>
+                        @endif
                     </div>
                 @endif
 
@@ -297,24 +294,21 @@
                     <div class="row g-3">
                         @if($survey->disabledBtnDescription != null && !$survey->enabled)
                             <div class="col-sm-12 col-md-6 col-lg-6">
-                                <div class="card border-warning h-100">
-                                    <div class="card-body">
-                                        <h6 class="text-info mb-2"><i
-                                                class="ri-forbid-line me-2"></i>{{__('Disabled button description')}}
-                                        </h6>
-                                        <p class="card-text text-muted mb-2">
-                                            @if($currentRouteName=="surveys_show")
-                                                {{\App\Models\TranslaleModel::getTranslation($survey,'disabledBtnDescription',$survey->disabledBtnDescription)}}
-                                            @else
-                                                {{ Str::limit(\App\Models\TranslaleModel::getTranslation($survey,'disabledBtnDescription',$survey->disabledBtnDescription),200)}}
-                                            @endif
-                                        </p>
-                                        <a class="link-info text-decoration-none small"
-                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'disabledBtnDescription')])}}">
-                                            <i class="ri-translate-2 align-bottom me-1"></i>{{__('Update Translation')}}
-                                        </a>
-                                    </div>
-                                </div>
+                                <h6 class="text-info mb-2"><i
+                                        class="ri-forbid-line me-2"></i>{{__('Disabled button description')}}
+                                </h6>
+                                <p class="card-text text-muted mb-2">
+                                    @if($currentRouteName=="surveys_show")
+                                        {{\App\Models\TranslaleModel::getTranslation($survey,'disabledBtnDescription',$survey->disabledBtnDescription)}}
+                                    @else
+                                        {{ Str::limit(\App\Models\TranslaleModel::getTranslation($survey,'disabledBtnDescription',$survey->disabledBtnDescription),200)}}
+                                    @endif
+                                </p>
+                                <a class="link-info text-decoration-none small"
+                                   href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($survey,'disabledBtnDescription')])}}">
+                                    <i class="ri-translate-2 align-bottom me-1"></i>{{__('Update Translation')}}
+                                </a>
+
                             </div>
                         @endif
 
