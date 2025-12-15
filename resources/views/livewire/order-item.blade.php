@@ -129,7 +129,7 @@
                                             <!-- Item Details Section -->
                                             <div class="row g-3 mb-3">
                                                 <div class="col-md-6">
-                                                    <div class="card bg-light border-0 h-100">
+                                                    <div class="card h-100">
                                                         <div class="card-body">
                                                             <h6 class="text-primary mb-3">
                                                                 <i class="ri-information-line me-2"></i>{{__('Item Information')}}
@@ -201,7 +201,7 @@
                                                 </div>
 
                                                 <div class="col-md-6">
-                                                    <div class="card bg-light border-0 h-100">
+                                                    <div class="card h-100">
                                                         <div class="card-body">
                                                             <h6 class="text-primary mb-3">
                                                                 <i class="ri-shopping-cart-line me-2"></i>{{__('Order Summary')}}

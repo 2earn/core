@@ -61,12 +61,12 @@
                                     class="btn btn-success btn-block">{{__('Update')}}</button>
                         @else
                             <button wire:click.prevent="storeCategory()"
-                                    class="btn btn-success btn-block">{{__('Save')}}</button>
+                                    class="btn btn-success btn-block float-end">{{__('Save')}}</button>
                         @endif
                     </div>
                     <div class="col-md-2">
                         <button wire:click.prevent="cancel()"
-                                class="btn btn-danger">{{__('Cancel')}}</button>
+                                class="btn btn-danger float-end">{{__('Cancel')}}</button>
                     </div>
                 </div>
             </div>

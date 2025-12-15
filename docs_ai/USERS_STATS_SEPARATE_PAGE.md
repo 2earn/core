@@ -312,7 +312,7 @@ Can be easily added anywhere:
 
 ### Header Section
 ```blade
-<div class="card-header bg-light border-0">
+<div class="card-header">
     <div class="d-flex justify-content-between align-items-center">
         <div>
             <h4 class="mb-1 text-primary">

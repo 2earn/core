@@ -109,13 +109,13 @@ function new_link() {
 		"</th>" +
 		'<td class="text-start">' +
 		'<div class="mb-2">' +
-		'<input class="form-control bg-light border-0" type="text" id="productName-' + count + '" placeholder="Product Name">' +
+		'<input class="form-control" type="text" id="productName-' + count + '" placeholder="Product Name">' +
 		'</div>' +
-		'<textarea class="form-control bg-light border-0" id="productDetails-' + count + '" rows="2" placeholder="Product Details"></textarea>' +
+		'<textarea class="form-control" id="productDetails-' + count + '" rows="2" placeholder="Product Details"></textarea>' +
 		"</div>" +
 		"</td>" +
 		"<td>" +
-		'<input class="form-control bg-light border-0 product-price" type="number" id="productRate-' + count + '" step="0.01" placeholder="$0.00">' +
+		'<input class="form-control product-price" type="number" id="productRate-' + count + '" step="0.01" placeholder="$0.00">' +
 		"</td>" +
 		"<td>" +
 		'<div class="input-step">' +
@@ -126,7 +126,7 @@ function new_link() {
 		"</td>" +
 		'<td class="text-end">' +
 		"<div>" +
-		'<input type="text" class="form-control bg-light border-0 product-line-price" id="productPrice-' + count + '" value="$0.00" placeholder="$0.00" />' +
+		'<input type="text" class="form-control product-line-price" id="productPrice-' + count + '" value="$0.00" placeholder="$0.00" />' +
 		"</div>" +
 		"</td>" +
 		'<td class="product-removal">' +
@@ -306,7 +306,7 @@ if (localStorage.getItem("invoice_no") === null && localStorage.getItem("option"
 
 // Invoice Data Load On Form
 if ((viewobj != '') && (options == "edit-invoice")) {
-	
+
 	document.getElementById("registrationNumber").value = viewobj.company_details.legal_registration_no;
 	document.getElementById("companyEmail").value = viewobj.company_details.email;
 	document.getElementById('companyWebsite').value = viewobj.company_details.website;
@@ -441,7 +441,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			var product_rate = parseInt(element.querySelector("#productRate-"+count).value);
 			var product_qty = parseInt(element.querySelector("#product-qty-"+count).value);
 			var product_price = (element.querySelector("#productPrice-"+count).value).split("$");;
-			
+
 			var product_obj = {
 				product_name: product_name,
 				product_details: product_details,
@@ -452,7 +452,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			new_product_obj.push(product_obj);
 			count++;
 		});
-		
+
 		if (formEvent.checkValidity() === false) {
 			formEvent.classList.add("was-validated");
 		} else {

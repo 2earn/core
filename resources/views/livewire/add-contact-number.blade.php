@@ -27,10 +27,10 @@
                                 <i class="ri-smartphone-line text-primary me-1"></i>
                                 {{ __('Your new phone number') }}
                             </label>
-                            <div id="inputNumberContact" class="input-group w-100 signup mb-3">
+                            <div id="inputNumberContact" class="w-100 mb-3">
                             </div>
                             <div class="form-text">
-                                <i class="ri-information-line"></i>
+                                <i class="ri-information-line me-1"></i>
                                 {{ __('Enter a valid phone number with country code') }}
                             </div>
                         </div>
@@ -51,6 +51,12 @@
         </div>
 
         <script type="module">
+            // Define default translations (global scope)
+            const defaultNotificationTitle = @json(__("Notification"));
+            const defaultOkButton = @json(__("ok"));
+            const defaultValidText = @json(__("Valid"));
+            const mobileNumberPlaceholder = @json(__("Mobile Number"));
+
             var timerInterval;
             document.addEventListener("DOMContentLoaded", function () {
 
@@ -60,13 +66,33 @@
                     window.Livewire.dispatch('preSaveContact', [$("#outputinitIntlTelInput").val(), $("#isoContactNumber").val(), $("#initIntlTelInput").val()]);
                 });
 
+
                 window.addEventListener('showAlert', event => {
-                    const alertData = event.detail[0];
+                    let alertData = event.detail;
+
+                    // Handle different event.detail formats
+                    if (Array.isArray(alertData)) {
+                        alertData = alertData[0] || {};
+                    }
+
+                    // Extract properties with safe fallbacks
+                    let title = defaultNotificationTitle;
+                    let text = '';
+                    let icon = 'info';
+
+                    if (typeof alertData === 'string') {
+                        title = alertData;
+                    } else if (typeof alertData === 'object' && alertData !== null) {
+                        title = alertData.title || defaultNotificationTitle;
+                        text = alertData.text || '';
+                        icon = alertData.type || 'info';
+                    }
+
                     Swal.fire({
-                        title: alertData.title || '{{ __("Notification") }}',
-                        text: alertData.text || '',
-                        icon: alertData.type || 'info',
-                        confirmButtonText: '{{ __("ok") }}',
+                        title: title,
+                        text: text,
+                        icon: icon,
+                        confirmButtonText: defaultOkButton,
                         customClass: {
                             confirmButton: 'btn btn-primary'
                         }
@@ -83,10 +109,12 @@
                         // Recreate the input HTML
                         const ipNumberContact = document.querySelector("#inputNumberContact");
                         if (ipNumberContact) {
-                            ipNumberContact.innerHTML = "<div class='input-group-prepend'> " +
-                                "</div><input wire:model='' type='tel' name='initIntlTelInput' id='initIntlTelInput' class='form-control' onpaste='handlePaste(event)'" +
-                                "placeholder='{{ __("Mobile Number") }}'><span id='valid-msginitIntlTelInput' class='invisible'>✓ Valid</span><span id='error-msginitIntlTelInput' class='hide'></span>" +
-                                " <input type='hidden' name='fullnumber' id='outputinitIntlTelInput' class='form-control'><input type='hidden' name='ccodeinitIntlTelInput' id='ccodeinitIntlTelInput'>" +
+                            ipNumberContact.innerHTML =
+                                "<input wire:model='' type='tel' name='initIntlTelInput' id='initIntlTelInput' class='form-control' onpaste='handlePaste(event)' placeholder='" + mobileNumberPlaceholder + "'>" +
+                                "<span id='valid-msginitIntlTelInput' class='invisible'>✓ " + defaultValidText + "</span>" +
+                                "<span id='error-msginitIntlTelInput' class='hide'></span>" +
+                                "<input type='hidden' name='fullnumber' id='outputinitIntlTelInput' class='form-control'>" +
+                                "<input type='hidden' name='ccodeinitIntlTelInput' id='ccodeinitIntlTelInput'>" +
                                 "<input type='hidden' name='isoContactNumber' id='isoContactNumber'>";
 
                             // Reinitialize intl-tel-input
@@ -175,10 +203,12 @@
             var itiAddContactNumber; // Declare in outer scope for reuse
 
             document.addEventListener("DOMContentLoaded", function () {
-                ipNumberContact.innerHTML = "<div class='input-group-prepend'> " +
-                    "</div><input wire:model='' type='tel' name='initIntlTelInput' id='initIntlTelInput' class='form-control' onpaste='handlePaste(event)'" +
-                    "placeholder='{{ __("Mobile Number") }}'><span id='valid-msginitIntlTelInput' class='invisible'>✓ Valid</span><span id='error-msginitIntlTelInput' class='hide'></span>" +
-                    " <input type='hidden' name='fullnumber' id='outputinitIntlTelInput' class='form-control'><input type='hidden' name='ccodeinitIntlTelInput' id='ccodeinitIntlTelInput'>" +
+                ipNumberContact.innerHTML =
+                    "<input wire:model='' type='tel' name='initIntlTelInput' id='initIntlTelInput' class='form-control' onpaste='handlePaste(event)' placeholder='" + mobileNumberPlaceholder + "'>" +
+                    "<span id='valid-msginitIntlTelInput' class='invisible'>✓ " + defaultValidText + "</span>" +
+                    "<span id='error-msginitIntlTelInput' class='hide'></span>" +
+                    "<input type='hidden' name='fullnumber' id='outputinitIntlTelInput' class='form-control'>" +
+                    "<input type='hidden' name='ccodeinitIntlTelInput' id='ccodeinitIntlTelInput'>" +
                     "<input type='hidden' name='isoContactNumber' id='isoContactNumber'>";
                 var countryDataNumberContact = (typeof window.intlTelInputGlobals !== "undefined") ? window.intlTelInputGlobals.getCountryData() : [],
                     inputAddContactNumber = document.querySelector("#initIntlTelInput");

@@ -349,7 +349,7 @@
 
                                 <div class="col-lg-12">
                                     <div class="mb-3 pb-2">
-                                        <div class="card bg-light border-0">
+                                        <div class="card">
                                             <div class="card-body p-3">
                                                 <div class="form-check form-switch d-flex align-items-center" dir="ltr">
                                                     <input wire:model.live="user.is_public"

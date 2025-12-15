@@ -14,8 +14,7 @@
                 <div id="tree_container">
                     <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
                         <h5 class="mb-0">{{ __('Transaction History') }}</h5>
-                        <select wire:model.live="perPage" class="form-select form-select-sm"
-                                style="width: auto;">
+                        <select wire:model.live="perPage" class="form-select form-select-sm per-page-width">
                             <option value="10">10</option>
                             <option value="30">30</option>
                             <option value="50">50</option>

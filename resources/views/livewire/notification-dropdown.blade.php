@@ -7,9 +7,8 @@
     >
         <i class='bx bx-bell fs-22'></i>
         @if($unreadNotificationsNumber > 0)
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger fs-10 px-2"
-                  id="notif-counter"
-                  style="min-width: 20px; font-weight: 600;">
+            <span class="start-100 translate-middle badge rounded-pill bg-danger fs-10 px-2 number-notif"
+                  id="notif-counter">
                 {{$unreadNotificationsNumber > 99 ? '99+' : $unreadNotificationsNumber}}
                 <span class="visually-hidden">{{__('unread messages')}}</span>
             </span>
@@ -57,7 +56,7 @@
             </div>
         @endif
 
-        <div class="overflow-y-auto overflow-x-hidden" style="max-height: 420px;">
+        <div class="overflow-y-auto overflow-x-hidden" style="max-height: 333px;">
             @forelse($notifications as $notification)
                 @include(\App\Helpers\NotificationHelper::getTemplate($notification) , ['notification' => $notification])
             @empty

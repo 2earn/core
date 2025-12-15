@@ -8,7 +8,7 @@
         @endslot
     @endcomponent
 
-    <div class="row card mb-3 overflow-hidden">
+    <div class="row card mb-2 overflow-hidden">
         <div class="profile-foreground position-relative">
             <div class="profile-wid-bg">
                 @if ($businessSector?->thumbnailsImage)
@@ -133,7 +133,7 @@
                                     @endif
                                 </div>
 
-                                
+
                                 <div class="col-lg-9 col-md-8">
                                     <h4 class="card-title mb-2">
                                         {{ \App\Models\TranslaleModel::getTranslation($platform, 'name', $platform->name) }}
@@ -187,7 +187,7 @@
                             </div>
                         </div>
 
-                        
+
                         @php
                             $hasItems = false;
                             foreach($platform->deals as $deal) {

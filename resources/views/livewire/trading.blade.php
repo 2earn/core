@@ -119,7 +119,7 @@
                     <div class="col-md-6">
                         <div class="d-flex align-items-center">
                             <label class="me-2">{{__('Show')}}</label>
-                            <select wire:model.live="perPage" class="form-select form-select-sm" style="width: auto;">
+                            <select wire:model.live="perPage" class="form-select form-select-sm per-page-width" >
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>

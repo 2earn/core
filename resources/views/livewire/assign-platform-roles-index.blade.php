@@ -81,7 +81,7 @@
                                 </td>
                                 <td>
                                         <span
-                                            class="badge badge-sm bg-gradient-info">{{ ucfirst(str_replace('_', ' ', $assignment->role)) }}</span>
+                                            class="badge badge-sm">{{ ucfirst(str_replace('_', ' ', $assignment->role)) }}</span>
                                 </td>
                                 <td>
                                     @if($assignment->status === 'pending')

@@ -1,8 +1,8 @@
+@use 'variables' as *;
+
+@use 'bootstrap/scss/bootstrap' as *;
+
 @import url('https://fonts.googleapis.com/css?family=Nunito');
-
-@import 'variables';
-
-@import 'bootstrap/scss/bootstrap';
 
 @import "/node_modules/select2/dist/css/select2.css";
 

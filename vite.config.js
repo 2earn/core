@@ -16,7 +16,13 @@ const rands = Math.random().toString(36).slice(2, 7);
 
 export default defineConfig({
     css: {
-        devSourcemap: false
+        devSourcemap: false,
+        preprocessorOptions: {
+            scss: {
+                api: 'modern-compiler',
+                silenceDeprecations: ['color-functions', 'import', 'global-builtin']
+            }
+        }
     },
     build: {
         chunkSizeWarningLimit: 5120,
@@ -51,6 +57,8 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/tailwind.css',
+                'resources/css/modern-enhancements.css',
+                'resources/css/modern-enhancements-rtl.css',
                 'resources/sass/app.scss',
                 'resources/css/dataTables.bootstrap.css',
                 'resources/css/rowReorder.bootstrap.css',

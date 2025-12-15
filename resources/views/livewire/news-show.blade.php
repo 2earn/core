@@ -129,7 +129,7 @@
                     </div>
 
                     @auth
-                        <div class="card bg-light border-0 mb-3">
+                        <div class="card mb-3">
                             <div class="card-body">
                                 <form wire:submit.prevent="addComment">
                                     <div class="mb-3">

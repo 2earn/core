@@ -130,7 +130,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-footer bg-info bg-opacity-10 border-0 py-2">
+                <div class="card-footer bg-info  py-2">
                     <small class="text-info fw-medium">
                         <i class="ri-information-line me-1"></i>
                         {{__('Available SMS Credits')}}
@@ -161,7 +161,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-footer bg-danger bg-opacity-10 border-0 py-2">
+                <div class="card-footer bg-danger  py-2">
                     <small class="text-danger fw-medium">
                         <i class="ri-arrow-right-up-line me-1"></i>
                         {{__('Total Shares Transactions')}}
@@ -192,7 +192,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-footer bg-secondary bg-opacity-10 border-0 py-2">
+                <div class="card-footer bg-secondary  py-2">
                     <small class="text-secondary fw-medium">
                         <i class="ri-funds-line me-1"></i>
                         {{__('Generated Revenue')}}
@@ -223,7 +223,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-footer bg-dark bg-opacity-10 border-0 py-2">
+                <div class="card-footer bg-dark  py-2">
                     <small class="text-dark fw-medium">
                         <i class="ri-line-chart-line me-1"></i>
                         {{__('Transaction Flow')}}

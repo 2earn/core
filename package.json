@@ -2,8 +2,8 @@
     "type": "module",
     "private": true,
     "name": "2earn",
-    "version": "1.3.1.0",
-    "author": "Themesbrand",
+    "version": "6.0.0.0",
+    "author": "2earn Team",
     "scripts": {
         "dev": "vite",
         "build": "vite build",

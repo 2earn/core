@@ -15,8 +15,7 @@
             </div>
             <div class="row">
                 @if(!$disabled)
-                    <div
-                        class="col-12 card shadow-sm @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif">
+                    <div  class="col-sm-12 card shadow-sm @if(Route::getCurrentRoute()->getName()=="validate_account") d-none   @endif">
                         <div class="card-header bg-transparent border-bottom">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center">
@@ -24,7 +23,7 @@
                                     <h5 class="card-title mb-0 text-info">{{ __('Complete_Profile') }}</h5>
                                 </div>
                                 <div
-                                    class="@if(Route::getCurrentRoute()->getName()!="validate_account") d-none   @endif">
+                                        class="@if(Route::getCurrentRoute()->getName()!="validate_account") d-none   @endif">
                                     <a style="color: #009fe3!important" data-bs-toggle="modal"
                                        data-bs-target="#modalEditProf"
                                        href="javascript:void(0);"
@@ -46,13 +45,13 @@
                                 <div class="progress" style="height: 24px;">
                                     @if($PercentComplete>=20)
                                         <div
-                                            class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
-                                            role="progressbar"
-                                            style="width: 20%"
-                                            aria-valuenow="20"
-                                            aria-valuemin="0"
-                                            aria-valuemax="100"
-                                            aria-label="{{ __('Profile completion progress') }}">
+                                                class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
+                                                role="progressbar"
+                                                style="width: 20%"
+                                                aria-valuenow="20"
+                                                aria-valuemin="0"
+                                                aria-valuemax="100"
+                                                aria-label="{{ __('Profile completion progress') }}">
                                             @if($PercentComplete==20)
                                                 <span class="fw-semibold">{{$PercentComplete}}%</span>
                                             @endif
@@ -60,10 +59,10 @@
                                     @endif
                                     @if($PercentComplete>=40)
                                         <div
-                                            class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
-                                            role="progressbar"
-                                            style="width:20%" aria-valuenow="40" aria-valuemin="0"
-                                            aria-valuemax="100">
+                                                class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
+                                                role="progressbar"
+                                                style="width:20%" aria-valuenow="40" aria-valuemin="0"
+                                                aria-valuemax="100">
                                             @if($PercentComplete==40)
                                                 <span class="fw-semibold">{{$PercentComplete}}%</span>
                                             @endif
@@ -71,10 +70,10 @@
                                     @endif
                                     @if($PercentComplete>=60)
                                         <div
-                                            class="progress-bar progress-bar-striped progress-bar-animated bg-warning"
-                                            role="progressbar"
-                                            style="width: 20%" aria-valuenow="60" aria-valuemin="0"
-                                            aria-valuemax="100">
+                                                class="progress-bar progress-bar-striped progress-bar-animated bg-warning"
+                                                role="progressbar"
+                                                style="width: 20%" aria-valuenow="60" aria-valuemin="0"
+                                                aria-valuemax="100">
                                             @if($PercentComplete==60)
                                                 <span class="fw-semibold">{{$PercentComplete}}%</span>
                                             @endif
@@ -91,10 +90,10 @@
                                     @endif
                                     @if($PercentComplete==100)
                                         <div
-                                            class="progress-bar progress-bar-striped progress-bar-animated bg-success"
-                                            role="progressbar"
-                                            style="width: 20%" aria-valuenow="100" aria-valuemin="0"
-                                            aria-valuemax="100">
+                                                class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                                                role="progressbar"
+                                                style="width: 20%" aria-valuenow="100" aria-valuemin="0"
+                                                aria-valuemax="100">
                                                 <span class="fw-semibold">
                                                     <i class="ri-check-line me-1"></i>{{$PercentComplete}}%
                                                 </span>
@@ -125,6 +124,11 @@
                                                     <h6 class="alert-heading mb-0">
                                                         <i class="ri-verified-badge-line me-1"></i>
                                                         {{__('your account is already international validated')}}
+                                                    </h6>
+                                                @else
+                                                    <h6 class="alert-heading mb-0">
+                                                        <i class="ri-verified-badge-line me-1"></i>
+                                                        {{__('Your account is not validated , you can send a request')}}
                                                     </h6>
                                                 @endif
                                             @endif
@@ -160,7 +164,7 @@
                 @if(Route::getCurrentRoute()->getName()=="validate_account")
                     <livewire:user-form-content :paramIdUser="$user['idUser']"/>
                 @else
-                    <div class="col-12 card shadow-sm">
+                    <div class="col-sm-12 card shadow-sm">
                         <div class="card-header bg-transparent border-bottom">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center">
@@ -188,7 +192,7 @@
                         </div>
                     </div>
                 @endif
-                <div class="col-4 card shadow-sm" id="profile">
+                <div class="col-sm-12 col-md-6 col-lg-4 card shadow-sm" id="profile">
                     <div class="card-header bg-transparent border-bottom">
                         <div class="d-flex align-items-center">
                             <i class="ri-user-3-line fs-4 text-info me-2"></i>
@@ -241,7 +245,7 @@
                             </h2>
                             <div class="mb-2">
                                     <span
-                                        class="badge bg-secondary-subtle text-secondary fs-6">{{ __('ID') }}: {{$user['idUser']}}</span>
+                                            class="badge bg-secondary-subtle text-secondary fs-6">{{ __('ID') }}: {{$user['idUser']}}</span>
                             </div>
 
                             @if($user['status']==\Core\Enum\StatusRequest::ValidNational->value||$user['status']==\Core\Enum\StatusRequest::ValidInternational->value)
@@ -291,7 +295,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-8">
+                <div class="col-sm-12 col-md-12 col-lg-12">
                     <livewire:identity-cards :userId="$user['idUser']"/>
                 </div>
             </div>
@@ -408,10 +412,10 @@
                                                        accept=".png"/>
                                                 <label for="image55">
                                                     <lord-icon
-                                                        src="https://cdn.lordicon.com/vixtkkbk.json"
-                                                        trigger="loop" delay="1000"
-                                                        colors="primary:#464fed,secondary:#bc34b6"
-                                                        style="width:100px;height:100px">
+                                                            src="https://cdn.lordicon.com/vixtkkbk.json"
+                                                            trigger="loop" delay="1000"
+                                                            colors="primary:#464fed,secondary:#bc34b6"
+                                                            style="width:100px;height:100px">
                                                     </lord-icon>
                                                     <span> <i class="ri-camera-fill"></i> </span>
                                                 </label>
@@ -434,10 +438,10 @@
                                                        accept=".png"/>
                                                 <label for="image44">
                                                     <lord-icon
-                                                        src="https://cdn.lordicon.com/vixtkkbk.json"
-                                                        trigger="loop" delay="1000"
-                                                        colors="primary:#464fed,secondary:#bc34b6"
-                                                        style="width:100px;height:100px">
+                                                            src="https://cdn.lordicon.com/vixtkkbk.json"
+                                                            trigger="loop" delay="1000"
+                                                            colors="primary:#464fed,secondary:#bc34b6"
+                                                            style="width:100px;height:100px">
                                                     </lord-icon>
                                                     <span> <i class="ri-camera-fill"></i> </span>
                                                 </label>

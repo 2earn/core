@@ -147,7 +147,7 @@
                     <h5 class="card-title mb-0">
                         <i class="ri-mail-line align-middle me-1"></i> {{ __('SMS List') }}
                     </h5>
-                    <select wire:model.live="perPage" class="form-select form-select-sm" style="width: auto;">
+                    <select wire:model.live="perPage" class="form-select form-select-sm per-page-width" >
                         <option value="10">10</option>
                         <option value="25">25</option>
                         <option value="50">50</option>

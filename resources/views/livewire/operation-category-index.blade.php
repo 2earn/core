@@ -28,7 +28,7 @@
                         <div class="col-md-5 text-md-end">
                             <div class="d-inline-flex align-items-center">
                                 <label class="me-2 mb-0 text-muted small">{{ __('Show') }}</label>
-                                <select wire:model.live="perPage" class="form-select form-select-sm w-auto">
+                                <select wire:model.live="perPage" class="form-select form-select-sm per-page-width">
                                     <option value="10">10</option>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
