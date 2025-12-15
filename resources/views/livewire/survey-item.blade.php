@@ -384,7 +384,6 @@
         @if($currentRouteName=="surveys_show")
             @if(\App\Models\User::isSuperAdmin())
                 <div class="card-body  border-top">
-                    <h6 class="text-info mb-3"><i class="ri-information-line me-2"></i>{{__('Details')}}</h6>
                     <div class="row g-3">
                         <div class="col-sm-12 col-md-6 col-lg-3">
                             <div class="card border-0 shadow-sm h-100">
@@ -525,7 +524,7 @@
                 <div class="d-flex flex-wrap gap-2 align-items-center">
                     @if($currentRouteName!="survey_show")
                         <a href="{{route('surveys_show', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id] )}}"
-                           class="btn btn-outline-info">
+                           class="btn btn-outline-info float-end">
                             <i class="ri-eye-line me-1"></i>{{__('Details')}}
                         </a>
                     @endif
@@ -969,7 +968,7 @@
         @endif
 
         @if($currentRouteName!="surveys_show")
-            <div class="card-footer  border-top">
+            <div class="card-footer border-top">
                 <div class="d-flex gap-4 align-items-center">
                     <div class="d-flex align-items-center">
                         <i class="ri-thumb-up-line text-primary fs-5 me-2"></i>
@@ -991,6 +990,13 @@
                             </a>
                         @endif
                     @endif
+
+                    <div class="d-flex gap-4 align-items-center">
+                        <a href="{{route('surveys_show', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id] )}}"
+                           class="btn btn-outline-secondary float-end btn-sm">
+                          {{__('Details')}}
+                        </a>
+                    </div>
                 </div>
             </div>
         @endif

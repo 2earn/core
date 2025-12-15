@@ -1,20 +1,18 @@
 <div class="row">
     <div class="col-12 card event-item">
+        <div class="card-header">
+            <h4>
+                {{\App\Models\TranslaleModel::getTranslation($event,'title',$event->title)}}
+            </h4>
+            @if(\App\Models\User::isSuperAdmin())
+                <p class="mx-2">
+                    <a class="link-info float-end"
+                       href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($event,'title')])}}">
+                        <i class="ri-translate-2 align-bottom me-1"></i>{{__('Update Translation')}}</a>
+                </p>
+            @endif
+        </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-12">
-                    <h4 class="m-2 ">
-                        {{\App\Models\TranslaleModel::getTranslation($event,'title',$event->title)}}
-                    </h4>
-                    @if(\App\Models\User::isSuperAdmin())
-                        <p class="mx-2">
-                            <a class="link-info float-end"
-                               href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($event,'title')])}}">
-                                <i class="ri-translate-2 align-bottom me-1"></i>{{__('Update Translation')}}</a>
-                        </p>
-                    @endif
-                </div>
-            </div>
             <div class="row">
                 @if($event->hashtags && $event->hashtags->count())
                     <div class="mt-2">
@@ -71,21 +69,23 @@
             </div>
         </div>
         <div class="card-footer text-muted">
-            <a href="{{ route('event_show', ['locale' => app()->getLocale(), 'id' => $event->id]) }}"
-               class="btn btn-outline-secondary  btn-sm ">
-                {{ __('View details') }}
-            </a>
-
             <div class="d-flex gap-4 align-items-center">
                 <div class="d-flex align-items-center">
                     <i class="ri-thumb-up-line text-primary fs-5 me-2"></i>
                     <span class="fw-medium">{{ $event->likes()->count() ?? 0 }}</span>
                     <span class="text-muted ms-1">{{ __('Likes') }}</span>
                 </div>
+
                 <div class="d-flex align-items-center">
                     <i class="ri-chat-3-line text-info fs-5 me-2"></i>
                     <span class="fw-medium">{{ $event->comments()->where('validated',true)->count() ?? 0 }}</span>
                     <span class="text-muted ms-1">{{ __('Comments') }}</span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <a href="{{ route('event_show', ['locale' => app()->getLocale(), 'id' => $event->id]) }}"
+                       class="btn btn-outline-secondary float-end btn-sm">
+                        {{ __('View details') }}
+                    </a>
                 </div>
             </div>
         </div>
