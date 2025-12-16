@@ -572,10 +572,16 @@ class DealService
             ? round(($currentRevenue / $deal->target_turnover) * 100, 2)
             : 0;
 
+
+        $commissionPercentage = Deal::getCommissionPercentage($deal, $deal->current_turnover);
+        $dealPerformanceScore = Deal::getPerformanceScore($deal);
+
         return [
             'deal_id' => $deal->id,
             'target_amount' => round($deal->target_turnover, 2),
             'current_revenue' => round($currentRevenue, 2),
+            'current_commission' => formatSolde($commissionPercentage, 3),
+            'deal_performance_score' => $dealPerformanceScore,
             'expected_progress' => $expectedProgress,
             'actual_progress' => $actualProgress,
             'chart_data' => $chartData
