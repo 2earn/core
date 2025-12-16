@@ -82,6 +82,8 @@ export default defineConfig({
                 'resources/css/intlTelInput.min.css',
                 'resources/css/custom.css',
                 'resources/css/custom-rtl.css',
+                'resources/css/dark-mode.css',
+                'resources/css/dark-mode-rtl.css',
                 'resources/anychart/anychart-base.min.js',
                 'resources/anychart/anychart-circular-gauge.min.js',
                 'resources/anychart/anychart-data-adapter.min.js',

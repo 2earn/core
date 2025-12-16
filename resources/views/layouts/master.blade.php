@@ -2,9 +2,20 @@
 <html dir="{{config('app.available_locales')[app()->getLocale()]['direction']}}"
       lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-layout="vertical" data-topbar="light"
       data-sidebar="light" data-sidebar-size="sm-hover-active" data-sidebar-image="none" data-preloader="disable"
-      id="HTMLMain" data-layout-mode="light"
+      id="HTMLMain"
 >
 <head>
+    <script>
+        // Set dark mode IMMEDIATELY before any CSS loads to prevent flash
+        (function() {
+            var darkMode = localStorage.getItem('data-layout-mode');
+            if (darkMode === 'dark') {
+                document.documentElement.setAttribute('data-layout-mode', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-layout-mode', 'light');
+            }
+        })();
+    </script>
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.ga4.measurementId') }}"></script>
     <script>
         var lan = "{{config('app.available_locales')[app()->getLocale()]['tabLang']}}";
@@ -109,8 +120,12 @@
     @laravelPWA
     @if(config('app.available_locales')[app()->getLocale()]['direction'] === 'rtl')
         @vite(['resources/css/tailwind.css','resources/css/modern-enhancements.css','resources/css/modern-enhancements-rtl.css','resources/css/menumodals.css','resources/css/bootstrap-rtl.css','resources/css/icons-rtl.css','resources/css/app-rtl.css','resources/css/custom-rtl.css'])
+        {{-- Dark mode CSS for RTL --}}
+        @vite(['resources/css/dark-mode.css', 'resources/css/dark-mode-rtl.css'])
     @else
         @vite(['resources/css/tailwind.css','resources/css/modern-enhancements.css','resources/css/menumodals.css','resources/css/bootstrap.min.css','resources/css/icons.css','resources/css/app.css','resources/css/custom.css'])
+        {{-- Dark mode CSS for LTR --}}
+        @vite(['resources/css/dark-mode.css'])
     @endif
 </head>
 <body>
