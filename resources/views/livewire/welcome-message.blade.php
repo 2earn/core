@@ -1,9 +1,8 @@
-<div class="row mt-2">
+<div class="row">
     <div class="col-12 card border-0 shadow-lg overflow-hidden"
          style="background: linear-gradient(135deg, #00aaf2 0%, #e502f5 100%); border-radius: 20px;">
-        <div class="card-body p-4 p-md-5 position-relative">
-            <div class="d-flex align-items-center flex-lg-row flex-column gap-4">
-                <!-- Avatar Section -->
+        <div class="card-body  position-relative">
+            <div class="d-flex align-items-center flex-lg-row flex-column">
                 <div class="flex-shrink-0">
                     <div class="position-relative">
                         <div
@@ -17,7 +16,6 @@
                     </div>
                 </div>
 
-                <!-- Main Content -->
                 <div class="flex-grow-1 text-lg-start text-center">
                     <div class="d-flex align-items-center justify-content-lg-start justify-content-center gap-3 mb-3">
                         <div>

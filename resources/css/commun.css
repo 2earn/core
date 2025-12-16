@@ -1,11 +1,9 @@
-@charset "UTF-8";
 /**
  * Common CSS Styles
  * This file contains CSS rules shared between LTR (app.css) and RTL (app-rtl.css) layouts.
  * Generated automatically - do not edit directly.
  */
 
-@charset "UTF-8";
 
 @import url(https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap);
 
