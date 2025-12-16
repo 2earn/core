@@ -526,6 +526,12 @@ class DealService
             ? round(($totalRevenue / $totalTargetTurnover) * 100, 2)
             : 0;
 
+        $recentDeals = (clone $baseQuery)
+            ->with('platform')
+            ->orderBy('created_at', 'desc')
+            ->limit(10)
+            ->get();
+
         return [
             'total_deals' => $totalDeals,
             'pending_request_deals' => $pendingRequestDeals,
@@ -533,7 +539,8 @@ class DealService
             'expired_deals' => $expiredDeals,
             'active_deals_count' => $activeDealsCount,
             'total_revenue' => round($totalRevenue, 2),
-            'global_revenue_percentage' => $globalRevenuePercentage
+            'global_revenue_percentage' => $globalRevenuePercentage,
+            'recent_deals' => $recentDeals
         ];
     }
 
