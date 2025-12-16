@@ -148,7 +148,11 @@ class ItemService
     public function aggregateTopSellingItems(Builder $query, int $limit = 10): array
     {
         $topProducts = $query
-            ->select('items.name as product_name', DB::raw('SUM(order_details.qty) as sale_count'))
+            ->select(
+                'items.name as product_name',
+                DB::raw('SUM(order_details.qty) as sale_count'),
+                DB::raw('SUM(order_details.amount_after_partner_discount) as partner_benefit')
+            )
             ->groupBy('items.id', 'items.name')
             ->orderByDesc('sale_count')
             ->limit($limit)
@@ -157,6 +161,7 @@ class ItemService
                 return [
                     'product_name' => $item->product_name,
                     'sale_count' => (int) $item->sale_count,
+                    'partner_benefit' => (float) $item->partner_benefit,
                 ];
             });
 
