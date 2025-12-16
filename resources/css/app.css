@@ -5063,7 +5063,7 @@ div.dtr-modal div.dtr-modal-close {
 /* Balance Cards Enhancement */
 
 .topbar-balance-link {
-    padding: 0.5rem 0.75rem;
+    padding: 0.5rem 0.5rem;
     border-radius: 16px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(249, 250, 251, 0.4) 100%);

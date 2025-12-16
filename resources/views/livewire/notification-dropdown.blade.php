@@ -7,7 +7,7 @@
     >
         <i class='bx bx-bell fs-22'></i>
         @if($unreadNotificationsNumber > 0)
-            <span class="start-100 translate-middle badge rounded-pill bg-danger fs-10 px-2 number-notif"
+            <span class="start-100 translate-middle badge rounded-pill bg-danger fs-10 px-1 number-notif"
                   id="notif-counter">
                 {{$unreadNotificationsNumber > 99 ? '99+' : $unreadNotificationsNumber}}
                 <span class="visually-hidden">{{__('unread messages')}}</span>

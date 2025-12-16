@@ -230,7 +230,7 @@
                                 <a href="{{ $bal['route'] }}"
                                    class="d-flex align-items-center text-decoration-none topbar-balance-link"
                                    aria-label="{{ $bal['title'] }}">
-                                    <div class="avatar-xs flex-shrink-0 me-2">
+                                    <div class="avatar-xxs flex-shrink-0 me-2">
                                     <span class="avatar-title {{ $bal['iconBg'] }} rounded fs-3">
                                         <i class="{{ $bal['icon'] }} {{ $bal['iconColor'] }}"></i>
                                     </span>

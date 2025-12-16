@@ -9,7 +9,7 @@
         aria-expanded="false">
         <i class="bx bx-shopping-bag fs-22"></i>
         @if($cart->total_cart_quantity > 0)
-            <span class="translate-middle badge rounded-pill bg-info fs-10 cart-item-badge number-notif ">
+            <span class="translate-middle badge rounded-pill bg-info fs-10 cart-item-badge number-notif">
                 {{$cart->total_cart_quantity > 99 ? '99+' : $cart->total_cart_quantity}}
                 <span class="visually-hidden">{{__('items in cart')}}</span>
             </span>
