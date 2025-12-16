@@ -16,10 +16,6 @@
             <div class="col-12 card">
                 <div class="card-body d-flex align-items-center justify-content-end">
                     <div class="d-flex gap-1">
-                        <a class="btn btn-outline-primary"
-                           href="{{ route('deals_dashboard', ['locale' => app()->getLocale()]) }}">
-                            <i class="fas fa-chart-line me-1"></i>{{__('Dashboard')}}
-                        </a>
                         <a href="{{route('deals_all_requests', ['locale' => app()->getLocale()])}}"
                            class="btn btn-outline-primary">
                             <i class="fas fa-list me-1"></i>{{__('All Requests')}}

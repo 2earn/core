@@ -164,7 +164,7 @@
                 @if(Route::getCurrentRoute()->getName()=="validate_account")
                     <livewire:user-form-content :paramIdUser="$user['idUser']"/>
                 @else
-                    <div class="col-sm-12 card shadow-sm">
+                    <div class="col mx-1 card shadow-sm">
                         <div class="card-header bg-transparent border-bottom">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center">
@@ -192,7 +192,7 @@
                         </div>
                     </div>
                 @endif
-                <div class="col-sm-12 col-md-6 col-lg-4 card shadow-sm" id="profile">
+                <div class="col mx-1 card shadow-sm" id="profile">
                     <div class="card-header bg-transparent border-bottom">
                         <div class="d-flex align-items-center">
                             <i class="ri-user-3-line fs-4 text-info me-2"></i>

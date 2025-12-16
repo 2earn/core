@@ -1070,22 +1070,26 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
                     case "light":
                         getElementUsingTagname("data-layout-mode", "light");
                         document.documentElement.setAttribute("data-layout-mode", "light");
-                        sessionStorage.setItem("data-layout-mode", "light");
+                        localStorage.setItem("data-layout-mode", "light");
+                        toggleDarkModeCSS(false);
                         break;
                     case "dark":
                         getElementUsingTagname("data-layout-mode", "dark");
                         document.documentElement.setAttribute("data-layout-mode", "dark");
-                        sessionStorage.setItem("data-layout-mode", "dark");
+                        localStorage.setItem("data-layout-mode", "dark");
+                        toggleDarkModeCSS(true);
                         break;
                     default:
-                        if (sessionStorage.getItem("data-layout-mode") && sessionStorage.getItem("data-layout-mode") == "dark") {
-                            sessionStorage.setItem("data-layout-mode", "dark");
+                        if (localStorage.getItem("data-layout-mode") && localStorage.getItem("data-layout-mode") == "dark") {
+                            localStorage.setItem("data-layout-mode", "dark");
                             document.documentElement.setAttribute("data-layout-mode", "dark");
                             getElementUsingTagname("data-layout-mode", "dark");
+                            toggleDarkModeCSS(true);
                         } else {
-                            sessionStorage.setItem("data-layout-mode", "light");
+                            localStorage.setItem("data-layout-mode", "light");
                             document.documentElement.setAttribute("data-layout-mode", "light");
                             getElementUsingTagname("data-layout-mode", "light");
+                            toggleDarkModeCSS(false);
                         }
                         break;
                 }
@@ -1480,7 +1484,7 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
             var isLayoutAttributes = {};
             isLayoutAttributes["data-layout"] = sessionStorage.getItem("data-layout");
             isLayoutAttributes["data-sidebar-size"] = sessionStorage.getItem("data-sidebar-size");
-            isLayoutAttributes["data-layout-mode"] = sessionStorage.getItem("data-layout-mode");
+            isLayoutAttributes["data-layout-mode"] = localStorage.getItem("data-layout-mode");
             isLayoutAttributes["data-layout-width"] = sessionStorage.getItem("data-layout-width");
             isLayoutAttributes["data-sidebar"] = sessionStorage.getItem("data-sidebar");
             isLayoutAttributes['data-sidebar-image'] = sessionStorage.getItem('data-sidebar-image');
@@ -1495,6 +1499,29 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
 
     function initFullScreen() {
         var fullscreenBtn = document.querySelector('[data-toggle="fullscreen"]');
+
+        // Check if user previously had fullscreen enabled
+        var wasFullscreen = localStorage.getItem('fullscreen-enabled') === 'true';
+        if (wasFullscreen && fullscreenBtn) {
+            // Add visual indicator that fullscreen was previously enabled
+            fullscreenBtn.classList.add('fullscreen-pending');
+            // Auto-request fullscreen on first user interaction
+            var autoFullscreen = function() {
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen();
+                } else if (document.documentElement.mozRequestFullScreen) {
+                    document.documentElement.mozRequestFullScreen();
+                } else if (document.documentElement.webkitRequestFullscreen) {
+                    document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+                }
+                document.body.classList.add("fullscreen-enable");
+                fullscreenBtn.classList.remove('fullscreen-pending');
+                document.removeEventListener('click', autoFullscreen);
+            };
+            // Request fullscreen on next user click anywhere on page
+            document.addEventListener('click', autoFullscreen, { once: true });
+        }
+
         fullscreenBtn &&
         fullscreenBtn.addEventListener("click", function (e) {
             e.preventDefault();
@@ -1504,6 +1531,8 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
                 !document.mozFullScreenElement &&
                 !document.webkitFullscreenElement
             ) {
+                // Save fullscreen preference
+                localStorage.setItem('fullscreen-enabled', 'true');
                 // current working methods
                 if (document.documentElement.requestFullscreen) {
                     document.documentElement.requestFullscreen();
@@ -1515,6 +1544,8 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
                     );
                 }
             } else {
+                // Clear fullscreen preference
+                localStorage.setItem('fullscreen-enabled', 'false');
                 if (document.cancelFullScreen) {
                     document.cancelFullScreen();
                 } else if (document.mozCancelFullScreen) {
@@ -1532,13 +1563,35 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
         function exitHandler() {
             if (!document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
                 document.body.classList.remove("fullscreen-enable");
+                localStorage.setItem('fullscreen-enabled', 'false');
             }
         }
+    }
+
+    function toggleDarkModeCSS(enable) {
+        // Find all dark-mode stylesheets (Vite-compiled)
+        var viteLinks = document.querySelectorAll('link[rel="stylesheet"]');
+
+        viteLinks.forEach(function(link) {
+            if (link.href && link.href.includes('dark-mode')) {
+                if (enable) {
+                    link.removeAttribute('disabled');
+                } else {
+                    link.setAttribute('disabled', 'disabled');
+                }
+            }
+        });
     }
 
     function setLayoutMode(mode, modeType, modeTypeId, html) {
         var isModeTypeId = document.getElementById(modeTypeId);
         html.setAttribute(mode, modeType);
+
+        // Toggle dark mode CSS when layout mode changes
+        if (mode === "data-layout-mode") {
+            toggleDarkModeCSS(modeType === "dark");
+        }
+
         if (isModeTypeId) {
             document.getElementById(modeTypeId).click();
         }
@@ -1551,7 +1604,7 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
         if (lightDarkBtn && lightDarkBtn.length) {
 
             lightDarkBtn[0].addEventListener("click", function (event) {
-                html.hasAttribute("data-layout-mode") && sessionStorage.getItem('data-layout-mode') == "dark" ?
+                html.hasAttribute("data-layout-mode") && localStorage.getItem('data-layout-mode') == "dark" ?
                     setLayoutMode("data-layout-mode", "light", "layout-mode-light", html) :
                     setLayoutMode("data-layout-mode", "dark", "layout-mode-dark", html);
                 sessionStorage.setItem("data-sidebar", html.getAttribute("data-layout-mode"));
@@ -1561,7 +1614,7 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
 
                 getElementUsingTagname("data-layout-mode", html.getAttribute("data-layout-mode"));
                 document.documentElement.setAttribute("data-layout-mode", html.getAttribute("data-layout-mode"));
-                sessionStorage.setItem("data-layout-mode", html.getAttribute("data-layout-mode"));
+                localStorage.setItem("data-layout-mode", html.getAttribute("data-layout-mode"));
 
 
             });
@@ -1573,6 +1626,8 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
         if (document.getElementById("reset-layout")) {
             document.getElementById("reset-layout").addEventListener("click", function () {
                 sessionStorage.clear();
+                localStorage.removeItem("data-layout-mode");
+                localStorage.removeItem("fullscreen-enabled");
                 window.location.reload();
             });
         }
