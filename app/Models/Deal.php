@@ -57,6 +57,8 @@ class Deal extends Model
         'initial_commission' => 'float',
         'final_commission' => 'float',
         'validated' => 'boolean',
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
     ];
 
 
@@ -155,6 +157,15 @@ class Deal extends Model
             Log::error($exception->getMessage());
             return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('warning', Lang::get('This Deal cant be Archived !') . " " . $exception->getMessage());
         }
+    }
+
+    public static function getPerformanceScore($deal)
+    {
+        $rar = $deal->current_turnover / $deal->target_turnover;
+        $rest = $deal->end_date->diffInDays(now());
+        $period = $deal->end_date->diffInDays($deal->start_date);
+        $etr = $rest / $period * 100;
+        return formatSolde($rar / ($rar + $etr), 3);
     }
 
     public static function getCommissionPercentage($deal, $newTurnOver = null)
