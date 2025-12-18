@@ -294,6 +294,13 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
                 });
             });
 
+            Route::prefix('/partner-payments')->name('partner_payment_')->group(function () {
+                Route::get('/', \App\Livewire\PartnerPaymentIndex::class)->name('index');
+                Route::get('/create', \App\Livewire\PartnerPaymentManage::class)->name('manage');
+                Route::get('/{id}', \App\Livewire\PartnerPaymentDetail::class)->name('detail');
+                Route::get('/{id}/edit', \App\Livewire\PartnerPaymentManage::class)->name('edit');
+            });
+
             Route::prefix('/hashtags')->name('hashtags_')->group(function () {
                 Route::get('/', HashtagIndex::class)->name('index');
                 Route::get('/create', HashtagCreateOrUpdate::class)->name('create');

@@ -1,0 +1,84 @@
+<?php
+
+namespace App\Models;
+
+use App\Traits\HasAuditing;
+use Core\Models\FinancialRequest;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class PartnerPayment extends Model
+{
+    use HasFactory, HasAuditing;
+
+    protected $fillable = [
+        'amount',
+        'method',
+        'payment_date',
+        'user_id',
+        'partner_id',
+        'demand_id',
+        'validated_by',
+        'validated_at',
+        'created_by',
+        'updated_by',
+    ];
+
+    protected $casts = [
+        'amount' => 'decimal:2',
+        'payment_date' => 'datetime',
+        'validated_at' => 'datetime',
+    ];
+
+    /**
+     * Get the user who made the payment.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * Get the partner who received the payment.
+     */
+    public function partner(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'partner_id');
+    }
+
+    /**
+     * Get the financial request (demand) associated with this payment.
+     */
+    public function demand(): BelongsTo
+    {
+        return $this->belongsTo(FinancialRequest::class, 'demand_id', 'numeroReq');
+    }
+
+    /**
+     * Get the user who validated the payment.
+     */
+    public function validator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'validated_by');
+    }
+
+    /**
+     * Check if the payment has been validated.
+     */
+    public function isValidated(): bool
+    {
+        return !is_null($this->validated_at) && !is_null($this->validated_by);
+    }
+
+    /**
+     * Validate the payment.
+     */
+    public function validate(int $validatorId): bool
+    {
+        $this->validated_by = $validatorId;
+        $this->validated_at = now();
+        return $this->save();
+    }
+}
+

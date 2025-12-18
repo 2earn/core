@@ -379,6 +379,14 @@
                             </a>
                         </div>
                         <div class="col">
+                            <a href="{{route('partner_payment_index',['locale'=>app()->getLocale()],false )}}"
+                               class="menu-link-modern {{in_array($currentRouteName, ['partner_payment_index', 'partner_payment_detail', 'partner_payment_manage']) ? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-money-dollar-circle-line "></i>
+                                <span>{{__('Partner Payments')}}</span>
+                            </a>
+                        </div>
+                        <div class="col">
                             <a href="{{route($sidebarRoleArray[0], app()->getLocale(),false)}}"
                                class="menu-link-modern {{$currentRouteName=='$1'? 'active' : ''}}">
                                 <i class="ri-shield-user-line "></i>
