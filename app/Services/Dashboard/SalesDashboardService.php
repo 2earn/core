@@ -292,5 +292,78 @@ class SalesDashboardService
             throw $e;
         }
     }
+
+    /**
+     * Get top-selling platforms ranked by sales
+     *
+     * @param array $filters (user_id, start_date, end_date, limit)
+     * @return array
+     * @throws \Exception
+     */
+    public function getTopSellingPlatforms(array $filters = []): array
+    {
+        try {
+            $limit = $filters['limit'] ?? 10;
+            $userId = $filters['user_id'] ?? null;
+
+            // Build query to get platforms ranked by total sales from commission_break_downs
+            $query = DB::table('commission_break_downs')
+                ->select(
+                    'platforms.id as platform_id',
+                    'platforms.name as platform_name',
+                    DB::raw('SUM(commission_break_downs.purchase_value) as total_sales')
+                )
+                ->join('platforms', 'commission_break_downs.platform_id', '=', 'platforms.id')
+                ->whereNotNull('commission_break_downs.platform_id')
+                ->whereNotNull('commission_break_downs.purchase_value');
+
+            // Filter by user access - only show platforms the user has a role in
+            if (!empty($userId)) {
+                $query->where(function ($q) use ($userId) {
+                    $q->where('platforms.owner_id', $userId)
+                      ->orWhere('platforms.marketing_manager_id', $userId)
+                      ->orWhere('platforms.financial_manager_id', $userId);
+                });
+            }
+
+            // Filter by date range
+            if (!empty($filters['start_date'])) {
+                $query->where('commission_break_downs.created_at', '>=', $filters['start_date']);
+            }
+
+            if (!empty($filters['end_date'])) {
+                $query->where('commission_break_downs.created_at', '<=', $filters['end_date']);
+            }
+
+            // Group by platform and order by total sales descending
+            $topPlatforms = $query
+                ->groupBy('platforms.id', 'platforms.name')
+                ->orderByDesc('total_sales')
+                ->limit($limit)
+                ->get()
+                ->map(function ($platform) {
+                    return [
+                        'platform_id' => $platform->platform_id,
+                        'platform_name' => $platform->platform_name,
+                        'total_sales' => (float) $platform->total_sales,
+                    ];
+                })
+                ->toArray();
+
+            Log::info(self::LOG_PREFIX . 'Top-selling platforms retrieved successfully', [
+                'filters' => $filters,
+                'user_id' => $userId,
+                'count' => count($topPlatforms)
+            ]);
+
+            return $topPlatforms;
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error in getTopSellingPlatforms: ' . $e->getMessage(), [
+                'filters' => $filters,
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
+        }
+    }
 }
 

@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api\partner;
 
 use App\Http\Controllers\Controller;
 use App\Models\PlatformValidationRequest;
+use App\Services\Dashboard\SalesDashboardService;
 use App\Services\Platform\PlatformChangeRequestService;
 use App\Services\Platform\PlatformService;
 use App\Services\Platform\PlatformTypeChangeRequestService;
 use App\Services\Platform\PlatformValidationRequestService;
 use Core\Models\Platform;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
@@ -22,12 +24,14 @@ class PlatformPartnerController extends Controller
     protected $platformValidationRequestService;
     protected $platformChangeRequestService;
     protected $platformTypeChangeRequestService;
+    protected $salesDashboardService;
 
     public function __construct(
         PlatformService                  $platformService,
         PlatformValidationRequestService $platformValidationRequestService,
         PlatformChangeRequestService     $platformChangeRequestService,
-        PlatformTypeChangeRequestService $platformTypeChangeRequestService
+        PlatformTypeChangeRequestService $platformTypeChangeRequestService,
+        SalesDashboardService            $salesDashboardService
     )
     {
         $this->middleware('check.url');
@@ -35,6 +39,7 @@ class PlatformPartnerController extends Controller
         $this->platformValidationRequestService = $platformValidationRequestService;
         $this->platformChangeRequestService = $platformChangeRequestService;
         $this->platformTypeChangeRequestService = $platformTypeChangeRequestService;
+        $this->salesDashboardService = $salesDashboardService;
     }
 
     public function index(Request $request)
@@ -226,7 +231,6 @@ class PlatformPartnerController extends Controller
         }
 
         $platform = $this->platformService->getPlatformForPartner($platformId, $userId);
-
         if (!$platform) {
             Log::error(self::LOG_PREFIX . 'Platform not found', ['platform_id' => $platformId, 'user_id' => $userId]);
             return response()->json([
@@ -520,6 +524,75 @@ class PlatformPartnerController extends Controller
             'message' => 'Change request cancelled successfully',
             'data' => $changeRequest
         ], Response::HTTP_OK);
+    }
+
+    /**
+     * Get top-selling platforms chart data
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getTopSellingPlatforms(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|integer|exists:users,id',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'limit' => 'nullable|integer|min:1|max:100',
+        ]);
+
+        if ($validator->fails()) {
+            Log::error(self::LOG_PREFIX . 'Validation failed for top-selling platforms', [
+                'errors' => $validator->errors()
+            ]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $userId = $request->input('user_id');
+
+        try {
+            $filters = [
+                'user_id' => $userId,
+                'start_date' => $request->input('start_date'),
+                'end_date' => $request->input('end_date'),
+                'limit' => $request->input('limit', 10),
+            ];
+
+            $filters = array_filter($filters, function ($value) {
+                return !is_null($value);
+            });
+
+            $topPlatforms = $this->salesDashboardService->getTopSellingPlatforms($filters);
+
+            Log::info(self::LOG_PREFIX . 'Top-selling platforms retrieved successfully', [
+                'user_id' => $userId,
+                'filters' => $filters,
+                'count' => count($topPlatforms)
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Top-selling platforms retrieved successfully',
+                'data' => [
+                    'top_platforms' => $topPlatforms
+                ]
+            ], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error retrieving top-selling platforms: ' . $e->getMessage(), [
+                'user_id' => $userId,
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Error retrieving top-selling platforms',
+                'error' => $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

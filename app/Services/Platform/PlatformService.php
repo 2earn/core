@@ -339,7 +339,7 @@ class PlatformService
      * @param int $userId
      * @return Platform|null
      */
-    public function getPlatformForPartner(int $platformId, int $userId): ?Platform
+    public function getPlatformForPartner($platformId, $userId): ?Platform
     {
         try {
             return Platform::where('id', $platformId)
