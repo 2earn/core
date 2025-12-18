@@ -24,7 +24,7 @@ class OrdersReview extends Component
             $this->orders = Order::with(['orderDetails.item.deal.platform', 'platform', 'user'])
                 ->whereIn('id', $ids)
                 ->where('user_id', auth()->user()->id)
-                ->where('status', OrderEnum::Ready)
+                ->whereIn('status', [OrderEnum::Ready, OrderEnum::Simulated, OrderEnum::Failed])
                 ->get();
         }
     }
@@ -41,13 +41,7 @@ class OrdersReview extends Component
         $simulation = Ordering::simulate($order);
 
         if ($simulation) {
-            $status = Ordering::run($simulation);
-
-            if ($status->value == OrderEnum::Failed->value) {
-                session()->flash('error', trans('Order') . ' #' . $order->id . ' ' . trans('failed'));
-            } else {
-                session()->flash('success', trans('Order') . ' #' . $order->id . ' ' . trans('processed successfully'));
-            }
+            session()->flash('success', trans('Order') . ' #' . $order->id . ' ' . trans('simulated successfully'));
         } else {
             $order->updateStatus(OrderEnum::Failed);
             session()->flash('error', trans('Order') . ' #' . $order->id . ' ' . trans('simulation failed'));
@@ -67,13 +61,7 @@ class OrdersReview extends Component
                 $simulation = Ordering::simulate($order);
 
                 if ($simulation) {
-                    $status = Ordering::run($simulation);
-
-                    if ($status->value == OrderEnum::Failed->value) {
-                        $failedCount++;
-                    } else {
-                        $successCount++;
-                    }
+                    $successCount++;
                 } else {
                     $order->updateStatus(OrderEnum::Failed);
                     $failedCount++;
@@ -82,11 +70,11 @@ class OrdersReview extends Component
         }
 
         if ($successCount > 0) {
-            session()->flash('success', $successCount . ' ' . trans('orders processed successfully'));
+            session()->flash('success', $successCount . ' ' . trans('orders simulated successfully'));
         }
 
         if ($failedCount > 0) {
-            session()->flash('error', $failedCount . ' ' . trans('orders failed'));
+            session()->flash('error', $failedCount . ' ' . trans('orders simulation failed'));
         }
 
         // Refresh orders

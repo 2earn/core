@@ -159,7 +159,7 @@
                                 </div>
                             @endif
 
-                            <!-- Action Button -->
+                            <!-- Action Button / Links -->
                             @if($order->status == \Core\Enum\OrderEnum::Ready)
                                 <button wire:click="simulateOrder({{ $order->id }})"
                                         class="btn btn-success w-100"
@@ -174,11 +174,20 @@
                                             {{__('Processing...')}}
                                         </span>
                                 </button>
+                            @elseif($order->status == \Core\Enum\OrderEnum::Simulated)
+                                <a href="{{ route('orders_simulation', ['locale' => app()->getLocale(), 'id' => $order->id]) }}"
+                                   class="btn btn-primary w-100">
+                                    <i class="ri-eye-line me-1"></i>{{__('View Simulation Results')}}
+                                </a>
+                            @elseif($order->status == \Core\Enum\OrderEnum::Failed)
+                                <div class="alert alert-danger mb-0">
+                                    <i class="ri-close-circle-line me-1"></i>
+                                    {{ __('Order simulation failed') }}
+                                </div>
                             @else
-                                <div
-                                    class="alert alert-{{ $order->status == \Core\Enum\OrderEnum::Paid ? 'success' : 'danger' }} mb-0">
-                                    <i class="ri-{{ $order->status == \Core\Enum\OrderEnum::Paid ? 'check' : 'close' }}-circle-line me-1"></i>
-                                    {{ $order->status == \Core\Enum\OrderEnum::Paid ? __('Order completed successfully') : __('Order failed') }}
+                                <div class="alert alert-info mb-0">
+                                    <i class="ri-information-line me-1"></i>
+                                    {{ __('Order status') }}: {{ $order->status->name }}
                                 </div>
                             @endif
                         </div>

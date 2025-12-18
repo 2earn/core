@@ -287,9 +287,11 @@ Order::with([
 
 ### Order Status Flow
 ```
-Cart Items → Ready → Simulated → Paid
+Cart Items → Ready → Simulated (view simulation) → (manual payment)
                   ↘ Failed
 ```
+
+**Note**: The OrdersReview component only simulates orders. Payment processing is done separately through the OrderSimulation page.
 
 ### Error Handling
 - Empty cart validation
