@@ -140,16 +140,17 @@
                                 </div>
                             </div>
 
-                            <!-- Order Total -->
-                            <div class="border-top pt-3 mb-3">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span class="text-muted">{{__('Total')}}</span>
-                                    <h5 class="mb-0 text-primary">
-                                        {{config('app.currency')}} {{ number_format($order->total_order ?? 0, 2) }}
-                                    </h5>
+                            @if($order->total_order)
+                                <!-- Order Total -->
+                                <div class="border-top pt-3 mb-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="text-muted">{{__('Total')}}</span>
+                                        <h5 class="mb-0 text-primary">
+                                            {{config('app.currency')}} {{ number_format($order->total_order ?? 0, 2) }}
+                                        </h5>
+                                    </div>
                                 </div>
-                            </div>
-
+                            @endif
                             <!-- Order Note -->
                             @if($order->note)
                                 <div class="mb-3">
