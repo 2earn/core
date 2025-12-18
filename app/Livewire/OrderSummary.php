@@ -30,35 +30,60 @@ class OrderSummary extends Component
     public function createAndSimulateOrder()
     {
         $cart = Cart::where('user_id', auth()->user()->id)->first();
-        $platformId = null;
+
+        if (!$cart || $cart->cartItem()->count() == 0) {
+            return redirect()->route('orders_summary', ['locale' => app()->getLocale()])
+                ->with('warning', trans('Cart is empty'));
+        }
+
         $ordersData = [];
+
+        // Group cart items by platform
         foreach ($cart->cartItem()->get() as $cartItem) {
             $item = $cartItem->item()->first();
-            $platformId = $item->deal()->first()->platform_id;
-            if (!$platformId) {
-                $item->platform_id;
+            if ($item && $item->deal()->first()) {
+                $platformId = $item->deal()->first()->platform_id;
+            } else {
+                $platformId = $item->platform_id ?? null;
             }
-            $ordersData[$platformId][] = $cartItem;
+
+            if ($platformId) {
+                $ordersData[$platformId][] = $cartItem;
+            }
         }
 
-        $order = Order::create(['user_id' => auth()->user()->id, 'platform_id' => $platformId, 'note' => 'Product buy platform']);
-        foreach ($ordersData as $ordersDataItems) {
+        $createdOrderIds = [];
 
-            foreach ($ordersDataItems as $ordersItems) {
+        // Create separate order for each platform
+        foreach ($ordersData as $platformId => $platformItems) {
+            $order = Order::create([
+                'user_id' => auth()->user()->id,
+                'platform_id' => $platformId,
+                'note' => 'Product buy platform ' . $platformId,
+                'status' => OrderEnum::Ready,
+            ]);
+
+            foreach ($platformItems as $cartItem) {
                 $order->orderDetails()->create([
-                    'qty' => $ordersItems->qty,
-                    'unit_price' => $ordersItems->unit_price,
-                    'total_amount' => $ordersItems->total_amount,
-                    'item_id' => $ordersItems->item_id,
-                    'shipping' => $ordersItems->shipping,
+                    'qty' => $cartItem->qty,
+                    'unit_price' => $cartItem->unit_price,
+                    'total_amount' => $cartItem->total_amount,
+                    'item_id' => $cartItem->item_id,
+                    'shipping' => $cartItem->shipping,
                 ]);
             }
-            $order->updateStatus(OrderEnum::Ready);
 
+            $createdOrderIds[] = $order->id;
         }
 
-        return redirect()->route('orders_simulation', ['locale' => app()->getLocale(), 'id' => $order->id])->with('danger', trans('order failed'));
+        // Clear cart after creating all orders
+        $this->clearCart();
 
+        // Redirect to orders review page with created order IDs
+        return redirect()->route('orders_review', [
+            'locale' => app()->getLocale(),
+            'orderIds' => implode(',', $createdOrderIds)
+        ])->with('success', trans('Orders created successfully'));
     }
 
     public function validateCart()
