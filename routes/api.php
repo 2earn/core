@@ -132,6 +132,7 @@ Route::prefix('/partner/')->name('api_partner_')
             Route::post('platform/validate', [PlatformPartnerController::class, 'validateRequest'])->name('platform_validate_request');
             Route::post('platform/validation/cancel', [PlatformPartnerController::class, 'cancelValidationRequest'])->name('platform_validation_cancel');
             Route::post('platform/change/cancel', [PlatformPartnerController::class, 'cancelChangeRequest'])->name('platform_change_cancel');
+            Route::get('/platform/top-selling', [PlatformPartnerController::class, 'getTopSellingPlatforms'])->name('api_platforms_top_selling');
             Route::post('deals/validate', [DealPartnerController::class, 'validateRequest'])->name('deal_validate_request');
             Route::post('deals/validation/cancel', [DealPartnerController::class, 'cancelValidationRequest'])->name('deal_validation_cancel');
             Route::post('deals/change/cancel', [DealPartnerController::class, 'cancelChangeRequest'])->name('deal_change_cancel');
@@ -142,6 +143,7 @@ Route::prefix('/partner/')->name('api_partner_')
             Route::get('/sales/dashboard/evolution-chart', [SalesDashboardController::class, 'getSalesEvolutionChart'])->name('api_sales_evolution_chart');
             Route::get('/sales/dashboard/top-products', [SalesDashboardController::class, 'getTopSellingProducts'])->name('api_sales_dashboard_top_products');
             Route::get('/sales/dashboard/top-deals', [SalesDashboardController::class, 'getTopSellingDeals'])->name('api_sales_dashboard_top_deals');
+            Route::get('/platforms/top-selling', [PlatformPartnerController::class, 'getTopSellingPlatforms'])->name('api_platforms_top_selling');
         });
 
     });
