@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Services\Carts\Carts;
 use App\Services\Orders\Ordering;
 use Core\Enum\OrderEnum;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
@@ -29,13 +30,18 @@ class OrderSummary extends Component
     public function createAndSimulateOrder()
     {
         $cart = Cart::where('user_id', auth()->user()->id)->first();
+        $platformId = null;
         $ordersData = [];
         foreach ($cart->cartItem()->get() as $cartItem) {
             $item = $cartItem->item()->first();
-            $ordersData[$item->deal()->first()->platform_id][] = $cartItem;
+            $platformId = $item->deal()->first()->platform_id;
+            if (!$platformId) {
+                $item->platform_id;
+            }
+            $ordersData[$platformId][] = $cartItem;
         }
 
-        $order = Order::create(['user_id' => auth()->user()->id, 'note' => 'Product buy platform ' ]);
+        $order = Order::create(['user_id' => auth()->user()->id, 'platform_id' => $platformId, 'note' => 'Product buy platform']);
         foreach ($ordersData as $ordersDataItems) {
 
             foreach ($ordersDataItems as $ordersItems) {

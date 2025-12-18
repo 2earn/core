@@ -29,6 +29,7 @@ class Order extends Model
         'total_lost_discount',
         'total_lost_discount_percentage',
         'user_id',
+        'platform_id',
         'note',
         'status',
         'simulation_datetime',
