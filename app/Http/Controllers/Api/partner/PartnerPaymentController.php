@@ -227,19 +227,12 @@ class PartnerPaymentController extends Controller
         }
     }
 
-    /**
-     * Create a demand (financial request) for a partner payment
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
+
     public function createDemand(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|integer|exists:users,id',
             'amount' => 'required|numeric|min:0',
-            'payment_ids' => 'nullable|array',
-            'payment_ids.*' => 'integer|exists:partner_payments,id',
             'note' => 'nullable|string|max:500',
         ]);
 
@@ -255,7 +248,6 @@ class PartnerPaymentController extends Controller
         try {
             $userId = $request->input('user_id');
             $amount = $request->input('amount');
-            $paymentIds = $request->input('payment_ids', []);
             $note = $request->input('note');
 
             // Verify user is a platform partner
@@ -267,70 +259,32 @@ class PartnerPaymentController extends Controller
                 ], Response::HTTP_FORBIDDEN);
             }
 
-            // If payment_ids provided, verify they belong to this partner
-            if (!empty($paymentIds)) {
-                $invalidPayments = PartnerPayment::whereIn('id', $paymentIds)
-                    ->where('partner_id', '!=', $userId)
-                    ->count();
-
-                if ($invalidPayments > 0) {
-                    return response()->json([
-                        'status' => 'Failed',
-                        'message' => 'Some payment IDs do not belong to this partner'
-                    ], Response::HTTP_FORBIDDEN);
-                }
-
-                // Calculate total from payments
-                $paymentsTotal = PartnerPayment::whereIn('id', $paymentIds)
-                    ->whereNotNull('validated_at')
-                    ->sum('amount');
-
-                // Verify amount matches payments total
-                if ($paymentsTotal != $amount) {
-                    return response()->json([
-                        'status' => 'Failed',
-                        'message' => 'Amount does not match total of selected payments',
-                        'details' => [
-                            'requested_amount' => $amount,
-                            'payments_total' => $paymentsTotal
-                        ]
-                    ], Response::HTTP_BAD_REQUEST);
-                }
-            }
 
             DB::beginTransaction();
 
-            // Create financial request (demand)
-            $demand = FinancialRequest::create([
-                'idSender' => $userId,
-                'date' => now(),
+            $partnerPayment = PartnerPayment::create([
                 'amount' => $amount,
-                'status' => 0, // Pending
-                'typeReq' => 'partner_payment',
-                'securityCode' => $this->generateSecurityCode(),
-                'vu' => 0,
+                'method' => 'demand_request',
+                'payment_date' => now(),
+                'user_id' => $userId, // Partner is requesting payment
+                'partner_id' => $userId, // Same user (partner requesting their own payment)
                 'created_by' => $userId,
             ]);
-
 
 
             DB::commit();
 
             Log::info(self::LOG_PREFIX . 'Demand created successfully', [
+                'partner_payment_id' => $partnerPayment->id,
                 'user_id' => $userId,
                 'amount' => $amount,
-                'payment_ids' => $paymentIds
             ]);
 
             return response()->json([
                 'status' => 'Success',
                 'message' => 'Demand created successfully',
                 'data' => [
-                    'amount' => $demand->amount,
-                    'status' => $demand->status,
-                    'date' => $demand->date,
-                    'security_code' => $demand->securityCode,
-                    'linked_payments' => count($paymentIds)
+                    $partnerPayment
                 ]
             ], Response::HTTP_CREATED);
 
