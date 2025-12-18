@@ -19,7 +19,6 @@ class PartnerPaymentManage extends Component
     public $payment_date;
     public $user_id;
     public $partner_id;
-    public $demand_id;
     public $update = false;
 
     // Search helpers
@@ -29,14 +28,33 @@ class PartnerPaymentManage extends Component
 
     protected PartnerPaymentService $partnerPaymentService;
 
-    protected $rules = [
-        'amount' => 'required|numeric|min:0',
-        'method' => 'required|string|max:50',
-        'payment_date' => 'nullable|date',
-        'user_id' => 'required|exists:users,id',
-        'partner_id' => 'required|exists:users,id',
-        'demand_id' => 'nullable|string|max:9',
-    ];
+
+    protected function rules()
+    {
+        return [
+            'amount' => 'required|numeric|min:0',
+            'method' => 'required|string|max:50',
+            'payment_date' => 'nullable|date',
+            'user_id' => 'required|exists:users,id',
+            'partner_id' => [
+                'required',
+                'exists:users,id',
+                function ($attribute, $value, $fail) {
+                    $isPlatformPartner = \DB::table('platforms')
+                        ->where(function ($query) use ($value) {
+                            $query->where('financial_manager_id', $value)
+                                ->orWhere('marketing_manager_id', $value)
+                                ->orWhere('owner_id', $value);
+                        })
+                        ->exists();
+
+                    if (!$isPlatformPartner) {
+                        $fail('The selected partner must be a platform manager or owner.');
+                    }
+                },
+            ],
+        ];
+    }
 
     protected $messages = [
         'amount.required' => 'Amount is required',
@@ -47,7 +65,6 @@ class PartnerPaymentManage extends Component
         'user_id.exists' => 'Selected user does not exist',
         'partner_id.required' => 'Partner is required',
         'partner_id.exists' => 'Selected partner does not exist',
-        'demand_id.max' => 'Demand ID must not exceed 9 characters',
     ];
 
     public function boot(PartnerPaymentService $partnerPaymentService)
@@ -68,7 +85,7 @@ class PartnerPaymentManage extends Component
         }
     }
 
-    public function edit($paymentId)
+    public function edit($paymentId): void
     {
         try {
             $payment = $this->partnerPaymentService->getById($paymentId);
@@ -76,7 +93,8 @@ class PartnerPaymentManage extends Component
             // Check if payment is validated (cannot edit validated payments)
             if ($payment->isValidated()) {
                 session()->flash('error', Lang::get('Cannot edit a validated payment'));
-                return redirect()->route('partner_payment_index', ['locale' => app()->getLocale()]);
+                redirect()->route('partner_payment_index', ['locale' => app()->getLocale()]);
+                return;
             }
 
             $this->paymentId = $paymentId;
@@ -85,11 +103,10 @@ class PartnerPaymentManage extends Component
             $this->payment_date = $payment->payment_date?->format('Y-m-d\TH:i');
             $this->user_id = $payment->user_id;
             $this->partner_id = $payment->partner_id;
-            $this->demand_id = $payment->demand_id;
             $this->update = true;
         } catch (\Exception $e) {
             session()->flash('error', Lang::get('Partner payment not found'));
-            return redirect()->route('partner_payment_index', ['locale' => app()->getLocale()]);
+            redirect()->route('partner_payment_index', ['locale' => app()->getLocale()]);
         }
     }
 
@@ -110,7 +127,6 @@ class PartnerPaymentManage extends Component
                 'payment_date' => $this->payment_date,
                 'user_id' => $this->user_id,
                 'partner_id' => $this->partner_id,
-                'demand_id' => $this->demand_id,
             ];
 
             if ($this->update) {
@@ -122,7 +138,7 @@ class PartnerPaymentManage extends Component
                 $this->paymentId = $payment->id;
             }
 
-            return redirect()->route('partner_payment_detail', [
+            redirect()->route('partner_payment_detail', [
                 'locale' => app()->getLocale(),
                 'id' => $this->paymentId
             ]);
@@ -151,9 +167,28 @@ class PartnerPaymentManage extends Component
             return [];
         }
 
-        return User::where('name', 'like', '%' . $this->searchPartner . '%')
-            ->orWhere('email', 'like', '%' . $this->searchPartner . '%')
-            ->orWhere('id', 'like', '%' . $this->searchPartner . '%')
+        // Get unique partner IDs from platforms table
+        $partnerIds = \DB::table('platforms')
+            ->select('financial_manager_id', 'marketing_manager_id', 'owner_id')
+            ->get()
+            ->flatMap(function ($platform) {
+                return [
+                    $platform->financial_manager_id,
+                    $platform->marketing_manager_id,
+                    $platform->owner_id
+                ];
+            })
+            ->filter()
+            ->unique()
+            ->values();
+
+        // Search only among platform partners
+        return User::whereIn('id', $partnerIds)
+            ->where(function ($query) {
+                $query->where('name', 'like', '%' . $this->searchPartner . '%')
+                    ->orWhere('email', 'like', '%' . $this->searchPartner . '%')
+                    ->orWhere('id', 'like', '%' . $this->searchPartner . '%');
+            })
             ->limit(10)
             ->get();
     }
@@ -182,11 +217,6 @@ class PartnerPaymentManage extends Component
         $this->searchPartner = '';
     }
 
-    public function selectDemand($demandId)
-    {
-        $this->demand_id = $demandId;
-        $this->searchDemand = '';
-    }
 
     public function getSelectedUser()
     {
@@ -204,13 +234,6 @@ class PartnerPaymentManage extends Component
         return null;
     }
 
-    public function getSelectedDemand()
-    {
-        if ($this->demand_id) {
-            return FinancialRequest::where('numeroReq', $this->demand_id)->first();
-        }
-        return null;
-    }
 
     public function render()
     {

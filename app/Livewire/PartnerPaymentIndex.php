@@ -94,7 +94,6 @@ class PartnerPaymentIndex extends Component
                 $q->where('id', 'like', '%' . $this->search . '%')
                     ->orWhere('amount', 'like', '%' . $this->search . '%')
                     ->orWhere('method', 'like', '%' . $this->search . '%')
-                    ->orWhere('demand_id', 'like', '%' . $this->search . '%')
                     ->orWhereHas('user', function ($userQuery) {
                         $userQuery->where('name', 'like', '%' . $this->search . '%');
                     })

@@ -20,7 +20,6 @@ return new class extends Migration
             $table->timestamp('payment_date')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('partner_id');
-            $table->string('demand_id', 9)->nullable();
             $table->unsignedBigInteger('validated_by')->nullable();
             $table->timestamp('validated_at')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
@@ -37,7 +36,6 @@ return new class extends Migration
             // Indexes for better performance
             $table->index('user_id');
             $table->index('partner_id');
-            $table->index('demand_id');
             $table->index('payment_date');
         });
     }

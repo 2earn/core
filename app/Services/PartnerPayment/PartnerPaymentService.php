@@ -27,7 +27,6 @@ class PartnerPaymentService
                 'payment_date' => $data['payment_date'] ?? now(),
                 'user_id' => $data['user_id'],
                 'partner_id' => $data['partner_id'],
-                'demand_id' => $data['demand_id'] ?? null,
                 'validated_by' => $data['validated_by'] ?? null,
                 'validated_at' => $data['validated_at'] ?? null,
             ]);
@@ -61,7 +60,6 @@ class PartnerPaymentService
                 'payment_date' => $data['payment_date'] ?? $payment->payment_date,
                 'user_id' => $data['user_id'] ?? $payment->user_id,
                 'partner_id' => $data['partner_id'] ?? $payment->partner_id,
-                'demand_id' => $data['demand_id'] ?? $payment->demand_id,
             ]));
 
             return $payment->fresh();
@@ -112,7 +110,7 @@ class PartnerPaymentService
     public function getByPartnerId(int $partnerId, array $filters = []): Collection
     {
         $query = PartnerPayment::where('partner_id', $partnerId)
-            ->with(['user', 'partner', 'demand', 'validator']);
+            ->with(['user', 'partner',  'validator']);
 
         // Apply filters
         if (isset($filters['validated']) && $filters['validated'] === true) {
@@ -146,7 +144,7 @@ class PartnerPaymentService
     public function getByUserId(int $userId, array $filters = []): Collection
     {
         $query = PartnerPayment::where('user_id', $userId)
-            ->with(['user', 'partner', 'demand', 'validator']);
+            ->with(['user', 'partner',  'validator']);
 
         // Apply filters
         if (isset($filters['validated']) && $filters['validated'] === true) {
@@ -179,23 +177,10 @@ class PartnerPaymentService
      */
     public function getById(int $paymentId): PartnerPayment
     {
-        return PartnerPayment::with(['user', 'partner', 'demand', 'validator'])
+        return PartnerPayment::with(['user', 'partner', 'validator'])
             ->findOrFail($paymentId);
     }
 
-    /**
-     * Get partner payments by demand ID.
-     *
-     * @param int $demandId
-     * @return Collection
-     */
-    public function getByDemandId(int $demandId): Collection
-    {
-        return PartnerPayment::where('demand_id', $demandId)
-            ->with(['user', 'partner', 'demand', 'validator'])
-            ->orderBy('payment_date', 'desc')
-            ->get();
-    }
 
     /**
      * Delete a partner payment.
@@ -271,7 +256,7 @@ class PartnerPaymentService
     public function getPendingPayments(): Collection
     {
         return PartnerPayment::whereNull('validated_at')
-            ->with(['user', 'partner', 'demand'])
+            ->with(['user', 'partner'])
             ->orderBy('payment_date', 'asc')
             ->get();
     }
@@ -285,7 +270,7 @@ class PartnerPaymentService
     public function getValidatedPayments(array $filters = []): Collection
     {
         $query = PartnerPayment::whereNotNull('validated_at')
-            ->with(['user', 'partner', 'demand', 'validator']);
+            ->with(['user', 'partner', 'validator']);
 
         if (isset($filters['from_date'])) {
             $query->where('validated_at', '>=', $filters['from_date']);

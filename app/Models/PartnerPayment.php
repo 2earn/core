@@ -18,7 +18,6 @@ class PartnerPayment extends Model
         'payment_date',
         'user_id',
         'partner_id',
-        'demand_id',
         'validated_by',
         'validated_at',
         'created_by',
@@ -45,14 +44,6 @@ class PartnerPayment extends Model
     public function partner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'partner_id');
-    }
-
-    /**
-     * Get the financial request (demand) associated with this payment.
-     */
-    public function demand(): BelongsTo
-    {
-        return $this->belongsTo(FinancialRequest::class, 'demand_id', 'numeroReq');
     }
 
     /**

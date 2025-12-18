@@ -162,6 +162,14 @@ Route::prefix('/partner/')->name('api_partner_')
                 Route::get('/top-deals', [SalesDashboardController::class, 'getTopSellingDeals'])->name('sales_dashboard_top_deals');
             });
 
+            // Partner Payment Routes Group
+            Route::prefix('payment')->group(function () {
+                Route::get('/', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'index'])->name('payments_index');
+                Route::get('/{id}', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'show'])->name('payments_show');
+                Route::post('/demand', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'createDemand'])->name('payments_create_demand');
+                Route::get('/statistics/summary', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'statistics'])->name('payments_statistics');
+            });
+
             // Other Routes
             Route::get('/plan-label', [PlanLabelPartnerController::class, 'index'])->name('deals_plan_label_index');
             Route::post('/users/add-role', [UserPartnerController::class, 'addRole'])->name('users_add_role');
