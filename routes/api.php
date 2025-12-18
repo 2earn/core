@@ -119,31 +119,52 @@ Route::prefix('/partner/')->name('api_partner_')
     ->withoutMiddleware([\App\Http\Middleware\Authenticate::class])
     ->group(function () {
         Route::middleware(['check.url'])->group(function () {
-            Route::apiResource('platforms', PlatformPartnerController::class)->except('destroy');
-            Route::apiResource('deals', DealPartnerController::class)->except('destroy');
-            Route::apiResource('orders', OrderPartnerController::class)->except('destroy');
-            Route::apiResource('order-details', OrderDetailsPartnerController::class)->only(['store', 'update']);
+
+            // Platform Routes Group
+            Route::prefix('platform')->group(function () {
+                Route::apiResource('s', PlatformPartnerController::class)->except('destroy');
+                Route::post('change', [PlatformPartnerController::class, 'changePlatformType'])->name('platform_change_type');
+                Route::post('validate', [PlatformPartnerController::class, 'validateRequest'])->name('platform_validate_request');
+                Route::post('validation/cancel', [PlatformPartnerController::class, 'cancelValidationRequest'])->name('platform_validation_cancel');
+                Route::post('change/cancel', [PlatformPartnerController::class, 'cancelChangeRequest'])->name('platform_change_cancel');
+                Route::get('top-selling', [PlatformPartnerController::class, 'getTopSellingPlatforms'])->name('platform_top_selling');
+            });
+
+            // Deal Routes Group
+            Route::prefix('deal')->group(function () {
+                Route::apiResource('s', DealPartnerController::class)->except('destroy');
+                Route::patch('s/{deal}/status', [DealPartnerController::class, 'changeStatus'])->name('deals_change_status');
+                Route::post('validate', [DealPartnerController::class, 'validateRequest'])->name('deal_validate_request');
+                Route::post('validation/cancel', [DealPartnerController::class, 'cancelValidationRequest'])->name('deal_validation_cancel');
+                Route::post('change/cancel', [DealPartnerController::class, 'cancelChangeRequest'])->name('deal_change_cancel');
+                Route::get('dashboard/indicators', [DealPartnerController::class, 'dashboardIndicators'])->name('deals_dashboard_indicators');
+                Route::get('performance/chart', [DealPartnerController::class, 'performanceChart'])->name('deals_performance_chart');
+            });
+
+            // Order Routes Group
+            Route::prefix('order')->group(function () {
+                Route::apiResource('s', OrderPartnerController::class)->except('destroy');
+                Route::patch('s/{order}/status', [OrderPartnerController::class, 'changeStatus'])->name('orders_change_status');
+                Route::apiResource('details', OrderDetailsPartnerController::class)->only(['store', 'update']);
+            });
+
+            // Item Routes Group
+            Route::prefix('item')->group(function () {
+                Route::post('s', [ItemsPartnerController::class, 'store'])->name('items_store');
+                Route::put('s/{id}', [ItemsPartnerController::class, 'update'])->name('items_update');
+            });
+
+            // Sales Dashboard Routes Group
+            Route::prefix('sales/dashboard')->group(function () {
+                Route::get('kpis', [SalesDashboardController::class, 'getKpis'])->name('sales_dashboard_kpis');
+                Route::get('evolution-chart', [SalesDashboardController::class, 'getSalesEvolutionChart'])->name('sales_evolution_chart');
+                Route::get('top-products', [SalesDashboardController::class, 'getTopSellingProducts'])->name('sales_dashboard_top_products');
+                Route::get('top-deals', [SalesDashboardController::class, 'getTopSellingDeals'])->name('sales_dashboard_top_deals');
+            });
+
+            // Other Routes
             Route::get('plan-label', [PlanLabelPartnerController::class, 'index'])->name('deals_plan_label_index');
-            Route::patch('orders/{order}/status', [OrderPartnerController::class, 'changeStatus'])->name('orders_change_status');
-            Route::patch('deals/{deal}/status', [DealPartnerController::class, 'changeStatus'])->name('deals_change_status');
-            Route::post('items', [ItemsPartnerController::class, 'store'])->name('items_store');
-            Route::put('items/{id}', [ItemsPartnerController::class, 'update'])->name('items_update');
-            Route::post('platform/change', [PlatformPartnerController::class, 'changePlatformType'])->name('platform_change_type');
-            Route::post('platform/validate', [PlatformPartnerController::class, 'validateRequest'])->name('platform_validate_request');
-            Route::post('platform/validation/cancel', [PlatformPartnerController::class, 'cancelValidationRequest'])->name('platform_validation_cancel');
-            Route::post('platform/change/cancel', [PlatformPartnerController::class, 'cancelChangeRequest'])->name('platform_change_cancel');
-            Route::get('/platform/top-selling', [PlatformPartnerController::class, 'getTopSellingPlatforms'])->name('api_platforms_top_selling');
-            Route::post('deals/validate', [DealPartnerController::class, 'validateRequest'])->name('deal_validate_request');
-            Route::post('deals/validation/cancel', [DealPartnerController::class, 'cancelValidationRequest'])->name('deal_validation_cancel');
-            Route::post('deals/change/cancel', [DealPartnerController::class, 'cancelChangeRequest'])->name('deal_change_cancel');
-            Route::get('deals/dashboard/indicators', [DealPartnerController::class, 'dashboardIndicators'])->name('deals_dashboard_indicators');
-            Route::get('deals/performance/chart', [DealPartnerController::class, 'performanceChart'])->name('deals_performance_chart');
             Route::post('users/add-role', [UserPartnerController::class, 'addRole'])->name('users_add_role');
-            Route::get('/sales/dashboard/kpis', [SalesDashboardController::class, 'getKpis'])->name('api_sales_dashboard_kpis');
-            Route::get('/sales/dashboard/evolution-chart', [SalesDashboardController::class, 'getSalesEvolutionChart'])->name('api_sales_evolution_chart');
-            Route::get('/sales/dashboard/top-products', [SalesDashboardController::class, 'getTopSellingProducts'])->name('api_sales_dashboard_top_products');
-            Route::get('/sales/dashboard/top-deals', [SalesDashboardController::class, 'getTopSellingDeals'])->name('api_sales_dashboard_top_deals');
-            Route::get('/platforms/top-selling', [PlatformPartnerController::class, 'getTopSellingPlatforms'])->name('api_platforms_top_selling');
         });
 
     });
