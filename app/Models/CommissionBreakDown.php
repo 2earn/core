@@ -16,6 +16,7 @@ class CommissionBreakDown extends Model
         'type',
         'order_id',
         'deal_id',
+        'platform_id',
         'new_turnover',
         'old_turnover',
         'purchase_value',
@@ -42,6 +43,11 @@ class CommissionBreakDown extends Model
     public function deal()
     {
         return $this->hasOne(Deal::class, 'deal_id', 'id');
+    }
+
+    public function platform()
+    {
+        return $this->belongsTo(\Core\Models\Platform::class, 'platform_id', 'id');
     }
 
     public function getRecoveredPercentage()

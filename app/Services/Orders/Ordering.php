@@ -381,6 +381,7 @@ class Ordering
             $cbData = [
                 'order_id' => $order->id,
                 'deal_id' => $dealId,
+                'platform_id' => $order->platform_id,
                 'trigger' => 0,
                 'type' => CommissionTypeEnum::IN->value,
                 'new_turnover' => $newTurnOver,
@@ -416,6 +417,7 @@ class Ordering
             'trigger' => 0,
             'type' => CommissionTypeEnum::OUT->value,
             'order_id' => $order->id,
+            'platform_id' => $order->platform_id,
             'purchase_value' => $order->out_of_deal_amount,
             'commission_percentage' => $SettingCommissionPercentage,
             'commission_value' => $order->out_of_deal_amount / 100 * $SettingCommissionPercentage,

@@ -29,6 +29,7 @@ class Order extends Model
         'total_lost_discount',
         'total_lost_discount_percentage',
         'user_id',
+        'platform_id',
         'note',
         'status',
         'simulation_datetime',
@@ -54,6 +55,11 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function platform()
+    {
+        return $this->belongsTo(\Core\Models\Platform::class, 'platform_id', 'id');
     }
 
     public function updateStatus(OrderEnum $newStatus)

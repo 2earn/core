@@ -67,6 +67,11 @@
                                             <i class="ri-price-tag-3-line me-1"></i>{{$item->item()->first()->deal()->first()->name}}
                                         </span>
                                         @endif
+                                        @if($item->item()->first()->platform)
+                                            <span class="badge bg-info-subtle text-info mb-2">
+                                            <i class="ri-store-2-line me-1"></i>{{$item->item()->first()->platform->name}}
+                                        </span>
+                                        @endif
                                         <div class="text-muted small">
                                         <span class="d-inline-block me-3" title="{{__('Unit price')}}">
                                             <i class="ri-price-tag-line text-primary me-1"></i>
@@ -127,6 +132,16 @@
             @endif
             @if($cart->total_cart>0)
                 <div class="card-footer">
+                    @if($uniquePlatformsCount > 1)
+                        <div class="alert alert-info d-flex align-items-center mb-3" role="alert">
+                            <i class="ri-information-line fs-18 me-2"></i>
+                            <div>
+                                <strong>{{__('Note')}}:</strong>
+                                {{__('Your cart contains items from')}} <strong>{{ $uniquePlatformsCount }}</strong> {{__('different platforms')}}.
+                                {{__('This will be converted into')}} <strong>{{ $uniquePlatformsCount }}</strong> {{__('separate orders, grouped by platform')}}.
+                            </div>
+                        </div>
+                    @endif
                     <div class="d-flex justify-content-end gap-2">
                         <button wire:click="clearCart()"
                                 class="btn btn-warning">

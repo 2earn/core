@@ -95,6 +95,7 @@ class OrderPartnerController extends Controller
             'total_lost_discount_percentage' => 'nullable|numeric',
             'note' => 'nullable|string',
             'user_id' => 'required|integer|exists:users,id',
+            'platform_id' => 'required|integer|exists:platforms,id',
             'status' => 'nullable|string',
             'created_by' => 'required|exists:users,id',
         ]);

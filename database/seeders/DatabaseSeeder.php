@@ -27,7 +27,10 @@ class DatabaseSeeder extends Seeder
 
             PlanLabelSeeder::class,
 
-            AssignCommissionPlanToDealsSeeder::class
+            AssignCommissionPlanToDealsSeeder::class,
+
+            FillOrderPlatformIdSeeder::class,
+            FillCommissionBreakdownPlatformIdSeeder::class,
         ]);
     }
 }

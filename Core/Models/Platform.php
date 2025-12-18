@@ -84,6 +84,16 @@ class Platform extends Model
         return $this->hasMany(Coupon::class);
     }
 
+    public function orders()
+    {
+        return $this->hasMany(\App\Models\Order::class);
+    }
+
+    public function commissionBreakdowns()
+    {
+        return $this->hasMany(\App\Models\CommissionBreakDown::class);
+    }
+
     public function logoImage()
     {
         return $this->morphOne(Image::class, 'imageable')->where('type', '=', self::IMAGE_TYPE_LOGO);

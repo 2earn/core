@@ -152,6 +152,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/{id}/detail', \App\Livewire\OrderItem::class)->name('detail');
             Route::get('/{id}/simulation', \App\Livewire\OrderSimulation::class)->name('simulation');
             Route::get('/summary', \App\Livewire\OrderSummary::class)->name('summary');
+            Route::get('/review/{orderIds}', \App\Livewire\OrdersReview::class)->name('review');
         });
 
         Route::prefix('/items')->name('items_')->group(function () {

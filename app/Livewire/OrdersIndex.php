@@ -49,10 +49,35 @@ class OrdersIndex extends Component
         $this->resetPage();
     }
 
+    public function getPendingOrdersCount()
+    {
+        return Order::where('user_id', auth()->user()->id)
+            ->whereIn('status', [\Core\Enum\OrderEnum::Ready, \Core\Enum\OrderEnum::Simulated])
+            ->count();
+    }
+
+    public function goToOrdersReview()
+    {
+        $orderIds = Order::where('user_id', auth()->user()->id)
+            ->whereIn('status', [\Core\Enum\OrderEnum::Ready, \Core\Enum\OrderEnum::Simulated])
+            ->pluck('id')
+            ->toArray();
+
+        if (empty($orderIds)) {
+            session()->flash('info', trans('No pending orders to review'));
+            return;
+        }
+
+        return redirect()->route('orders_review', [
+            'locale' => app()->getLocale(),
+            'orderIds' => implode(',', $orderIds)
+        ]);
+    }
 
     public function render()
     {
         $params['orders'] = Order::orderBy('created_at', 'desc')->paginate(self::PAGE_SIZE);
+        $params['pendingOrdersCount'] = $this->getPendingOrdersCount();
         return view('livewire.orders-index', $params)->extends('layouts.master')->section('content');
     }
 }

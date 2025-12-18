@@ -3,11 +3,11 @@
 namespace App\Services\Orders;
 
 use App\Models\Deal;
-use Core\Models\Platform;
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\User;
 use Core\Enum\OrderEnum;
+use Core\Models\Platform;
 use Database\Seeders\AddCashSeeder;
 use Faker\Generator;
 use Illuminate\Support\Facades\Log;
@@ -19,7 +19,7 @@ class OrderingSimulation
     {
         $dealsIds = Deal::where('platform_id', $platformId)->pluck('id')->toArray();
         $dealsId = $dealsIds[array_rand($dealsIds)];
-        $itemsIds = Item::where('deal_id', $dealsId)->where('ref' ,'!=' , '#0001')->pluck('id')->toArray();
+        $itemsIds = Item::where('deal_id', $dealsId)->where('ref', '!=', '#0001')->pluck('id')->toArray();
         $getFromItems = (bool)rand(0, 1);
         if ($getFromItems && !empty($itemsIds)) {
             return Item::find($itemsIds[array_rand($itemsIds)]);
@@ -126,7 +126,7 @@ class OrderingSimulation
             $platformId = $platformsIds[array_rand($platformsIds)];
 
             $faker = app(Generator::class);
-            $order = Order::create(['user_id' => $Buyer->id, 'note' => $faker->text()]);
+            $order = Order::create(['user_id' => $Buyer->id, 'platform_id' => $platformId, 'note' => $faker->text()]);
             OrderingSimulation::createOrderItems($order, $orderItemsNumber, $platformId, $faker);
             return true;
         } catch (\Exception $exception) {

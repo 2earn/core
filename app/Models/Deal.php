@@ -161,7 +161,7 @@ class Deal extends Model
 
     public static function getPerformanceScore($deal)
     {
-        $rar = $deal->current_turnover / $deal->target_turnover;
+        $rar = $deal->current_turnover / $deal->target_turnover * 100;
         $rest = $deal->end_date->diffInDays(now());
         $period = $deal->end_date->diffInDays($deal->start_date);
         $etr = $rest / $period * 100;

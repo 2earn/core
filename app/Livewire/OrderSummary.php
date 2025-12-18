@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Services\Carts\Carts;
 use App\Services\Orders\Ordering;
 use Core\Enum\OrderEnum;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
@@ -29,30 +30,60 @@ class OrderSummary extends Component
     public function createAndSimulateOrder()
     {
         $cart = Cart::where('user_id', auth()->user()->id)->first();
+
+        if (!$cart || $cart->cartItem()->count() == 0) {
+            return redirect()->route('orders_summary', ['locale' => app()->getLocale()])
+                ->with('warning', trans('Cart is empty'));
+        }
+
         $ordersData = [];
+
+        // Group cart items by platform
         foreach ($cart->cartItem()->get() as $cartItem) {
             $item = $cartItem->item()->first();
-            $ordersData[$item->deal()->first()->platform_id][] = $cartItem;
+            if ($item && $item->deal()->first()) {
+                $platformId = $item->deal()->first()->platform_id;
+            } else {
+                $platformId = $item->platform_id ?? null;
+            }
+
+            if ($platformId) {
+                $ordersData[$platformId][] = $cartItem;
+            }
         }
 
-        $order = Order::create(['user_id' => auth()->user()->id, 'note' => 'Product buy platform ' ]);
-        foreach ($ordersData as $ordersDataItems) {
+        $createdOrderIds = [];
 
-            foreach ($ordersDataItems as $ordersItems) {
+        // Create separate order for each platform
+        foreach ($ordersData as $platformId => $platformItems) {
+            $order = Order::create([
+                'user_id' => auth()->user()->id,
+                'platform_id' => $platformId,
+                'note' => 'Product buy platform ' . $platformId,
+                'status' => OrderEnum::Ready,
+            ]);
+
+            foreach ($platformItems as $cartItem) {
                 $order->orderDetails()->create([
-                    'qty' => $ordersItems->qty,
-                    'unit_price' => $ordersItems->unit_price,
-                    'total_amount' => $ordersItems->total_amount,
-                    'item_id' => $ordersItems->item_id,
-                    'shipping' => $ordersItems->shipping,
+                    'qty' => $cartItem->qty,
+                    'unit_price' => $cartItem->unit_price,
+                    'total_amount' => $cartItem->total_amount,
+                    'item_id' => $cartItem->item_id,
+                    'shipping' => $cartItem->shipping,
                 ]);
             }
-            $order->updateStatus(OrderEnum::Ready);
 
+            $createdOrderIds[] = $order->id;
         }
 
-        return redirect()->route('orders_simulation', ['locale' => app()->getLocale(), 'id' => $order->id])->with('danger', trans('order failed'));
+        // Clear cart after creating all orders
+        $this->clearCart();
 
+        // Redirect to orders review page with created order IDs
+        return redirect()->route('orders_review', [
+            'locale' => app()->getLocale(),
+            'orderIds' => implode(',', $createdOrderIds)
+        ])->with('success', trans('Orders created successfully'));
     }
 
     public function validateCart()
@@ -62,11 +93,16 @@ class OrderSummary extends Component
         $orders = [];
         foreach ($cart->cartItem()->get() as $cartItem) {
             $item = $cartItem->item()->first();
-            $ordersData[$item->deal()->first()->platform_id][] = $cartItem;
+            $platformId = $item->deal()->first()->platform_id;
+            if (!$platformId) {
+                $item->platform_id;
+            }
+            $ordersData[$platformId][] = $cartItem;
         }
+
         foreach ($ordersData as $key => $ordersDataItems) {
 
-            $order = Order::create(['user_id' => auth()->user()->id, 'note' => 'Product buy platform ' . $key]);
+            $order = Order::create(['user_id' => auth()->user()->id,'platform_id' => $platformId,  'note' => 'Product buy platform ' . $key]);
 
             foreach ($ordersDataItems as $ordersItems) {
                 $order->orderDetails()->create([
@@ -100,9 +136,36 @@ class OrderSummary extends Component
         $this->dispatch('update-cart');
     }
 
+    public function getUniquePlatformsCount()
+    {
+        $cart = Cart::where('user_id', auth()->user()->id)->first();
+        if (!$cart) {
+            return 0;
+        }
+
+        $platformIds = [];
+        foreach ($cart->cartItem()->get() as $cartItem) {
+            $item = $cartItem->item()->first();
+            if ($item && $item->deal()->first()) {
+                $platformId = $item->deal()->first()->platform_id;
+            } else {
+                $platformId = $item->platform_id ?? null;
+            }
+
+            if ($platformId && !in_array($platformId, $platformIds)) {
+                $platformIds[] = $platformId;
+            }
+        }
+
+        return count($platformIds);
+    }
+
     public function render()
     {
         $this->cart = Carts::getOrCreateCart();
-        return view('livewire.order-summary')->extends('layouts.master')->section('content');
+        $uniquePlatformsCount = $this->getUniquePlatformsCount();
+        return view('livewire.order-summary', [
+            'uniquePlatformsCount' => $uniquePlatformsCount
+        ])->extends('layouts.master')->section('content');
     }
 }
