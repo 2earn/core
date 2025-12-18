@@ -44,6 +44,11 @@ class CommissionBreakDown extends Model
         return $this->hasOne(Deal::class, 'deal_id', 'id');
     }
 
+    public function platform()
+    {
+        return $this->belongsTo(\Core\Models\Platform::class, 'platform_id', 'id');
+    }
+
     public function getRecoveredPercentage()
     {
         $lastTwoRecords = CommissionBreakDown::where('deal_id', $this->deal_id)

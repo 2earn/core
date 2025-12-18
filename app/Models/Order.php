@@ -56,6 +56,11 @@ class Order extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function platform()
+    {
+        return $this->belongsTo(\Core\Models\Platform::class, 'platform_id', 'id');
+    }
+
     public function updateStatus(OrderEnum $newStatus)
     {
         if (!OrderEnum::tryFrom($newStatus->value)) {
