@@ -141,6 +141,7 @@ Route::prefix('/partner/')->name('api_partner_')
             Route::get('/sales/dashboard/kpis', [SalesDashboardController::class, 'getKpis'])->name('api_sales_dashboard_kpis');
             Route::get('/sales/dashboard/evolution-chart', [SalesDashboardController::class, 'getSalesEvolutionChart'])->name('api_sales_evolution_chart');
             Route::get('/sales/dashboard/top-products', [SalesDashboardController::class, 'getTopSellingProducts'])->name('api_sales_dashboard_top_products');
+            Route::get('/sales/dashboard/top-deals', [SalesDashboardController::class, 'getTopSellingDeals'])->name('api_sales_dashboard_top_deals');
         });
 
     });

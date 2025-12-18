@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Services\OrderDetailService;
 use App\Services\Platform\PlatformService;
 use Core\Enum\OrderEnum;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class SalesDashboardService
@@ -204,6 +205,87 @@ class SalesDashboardService
             return $this->orderDetailService->getTopSellingProducts($filters);
         } catch (\Exception $e) {
             Log::error(self::LOG_PREFIX . 'Error in getTopSellingProducts: ' . $e->getMessage(), [
+                'filters' => $filters,
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Get top-selling deals based on sales volume or revenue
+     *
+     * @param array $filters (start_date, end_date, platform_id, limit)
+     * @return array
+     * @throws \Exception
+     */
+    public function getTopSellingDeals(array $filters = []): array
+    {
+        try {
+            // Check if user has role in platform when both are provided
+            if (!empty($filters['user_id']) && !empty($filters['platform_id'])) {
+                if (!$this->platformService->userHasRoleInPlatform($filters['user_id'], $filters['platform_id'])) {
+                    Log::warning(self::LOG_PREFIX . 'User does not have role in platform', [
+                        'user_id' => $filters['user_id'],
+                        'platform_id' => $filters['platform_id']
+                    ]);
+                    throw new \Exception('User does not have a role in this platform');
+                }
+            }
+
+            $limit = $filters['limit'] ?? 5;
+
+            // Build query for successful orders (Dispatched status)
+            $query = Order::query()
+                ->select(
+                    'deals.id as deal_id',
+                    'deals.name as deal_name',
+                    \DB::raw('SUM(order_details.qty) as total_sales'),
+                    \DB::raw('COUNT(DISTINCT orders.id) as sales_count')
+                )
+                ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+                ->join('items', 'order_details.item_id', '=', 'items.id')
+                ->join('deals', 'items.deal_id', '=', 'deals.id')
+                ->where('orders.status', OrderEnum::Dispatched->value);
+
+            // Filter by date range
+            if (!empty($filters['start_date'])) {
+                $query->where('orders.created_at', '>=', $filters['start_date']);
+            }
+
+            if (!empty($filters['end_date'])) {
+                $query->where('orders.created_at', '<=', $filters['end_date']);
+            }
+
+            // Filter by platform_id
+            if (!empty($filters['platform_id'])) {
+                $query->where('deals.platform_id', $filters['platform_id']);
+            }
+
+            // Group by deal and order by total sales
+            $topDeals = $query
+                ->groupBy('deals.id', 'deals.name')
+                ->orderByDesc('total_sales')
+                ->limit($limit)
+                ->get()
+                ->map(function ($deal) {
+                    return [
+                        'deal_id' => $deal->deal_id,
+                        'deal_name' => $deal->deal_name,
+                        'total_sales' => (int) $deal->total_sales,
+                        'sales_count' => (int) $deal->sales_count,
+                    ];
+                })
+                ->toArray();
+
+            Log::info(self::LOG_PREFIX . 'Top-selling deals retrieved successfully', [
+                'filters' => $filters,
+                'count' => count($topDeals)
+            ]);
+
+            return $topDeals;
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error in getTopSellingDeals: ' . $e->getMessage(), [
                 'filters' => $filters,
                 'trace' => $e->getTraceAsString()
             ]);
