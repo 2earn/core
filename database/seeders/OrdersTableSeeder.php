@@ -19,13 +19,15 @@ class OrdersTableSeeder extends Seeder
      */
     public function run()
     {
-        $allItems = Item::with('deal')->where('ref', '!=', '#0001')->get();
+        $allItems = Item::with(['deal', 'deal.platform'])->where('ref', '!=', '#0001')->get();
 
-        // Group items by deal_id, filter items that have deals
+        // Group items by deal_id, filter items that have deals with platforms
         $itemsByDeal = $allItems
             ->filter(function ($item) {
-                // Only keep items that have a deal
-                return !is_null($item->deal_id) && !is_null($item->deal);
+                // Only keep items that have a deal with a platform
+                return !is_null($item->deal_id)
+                    && !is_null($item->deal)
+                    && !is_null($item->deal->platform_id);
             })
             ->groupBy('deal_id')
             ->filter(function ($items, $dealId) {
@@ -43,9 +45,24 @@ class OrdersTableSeeder extends Seeder
 
 
         if ($itemsByDeal->isEmpty()) {
-            $this->command->error("No deals found with at least 2 items. Please ensure deals have multiple items.");
-            $this->command->warn("Tip: Each deal needs at least 2 items since orders select 2-5 items per deal.");
+            $this->command->error("No deals found with at least 2 items. Please ensure deals have multiple items and are assigned to platforms.");
+            $this->command->warn("Tip: Each deal needs at least 2 items and must be assigned to a platform.");
             return;
+        }
+
+        // Group deals by platform_id
+        $dealsByPlatform = $itemsByDeal->groupBy(function ($items) {
+            return $items->first()->deal->platform_id;
+        });
+
+        if ($dealsByPlatform->isEmpty()) {
+            $this->command->error("No platforms found with deals. Please ensure deals are assigned to platforms.");
+            return;
+        }
+
+        $this->command->info("Found " . $dealsByPlatform->count() . " platforms with deals.");
+        foreach ($dealsByPlatform as $platformId => $deals) {
+            $this->command->info("Platform ID {$platformId}: " . $deals->count() . " deals");
         }
 
         $userIds = [2, 213, 325, 384, 3716, 3786];
@@ -57,10 +74,21 @@ class OrdersTableSeeder extends Seeder
 
             $userId = $userIds[array_rand($userIds)];
 
+            // Randomly select a platform
+            $selectedPlatformId = $dealsByPlatform->keys()->random();
+            $platformDeals = $dealsByPlatform->get($selectedPlatformId);
+
+            // Randomly select one deal from this platform's deals
+            $selectedDeal = $platformDeals->random();
+
+            // Get the platform_id from the first item's deal
+            $platformId = $selectedDeal->first()->deal->platform_id;
+
             $order = Order::create([
                 'user_id' => $userId,
+                'platform_id' => $platformId,
                 'status' => OrderEnum::Ready,
-                'note' => 'Sample order ' . ($i + 1),
+                'note' => 'Sample order ' . ($i + 1) . ' for platform ' . $platformId,
                 'out_of_deal_amount' => 0,
                 'deal_amount_before_discount' => 0,
                 'total_order' => 0,
@@ -84,9 +112,6 @@ class OrdersTableSeeder extends Seeder
             $dealStartDate = null;
             $dealEndDate = null;
 
-
-            // Randomly select one deal from available product deals
-            $selectedDeal = $itemsByDeal->random();
 
             // Get items from that deal
             $dealItems = $selectedDeal;
