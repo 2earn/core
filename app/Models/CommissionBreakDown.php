@@ -16,6 +16,7 @@ class CommissionBreakDown extends Model
         'type',
         'order_id',
         'deal_id',
+        'platform_id',
         'new_turnover',
         'old_turnover',
         'purchase_value',
