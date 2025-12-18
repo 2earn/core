@@ -111,9 +111,36 @@ class OrderSummary extends Component
         $this->dispatch('update-cart');
     }
 
+    public function getUniquePlatformsCount()
+    {
+        $cart = Cart::where('user_id', auth()->user()->id)->first();
+        if (!$cart) {
+            return 0;
+        }
+
+        $platformIds = [];
+        foreach ($cart->cartItem()->get() as $cartItem) {
+            $item = $cartItem->item()->first();
+            if ($item && $item->deal()->first()) {
+                $platformId = $item->deal()->first()->platform_id;
+            } else {
+                $platformId = $item->platform_id ?? null;
+            }
+
+            if ($platformId && !in_array($platformId, $platformIds)) {
+                $platformIds[] = $platformId;
+            }
+        }
+
+        return count($platformIds);
+    }
+
     public function render()
     {
         $this->cart = Carts::getOrCreateCart();
-        return view('livewire.order-summary')->extends('layouts.master')->section('content');
+        $uniquePlatformsCount = $this->getUniquePlatformsCount();
+        return view('livewire.order-summary', [
+            'uniquePlatformsCount' => $uniquePlatformsCount
+        ])->extends('layouts.master')->section('content');
     }
 }
