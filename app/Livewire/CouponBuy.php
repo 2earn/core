@@ -140,7 +140,10 @@ class CouponBuy extends Component
     public function BuyCoupon($cpns)
     {
         $platform = Platform::find($this->idPlatform);
-        $order = Order::create(['user_id' => auth()->user()->id, 'note' => 'Coupons buy from' . ' :' . $this->idPlatform . '-' . $platform->name]);
+        $order = Order::create(['user_id' => auth()->user()->id,
+            'platform_id' => $this->idPlatform,
+            'note' => 'Coupons buy from' . ' :' . $this->idPlatform . '-' . $platform->name
+        ]);
         $coupon = Item::where('ref', '#0001')->where('platform_id', $this->idPlatform)->first();
 
         $total_amount = $unit_price = 0;
