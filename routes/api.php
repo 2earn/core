@@ -120,7 +120,6 @@ Route::prefix('/partner/')->name('api_partner_')
     ->group(function () {
         Route::middleware(['check.url'])->group(function () {
 
-            // Platform Routes Group
             Route::prefix('platform')->group(function () {
                 Route::apiResource('/', PlatformPartnerController::class)->except('destroy');
                 Route::post('/change', [PlatformPartnerController::class, 'changePlatformType'])->name('platform_change_type');
@@ -130,7 +129,6 @@ Route::prefix('/partner/')->name('api_partner_')
                 Route::get('/top-selling', [PlatformPartnerController::class, 'getTopSellingPlatforms'])->name('platform_top_selling');
             });
 
-            // Deal Routes Group
             Route::prefix('deal')->group(function () {
                 Route::apiResource('/', DealPartnerController::class)->except('destroy');
                 Route::patch('/{deal}/status', [DealPartnerController::class, 'changeStatus'])->name('deals_change_status');
@@ -141,20 +139,17 @@ Route::prefix('/partner/')->name('api_partner_')
                 Route::get('/performance/chart', [DealPartnerController::class, 'performanceChart'])->name('deals_performance_chart');
             });
 
-            // Order Routes Group
             Route::prefix('order')->group(function () {
                 Route::apiResource('/', OrderPartnerController::class)->except('destroy');
                 Route::patch('/{order}/status', [OrderPartnerController::class, 'changeStatus'])->name('orders_change_status');
                 Route::apiResource('/details', OrderDetailsPartnerController::class)->only(['store', 'update']);
             });
 
-            // Item Routes Group
             Route::prefix('item')->group(function () {
                 Route::post('/', [ItemsPartnerController::class, 'store'])->name('items_store');
                 Route::put('/{id}', [ItemsPartnerController::class, 'update'])->name('items_update');
             });
 
-            // Sales Dashboard Routes Group
             Route::prefix('sales/dashboard')->group(function () {
                 Route::get('/kpis', [SalesDashboardController::class, 'getKpis'])->name('sales_dashboard_kpis');
                 Route::get('/evolution-chart', [SalesDashboardController::class, 'getSalesEvolutionChart'])->name('sales_evolution_chart');
@@ -162,7 +157,13 @@ Route::prefix('/partner/')->name('api_partner_')
                 Route::get('/top-deals', [SalesDashboardController::class, 'getTopSellingDeals'])->name('sales_dashboard_top_deals');
             });
 
-            // Other Routes
+            Route::prefix('payment')->group(function () {
+                Route::get('/', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'index'])->name('payments_index');
+                Route::get('/{id}', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'show'])->name('payments_show');
+                Route::post('/demand', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'createDemand'])->name('payments_create_demand');
+                Route::get('/statistics/summary', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'statistics'])->name('payments_statistics');
+            });
+
             Route::get('/plan-label', [PlanLabelPartnerController::class, 'index'])->name('deals_plan_label_index');
             Route::post('/users/add-role', [UserPartnerController::class, 'addRole'])->name('users_add_role');
         });
