@@ -120,48 +120,48 @@ Route::prefix('/partner/')->name('api_partner_')
     ->group(function () {
         Route::middleware(['check.url'])->group(function () {
 
-            Route::prefix('platforms')->group(function () {
+            Route::prefix('platforms')->name('platform_')->group(function () {
                 Route::apiResource('/', PlatformPartnerController::class)->except('destroy');
-                Route::post('/change', [PlatformPartnerController::class, 'changePlatformType'])->name('platform_change_type');
-                Route::post('/validate', [PlatformPartnerController::class, 'validateRequest'])->name('platform_validate_request');
-                Route::post('/validation/cancel', [PlatformPartnerController::class, 'cancelValidationRequest'])->name('platform_validation_cancel');
-                Route::post('/change/cancel', [PlatformPartnerController::class, 'cancelChangeRequest'])->name('platform_change_cancel');
-                Route::get('/top-selling', [PlatformPartnerController::class, 'getTopSellingPlatforms'])->name('platform_top_selling');
+                Route::post('/change', [PlatformPartnerController::class, 'changePlatformType'])->name('change_type');
+                Route::post('/validate', [PlatformPartnerController::class, 'validateRequest'])->name('validate_request');
+                Route::post('/validation/cancel', [PlatformPartnerController::class, 'cancelValidationRequest'])->name('validation_cancel');
+                Route::post('/change/cancel', [PlatformPartnerController::class, 'cancelChangeRequest'])->name('change_cancel');
+                Route::get('/top-selling', [PlatformPartnerController::class, 'getTopSellingPlatforms'])->name('top_selling');
             });
 
-            Route::prefix('deals')->group(function () {
+            Route::prefix('deals')->name('deals_')->group(function () {
                 Route::apiResource('/', DealPartnerController::class)->except('destroy');
-                Route::patch('/{deal}/status', [DealPartnerController::class, 'changeStatus'])->name('deals_change_status');
-                Route::post('/validate', [DealPartnerController::class, 'validateRequest'])->name('deal_validate_request');
-                Route::post('/validation/cancel', [DealPartnerController::class, 'cancelValidationRequest'])->name('deal_validation_cancel');
-                Route::post('/change/cancel', [DealPartnerController::class, 'cancelChangeRequest'])->name('deal_change_cancel');
-                Route::get('/dashboard/indicators', [DealPartnerController::class, 'dashboardIndicators'])->name('deals_dashboard_indicators');
-                Route::get('/performance/chart', [DealPartnerController::class, 'performanceChart'])->name('deals_performance_chart');
+                Route::patch('/{deal}/status', [DealPartnerController::class, 'changeStatus'])->name('change_status');
+                Route::post('/validate', [DealPartnerController::class, 'validateRequest'])->name('validate_request');
+                Route::post('/validation/cancel', [DealPartnerController::class, 'cancelValidationRequest'])->name('validation_cancel');
+                Route::post('/change/cancel', [DealPartnerController::class, 'cancelChangeRequest'])->name('change_cancel');
+                Route::get('/dashboard/indicators', [DealPartnerController::class, 'dashboardIndicators'])->name('dashboard_indicators');
+                Route::get('/performance/chart', [DealPartnerController::class, 'performanceChart'])->name('performance_chart');
             });
 
-            Route::prefix('orders')->group(function () {
+            Route::prefix('orders')->name('orders_')->group(function () {
                 Route::apiResource('/', OrderPartnerController::class)->except('destroy');
-                Route::patch('/{order}/status', [OrderPartnerController::class, 'changeStatus'])->name('orders_change_status');
+                Route::patch('/{order}/status', [OrderPartnerController::class, 'changeStatus'])->name('change_status');
                 Route::apiResource('/details', OrderDetailsPartnerController::class)->only(['store', 'update']);
             });
 
-            Route::prefix('items')->group(function () {
-                Route::post('/', [ItemsPartnerController::class, 'store'])->name('items_store');
-                Route::put('/{id}', [ItemsPartnerController::class, 'update'])->name('items_update');
+            Route::prefix('items')->name('items_')->group(function () {
+                Route::post('/', [ItemsPartnerController::class, 'store'])->name('store');
+                Route::put('/{id}', [ItemsPartnerController::class, 'update'])->name('update');
             });
 
-            Route::prefix('sales/dashboard')->group(function () {
-                Route::get('/kpis', [SalesDashboardController::class, 'getKpis'])->name('sales_dashboard_kpis');
-                Route::get('/evolution-chart', [SalesDashboardController::class, 'getSalesEvolutionChart'])->name('sales_evolution_chart');
-                Route::get('/top-products', [SalesDashboardController::class, 'getTopSellingProducts'])->name('sales_dashboard_top_products');
-                Route::get('/top-deals', [SalesDashboardController::class, 'getTopSellingDeals'])->name('sales_dashboard_top_deals');
+            Route::prefix('sales/dashboard')->name('sales_dashboard_')->group(function () {
+                Route::get('/kpis', [SalesDashboardController::class, 'getKpis'])->name('kpis');
+                Route::get('/evolution-chart', [SalesDashboardController::class, 'getSalesEvolutionChart'])->name('chart');
+                Route::get('/top-products', [SalesDashboardController::class, 'getTopSellingProducts'])->name('top_products');
+                Route::get('/top-deals', [SalesDashboardController::class, 'getTopSellingDeals'])->name('top_deals');
             });
 
-            Route::prefix('payments')->group(function () {
-                Route::get('/', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'index'])->name('payments_index');
-                Route::get('/{id}', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'show'])->name('payments_show');
-                Route::post('/demand', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'createDemand'])->name('payments_create_demand');
-                Route::get('/statistics/summary', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'statistics'])->name('payments_statistics');
+            Route::prefix('payments')->name('payments_')->group(function () {
+                Route::get('/', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'index'])->name('index');
+                Route::get('/{id}', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'show'])->name('show');
+                Route::post('/demand', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'createDemand'])->name('create_demand');
+                Route::get('/statistics/summary', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'statistics'])->name('statistics');
             });
 
             Route::get('/plan-label', [PlanLabelPartnerController::class, 'index'])->name('deals_plan_label_index');
