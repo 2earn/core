@@ -581,6 +581,7 @@ class PlatformPartnerController extends Controller
                     'top_platforms' => $topPlatforms
                 ]
             ], Response::HTTP_OK);
+
         } catch (\Exception $e) {
             Log::error(self::LOG_PREFIX . 'Error retrieving top-selling platforms: ' . $e->getMessage(), [
                 'user_id' => $userId,
