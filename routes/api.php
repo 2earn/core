@@ -120,7 +120,7 @@ Route::prefix('/partner/')->name('api_partner_')
     ->group(function () {
         Route::middleware(['check.url'])->group(function () {
 
-            Route::prefix('platform')->group(function () {
+            Route::prefix('platforms')->group(function () {
                 Route::apiResource('/', PlatformPartnerController::class)->except('destroy');
                 Route::post('/change', [PlatformPartnerController::class, 'changePlatformType'])->name('platform_change_type');
                 Route::post('/validate', [PlatformPartnerController::class, 'validateRequest'])->name('platform_validate_request');
@@ -129,7 +129,7 @@ Route::prefix('/partner/')->name('api_partner_')
                 Route::get('/top-selling', [PlatformPartnerController::class, 'getTopSellingPlatforms'])->name('platform_top_selling');
             });
 
-            Route::prefix('deal')->group(function () {
+            Route::prefix('deals')->group(function () {
                 Route::apiResource('/', DealPartnerController::class)->except('destroy');
                 Route::patch('/{deal}/status', [DealPartnerController::class, 'changeStatus'])->name('deals_change_status');
                 Route::post('/validate', [DealPartnerController::class, 'validateRequest'])->name('deal_validate_request');
@@ -139,13 +139,13 @@ Route::prefix('/partner/')->name('api_partner_')
                 Route::get('/performance/chart', [DealPartnerController::class, 'performanceChart'])->name('deals_performance_chart');
             });
 
-            Route::prefix('order')->group(function () {
+            Route::prefix('orders')->group(function () {
                 Route::apiResource('/', OrderPartnerController::class)->except('destroy');
                 Route::patch('/{order}/status', [OrderPartnerController::class, 'changeStatus'])->name('orders_change_status');
                 Route::apiResource('/details', OrderDetailsPartnerController::class)->only(['store', 'update']);
             });
 
-            Route::prefix('item')->group(function () {
+            Route::prefix('items')->group(function () {
                 Route::post('/', [ItemsPartnerController::class, 'store'])->name('items_store');
                 Route::put('/{id}', [ItemsPartnerController::class, 'update'])->name('items_update');
             });
@@ -157,7 +157,7 @@ Route::prefix('/partner/')->name('api_partner_')
                 Route::get('/top-deals', [SalesDashboardController::class, 'getTopSellingDeals'])->name('sales_dashboard_top_deals');
             });
 
-            Route::prefix('payment')->group(function () {
+            Route::prefix('payments')->group(function () {
                 Route::get('/', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'index'])->name('payments_index');
                 Route::get('/{id}', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'show'])->name('payments_show');
                 Route::post('/demand', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'createDemand'])->name('payments_create_demand');
