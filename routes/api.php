@@ -156,6 +156,7 @@ Route::prefix('/partner/')->name('api_partner_')
                 Route::get('/top-products', [SalesDashboardController::class, 'getTopSellingProducts'])->name('top_products');
                 Route::get('/top-deals', [SalesDashboardController::class, 'getTopSellingDeals'])->name('top_deals');
                 Route::get('/transactions', [SalesDashboardController::class, 'getTransactions'])->name('transactions');
+                Route::get('/transactions/details', [SalesDashboardController::class, 'getTransactionsDetails'])->name('transactions_details');
             });
 
             Route::prefix('payments')->name('payments_')->group(function () {

@@ -127,6 +127,38 @@ class SalesDashboardService
             throw $e;
         }
     }
+    public function getTransactionsDetails(array $filters = []): array
+    {
+        try {
+            if (!empty($filters['user_id']) && !empty($filters['platform_id'])) {
+                if (!$this->platformService->userHasRoleInPlatform($filters['user_id'], $filters['platform_id'])) {
+                    Log::warning(self::LOG_PREFIX . 'User does not have role in platform', [
+                        'user_id' => $filters['user_id'],
+                        'platform_id' => $filters['platform_id']
+                    ]);
+                    throw new \Exception('User does not have a role in this platform');
+                }
+            }
+
+            $startDate = $filters['start_date'] ?? now()->subDays(30)->format('Y-m-d');
+            $endDate = $filters['end_date'] ?? now()->format('Y-m-d');
+
+
+            $results = $this->orderDetailService->getSalesTransactionDetailsData([
+                'order_id' => $filters['order_id'] ?? null,
+            ]);
+
+
+            return $results;
+
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error fetching sales evolution chart: ' . $e->getMessage(), [
+                'filters' => $filters,
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
+        }
+    }
 
     public function getSalesEvolutionChart(array $filters = []): array
     {

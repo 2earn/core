@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Services\Items\ItemService;
 use Core\Enum\OrderEnum;
@@ -120,14 +121,12 @@ class OrderDetailService
             $endDate = $filters['end_date'] ?? now()->format('Y-m-d');
 
 
-            $query = OrderDetail::query()
-                ->join('orders', 'order_details.order_id', '=', 'orders.id')
+            $query = Order::query()
                 ->where('orders.payment_result', true)
                 ->whereBetween('orders.created_at', [$startDate, $endDate]);
 
             if (!empty($filters['platform_id'])) {
-                $query->join('items', 'order_details.item_id', '=', 'items.id')
-                    ->where('items.platform_id', $filters['platform_id']);
+                $query->where('orders.platform_id', $filters['platform_id']);
             }
             if (!empty($filters['order_id'])) {
                 $query->where('orders.id', $filters['order_id']);
@@ -159,12 +158,50 @@ class OrderDetailService
             }
 
             $query->select("*")
-                ->groupBy('orders.created_at')
+                ->groupBy('orders.id')
                 ->orderBy('orders.created_at', 'asc');
 
             if (!empty($filters['limit'])) {
                 $query->limit($filters['limit']);
             }
+
+            $results = $query->get();
+
+            Log::info(self::LOG_PREFIX . 'Sales evolution data retrieved successfully', [
+                'filters' => $filters,
+                'count' => $results->count()
+            ]);
+
+            return [
+                'filters' => $filters,
+                'data' => $results->toArray(),
+                'count' => $results->count()
+            ];
+
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error fetching sales evolution data: ' . $e->getMessage(), [
+                'filters' => $filters,
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
+        }
+    }
+    public function getSalesTransactionDetailsData(array $filters = []): array
+    {
+        try {
+
+
+            $query = OrderDetail::query()
+                ->join('orders', 'order_details.order_id', '=', 'orders.id')
+                ->join('items', 'order_details.item_id', '=', 'items.id');
+
+
+            if (!empty($filters['order_id'])) {
+                $query->where('orders.id', $filters['order_id']);
+            }
+
+            $query->select("*")
+                ->orderBy('order_details.created_at', 'asc');
 
             $results = $query->get();
 
