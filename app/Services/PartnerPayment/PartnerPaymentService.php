@@ -112,7 +112,6 @@ class PartnerPaymentService
         $query = PartnerPayment::where('partner_id', $partnerId)
             ->with(['user', 'partner',  'validator']);
 
-        // Apply filters
         if (isset($filters['validated']) && $filters['validated'] === true) {
             $query->whereNotNull('validated_at');
         } elseif (isset($filters['validated']) && $filters['validated'] === false) {
@@ -146,7 +145,6 @@ class PartnerPaymentService
         $query = PartnerPayment::where('user_id', $userId)
             ->with(['user', 'partner',  'validator']);
 
-        // Apply filters
         if (isset($filters['validated']) && $filters['validated'] === true) {
             $query->whereNotNull('validated_at');
         } elseif (isset($filters['validated']) && $filters['validated'] === false) {

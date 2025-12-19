@@ -13,10 +13,10 @@ class PartnerPaymentIndex extends Component
 {
     use WithPagination;
 
-    const PAGE_SIZE = 15;
+    const PAGE_SIZE = 10;
 
     public $search = '';
-    public $statusFilter = 'all'; // all, pending, validated
+    public $statusFilter = 'all';
     public $methodFilter = '';
     public $partnerFilter = '';
     public $fromDate = '';
@@ -86,9 +86,8 @@ class PartnerPaymentIndex extends Component
 
     public function getPayments()
     {
-        $query = PartnerPayment::with(['user', 'partner', 'demand', 'validator']);
+        $query = PartnerPayment::with(['user', 'partner', 'validator']);
 
-        // Search filter
         if (!empty($this->search)) {
             $query->where(function ($q) {
                 $q->where('id', 'like', '%' . $this->search . '%')
@@ -103,27 +102,24 @@ class PartnerPaymentIndex extends Component
             });
         }
 
-        // Status filter
         if ($this->statusFilter === 'pending') {
             $query->whereNull('validated_at');
         } elseif ($this->statusFilter === 'validated') {
             $query->whereNotNull('validated_at');
         }
 
-        // Method filter
         if (!empty($this->methodFilter)) {
             $query->where('method', $this->methodFilter);
         }
 
-        // Partner filter
         if (!empty($this->partnerFilter)) {
             $query->where('partner_id', $this->partnerFilter);
         }
 
-        // Date range filters
         if (!empty($this->fromDate)) {
             $query->where('payment_date', '>=', $this->fromDate);
         }
+
         if (!empty($this->toDate)) {
             $query->where('payment_date', '<=', $this->toDate);
         }

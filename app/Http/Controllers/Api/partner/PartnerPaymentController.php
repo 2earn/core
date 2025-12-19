@@ -63,7 +63,6 @@ class PartnerPaymentController extends Controller
             $page = $request->input('page', 1);
             $limit = $request->input('limit', 15);
 
-            // Verify user is a platform partner
             $isPartner = $this->verifyUserIsPartner($userId);
             if (!$isPartner) {
                 return response()->json([
@@ -72,30 +71,24 @@ class PartnerPaymentController extends Controller
                 ], Response::HTTP_FORBIDDEN);
             }
 
-            // Build query
             $query = PartnerPayment::with(['user', 'partner', 'validator']);
 
-            // Filter by partner_id (current user or specific partner)
             if ($partnerId) {
                 $query->where('partner_id', $partnerId);
             } else {
-                // Show payments where current user is the partner
                 $query->where('partner_id', $userId);
             }
 
-            // Status filter
             if ($status === 'pending') {
                 $query->whereNull('validated_at');
             } elseif ($status === 'validated') {
                 $query->whereNotNull('validated_at');
             }
 
-            // Method filter
             if ($method) {
                 $query->where('method', $method);
             }
 
-            // Date range filters
             if ($fromDate) {
                 $query->where('payment_date', '>=', $fromDate);
             }
@@ -103,16 +96,13 @@ class PartnerPaymentController extends Controller
                 $query->where('payment_date', '<=', $toDate);
             }
 
-            // Get total count before pagination
             $totalCount = $query->count();
 
-            // Paginate
             $payments = $query->orderBy('created_at', 'desc')
                 ->skip(($page - 1) * $limit)
                 ->take($limit)
                 ->get();
 
-            // Calculate statistics
             $stats = [
                 'total_payments' => PartnerPayment::where('partner_id', $partnerId ?? $userId)->count(),
                 'pending_payments' => PartnerPayment::where('partner_id', $partnerId ?? $userId)
@@ -184,7 +174,6 @@ class PartnerPaymentController extends Controller
         try {
             $userId = intval($request->input('user_id'));
 
-            // Verify user is a platform partner
             $isPartner = $this->verifyUserIsPartner($userId);
             if (!$isPartner) {
                 return response()->json([
@@ -194,7 +183,6 @@ class PartnerPaymentController extends Controller
             }
 
             $payment = $this->partnerPaymentService->getById($id);
-            // Verify user has access to this payment (is the partner)
             if ($payment->partner_id !== $userId) {
                 return response()->json([
                     'status' => 'Failed',
@@ -250,7 +238,6 @@ class PartnerPaymentController extends Controller
             $amount = $request->input('amount');
             $note = $request->input('note');
 
-            // Verify user is a platform partner
             $isPartner = $this->verifyUserIsPartner($userId);
             if (!$isPartner) {
                 return response()->json([
@@ -270,7 +257,6 @@ class PartnerPaymentController extends Controller
                 'partner_id' => $userId, // Same user (partner requesting their own payment)
                 'created_by' => $userId,
             ]);
-
 
             DB::commit();
 
@@ -331,7 +317,6 @@ class PartnerPaymentController extends Controller
             $fromDate = $request->input('from_date');
             $toDate = $request->input('to_date');
 
-            // Verify user is a platform partner
             $isPartner = $this->verifyUserIsPartner($userId);
             if (!$isPartner) {
                 return response()->json([
