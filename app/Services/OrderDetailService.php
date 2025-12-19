@@ -113,6 +113,81 @@ class OrderDetailService
         }
     }
 
+    public function getSalesTransactionData(array $filters = []): array
+    {
+        try {
+            $startDate = $filters['start_date'] ?? now()->subDays(30)->format('Y-m-d');
+            $endDate = $filters['end_date'] ?? now()->format('Y-m-d');
+
+
+            $query = OrderDetail::query()
+                ->join('orders', 'order_details.order_id', '=', 'orders.id')
+                ->where('orders.payment_result', true)
+                ->whereBetween('orders.created_at', [$startDate, $endDate]);
+
+            if (!empty($filters['platform_id'])) {
+                $query->join('items', 'order_details.item_id', '=', 'items.id')
+                    ->where('items.platform_id', $filters['platform_id']);
+            }
+            if (!empty($filters['order_id'])) {
+                $query->where('orders.id', $filters['order_id']);
+            }
+
+            if (!empty($filters['start_date'])) {
+                $query->where('orders.created_at', '>=', $filters['start_date']);
+            }
+
+            if (!empty($filters['end_date'])) {
+                $query->where('orders.created_at', '<=', $filters['end_date']);
+            }
+
+            if (!empty($filters['status'])) {
+                $query->where('orders.status', '<=', $filters['status']);
+            }
+
+            if (!empty($filters['note'])) {
+                $query->where('orders.note', 'like', '%' . $filters['note'] . '%');
+            }
+
+            if (!empty($filters['country'])) {
+                $query->join('users', 'orders.user_id', '=', 'users.id')
+                    ->where('users.idCountry', $filters['country']);
+            }
+
+            if (!empty($filters['user_id'])) {
+                $query->where('orders.user_id', $filters['user_id']);
+            }
+
+            $query->select("*")
+                ->groupBy('orders.created_at')
+                ->orderBy('orders.created_at', 'asc');
+
+            if (!empty($filters['limit'])) {
+                $query->limit($filters['limit']);
+            }
+
+            $results = $query->get();
+
+            Log::info(self::LOG_PREFIX . 'Sales evolution data retrieved successfully', [
+                'filters' => $filters,
+                'count' => $results->count()
+            ]);
+
+            return [
+                'filters' => $filters,
+                'data' => $results->toArray(),
+                'count' => $results->count()
+            ];
+
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error fetching sales evolution data: ' . $e->getMessage(), [
+                'filters' => $filters,
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
+        }
+    }
+
     /**
      * Get date grouping SQL for view mode
      *

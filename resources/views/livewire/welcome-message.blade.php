@@ -6,7 +6,7 @@
                 <div class="flex-shrink-0">
                     <div class="position-relative">
                         <div
-                            class="avatar-xl bg-white bg-opacity-20 d-flex align-items-center justify-content-center shadow-lg"
+                            class="avatar-xl bg-white bg-opacity-20 d-flex align-items-center justify-content-center shadow-lg mx-5"
                             style="width: 90px; height: 90px; border-radius: 24px; backdrop-filter: blur(10px);">
                             <img class="avatar-xl"
                                  style="border-radius: 20px; width: 82px; height: 82px; object-fit: cover; border: 3px solid rgba(255,255,255,0.3);"

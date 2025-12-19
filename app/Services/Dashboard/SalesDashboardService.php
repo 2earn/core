@@ -17,9 +17,10 @@ class SalesDashboardService
     private OrderDetailService $orderDetailService;
 
     public function __construct(
-        PlatformService $platformService,
+        PlatformService    $platformService,
         OrderDetailService $orderDetailService
-    ) {
+    )
+    {
         $this->platformService = $platformService;
         $this->orderDetailService = $orderDetailService;
     }
@@ -86,6 +87,47 @@ class SalesDashboardService
         }
     }
 
+    public function getTransactions(array $filters = []): array
+    {
+        try {
+            if (!empty($filters['user_id']) && !empty($filters['platform_id'])) {
+                if (!$this->platformService->userHasRoleInPlatform($filters['user_id'], $filters['platform_id'])) {
+                    Log::warning(self::LOG_PREFIX . 'User does not have role in platform', [
+                        'user_id' => $filters['user_id'],
+                        'platform_id' => $filters['platform_id']
+                    ]);
+                    throw new \Exception('User does not have a role in this platform');
+                }
+            }
+
+            $startDate = $filters['start_date'] ?? now()->subDays(30)->format('Y-m-d');
+            $endDate = $filters['end_date'] ?? now()->format('Y-m-d');
+
+
+            $results = $this->orderDetailService->getSalesTransactionData([
+                'start_date' => $startDate,
+                'end_date' => $endDate,
+                'platform_id' => $filters['platform_id'] ?? null,
+                'order_id' => $filters['order_id'] ?? null,
+                'status' => $filters['status'] ?? null,
+                'note' => $filters['note'] ?? null,
+                'country' => $filters['country'] ?? null,
+                'user_id' => $filters['user_id'] ?? null,
+                'limit' => $filters['limit'] ?? null,
+            ]);
+
+
+            return $results;
+
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error fetching sales evolution chart: ' . $e->getMessage(), [
+                'filters' => $filters,
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
+        }
+    }
+
     public function getSalesEvolutionChart(array $filters = []): array
     {
         try {
@@ -116,12 +158,12 @@ class SalesDashboardService
                 if ($viewMode === 'weekly') {
                     return [
                         'date' => 'Week ' . $item['date'],
-                        'revenue' => (float) $item['revenue']
+                        'revenue' => (float)$item['revenue']
                     ];
                 } else {
                     return [
                         'date' => \Carbon\Carbon::parse($item['date'])->format($dateFormat),
-                        'revenue' => (float) $item['revenue']
+                        'revenue' => (float)$item['revenue']
                     ];
                 }
             }, $results);
@@ -272,8 +314,8 @@ class SalesDashboardService
                     return [
                         'deal_id' => $deal->deal_id,
                         'deal_name' => $deal->deal_name,
-                        'total_sales' => (int) $deal->total_sales,
-                        'sales_count' => (int) $deal->sales_count,
+                        'total_sales' => (int)$deal->total_sales,
+                        'sales_count' => (int)$deal->sales_count,
                     ];
                 })
                 ->toArray();
@@ -321,8 +363,8 @@ class SalesDashboardService
             if (!empty($userId)) {
                 $query->where(function ($q) use ($userId) {
                     $q->where('platforms.owner_id', $userId)
-                      ->orWhere('platforms.marketing_manager_id', $userId)
-                      ->orWhere('platforms.financial_manager_id', $userId);
+                        ->orWhere('platforms.marketing_manager_id', $userId)
+                        ->orWhere('platforms.financial_manager_id', $userId);
                 });
             }
 
@@ -345,7 +387,7 @@ class SalesDashboardService
                     return [
                         'platform_id' => $platform->platform_id,
                         'platform_name' => $platform->platform_name,
-                        'total_sales' => (float) $platform->total_sales,
+                        'total_sales' => (float)$platform->total_sales,
                     ];
                 })
                 ->toArray();
