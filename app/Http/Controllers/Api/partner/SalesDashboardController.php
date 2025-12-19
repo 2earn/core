@@ -270,6 +270,66 @@ class SalesDashboardController extends Controller
         }
     }
 
+    /**
+     * Get top-selling deals chart data
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getTransactionsDetails(Request $request): JsonResponse
+    {
+        try {
+
+            $validator = Validator::make($request->all(), [
+                'order_id' => 'required|integer|exists:orders,id',
+            ]);
+
+            if ($validator->fails()) {
+                Log::error(self::LOG_PREFIX . 'Validation failed for top-selling deals', [
+                    'errors' => $validator->errors()
+                ]);
+                return response()->json([
+                    'status' => 'Failed',
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors()
+                ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+
+            $filters = [
+                'order_id' => $request->input('order_id'),
+            ];
+
+            $filters = array_filter($filters, function ($value) {
+                return !is_null($value);
+            });
+
+            $transactions = $this->dashboardService->getTransactionsDetails($filters);
+
+            Log::info(self::LOG_PREFIX . 'Transactions deals retrieved successfully', [
+                'filters' => $filters,
+                'count' => count($transactions)
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Transactions deals retrieved successfully',
+                'data' => [
+                    'transactions' => $transactions
+                ]
+            ], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error retrieving Transactions: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Error retrieving Transactions',
+                'error' => $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public function getTopSellingDeals(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
