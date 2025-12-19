@@ -200,7 +200,7 @@ class PlatformChangeRequestService
      * @param int $requestedBy
      * @return PlatformChangeRequest
      */
-    public function createRequest(int $platformId, array $changes, int $requestedBy): PlatformChangeRequest
+    public function createRequest($platformId, array $changes, $requestedBy): PlatformChangeRequest
     {
         return PlatformChangeRequest::create([
             'platform_id' => $platformId,

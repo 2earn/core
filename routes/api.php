@@ -121,7 +121,7 @@ Route::prefix('/partner/')->name('api_partner_')
         Route::middleware(['check.url'])->group(function () {
 
             Route::prefix('platforms')->name('platform_')->group(function () {
-                Route::apiResource('/', PlatformPartnerController::class)->except('destroy');
+                Route::apiResource('/platforms', PlatformPartnerController::class)->except('destroy');
                 Route::post('/change', [PlatformPartnerController::class, 'changePlatformType'])->name('change_type');
                 Route::post('/validate', [PlatformPartnerController::class, 'validateRequest'])->name('validate_request');
                 Route::post('/validation/cancel', [PlatformPartnerController::class, 'cancelValidationRequest'])->name('validation_cancel');
@@ -130,7 +130,7 @@ Route::prefix('/partner/')->name('api_partner_')
             });
 
             Route::prefix('deals')->name('deals_')->group(function () {
-                Route::apiResource('/', DealPartnerController::class)->except('destroy');
+                Route::apiResource('/deals', DealPartnerController::class)->except('destroy');
                 Route::patch('/{deal}/status', [DealPartnerController::class, 'changeStatus'])->name('change_status');
                 Route::post('/validate', [DealPartnerController::class, 'validateRequest'])->name('validate_request');
                 Route::post('/validation/cancel', [DealPartnerController::class, 'cancelValidationRequest'])->name('validation_cancel');
@@ -140,7 +140,7 @@ Route::prefix('/partner/')->name('api_partner_')
             });
 
             Route::prefix('orders')->name('orders_')->group(function () {
-                Route::apiResource('/', OrderPartnerController::class)->except('destroy');
+                Route::apiResource('/orders', OrderPartnerController::class)->except('destroy');
                 Route::patch('/{order}/status', [OrderPartnerController::class, 'changeStatus'])->name('change_status');
                 Route::apiResource('/details', OrderDetailsPartnerController::class)->only(['store', 'update']);
             });
