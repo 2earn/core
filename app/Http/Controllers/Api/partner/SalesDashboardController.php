@@ -211,6 +211,8 @@ class SalesDashboardController extends Controller
                 'order_id' => 'nullable|integer|exists:orders,id',
                 'status' => 'nullable|string',
                 'note' => 'nullable|string',
+                'country' => 'nullable|string',
+                'user_id' => 'nullable|integer|exists:users,id',
                 'limit' => 'nullable|integer|min:1|max:100',
             ]);
 
@@ -232,6 +234,8 @@ class SalesDashboardController extends Controller
                 'order_id' => $request->input('order_id'),
                 'status' => $request->input('status'),
                 'note' => $request->input('note'),
+                'country' => $request->input('country'),
+                'user_id' => $request->input('user_id'),
                 'limit' => $request->input('limit', 5),
             ];
 

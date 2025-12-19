@@ -100,11 +100,9 @@ class SalesDashboardService
                 }
             }
 
-            $viewMode = $filters['view_mode'] ?? 'daily';
             $startDate = $filters['start_date'] ?? now()->subDays(30)->format('Y-m-d');
             $endDate = $filters['end_date'] ?? now()->format('Y-m-d');
 
-            $dateFormat = $this->getDateFormatByViewMode($viewMode);
 
             $results = $this->orderDetailService->getSalesTransactionData([
                 'start_date' => $startDate,
@@ -113,13 +111,14 @@ class SalesDashboardService
                 'order_id' => $filters['order_id'] ?? null,
                 'status' => $filters['status'] ?? null,
                 'note' => $filters['note'] ?? null,
+                'country' => $filters['country'] ?? null,
+                'user_id' => $filters['user_id'] ?? null,
                 'limit' => $filters['limit'] ?? null,
             ]);
 
 
-            return [
-                'transactions' => $results,
-            ];
+            return $results;
+
         } catch (\Exception $e) {
             Log::error(self::LOG_PREFIX . 'Error fetching sales evolution chart: ' . $e->getMessage(), [
                 'filters' => $filters,

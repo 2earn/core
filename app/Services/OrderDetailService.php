@@ -145,18 +145,40 @@ class OrderDetailService
                 $query->where('orders.status', '<=', $filters['status']);
             }
 
-            $results = $query
-                ->select("*")
+            if (!empty($filters['note'])) {
+                $query->where('orders.note', 'like', '%' . $filters['note'] . '%');
+            }
+
+            if (!empty($filters['country'])) {
+                $query->join('users', 'orders.user_id', '=', 'users.id')
+                    ->where('users.idCountry', $filters['country']);
+            }
+
+            if (!empty($filters['user_id'])) {
+                $query->where('orders.customer_id', $filters['user_id']);
+            }
+
+            $query->select("*")
                 ->groupBy('orders.created_at')
-                ->orderBy('orders.created_at', 'asc')
-                ->get();
+                ->orderBy('orders.created_at', 'asc');
+
+            if (!empty($filters['limit'])) {
+                $query->limit($filters['limit']);
+            }
+
+            $results = $query->get();
 
             Log::info(self::LOG_PREFIX . 'Sales evolution data retrieved successfully', [
                 'filters' => $filters,
                 'count' => $results->count()
             ]);
 
-            return $results->toArray();
+            return [
+                'filters' => $filters,
+                'data' => $results->toArray(),
+                'count' => $results->count()
+            ];
+
         } catch (\Exception $e) {
             Log::error(self::LOG_PREFIX . 'Error fetching sales evolution data: ' . $e->getMessage(), [
                 'filters' => $filters,
