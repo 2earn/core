@@ -155,7 +155,7 @@ class OrderDetailService
             }
 
             if (!empty($filters['user_id'])) {
-                $query->where('orders.customer_id', $filters['user_id']);
+                $query->where('orders.user_id', $filters['user_id']);
             }
 
             $query->select("*")
