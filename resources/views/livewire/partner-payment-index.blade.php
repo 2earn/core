@@ -183,7 +183,7 @@
                         </div>
 
                         <!-- Create Button -->
-                        @if(\Core\Models\Platform::havePartnerSpecialRole(auth()->user()->id))
+                        @if(\Core\Models\Platform::havePartnerSpecialRole(auth()->user()->id) && !\App\Models\User::isSuperAdmin())
                             <div class="col-sm-6 col-md-2 text-end">
                                 <a href="{{route('partner_payment_manage', app()->getLocale())}}"
                                    class="btn btn-info waves-effect waves-light w-100">
