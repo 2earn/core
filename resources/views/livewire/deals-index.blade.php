@@ -12,18 +12,20 @@
         @endslot
     @endcomponent
 
-    <div class="row">
-            <div class="col-12 card">
-                <div class="card-body d-flex align-items-center justify-content-end">
-                    <div class="d-flex gap-1">
-                        <a href="{{route('deals_all_requests', ['locale' => app()->getLocale()])}}"
-                           class="btn btn-outline-primary">
-                            <i class="fas fa-list me-1"></i>{{__('All Requests')}}
-                        </a>
+    @if(\App\Models\User::isSuperAdmin())
+        <div class="row">
+                <div class="col-12 card  deals-sub-menu">
+                    <div class="card-body d-flex align-items-center justify-content-end">
+                        <div class="d-flex gap-1">
+                            <a href="{{route('deals_all_requests', ['locale' => app()->getLocale()])}}"
+                               class="btn btn-outline-primary">
+                                <i class="fas fa-list me-1"></i>{{__('All Requests')}}
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-    </div>
+        </div>
+    @endif
 
     <div class="row">
         @include('layouts.flash-messages')

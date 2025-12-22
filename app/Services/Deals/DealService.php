@@ -732,4 +732,35 @@ class DealService
     {
         return Deal::select('id', 'name')->orderBy('name')->get();
     }
+
+    /**
+     * Get available deals for a user based on their role
+     *
+     * @param int $userId
+     * @param bool $isSuperAdmin
+     * @param int|null $platformId
+     * @return Collection
+     */
+    public function getAvailableDeals(int $userId, bool $isSuperAdmin = false, ?int $platformId = null)
+    {
+        $query = Deal::query();
+
+        if (!$isSuperAdmin) {
+            $query->whereHas('platform', function ($q) use ($userId) {
+                $q->where(function ($q2) use ($userId) {
+                    $q2->where('financial_manager_id', $userId)
+                       ->orWhere('owner_id', $userId)
+                       ->orWhere('marketing_manager_id', $userId);
+                });
+            });
+        }
+
+        if ($platformId) {
+            $query->where('platform_id', $platformId);
+        }
+
+        return $query->where('status', '!=', 4)
+            ->orderBy('created_at', 'desc')
+            ->get(['id', 'name', 'platform_id', 'status']);
+    }
 }
