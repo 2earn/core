@@ -177,7 +177,7 @@ class PartnerPaymentService
      */
     public function getById($paymentId): PartnerPayment
     {
-        return PartnerPayment::with(['user', 'partner', 'validator'])
+        return PartnerPayment::with(['partner', 'validator'])
             ->findOrFail($paymentId);
     }
 
