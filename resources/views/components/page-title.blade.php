@@ -205,16 +205,6 @@
                             <span>{{__('Events')}}</span>
                         </a>
                     </div>
-                    @if(\Core\Models\Platform::canCheckDeals(auth()->user()->id))
-                        <div class="col">
-                            <a href="{{route('deals_index',app()->getLocale(),false )}}"
-                               class="menu-link-modern {{$currentRouteName=='deals_index'? 'active' : ''}}"
-                               role="button">
-                                <i class="ri-honour-line"></i>
-                                <span>{{__('Deals')}}</span>
-                            </a>
-                        </div>
-                    @endIf
                     <div class="col">
                         <a href="{{route('coupon_injector_runner',app()->getLocale(),false )}}"
                            class="menu-link-modern {{$currentRouteName=='coupon_injector_runner'? 'active' : ''}}"
@@ -231,6 +221,36 @@
                             <span>{{__('Settlement tracking')}}</span>
                         </a>
                     </div>
+                    @if(\Core\Models\Platform::havePartnerSpecialRole(auth()->user()->id))
+                        <div class="col">
+                            <a href="{{route('platform_index',['locale'=>app()->getLocale()],false )}}"
+                               class="menu-link-modern {{$currentRouteName=='platform_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-git-repository-private-fill"></i>
+                                <span>{{__('Platform')}}</span>
+                            </a>
+                        </div>
+                    @endif
+                    @if(\Core\Models\Platform::havePartnerSpecialRole(auth()->user()->id))
+                        <div class="col">
+                            <a href="{{route('deals_index',['locale'=>app()->getLocale()],false )}}"
+                               class="menu-link-modern {{$currentRouteName=='deals_index'? 'active' : ''}}"
+                               role="button">
+                                <i class="fas fa-handshake me-2"></i>
+                                <span>{{__('Deals')}}</span>
+                            </a>
+                        </div>
+                    @endif
+                    @if(\Core\Models\Platform::havePartnerSpecialRole(auth()->user()->id))
+                        <div class="col">
+                            <a href="{{route('partner_payment_index',['locale'=>app()->getLocale()],false )}}"
+                               class="menu-link-modern {{in_array($currentRouteName, ['partner_payment_index', 'partner_payment_detail', 'partner_payment_manage']) ? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-money-dollar-circle-line"></i>
+                                <span>{{__('Partner Payments')}}</span>
+                            </a>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -256,22 +276,6 @@
                                role="button">
                                 <i class="bx bx-category-alt "></i>
                                 <span>{{__('Business sector')}}</span>
-                            </a>
-                        </div>
-                        <div class="col">
-                            <a href="{{route('platform_index',['locale'=>app()->getLocale()],false )}}"
-                               class="menu-link-modern {{$currentRouteName=='$1'? 'active' : ''}}"
-                               role="button">
-                                <i class="ri-git-repository-private-fill "></i>
-                                <span>{{__('Platform')}}</span>
-                            </a>
-                        </div>
-                        <div class="col">
-                            <a href="{{route('deals_index',['locale'=>app()->getLocale()],false )}}"
-                               class="menu-link-modern {{$currentRouteName=='$1'? 'active' : ''}}"
-                               role="button">
-                                <i class="fas fa-handshake me-2 "></i>
-                                <span>{{__('Deals')}}</span>
                             </a>
                         </div>
                         <div class="col">
@@ -376,14 +380,6 @@
                                role="button">
                                 <i class="ri-wallet-3-fill "></i>
                                 <span>{{__('Balance categories')}}</span>
-                            </a>
-                        </div>
-                        <div class="col">
-                            <a href="{{route('partner_payment_index',['locale'=>app()->getLocale()],false )}}"
-                               class="menu-link-modern {{in_array($currentRouteName, ['partner_payment_index', 'partner_payment_detail', 'partner_payment_manage']) ? 'active' : ''}}"
-                               role="button">
-                                <i class="ri-money-dollar-circle-line "></i>
-                                <span>{{__('Partner Payments')}}</span>
                             </a>
                         </div>
                         <div class="col">

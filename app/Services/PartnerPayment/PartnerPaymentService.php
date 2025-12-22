@@ -369,5 +369,32 @@ class PartnerPaymentService
 
         return $query->orderBy('validated_at', 'desc')->get();
     }
+
+    /**
+     * Get statistics for partner payments.
+     *
+     * @return array
+     */
+    public function getStats(): array
+    {
+        return [
+            'total_payments' => PartnerPayment::count(),
+            'pending_payments' => PartnerPayment::whereNull('validated_at')->whereNull('rejected_at')->count(),
+            'validated_payments' => PartnerPayment::whereNotNull('validated_at')->count(),
+            'rejected_payments' => PartnerPayment::whereNotNull('rejected_at')->count(),
+            'total_amount' => PartnerPayment::whereNotNull('validated_at')->sum('amount'),
+            'pending_amount' => PartnerPayment::whereNull('validated_at')->whereNull('rejected_at')->sum('amount'),
+        ];
+    }
+
+    /**
+     * Get distinct payment methods.
+     *
+     * @return Collection
+     */
+    public function getPaymentMethods()
+    {
+        return PartnerPayment::distinct()->pluck('method');
+    }
 }
 

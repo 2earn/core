@@ -7,7 +7,7 @@
                        class="btn btn-xs btn-outline-info btn2earnTable  m-1">{{__('Show')}}</a>
                 @endif
 
-                @if(\Core\Models\Platform::canCheckDeals(auth()->user()->id))
+                @if(\Core\Models\Platform::havePartnerSpecialRole(auth()->user()->id))
                     <a class="link-warning" target="_blank"
                        href="{{route('sales_tracking',['locale'=>app()->getLocale(),'id'=>$deal->id])}}">
                         @if(\App\Models\User::isSuperAdmin())

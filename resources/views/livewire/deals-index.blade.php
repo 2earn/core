@@ -399,7 +399,7 @@
                                 </a>
                             @endif
 
-                            @if(\Core\Models\Platform::canCheckDeals(auth()->user()->id))
+                            @if(\Core\Models\Platform::havePartnerSpecialRole(auth()->user()->id))
                                 <a class="btn btn-sm btn-soft-secondary flex-fill"
                                    target="_blank"
                                    title="{{__('For User Role')}}"

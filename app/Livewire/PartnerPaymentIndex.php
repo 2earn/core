@@ -73,6 +73,11 @@ class PartnerPaymentIndex extends Component
         $this->resetPage();
     }
 
+    public function getStats()
+    {
+        return $this->partnerPaymentService->getStats();
+    }
+
 
     public function render()
     {
@@ -88,24 +93,12 @@ class PartnerPaymentIndex extends Component
         $params = [
             'payments' => $this->partnerPaymentService->getPayments($filters, self::PAGE_SIZE),
             'stats' => $this->getStats(),
-            'paymentMethods' => PartnerPayment::distinct()->pluck('method'),
+            'paymentMethods' => $this->partnerPaymentService->getPaymentMethods(),
         ];
 
         return view('livewire.partner-payment-index', $params)
             ->extends('layouts.master')
             ->section('content');
-    }
-
-    public function getStats()
-    {
-        return [
-            'total_payments' => PartnerPayment::count(),
-            'pending_payments' => PartnerPayment::whereNull('validated_at')->whereNull('rejected_at')->count(),
-            'validated_payments' => PartnerPayment::whereNotNull('validated_at')->count(),
-            'rejected_payments' => PartnerPayment::whereNotNull('rejected_at')->count(),
-            'total_amount' => PartnerPayment::whereNotNull('validated_at')->sum('amount'),
-            'pending_amount' => PartnerPayment::whereNull('validated_at')->whereNull('rejected_at')->sum('amount'),
-        ];
     }
 }
 
