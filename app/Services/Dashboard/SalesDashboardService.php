@@ -419,7 +419,7 @@ class SalesDashboardService
                     return [
                         'platform_id' => $platform->platform_id,
                         'platform_name' => $platform->platform_name,
-                        'total_sales' => (float)$platform->total_sales,
+                        'total_sales' => formatSolde((float)$platform->total_sales),
                     ];
                 })
                 ->toArray();

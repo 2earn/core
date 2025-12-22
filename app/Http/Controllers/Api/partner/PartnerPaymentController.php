@@ -34,8 +34,7 @@ class PartnerPaymentController extends Controller
     public function index(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|integer|exists:users,id',
-            'partner_id' => 'nullable|integer|exists:users,id',
+            'partner_id' => 'required|integer|exists:users,id',
             'status' => 'nullable|in:all,pending,validated',
             'method' => 'nullable|string|max:50',
             'from_date' => 'nullable|date',
@@ -54,7 +53,6 @@ class PartnerPaymentController extends Controller
         }
 
         try {
-            $userId = $request->input('user_id');
             $partnerId = $request->input('partner_id');
             $status = $request->input('status', 'all');
             $method = $request->input('method');
@@ -63,7 +61,7 @@ class PartnerPaymentController extends Controller
             $page = $request->input('page', 1);
             $limit = $request->input('limit', 15);
 
-            $isPartner = $this->verifyUserIsPartner($userId);
+            $isPartner = $this->verifyUserIsPartner($partnerId);
             if (!$isPartner) {
                 return response()->json([
                     'status' => 'Failed',
@@ -71,12 +69,10 @@ class PartnerPaymentController extends Controller
                 ], Response::HTTP_FORBIDDEN);
             }
 
-            $query = PartnerPayment::with(['user', 'partner', 'validator']);
+            $query = PartnerPayment::with(['partner', 'validator']);
 
             if ($partnerId) {
                 $query->where('partner_id', $partnerId);
-            } else {
-                $query->where('partner_id', $userId);
             }
 
             if ($status === 'pending') {
@@ -104,19 +100,19 @@ class PartnerPaymentController extends Controller
                 ->get();
 
             $stats = [
-                'total_payments' => PartnerPayment::where('partner_id', $partnerId ?? $userId)->count(),
-                'pending_payments' => PartnerPayment::where('partner_id', $partnerId ?? $userId)
+                'total_payments' => PartnerPayment::where('partner_id', $partnerId )->count(),
+                'pending_payments' => PartnerPayment::where('partner_id', $partnerId)
                     ->whereNull('validated_at')->count(),
-                'validated_payments' => PartnerPayment::where('partner_id', $partnerId ?? $userId)
+                'validated_payments' => PartnerPayment::where('partner_id', $partnerId)
                     ->whereNotNull('validated_at')->count(),
-                'total_amount' => (float)PartnerPayment::where('partner_id', $partnerId ?? $userId)
+                'total_amount' => (float)PartnerPayment::where('partner_id', $partnerId)
                     ->whereNotNull('validated_at')->sum('amount'),
-                'pending_amount' => (float)PartnerPayment::where('partner_id', $partnerId ?? $userId)
+                'pending_amount' => (float)PartnerPayment::where('partner_id', $partnerId)
                     ->whereNull('validated_at')->sum('amount'),
             ];
 
             Log::info(self::LOG_PREFIX . 'Partner payments retrieved successfully', [
-                'user_id' => $userId,
+                'partner_id' => $partnerId,
                 'count' => $payments->count()
             ]);
 
@@ -159,7 +155,7 @@ class PartnerPaymentController extends Controller
     public function show(Request $request, int $id): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|integer|exists:users,id',
+            'partner_id' => 'required|integer|exists:users,id',
         ]);
 
         if ($validator->fails()) {
@@ -172,9 +168,9 @@ class PartnerPaymentController extends Controller
         }
 
         try {
-            $userId = intval($request->input('user_id'));
+            $partnerId = intval($request->input('partner_id'));
 
-            $isPartner = $this->verifyUserIsPartner($userId);
+            $isPartner = $this->verifyUserIsPartner($partnerId);
             if (!$isPartner) {
                 return response()->json([
                     'status' => 'Failed',
@@ -183,7 +179,7 @@ class PartnerPaymentController extends Controller
             }
 
             $payment = $this->partnerPaymentService->getById($id);
-            if ($payment->partner_id !== $userId) {
+            if ($payment->partner_id !== $partnerId) {
                 return response()->json([
                     'status' => 'Failed',
                     'message' => 'Unauthorized access to this payment'
@@ -192,7 +188,7 @@ class PartnerPaymentController extends Controller
 
             Log::info(self::LOG_PREFIX . 'Partner payment retrieved successfully', [
                 'payment_id' => $id,
-                'user_id' => $userId
+                'user_id' => $partnerId
             ]);
 
             return response()->json([
@@ -219,7 +215,7 @@ class PartnerPaymentController extends Controller
     public function createDemand(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|integer|exists:users,id',
+            'partner_id' => 'required|integer|exists:users,id',
             'amount' => 'required|numeric|min:0',
             'note' => 'nullable|string|max:500',
         ]);
@@ -234,11 +230,11 @@ class PartnerPaymentController extends Controller
         }
 
         try {
-            $userId = $request->input('user_id');
+            $partnerId = $request->input('partner_id');
             $amount = $request->input('amount');
             $note = $request->input('note');
 
-            $isPartner = $this->verifyUserIsPartner($userId);
+            $isPartner = $this->verifyUserIsPartner($partnerId);
             if (!$isPartner) {
                 return response()->json([
                     'status' => 'Failed',
@@ -253,16 +249,15 @@ class PartnerPaymentController extends Controller
                 'amount' => $amount,
                 'method' => 'demand_request',
                 'payment_date' => now(),
-                'user_id' => $userId, // Partner is requesting payment
-                'partner_id' => $userId, // Same user (partner requesting their own payment)
-                'created_by' => $userId,
+                'partner_id' => $partnerId, // Same user (partner requesting their own payment)
+                'created_by' => $partnerId,
             ]);
 
             DB::commit();
 
             Log::info(self::LOG_PREFIX . 'Demand created successfully', [
                 'partner_payment_id' => $partnerPayment->id,
-                'user_id' => $userId,
+                'partner_id' => $partnerId,
                 'amount' => $amount,
             ]);
 
@@ -299,7 +294,7 @@ class PartnerPaymentController extends Controller
     public function statistics(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|integer|exists:users,id',
+            'partner_id' => 'required|integer|exists:users,id',
             'from_date' => 'nullable|date',
             'to_date' => 'nullable|date|after_or_equal:from_date',
         ]);
@@ -313,11 +308,11 @@ class PartnerPaymentController extends Controller
         }
 
         try {
-            $userId = $request->input('user_id');
+            $partnerId = $request->input('partner_id');
             $fromDate = $request->input('from_date');
             $toDate = $request->input('to_date');
 
-            $isPartner = $this->verifyUserIsPartner($userId);
+            $isPartner = $this->verifyUserIsPartner($partnerId);
             if (!$isPartner) {
                 return response()->json([
                     'status' => 'Failed',
@@ -325,7 +320,7 @@ class PartnerPaymentController extends Controller
                 ], Response::HTTP_FORBIDDEN);
             }
 
-            $query = PartnerPayment::where('partner_id', $userId);
+            $query = PartnerPayment::where('partner_id', $partnerId);
 
             if ($fromDate) {
                 $query->where('payment_date', '>=', $fromDate);
