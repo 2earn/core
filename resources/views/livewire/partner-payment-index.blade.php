@@ -90,6 +90,30 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
+                            <p class="text-uppercase fw-medium text-muted mb-0">{{__('Rejected Payments')}}</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <h5 class="text-danger fs-14 mb-0">
+                                <i class="ri-close-circle-line fs-13 align-middle"></i>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-end justify-content-between mt-4">
+                        <div>
+                            <h4 class="fs-22 fw-semibold ff-secondary mb-2">
+                                {{number_format($stats['rejected_payments'])}}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-animate">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
                             <p class="text-uppercase fw-medium text-muted mb-0">{{__('Total Amount (Validated)')}}</p>
                         </div>
                         <div class="flex-shrink-0">
@@ -136,6 +160,7 @@
                                 <option value="all">{{__('All Status')}}</option>
                                 <option value="pending">{{__('Pending')}}</option>
                                 <option value="validated">{{__('Validated')}}</option>
+                                <option value="rejected">{{__('Rejected')}}</option>
                             </select>
                         </div>
 
@@ -260,11 +285,6 @@
                                                class="btn btn-sm btn-warning" title="{{__('Edit')}}">
                                                 <i class="ri-edit-line"></i>
                                             </a>
-                                            <button wire:click="deletePartnerPayment({{$payment->id}})"
-                                                    wire:confirm="{{__('Are you sure you want to delete this payment?')}}"
-                                                    class="btn btn-sm btn-danger" title="{{__('Delete')}}">
-                                                <i class="ri-delete-bin-line"></i>
-                                            </button>
                                         @endif
                                     </div>
                                 </td>

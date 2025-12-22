@@ -73,75 +73,20 @@ class PartnerPaymentIndex extends Component
         $this->resetPage();
     }
 
-    public function deletePartnerPayment($paymentId)
-    {
-        try {
-            $this->partnerPaymentService->delete($paymentId);
-            $this->dispatch('refreshList');
-            session()->flash('success', Lang::get('Partner payment deleted successfully'));
-        } catch (\Exception $e) {
-            session()->flash('error', $e->getMessage());
-        }
-    }
-
-    public function getPayments()
-    {
-        $query = PartnerPayment::with(['user', 'partner', 'validator']);
-
-        if (!empty($this->search)) {
-            $query->where(function ($q) {
-                $q->where('id', 'like', '%' . $this->search . '%')
-                    ->orWhere('amount', 'like', '%' . $this->search . '%')
-                    ->orWhere('method', 'like', '%' . $this->search . '%')
-                    ->orWhereHas('user', function ($userQuery) {
-                        $userQuery->where('name', 'like', '%' . $this->search . '%');
-                    })
-                    ->orWhereHas('partner', function ($partnerQuery) {
-                        $partnerQuery->where('name', 'like', '%' . $this->search . '%');
-                    });
-            });
-        }
-
-        if ($this->statusFilter === 'pending') {
-            $query->whereNull('validated_at');
-        } elseif ($this->statusFilter === 'validated') {
-            $query->whereNotNull('validated_at');
-        }
-
-        if (!empty($this->methodFilter)) {
-            $query->where('method', $this->methodFilter);
-        }
-
-        if (!empty($this->partnerFilter)) {
-            $query->where('partner_id', $this->partnerFilter);
-        }
-
-        if (!empty($this->fromDate)) {
-            $query->where('payment_date', '>=', $this->fromDate);
-        }
-
-        if (!empty($this->toDate)) {
-            $query->where('payment_date', '<=', $this->toDate);
-        }
-
-        return $query->orderBy('created_at', 'desc')->paginate(self::PAGE_SIZE);
-    }
-
-    public function getStats()
-    {
-        return [
-            'total_payments' => PartnerPayment::count(),
-            'pending_payments' => PartnerPayment::whereNull('validated_at')->count(),
-            'validated_payments' => PartnerPayment::whereNotNull('validated_at')->count(),
-            'total_amount' => PartnerPayment::whereNotNull('validated_at')->sum('amount'),
-            'pending_amount' => PartnerPayment::whereNull('validated_at')->sum('amount'),
-        ];
-    }
 
     public function render()
     {
+        $filters = [
+            'search' => $this->search,
+            'statusFilter' => $this->statusFilter,
+            'methodFilter' => $this->methodFilter,
+            'partnerFilter' => $this->partnerFilter,
+            'fromDate' => $this->fromDate,
+            'toDate' => $this->toDate,
+        ];
+
         $params = [
-            'payments' => $this->getPayments(),
+            'payments' => $this->partnerPaymentService->getPayments($filters, self::PAGE_SIZE),
             'stats' => $this->getStats(),
             'paymentMethods' => PartnerPayment::distinct()->pluck('method'),
         ];
@@ -149,6 +94,18 @@ class PartnerPaymentIndex extends Component
         return view('livewire.partner-payment-index', $params)
             ->extends('layouts.master')
             ->section('content');
+    }
+
+    public function getStats()
+    {
+        return [
+            'total_payments' => PartnerPayment::count(),
+            'pending_payments' => PartnerPayment::whereNull('validated_at')->whereNull('rejected_at')->count(),
+            'validated_payments' => PartnerPayment::whereNotNull('validated_at')->count(),
+            'rejected_payments' => PartnerPayment::whereNotNull('rejected_at')->count(),
+            'total_amount' => PartnerPayment::whereNotNull('validated_at')->sum('amount'),
+            'pending_amount' => PartnerPayment::whereNull('validated_at')->whereNull('rejected_at')->sum('amount'),
+        ];
     }
 }
 
