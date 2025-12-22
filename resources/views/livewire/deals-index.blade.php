@@ -12,172 +12,130 @@
         @endslot
     @endcomponent
 
-    <div class="row">
-            <div class="col-12 card">
-                <div class="card-body d-flex align-items-center justify-content-end">
-                    <div class="d-flex gap-1">
-                        <a href="{{route('deals_all_requests', ['locale' => app()->getLocale()])}}"
-                           class="btn btn-outline-primary">
-                            <i class="fas fa-list me-1"></i>{{__('All Requests')}}
-                        </a>
+    @if(\App\Models\User::isSuperAdmin())
+        <div class="row">
+                <div class="col-12 card  deals-sub-menu">
+                    <div class="card-body d-flex align-items-center justify-content-end">
+                        <div class="d-flex gap-1">
+                            <a href="{{route('deals_all_requests', ['locale' => app()->getLocale()])}}"
+                               class="btn btn-outline-primary">
+                                <i class="fas fa-list me-1"></i>{{__('All Requests')}}
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-    </div>
+        </div>
+    @endif
 
     <div class="row">
         @include('layouts.flash-messages')
     </div>
     <div class="row">
-        <div class="col-12 card">
-            <div class="card-header text-muted d-flex align-items-center">
-                <i class="fas fa-filter me-2"></i>
-                <h5 class="card-title mb-0 text-muted">{{__('Filters')}}</h5>
+        <div class="col-12 card shadow-sm border-0 mb-4">
+            <div class="card-header">
+                <h5 class="text-info mb-0">
+                    <i class="ri-filter-3-line me-2"></i>{{ __('Filters') }}
+                </h5>
             </div>
-            <div class="card-body p-4">
-                <div class="mb-4">
-                    <label class="form-label fw-bold text-muted mb-3">
-                        <i class="fas fa-desktop me-2"></i>{{__('Platforms')}}
-                    </label>
-                    <div class="bg-light p-3 rounded border">
-                        <div class="row g-3">
-                            @foreach($allPlatforms as $platform)
-                                <div class="col-auto">
-                                    <div class="form-check form-switch" dir="ltr">
-                                        <input type="checkbox"
-                                               class="form-check-input"
-                                               wire:model="selectedPlatforms"
-                                               value="{{$platform->id}}"
-                                               id="platform.{{$platform->id}}"
-                                               style="cursor: pointer;">
-                                        <label class="form-check-label"
-                                               for="platform.{{$platform->id}}"
-                                               style="cursor: pointer;">
-                                            {{__($platform->name)}}
-                                        </label>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-
+            <div class="card-body">
                 <div class="row g-3">
-                    <div class="col-sm-12 col-md-6 col-lg-4">
-                        <label class="form-label fw-bold text-muted mb-3">
-                            <i class="fas fa-check-circle me-2"></i>{{__('Status')}}
+                    <!-- Platform Filter -->
+                    <div class="col-md-6 col-lg-3">
+                        <label class="form-label">
+                            <i class="ri-layout-grid-line me-1"></i>{{ __('Platforms') }}
                         </label>
-                        <div class="bg-light p-3 rounded border">
-                            <div class="row g-3">
-                                @foreach($allStatuses as $status)
-                                    <div class="col-auto">
-                                        <div class="form-check form-switch" dir="ltr">
-                                            <input type="checkbox"
-                                                   class="form-check-input"
-                                                   wire:model="selectedStatuses"
-                                                   value="{{$status->value}}"
-                                                   id="status.{{$status->value}}"
-                                                   style="cursor: pointer;">
-                                            <label class="form-check-label"
-                                                   for="status.{{$status->value}}"
-                                                   style="cursor: pointer;">
-                                                {{__($status->name)}}
-                                            </label>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
+                        <select wire:model.live="selectedPlatforms" class="form-select form-select-sm" multiple>
+                            @foreach($allPlatforms as $platform)
+                                <option value="{{ $platform->id }}">{{ $platform->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
 
-                    <div class="col-sm-12 col-md-6 col-lg-4">
-                        <label class="form-label fw-bold text-muted">
-                            <i class="fas fa-search me-2"></i>{{__('Name')}}
+                    <!-- Status Filter -->
+                    <div class="col-md-6 col-lg-3">
+                        <label class="form-label">
+                            <i class="ri-checkbox-circle-line me-1"></i>{{ __('Status') }}
                         </label>
-                        <input class="form-control shadow-sm"
-                               type="text"
-                               wire:model="keyword"
-                               placeholder="{{__('Search by name...')}}">
+                        <select wire:model.live="selectedStatuses" class="form-select form-select-sm" multiple>
+                            @foreach($allStatuses as $status)
+                                <option value="{{ $status->value }}">{{ __($status->name) }}</option>
+                            @endforeach
+                        </select>
                     </div>
 
-                    <div class="col-sm-12 col-md-6 col-lg-4">
-                        <label class="form-label fw-bold text-muted mb-3">
-                            <i class="fas fa-tag me-2"></i>{{__('Type')}}
+                    <!-- Type Filter -->
+                    <div class="col-md-6 col-lg-3">
+                        <label class="form-label">
+                            <i class="ri-price-tag-3-line me-1"></i>{{ __('Type') }}
                         </label>
-                        <div class="bg-light p-3 rounded border">
-                            <div class="row g-3">
-                                @foreach($allTypes as $type)
-                                    <div class="col-auto">
-                                        <div class="form-check form-switch" dir="ltr">
-                                            <input type="checkbox"
-                                                   class="form-check-input"
-                                                   wire:model="selectedTypes"
-                                                   value="{{$type->value}}"
-                                                   id="type.{{$type->value}}"
-                                                   style="cursor: pointer;">
-                                            <label class="form-check-label"
-                                                   for="type.{{$type->value}}"
-                                                   style="cursor: pointer;">
-                                                {{__($type->name)}}
-                                            </label>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
+                        <select wire:model.live="selectedTypes" class="form-select form-select-sm" multiple>
+                            @foreach($allTypes as $type)
+                                <option value="{{ $type->value }}">{{ __($type->name) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Search by Name -->
+                    <div class="col-md-6 col-lg-3">
+                        <label class="form-label">
+                            <i class="ri-search-line me-1"></i>{{ __('Search') }}
+                        </label>
+                        <input type="text"
+                               class="form-control form-control-sm"
+                               wire:model.live="keyword"
+                               placeholder="{{ __('Search by name...') }}">
+                    </div>
+
+                    <!-- Start Date From -->
+                    <div class="col-md-6 col-lg-2">
+                        <label class="form-label">
+                            <i class="ri-calendar-line me-1"></i>{{ __('Start From') }}
+                        </label>
+                        <input type="date"
+                               class="form-control form-control-sm"
+                               wire:model.live="startDateFrom">
+                    </div>
+
+                    <!-- Start Date To -->
+                    <div class="col-md-6 col-lg-2">
+                        <label class="form-label">
+                            <i class="ri-calendar-line me-1"></i>{{ __('Start To') }}
+                        </label>
+                        <input type="date"
+                               class="form-control form-control-sm"
+                               wire:model.live="startDateTo">
+                    </div>
+
+                    <!-- End Date From -->
+                    <div class="col-md-6 col-lg-2">
+                        <label class="form-label">
+                            <i class="ri-calendar-check-line me-1"></i>{{ __('End From') }}
+                        </label>
+                        <input type="date"
+                               class="form-control form-control-sm"
+                               wire:model.live="endDateFrom">
+                    </div>
+
+                    <!-- End Date To -->
+                    <div class="col-md-6 col-lg-2">
+                        <label class="form-label">
+                            <i class="ri-calendar-check-line me-1"></i>{{ __('End To') }}
+                        </label>
+                        <input type="date"
+                               class="form-control form-control-sm"
+                               wire:model.live="endDateTo">
                     </div>
                 </div>
 
-                <div class="row g-3 mt-3">
-                    <div class="col-sm-12 col-md-6 col-lg-3">
-                        <label class="form-label fw-bold text-muted">
-                            <i class="fas fa-calendar me-2"></i>{{__('Start Date From')}}
-                        </label>
-                        <input class="form-control shadow-sm"
-                               type="datetime-local"
-                               wire:model="startDateFrom"
-                               placeholder="{{__('Start Date From')}}">
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-lg-3">
-                        <label class="form-label fw-bold text-muted">
-                            <i class="fas fa-calendar me-2"></i>{{__('Start Date To')}}
-                        </label>
-                        <input class="form-control shadow-sm"
-                               type="datetime-local"
-                               wire:model="startDateTo"
-                               placeholder="{{__('Start Date To')}}">
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-lg-3">
-                        <label class="form-label fw-bold text-muted">
-                            <i class="fas fa-calendar me-2"></i>{{__('End Date From')}}
-                        </label>
-                        <input class="form-control shadow-sm"
-                               type="datetime-local"
-                               wire:model="endDateFrom"
-                               placeholder="{{__('End Date From')}}">
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-lg-3">
-                        <label class="form-label fw-bold text-muted">
-                            <i class="fas fa-calendar me-2"></i>{{__('End Date To')}}
-                        </label>
-                        <input class="form-control shadow-sm"
-                               type="datetime-local"
-                               wire:model="endDateTo"
-                               placeholder="{{__('End Date To')}}">
-                    </div>
+                <!-- Action Buttons -->
+                <div class="d-flex gap-2 mt-4">
+                    <button class="btn btn-primary refreshDeals">
+                        <i class="ri-search-line me-1"></i>{{ __('Search Deals') }}
+                    </button>
+                    <button wire:click="resetFilters" class="btn btn-outline-secondary">
+                        <i class="ri-restart-line me-1"></i>{{ __('Reset Filters') }}
+                    </button>
                 </div>
-            </div>
-            <div class="card-footer">
-                <small class="text-muted">
-                    <i class="fas fa-info-circle me-1"></i>
-                    {{__('Apply filters to refine your search')}}
-                </small>
-                <button class="btn btn-outline-info refreshDeals float-end">
-                    <i class="fas fa-search me-2"></i>{{__('Search Deals')}}
-                </button>
             </div>
         </div>
     </div>
@@ -399,7 +357,7 @@
                                 </a>
                             @endif
 
-                            @if(\Core\Models\Platform::canCheckDeals(auth()->user()->id))
+                            @if(\Core\Models\Platform::havePartnerSpecialRole(auth()->user()->id))
                                 <a class="btn btn-sm btn-soft-secondary flex-fill"
                                    target="_blank"
                                    title="{{__('For User Role')}}"

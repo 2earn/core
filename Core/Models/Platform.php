@@ -149,7 +149,7 @@ class Platform extends Model
 
 
     public
-    static function canCheckDeals($id)
+    static function havePartnerSpecialRole($id)
     {
         if (User::isSuperAdmin()) {
             return true;

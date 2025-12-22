@@ -86,23 +86,11 @@ class DealDashboard extends Component
 
     public function loadAvailableDeals()
     {
-        $query = Deal::query();
-
-        if (!User::isSuperAdmin()) {
-            $query->whereHas('platform', function ($q) {
-                $q->whereHas('managers', function ($q2) {
-                    $q2->where('user_id', $this->userId);
-                });
-            });
-        }
-
-        if ($this->selectedPlatformId) {
-            $query->where('platform_id', $this->selectedPlatformId);
-        }
-
-        $this->availableDeals = $query->where('status', '!=', 4)
-            ->orderBy('created_at', 'desc')
-            ->get(['id', 'name', 'platform_id', 'status']);
+        $this->availableDeals = $this->dealService->getAvailableDeals(
+            $this->userId,
+            User::isSuperAdmin(),
+            $this->selectedPlatformId
+        );
     }
 
     public function updatedSelectedPlatformId()

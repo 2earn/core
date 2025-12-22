@@ -6,6 +6,7 @@ use App\Models\PartnerPayment;
 use App\Models\User;
 use App\Services\PartnerPayment\PartnerPaymentService;
 use Core\Models\FinancialRequest;
+use Core\Models\Platform;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -17,12 +18,10 @@ class PartnerPaymentManage extends Component
     public $amount;
     public $method = 'bank_transfer';
     public $payment_date;
-    public $user_id;
     public $partner_id;
     public $update = false;
 
     // Search helpers
-    public $searchUser = '';
     public $searchPartner = '';
     public $searchDemand = '';
 
@@ -35,7 +34,6 @@ class PartnerPaymentManage extends Component
             'amount' => 'required|numeric|min:0',
             'method' => 'required|string|max:50',
             'payment_date' => 'nullable|date',
-            'user_id' => 'required|exists:users,id',
             'partner_id' => [
                 'required',
                 'exists:users,id',
@@ -61,8 +59,6 @@ class PartnerPaymentManage extends Component
         'amount.numeric' => 'Amount must be a number',
         'amount.min' => 'Amount must be greater than or equal to 0',
         'method.required' => 'Payment method is required',
-        'user_id.required' => 'User is required',
-        'user_id.exists' => 'Selected user does not exist',
         'partner_id.required' => 'Partner is required',
         'partner_id.exists' => 'Selected partner does not exist',
     ];
@@ -74,6 +70,12 @@ class PartnerPaymentManage extends Component
 
     public function mount(Request $request)
     {
+        // Check if user has partner special role for creating/editing payments
+        if (!Platform::havePartnerSpecialRole(auth()->user()->id)) {
+            session()->flash('error', Lang::get('You do not have permission to access this page'));
+            return redirect()->route('partner_payment_index', ['locale' => app()->getLocale()]);
+        }
+
         $this->paymentId = $request->input('id');
         $this->payment_date = now()->format('Y-m-d\TH:i');
 
@@ -81,7 +83,7 @@ class PartnerPaymentManage extends Component
             $this->edit($this->paymentId);
         } else {
             // Default to current user if creating new payment
-            $this->user_id = auth()->id();
+            $this->partner_id = auth()->id();
         }
     }
 
@@ -101,7 +103,6 @@ class PartnerPaymentManage extends Component
             $this->amount = $payment->amount;
             $this->method = $payment->method;
             $this->payment_date = $payment->payment_date?->format('Y-m-d\TH:i');
-            $this->user_id = $payment->user_id;
             $this->partner_id = $payment->partner_id;
             $this->update = true;
         } catch (\Exception $e) {
@@ -125,7 +126,6 @@ class PartnerPaymentManage extends Component
                 'amount' => $this->amount,
                 'method' => $this->method,
                 'payment_date' => $this->payment_date,
-                'user_id' => $this->user_id,
                 'partner_id' => $this->partner_id,
             ];
 
@@ -148,18 +148,6 @@ class PartnerPaymentManage extends Component
         }
     }
 
-    public function searchUsers()
-    {
-        if (empty($this->searchUser)) {
-            return [];
-        }
-
-        return User::where('name', 'like', '%' . $this->searchUser . '%')
-            ->orWhere('email', 'like', '%' . $this->searchUser . '%')
-            ->orWhere('id', 'like', '%' . $this->searchUser . '%')
-            ->limit(10)
-            ->get();
-    }
 
     public function searchPartners()
     {
@@ -205,26 +193,12 @@ class PartnerPaymentManage extends Component
             ->get();
     }
 
-    public function selectUser($userId)
-    {
-        $this->user_id = $userId;
-        $this->searchUser = '';
-    }
-
     public function selectPartner($partnerId)
     {
         $this->partner_id = $partnerId;
         $this->searchPartner = '';
     }
 
-
-    public function getSelectedUser()
-    {
-        if ($this->user_id) {
-            return User::find($this->user_id);
-        }
-        return null;
-    }
 
     public function getSelectedPartner()
     {
@@ -234,12 +208,18 @@ class PartnerPaymentManage extends Component
         return null;
     }
 
+    public function getSelectedDemand()
+    {
+        // This method returns null as demands are not being used in the current implementation
+        // If demands need to be implemented in the future, add logic here
+        return null;
+    }
+
 
     public function render()
     {
         $params = [
             'update' => $this->update,
-            'selectedUser' => $this->getSelectedUser(),
             'selectedPartner' => $this->getSelectedPartner(),
             'selectedDemand' => $this->getSelectedDemand(),
             'paymentMethods' => [

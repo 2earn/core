@@ -423,12 +423,24 @@ class PlatformService
     )
     {
         try {
-            return Platform::with([
+            $query = Platform::with([
                 'businessSector',
                 'pendingTypeChangeRequest',
                 'pendingValidationRequest',
                 'pendingChangeRequest'
-            ])
+            ]);
+
+            // If not super admin, only show platforms where user is financial_manager, owner, or marketing_manager
+            if (!\App\Models\User::isSuperAdmin()) {
+                $userId = auth()->id();
+                $query->where(function ($q) use ($userId) {
+                    $q->where('financial_manager_id', $userId)
+                      ->orWhere('owner_id', $userId)
+                      ->orWhere('marketing_manager_id', $userId);
+                });
+            }
+
+            return $query
             ->when($search, function ($query) use ($search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('name', 'like', '%' . $search . '%')

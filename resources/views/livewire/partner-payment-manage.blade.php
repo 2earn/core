@@ -107,73 +107,8 @@
                                 <hr class="my-3">
                             </div>
 
-                            <!-- User (Payer) -->
-                            <div class="col-md-6">
-                                <label for="user_id" class="form-label required">
-                                    <i class="ri-user-line me-1"></i>
-                                    {{__('Payer (User)')}}
-                                </label>
-                                @if($selectedUser)
-                                    <div class="card bg-light mb-2">
-                                        <div class="card-body p-2">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar-xs me-2">
-                                                        <div class="avatar-title bg-soft-primary text-primary rounded-circle">
-                                                            {{substr($selectedUser->name, 0, 1)}}
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <h6 class="mb-0">{{$selectedUser->name}}</h6>
-                                                        <small class="text-muted">ID: {{$selectedUser->id}}</small>
-                                                    </div>
-                                                </div>
-                                                <button type="button"
-                                                        wire:click="$set('user_id', null)"
-                                                        class="btn btn-sm btn-danger">
-                                                    <i class="ri-close-line"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @else
-                                    <input type="text"
-                                           wire:model.live="searchUser"
-                                           class="form-control @error('user_id') is-invalid @enderror"
-                                           placeholder="{{__('Search user by name, email or ID...')}}">
-                                    @if(!empty($searchUser))
-                                        <div class="list-group mt-2 position-absolute" style="z-index: 1000; max-height: 200px; overflow-y: auto;">
-                                            @forelse($this->searchUsers() as $user)
-                                                <button type="button"
-                                                        wire:click="selectUser({{$user->id}})"
-                                                        class="list-group-item list-group-item-action">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="avatar-xs me-2">
-                                                            <div class="avatar-title bg-soft-primary text-primary rounded-circle">
-                                                                {{substr($user->name, 0, 1)}}
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <h6 class="mb-0">{{$user->name}}</h6>
-                                                            <small class="text-muted">ID: {{$user->id}} - {{$user->email}}</small>
-                                                        </div>
-                                                    </div>
-                                                </button>
-                                            @empty
-                                                <div class="list-group-item text-muted">
-                                                    {{__('No users found')}}
-                                                </div>
-                                            @endforelse
-                                        </div>
-                                    @endif
-                                @endif
-                                @error('user_id')
-                                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                                @enderror
-                            </div>
-
                             <!-- Partner (Receiver) -->
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <label for="partner_id" class="form-label required">
                                     <i class="ri-user-star-line me-1"></i>
                                     {{__('Receiver (Partner)')}}

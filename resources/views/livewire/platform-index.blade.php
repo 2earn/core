@@ -8,22 +8,24 @@
             {{ __('Platform') }}
         @endslot
     @endcomponent
-    <div class="row ">
-        <div class="col-12 card shadow-sm border-0">
-            <div class="card-body py-2">
-                <div class="d-flex gap-2 justify-content-end">
-                    <a href="{{route('platform_all_requests', app()->getLocale())}}"
-                       class="btn btn-outline-primary">
-                        <i class="fas fa-list me-1"></i>{{__('All Requests')}}
-                    </a>
-                    <a href="{{route('platform_create_update', app()->getLocale())}}"
-                       class="btn btn-outline-primary">
-                        <i class="fas fa-plus me-1"></i>{{__('Create platform')}}
-                    </a>
+    @if(\App\Models\User::isSuperAdmin())
+        <div class="row ">
+            <div class="col-12 card shadow-sm border-0 platform-sub-menu">
+                <div class="card-body py-2">
+                    <div class="d-flex gap-2 justify-content-end">
+                        <a href="{{route('platform_all_requests', app()->getLocale())}}"
+                           class="btn btn-outline-primary">
+                            <i class="fas fa-list me-1"></i>{{__('All Requests')}}
+                        </a>
+                        <a href="{{route('platform_create_update', app()->getLocale())}}"
+                           class="btn btn-outline-primary">
+                            <i class="fas fa-plus me-1"></i>{{__('Create platform')}}
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
 
     <div class="row">
         @include('layouts.flash-messages')

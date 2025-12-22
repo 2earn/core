@@ -221,7 +221,18 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/list', \App\Livewire\NotificationList::class)->name('list');
         });
 
-        // SUPER ADMIN MENU
+        Route::prefix('/platform')->name('platform_')->group(function () {
+            Route::get('/index', \App\Livewire\PlatformIndex::class)->name('index');
+        });
+
+        Route::prefix('/partner-payments')->name('partner_payment_')->group(function () {
+            Route::get('/create', \App\Livewire\PartnerPaymentManage::class)->name('manage');
+            Route::get('/', \App\Livewire\PartnerPaymentIndex::class)->name('index');
+            Route::get('/{id}/edit', \App\Livewire\PartnerPaymentManage::class)->name('edit');
+            Route::get('/{id}', \App\Livewire\PartnerPaymentDetail::class)->name('detail');
+        });
+
+            // SUPER ADMIN MENU
         // -----------------------------------------------------------
 
         Route::middleware(['IsSuperAdmin'])->group(function () {
@@ -267,7 +278,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             });
 
             Route::prefix('/platform')->name('platform_')->group(function () {
-                Route::get('/index', \App\Livewire\PlatformIndex::class)->name('index');
                 Route::get('/', \App\Livewire\PlatformCreateUpdate::class)->name('create_update');
                 Route::get('/{id}', \App\Livewire\PlatformShow::class)->name('show');
                 Route::get('/{platformId}/sales-dashboard', \App\Livewire\PlatformSalesDashboard::class)->name('sales_dashboard');
@@ -292,13 +302,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
                     Route::get('/index', \App\Livewire\OperationCategoryIndex::class)->name('index');
                     Route::get('/', \App\Livewire\OperationCategoryCreateUpdate::class)->name('create_update');
                 });
-            });
-
-            Route::prefix('/partner-payments')->name('partner_payment_')->group(function () {
-                Route::get('/', \App\Livewire\PartnerPaymentIndex::class)->name('index');
-                Route::get('/create', \App\Livewire\PartnerPaymentManage::class)->name('manage');
-                Route::get('/{id}', \App\Livewire\PartnerPaymentDetail::class)->name('detail');
-                Route::get('/{id}/edit', \App\Livewire\PartnerPaymentManage::class)->name('edit');
             });
 
             Route::prefix('/hashtags')->name('hashtags_')->group(function () {
