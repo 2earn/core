@@ -12,6 +12,8 @@ class PartnerPaymentDetail extends Component
     public $paymentId;
     public $payment;
     public $showValidateModal = false;
+    public $showRejectModal = false;
+    public $rejectReason = '';
 
     protected $partnerPaymentService;
 
@@ -51,6 +53,31 @@ class PartnerPaymentDetail extends Component
         $this->showValidateModal = true;
     }
 
+    public function showRejectModal()
+    {
+        $this->showRejectModal = true;
+        $this->rejectReason = '';
+    }
+
+    public function rejectPayment()
+    {
+        try {
+            $rejectorId = auth()->id();
+            $this->partnerPaymentService->rejectPayment($this->paymentId, $rejectorId, $this->rejectReason);
+
+            session()->flash('success', Lang::get('Payment rejected successfully'));
+            return redirect()->route('partner_payment_detail', [
+                'locale' => app()->getLocale(),
+                'id' => $this->paymentId
+            ]);
+        } catch (\Exception $e) {
+            session()->flash('error', $e->getMessage());
+        }
+
+        $this->showRejectModal = false;
+    }
+
+
     public function validatePayment()
     {
         try {
@@ -67,16 +94,6 @@ class PartnerPaymentDetail extends Component
         $this->showValidateModal = false;
     }
 
-    public function deletePayment()
-    {
-        try {
-            $this->partnerPaymentService->delete($this->paymentId);
-            session()->flash('success', Lang::get('Partner payment deleted successfully'));
-            return redirect()->route('partner_payment_index', ['locale' => app()->getLocale()]);
-        } catch (\Exception $e) {
-            session()->flash('error', $e->getMessage());
-        }
-    }
 
     public function goToEdit()
     {

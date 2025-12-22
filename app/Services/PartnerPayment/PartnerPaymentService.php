@@ -101,6 +101,42 @@ class PartnerPaymentService
     }
 
     /**
+     * Reject a partner payment.
+     *
+     * @param int $paymentId
+     * @param int $rejectorId
+     * @param string $reason
+     * @return PartnerPayment
+     * @throws \Exception
+     */
+    public function rejectPayment(int $paymentId, int $rejectorId, string $reason = ''): PartnerPayment
+    {
+        try {
+            DB::beginTransaction();
+
+            $payment = PartnerPayment::findOrFail($paymentId);
+
+            if ($payment->isValidated()) {
+                throw new \Exception('Cannot reject an already validated payment');
+            }
+
+            if ($payment->isRejected()) {
+                throw new \Exception('Payment is already rejected');
+            }
+
+            $payment->reject($rejectorId, $reason);
+
+            DB::commit();
+
+            return $payment->fresh();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Failed to reject partner payment: ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    /**
      * Get partner payments by partner ID.
      *
      * @param int $partnerId
@@ -179,6 +215,59 @@ class PartnerPaymentService
             ->findOrFail($paymentId);
     }
 
+    /**
+     * Get all payments with filters and pagination.
+     *
+     * @param array $filters
+     * @param int $perPage
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function getPayments(array $filters = [], int $perPage = 10)
+    {
+        $query = PartnerPayment::with(['user', 'partner', 'validator', 'rejector']);
+
+        if (!empty($filters['search'])) {
+            $query->where(function ($q) use ($filters) {
+                $q->where('id', 'like', '%' . $filters['search'] . '%')
+                    ->orWhere('amount', 'like', '%' . $filters['search'] . '%')
+                    ->orWhere('method', 'like', '%' . $filters['search'] . '%')
+                    ->orWhereHas('user', function ($userQuery) use ($filters) {
+                        $userQuery->where('name', 'like', '%' . $filters['search'] . '%');
+                    })
+                    ->orWhereHas('partner', function ($partnerQuery) use ($filters) {
+                        $partnerQuery->where('name', 'like', '%' . $filters['search'] . '%');
+                    });
+            });
+        }
+
+        if (isset($filters['statusFilter'])) {
+            if ($filters['statusFilter'] === 'pending') {
+                $query->whereNull('validated_at')->whereNull('rejected_at');
+            } elseif ($filters['statusFilter'] === 'validated') {
+                $query->whereNotNull('validated_at');
+            } elseif ($filters['statusFilter'] === 'rejected') {
+                $query->whereNotNull('rejected_at');
+            }
+        }
+
+        if (!empty($filters['methodFilter'])) {
+            $query->where('method', $filters['methodFilter']);
+        }
+
+        if (!empty($filters['partnerFilter'])) {
+            $query->where('partner_id', $filters['partnerFilter']);
+        }
+
+        if (!empty($filters['fromDate'])) {
+            $query->where('payment_date', '>=', $filters['fromDate']);
+        }
+
+        if (!empty($filters['toDate'])) {
+            $query->where('payment_date', '<=', $filters['toDate']);
+        }
+
+        return $query->orderBy('created_at', 'desc')->paginate($perPage);
+    }
 
     /**
      * Delete a partner payment.

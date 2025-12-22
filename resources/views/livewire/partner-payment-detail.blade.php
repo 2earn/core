@@ -31,6 +31,11 @@
                                     <i class="ri-checkbox-circle-line align-middle"></i>
                                     {{__('Validated')}}
                                 </span>
+                            @elseif($payment->isRejected())
+                                <span class="badge bg-danger">
+                                    <i class="ri-close-circle-line align-middle"></i>
+                                    {{__('Rejected')}}
+                                </span>
                             @else
                                 <span class="badge bg-warning">
                                     <i class="ri-time-line align-middle"></i>
@@ -155,6 +160,39 @@
                                     </div>
                                 </div>
                             </div>
+                        @elseif($payment->isRejected())
+                            <hr class="my-4">
+                            <!-- Rejection Information -->
+                            <div class="alert alert-danger mb-0">
+                                <h6 class="alert-heading">
+                                    <i class="ri-close-circle-line me-1"></i>
+                                    {{__('Rejection Information')}}
+                                </h6>
+                                <div class="row g-3 mt-2">
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted fw-semibold small">{{__('Rejected By')}}</label>
+                                        <p class="mb-0">
+                                            {{$payment->rejector->name ?? __('N/A')}}
+                                            <br>
+                                            <small class="text-muted">{{__('ID')}}: {{$payment->rejected_by}}</small>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted fw-semibold small">{{__('Rejected At')}}</label>
+                                        <p class="mb-0">
+                                            {{$payment->rejected_at?->format('F d, Y H:i')}}
+                                        </p>
+                                    </div>
+                                    @if($payment->rejection_reason)
+                                        <div class="col-12">
+                                            <label class="form-label text-muted fw-semibold small">{{__('Rejection Reason')}}</label>
+                                            <p class="mb-0">
+                                                {{$payment->rejection_reason}}
+                                            </p>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
                         @endif
                     </div>
 
@@ -167,7 +205,7 @@
                             </button>
                             <div class="hstack gap-2">
                                 @if(\App\Models\User::isSuperAdmin())
-                                    @if(!$payment->isValidated())
+                                    @if(!$payment->isValidated() && !$payment->isRejected())
                                         <button wire:click="goToEdit" class="btn btn-warning">
                                             <i class="ri-edit-line me-1"></i>
                                             {{__('Edit')}}
@@ -176,11 +214,11 @@
                                             <i class="ri-checkbox-circle-line me-1"></i>
                                             {{__('Validate Payment')}}
                                         </button>
-                                        <button wire:click="deletePayment"
-                                                wire:confirm="{{__('Are you sure you want to delete this payment?')}}"
-                                                class="btn btn-danger">
-                                            <i class="ri-delete-bin-line me-1"></i>
-                                            {{__('Delete')}}
+                                        <button wire:click="showRejectModal"
+                                                data-bs-toggle="modal" data-bs-target="#rejectPaymentModal"
+                                                class="btn btn-warning">
+                                            <i class="ri-close-circle-line me-1"></i>
+                                            {{__('Reject')}}
                                         </button>
                                     @endif
                                 @endif
@@ -340,6 +378,45 @@
                 </div>
             </div>
         @endif
+
+        <!-- Reject Payment Modal -->
+        <div class="modal fade" id="rejectPaymentModal" tabindex="-1" aria-labelledby="rejectPaymentModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-warning">
+                        <h5 class="modal-title text-dark" id="rejectPaymentModalLabel">
+                            <i class="ri-close-circle-line align-middle me-2"></i>
+                            {{__('Reject Payment')}}
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="mb-3">
+                            {{__('Are you sure you want to reject this payment?')}}
+                        </p>
+                        <div class="mb-3">
+                            <label for="rejectReason" class="form-label">{{__('Reason for Rejection')}}</label>
+                            <textarea class="form-control" id="rejectReason" wire:model="rejectReason"
+                                      rows="3" placeholder="{{__('Enter reason for rejecting this payment...')}}"></textarea>
+                            <small class="text-muted">{{__('Optional: This will help the payer understand why the payment was rejected')}}</small>
+                        </div>
+                        <div class="alert alert-warning mb-0">
+                            <i class="ri-alert-line me-2"></i>
+                            {{__('This action cannot be undone.')}}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            {{__('Cancel')}}
+                        </button>
+                        <button type="button" class="btn btn-warning" wire:click="rejectPayment">
+                            <i class="ri-close-circle-line align-middle me-1"></i>
+                            {{__('Reject Payment')}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     @endif
 </div>
 

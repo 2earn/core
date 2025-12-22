@@ -90,6 +90,30 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
+                            <p class="text-uppercase fw-medium text-muted mb-0">{{__('Rejected Payments')}}</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <h5 class="text-danger fs-14 mb-0">
+                                <i class="ri-close-circle-line fs-13 align-middle"></i>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-end justify-content-between mt-4">
+                        <div>
+                            <h4 class="fs-22 fw-semibold ff-secondary mb-2">
+                                {{number_format($stats['rejected_payments'])}}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-animate">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
                             <p class="text-uppercase fw-medium text-muted mb-0">{{__('Total Amount (Validated)')}}</p>
                         </div>
                         <div class="flex-shrink-0">
@@ -136,6 +160,7 @@
                                 <option value="all">{{__('All Status')}}</option>
                                 <option value="pending">{{__('Pending')}}</option>
                                 <option value="validated">{{__('Validated')}}</option>
+                                <option value="rejected">{{__('Rejected')}}</option>
                             </select>
                         </div>
 
@@ -172,115 +197,124 @@
 
                 <!-- Table -->
                 <div class="table-responsive">
-                    <table class="table table-hover table-striped align-middle mb-0">
-                        <thead class="table-light">
-                        <tr>
-                            <th>{{__('ID')}}</th>
-                            <th>{{__('Amount')}}</th>
-                            <th>{{__('Method')}}</th>
-                            <th>{{__('User')}}</th>
-                            <th>{{__('Partner')}}</th>
-                            <th>{{__('Payment Date')}}</th>
-                            <th>{{__('Status')}}</th>
-                            <th>{{__('Actions')}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+                    <div class="row g-3">
                         @forelse($payments as $payment)
-                            <tr>
-                                <td>
-                                    <span class="badge bg-primary-subtle text-primary">#{{$payment->id}}</span>
-                                </td>
-                                <td>
-                                    <strong>{{number_format($payment->amount, 2)}}</strong>
-                                </td>
-                                <td>
-                                        <span class="badge bg-info-subtle text-info">
-                                            {{ucfirst(str_replace('_', ' ', $payment->method))}}
-                                        </span>
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex-shrink-0 me-2">
-                                            <div class="avatar-xs">
-                                                <div
-                                                    class="avatar-title bg-soft-primary text-primary rounded-circle fs-13">
-                                                    {{substr($payment->user->name ?? 'U', 0, 1)}}
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100 shadow-sm border-0">
+                                    <div class="card-body">
+                                        <!-- Header -->
+                                        <div class="d-flex justify-content-between align-items-start mb-3">
+                                            <div>
+                                                <span class="badge bg-primary-subtle text-primary fs-6">#{{$payment->id}}</span>
+                                            </div>
+                                            <div>
+                                                @if($payment->isValidated())
+                                                    <span class="badge bg-success">
+                                        <i class="ri-checkbox-circle-line align-middle"></i>
+                                        {{__('Validated')}}
+                                    </span>
+                                                @elseif($payment->isRejected())
+                                                    <span class="badge bg-danger">
+                                        <i class="ri-close-circle-line align-middle"></i>
+                                        {{__('Rejected')}}
+                                    </span>
+                                                @else
+                                                    <span class="badge bg-warning">
+                                        <i class="ri-time-line align-middle"></i>
+                                        {{__('Pending')}}
+                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <!-- Amount -->
+                                        <div class="mb-3">
+                                            <h5 class="mb-1 text-primary">{{number_format($payment->amount, 2)}} {{__('USD')}}</h5>
+                                            <small class="text-muted">
+                                                <span class="badge bg-info-subtle text-info">
+                                                    {{ucfirst(str_replace('_', ' ', $payment->method))}}
+                                                </span>
+                                            </small>
+                                        </div>
+
+                                        <!-- User Info -->
+                                        <div class="mb-3 pb-3 border-bottom">
+                                            <small class="d-block text-muted mb-2">{{__('Payer')}}</small>
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar-sm me-2">
+                                                    <div class="avatar-title bg-soft-primary text-primary rounded-circle fs-13">
+                                                        {{substr($payment->user->name ?? 'U', 0, 1)}}
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <h6 class="mb-0 small">{{$payment->user->name ?? 'N/A'}}</h6>
+                                                    <small class="text-muted">ID: {{$payment->user_id}}</small>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="flex-grow-1">
-                                            <h6 class="mb-0">{{$payment->user->name ?? 'N/A'}}</h6>
-                                            <small class="text-muted">ID: {{$payment->user_id}}</small>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex-shrink-0 me-2">
-                                            <div class="avatar-xs">
-                                                <div
-                                                    class="avatar-title bg-soft-success text-success rounded-circle fs-13">
-                                                    {{substr($payment->partner->name ?? 'P', 0, 1)}}
+
+                                        <!-- Partner Info -->
+                                        <div class="mb-3 pb-3 border-bottom">
+                                            <small class="d-block text-muted mb-2">{{__('Receiver')}}</small>
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar-sm me-2">
+                                                    <div class="avatar-title bg-soft-success text-success rounded-circle fs-13">
+                                                        {{substr($payment->partner->name ?? 'P', 0, 1)}}
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <h6 class="mb-0 small">{{$payment->partner->name ?? 'N/A'}}</h6>
+                                                    <small class="text-muted">ID: {{$payment->partner_id}}</small>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="flex-grow-1">
-                                            <h6 class="mb-0">{{$payment->partner->name ?? 'N/A'}}</h6>
-                                            <small class="text-muted">ID: {{$payment->partner_id}}</small>
+
+                                        <!-- Dates -->
+                                        <div class="mb-3">
+                                            <small class="d-block text-muted mb-2">{{__('Payment Date')}}</small>
+                                            <small>{{$payment->payment_date?->format('Y-m-d H:i') ?? 'N/A'}}</small>
+                                            @if($payment->isValidated())
+                                                <br>
+                                                <small class="text-muted">{{__('Validated')}} {{$payment->validated_at?->format('Y-m-d')}}</small>
+                                            @elseif($payment->isRejected())
+                                                <br>
+                                                <small class="text-muted">{{__('Rejected')}} {{$payment->rejected_at?->format('Y-m-d')}}</small>
+                                            @endif
                                         </div>
                                     </div>
-                                </td>
-                                <td>
-                                    <small>{{$payment->payment_date?->format('Y-m-d H:i') ?? 'N/A'}}</small>
-                                </td>
-                                <td>
-                                    @if($payment->isValidated())
-                                        <span class="badge bg-success">
-                                                <i class="ri-checkbox-circle-line align-middle"></i>
-                                                {{__('Validated')}}
-                                            </span>
-                                        <br>
-                                        <small class="text-muted">{{$payment->validated_at?->format('Y-m-d')}}</small>
-                                    @else
-                                        <span class="badge bg-warning">
-                                                <i class="ri-time-line align-middle"></i>
-                                                {{__('Pending')}}
-                                            </span>
-                                    @endif
-                                </td>
-                                <td>
-                                    <div class="hstack gap-2">
-                                        <a href="{{route('partner_payment_detail', ['locale' => app()->getLocale(), 'id' => $payment->id])}}"
-                                           class="btn btn-sm btn-info" title="{{__('View Details')}}">
-                                            <i class="ri-eye-line"></i>
-                                        </a>
-                                        @if(\App\Models\User::isSuperAdmin() && !$payment->isValidated())
-                                            <a href="{{route('partner_payment_manage', ['locale' => app()->getLocale(), 'id' => $payment->id])}}"
-                                               class="btn btn-sm btn-warning" title="{{__('Edit')}}">
-                                                <i class="ri-edit-line"></i>
+
+                                    <!-- Actions -->
+                                    <div class="card-footer bg-light border-top">
+                                        <div class="hstack gap-2">
+                                            <a href="{{route('partner_payment_detail', ['locale' => app()->getLocale(), 'id' => $payment->id])}}"
+                                               class="btn btn-sm btn-info flex-grow-1" title="{{__('View Details')}}">
+                                                <i class="ri-eye-line me-1"></i>
+                                                {{__('View')}}
                                             </a>
-                                            <button wire:click="deletePartnerPayment({{$payment->id}})"
-                                                    wire:confirm="{{__('Are you sure you want to delete this payment?')}}"
-                                                    class="btn btn-sm btn-danger" title="{{__('Delete')}}">
-                                                <i class="ri-delete-bin-line"></i>
-                                            </button>
-                                        @endif
+                                            @if(\App\Models\User::isSuperAdmin() && !$payment->isValidated() && !$payment->isRejected())
+                                                <a href="{{route('partner_payment_manage', ['locale' => app()->getLocale(), 'id' => $payment->id])}}"
+                                                   class="btn btn-sm btn-warning flex-grow-1" title="{{__('Edit')}}">
+                                                    <i class="ri-edit-line me-1"></i>
+                                                    {{__('Edit')}}
+                                                </a>
+                                            @endif
+                                        </div>
                                     </div>
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
                         @empty
-                            <tr>
-                                <td colspan="8" class="text-center py-4">
-                                    <div class="text-muted">
-                                        <i class="ri-inbox-line fs-1"></i>
-                                        <p class="mt-2">{{__('No partner payments found')}}</p>
+                            <div class="col-12">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-body py-5 text-center">
+                                        <div class="text-muted">
+                                            <i class="ri-inbox-line fs-1 d-block mb-3"></i>
+                                            <p class="mb-0">{{__('No partner payments found')}}</p>
+                                        </div>
                                     </div>
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
                         @endforelse
-                        </tbody>
-                    </table>
+                    </div>
                 </div>
 
                 <!-- Pagination -->
