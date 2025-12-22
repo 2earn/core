@@ -65,9 +65,11 @@ class PartnerPaymentDetail extends Component
             $rejectorId = auth()->id();
             $this->partnerPaymentService->rejectPayment($this->paymentId, $rejectorId, $this->rejectReason);
 
-            $this->dispatch('paymentValidated');
             session()->flash('success', Lang::get('Payment rejected successfully'));
-            $this->loadPayment();
+            return redirect()->route('partner_payment_detail', [
+                'locale' => app()->getLocale(),
+                'id' => $this->paymentId
+            ]);
         } catch (\Exception $e) {
             session()->flash('error', $e->getMessage());
         }

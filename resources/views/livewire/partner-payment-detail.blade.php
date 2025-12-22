@@ -380,7 +380,7 @@
         @endif
 
         <!-- Reject Payment Modal -->
-        <div wire:ignore.self class="modal fade" id="rejectPaymentModal" tabindex="-1" aria-labelledby="rejectPaymentModalLabel" aria-hidden="true">
+        <div class="modal fade" id="rejectPaymentModal" tabindex="-1" aria-labelledby="rejectPaymentModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-warning">
@@ -396,7 +396,7 @@
                         </p>
                         <div class="mb-3">
                             <label for="rejectReason" class="form-label">{{__('Reason for Rejection')}}</label>
-                            <textarea class="form-control" id="rejectReason" wire:model.live="rejectReason"
+                            <textarea class="form-control" id="rejectReason" wire:model="rejectReason"
                                       rows="3" placeholder="{{__('Enter reason for rejecting this payment...')}}"></textarea>
                             <small class="text-muted">{{__('Optional: This will help the payer understand why the payment was rejected')}}</small>
                         </div>
