@@ -225,7 +225,12 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/index', \App\Livewire\PlatformIndex::class)->name('index');
         });
 
-        // SUPER ADMIN MENU
+        Route::prefix('/partner-payments')->name('partner_payment_')->group(function () {
+            Route::get('/', \App\Livewire\PartnerPaymentIndex::class)->name('index');
+            Route::get('/{id}', \App\Livewire\PartnerPaymentDetail::class)->name('detail');
+        });
+
+            // SUPER ADMIN MENU
         // -----------------------------------------------------------
 
         Route::middleware(['IsSuperAdmin'])->group(function () {
@@ -298,9 +303,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             });
 
             Route::prefix('/partner-payments')->name('partner_payment_')->group(function () {
-                Route::get('/', \App\Livewire\PartnerPaymentIndex::class)->name('index');
                 Route::get('/create', \App\Livewire\PartnerPaymentManage::class)->name('manage');
-                Route::get('/{id}', \App\Livewire\PartnerPaymentDetail::class)->name('detail');
                 Route::get('/{id}/edit', \App\Livewire\PartnerPaymentManage::class)->name('edit');
             });
 

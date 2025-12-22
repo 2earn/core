@@ -217,6 +217,7 @@ class PartnerPaymentService
 
     /**
      * Get all payments with filters and pagination.
+     * Super admin sees all payments, others see only payments where they are the receiver (partner).
      *
      * @param array $filters
      * @param int $perPage
@@ -225,6 +226,11 @@ class PartnerPaymentService
     public function getPayments(array $filters = [], int $perPage = 10)
     {
         $query = PartnerPayment::with(['user', 'partner', 'validator', 'rejector']);
+
+        // If not super admin, only show payments where user is the receiver (partner)
+        if (!\App\Models\User::isSuperAdmin()) {
+            $query->where('partner_id', auth()->id());
+        }
 
         if (!empty($filters['search'])) {
             $query->where(function ($q) use ($filters) {
