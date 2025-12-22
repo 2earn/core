@@ -6,6 +6,7 @@ use App\Models\PartnerPayment;
 use App\Models\User;
 use App\Services\PartnerPayment\PartnerPaymentService;
 use Core\Models\FinancialRequest;
+use Core\Models\Platform;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -74,6 +75,12 @@ class PartnerPaymentManage extends Component
 
     public function mount(Request $request)
     {
+        // Check if user has partner special role
+        if (!Platform::havePartnerSpecialRole(auth()->user()->id)) {
+            session()->flash('error', Lang::get('You do not have permission to access this page'));
+            return redirect()->route('partner_payment_index', ['locale' => app()->getLocale()]);
+        }
+
         $this->paymentId = $request->input('id');
         $this->payment_date = now()->format('Y-m-d\TH:i');
 

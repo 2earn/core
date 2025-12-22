@@ -221,6 +221,10 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/list', \App\Livewire\NotificationList::class)->name('list');
         });
 
+        Route::prefix('/platform')->name('platform_')->group(function () {
+            Route::get('/index', \App\Livewire\PlatformIndex::class)->name('index');
+        });
+
         // SUPER ADMIN MENU
         // -----------------------------------------------------------
 
@@ -267,7 +271,6 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             });
 
             Route::prefix('/platform')->name('platform_')->group(function () {
-                Route::get('/index', \App\Livewire\PlatformIndex::class)->name('index');
                 Route::get('/', \App\Livewire\PlatformCreateUpdate::class)->name('create_update');
                 Route::get('/{id}', \App\Livewire\PlatformShow::class)->name('show');
                 Route::get('/{platformId}/sales-dashboard', \App\Livewire\PlatformSalesDashboard::class)->name('sales_dashboard');

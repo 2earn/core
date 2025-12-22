@@ -183,7 +183,7 @@
                         </div>
 
                         <!-- Create Button -->
-                        @if(\App\Models\User::isSuperAdmin())
+                        @if(\Core\Models\Platform::havePartnerSpecialRole(auth()->user()->id))
                             <div class="col-sm-6 col-md-2 text-end">
                                 <a href="{{route('partner_payment_manage', app()->getLocale())}}"
                                    class="btn btn-info waves-effect waves-light w-100">
@@ -291,7 +291,7 @@
                                                 <i class="ri-eye-line me-1"></i>
                                                 {{__('View')}}
                                             </a>
-                                            @if(\App\Models\User::isSuperAdmin() && !$payment->isValidated() && !$payment->isRejected())
+                                            @if(\Core\Models\Platform::havePartnerSpecialRole(auth()->user()->id) && !$payment->isValidated() && !$payment->isRejected())
                                                 <a href="{{route('partner_payment_manage', ['locale' => app()->getLocale(), 'id' => $payment->id])}}"
                                                    class="btn btn-sm btn-warning flex-grow-1" title="{{__('Edit')}}">
                                                     <i class="ri-edit-line me-1"></i>
