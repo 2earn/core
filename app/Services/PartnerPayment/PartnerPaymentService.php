@@ -25,7 +25,6 @@ class PartnerPaymentService
                 'amount' => $data['amount'],
                 'method' => $data['method'],
                 'payment_date' => $data['payment_date'] ?? now(),
-                'user_id' => $data['user_id'],
                 'partner_id' => $data['partner_id'],
                 'validated_by' => $data['validated_by'] ?? null,
                 'validated_at' => $data['validated_at'] ?? null,
@@ -58,7 +57,6 @@ class PartnerPaymentService
                 'amount' => $data['amount'] ?? $payment->amount,
                 'method' => $data['method'] ?? $payment->method,
                 'payment_date' => $data['payment_date'] ?? $payment->payment_date,
-                'user_id' => $data['user_id'] ?? $payment->user_id,
                 'partner_id' => $data['partner_id'] ?? $payment->partner_id,
             ]));
 
@@ -146,7 +144,7 @@ class PartnerPaymentService
     public function getByPartnerId(int $partnerId, array $filters = []): Collection
     {
         $query = PartnerPayment::where('partner_id', $partnerId)
-            ->with(['user', 'partner',  'validator']);
+            ->with(['partner',  'validator']);
 
         if (isset($filters['validated']) && $filters['validated'] === true) {
             $query->whereNotNull('validated_at');
@@ -169,38 +167,6 @@ class PartnerPaymentService
         return $query->orderBy('payment_date', 'desc')->get();
     }
 
-    /**
-     * Get partner payments by user ID.
-     *
-     * @param int $userId
-     * @param array $filters
-     * @return Collection
-     */
-    public function getByUserId(int $userId, array $filters = []): Collection
-    {
-        $query = PartnerPayment::where('user_id', $userId)
-            ->with(['user', 'partner',  'validator']);
-
-        if (isset($filters['validated']) && $filters['validated'] === true) {
-            $query->whereNotNull('validated_at');
-        } elseif (isset($filters['validated']) && $filters['validated'] === false) {
-            $query->whereNull('validated_at');
-        }
-
-        if (isset($filters['method'])) {
-            $query->where('method', $filters['method']);
-        }
-
-        if (isset($filters['from_date'])) {
-            $query->where('payment_date', '>=', $filters['from_date']);
-        }
-
-        if (isset($filters['to_date'])) {
-            $query->where('payment_date', '<=', $filters['to_date']);
-        }
-
-        return $query->orderBy('payment_date', 'desc')->get();
-    }
 
     /**
      * Get partner payment by ID.
@@ -209,7 +175,7 @@ class PartnerPaymentService
      * @return PartnerPayment
      * @throws \Exception
      */
-    public function getById(int $paymentId): PartnerPayment
+    public function getById($paymentId): PartnerPayment
     {
         return PartnerPayment::with(['user', 'partner', 'validator'])
             ->findOrFail($paymentId);
@@ -225,7 +191,7 @@ class PartnerPaymentService
      */
     public function getPayments(array $filters = [], int $perPage = 10)
     {
-        $query = PartnerPayment::with(['user', 'partner', 'validator', 'rejector']);
+        $query = PartnerPayment::with(['partner', 'validator', 'rejector']);
 
         // If not super admin, only show payments where user is the receiver (partner)
         if (!\App\Models\User::isSuperAdmin()) {
@@ -323,23 +289,6 @@ class PartnerPaymentService
         return (float) $query->sum('amount');
     }
 
-    /**
-     * Get total payments made by a user.
-     *
-     * @param int $userId
-     * @param bool $validatedOnly
-     * @return float
-     */
-    public function getTotalPaymentsByUser(int $userId, bool $validatedOnly = false): float
-    {
-        $query = PartnerPayment::where('user_id', $userId);
-
-        if ($validatedOnly) {
-            $query->whereNotNull('validated_at');
-        }
-
-        return (float) $query->sum('amount');
-    }
 
     /**
      * Get pending payments (not validated).

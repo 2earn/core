@@ -235,24 +235,7 @@
                                         </small>
                                     </div>
 
-                                    <!-- User Info -->
-                                    <div class="mb-3 pb-3 border-bottom">
-                                        <small class="d-block text-muted mb-2">{{__('Payer')}}</small>
-                                        <div class="d-flex align-items-center">
-                                            <div class="avatar-sm me-2">
-                                                <div
-                                                    class="avatar-title bg-soft-primary text-primary rounded-circle fs-13">
-                                                    {{substr($payment->user->name ?? 'U', 0, 1)}}
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-0 small">{{$payment->user->name ?? 'N/A'}}</h6>
-                                                <small class="text-muted">ID: {{$payment->user_id}}</small>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Partner Info -->
+                                    <!-- Partner/Receiver Info -->
                                     <div class="mb-3 pb-3 border-bottom">
                                         <small class="d-block text-muted mb-2">{{__('Receiver')}}</small>
                                         <div class="d-flex align-items-center">

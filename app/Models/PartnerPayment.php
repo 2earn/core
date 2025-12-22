@@ -15,7 +15,6 @@ class PartnerPayment extends Model
         'amount',
         'method',
         'payment_date',
-        'user_id',
         'partner_id',
         'validated_by',
         'validated_at',
@@ -33,13 +32,6 @@ class PartnerPayment extends Model
         'rejected_at' => 'datetime',
     ];
 
-    /**
-     * Get the user who made the payment.
-     */
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
 
     /**
      * Get the partner who received the payment.
