@@ -169,6 +169,66 @@
             <div class="card-body">
                 <div class="row mt-2 align-items-center">
                     <div class="col-sm-12 col-md-3 col-lg-3 text-center mb-3 mb-md-0">
+                        <img src="{{ Vite::asset('resources/images/logos/2earn.png') }}"
+                             alt="2Earn Partner Logo"
+                             class="img-fluid img-business rounded"
+                             loading="lazy">
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                        <div class="form-check form-switch form-switch-lg form-switch-success text-center mb-3">
+                            <label class="form-check-label" for="be_partner">
+                                {{ __('Become a Partner') }}
+                            </label>
+                        </div>
+
+                        <div id="partner_status">
+                            @if($lastPartnerRequest?->status == \Core\Enum\BePartnerRequestStatus::Validated->value || $lastPartnerRequest?->status == \Core\Enum\BePartnerRequestStatus::Validated2earn->value)
+                                <div class="alert alert-success material-shadow text-center" role="status">
+                                    <strong>✓</strong> {{ __('You are a verified partner') }}
+                                </div>
+                            @elseif($lastPartnerRequest?->status == \Core\Enum\BePartnerRequestStatus::InProgress->value)
+                                <div class="alert alert-warning material-shadow text-center" role="status">
+                                    <strong>⏳</strong> {{ __('Your partnership request is under review...') }}
+                                </div>
+                            @elseif($lastPartnerRequest?->status == \Core\Enum\BePartnerRequestStatus::Rejected->value)
+                                <div class="alert alert-danger material-shadow text-center" role="alert">
+                                    <p class="mb-2">{{ __('Your partnership request was rejected') }}</p>
+                                    @if(!is_null($lastPartnerRequest?->note))
+                                        <hr>
+                                        <small class="d-block mt-2">
+                                            <strong>{{ __('Reason') }}:</strong>
+                                            {{ $lastPartnerRequest?->note }}
+                                        </small>
+                                    @endif
+                                    <a href="{{ route('business_hub_partner_request_form', app()->getLocale()) }}"
+                                       class="btn btn-sm btn-danger mt-2">
+                                        {{ __('Submit Again') }}
+                                    </a>
+                                </div>
+                            @else
+                                <div class="alert alert-info material-shadow text-center" role="alert">
+                                    <p class="mb-2">{{ __('Become our partner and grow your business with us') }}</p>
+                                    <a href="{{ route('business_hub_partner_request_form', app()->getLocale()) }}"
+                                       class="btn btn-sm btn-primary">
+                                        {{ __('Submit Partnership Request') }}
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-3 col-lg-3 text-center mt-3 mt-md-0">
+                        <img src="{{ Vite::asset('resources/images/business-hub/be-commited-investor.png') }}"
+                             alt="Partner Badge"
+                             class="img-fluid img-business-square rounded"
+                             loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 card">
+            <div class="card-body">
+                <div class="row mt-2 align-items-center">
+                    <div class="col-sm-12 col-md-3 col-lg-3 text-center mb-3 mb-md-0">
                         <img src="{{ Vite::asset('resources/images/logos/move.png') }}"
                              alt="Move2Earn Logo"
                              class="img-fluid img-business rounded"

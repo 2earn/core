@@ -100,6 +100,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/additional-income', \App\Livewire\AdditionalIncome::class)->name('additional_income');
             Route::get('/be-influencer', \App\Livewire\BeInfluencer::class)->name('be_influencer');
             Route::get('/job/opportunities', \App\Livewire\JobOpportunities::class)->name('job_opportunities');
+            Route::get('/be-partner/form', \App\Livewire\PartnerRequestForm::class)->name('partner_request_form');
         });
 
         Route::prefix('/be-influencer')->name('be_influencer_')->group(function () {
@@ -248,13 +249,16 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
             Route::get('/countries/management', \App\Livewire\CountriesManagement::class)->name('countries_management');
 
-            Route::prefix('/requests')->group(function () {
-                Route::get('/identification', identificationRequest::class)->name('requests_identification');
-                Route::get('/commited-investors', \App\Livewire\CommitedRequest::class)->name('requests_commited_investors');
-                Route::get('/commited-investors/{id}/show', \App\Livewire\CommitedRequestShow::class)->name('requests_commited_investors_show');
-                Route::get('/instructor', \App\Livewire\InstructorRequest::class)->name('requests_instructor');
-                Route::get('/instructor/{id}/show', \App\Livewire\InstructorRequestShow::class)->name('requests_instructor_show');
+            Route::prefix('/requests')->name('requests_')->group(function () {
+                Route::get('/identification', identificationRequest::class)->name('identification');
+                Route::get('/commited-investors', \App\Livewire\CommitedRequest::class)->name('commited_investors');
+                Route::get('/commited-investors/{id}/show', \App\Livewire\CommitedRequestShow::class)->name('commited_investors_show');
+                Route::get('/instructor', \App\Livewire\InstructorRequest::class)->name('instructor');
+                Route::get('/instructor/{id}/show', \App\Livewire\InstructorRequestShow::class)->name('instructor_show');
+                Route::get('/partner', \App\Livewire\PartnerRequestIndex::class)->name('partner');
+                Route::get('/partner/{id}/show', \App\Livewire\PartnerRequestShow::class)->name('partner_show');
             });
+
 
             Route::prefix('/translate')->group(function () {
                 Route::get('/', TranslateView::class)->name('translate');
