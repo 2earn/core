@@ -16,7 +16,6 @@
                 <h5 class="card-title mb-0">{{ __('Partner Requests') }}</h5>
             </div>
             <div class="card-body">
-                <!-- Search and Filter -->
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <input type="text"
@@ -35,38 +34,15 @@
                     </div>
                 </div>
 
-                <!-- Table -->
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
-                        <thead class="table-light">
-                            <tr>
-                                <th>{{ __('Company Name') }}</th>
-                                <th>{{ __('User') }}</th>
-                                <th>{{ __('Business Sector') }}</th>
-                                <th>{{ __('Platform URL') }}</th>
-                                <th>{{ __('Status') }}</th>
-                                <th>{{ __('Request Date') }}</th>
-                                <th>{{ __('Actions') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($partnerRequests as $request)
-                                <tr>
-                                    <td>
-                                        <strong>{{ $request->company_name ?? 'N/A' }}</strong>
-                                    </td>
-                                    <td>
-                                        {{ $request->user?->name }}
-                                        <br>
-                                        <small class="text-muted">{{ $request->user?->email }}</small>
-                                    </td>
-                                    <td>{{ $request->businessSector?->name ?? 'N/A' }}</td>
-                                    <td>
-                                        <a href="{{ $request->platform_url }}" target="_blank" class="btn btn-sm btn-info">
-                                            <i class="fas fa-link"></i> {{ __('Visit') }}
-                                        </a>
-                                    </td>
-                                    <td>
+                <div class="row">
+                    @forelse($partnerRequests as $request)
+                        <div class="col-12 col-md-6 col-lg-4 mb-3">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                        <h5 class="card-title mb-0">
+                                            <strong>{{ $request->company_name ?? 'N/A' }}</strong>
+                                        </h5>
                                         @if($request->status == \Core\Enum\BePartnerRequestStatus::InProgress->value)
                                             <span class="badge bg-warning">{{ __('In Progress') }}</span>
                                         @elseif($request->status == \Core\Enum\BePartnerRequestStatus::Validated->value)
@@ -76,27 +52,49 @@
                                         @elseif($request->status == \Core\Enum\BePartnerRequestStatus::Rejected->value)
                                             <span class="badge bg-danger">{{ __('Rejected') }}</span>
                                         @endif
-                                    </td>
-                                    <td>{{ $request->request_date?->format('Y-m-d H:i') ?? 'N/A' }}</td>
-                                    <td>
-                                        <a href="{{ route('requests_partner_show', [$request->id], false) }}"
-                                           class="btn btn-sm btn-primary">
-                                            <i class="fas fa-eye"></i> {{ __('View') }}
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <small class="text-muted">{{ __('User') }}:</small>
+                                        <p class="mb-0">{{ $request->user?->name }}</p>
+                                        <small class="text-muted">{{ $request->user?->email }}</small>
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <small class="text-muted">{{ __('Business Sector') }}:</small>
+                                        <p class="mb-0">{{ $request->businessSector?->name ?? 'N/A' }}</p>
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <small class="text-muted">{{ __('Request Date') }}:</small>
+                                        <p class="mb-0">{{ $request->request_date?->format('Y-m-d H:i') ?? 'N/A' }}</p>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <a href="{{ $request->platform_url }}" target="_blank" class="btn btn-sm btn-info w-100 mb-2">
+                                            <i class="fas fa-link"></i> {{ __('Visit Platform') }}
                                         </a>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="7" class="text-center py-4">
-                                        <p class="text-muted">{{ __('No partner requests found') }}</p>
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                                    </div>
+
+                                    <div class="mt-auto">
+                                        <a href="{{ route('requests_partner_show', [$request->id], false) }}"
+                                           class="btn btn-primary w-100">
+                                            <i class="fas fa-eye"></i> {{ __('View Details') }}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-12">
+                            <div class="alert alert-info text-center">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <span>{{ __('No partner requests found') }}</span>
+                            </div>
+                        </div>
+                    @endforelse
                 </div>
 
-                <!-- Pagination -->
                 <div class="d-flex justify-content-end mt-3">
                     {{ $partnerRequests->links() }}
                 </div>

@@ -55,13 +55,11 @@ class PartnerRequestForm extends Component
 
         $partnerRequestService = app(PartnerRequestService::class);
 
-        // Check if user already has an in-progress request
         if ($partnerRequestService->hasInProgressRequest(auth()->user()->id)) {
             return redirect()->route('business_hub_additional_income', app()->getLocale())
                 ->with('warning', __('You already have a partner request under review'));
         }
 
-        // Create the partner request
         $partnerRequest = $partnerRequestService->createPartnerRequest([
             'company_name' => $this->companyName,
             'business_sector_id' => $this->businessSectorId,

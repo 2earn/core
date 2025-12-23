@@ -21,7 +21,6 @@
             </div>
             <div class="card-body">
                 <form wire:submit.prevent="submitForm">
-                    <!-- Company Name Field -->
                     <div class="form-group mb-3">
                         <label for="companyName" class="form-label">
                             {{ __('Company Name') }} <span class="text-danger">*</span>
@@ -39,7 +38,6 @@
                         @enderror
                     </div>
 
-                    <!-- Business Sector Field -->
                     <div class="form-group mb-3">
                         <label for="businessSectorId" class="form-label">
                             {{ __('Business Sector') }} <span class="text-danger">*</span>
@@ -60,7 +58,6 @@
                         @enderror
                     </div>
 
-                    <!-- Platform URL Field -->
                     <div class="form-group mb-3">
                         <label for="platformUrl" class="form-label">
                             {{ __('Platform URL') }} <span class="text-danger">*</span>
@@ -78,7 +75,6 @@
                         @enderror
                     </div>
 
-                    <!-- Platform Description Field -->
                     <div class="form-group mb-3">
                         <label for="platformDescription" class="form-label">
                             {{ __('Platform Description') }} <span class="text-danger">*</span>
@@ -96,7 +92,6 @@
                         @enderror
                     </div>
 
-                    <!-- Partnership Reason Field -->
                     <div class="form-group mb-3">
                         <label for="partnershipReason" class="form-label">
                             {{ __('Reason for Partnership Request') }} <span class="text-danger">*</span>
@@ -114,14 +109,12 @@
                         @enderror
                     </div>
 
-                    <!-- Submit Button -->
                     <div class="form-group mt-4">
                         <button type="submit" class="btn btn-primary w-100">
                             <i class="fas fa-paper-plane me-2"></i>{{ __('Submit Partnership Request') }}
                         </button>
                     </div>
 
-                    <!-- Back Button -->
                     <div class="form-group mt-2">
                         <a href="{{ route('business_hub_additional_income', app()->getLocale()) }}"
                            class="btn btn-secondary w-100">

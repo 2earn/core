@@ -16,13 +16,11 @@
     <div class="row">
         @include('layouts.flash-messages')
         <div class="col-12">
-            <!-- Request Details Card -->
             <div class="card mb-3">
                 <div class="card-header bg-light">
                     <h5 class="card-title mb-0">{{ __('Request Information') }}</h5>
                 </div>
                 <div class="card-body">
-                    <!-- Status Badge -->
                     <div class="mb-3">
                         <label class="form-label"><strong>{{ __('Status') }}:</strong></label>
                         @if($partnerRequest->status == \Core\Enum\BePartnerRequestStatus::InProgress->value)
@@ -36,7 +34,6 @@
                         @endif
                     </div>
 
-                    <!-- User Information -->
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label class="form-label"><strong>{{ __('Applicant Name') }}:</strong></label>
@@ -52,19 +49,16 @@
                         </div>
                     </div>
 
-                    <!-- Company Information -->
                     <div class="mb-3">
                         <label class="form-label"><strong>{{ __('Company Name') }}:</strong></label>
                         <p>{{ $partnerRequest->company_name }}</p>
                     </div>
 
-                    <!-- Business Sector -->
                     <div class="mb-3">
                         <label class="form-label"><strong>{{ __('Business Sector') }}:</strong></label>
                         <p>{{ $partnerRequest->businessSector?->name ?? 'N/A' }}</p>
                     </div>
 
-                    <!-- Platform URL -->
                     <div class="mb-3">
                         <label class="form-label"><strong>{{ __('Platform URL') }}:</strong></label>
                         <p>
@@ -74,7 +68,6 @@
                         </p>
                     </div>
 
-                    <!-- Platform Description -->
                     <div class="mb-3">
                         <label class="form-label"><strong>{{ __('Platform Description') }}:</strong></label>
                         <div class="border p-3 rounded bg-light">
@@ -82,7 +75,6 @@
                         </div>
                     </div>
 
-                    <!-- Partnership Reason -->
                     <div class="mb-3">
                         <label class="form-label"><strong>{{ __('Reason for Partnership Request') }}:</strong></label>
                         <div class="border p-3 rounded bg-light">
@@ -90,7 +82,6 @@
                         </div>
                     </div>
 
-                    <!-- Request Date -->
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label class="form-label"><strong>{{ __('Request Date') }}:</strong></label>
@@ -127,7 +118,6 @@
                         @endif
                     </div>
 
-                    <!-- Examiner Information -->
                     @if($partnerRequest->examiner)
                         <div class="row mb-3">
                             <div class="col-md-6">
@@ -137,7 +127,6 @@
                         </div>
                     @endif
 
-                    <!-- Rejection Note -->
                     @if($partnerRequest->status == \Core\Enum\BePartnerRequestStatus::Rejected->value && !is_null($partnerRequest->note))
                         <div class="mb-3">
                             <label class="form-label"><strong>{{ __('Rejection Reason') }}:</strong></label>
@@ -149,7 +138,6 @@
                 </div>
             </div>
 
-            <!-- Action Card -->
             @if($partnerRequest->status == \Core\Enum\BePartnerRequestStatus::InProgress->value)
                 <div class="card">
                     <div class="card-header bg-light">
@@ -157,7 +145,6 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <!-- Validate Button -->
                             <div class="col-md-6 mb-3">
                                 <button type="button"
                                         class="btn btn-success w-100"
@@ -167,7 +154,6 @@
                                 </button>
                             </div>
 
-                            <!-- Reject Button -->
                             <div class="col-md-6 mb-3">
                                 <button type="button"
                                         class="btn btn-danger w-100"
@@ -178,7 +164,6 @@
                             </div>
                         </div>
 
-                        <!-- Back Button -->
                         <div class="row">
                             <div class="col-12">
                                 <a href="{{ route('requests_partner', app()->getLocale()) }}"
@@ -203,7 +188,6 @@
         </div>
     </div>
 
-    <!-- Validation Modal -->
     <div class="modal fade" id="validateModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -226,7 +210,6 @@
         </div>
     </div>
 
-    <!-- Rejection Modal -->
     <div class="modal fade" id="rejectModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">

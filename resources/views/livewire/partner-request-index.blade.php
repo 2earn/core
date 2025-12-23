@@ -35,7 +35,6 @@
                     </div>
                 </div>
 
-                <!-- Cards Grid -->
                 <div class="row g-3">
                     @forelse($partnerRequests as $request)
                         <div class="col-12 col-md-6 col-lg-4">
