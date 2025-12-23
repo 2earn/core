@@ -9,6 +9,8 @@ return [
         'order_completed' => 'Order completed',
         'survey_participation' => 'Survey participation',
         'financial_request_sent' => 'Financial request sent',
+        'partnership_request_sent' => 'Partnership request sent',
+        'partnership_request_validated' => 'Partnership request validated',
     ],
     'delivery_sms' => [
         'body' => 'Hello :name, your package is on the way!',
@@ -33,5 +35,13 @@ return [
     'financial_request_sent' => [
         'body' => 'Financial request sent successfully',
         'action' => 'See financial request',
+    ],
+    'partnership_request_sent' => [
+        'body' => 'Your partnership request has been sent successfully',
+        'action' => 'View partnership request',
+    ],
+    'partnership_request_validated' => [
+        'body' => 'Your partnership request has been validated successfully',
+        'action' => 'View partnership details',
     ],
 ];

@@ -4,6 +4,8 @@ namespace App\Livewire;
 
 use App\Models\PartnerRequest as PartnerRequestModel;
 use App\Services\PartnerRequest\PartnerRequestService;
+use App\Notifications\PartnershipRequestValidated;
+use App\Notifications\PartnershipRequestRejected;
 use Core\Enum\BePartnerRequestStatus;
 use Livewire\Component;
 
@@ -34,6 +36,9 @@ class PartnerRequestShow extends Component
             'examiner_id' => auth()->user()->id,
         ]);
 
+        // Notify the user that their partner request has been validated
+        $this->partnerRequest->user->notify(new PartnershipRequestValidated());
+
         return redirect()->route('requests_partner', app()->getLocale())
             ->with('success', __('Partner request has been validated successfully'));
     }
@@ -51,6 +56,9 @@ class PartnerRequestShow extends Component
             'examination_date' => now(),
             'examiner_id' => auth()->user()->id,
         ]);
+
+        // Notify the user that their partner request has been rejected with the reason
+        $this->partnerRequest->user->notify(new PartnershipRequestRejected($this->rejectionNote));
 
         return redirect()->route('requests_partner', app()->getLocale())
             ->with('success', __('Partner request has been rejected'));
