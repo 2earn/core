@@ -72,7 +72,6 @@ class PartnerRequestForm extends Component
             'request_date' => now(),
             'status' => BePartnerRequestStatus::InProgress->value,
         ]);
-
         if ($partnerRequest) {
             return redirect()->route('business_hub_additional_income', app()->getLocale())
                 ->with('success', __('Your partner request has been submitted successfully. Please wait for admin validation.'));

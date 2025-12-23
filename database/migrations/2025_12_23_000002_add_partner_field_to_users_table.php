@@ -12,8 +12,8 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::table('user', function (Blueprint $table) {
-            if (!Schema::hasColumn('user', 'partner')) {
+        Schema::table('users', function (Blueprint $table) {
+            if (!Schema::hasColumn('users', 'partner')) {
                 $table->integer('partner')->nullable()->after('instructor')->default(0);
             }
         });
@@ -26,8 +26,8 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::table('user', function (Blueprint $table) {
-            if (Schema::hasColumn('user', 'partner')) {
+        Schema::table('users', function (Blueprint $table) {
+            if (Schema::hasColumn('users', 'partner')) {
                 $table->dropColumn('partner');
             }
         });

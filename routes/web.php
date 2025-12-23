@@ -249,14 +249,14 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
             Route::get('/countries/management', \App\Livewire\CountriesManagement::class)->name('countries_management');
 
-            Route::prefix('/requests')->group(function () {
-                Route::get('/identification', identificationRequest::class)->name('requests_identification');
-                Route::get('/commited-investors', \App\Livewire\CommitedRequest::class)->name('requests_commited_investors');
-                Route::get('/commited-investors/{id}/show', \App\Livewire\CommitedRequestShow::class)->name('requests_commited_investors_show');
-                Route::get('/instructor', \App\Livewire\InstructorRequest::class)->name('requests_instructor');
-                Route::get('/instructor/{id}/show', \App\Livewire\InstructorRequestShow::class)->name('requests_instructor_show');
-                Route::get('/partner', \App\Livewire\PartnerRequestIndex::class)->name('requests_partner');
-                Route::get('/partner/{id}/show', \App\Livewire\PartnerRequestShow::class)->name('requests_partner_show');
+            Route::prefix('/requests')->name('requests_')->group(function () {
+                Route::get('/identification', identificationRequest::class)->name('identification');
+                Route::get('/commited-investors', \App\Livewire\CommitedRequest::class)->name('commited_investors');
+                Route::get('/commited-investors/{id}/show', \App\Livewire\CommitedRequestShow::class)->name('commited_investors_show');
+                Route::get('/instructor', \App\Livewire\InstructorRequest::class)->name('instructor');
+                Route::get('/instructor/{id}/show', \App\Livewire\InstructorRequestShow::class)->name('instructor_show');
+                Route::get('/partner', \App\Livewire\PartnerRequestIndex::class)->name('partner');
+                Route::get('/partner/{id}/show', \App\Livewire\PartnerRequestShow::class)->name('partner_show');
             });
 
 

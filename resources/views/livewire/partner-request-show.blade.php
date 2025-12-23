@@ -15,7 +15,7 @@
 
     <div class="row">
         @include('layouts.flash-messages')
-        <div class="col-12 col-md-8 offset-md-2">
+        <div class="col-12">
             <!-- Request Details Card -->
             <div class="card mb-3">
                 <div class="card-header bg-light">
@@ -94,12 +94,35 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label class="form-label"><strong>{{ __('Request Date') }}:</strong></label>
-                            <p>{{ $partnerRequest->request_date?->format('Y-m-d H:i:s') ?? 'N/A' }}</p>
+                            <p>
+                                @if($partnerRequest->request_date)
+                                    @if(is_object($partnerRequest->request_date))
+                                        {{ $partnerRequest->request_date->format('Y-m-d H:i') }}
+                                    @else
+                                        {{ \Carbon\Carbon::parse($partnerRequest->request_date)->format('Y-m-d H:i') }}
+                                    @endif
+                                @else
+                                    N/A
+                                @endif
+
+                            </p>
                         </div>
                         @if($partnerRequest->examination_date)
                             <div class="col-md-6">
                                 <label class="form-label"><strong>{{ __('Examination Date') }}:</strong></label>
-                                <p>{{ $partnerRequest->examination_date->format('Y-m-d H:i:s') }}</p>
+                                <p>
+                                    @if($partnerRequest->examination_date)
+                                        @if(is_object($partnerRequest->examination_date))
+                                            {{ $partnerRequest->examination_date->format('Y-m-d H:i') }}
+                                        @else
+                                            {{ \Carbon\Carbon::parse($partnerRequest->examination_date)->format('Y-m-d H:i') }}
+                                        @endif
+                                    @else
+                                        N/A
+                                    @endif
+
+
+                                </p>
                             </div>
                         @endif
                     </div>
@@ -138,8 +161,8 @@
                             <div class="col-md-6 mb-3">
                                 <button type="button"
                                         class="btn btn-success w-100"
-                                        wire:click="validatePartnerRequest()"
-                                        onclick="return confirm('{{ __('Are you sure you want to validate this request?') }}')">
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#validateModal">
                                     <i class="fas fa-check"></i> {{ __('Validate Request') }}
                                 </button>
                             </div>
@@ -177,6 +200,29 @@
                     </div>
                 </div>
             @endif
+        </div>
+    </div>
+
+    <!-- Validation Modal -->
+    <div class="modal fade" id="validateModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('Validate Partnership Request') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ __('Are you sure you want to validate this request?') }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        {{ __('Cancel') }}
+                    </button>
+                    <button type="button" class="btn btn-success" wire:click="validatePartnerRequest()" data-bs-dismiss="modal">
+                        <i class="fas fa-check"></i> {{ __('Confirm Validation') }}
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 

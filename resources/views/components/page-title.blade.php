@@ -460,6 +460,13 @@
                             </a>
                         </div>
                         <div class="col">
+                            <a href="{{route($sidebarRequestsArray[3], app()->getLocale(),false)}}"
+                               class="menu-link-modern {{$currentRouteName=='$1'? 'active' : ''}}">
+                                <i class="ri-hand-heart-fill"></i>
+                                <span>{{ __('Partner Requests') }}</span>
+                            </a>
+                        </div>
+                        <div class="col">
                             <a href="{{route('sms_index', app()->getLocale(),false)}}"
                                class="menu-link-modern {{$currentRouteName=='$1'? 'active' : ''}}">
                                 <i class="ri-message-2-fill "></i>

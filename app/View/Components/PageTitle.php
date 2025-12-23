@@ -88,7 +88,8 @@ class PageTitle extends Component
         $this->sidebarRequestsArray = [
             'requests_commited_investors',
             'requests_instructor',
-            'requests_identification'
+            'requests_identification',
+            'requests_partner'
         ];
     }
     public function render()

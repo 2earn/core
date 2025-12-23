@@ -25,8 +25,10 @@ return new class extends Migration {
             $table->string('note', 455)->nullable();
             $table->dateTime('examination_date')->nullable();
             $table->dateTime('request_date')->nullable();
-            $table->unsignedBigInteger('user_id')->references('id')->on('user')->onDelete('cascade');
-            $table->unsignedBigInteger('examiner_id')->nullable()->references('id')->on('user')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('examiner_id')->nullable()->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('created_by')->nullable()->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('updated_by')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
 
             $table->foreign('business_sector_id')->references('id')->on('business_sectors')->onDelete('set null');

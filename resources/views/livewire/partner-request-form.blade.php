@@ -15,7 +15,7 @@
 
     <div class="row">
         @include('layouts.flash-messages')
-        <div class="col-12 col-md-8 offset-md-2 card">
+        <div class="col-12 col-md-12 card">
             <div class="card-header bg-light">
                 <h5 class="card-title mb-0">{{ __('Partnership Request Form') }}</h5>
             </div>

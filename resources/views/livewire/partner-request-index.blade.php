@@ -35,38 +35,19 @@
                     </div>
                 </div>
 
-                <!-- Table -->
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
-                        <thead class="table-light">
-                            <tr>
-                                <th>{{ __('Company Name') }}</th>
-                                <th>{{ __('User') }}</th>
-                                <th>{{ __('Business Sector') }}</th>
-                                <th>{{ __('Platform URL') }}</th>
-                                <th>{{ __('Status') }}</th>
-                                <th>{{ __('Request Date') }}</th>
-                                <th>{{ __('Actions') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($partnerRequests as $request)
-                                <tr>
-                                    <td>
-                                        <strong>{{ $request->company_name ?? 'N/A' }}</strong>
-                                    </td>
-                                    <td>
-                                        {{ $request->user?->name }}
-                                        <br>
+                <!-- Cards Grid -->
+                <div class="row g-3">
+                    @forelse($partnerRequests as $request)
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="card h-100 border shadow-sm">
+                                <!-- Card Header with Status -->
+                                <div class="card-header bg-light d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="card-title mb-1">{{ $request->company_name ?? 'N/A' }}</h6>
+                                        <small class="text-muted d-block">{{ $request->user?->name }}</small>
                                         <small class="text-muted">{{ $request->user?->email }}</small>
-                                    </td>
-                                    <td>{{ $request->businessSector?->name ?? 'N/A' }}</td>
-                                    <td>
-                                        <a href="{{ $request->platform_url }}" target="_blank" class="btn btn-sm btn-info">
-                                            <i class="fas fa-link"></i> {{ __('Visit') }}
-                                        </a>
-                                    </td>
-                                    <td>
+                                    </div>
+                                    <div>
                                         @if($request->status == \Core\Enum\BePartnerRequestStatus::InProgress->value)
                                             <span class="badge bg-warning">{{ __('In Progress') }}</span>
                                         @elseif($request->status == \Core\Enum\BePartnerRequestStatus::Validated->value)
@@ -76,24 +57,61 @@
                                         @elseif($request->status == \Core\Enum\BePartnerRequestStatus::Rejected->value)
                                             <span class="badge bg-danger">{{ __('Rejected') }}</span>
                                         @endif
-                                    </td>
-                                    <td>{{ $request->request_date?->format('Y-m-d H:i') ?? 'N/A' }}</td>
-                                    <td>
-                                        <a href="{{ route('requests_partner_show', [$request->id], false) }}"
-                                           class="btn btn-sm btn-primary">
-                                            <i class="fas fa-eye"></i> {{ __('View') }}
+                                    </div>
+                                </div>
+
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <!-- Business Sector -->
+                                    <div class="mb-3">
+                                        <label class="small fw-bold text-muted d-block">{{ __('Business Sector') }}</label>
+                                        <p class="mb-0">{{ $request->businessSector?->name ?? 'N/A' }}</p>
+                                    </div>
+
+                                    <!-- Platform URL -->
+                                    <div class="mb-3">
+                                        <label class="small fw-bold text-muted d-block">{{ __('Platform URL') }}</label>
+                                        <a href="{{ $request->platform_url }}" target="_blank" class="btn btn-sm btn-outline-info">
+                                            <i class="fas fa-link"></i> {{ __('Visit Platform') }}
                                         </a>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="7" class="text-center py-4">
-                                        <p class="text-muted">{{ __('No partner requests found') }}</p>
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                                    </div>
+
+                                    <!-- Request Date -->
+                                    <div>
+                                        <label class="small fw-bold text-muted d-block">{{ __('Request Date') }}</label>
+                                        <p class="mb-0 small">
+                                            @if($request->request_date)
+                                                @if(is_object($request->request_date))
+                                                    {{ $request->request_date->format('Y-m-d H:i') }}
+                                                @else
+                                                    {{ \Carbon\Carbon::parse($request->request_date)->format('Y-m-d H:i') }}
+                                                @endif
+                                            @else
+                                                N/A
+                                            @endif
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Card Footer with Action -->
+                                <div class="card-footer bg-light">
+                                    @if($request?->id)
+                                        <a href="{{ route('requests_partner_show', ['locale'=> app()->getLocale(),'id'=>$request->id], false) }}"
+                                           class="btn btn-sm btn-primary w-100">
+                                            <i class="fas fa-eye"></i> {{ __('View Details') }}
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-12">
+                            <div class="alert alert-info text-center py-4" role="alert">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <p class="mb-0">{{ __('No partner requests found') }}</p>
+                            </div>
+                        </div>
+                    @endforelse
                 </div>
 
                 <!-- Pagination -->
