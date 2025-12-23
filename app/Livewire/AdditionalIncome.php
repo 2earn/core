@@ -5,10 +5,12 @@ namespace App\Livewire;
 use App\Services\Balances\Balances;
 use App\Services\CommittedInvestor\CommittedInvestorRequestService;
 use App\Services\InstructorRequest\InstructorRequestService;
+use App\Services\PartnerRequest\PartnerRequestService;
 use App\Services\Settings\SettingsService;
 use App\Models\User;
 use Core\Enum\RequestStatus;
 use Core\Enum\BeInstructorRequestStatus;
+use Core\Enum\BePartnerRequestStatus;
 use Core\Enum\StatusRequest;
 use Livewire\Component;
 
@@ -85,12 +87,14 @@ class AdditionalIncome extends Component
     {
         $instructorRequestService = app(InstructorRequestService::class);
         $committedInvestorRequestService = app(CommittedInvestorRequestService::class);
+        $partnerRequestService = app(PartnerRequestService::class);
 
         $soldesAction = is_null(Balances::getStoredUserBalances(auth()->user()->idUser, Balances::SHARE_BALANCE)) ? 0 : Balances::getStoredUserBalances(auth()->user()->idUser, Balances::SHARE_BALANCE);
         $beCommitedInvestorMinActions = $this->getBeCommitedInvestorMinActions();
 
         $lastCommittedInvestorRequest = $committedInvestorRequestService->getLastCommittedInvestorRequest(auth()->user()->id);
         $lastInstructorRequest = $instructorRequestService->getLastInstructorRequest(auth()->user()->id);
+        $lastPartnerRequest = $partnerRequestService->getLastPartnerRequest(auth()->user()->id);
 
         $validatedUser = in_array(auth()->user()->status, [StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value, StatusRequest::ValidNational->value]);
 
@@ -117,6 +121,7 @@ class AdditionalIncome extends Component
             'lastCommittedInvestorRequest' => $lastCommittedInvestorRequest,
             'validatedUser' => $validatedUser,
             'lastInstructorRequest' => $lastInstructorRequest,
+            'lastPartnerRequest' => $lastPartnerRequest,
         ];
 
         return view('livewire.additional-income', $params)->extends('layouts.master')->section('content');
