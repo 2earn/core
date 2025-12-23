@@ -138,6 +138,14 @@ class DealValidationRequests extends Component
                 $this->rejectionReason
             );
 
+            // Notify the user who requested the validation
+            if ($request->requestedBy) {
+                $request->requestedBy->notify(new \App\Notifications\DealValidationRequestRejected(
+                    $request->deal,
+                    $this->rejectionReason
+                ));
+            }
+
             DB::commit();
 
             Log::info('[DealValidationRequests] Request rejected', [

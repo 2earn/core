@@ -44,4 +44,52 @@ return [
         'body' => 'Votre demande de partenariat a été validée avec succès',
         'action' => 'Voir les détails du partenariat',
     ],
+    'platform_validation_request_approved' => [
+        'body' => 'Votre demande de validation pour la plateforme ":platform_name" a été approuvée avec succès',
+        'action' => 'Voir les détails de la plateforme',
+    ],
+    'platform_validation_request_rejected' => [
+        'body' => 'Votre demande de validation pour la plateforme ":platform_name" a été rejetée',
+        'action' => 'Voir les détails de la plateforme',
+    ],
+    'platform_type_change_request_approved' => [
+        'body' => 'Votre demande de changement de type pour la plateforme ":platform_name" de :old_type à :new_type a été approuvée',
+        'action' => 'Voir les détails de la plateforme',
+    ],
+    'platform_type_change_request_rejected' => [
+        'body' => 'Votre demande de changement de type pour la plateforme ":platform_name" de :old_type à :new_type a été rejetée',
+        'action' => 'Voir les détails de la plateforme',
+    ],
+    'platform_change_request_approved' => [
+        'body' => 'Votre demande de modification pour la plateforme ":platform_name" a été approuvée',
+        'action' => 'Voir les détails de la plateforme',
+    ],
+    'platform_change_request_rejected' => [
+        'body' => 'Votre demande de modification pour la plateforme ":platform_name" a été rejetée',
+        'action' => 'Voir les détails de la plateforme',
+    ],
+    'platform_role_assignment_approved' => [
+        'body' => 'Vous avez été assigné comme :role pour la plateforme ":platform_name"',
+        'action' => 'Voir les détails de la plateforme',
+    ],
+    'platform_role_assignment_rejected' => [
+        'body' => 'Votre attribution de rôle comme :role pour la plateforme ":platform_name" a été rejetée',
+        'action' => 'Voir les détails',
+    ],
+    'deal_validation_request_approved' => [
+        'body' => 'Votre demande de validation pour le deal ":deal_name" a été approuvée avec succès',
+        'action' => 'Voir les détails du deal',
+    ],
+    'deal_validation_request_rejected' => [
+        'body' => 'Votre demande de validation pour le deal ":deal_name" a été rejetée',
+        'action' => 'Voir les détails du deal',
+    ],
+    'deal_change_request_approved' => [
+        'body' => 'Votre demande de modification pour le deal ":deal_name" a été approuvée',
+        'action' => 'Voir les détails du deal',
+    ],
+    'deal_change_request_rejected' => [
+        'body' => 'Votre demande de modification pour le deal ":deal_name" a été rejetée',
+        'action' => 'Voir les détails du deal',
+    ],
 ];

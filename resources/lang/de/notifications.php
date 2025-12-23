@@ -44,4 +44,52 @@ return [
         'body' => 'Ihre Partnerschaftsanfrage wurde erfolgreich validiert',
         'action' => 'Partnerschaftsdetails ansehen',
     ],
+    'platform_validation_request_approved' => [
+        'body' => 'Ihre Plattformvalidierungsanfrage für ":platform_name" wurde erfolgreich genehmigt',
+        'action' => 'Plattformdetails ansehen',
+    ],
+    'platform_validation_request_rejected' => [
+        'body' => 'Ihre Plattformvalidierungsanfrage für ":platform_name" wurde abgelehnt',
+        'action' => 'Plattformdetails ansehen',
+    ],
+    'platform_type_change_request_approved' => [
+        'body' => 'Ihre Plattformtypänderungsanfrage für ":platform_name" von :old_type zu :new_type wurde genehmigt',
+        'action' => 'Plattformdetails ansehen',
+    ],
+    'platform_type_change_request_rejected' => [
+        'body' => 'Ihre Plattformtypänderungsanfrage für ":platform_name" von :old_type zu :new_type wurde abgelehnt',
+        'action' => 'Plattformdetails ansehen',
+    ],
+    'platform_change_request_approved' => [
+        'body' => 'Ihre Plattformänderungsanfrage für ":platform_name" wurde genehmigt',
+        'action' => 'Plattformdetails ansehen',
+    ],
+    'platform_change_request_rejected' => [
+        'body' => 'Ihre Plattformänderungsanfrage für ":platform_name" wurde abgelehnt',
+        'action' => 'Plattformdetails ansehen',
+    ],
+    'platform_role_assignment_approved' => [
+        'body' => 'Sie wurden als :role für die Plattform ":platform_name" zugewiesen',
+        'action' => 'Plattformdetails ansehen',
+    ],
+    'platform_role_assignment_rejected' => [
+        'body' => 'Ihre Rollenzuweisung als :role für die Plattform ":platform_name" wurde abgelehnt',
+        'action' => 'Details ansehen',
+    ],
+    'deal_validation_request_approved' => [
+        'body' => 'Ihre Deal-Validierungsanfrage für ":deal_name" wurde erfolgreich genehmigt',
+        'action' => 'Deal-Details ansehen',
+    ],
+    'deal_validation_request_rejected' => [
+        'body' => 'Ihre Deal-Validierungsanfrage für ":deal_name" wurde abgelehnt',
+        'action' => 'Deal-Details ansehen',
+    ],
+    'deal_change_request_approved' => [
+        'body' => 'Ihre Deal-Änderungsanfrage für ":deal_name" wurde genehmigt',
+        'action' => 'Deal-Details ansehen',
+    ],
+    'deal_change_request_rejected' => [
+        'body' => 'Ihre Deal-Änderungsanfrage für ":deal_name" wurde abgelehnt',
+        'action' => 'Deal-Details ansehen',
+    ],
 ];

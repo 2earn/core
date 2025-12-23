@@ -44,4 +44,52 @@ return [
         'body' => 'Su solicitud de asociación ha sido validada con éxito',
         'action' => 'Ver detalles de la asociación',
     ],
+    'platform_validation_request_approved' => [
+        'body' => 'Su solicitud de validación para la plataforma ":platform_name" ha sido aprobada con éxito',
+        'action' => 'Ver detalles de la plataforma',
+    ],
+    'platform_validation_request_rejected' => [
+        'body' => 'Su solicitud de validación para la plataforma ":platform_name" ha sido rechazada',
+        'action' => 'Ver detalles de la plataforma',
+    ],
+    'platform_type_change_request_approved' => [
+        'body' => 'Su solicitud de cambio de tipo para la plataforma ":platform_name" de :old_type a :new_type ha sido aprobada',
+        'action' => 'Ver detalles de la plataforma',
+    ],
+    'platform_type_change_request_rejected' => [
+        'body' => 'Su solicitud de cambio de tipo para la plataforma ":platform_name" de :old_type a :new_type ha sido rechazada',
+        'action' => 'Ver detalles de la plataforma',
+    ],
+    'platform_change_request_approved' => [
+        'body' => 'Su solicitud de modificación para la plataforma ":platform_name" ha sido aprobada',
+        'action' => 'Ver detalles de la plataforma',
+    ],
+    'platform_change_request_rejected' => [
+        'body' => 'Su solicitud de modificación para la plataforma ":platform_name" ha sido rechazada',
+        'action' => 'Ver detalles de la plataforma',
+    ],
+    'platform_role_assignment_approved' => [
+        'body' => 'Ha sido asignado como :role para la plataforma ":platform_name"',
+        'action' => 'Ver detalles de la plataforma',
+    ],
+    'platform_role_assignment_rejected' => [
+        'body' => 'Su asignación de rol como :role para la plataforma ":platform_name" ha sido rechazada',
+        'action' => 'Ver detalles',
+    ],
+    'deal_validation_request_approved' => [
+        'body' => 'Su solicitud de validación para la oferta ":deal_name" ha sido aprobada con éxito',
+        'action' => 'Ver detalles de la oferta',
+    ],
+    'deal_validation_request_rejected' => [
+        'body' => 'Su solicitud de validación para la oferta ":deal_name" ha sido rechazada',
+        'action' => 'Ver detalles de la oferta',
+    ],
+    'deal_change_request_approved' => [
+        'body' => 'Su solicitud de modificación para la oferta ":deal_name" ha sido aprobada',
+        'action' => 'Ver detalles de la oferta',
+    ],
+    'deal_change_request_rejected' => [
+        'body' => 'Su solicitud de modificación para la oferta ":deal_name" ha sido rechazada',
+        'action' => 'Ver detalles de la oferta',
+    ],
 ];

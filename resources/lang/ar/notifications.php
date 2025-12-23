@@ -45,4 +45,52 @@ return [
         'body' => 'تم التحقق من طلب الشراكة الخاص بك بنجاح',
         'action' => 'عرض تفاصيل الشراكة',
     ],
+    'platform_validation_request_approved' => [
+        'body' => 'تمت الموافقة على طلب التحقق من المنصة ":platform_name" بنجاح',
+        'action' => 'عرض تفاصيل المنصة',
+    ],
+    'platform_validation_request_rejected' => [
+        'body' => 'تم رفض طلب التحقق من المنصة ":platform_name"',
+        'action' => 'عرض تفاصيل المنصة',
+    ],
+    'platform_type_change_request_approved' => [
+        'body' => 'تمت الموافقة على طلب تغيير نوع المنصة ":platform_name" من :old_type إلى :new_type',
+        'action' => 'عرض تفاصيل المنصة',
+    ],
+    'platform_type_change_request_rejected' => [
+        'body' => 'تم رفض طلب تغيير نوع المنصة ":platform_name" من :old_type إلى :new_type',
+        'action' => 'عرض تفاصيل المنصة',
+    ],
+    'platform_change_request_approved' => [
+        'body' => 'تمت الموافقة على طلب تغيير المنصة ":platform_name" بنجاح',
+        'action' => 'عرض تفاصيل المنصة',
+    ],
+    'platform_change_request_rejected' => [
+        'body' => 'تم رفض طلب تغيير المنصة ":platform_name"',
+        'action' => 'عرض تفاصيل المنصة',
+    ],
+    'platform_role_assignment_approved' => [
+        'body' => 'تم تعيينك كـ :role للمنصة ":platform_name"',
+        'action' => 'عرض تفاصيل المنصة',
+    ],
+    'platform_role_assignment_rejected' => [
+        'body' => 'تم رفض تعيينك كـ :role للمنصة ":platform_name"',
+        'action' => 'عرض التفاصيل',
+    ],
+    'deal_validation_request_approved' => [
+        'body' => 'تمت الموافقة على طلب التحقق من الصفقة ":deal_name" بنجاح',
+        'action' => 'عرض تفاصيل الصفقة',
+    ],
+    'deal_validation_request_rejected' => [
+        'body' => 'تم رفض طلب التحقق من الصفقة ":deal_name"',
+        'action' => 'عرض تفاصيل الصفقة',
+    ],
+    'deal_change_request_approved' => [
+        'body' => 'تمت الموافقة على طلب تعديل الصفقة ":deal_name"',
+        'action' => 'عرض تفاصيل الصفقة',
+    ],
+    'deal_change_request_rejected' => [
+        'body' => 'تم رفض طلب تعديل الصفقة ":deal_name"',
+        'action' => 'عرض تفاصيل الصفقة',
+    ],
 ];
