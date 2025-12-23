@@ -135,5 +135,41 @@ class PartnerRequestService
             return collect();
         }
     }
+
+    /**
+     * Get filtered and paginated partner requests
+     *
+     * @param string $searchTerm
+     * @param string $statusFilter
+     * @param int $perPage
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getFilteredPartnerRequests(string $searchTerm = '', string $statusFilter = '', int $perPage = 15)
+    {
+        try {
+            $query = PartnerRequest::with(['user', 'businessSector'])->orderBy('created_at', 'DESC');
+
+            // Filter by search term
+            if (!empty($searchTerm)) {
+                $query->where(function ($q) use ($searchTerm) {
+                    $q->where('company_name', 'like', '%' . $searchTerm . '%')
+                        ->orWhereHas('user', function ($q) use ($searchTerm) {
+                            $q->where('name', 'like', '%' . $searchTerm . '%')
+                                ->orWhere('email', 'like', '%' . $searchTerm . '%');
+                        });
+                });
+            }
+
+            // Filter by status
+            if (!empty($statusFilter)) {
+                $query->where('status', $statusFilter);
+            }
+
+            return $query->paginate($perPage);
+        } catch (\Exception $e) {
+            Log::error('Error fetching filtered partner requests: ' . $e->getMessage());
+            return PartnerRequest::with(['user', 'businessSector'])->paginate($perPage);
+        }
+    }
 }
 
