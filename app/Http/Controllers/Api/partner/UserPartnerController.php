@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\partner;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Partner\AddRoleRequest;
+use App\Http\Requests\Api\Partner\GetPartnerPlatformsRequest;
 use App\Models\AssignPlatformRole;
 use App\Models\User;
 use Core\Models\Platform;
@@ -79,5 +80,91 @@ class UserPartnerController extends Controller
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * Get all platforms where the user has a role (owner, marketing, or financial)
+     *
+     * @param GetPartnerPlatformsRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getPartnerPlatforms(GetPartnerPlatformsRequest $request)
+    {
+        $validated = $request->validated();
+        $userId = $validated['user_id'];
+
+        try {
+            // Get platforms where the user is owner, marketing manager, or financial manager
+            $platforms = Platform::where(function ($query) use ($userId) {
+                $query->where('owner_id', $userId)
+                    ->orWhere('marketing_manager_id', $userId)
+                    ->orWhere('financial_manager_id', $userId);
+            })
+            ->with(['businessSector', 'logoImage'])
+            ->get()
+            ->map(function ($platform) use ($userId) {
+                // Determine the user's role(s) on this platform
+                $roles = [];
+                if ($platform->owner_id == $userId) {
+                    $roles[] = 'owner';
+                }
+                if ($platform->marketing_manager_id == $userId) {
+                    $roles[] = 'marketing';
+                }
+                if ($platform->financial_manager_id == $userId) {
+                    $roles[] = 'financial';
+                }
+
+                return [
+                    'id' => $platform->id,
+                    'name' => $platform->name,
+                    'description' => $platform->description,
+                    'type' => $platform->type,
+                    'link' => $platform->link,
+                    'enabled' => $platform->enabled,
+                    'show_profile' => $platform->show_profile,
+                    'image_link' => $platform->image_link,
+                    'business_sector' => $platform->businessSector ? [
+                        'id' => $platform->businessSector->id,
+                        'name' => $platform->businessSector->name ?? null,
+                    ] : null,
+                    'logo' => $platform->logoImage ? [
+                        'id' => $platform->logoImage->id,
+                        'path' => $platform->logoImage->path ?? null,
+                    ] : null,
+                    'roles' => $roles,
+                    'created_at' => $platform->created_at,
+                    'updated_at' => $platform->updated_at,
+                ];
+            });
+
+            Log::info(self::LOG_PREFIX . 'Successfully retrieved partner platforms', [
+                'user_id' => $userId,
+                'platforms_count' => $platforms->count()
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Platforms retrieved successfully',
+                'data' => [
+                    'platforms' => $platforms,
+                    'total' => $platforms->count()
+                ]
+            ], Response::HTTP_OK);
+
+        } catch (\Throwable $e) {
+            Log::error(self::LOG_PREFIX . 'Failed to retrieve partner platforms', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'user_id' => $userId
+            ]);
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to retrieve platforms: ' . $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }
+
+
 

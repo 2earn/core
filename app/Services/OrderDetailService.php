@@ -122,10 +122,10 @@ class OrderDetailService
 
 
             $query = Order::query()
+                ->with(['user'])
                 ->where('orders.payment_result', true)
                 ->whereBetween('orders.created_at', [$startDate, $endDate]);
 
-            // Support platform_ids array
             if (!empty($filters['platform_ids'])) {
                 $query->whereIn('orders.platform_id', $filters['platform_ids']);
             }
@@ -192,6 +192,7 @@ class OrderDetailService
             throw $e;
         }
     }
+
     public function getSalesTransactionDetailsData(array $filters = []): array
     {
         try {
