@@ -90,13 +90,16 @@ class SalesDashboardService
     public function getTransactions(array $filters = []): array
     {
         try {
-            if (!empty($filters['user_id']) && !empty($filters['platform_id'])) {
-                if (!$this->platformService->userHasRoleInPlatform($filters['user_id'], $filters['platform_id'])) {
-                    Log::warning(self::LOG_PREFIX . 'User does not have role in platform', [
-                        'user_id' => $filters['user_id'],
-                        'platform_id' => $filters['platform_id']
-                    ]);
-                    throw new \Exception('User does not have a role in this platform');
+            // Handle platform_ids array - check if user has role in any of the platforms
+            if (!empty($filters['user_id']) && !empty($filters['platform_ids'])) {
+                foreach ($filters['platform_ids'] as $platformId) {
+                    if (!$this->platformService->userHasRoleInPlatform($filters['user_id'], $platformId)) {
+                        Log::warning(self::LOG_PREFIX . 'User does not have role in platform', [
+                            'user_id' => $filters['user_id'],
+                            'platform_id' => $platformId
+                        ]);
+                        throw new \Exception('User does not have a role in one or more platforms');
+                    }
                 }
             }
 
@@ -107,13 +110,14 @@ class SalesDashboardService
             $results = $this->orderDetailService->getSalesTransactionData([
                 'start_date' => $startDate,
                 'end_date' => $endDate,
-                'platform_id' => $filters['platform_id'] ?? null,
+                'platform_ids' => $filters['platform_ids'] ?? null,
                 'order_id' => $filters['order_id'] ?? null,
                 'status' => $filters['status'] ?? null,
                 'note' => $filters['note'] ?? null,
                 'country' => $filters['country'] ?? null,
                 'user_id' => $filters['user_id'] ?? null,
-                'limit' => $filters['limit'] ?? null,
+                'page' => $filters['page'] ?? 1,
+                'per_page' => $filters['per_page'] ?? 15,
             ]);
 
 

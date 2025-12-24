@@ -26,7 +26,8 @@ class SalesDashboardController extends Controller
         $validator = Validator::make($request->all(), [
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
-            'platform_id' => 'nullable|integer|exists:platforms,id',
+            'platform_ids' => 'nullable|array',
+            'platform_ids.*' => 'integer|exists:platforms,id',
             'user_id' => 'required|integer|exists:users,id',
         ]);
 
@@ -43,7 +44,7 @@ class SalesDashboardController extends Controller
             $filters = [
                 'start_date' => $request->input('start_date'),
                 'end_date' => $request->input('end_date'),
-                'platform_id' => $request->input('platform_id'),
+                'platform_ids' => $request->input('platform_ids'),
                 'user_id' => $request->input('user_id'),
             ];
 
@@ -81,7 +82,8 @@ class SalesDashboardController extends Controller
         $validator = Validator::make($request->all(), [
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
-            'platform_id' => 'nullable|integer|exists:platforms,id',
+            'platform_ids' => 'nullable|array',
+            'platform_ids.*' => 'integer|exists:platforms,id',
             'user_id' => 'required|integer|exists:users,id',
             'view_mode' => 'nullable|in:daily,weekly,monthly',
         ]);
@@ -101,7 +103,7 @@ class SalesDashboardController extends Controller
             $filters = [
                 'start_date' => $request->input('start_date'),
                 'end_date' => $request->input('end_date'),
-                'platform_id' => $request->input('platform_id'),
+                'platform_ids' => $request->input('platform_ids'),
                 'user_id' => $request->input('user_id'),
                 'view_mode' => $request->input('view_mode', 'daily'),
             ];
@@ -140,7 +142,8 @@ class SalesDashboardController extends Controller
         $validator = Validator::make($request->all(), [
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
-            'platform_id' => 'nullable|integer|exists:platforms,id',
+            'platform_ids' => 'nullable|array',
+            'platform_ids.*' => 'integer|exists:platforms,id',
             'deal_id' => 'nullable|integer|exists:deals,id',
             'user_id' => 'required|integer|exists:users,id',
             'limit' => 'nullable|integer|min:1|max:100',
@@ -159,7 +162,7 @@ class SalesDashboardController extends Controller
             $filters = [
                 'start_date' => $request->input('start_date'),
                 'end_date' => $request->input('end_date'),
-                'platform_id' => $request->input('platform_id'),
+                'platform_ids' => $request->input('platform_ids'),
                 'deal_id' => $request->input('deal_id'),
                 'user_id' => $request->input('user_id'),
                 'limit' => $request->input('limit', 10),
@@ -207,17 +210,19 @@ class SalesDashboardController extends Controller
             $validator = Validator::make($request->all(), [
                 'start_date' => 'nullable|date',
                 'end_date' => 'nullable|date|after_or_equal:start_date',
-                'platform_id' => 'nullable|integer|exists:platforms,id',
+                'platform_ids' => 'nullable|array',
+                'platform_ids.*' => 'integer|exists:platforms,id',
                 'order_id' => 'nullable|integer|exists:orders,id',
                 'status' => 'nullable|string',
                 'note' => 'nullable|string',
                 'country' => 'nullable|string',
                 'user_id' => 'nullable|integer|exists:users,id',
-                'limit' => 'nullable|integer|min:1|max:100',
+                'page' => 'nullable|integer|min:1',
+                'per_page' => 'nullable|integer|min:1|max:100',
             ]);
 
             if ($validator->fails()) {
-                Log::error(self::LOG_PREFIX . 'Validation failed for top-selling deals', [
+                Log::error(self::LOG_PREFIX . 'Validation failed for transactions', [
                     'errors' => $validator->errors()
                 ]);
                 return response()->json([
@@ -230,13 +235,14 @@ class SalesDashboardController extends Controller
             $filters = [
                 'start_date' => $request->input('start_date'),
                 'end_date' => $request->input('end_date'),
-                'platform_id' => $request->input('platform_id'),
+                'platform_ids' => $request->input('platform_ids'),
                 'order_id' => $request->input('order_id'),
                 'status' => $request->input('status'),
                 'note' => $request->input('note'),
                 'country' => $request->input('country'),
                 'user_id' => $request->input('user_id'),
-                'limit' => $request->input('limit', 5),
+                'page' => $request->input('page', 1),
+                'per_page' => $request->input('per_page', 15),
             ];
 
             $filters = array_filter($filters, function ($value) {
@@ -245,16 +251,25 @@ class SalesDashboardController extends Controller
 
             $transactions = $this->dashboardService->getTransactions($filters);
 
-            Log::info(self::LOG_PREFIX . 'Transactions deals retrieved successfully', [
+            Log::info(self::LOG_PREFIX . 'Transactions retrieved successfully', [
                 'filters' => $filters,
-                'count' => count($transactions)
+                'total' => $transactions['total'] ?? 0,
+                'current_page' => $transactions['current_page'] ?? 1
             ]);
 
             return response()->json([
                 'status' => true,
-                'message' => 'Transactions deals retrieved successfully',
+                'message' => 'Transactions retrieved successfully',
                 'data' => [
-                    'transactions' => $transactions
+                    'transactions' => $transactions['data'] ?? [],
+                    'pagination' => [
+                        'current_page' => $transactions['current_page'] ?? 1,
+                        'per_page' => $transactions['per_page'] ?? 15,
+                        'total' => $transactions['total'] ?? 0,
+                        'last_page' => $transactions['last_page'] ?? 1,
+                        'from' => $transactions['from'] ?? null,
+                        'to' => $transactions['to'] ?? null,
+                    ]
                 ]
             ], Response::HTTP_OK);
         } catch (\Exception $e) {
@@ -335,7 +350,8 @@ class SalesDashboardController extends Controller
         $validator = Validator::make($request->all(), [
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
-            'platform_id' => 'nullable|integer|exists:platforms,id',
+            'platform_ids' => 'nullable|array',
+            'platform_ids.*' => 'integer|exists:platforms,id',
             'limit' => 'nullable|integer|min:1|max:100',
         ]);
 
@@ -354,7 +370,7 @@ class SalesDashboardController extends Controller
             $filters = [
                 'start_date' => $request->input('start_date'),
                 'end_date' => $request->input('end_date'),
-                'platform_id' => $request->input('platform_id'),
+                'platform_ids' => $request->input('platform_ids'),
                 'limit' => $request->input('limit', 5),
             ];
 

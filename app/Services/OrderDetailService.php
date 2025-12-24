@@ -125,9 +125,11 @@ class OrderDetailService
                 ->where('orders.payment_result', true)
                 ->whereBetween('orders.created_at', [$startDate, $endDate]);
 
-            if (!empty($filters['platform_id'])) {
-                $query->where('orders.platform_id', $filters['platform_id']);
+            // Support platform_ids array
+            if (!empty($filters['platform_ids'])) {
+                $query->whereIn('orders.platform_id', $filters['platform_ids']);
             }
+
             if (!empty($filters['order_id'])) {
                 $query->where('orders.id', $filters['order_id']);
             }
@@ -157,29 +159,33 @@ class OrderDetailService
                 $query->where('orders.user_id', $filters['user_id']);
             }
 
-            $query->select("*")
+            $query->select("orders.*")
                 ->groupBy('orders.id')
-                ->orderBy('orders.created_at', 'asc');
+                ->orderBy('orders.created_at', 'desc');
 
-            if (!empty($filters['limit'])) {
-                $query->limit($filters['limit']);
-            }
+            $page = $filters['page'] ?? 1;
+            $perPage = $filters['per_page'] ?? 15;
 
-            $results = $query->get();
+            $paginatedResults = $query->paginate($perPage, ['*'], 'page', $page);
 
-            Log::info(self::LOG_PREFIX . 'Sales evolution data retrieved successfully', [
+            Log::info(self::LOG_PREFIX . 'Sales transaction data retrieved successfully', [
                 'filters' => $filters,
-                'count' => $results->count()
+                'total' => $paginatedResults->total(),
+                'current_page' => $paginatedResults->currentPage()
             ]);
 
             return [
-                'filters' => $filters,
-                'data' => $results->toArray(),
-                'count' => $results->count()
+                'data' => $paginatedResults->items(),
+                'current_page' => $paginatedResults->currentPage(),
+                'per_page' => $paginatedResults->perPage(),
+                'total' => $paginatedResults->total(),
+                'last_page' => $paginatedResults->lastPage(),
+                'from' => $paginatedResults->firstItem(),
+                'to' => $paginatedResults->lastItem(),
             ];
 
         } catch (\Exception $e) {
-            Log::error(self::LOG_PREFIX . 'Error fetching sales evolution data: ' . $e->getMessage(), [
+            Log::error(self::LOG_PREFIX . 'Error fetching sales transaction data: ' . $e->getMessage(), [
                 'filters' => $filters,
                 'trace' => $e->getTraceAsString()
             ]);
