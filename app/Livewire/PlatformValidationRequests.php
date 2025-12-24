@@ -70,6 +70,10 @@ class PlatformValidationRequests extends Component
                 Auth::id()
             );
 
+            if ($request->requestedBy) {
+                $request->requestedBy->notify(new \App\Notifications\PlatformValidationRequestApproved($request->platform));
+            }
+
             DB::commit();
 
             Log::info('[PlatformValidationRequests] Request approved', [
@@ -124,6 +128,10 @@ class PlatformValidationRequests extends Component
                 Auth::id(),
                 $this->rejectionReason
             );
+
+            if ($request->requestedBy) {
+                $request->requestedBy->notify(new \App\Notifications\PlatformValidationRequestRejected($request->platform, $this->rejectionReason));
+            }
 
             DB::commit();
 

@@ -3,6 +3,8 @@
 namespace App\Services\PartnerPayment;
 
 use App\Models\PartnerPayment;
+use App\Notifications\PartnerPaymentValidated;
+use App\Notifications\PartnerPaymentRejected;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -88,6 +90,11 @@ class PartnerPaymentService
 
             $payment->validate($validatorId);
 
+            // Notify the partner about payment validation
+            if ($payment->partner) {
+                $payment->partner->notify(new PartnerPaymentValidated($payment));
+            }
+
             DB::commit();
 
             return $payment->fresh();
@@ -123,6 +130,11 @@ class PartnerPaymentService
             }
 
             $payment->reject($rejectorId, $reason);
+
+            // Notify the partner about payment rejection
+            if ($payment->partner) {
+                $payment->partner->notify(new PartnerPaymentRejected($payment));
+            }
 
             DB::commit();
 

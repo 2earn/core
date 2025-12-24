@@ -181,6 +181,14 @@ class DealChangeRequests extends Component
             $request->reviewed_at = now();
             $request->save();
 
+            if ($request->requestedBy) {
+                $request->requestedBy->notify(new \App\Notifications\DealChangeRequestRejected(
+                    $request->deal,
+                    $request->changes,
+                    $this->rejectionReason
+                ));
+            }
+
             Log::info('[DealChangeRequests] Request rejected', [
                 'request_id' => $this->rejectRequestId,
                 'deal_id' => $request->deal_id,

@@ -155,6 +155,14 @@ class PlatformChangeRequests extends Component
                 $this->rejectionReason
             );
 
+            if ($request->requestedBy) {
+                $request->requestedBy->notify(new \App\Notifications\PlatformChangeRequestRejected(
+                    $request->platform,
+                    $request->changes,
+                    $this->rejectionReason
+                ));
+            }
+
             DB::commit();
 
             Log::info('[PlatformChangeRequests] Request rejected', [

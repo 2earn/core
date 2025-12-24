@@ -97,15 +97,15 @@
                                 <div class="d-flex align-items-center">
                                     <div class="avatar-sm me-3">
                                         <div class="avatar-title bg-soft-primary text-primary rounded-circle fs-4">
-                                            {{substr($payment->user->name ?? 'U', 0, 1)}}
+                                            {{substr($payment->partner->name ?? 'U', 0, 1)}}
                                         </div>
                                     </div>
                                     <div>
-                                        <h6 class="mb-1">{{$payment->user->name ?? __('N/A')}}</h6>
+                                        <h6 class="mb-1">{{$payment->partner->name ?? __('N/A')}}</h6>
                                         <p class="text-muted mb-0 small">
-                                            {{__('ID')}}: {{$payment->user_id}}
-                                            @if($payment->user->email)
-                                                <br>{{$payment->user->email}}
+                                            {{__('ID')}}: {{$payment->partner_id}}
+                                            @if($payment->partner->email)
+                                                <br>{{$payment->partner->email}}
                                             @endif
                                         </p>
                                     </div>
