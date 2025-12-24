@@ -1,4 +1,4 @@
-<div class="{{getContainerType()}}">
+<div class="container">
     @section('title')
         {{ __('User details') }}
     @endsection
@@ -10,7 +10,7 @@
     @endcomponent
 
     <div class="row g-4 mb-5">
-        
+
         <div class="col-xl-4">
             <article class="card ribbon-box border-0 shadow mb-lg-0 h-100">
                 <div class="card-body p-4">
@@ -42,7 +42,7 @@
                 </div>
             </article>
         </div>
-        
+
         <div class="col-xl-4">
             <article class="card border-0 shadow h-100">
                 <div class="card-header bg-transparent border-0 pb-0">
@@ -87,7 +87,7 @@
                 </div>
             </article>
         </div>
-        
+
         <div class="col-xl-4">
             <article class="card border-0 shadow h-100">
                 <div class="card-header bg-transparent border-0 pb-0">
@@ -113,7 +113,7 @@
                 </div>
             </article>
         </div>
-        
+
         <div class="col-xl-4">
             <article class="card border-0 shadow mb-lg-0 h-100">
                 <div class="card-header bg-transparent border-0 pb-0">
@@ -192,7 +192,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-xl-4">
             <article class="card border-0 shadow mb-lg-0 h-100">
                 <div class="card-header bg-transparent border-0 pb-0">
@@ -275,7 +275,7 @@
     </div>
     <div class="row g-4 mb-5">
         @if($activeUser)
-            
+
             <div class="col-xl-6">
                 <article class="card border-0 shadow mb-lg-0 h-100">
                     <div class="card-header bg-transparent border-0 pb-0">
@@ -439,7 +439,7 @@
                     </div>
                 </article>
             </div>
-            
+
             <div class="col-xl-6">
                 <article class="card border-0 shadow mb-lg-0 h-100">
                     <div class="card-header bg-transparent border-0 pb-0">
@@ -487,7 +487,7 @@
             </div>
         @endif
         @if(isset($metta->adresse))
-            
+
             <div class="col-xl-4">
                 <article class="card border-0 shadow mb-lg-0 h-100">
                     <div class="card-header bg-transparent border-0 pb-0">

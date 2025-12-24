@@ -1,4 +1,4 @@
-<div class="{{getContainerType()}}">
+<div class="container">
     <div class="row">
         <footer class="col-12 footer modern-footer {{$pageName}} mt-auto">
             <div class="footer-wave-container">

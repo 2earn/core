@@ -1,4 +1,4 @@
-<div class="{{getContainerType()}}">
+<div class="container">
     @component('components.breadcrumb')
         @slot('title')
             <i class="ri-exchange-dollar-line me-2"></i>{{ __('Financial transaction') }}

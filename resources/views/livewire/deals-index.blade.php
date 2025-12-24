@@ -1,7 +1,7 @@
 @php
     $dateFormat = config('app.date_format');
 @endphp
-<div class="{{getContainerType()}}">
+<div class="container">
     @section('title')
         {{ __('Deals') }}
     @endsection

@@ -1,4 +1,4 @@
-<div class="{{getContainerType()}}">
+<div class="container">
     @component('components.breadcrumb')
         @slot('title')
             {{__('Create Coupon')}}

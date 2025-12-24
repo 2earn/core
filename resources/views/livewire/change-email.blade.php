@@ -1,4 +1,4 @@
-<div class="{{getContainerType()}}">
+<div class="container">
     <div class="row">
         @component('components.breadcrumb')
             @slot('title')

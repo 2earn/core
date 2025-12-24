@@ -1,5 +1,5 @@
 <div>
-    <div class="{{getContainerType()}}">
+    <div class="container">
         @component('components.breadcrumb')
             @slot('title')
                 {{ __('Add contact number') }}

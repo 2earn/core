@@ -1,5 +1,5 @@
 
-<div class="{{getContainerType()}}">
+<div class="container">
     @section('title')
         {{ __('SMS') }}
     @endsection

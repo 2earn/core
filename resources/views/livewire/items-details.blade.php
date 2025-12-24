@@ -2,7 +2,7 @@
     $currency = config('app.currency');
     $percentage = config('app.percentage');
 @endphp
-<div class="{{getContainerType()}}">
+<div class="container">
     @section('title')
         {{ __('Items details') }}
     @endsection

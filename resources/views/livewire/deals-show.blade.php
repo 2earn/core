@@ -1,4 +1,4 @@
-<div class="{{getContainerType()}}">
+<div class="container">
     @php
         $currency = config('app.currency');
     @endphp

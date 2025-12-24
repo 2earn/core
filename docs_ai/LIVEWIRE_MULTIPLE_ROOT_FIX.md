@@ -24,7 +24,7 @@ The Livewire component blade file had multiple root elements and improper struct
     ...
 @endsection
 
-<div class="{{getContainerType()}}">
+<div class="container">
     <!-- ALL COMPONENT HTML HERE -->
     <!-- Single root div wrapping everything -->
 </div>
@@ -63,7 +63,7 @@ The Livewire component blade file had multiple root elements and improper struct
     <!-- CSS includes -->
 @endsection
 
-<div class="{{getContainerType()}}">
+<div class="container">
     <!-- All component content -->
     <!-- Statistics cards -->
     <!-- Filter form -->

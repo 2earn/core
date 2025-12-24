@@ -1,4 +1,4 @@
-<div class="{{getContainerType()}}">
+<div class="container">
 
     <div>
         @component('components.breadcrumb')
