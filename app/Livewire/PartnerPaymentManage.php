@@ -21,7 +21,6 @@ class PartnerPaymentManage extends Component
     public $partner_id;
     public $update = false;
 
-    // Search helpers
     public $searchPartner = '';
     public $searchDemand = '';
 
@@ -70,7 +69,6 @@ class PartnerPaymentManage extends Component
 
     public function mount(Request $request)
     {
-        // Check if user has partner special role for creating/editing payments
         if (!Platform::havePartnerSpecialRole(auth()->user()->id)) {
             session()->flash('error', Lang::get('You do not have permission to access this page'));
             return redirect()->route('partner_payment_index', ['locale' => app()->getLocale()]);
@@ -82,7 +80,6 @@ class PartnerPaymentManage extends Component
         if (!is_null($this->paymentId)) {
             $this->edit($this->paymentId);
         } else {
-            // Default to current user if creating new payment
             $this->partner_id = auth()->id();
         }
     }
@@ -92,7 +89,6 @@ class PartnerPaymentManage extends Component
         try {
             $payment = $this->partnerPaymentService->getById($paymentId);
 
-            // Check if payment is validated (cannot edit validated payments)
             if ($payment->isValidated()) {
                 session()->flash('error', Lang::get('Cannot edit a validated payment'));
                 redirect()->route('partner_payment_index', ['locale' => app()->getLocale()]);
@@ -105,6 +101,7 @@ class PartnerPaymentManage extends Component
             $this->payment_date = $payment->payment_date?->format('Y-m-d\TH:i');
             $this->partner_id = $payment->partner_id;
             $this->update = true;
+
         } catch (\Exception $e) {
             session()->flash('error', Lang::get('Partner payment not found'));
             redirect()->route('partner_payment_index', ['locale' => app()->getLocale()]);
@@ -155,7 +152,6 @@ class PartnerPaymentManage extends Component
             return [];
         }
 
-        // Get unique partner IDs from platforms table
         $partnerIds = \DB::table('platforms')
             ->select('financial_manager_id', 'marketing_manager_id', 'owner_id')
             ->get()
@@ -170,7 +166,6 @@ class PartnerPaymentManage extends Component
             ->unique()
             ->values();
 
-        // Search only among platform partners
         return User::whereIn('id', $partnerIds)
             ->where(function ($query) {
                 $query->where('name', 'like', '%' . $this->searchPartner . '%')
@@ -181,17 +176,6 @@ class PartnerPaymentManage extends Component
             ->get();
     }
 
-    public function searchDemands()
-    {
-        if (empty($this->searchDemand)) {
-            return [];
-        }
-
-        return FinancialRequest::where('numeroReq', 'like', '%' . $this->searchDemand . '%')
-            ->orWhere('idSender', 'like', '%' . $this->searchDemand . '%')
-            ->limit(10)
-            ->get();
-    }
 
     public function selectPartner($partnerId)
     {
@@ -210,8 +194,6 @@ class PartnerPaymentManage extends Component
 
     public function getSelectedDemand()
     {
-        // This method returns null as demands are not being used in the current implementation
-        // If demands need to be implemented in the future, add logic here
         return null;
     }
 

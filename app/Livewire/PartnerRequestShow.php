@@ -56,7 +56,6 @@ class PartnerRequestShow extends Component
             'examiner_id' => auth()->user()->id,
         ]);
 
-        // Notify the user that their partner request has been rejected with the reason
         $this->partnerRequest->user->notify(new PartnershipRequestRejected($this->rejectionNote));
 
         return redirect()->route('requests_partner', app()->getLocale())

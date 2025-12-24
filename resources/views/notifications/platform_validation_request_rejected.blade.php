@@ -1,13 +1,8 @@
-<div class="text-reset notification-item d-block dropdown-item position-relative border-0 border-bottom @if ($notification->read_at === null) bg-danger bg-opacity-10 @else bg-white @endif"
+﻿<div class="text-reset notification-item d-block dropdown-item position-relative border-0 border-bottom @if ($notification->read_at === null) bg-danger bg-opacity-10 @else bg-white @endif"
     id="{{$notification->id}}"
     title="{{$notification->id}}"
     style="transition: all 0.2s ease;">
     <div class="d-flex align-items-start p-2">
-        <div class="avatar-sm me-3 flex-shrink-0">
-            <span class="avatar-title bg-danger bg-opacity-10 text-danger rounded-2 fs-18">
-                <i class="las la-times-circle"></i>
-            </span>
-        </div>
         <div class="flex-grow-1 overflow-hidden">
             <div class="d-flex justify-content-between align-items-start mb-1">
                 <h6 class="fs-14 fw-semibold mb-1 text-dark">{{ __('notifications.settings.platform_validation_request_rejected') }}</h6>
@@ -56,4 +51,3 @@
         </div>
     </div>
 </div>
-

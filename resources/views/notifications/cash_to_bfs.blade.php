@@ -1,14 +1,9 @@
-<div
+﻿<div
     class="text-reset notification-item d-block dropdown-item position-relative border-0 border-bottom @if  ($notification->read_at === null) bg-primary bg-opacity-10 @else bg-white @endif"
     id="{{$notification->id}}"
     title="{{$notification->id}}"
     style="transition: all 0.2s ease;">
     <div class="d-flex align-items-start p-2">
-        <div class="avatar-sm me-3 flex-shrink-0">
-            <span class="avatar-title bg-success bg-opacity-10 text-success rounded-2 fs-18">
-                <i class="las la-money-bill-wave"></i>
-            </span>
-        </div>
         <div class="flex-grow-1 overflow-hidden">
             <div class="d-flex justify-content-between align-items-start mb-1">
                 <h6 class="fs-14 fw-semibold mb-1 text-dark">{{ __('notifications.settings.cash_to_bfs') }}</h6>
