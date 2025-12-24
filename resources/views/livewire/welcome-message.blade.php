@@ -20,7 +20,7 @@
                     <div class="d-flex align-items-center justify-content-lg-start justify-content-center gap-3 mb-3">
                         <div>
                             <h2 class="text-white mb-1 fw-bold" style="font-size: 1.75rem; letter-spacing: -0.5px;">
-                                {{$greeting}}, {{$userName}}!
+                                {{$greeting}},<br> {{$userName}}!
                             </h2>
                             <p class="text-white text-opacity-90 mb-0 fs-6 fw-medium">
                                 <i class="ri-check-double-line me-2"></i>
