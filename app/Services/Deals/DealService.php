@@ -641,7 +641,6 @@ class DealService
             ->groupBy('date_group')
             ->orderBy('date_group', 'asc');
         $revenueData = $query->get();
-
         $chartData = [];
         foreach ($revenueData as $data) {
             if ($viewMode === 'weekly') {
