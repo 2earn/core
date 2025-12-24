@@ -7,49 +7,71 @@
             {{ __('Notifications list') }}
         @endslot
     @endcomponent
-    <div class="card">
-        <div class="card-body">
-            <div class="row card">
-                <div class="card-header">
 
-                    <div class="btn-group" role="group" aria-label="Notification Filter">
-                        <input type="radio" class="btn-check" name="filter" id="filter-all" value="all"
-                               wire:model.live="filter" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="filter-all">{{ __('All') }}</label>
+    <div class="card border-0 shadow-sm" style="border-radius: 16px; overflow: hidden;">
+        <div class="card-header bg-white border-bottom py-4">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <div class="btn-group shadow-sm" role="group" aria-label="Notification Filter" style="border-radius: 12px; overflow: hidden;">
+                    <input type="radio" class="btn-check" name="filter" id="filter-all" value="all"
+                           wire:model.live="filter" autocomplete="off" checked>
+                    <label class="btn btn-outline-primary border-end-0 px-4 py-2 d-inline-flex align-items-center gap-2 fw-semibold"
+                           for="filter-all" style="border-radius: 12px 0 0 12px;">
+                        <i class="ri-inbox-line fs-16"></i>
+                        <span>{{ __('All') }}</span>
+                    </label>
 
-                        <input type="radio" class="btn-check" name="filter" id="filter-unread" value="unread"
-                               wire:model.live="filter" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="filter-unread">{{ __('Unread') }}</label>
+                    <input type="radio" class="btn-check" name="filter" id="filter-unread" value="unread"
+                           wire:model.live="filter" autocomplete="off">
+                    <label class="btn btn-outline-primary border-start-0 border-end-0 px-4 py-2 d-inline-flex align-items-center gap-2 fw-semibold"
+                           for="filter-unread">
+                        <i class="ri-mail-unread-line fs-16"></i>
+                        <span>{{ __('Unread') }}</span>
+                    </label>
 
-                        <input type="radio" class="btn-check" name="filter" id="filter-read" value="read"
-                               wire:model.live="filter" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="filter-read">{{ __('Read') }}</label>
-                    </div>
-                    <div class="p-2 btn btn-primary float-end mx-2">
-                        <a wire:click="markThemAllRead()"
-                        >{{__('Mark them all as read')}}
-                            <div wire:loading
-                                 wire:target="markThemAllRead()">
-                                                <span class="spinner-border spinner-border-sm" role="status"
-                                                      aria-hidden="true"></span>
-                                <span
-                                    class="sr-only">{{__('Loading')}}...</span>
-                            </div>
-                        </a>
-
-                    </div>
+                    <input type="radio" class="btn-check" name="filter" id="filter-read" value="read"
+                           wire:model.live="filter" autocomplete="off">
+                    <label class="btn btn-outline-primary border-start-0 px-4 py-2 d-inline-flex align-items-center gap-2 fw-semibold"
+                           for="filter-read" style="border-radius: 0 12px 12px 0;">
+                        <i class="ri-mail-check-line fs-16"></i>
+                        <span>{{ __('Read') }}</span>
+                    </label>
                 </div>
-                <div class="card-body">
-                    @forelse($notifications as $notification)
-                        @include(\App\Helpers\NotificationHelper::getTemplate($notification) , ['notification' => $notification])
-                    @empty
-                        <div class="text-muted">{{__('No notifications found.')}}</div>
-                    @endforelse
+
+                <button type="button"
+                        wire:click="markThemAllRead"
+                        class="btn btn-primary px-4 py-2 d-inline-flex align-items-center gap-2 shadow-sm fw-semibold"
+                        style="border-radius: 10px;">
+                    <i class="ri-check-double-line fs-18"></i>
+                    <span>{{ __('Mark them all as read') }}</span>
+                    <span wire:loading wire:target="markThemAllRead">
+                        <span class="spinner-border spinner-border-sm ms-1" role="status" aria-hidden="true"></span>
+                    </span>
+                </button>
+            </div>
+        </div>
+
+        <div class="card-body p-0 bg-light" style="min-height: 300px;">
+            @forelse($notifications as $notification)
+                <div class="px-3 py-2">
+                    @include(\App\Helpers\NotificationHelper::getTemplate($notification) , ['notification' => $notification])
                 </div>
-                <div class="card-footer">
+            @empty
+                <div class="d-flex flex-column align-items-center justify-content-center py-5" style="min-height: 300px;">
+                    <div class="mb-4 bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                        <i class="ri-notification-off-line text-primary fs-1"></i>
+                    </div>
+                    <h5 class="text-dark fw-bold mb-2">{{ __('No notifications found.') }}</h5>
+                    <p class="text-muted mb-0">{{ __('You\'re all caught up! Check back later.') }}</p>
+                </div>
+            @endforelse
+        </div>
+
+        @if($notifications->hasPages())
+            <div class="card-footer bg-white border-top py-3">
+                <div class="d-flex justify-content-center">
                     {{ $notifications->links() }}
                 </div>
             </div>
-        </div>
+        @endif
     </div>
 </div>

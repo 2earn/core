@@ -1,4 +1,4 @@
-<div class="text-reset notification-item d-block dropdown-item position-relative border-0 border-bottom @if ($notification->read_at === null) bg-primary bg-opacity-10 @else bg-white @endif"
+﻿<div class="text-reset notification-item d-block dropdown-item position-relative border-0 border-bottom @if ($notification->read_at === null) bg-primary bg-opacity-10 @else bg-white @endif"
 </div>
     </div>
         </div>
@@ -55,4 +55,3 @@
     style="transition: all 0.2s ease;">
     title="{{$notification->id}}"
     id="{{$notification->id}}"
-

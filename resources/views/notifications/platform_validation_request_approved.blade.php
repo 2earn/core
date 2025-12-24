@@ -1,54 +1,73 @@
-<div class="text-reset notification-item d-block dropdown-item position-relative border-0 border-bottom @if ($notification->read_at === null) bg-primary bg-opacity-10 @else bg-white @endif"
-</div>
-    </div>
-        </div>
-            </div>
-                </div>
-                    @endif
-                        </span>
-                            <i class="ri-mail-open-fill"></i>
-                        <span class="text-success fs-16" title="{{__('Read')}}">
-                    @else
-                        </button>
-                            </span>
-                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            <span wire:loading wire:target="markAsRead('{{$notification->id}}')">
-                            <i class="ri-mail-fill fs-16"></i>
-                                title="{{__('Mark as read')}}">
-                                id="all-notification-check{{$notification->id}}"
-                                wire:click="markAsRead('{{$notification->id}}')"
-                        <button type="button" class="btn btn-sm btn-link p-1 text-primary"
-                    @if ($notification->read_at === null)
-                    </span>
-                        <span>{{$notification->created_at->diffForHumans() }}</span>
-                        <i class="mdi mdi-clock-outline fs-12"></i>
-                    <span class="text-muted fs-11 d-inline-flex align-items-center gap-1">
-                <div class="d-flex align-items-center gap-2">
-                </a>
-                    <i class="ri-arrow-right-s-line fs-16"></i>
-                    <span class="fw-semibold" style="font-size: 0.8rem;">{{ __('notifications.platform_validation_request_approved.action') }}</span>
-                   class="btn btn-sm btn-outline-success px-3 py-1 d-inline-flex align-items-center gap-1">
-                <a href="{{ \App\Helpers\NotificationHelper::localizeUrl($notification->data['url'],app()->getLocale()) }}"
-            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-            </p>
-                {{ __('notifications.platform_validation_request_approved.body', ['platform_name' => $notification->data['message_params']['platform_name'] ?? '']) }}
-            <p class="text-muted mb-2 fs-13" style="line-height: 1.5;">
-            </div>
-                @endif
-                    </span>
-                        {{__('New')}}
-                    <span class="badge bg-soft-primary rounded-pill ms-2 flex-shrink-0" style="font-size: 0.625rem; padding: 0.15rem 0.4rem;">
-                @if ($notification->read_at === null)
-                <h6 class="fs-14 fw-semibold mb-1 text-dark">{{ __('notifications.settings.platform_validation_request_approved') }}</h6>
-            <div class="d-flex justify-content-between align-items-start mb-1">
+﻿<div class="notification-item position-relative border-0 @if ($notification->read_at === null) unread @endif"
+    id="{{$notification->id}}"
+    data-notification-id="{{$notification->id}}"
+    style="transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 12px; margin-bottom: 8px; overflow: hidden;">
+    @if ($notification->read_at === null)
+        <div class="position-absolute top-0 start-0 h-100 bg-success" style="width: 4px;"></div>
+    @endif
+    <div class="d-flex align-items-start p-3 gap-3 position-relative"
+         style="background: @if ($notification->read_at === null) linear-gradient(135deg, rgba(var(--bs-success-rgb), 0.05) 0%, rgba(var(--bs-success-rgb), 0.02) 100%) @else #ffffff @endif;">
         <div class="flex-grow-1 overflow-hidden">
+            <div class="d-flex justify-content-between align-items-center mb-1 gap-1">
+                <h6 class="fs-15 fw-bold mb-0 text-dark d-flex align-items-center gap-2">
+                    {{ __('notifications.settings.platform_validation_request_approved') }}
+                    @if ($notification->read_at === null)
+                        <span class="badge rounded-pill"
+                              style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+                                     font-size: 0.65rem; padding: 0.2rem 0.5rem;
+                                     box-shadow: 0 2px 4px rgba(56, 239, 125, 0.3);">
+                            <i class="ri-notification-3-line me-1" style="font-size: 0.7rem;"></i>
+                            {{__('New')}}
+                        </span>
+                    @endif
+                </h6>
+                <span class="text-muted fs-12 d-none d-sm-inline-flex align-items-center gap-1">
+                    <i class="ri-time-line"></i>
+                    {{$notification->created_at->diffForHumans()}}
+                </span>
+            </div>
+            <p class="text-muted mb-1 fs-12" style="line-height: 1.2;">
+                {{ __('notifications.platform_validation_request_approved.body', ['platform_name' => $notification->data['message_params']['platform_name'] ?? '']) }}
+            </p>
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <a href="{{ \App\Helpers\NotificationHelper::localizeUrl($notification->data['url'],app()->getLocale()) }}"
+                   class="btn btn-sm btn-success px-4 py-2 d-inline-flex align-items-center gap-2 rounded-pill"
+                   style="transition: all 0.3s; box-shadow: 0 2px 6px rgba(var(--bs-success-rgb), 0.25);"
+                   onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(var(--bs-success-rgb), 0.35)'"
+                   onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 6px rgba(var(--bs-success-rgb), 0.25)'">
+                    <span class="fw-semibold">{{ __('notifications.platform_validation_request_approved.action') }}</span>
+                    <i class="ri-arrow-right-line"></i>
+                </a>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="text-muted fs-12 d-sm-none d-inline-flex align-items-center gap-1">
+                        <i class="ri-time-line"></i>
+                        {{$notification->created_at->diffForHumans()}}
+                    </span>
+                    @if ($notification->read_at === null)
+                        <button type="button"
+                                class="btn btn-sm btn-light border-0 d-inline-flex align-items-center justify-content-center rounded-circle"
+                                style="width: 36px; height: 36px; transition: all 0.3s;"
+                                wire:click="markAsRead('{{$notification->id}}')"
+                                id="all-notification-check{{$notification->id}}"
+                                title="{{__('Mark as read')}}"
+                                onmouseover="this.style.background='rgba(var(--bs-success-rgb), 0.1)'; this.style.color='var(--bs-success)'"
+                                onmouseout="this.style.background=''; this.style.color=''">
+                            <i class="ri-mail-line fs-18"></i>
+                            <span wire:loading wire:target="markAsRead('{{$notification->id}}')" class="position-absolute">
+                                <span class="spinner-border spinner-border-sm text-success" role="status"></span>
+                            </span>
+                        </button>
+                    @else
+                        <div class="d-inline-flex align-items-center justify-content-center rounded-circle"
+                             style="width: 36px; height: 36px; background: rgba(var(--bs-success-rgb), 0.1);"
+                             title="{{__('Read')}}">
+                            <i class="ri-mail-check-line text-success fs-18"></i>
+                        </div>
+                    @endif
+                </div>
+            </div>
         </div>
-            </span>
-                <i class="las la-check-circle"></i>
-            <span class="avatar-title bg-success bg-opacity-10 text-success rounded-2 fs-18">
-        <div class="avatar-sm me-3 flex-shrink-0">
-    <div class="d-flex align-items-start p-2">
-    style="transition: all 0.2s ease;">
+    </div>
+</div>
     title="{{$notification->id}}"
     id="{{$notification->id}}"
-
