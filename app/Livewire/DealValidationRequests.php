@@ -138,7 +138,6 @@ class DealValidationRequests extends Component
                 $this->rejectionReason
             );
 
-            // Notify the user who requested the validation
             if ($request->requestedBy) {
                 $request->requestedBy->notify(new \App\Notifications\DealValidationRequestRejected(
                     $request->deal,

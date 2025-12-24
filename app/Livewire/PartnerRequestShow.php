@@ -36,7 +36,6 @@ class PartnerRequestShow extends Component
             'examiner_id' => auth()->user()->id,
         ]);
 
-        // Notify the user that their partner request has been validated
         $this->partnerRequest->user->notify(new PartnershipRequestValidated());
 
         return redirect()->route('requests_partner', app()->getLocale())

@@ -181,7 +181,6 @@ class DealChangeRequests extends Component
             $request->reviewed_at = now();
             $request->save();
 
-            // Notify the user who requested the change
             if ($request->requestedBy) {
                 $request->requestedBy->notify(new \App\Notifications\DealChangeRequestRejected(
                     $request->deal,

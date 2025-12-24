@@ -154,7 +154,6 @@ class AssignPlatformRolesIndex extends Component
             $assignment->updated_by = auth()->id();
             $assignment->save();
 
-            // Notify the user whose role assignment was rejected
             if ($assignment->user) {
                 $assignment->user->notify(new \App\Notifications\PlatformRoleAssignmentRejected(
                     $assignment->platform,

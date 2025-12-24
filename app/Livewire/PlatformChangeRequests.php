@@ -155,7 +155,6 @@ class PlatformChangeRequests extends Component
                 $this->rejectionReason
             );
 
-            // Notify the user who requested the change
             if ($request->requestedBy) {
                 $request->requestedBy->notify(new \App\Notifications\PlatformChangeRequestRejected(
                     $request->platform,

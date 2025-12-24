@@ -70,7 +70,6 @@ class PlatformValidationRequests extends Component
                 Auth::id()
             );
 
-            // Notify the user who requested the validation
             if ($request->requestedBy) {
                 $request->requestedBy->notify(new \App\Notifications\PlatformValidationRequestApproved($request->platform));
             }
@@ -130,7 +129,6 @@ class PlatformValidationRequests extends Component
                 $this->rejectionReason
             );
 
-            // Notify the user who requested the validation
             if ($request->requestedBy) {
                 $request->requestedBy->notify(new \App\Notifications\PlatformValidationRequestRejected($request->platform, $this->rejectionReason));
             }
