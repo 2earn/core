@@ -23,6 +23,8 @@ return [
         'deal_validation_request_rejected' => 'Deal validation request rejected',
         'deal_change_request_approved' => 'Deal change request approved',
         'deal_change_request_rejected' => 'Deal change request rejected',
+        'partner_payment_validated' => 'Partner payment validated',
+        'partner_payment_rejected' => 'Partner payment rejected',
     ],
     'delivery_sms' => [
         'body' => 'Hello :name, your package is on the way!',
@@ -95,5 +97,13 @@ return [
     'deal_validation_request_rejected' => [
         'body' => 'Your deal validation request for ":deal_name" has been rejected',
         'action' => 'View deal details',
+    ],
+    'partner_payment_validated' => [
+        'body' => 'Your partner payment of :amount has been validated successfully',
+        'action' => 'View payment details',
+    ],
+    'partner_payment_rejected' => [
+        'body' => 'Your partner payment of :amount has been rejected. Reason: :reason',
+        'action' => 'View payment details',
     ],
 ];

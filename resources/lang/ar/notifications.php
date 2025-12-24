@@ -12,6 +12,20 @@ return [
         'financial_request_sent' => 'تم إرسال الطلب المالي',
         'partnership_request_sent' => 'تم إرسال طلب الشراكة',
         'partnership_request_validated' => 'تم التحقق من طلب الشراكة',
+        'platform_validation_request_approved' => 'تمت الموافقة على طلب التحقق من المنصة',
+        'platform_validation_request_rejected' => 'تم رفض طلب التحقق من المنصة',
+        'platform_type_change_request_approved' => 'تمت الموافقة على طلب تغيير نوع المنصة',
+        'platform_type_change_request_rejected' => 'تم رفض طلب تغيير نوع المنصة',
+        'platform_change_request_approved' => 'تمت الموافقة على طلب تغيير المنصة',
+        'platform_change_request_rejected' => 'تم رفض طلب تغيير المنصة',
+        'platform_role_assignment_approved' => 'تمت الموافقة على تعيين الدور',
+        'platform_role_assignment_rejected' => 'تم رفض تعيين الدور',
+        'deal_validation_request_approved' => 'تمت الموافقة على طلب التحقق من الصفقة',
+        'deal_validation_request_rejected' => 'تم رفض طلب التحقق من الصفقة',
+        'deal_change_request_approved' => 'تمت الموافقة على طلب تعديل الصفقة',
+        'deal_change_request_rejected' => 'تم رفض طلب تعديل الصفقة',
+        'partner_payment_validated' => 'تم التحقق من دفعة الشريك',
+        'partner_payment_rejected' => 'تم رفض دفعة الشريك',
     ],
     'delivery_sms' => [
         'body' => 'مرحباً :name، طردك في الطريق!',
@@ -92,5 +106,13 @@ return [
     'deal_change_request_rejected' => [
         'body' => 'تم رفض طلب تعديل الصفقة ":deal_name"',
         'action' => 'عرض تفاصيل الصفقة',
+    ],
+    'partner_payment_validated' => [
+        'body' => 'تم التحقق من دفعتك بمبلغ :amount بنجاح',
+        'action' => 'عرض تفاصيل الدفعة',
+    ],
+    'partner_payment_rejected' => [
+        'body' => 'تم رفض دفعتك بمبلغ :amount. السبب: :reason',
+        'action' => 'عرض تفاصيل الدفعة',
     ],
 ];

@@ -11,6 +11,20 @@ return [
         'financial_request_sent' => 'Demande financière envoyée',
         'partnership_request_sent' => 'Demande de partenariat envoyée',
         'partnership_request_validated' => 'Demande de partenariat validée',
+        'platform_validation_request_approved' => 'Demande de validation de plateforme approuvée',
+        'platform_validation_request_rejected' => 'Demande de validation de plateforme rejetée',
+        'platform_type_change_request_approved' => 'Demande de changement de type de plateforme approuvée',
+        'platform_type_change_request_rejected' => 'Demande de changement de type de plateforme rejetée',
+        'platform_change_request_approved' => 'Demande de modification de plateforme approuvée',
+        'platform_change_request_rejected' => 'Demande de modification de plateforme rejetée',
+        'platform_role_assignment_approved' => 'Attribution de rôle de plateforme approuvée',
+        'platform_role_assignment_rejected' => 'Attribution de rôle de plateforme rejetée',
+        'deal_validation_request_approved' => 'Demande de validation de deal approuvée',
+        'deal_validation_request_rejected' => 'Demande de validation de deal rejetée',
+        'deal_change_request_approved' => 'Demande de modification de deal approuvée',
+        'deal_change_request_rejected' => 'Demande de modification de deal rejetée',
+        'partner_payment_validated' => 'Paiement partenaire validé',
+        'partner_payment_rejected' => 'Paiement partenaire rejeté',
     ],
     'delivery_sms' => [
         'body' => 'Bonjour :name, votre colis est en route !',
@@ -91,5 +105,13 @@ return [
     'deal_change_request_rejected' => [
         'body' => 'Votre demande de modification pour le deal ":deal_name" a été rejetée',
         'action' => 'Voir les détails du deal',
+    ],
+    'partner_payment_validated' => [
+        'body' => 'Votre paiement partenaire de :amount a été validé avec succès',
+        'action' => 'Voir les détails du paiement',
+    ],
+    'partner_payment_rejected' => [
+        'body' => 'Votre paiement partenaire de :amount a été rejeté. Raison: :reason',
+        'action' => 'Voir les détails du paiement',
     ],
 ];
