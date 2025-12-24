@@ -1,4 +1,4 @@
-<div class="{{getContainerType()}}">
+<div class="container">
     @section('title')
         {{ __('Shares Sold: Recent transaction') }}
     @endsection

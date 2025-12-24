@@ -1,4 +1,4 @@
-<div class="{{getContainerType()}}">
+<div class="container">
     @if($currentRouteName=="target_index")
         @component('components.breadcrumb')
             @slot('title')

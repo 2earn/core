@@ -1,4 +1,4 @@
-<div class="{{getContainerType()}}">
+<div class="container">
     @section('title')
         {{ __('Platform promotion') }}
     @endsection
@@ -42,7 +42,7 @@
         @forelse($platforms as $platform)
             <div class="col-12 card border shadow-none">
                 <div class="card-body">
-                    
+
                     <div class="d-flex align-items-start mb-3">
                         <div class="flex-shrink-0">
                             @if ($platform?->logoImage)
@@ -68,7 +68,7 @@
                         </div>
                     </div>
 
-                    
+
                     @if($user->id!=$platform->marketing_manager_id||$user->id!=$platform->financial_manager_id||$user->id!=$platform->owner_id)
                         <div class="mb-3">
                             <p class="text-primary fs-6 fw-semibold mb-2">
@@ -103,7 +103,7 @@
                         </div>
                     @endif
 
-                    
+
                     @if($user->id==$platform->marketing_manager_id||$user->id==$platform->financial_manager_id||$user->id==$platform->owner_id)
                         <div>
                             <p class="text-primary fs-6 fw-semibold mb-2">
