@@ -1,4 +1,4 @@
-<div class="{{getContainerType()}}">
+<div class="container">
     @section('title')
         {{ $update ? __('Edit Partner Payment') : __('Create Partner Payment') }}
     @endsection

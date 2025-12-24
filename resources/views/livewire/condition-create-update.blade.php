@@ -1,4 +1,4 @@
-<div class="{{getContainerType()}}">
+<div class="container">
     @component('components.breadcrumb')
         @slot('title')
             {{ __('Target') }} <span class="text-muted mx-2">›</span>

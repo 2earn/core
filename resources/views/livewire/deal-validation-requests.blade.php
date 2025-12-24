@@ -1,4 +1,4 @@
-<div class="{{getContainerType()}}">
+<div class="container">
     @if($currentRouteName=="deals_validation_requests")
         @section('title')
             {{ __('Deal Validation Requests') }}

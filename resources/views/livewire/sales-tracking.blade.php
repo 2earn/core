@@ -1,4 +1,4 @@
-<div class="{{getContainerType()}}">
+<div class="container">
     @section('title')
         {{ __('Deal sales tracking') }}
     @endsection

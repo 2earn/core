@@ -1,4 +1,4 @@
-<div class="{{getContainerType()}}">
+<div class="container">
     @section('title')
         {{ $isEditMode ? __('Edit Plan label') : __('Create Plan label') }}
     @endsection

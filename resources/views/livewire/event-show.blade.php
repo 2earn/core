@@ -1,4 +1,4 @@
-<div class="{{getContainerType()}}">
+<div class="container">
     @section('title')
         {{ __('Event') }} : {{ \App\Models\TranslaleModel::getTranslation($event,'title',$event->title) }}
     @endsection
