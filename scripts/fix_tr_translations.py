@@ -6,7 +6,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 TRANSLATION_FILE = ROOT / "resources" / "lang" / "tr.json"
 EN_FILE = ROOT / "resources" / "lang" / "en.json"
-SUFFIX = " TU"
+SUFFIXES = (" TU", " TR")
 PLACEHOLDER_RE = re.compile(r"^[A-Za-z0-9._-]+(?:\s+TU)?$")
 STOP_WORDS = {"notifications", "notification", "settings", "setting"}
 
@@ -62,7 +62,11 @@ def humanize_segment(segment: str) -> str:
 
 
 def normalize_placeholder(value: str) -> str:
-    return value.replace(SUFFIX, "").strip()
+    cleaned = value
+    for suffix in SUFFIXES:
+        if cleaned.endswith(suffix):
+            cleaned = cleaned[: -len(suffix)]
+    return cleaned.strip()
 
 
 def placeholder_to_phrase(key: str, value: str) -> str:
@@ -82,9 +86,9 @@ def placeholder_to_phrase(key: str, value: str) -> str:
 
 def clean_value(key: str, raw: str) -> str:
     value = raw.rstrip()
-
-    if value.endswith(SUFFIX):
-        value = value[: -len(SUFFIX)].rstrip()
+    for suffix in SUFFIXES:
+        if value.endswith(suffix):
+            value = value[: -len(suffix)].rstrip()
 
     if PLACEHOLDER_RE.fullmatch(value) and "." in value:
         value = placeholder_to_phrase(key, value)
@@ -113,4 +117,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
