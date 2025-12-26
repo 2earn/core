@@ -8,3 +8,4 @@ php artisan db:seed --class=OrderingSeeder
 php artisan db:seed --class=OrdersTableSeeder
 
 php artisan translate:sync-all
+php artisan translate:update-model
