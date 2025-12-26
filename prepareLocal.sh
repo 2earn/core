@@ -3,7 +3,7 @@
 php artisan migrate
 php artisan db:seed
 
-# for local envs
+# For local envs
 php artisan db:seed --class=OrderingSeeder
 php artisan db:seed --class=OrdersTableSeeder
 
