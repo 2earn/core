@@ -1,73 +1,73 @@
 <?php
-}
-    }
-        return self::SUCCESS;
-
-        }
-            $this->line("  '{$key}' => '{$value}'");
-        foreach ($result['sample'] as $key => $value) {
-        $this->line('Sample translations:');
-        $this->newLine();
-
-        }
-            $this->info('✓ Backup saved: ' . basename($result['backupPath']));
-        if (isset($result['backupPath']) && $result['backupPath']) {
-        $this->info("✓ File updated: {$result['targetPath']}");
-        $this->info("✓ Total translations: {$result['mergedCount']}");
-        $this->info('✓ Translation merge completed successfully!');
-        $this->newLine();
-
-        $this->info("After merge: {$result['mergedCount']} translations");
-        $this->info("New translations loaded: {$result['newCount']}");
-        $this->info("Current translations loaded: {$result['currentCount']}");
-
-        }
-            $this->info("Backup created: {$result['backupPath']}");
-        if (isset($result['backupPath']) && $result['backupPath']) {
-
-        }
-            return self::FAILURE;
-            $this->error("Error: {$result['message']}");
-        if (!$result['success']) {
-
-        $result = $this->translationService->mergeTranslations($sourcePath, $languageCode);
-
-        }
-            return self::FAILURE;
-            }
-                $this->warn("You can specify a different path: php artisan translate:merge-tr path/to/file.json");
-                $this->warn("Tip: Default source path is '{$sourcePath}'");
-            if (!$this->argument('source')) {
-            $this->error("Source file not found: {$sourcePath}");
-        if (!file_exists($sourcePath)) {
-
-            ?? $this->translationService->getDefaultSourcePath($languageCode);
-        $sourcePath = $this->argument('source')
-
-        $this->info("Starting {$languageName} translation merge...");
-
-        $languageName = $this->translationService->getLanguageName($languageCode);
-        $languageCode = 'tr';
-    {
-    public function handle(): int
-
-    }
-        $this->translationService = $translationService;
-        parent::__construct();
-    {
-    public function __construct(TranslationMergeService $translationService)
-
-    protected TranslationMergeService $translationService;
-
-    protected $description = 'Merge Turkish translations from a source JSON file into resources/lang/tr.json';
-
-    protected $signature = 'translate:merge-tr {source? : Path to the source JSON file to merge}';
-{
-class MergeTrTranslations extends Command
-
-use Illuminate\Console\Command;
-use App\Services\Translation\TranslationMergeService;
 
 namespace App\Console\Commands;
 
+use App\Services\Translation\TranslationMergeService;
+use Illuminate\Console\Command;
+
+class MergeTrTranslations extends Command
+{
+    protected $signature = 'translate:merge-tr {source? : Path to the source JSON file to merge}';
+
+    protected $description = 'Merge Turkish translations from a source JSON file into resources/lang/tr.json';
+
+    protected TranslationMergeService $translationService;
+
+    public function __construct(TranslationMergeService $translationService)
+    {
+        parent::__construct();
+        $this->translationService = $translationService;
+    }
+
+    public function handle(): int
+    {
+        $languageCode = 'tr';
+        $languageName = $this->translationService->getLanguageName($languageCode);
+
+        $this->info("Starting {$languageName} translation merge...");
+
+        $sourcePath = $this->argument('source')
+            ?? $this->translationService->getDefaultSourcePath($languageCode);
+
+        if (!file_exists($sourcePath)) {
+            $this->error("Source file not found: {$sourcePath}");
+            if (!$this->argument('source')) {
+                $this->warn("Tip: Default source path is '{$sourcePath}'");
+                $this->warn("You can specify a different path: php artisan translate:merge-tr path/to/file.json");
+            }
+            return self::FAILURE;
+        }
+
+        $result = $this->translationService->mergeTranslations($sourcePath, $languageCode);
+
+        if (!$result['success']) {
+            $this->error("Error: {$result['message']}");
+            return self::FAILURE;
+        }
+
+        if (isset($result['backupPath']) && $result['backupPath']) {
+            $this->info("Backup created: {$result['backupPath']}");
+        }
+
+        $this->info("Current translations loaded: {$result['currentCount']}");
+        $this->info("New translations loaded: {$result['newCount']}");
+        $this->info("After merge: {$result['mergedCount']} translations");
+
+        $this->newLine();
+        $this->info('✓ Translation merge completed successfully!');
+        $this->info("✓ Total translations: {$result['mergedCount']}");
+        $this->info("✓ File updated: {$result['targetPath']}");
+        if (isset($result['backupPath']) && $result['backupPath']) {
+            $this->info('✓ Backup saved: ' . basename($result['backupPath']));
+        }
+
+        $this->newLine();
+        $this->line('Sample translations:');
+        foreach ($result['sample'] as $key => $value) {
+            $this->line("  '{$key}' => '{$value}'");
+        }
+
+        return self::SUCCESS;
+    }
+}
 
