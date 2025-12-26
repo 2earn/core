@@ -1,100 +1,73 @@
 <?php
-
-namespace App\Console\Commands;
-
-use App\Services\Translation\TranslationMergeService;
-use Illuminate\Console\Command;
-
-class MergeTrTranslations extends Command
-{
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'translate:merge-tr {source? : Path to the source JSON file to merge}';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Merge Turkish translations from a source JSON file into resources/lang/tr.json';
-
-    /**
-     * Translation merge service.
-     *
-     * @var TranslationMergeService
-     */
-    protected TranslationMergeService $translationService;
-
-    /**
-     * Create a new command instance.
-     */
-    public function __construct(TranslationMergeService $translationService)
-    {
-        parent::__construct();
-        $this->translationService = $translationService;
+}
     }
+        return self::SUCCESS;
 
-    /**
-     * Execute the console command.
-     */
-    public function handle(): int
-    {
-        $languageCode = 'tr';
-        $languageName = $this->translationService->getLanguageName($languageCode);
+        }
+            $this->line("  '{$key}' => '{$value}'");
+        foreach ($result['sample'] as $key => $value) {
+        $this->line('Sample translations:');
+        $this->newLine();
+
+        }
+            $this->info('✓ Backup saved: ' . basename($result['backupPath']));
+        if (isset($result['backupPath']) && $result['backupPath']) {
+        $this->info("✓ File updated: {$result['targetPath']}");
+        $this->info("✓ Total translations: {$result['mergedCount']}");
+        $this->info('✓ Translation merge completed successfully!');
+        $this->newLine();
+
+        $this->info("After merge: {$result['mergedCount']} translations");
+        $this->info("New translations loaded: {$result['newCount']}");
+        $this->info("Current translations loaded: {$result['currentCount']}");
+
+        }
+            $this->info("Backup created: {$result['backupPath']}");
+        if (isset($result['backupPath']) && $result['backupPath']) {
+
+        }
+            return self::FAILURE;
+            $this->error("Error: {$result['message']}");
+        if (!$result['success']) {
+
+        $result = $this->translationService->mergeTranslations($sourcePath, $languageCode);
+
+        }
+            return self::FAILURE;
+            }
+                $this->warn("You can specify a different path: php artisan translate:merge-tr path/to/file.json");
+                $this->warn("Tip: Default source path is '{$sourcePath}'");
+            if (!$this->argument('source')) {
+            $this->error("Source file not found: {$sourcePath}");
+        if (!file_exists($sourcePath)) {
+
+            ?? $this->translationService->getDefaultSourcePath($languageCode);
+        $sourcePath = $this->argument('source')
 
         $this->info("Starting {$languageName} translation merge...");
 
-        // Get source file path or use default
-        $sourcePath = $this->argument('source')
-            ?? $this->translationService->getDefaultSourcePath($languageCode);
+        $languageName = $this->translationService->getLanguageName($languageCode);
+        $languageCode = 'tr';
+    {
+    public function handle(): int
 
-        if (!file_exists($sourcePath)) {
-            $this->error("Source file not found: {$sourcePath}");
-            if (!$this->argument('source')) {
-                $this->warn("Tip: Default source path is '{$sourcePath}'");
-                $this->warn("You can specify a different path: php artisan translate:merge-tr path/to/file.json");
-            }
-            return self::FAILURE;
-        }
-
-        // Perform merge using service
-        $result = $this->translationService->mergeTranslations($sourcePath, $languageCode);
-
-        // Handle result
-        if (!$result['success']) {
-            $this->error("Error: {$result['message']}");
-            return self::FAILURE;
-        }
-
-        // Display progress information
-        if (isset($result['backupPath']) && $result['backupPath']) {
-            $this->info("Backup created: {$result['backupPath']}");
-        }
-
-        $this->info("Current translations loaded: {$result['currentCount']}");
-        $this->info("New translations loaded: {$result['newCount']}");
-        $this->info("After merge: {$result['mergedCount']} translations");
-
-        // Display success message
-        $this->newLine();
-        $this->info('✓ Translation merge completed successfully!');
-        $this->info("✓ Total translations: {$result['mergedCount']}");
-        $this->info("✓ File updated: {$result['targetPath']}");
-        if (isset($result['backupPath']) && $result['backupPath']) {
-            $this->info('✓ Backup saved: ' . basename($result['backupPath']));
-        }
-
-        // Show sample of updated translations
-        $this->newLine();
-        $this->line('Sample translations:');
-        foreach ($result['sample'] as $key => $value) {
-            $this->line("  '{$key}' => '{$value}'");
-        }
-
-        return self::SUCCESS;
     }
-}
+        $this->translationService = $translationService;
+        parent::__construct();
+    {
+    public function __construct(TranslationMergeService $translationService)
+
+    protected TranslationMergeService $translationService;
+
+    protected $description = 'Merge Turkish translations from a source JSON file into resources/lang/tr.json';
+
+    protected $signature = 'translate:merge-tr {source? : Path to the source JSON file to merge}';
+{
+class MergeTrTranslations extends Command
+
+use Illuminate\Console\Command;
+use App\Services\Translation\TranslationMergeService;
+
+namespace App\Console\Commands;
+
 

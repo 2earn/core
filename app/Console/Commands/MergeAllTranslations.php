@@ -6,25 +6,11 @@ use Illuminate\Console\Command;
 
 class MergeAllTranslations extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
+    
     protected $signature = 'translate:merge-all {--path= : Base path containing translation files}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Merge all translation files (ar, fr, en, es, tr, de, ru) at once';
 
-    /**
-     * Supported languages.
-     *
-     * @var array
-     */
     protected array $languages = [
         'ar' => 'Arabic',
         'fr' => 'French',
@@ -35,9 +21,6 @@ class MergeAllTranslations extends Command
         'ru' => 'Russian',
     ];
 
-    /**
-     * Execute the console command.
-     */
     public function handle(): int
     {
         $this->info('🚀 Starting merge for all translation files...');
@@ -48,13 +31,11 @@ class MergeAllTranslations extends Command
         $totalFailed = 0;
         $results = [];
 
-        // Process each language
         foreach ($this->languages as $code => $name) {
             $sourcePath = $basePath . "/{$code}.json";
 
             $this->line("📝 Processing {$name} ({$code})...");
 
-            // Check if source file exists
             if (!file_exists($sourcePath)) {
                 $this->warn("   ⚠️  Source file not found: {$sourcePath}");
                 $this->warn("   ⏭️  Skipping {$name}");
@@ -68,7 +49,6 @@ class MergeAllTranslations extends Command
                 continue;
             }
 
-            // Call the specific language merge command
             $exitCode = $this->call("translate:merge-{$code}", [
                 'source' => $sourcePath
             ]);
@@ -92,21 +72,11 @@ class MergeAllTranslations extends Command
             $this->newLine();
         }
 
-        // Display summary
         $this->displaySummary($results, $totalSuccess, $totalFailed);
 
-        // Return appropriate exit code
         return $totalFailed === 0 ? self::SUCCESS : self::FAILURE;
     }
 
-    /**
-     * Display summary of merge operations.
-     *
-     * @param array $results
-     * @param int $totalSuccess
-     * @param int $totalFailed
-     * @return void
-     */
     protected function displaySummary(array $results, int $totalSuccess, int $totalFailed): void
     {
         $this->info('═══════════════════════════════════════════════════');
@@ -114,7 +84,6 @@ class MergeAllTranslations extends Command
         $this->info('═══════════════════════════════════════════════════');
         $this->newLine();
 
-        // Display results table
         $tableData = [];
         foreach ($results as $code => $result) {
             $statusIcon = match($result['status']) {

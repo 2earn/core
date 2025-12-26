@@ -17,25 +17,21 @@ class SyncTranslateTabsCommand extends Command
     {
         $this->info('Scanning for translation keys...');
 
-        // Scan Blade views
         $this->info('- Scanning Blade views...');
         $viewsPath = resource_path('views');
         $viewKeys = $this->getUsedKeysFromViews($viewsPath);
         $this->info("  Found {$viewKeys->count()} unique keys in views");
 
-        // Scan Livewire components
         $this->info('- Scanning Livewire components...');
         $livewirePath = app_path('Livewire');
         $livewireKeys = $this->getUsedKeysFromPhp($livewirePath);
         $this->info("  Found {$livewireKeys->count()} unique keys in Livewire");
 
-        // Scan Controllers
         $this->info('- Scanning Controllers...');
         $controllersPath = app_path('Http/Controllers');
         $controllerKeys = $this->getUsedKeysFromPhp($controllersPath);
         $this->info("  Found {$controllerKeys->count()} unique keys in Controllers");
 
-        // Merge all keys
         $usedKeys = $viewKeys->merge($livewireKeys)->merge($controllerKeys)->unique()->values()->toArray();
         $this->info("Total unique translation keys found: " . count($usedKeys));
 
@@ -92,7 +88,6 @@ class SyncTranslateTabsCommand extends Command
         foreach ($iterator as $file) {
             if ($file->isFile() && preg_match('/\\.blade\\.php$/', $file->getFilename())) {
                 $content = file_get_contents($file->getPathname());
-                // Match __('key') and __("key")
                 if (preg_match_all('/__\(["\']([^"\')]+)["\']\)/', $content, $matches)) {
                     foreach ($matches[1] as $key) {
                         $usedKeys->push($key);
@@ -117,21 +112,18 @@ class SyncTranslateTabsCommand extends Command
             if ($file->isFile() && preg_match('/\\.php$/', $file->getFilename())) {
                 $content = file_get_contents($file->getPathname());
 
-                // Match __('key') and __("key")
                 if (preg_match_all('/__\(["\']([^"\')]+)["\']\)/', $content, $matches)) {
                     foreach ($matches[1] as $key) {
                         $usedKeys->push($key);
                     }
                 }
 
-                // Match trans('key') and trans("key")
                 if (preg_match_all('/trans\(["\']([^"\')]+)["\']\)/', $content, $matches)) {
                     foreach ($matches[1] as $key) {
                         $usedKeys->push($key);
                     }
                 }
 
-                // Match @lang('key') and @lang("key") - for blade directives in components
                 if (preg_match_all('/@lang\(["\']([^"\')]+)["\']\)/', $content, $matches)) {
                     foreach ($matches[1] as $key) {
                         $usedKeys->push($key);
