@@ -26,7 +26,7 @@ class SyncAllTranslations extends Command
         $hasErrors = false;
 
         if (!$this->option('skip-sync')) {
-            $this->info('📝 Step 1/4: Syncing translation keys from code...');
+            $this->info('📝 Step 1/5: Syncing translation keys from code...');
             $this->line('   Command: translate:sync-tabs');
             $this->newLine();
 
@@ -45,12 +45,12 @@ class SyncAllTranslations extends Command
             }
             $this->newLine();
         } else {
-            $this->warn('⏭️  Step 1/4: Skipped (--skip-sync)');
+            $this->warn('⏭️  Step 1/5: Skipped (--skip-sync)');
             $this->newLine();
         }
 
         if (!$this->option('skip-merge')) {
-            $this->info('🔄 Step 2/4: Merging all translation files...');
+            $this->info('🔄 Step 2/5: Merging all translation files...');
             $this->line('   Command: translate:merge-all');
             $this->newLine();
 
@@ -69,12 +69,12 @@ class SyncAllTranslations extends Command
             }
             $this->newLine();
         } else {
-            $this->warn('⏭️  Step 2/4: Skipped (--skip-merge)');
+            $this->warn('⏭️  Step 2/5: Skipped (--skip-merge)');
             $this->newLine();
         }
 
         if (!$this->option('skip-clean')) {
-            $this->info('🧹 Step 3/4: Cleaning unused translation keys...');
+            $this->info('🧹 Step 3/5: Cleaning unused translation keys...');
             $this->line('   Command: translate:clean-unused');
             $this->newLine();
 
@@ -93,11 +93,11 @@ class SyncAllTranslations extends Command
             }
             $this->newLine();
         } else {
-            $this->warn('⏭️  Step 3/4: Skipped (--skip-clean)');
+            $this->warn('⏭️  Step 3/5: Skipped (--skip-clean)');
             $this->newLine();
         }
 
-        $this->info('💾 Step 4/4: Updating database from files...');
+        $this->info('💾 Step 4/5: Updating database from files...');
         $this->line('   Job: TranslationFilesToDatabase');
         $this->newLine();
 
@@ -116,6 +116,32 @@ class SyncAllTranslations extends Command
             Log::error($exception->getMessage());
             $this->error("   ❌ Database update failed: " . $exception->getMessage());
             $steps[] = ['step' => 'Update Database', 'status' => 'failed', 'time' => '0s'];
+            $hasErrors = true;
+        }
+        $this->newLine();
+
+        $this->info('🌐 Step 5/5: Seeding missing translation keys...');
+        $this->line('   Seeder: MissingTranslateTabsSeeder');
+        $this->newLine();
+
+        try {
+            $startTime = microtime(true);
+            $exitCode = $this->call('db:seed', ['--class' => 'MissingTranslateTabsSeeder']);
+            $endTime = microtime(true);
+            $executionTime = $this->formatTime($endTime - $startTime);
+
+            if ($exitCode === 0) {
+                $this->info("   ✅ Missing keys seeded in {$executionTime}");
+                $steps[] = ['step' => 'Seed Missing Keys', 'status' => 'success', 'time' => $executionTime];
+            } else {
+                $this->error("   ❌ Seeding failed");
+                $steps[] = ['step' => 'Seed Missing Keys', 'status' => 'failed', 'time' => $executionTime];
+                $hasErrors = true;
+            }
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            $this->error("   ❌ Seeding failed: " . $exception->getMessage());
+            $steps[] = ['step' => 'Seed Missing Keys', 'status' => 'failed', 'time' => '0s'];
             $hasErrors = true;
         }
         $this->newLine();
