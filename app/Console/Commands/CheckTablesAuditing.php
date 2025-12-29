@@ -7,25 +7,11 @@ use Illuminate\Support\Facades\Schema;
 
 class CheckTablesAuditing extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
+    
     protected $signature = 'auditing:check-tables {tables?* : Specific tables to check (optional)}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Check if tables have all required auditing fields (created_at, updated_at, created_by, updated_by)';
 
-    /**
-     * Default tables to check if none specified
-     *
-     * @var array
-     */
     protected $defaultTables = [
         'user_contacts',
         'vip',
@@ -50,9 +36,6 @@ class CheckTablesAuditing extends Command
         'balance_operations',
     ];
 
-    /**
-     * Execute the console command.
-     */
     public function handle()
     {
         $tablesToCheck = $this->argument('tables');
@@ -109,7 +92,6 @@ class CheckTablesAuditing extends Command
 
         $this->newLine();
 
-        // Summary
         $totalTables = count($results);
         $compliantTables = count(array_filter($results, fn($r) => $r['all_present']));
 
@@ -119,7 +101,6 @@ class CheckTablesAuditing extends Command
             $this->warn("⚠️  {$compliantTables}/{$totalTables} tables have complete auditing fields");
         }
 
-        // Detailed view option
         if ($this->option('verbose')) {
             $this->newLine();
             $this->info('Detailed column listing:');

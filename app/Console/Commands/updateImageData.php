@@ -10,32 +10,17 @@ use Illuminate\Support\Facades\Storage;
 
 class updateImageData extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
+    
     protected $signature = 'images:update';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Update images data';
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
     protected $resultSet = [
         Image::IMAGE_PREFIX_PROFILE => ['ALL' => 0, 'Filled' => 0, 'NOT Filled' => 0],
         Image::IMAGE_PREFIX_FRONT => ['ALL' => 0, 'Filled' => 0, 'NOT Filled' => 0],
         Image::IMAGE_PREFIX_BACK => ['ALL' => 0, 'Filled' => 0, 'NOT Filled' => 0],
         Image::IMAGE_PREFIX_INTERNATIONAL => ['ALL' => 0, 'Filled' => 0, 'NOT Filled' => 0]
     ];
-
 
     public function handle()
     {
@@ -49,7 +34,6 @@ class updateImageData extends Command
             $file = explode('.', $filenameWithExt);
             $filename = $file[0];
             $fileExtenssion = $file[1];
-
 
             if (str_starts_with($filename, Image::IMAGE_PREFIX_PROFILE)) {
                 $this->resultSet[Image::IMAGE_PREFIX_PROFILE]['ALL']++;
@@ -120,7 +104,6 @@ class updateImageData extends Command
                     $this->output->writeln($idUser . ' ====> Not Filled : ' . $filename . false);
                     $this->resultSet[Image::IMAGE_PREFIX_INTERNATIONAL]['NOT Filled']++;
                 }
-
 
             }
 

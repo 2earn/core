@@ -7,28 +7,15 @@ use Illuminate\Support\Facades\File;
 
 class AddAuditingToModels extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
+    
     protected $signature = 'auditing:add-trait {--dry-run : Show what would be changed without making changes}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Add HasAuditing trait to all models that extend Illuminate\Database\Eloquent\Model';
 
-    /**
-     * Execute the console command.
-     */
     public function handle()
     {
         $dryRun = $this->option('dry-run');
 
-        // Define directories to scan
         $directories = [
             'App\Models' => app_path('Models'),
             'Core\Models' => base_path('Core/Models'),
@@ -55,19 +42,16 @@ class AddAuditingToModels extends Command
             foreach ($files as $file) {
                 $content = File::get($file->getPathname());
 
-                // Skip if not a PHP file
                 if ($file->getExtension() !== 'php') {
                     continue;
                 }
 
-                // Skip if already has HasAuditing trait
                 if (str_contains($content, 'use HasAuditing') || str_contains($content, 'HasAuditing;')) {
                     $this->line("⏭️  Skipping {$file->getFilename()} - Already has HasAuditing trait");
                     $skipped++;
                     continue;
                 }
 
-                // Check if it extends Model
                 if (!str_contains($content, 'extends Model') &&
                     !str_contains($content, 'extends Authenticatable')) {
                     $this->line("⏭️  Skipping {$file->getFilename()} - Does not extend Model");
@@ -96,7 +80,6 @@ class AddAuditingToModels extends Command
                 }
             }
 
-            // Directory summary
             $this->newLine();
             $this->info("{$namespace} Summary:");
             $this->line("  Updated: {$updated}");
@@ -111,7 +94,6 @@ class AddAuditingToModels extends Command
             $totalErrors += $errors;
         }
 
-        // Overall summary
         $this->info("=== Overall Summary ===");
         $this->info("  Total Updated: {$totalUpdated}");
         $this->info("  Total Skipped: {$totalSkipped}");
@@ -129,14 +111,11 @@ class AddAuditingToModels extends Command
         return 0;
     }
 
-    /**
-     * Add HasAuditing trait to the model content
-     */
     protected function addAuditingTrait(string $content): string
     {
-        // Add use statement at the top if not already present
+        
         if (!str_contains($content, "use App\Traits\HasAuditing;")) {
-            // Find the namespace and add the use statement
+            
             $pattern = '/(namespace\s+[^;]+;)/';
             if (preg_match($pattern, $content)) {
                 $content = preg_replace(
@@ -148,9 +127,8 @@ class AddAuditingToModels extends Command
             }
         }
 
-        // Add trait usage inside the class if not already present
         if (!preg_match('/use\s+[^;]*HasAuditing/', $content)) {
-            // Pattern 1: Add to existing use statement with HasFactory
+            
             if (preg_match('/(class\s+\w+[^{]*\{[^}]*?use\s+HasFactory)(;)/s', $content)) {
                 $content = preg_replace(
                     '/(class\s+\w+[^{]*\{[^}]*?use\s+HasFactory)(;)/s',
@@ -159,7 +137,7 @@ class AddAuditingToModels extends Command
                     1
                 );
             }
-            // Pattern 2: Add to use statement with multiple traits
+            
             else if (preg_match('/(class\s+\w+[^{]*\{[^}]*?use\s+[^;]+)(;)/s', $content)) {
                 $content = preg_replace(
                     '/(class\s+\w+[^{]*\{[^}]*?use\s+[^;]+)(;)/s',
@@ -168,7 +146,7 @@ class AddAuditingToModels extends Command
                     1
                 );
             }
-            // Pattern 3: No existing use statement, add new one
+            
             else if (preg_match('/(class\s+\w+[^{]*\{)/', $content)) {
                 $content = preg_replace(
                     '/(class\s+\w+[^{]*\{)/',

@@ -4,9 +4,13 @@ namespace App\Livewire;
 
 use App\Jobs\TranslationDatabaseToFiles;
 use App\Jobs\TranslationFilesToDatabase;
+use App\Models\User;
+use App\Notifications\TranslationDatabaseToFileCompleted;
+use App\Notifications\TranslationMergeCompleted;
 use App\Services\Translation\TranslateTabsService;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -104,6 +108,8 @@ class TranslateView extends Component
             $execution_time = formatSolde(($end_time - $start_time), 3);
             Log::error(TranslationFilesToDatabase::class . self::SEPARATION . $execution_time);
 
+            $this->notifyAdminUsers(new TranslationMergeCompleted($execution_time));
+
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             $this->dispatch('closeModal');
@@ -126,6 +132,8 @@ class TranslateView extends Component
             $end_time = microtime(true);
             $execution_time = formatSolde(($end_time - $start_time), 3);
             Log::error(TranslationDatabaseToFiles::class . self::SEPARATION . $execution_time);
+
+            $this->notifyAdminUsers(new TranslationDatabaseToFileCompleted($execution_time));
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -177,6 +185,26 @@ class TranslateView extends Component
             $this->spanishValue = $trans->valueEs;
             $this->russianValue = $trans->valueRu;
             $this->germanValue = $trans->valueDe;
+        }
+    }
+
+    private function notifyAdminUsers($notification)
+    {
+        try {
+            $adminUsers = User::role(User::SUPER_ADMIN_ROLE_NAME)->get();
+
+            foreach ($adminUsers as $admin) {
+                $admin->notify($notification);
+            }
+
+            if (auth()->check()) {
+                $currentUser = auth()->user();
+                if (!$adminUsers->contains('id', $currentUser->id)) {
+                    $currentUser->notify($notification);
+                }
+            }
+        } catch (\Exception $e) {
+            Log::error('Failed to send notification: ' . $e->getMessage());
         }
     }
 

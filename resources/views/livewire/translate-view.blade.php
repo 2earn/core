@@ -198,41 +198,49 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover table-bordered align-middle mb-0">
-                            <thead class="table-light">
-                            <tr>
-                                <th class="text-center" style="width: 80px;">{{__('Id')}}</th>
-                                <th>{{__('Translation')}}</th>
-                                <th class="text-center" style="width: 250px;">{{__('Actions')}}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach ($translates as $value)
-                                <tr>
-                                    <td class="text-center">
-                                            <span class="badge bg-secondary-subtle text-secondary fs-12">
-                                                #{{$value->id}}
-                                            </span>
-                                    </td>
-                                    <td>
-                                        <div class="mb-3">
-                                            <div class="alert alert-primary mb-2 py-2" role="alert">
-                                                <strong>{{$value->name}}</strong>
+                    <div class="row g-3">
+                        @foreach ($translates as $value)
+                            <div class="col-12">
+                                <div class="card border shadow-sm">
+                                    <div class="card-header bg-light">
+                                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+
+                                            <div class="d-flex gap-2 w-100 w-md-auto">
+                                                <button type="button" wire:click="initTranslate({{$value->id}})"
+                                                        data-bs-toggle="modal" data-bs-target="#editTranslationModal"
+                                                        class="btn btn-info btn-sm flex-fill flex-md-grow-0">
+                                                    <i class="ri-edit-line me-1"></i>{{__('Edit')}}
+                                                </button>
+                                                <button type="button" onclick="confirmDelete({{$value->id}})"
+                                                        class="btn btn-danger btn-sm flex-fill flex-md-grow-0">
+                                                    <i class="ri-delete-bin-line me-1"></i>{{__('Delete')}}
+                                                </button>
                                             </div>
                                         </div>
-                                        <div class="row g-2">
-                                            <div class="col-12">
-                                                <div class="border rounded p-2 bg-light">
-                                                    <div class="d-flex align-items-center mb-1">
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row g-3">
+                                            <div class="col-6">
+                                                <div class="d-flex align-items-center gap-2 flex-wrap">
+                                                <span class="badge bg-secondary-subtle text-secondary fs-12">
+                                                    #{{$value->id}}
+                                                </span>
+                                                    <div class="alert alert-primary mb-0 py-1 px-3" role="alert">
+                                                        <strong class="d-inline-block text-break" style="max-width: 250px;">{{$value->name}}</strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="border rounded p-3 bg-light">
+                                                    <div class="d-flex align-items-center mb-2">
                                                         <img
                                                             src="{{Vite::asset("resources/images/flags/" . strtolower('gb') . ".svg")}}"
                                                             alt="{{__('English')}}" title="{{__('English')}}"
                                                             class="avatar-xxs me-2">
-                                                        <strong class="text-muted small">{{__('English')}}</strong>
+                                                        <strong class="text-muted">{{__('English')}}</strong>
                                                     </div>
                                                     @if(!empty($value->valueEn))
-                                                        <p class="mb-0 small">{{ Str::limit($value->valueEn, 150)}}</p>
+                                                        <p class="mb-0">{{ Str::limit($value->valueEn, 150)}}</p>
                                                     @else
                                                         <span
                                                             class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
@@ -240,16 +248,16 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="border rounded p-2">
-                                                    <div class="d-flex align-items-center mb-1">
+                                                <div class="border rounded p-3">
+                                                    <div class="d-flex align-items-center mb-2">
                                                         <img
                                                             src="{{Vite::asset("resources/images/flags/" . strtolower('sa') . ".svg")}}"
                                                             alt="{{__('Arabe')}}" title="{{__('Arabe')}}"
                                                             class="avatar-xxs me-2">
-                                                        <strong class="text-muted small">{{__('Arabe')}}</strong>
+                                                        <strong class="text-muted">{{__('Arabe')}}</strong>
                                                     </div>
                                                     @if(!empty($value->value))
-                                                        <p class="mb-0 small">{{ Str::limit($value->value, 150)}}</p>
+                                                        <p class="mb-0">{{ Str::limit($value->value, 150)}}</p>
                                                     @else
                                                         <span
                                                             class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
@@ -257,16 +265,16 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="border rounded p-2">
-                                                    <div class="d-flex align-items-center mb-1">
+                                                <div class="border rounded p-3">
+                                                    <div class="d-flex align-items-center mb-2">
                                                         <img
                                                             src="{{Vite::asset("resources/images/flags/" . strtolower('fr') . ".svg")}}"
                                                             alt="{{__('Francais')}}" title="{{__('Francais')}}"
                                                             class="avatar-xxs me-2">
-                                                        <strong class="text-muted small">{{__('Francais')}}</strong>
+                                                        <strong class="text-muted">{{__('Francais')}}</strong>
                                                     </div>
                                                     @if(!empty($value->valueFr))
-                                                        <p class="mb-0 small">{{ Str::limit($value->valueFr, 150)}}</p>
+                                                        <p class="mb-0">{{ Str::limit($value->valueFr, 150)}}</p>
                                                     @else
                                                         <span
                                                             class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
@@ -274,16 +282,16 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="border rounded p-2">
-                                                    <div class="d-flex align-items-center mb-1">
+                                                <div class="border rounded p-3">
+                                                    <div class="d-flex align-items-center mb-2">
                                                         <img
                                                             src="{{Vite::asset("resources/images/flags/" . strtolower('tr') . ".svg")}}"
                                                             alt="{{__('Turkish')}}" title="{{__('Turkish')}}"
                                                             class="avatar-xxs me-2">
-                                                        <strong class="text-muted small">{{__('Turkish')}}</strong>
+                                                        <strong class="text-muted">{{__('Turkish')}}</strong>
                                                     </div>
                                                     @if(!empty($value->valueTr))
-                                                        <p class="mb-0 small">{{ Str::limit($value->valueTr, 150)}}</p>
+                                                        <p class="mb-0">{{ Str::limit($value->valueTr, 150)}}</p>
                                                     @else
                                                         <span
                                                             class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
@@ -291,16 +299,16 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="border rounded p-2">
-                                                    <div class="d-flex align-items-center mb-1">
+                                                <div class="border rounded p-3">
+                                                    <div class="d-flex align-items-center mb-2">
                                                         <img
                                                             src="{{Vite::asset("resources/images/flags/" . strtolower('es') . ".svg")}}"
                                                             alt="{{__('Spanish')}}" title="{{__('Spanish')}}"
                                                             class="avatar-xxs me-2">
-                                                        <strong class="text-muted small">{{__('Spanish')}}</strong>
+                                                        <strong class="text-muted">{{__('Spanish')}}</strong>
                                                     </div>
                                                     @if(!empty($value->valueEs))
-                                                        <p class="mb-0 small">{{ Str::limit($value->valueEs, 150)}}</p>
+                                                        <p class="mb-0">{{ Str::limit($value->valueEs, 150)}}</p>
                                                     @else
                                                         <span
                                                             class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
@@ -308,16 +316,16 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="border rounded p-2">
-                                                    <div class="d-flex align-items-center mb-1">
+                                                <div class="border rounded p-3">
+                                                    <div class="d-flex align-items-center mb-2">
                                                         <img
                                                             src="{{Vite::asset("resources/images/flags/" . strtolower('ru') . ".svg")}}"
                                                             alt="{{__('Russian')}}" title="{{__('Russian')}}"
                                                             class="avatar-xxs me-2">
-                                                        <strong class="text-muted small">{{__('Russian')}}</strong>
+                                                        <strong class="text-muted">{{__('Russian')}}</strong>
                                                     </div>
                                                     @if(!empty($value->valueRu))
-                                                        <p class="mb-0 small">{{ Str::limit($value->valueRu, 150)}}</p>
+                                                        <p class="mb-0">{{ Str::limit($value->valueRu, 150)}}</p>
                                                     @else
                                                         <span
                                                             class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
@@ -325,16 +333,16 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="border rounded p-2">
-                                                    <div class="d-flex align-items-center mb-1">
+                                                <div class="border rounded p-3">
+                                                    <div class="d-flex align-items-center mb-2">
                                                         <img
                                                             src="{{Vite::asset("resources/images/flags/" . strtolower('de') . ".svg")}}"
                                                             alt="{{__('German')}}" title="{{__('German')}}"
                                                             class="avatar-xxs me-2">
-                                                        <strong class="text-muted small">{{__('German')}}</strong>
+                                                        <strong class="text-muted">{{__('German')}}</strong>
                                                     </div>
                                                     @if(!empty($value->valueDe))
-                                                        <p class="mb-0 small">{{ Str::limit($value->valueDe, 150)}}</p>
+                                                        <p class="mb-0">{{ Str::limit($value->valueDe, 150)}}</p>
                                                     @else
                                                         <span
                                                             class="badge bg-warning-subtle text-warning">{{__('Not assigned')}}</span>
@@ -342,34 +350,22 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                 </div>
                                             </div>
                                         </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column gap-2">
-                                            <button type="button" wire:click="initTranslate({{$value->id}})"
-                                                    data-bs-toggle="modal" data-bs-target="#editTranslationModal"
-                                                    class="btn btn-info btn-sm w-100">
-                                                <i class="ri-edit-line me-1"></i>{{__('Edit')}}
-                                            </button>
-                                            <button type="button" onclick="confirmDelete({{$value->id}})"
-                                                    class="btn btn-danger btn-sm w-100">
-                                                <i class="ri-delete-bin-line me-1"></i>{{__('Delete')}}
-                                            </button>
-                                            <div class="mt-2 small text-muted">
-                                                <div class="mb-1">
-                                                    <i class="ri-add-line me-1"></i>
-                                                    {{ \Carbon\Carbon::parse($value->created_at)->format(config('app.date_format')) }}
-                                                </div>
-                                                <div>
-                                                    <i class="ri-edit-2-line me-1"></i>
-                                                    {{ \Carbon\Carbon::parse($value->updated_at)->format(config('app.date_format')) }}
-                                                </div>
+                                    </div>
+                                    <div class="card-footer bg-light">
+                                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 text-muted small">
+                                            <div>
+                                                <i class="ri-add-line me-1"></i>
+                                                <span>{{__('Created')}}: {{ \Carbon\Carbon::parse($value->created_at)->format(config('app.date_format')) }}</span>
+                                            </div>
+                                            <div>
+                                                <i class="ri-edit-2-line me-1"></i>
+                                                <span>{{__('Updated')}}: {{ \Carbon\Carbon::parse($value->updated_at)->format(config('app.date_format')) }}</span>
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                     <div class="mt-3">
                         {{$translates->links()}}
