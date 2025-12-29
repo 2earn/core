@@ -585,3 +585,53 @@ input[type=range]::-ms-fill-lower {
 input[type=range]::-ms-fill-upper {
     background-color: #9a905d
 }
+
+/* RTL Badge Fixes */
+.badge {
+    direction: rtl;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.badge.bg-danger,
+.badge.bg-danger-subtle,
+.badge.bg-success,
+.badge.bg-success-subtle,
+.badge.bg-primary,
+.badge.bg-primary-subtle,
+.badge.bg-warning,
+.badge.bg-warning-subtle,
+.badge.bg-info,
+.badge.bg-info-subtle,
+.badge.bg-secondary,
+.badge.bg-secondary-subtle,
+.badge.bg-light,
+.badge.bg-dark {
+    direction: rtl;
+    text-align: center;
+}
+
+.badge i {
+    margin-left: 0.25rem;
+    margin-right: 0;
+}
+
+.badge i.align-middle {
+    vertical-align: middle;
+}
+
+/* Ensure badge text doesn't break */
+.badge.text-danger,
+.badge.text-success,
+.badge.text-primary,
+.badge.text-warning,
+.badge.text-info,
+.badge.text-secondary,
+.badge.text-light,
+.badge.text-dark {
+    direction: rtl;
+}
+

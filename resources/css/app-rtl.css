@@ -5250,6 +5250,39 @@ div.dtr-modal div.dtr-modal-close {
     border-radius: 9999px !important;
     padding: 0.25rem 0.75rem !important;
     font-weight: 500 !important;
+    direction: rtl;
+    text-align: center;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+/* Badge icon spacing for RTL */
+.badge i,
+.badge .ri-icon,
+.badge svg {
+    margin-left: 0.35rem;
+    margin-right: 0;
+}
+
+/* Ensure proper alignment for all badge color variants */
+.badge.bg-danger,
+.badge.bg-danger-subtle,
+.badge.bg-success,
+.badge.bg-success-subtle,
+.badge.bg-primary,
+.badge.bg-primary-subtle,
+.badge.bg-warning,
+.badge.bg-warning-subtle,
+.badge.bg-info,
+.badge.bg-info-subtle,
+.badge.bg-secondary,
+.badge.bg-secondary-subtle,
+.badge.bg-light,
+.badge.bg-dark {
+    direction: rtl;
+    text-align: center;
 }
 
 
