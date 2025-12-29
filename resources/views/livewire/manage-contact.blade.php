@@ -1,9 +1,4 @@
 <div class="container">
-    <style>
-        .iti {
-            width: 100% !important;
-        }
-    </style>
 
     @component('components.breadcrumb')
         @slot('title')
@@ -79,7 +74,7 @@
                                         type="tel"
                                         name="mobile"
                                         id="intl-tel-input"
-                                        class="form-control"
+                                        class="form-control mobile-input-with-flag"
                                         placeholder="{{ __('Mobile number') }}"
                                     >
                                     <input type='hidden' name='fullnumber' id='outputAddContact' class='form-control'>
@@ -109,110 +104,111 @@
     </div>
 
     <script>
-        window.manageContactConfig = {
-            phoneCode: "{{ $phoneCode ?? '' }}".trim(),
-            isEditMode: {{ $isEditMode ? 'true' : 'false' }}
-        };
-        window.itiLog = window.itiLog || null;
+        // Global instance
+        window.itiLog = null;
 
-        function updateHiddenFromIntl() {
+        function updateHiddenFields() {
             if (!window.itiLog) return;
-            const data = window.itiLog.getSelectedCountryData();
+
+            const countryData = window.itiLog.getSelectedCountryData();
             let phone = window.itiLog.getNumber();
+
             if (phone) {
                 phone = phone.replace('+', '00');
-                if (!phone.startsWith('00' + data.dialCode)) {
-                    phone = '00' + data.dialCode + phone.replace(/^00/, '');
+                if (!phone.startsWith('00' + countryData.dialCode)) {
+                    phone = '00' + countryData.dialCode + phone.replace(/^00/, '');
                 }
+
                 const ccodeEl = document.getElementById('ccodeAddContact');
                 const fullEl = document.getElementById('outputAddContact');
-                if (ccodeEl) ccodeEl.value = data.dialCode;
+                if (ccodeEl) ccodeEl.value = countryData.dialCode;
                 if (fullEl) fullEl.value = phone;
             }
         }
 
-        function setupIntlTelInput(force = false) {
+        function initializeIntlTelInput() {
             const input = document.getElementById('intl-tel-input');
-            if (!input || !window.intlTelInput) return;
-            const code = window.manageContactConfig.phoneCode; // already lowercase apha2
-            const initialCountry = code !== '' ? code : 'auto';
+            if (!input || !window.intlTelInput) {
+                console.warn('Input or intlTelInput not available');
+                return;
+            }
 
-            if (force && window.itiLog && typeof window.itiLog.destroy === 'function') {
-                try { window.itiLog.destroy(); } catch (e) { console.warn('Destroy iti failed', e); }
+            // Destroy existing instance
+            if (window.itiLog && typeof window.itiLog.destroy === 'function') {
+                try {
+                    window.itiLog.destroy();
+                } catch (e) {
+                    console.warn('Failed to destroy existing instance:', e);
+                }
                 window.itiLog = null;
             }
 
-            if (!window.itiLog) {
-                window.itiLog = window.intlTelInput(input, {
-                    initialCountry: initialCountry,
-                    autoFormat: true,
-                    separateDialCode: true,
-                    useFullscreenPopup: false,
-                    geoIpLookup: function (callback) {
-                        if (initialCountry !== 'auto') {
-                            callback(initialCountry.toUpperCase());
-                        } else {
-                            fetch('https://ipinfo.io?token=') // optional token if needed
-                                .then(r => r.json())
-                                .then(resp => callback((resp && resp.country) ? resp.country : 'TN'))
-                                .catch(() => callback('TN'));
-                        }
-                    },
-                    utilsScript: 'https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/utils.js'
-                });
-            } else if (force && code !== '') {
+            // Get phone code from hidden element
+            const phoneCode = (document.getElementById('codecode')?.textContent || '').trim();
+            const initialCountry = phoneCode !== '' ? phoneCode : 'auto';
 
-                try { window.itiLog.setCountry(code); } catch (e) { console.warn('setCountry failed', e); }
-            }
+            // Initialize intl-tel-input
+            window.itiLog = window.intlTelInput(input, {
+                initialCountry: initialCountry,
+                autoFormat: true,
+                separateDialCode: true,
+                useFullscreenPopup: false,
+                showSelectedDialCode: true,
+                formatOnDisplay: true,
+                geoIpLookup: function (callback) {
+                    if (initialCountry !== 'auto') {
+                        callback(initialCountry.toUpperCase());
+                    } else {
+                        fetch('https://ipinfo.io/json')
+                            .then(response => response.json())
+                            .then(data => callback(data.country || 'TN'))
+                            .catch(() => callback('TN'));
+                    }
+                },
+                utilsScript: 'https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/utils.js'
+            });
 
-            if (!input.dataset.intlBound) {
-                input.addEventListener('keyup', updateHiddenFromIntl);
-                input.addEventListener('countrychange', updateHiddenFromIntl);
-                input.dataset.intlBound = 'true';
-            }
+            // Remove old event listeners if any
+            input.removeEventListener('keyup', updateHiddenFields);
+            input.removeEventListener('countrychange', updateHiddenFields);
 
-            updateHiddenFromIntl();
+            // Add event listeners
+            input.addEventListener('keyup', updateHiddenFields);
+            input.addEventListener('countrychange', updateHiddenFields);
+
+            // Initial update
+            setTimeout(updateHiddenFields, 200);
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-
-            setTimeout(() => setupIntlTelInput(false), 120);
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(initializeIntlTelInput, 150);
         });
 
+        // Reinitialize on Livewire events
         document.addEventListener('livewire:initialized', () => {
             window.Livewire.on('contactPhoneNeedsInit', () => {
-
-                setTimeout(() => setupIntlTelInput(true), 160);
+                setTimeout(initializeIntlTelInput, 200);
             });
         });
-    </script>
 
-    <script>
         function saveContactEvent() {
-            inputphone = document.getElementById("intl-tel-input");
-            inputname = document.getElementById("ccodeAddContact");
-            inputlast = document.getElementById("outputAddContact");
+            const inputphone = document.getElementById("intl-tel-input");
+            const inputname = document.getElementById("ccodeAddContact");
+            const inputlast = document.getElementById("outputAddContact");
             const errorMsg = document.querySelector("#error-msg");
             const saveBtn = document.getElementById("saveContactBtn");
             const btnSpinner = document.getElementById("btnSpinner");
             const btnText = document.getElementById("btnText");
 
-            if (typeof itiLog !== 'undefined' && itiLog) {
-                var phone = itiLog.getNumber();
-                if (phone && phone.trim() !== '') {
-                    phone = phone.replace('+', '00');
-                    var countryData = itiLog.getSelectedCountryData();
-                    if (!phone.startsWith('00' + countryData.dialCode)) {
-                        phone = '00' + countryData.dialCode + phone.replace(/^00/, '');
-                    }
-                    $("#ccodeAddContact").val(countryData.dialCode);
-                    $("#outputAddContact").val(phone);
-                }
+            // Update hidden fields before validation
+            if (window.itiLog) {
+                updateHiddenFields();
             }
 
-            var phoneNumber = parseInt(inputphone.value.trim().replace(/\D/g, ''), 10);
-            var inputName = inputname.value.trim();
-            var out = inputlast.value.trim();
+            const phoneNumber = parseInt(inputphone.value.trim().replace(/\D/g, ''), 10);
+            const inputName = inputname.value.trim();
+            const out = inputlast.value.trim();
 
             if (!inputName || !out || !phoneNumber) {
                 errorMsg.innerHTML = "{{ __('Please enter a valid phone number') }}";
@@ -221,7 +217,6 @@
             }
 
             if (validateContact()) {
-
                 saveBtn.disabled = true;
                 btnSpinner.classList.remove("d-none");
 
@@ -234,11 +229,9 @@
                             window.Livewire.dispatch('save', [phoneNumber, inputname.value.trim(), out]);
                             errorMsg.innerHTML = "";
                             errorMsg.classList.add("d-none");
-
                         } else {
                             errorMsg.innerHTML = response.message;
                             errorMsg.classList.remove("d-none");
-
                             saveBtn.disabled = false;
                             btnSpinner.classList.add("d-none");
                         }
@@ -246,7 +239,6 @@
                     error: function(xhr, status, error) {
                         errorMsg.innerHTML = "{{ __('Phone validation failed') }}";
                         errorMsg.classList.remove("d-none");
-
                         saveBtn.disabled = false;
                         btnSpinner.classList.add("d-none");
                     }
@@ -255,9 +247,9 @@
         }
 
         function validateContact() {
-            var valid = true;
-            inputcontactName = document.getElementById("contactName");
-            inputcontactLastName = document.getElementById("contactLastName");
+            let valid = true;
+            const inputcontactName = document.getElementById("contactName");
+            const inputcontactLastName = document.getElementById("contactLastName");
 
             if (inputcontactName.value.trim() === "") {
                 inputcontactName.style.borderColor = '#FF0000';
@@ -275,88 +267,5 @@
 
             return valid;
         }
-    </script>
-
-    <script type="module">
-        var itiLog; // Global variable to store the intl-tel-input instance
-
-        document.addEventListener("DOMContentLoaded", function () {
-
-            setTimeout(function() {
-                var codePays = document.getElementById('codecode').textContent.trim();
-                var inputlog = document.querySelector("#intl-tel-input");
-
-                if (inputlog) {
-                    var autoInit = codePays ? codePays : "auto";
-
-                    itiLog = window.intlTelInput(inputlog, {
-                        initialCountry: autoInit,
-                        autoFormat: true,
-                        separateDialCode: true,
-                        useFullscreenPopup: false,
-                        geoIpLookup: function (callback) {
-                            $.get('https://ipinfo.io', function () {
-                            }, "jsonp").always(function (resp) {
-                                var countryCodelog = (resp && resp.country) ? resp.country : "TN";
-                                callback(countryCodelog);
-                            });
-                        },
-                        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/utils.js"
-                    });
-
-                    function initIntlTelInput() {
-
-                        if (!itiLog) return;
-
-                        var phone = itiLog.getNumber();
-
-                        if (!phone || phone.trim() === '') {
-                            return;
-                        }
-
-                        phone = phone.replace('+', '00');
-
-                        var countryData = itiLog.getSelectedCountryData();
-
-                        if (!phone.startsWith('00' + countryData.dialCode)) {
-                            phone = '00' + countryData.dialCode + phone.replace(/^00/, '');
-                        }
-
-                        $("#ccodeAddContact").val(countryData.dialCode);
-                        $("#outputAddContact").val(phone);
-                    }
-
-                    inputlog.addEventListener('keyup', initIntlTelInput);
-                    inputlog.addEventListener('countrychange', initIntlTelInput);
-
-                    setTimeout(function() {
-                        initIntlTelInput();
-                    }, 300);
-                }
-            }, 100);
-        });
-    </script>
-
-    <script>
-        document.addEventListener('livewire:initialized', () => {
-            window.Livewire.on('contactPhoneNeedsInit', () => {
-
-                setTimeout(() => {
-                    const inputlog = document.querySelector('#intl-tel-input');
-                    if (!inputlog) return;
-                    try {
-                        if (window.intlTelInput && !inputlog.classList.contains('iti-loaded')) {
-                            window.itiLog = window.intlTelInput(inputlog, {
-                                initialCountry: 'auto',
-                                separateDialCode: true,
-                                utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.10/build/js/utils.js"
-                            });
-                        }
-                    } catch (e) {
-                        console.error('intl-tel-input reinit failed', e);
-                    }
-                }, 150);
-            });
-        });
     </script>
 </div>

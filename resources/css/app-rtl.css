@@ -5285,6 +5285,103 @@ div.dtr-modal div.dtr-modal-close {
     text-align: center;
 }
 
+/* International Tel Input RTL Fixes */
+.iti {
+    direction: ltr !important;
+    text-align: left !important;
+    width: 100%;
+}
+
+.iti__country-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0 !important;
+    right: auto !important;
+    padding: 1px;
+}
+
+.iti input.iti__tel-input,
+.iti input.iti__tel-input[type=tel],
+.iti input.iti__tel-input[type=text] {
+    padding-left: 52px !important;
+    padding-right: 6px !important;
+    text-align: left !important;
+    direction: ltr !important;
+    unicode-bidi: plaintext;
+}
+
+.iti__selected-country {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.iti__selected-country-primary {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 8px 0 6px !important;
+}
+
+.iti__arrow {
+    margin-right: 6px !important;
+    margin-left: 0 !important;
+}
+
+.iti__country-name,
+.iti__flag-box {
+    margin-left: 8px !important;
+    margin-right: 0 !important;
+}
+
+.iti__flag {
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+}
+
+/* Specific fix for Iraq flag (iq) */
+.iti__flag.iti__iq {
+    height: 15px;
+    background-position: -1659px 0;
+}
+
+/* Dropdown positioning */
+.iti--inline-dropdown .iti__dropdown-content {
+    left: 0 !important;
+    right: auto !important;
+    text-align: left;
+}
+
+.iti__country {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    direction: ltr;
+}
+
+/* Force LTR for phone inputs in RTL context */
+[dir="rtl"] .iti {
+    direction: ltr !important;
+}
+
+[dir="rtl"] .iti__country-container {
+    left: 0 !important;
+    right: auto !important;
+}
+
+[dir="rtl"] .iti input.iti__tel-input,
+[dir="rtl"] .iti input.iti__tel-input[type=tel],
+[dir="rtl"] .iti input.iti__tel-input[type=text] {
+    padding-left: 52px !important;
+    padding-right: 6px !important;
+    text-align: left !important;
+    direction: ltr !important;
+}
+
+
 
 #page-topbar .topnav-hamburger::before {
     content: '';
