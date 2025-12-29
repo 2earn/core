@@ -478,6 +478,96 @@
         "valueEs": "Tabla de mis compras de acciones",
         "valueRu": "Таблица моих покупок акций",
         "valueDe": "Tabelle meiner Aktienkäufe"
+    },
+    {
+        "name": "Create new event",
+        "value": "إنشاء حدث جديد",
+        "valueEn": "Create new event",
+        "valueFr": "Créer un nouvel événement",
+        "valueTr": "Yeni etkinlik oluştur",
+        "valueEs": "Crear nuevo evento",
+        "valueRu": "Создать новое событие",
+        "valueDe": "Neues Event erstellen"
+    },
+    {
+        "name": "Search events",
+        "value": "بحث عن الأحداث",
+        "valueEn": "Search events",
+        "valueFr": "Rechercher des événements",
+        "valueTr": "Etkinlik ara",
+        "valueEs": "Buscar eventos",
+        "valueRu": "Поиск событий",
+        "valueDe": "Events suchen"
+    },
+    {
+        "name": "No events found",
+        "value": "لم يتم العثور على أحداث",
+        "valueEn": "No events found",
+        "valueFr": "Aucun événement trouvé",
+        "valueTr": "Etkinlik bulunamadı",
+        "valueEs": "No se encontraron eventos",
+        "valueRu": "События не найдены",
+        "valueDe": "Keine Events gefunden"
+    },
+    {
+        "name": "Published At",
+        "value": "تاريخ النشر",
+        "valueEn": "Published At",
+        "valueFr": "Publié le",
+        "valueTr": "Yayınlanma Tarihi",
+        "valueEs": "Publicado el",
+        "valueRu": "Опубликовано",
+        "valueDe": "Veröffentlicht am"
+    },
+    {
+        "name": "Start At",
+        "value": "تاريخ البدء",
+        "valueEn": "Start At",
+        "valueFr": "Commence le",
+        "valueTr": "Başlangıç Tarihi",
+        "valueEs": "Comienza el",
+        "valueRu": "Начало",
+        "valueDe": "Beginnt am"
+    },
+    {
+        "name": "End At",
+        "value": "تاريخ الانتهاء",
+        "valueEn": "End At",
+        "valueFr": "Se termine le",
+        "valueTr": "Bitiş Tarihi",
+        "valueEs": "Termina el",
+        "valueRu": "Окончание",
+        "valueDe": "Endet am"
+    },
+    {
+        "name": "Location",
+        "value": "الموقع",
+        "valueEn": "Location",
+        "valueFr": "Lieu",
+        "valueTr": "Konum",
+        "valueEs": "Ubicación",
+        "valueRu": "Место",
+        "valueDe": "Standort"
+    },
+    {
+        "name": "Title",
+        "value": "العنوان",
+        "valueEn": "Title",
+        "valueFr": "Titre",
+        "valueTr": "Başlık",
+        "valueEs": "Título",
+        "valueRu": "Название",
+        "valueDe": "Titel"
+    },
+    {
+        "name": "Enter location",
+        "value": "أدخل الموقع",
+        "valueEn": "Enter location",
+        "valueFr": "Entrer le lieu",
+        "valueTr": "Konum girin",
+        "valueEs": "Ingresar ubicación",
+        "valueRu": "Введите место",
+        "valueDe": "Standort eingeben"
     }
 ]
 
