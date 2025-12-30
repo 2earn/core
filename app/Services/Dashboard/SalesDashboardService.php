@@ -35,7 +35,6 @@ class SalesDashboardService
     public function getKpiData(array $filters = []): array
     {
         try {
-            // Check if user has role in platform when both are provided
             if (!empty($filters['user_id']) && !empty($filters['platform_id'])) {
                 if (!$this->platformService->userHasRoleInPlatform($filters['user_id'], $filters['platform_id'])) {
                     Log::warning(self::LOG_PREFIX . 'User does not have role in platform', [
@@ -48,25 +47,20 @@ class SalesDashboardService
 
             $query = $this->buildBaseQuery($filters);
 
-            // Get total sales (all orders)
             $totalSales = (clone $query)->count();
 
-            // Get orders in progress (Ready status)
             $ordersInProgress = (clone $query)
                 ->where('orders.status', OrderEnum::Ready->value)
                 ->count();
 
-            // Get successful orders (Dispatched status)
             $ordersSuccessful = (clone $query)
                 ->where('orders.status', OrderEnum::Dispatched->value)
                 ->count();
 
-            // Get failed orders (Failed status)
             $ordersFailed = (clone $query)
                 ->where('orders.status', OrderEnum::Failed->value)
                 ->count();
 
-            // Get total unique customers
             $totalCustomers = (clone $query)
                 ->distinct('orders.user_id')
                 ->count('orders.user_id');
@@ -239,7 +233,6 @@ class SalesDashboardService
     {
         $query = Order::query();
 
-        // Filter by date range
         if (!empty($filters['start_date'])) {
             $query->where('orders.created_at', '>=', $filters['start_date']);
         }
@@ -248,10 +241,9 @@ class SalesDashboardService
             $query->where('orders.created_at', '<=', $filters['end_date']);
         }
 
-        // Filter by platform_id through order_details and items
-        if (!empty($filters['platform_id'])) {
+        if (!empty($filters['platform_ids']) && is_array($filters['platform_ids'])) {
             $query->whereHas('OrderDetails.item', function ($q) use ($filters) {
-                $q->where('items.platform_id', $filters['platform_id']);
+                $q->whereIn('items.platform_id', $filters['platform_ids']);
             });
         }
 
