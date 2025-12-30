@@ -35,13 +35,15 @@ class SalesDashboardService
     public function getKpiData(array $filters = []): array
     {
         try {
-            if (!empty($filters['user_id']) && !empty($filters['platform_id'])) {
-                if (!$this->platformService->userHasRoleInPlatform($filters['user_id'], $filters['platform_id'])) {
-                    Log::warning(self::LOG_PREFIX . 'User does not have role in platform', [
-                        'user_id' => $filters['user_id'],
-                        'platform_id' => $filters['platform_id']
-                    ]);
-                    throw new \Exception('User does not have a role in this platform');
+            if (!empty($filters['user_id']) && !empty($filters['platform_ids'])) {
+                foreach ($filters['platform_ids'] as $platformId) {
+                    if (!$this->platformService->userHasRoleInPlatform($filters['user_id'], $platformId)) {
+                        Log::warning(self::LOG_PREFIX . 'User does not have role in platform', [
+                            'user_id' => $filters['user_id'],
+                            'platform_id' => $platformId
+                        ]);
+                        throw new \Exception('User does not have a role in one or more platforms');
+                    }
                 }
             }
 
