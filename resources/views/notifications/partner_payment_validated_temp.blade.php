@@ -1,4 +1,4 @@
-﻿<div
+<div
     class="notification-item position-relative border-0 @if ($notification->read_at === null) unread @endif"
     id="{{$notification->id}}"
     data-notification-id="{{$notification->id}}"
@@ -10,7 +10,7 @@
         <div class="flex-grow-1 overflow-hidden">
             <div class="d-flex justify-content-between align-items-center mb-1 gap-1">
                 <h6 class="fs-15 fw-bold mb-0 text-dark d-flex align-items-center gap-2">
-                    {{ __('notifications.settings.delivery_sms') }}
+                    {{ __('notifications.settings.partner_payment_validated') }}
                     @if ($notification->read_at === null)
                         <span class="badge rounded-pill"
                               style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
@@ -27,7 +27,7 @@
                 </span>
             </div>
             <p class="text-muted mb-1 fs-12" style="line-height: 1.2;">
-                {{ __('notifications.delivery_sms.body', $notification->data['message_params'] ?? []) }}
+                {{ __('notifications.partner_payment_validated.body', ['amount' => $notification->data['message_params']['amount'] ?? '']) }}
             </p>
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                 <a href="{{ \App\Helpers\NotificationHelper::localizeUrl($notification->data['url'],app()->getLocale()) }}"
@@ -35,7 +35,7 @@
                    style="transition: all 0.3s; box-shadow: 0 2px 6px rgba(var(--bs-info-rgb), 0.25);"
                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(var(--bs-info-rgb), 0.35)'"
                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 6px rgba(var(--bs-info-rgb), 0.25)'">
-                    <span class="fw-semibold">{{ __('notifications.delivery_sms.action') }}</span>
+                    <span class="fw-semibold">{{ __('notifications.partner_payment_validated.action') }}</span>
 
                 </a>
                 <div class="d-flex align-items-center gap-2">
@@ -70,3 +70,4 @@
         </div>
     </div>
 </div>
+
