@@ -1,0 +1,29 @@
+# .aiignore - Commands to Never Execute
+
+## Build Commands - NEVER RUN
+npm run build
+npm run production
+npm run prod
+yarn build
+yarn production
+vite build
+
+## Other Potentially Dangerous Commands
+rm -rf
+rmdir /s
+git push --force
+php artisan migrate:fresh --seed (in production)
+composer update (without testing)
+
+## Deployment Commands - Only in CI/CD
+npm run build
+npm run production
+composer install --no-dev
+php artisan optimize
+
+## Notes
+- Always work with source files
+- Let the build pipeline handle compilation
+- Test changes with dev server (npm run dev)
+- Build artifacts are generated during deployment
+

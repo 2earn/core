@@ -568,6 +568,26 @@
         "valueEs": "Ingresar ubicación",
         "valueRu": "Введите место",
         "valueDe": "Standort eingeben"
+    },
+    {
+        "name": "View All Business Sectors",
+        "value": "عرض جميع القطاعات التجارية",
+        "valueEn": "View All Business Sectors",
+        "valueFr": "Voir tous les secteurs d'activité",
+        "valueTr": "Tüm İş Sektörlerini Görüntüle",
+        "valueEs": "Ver todos los sectores empresariales",
+        "valueRu": "Просмотреть все бизнес-секторы",
+        "valueDe": "Alle Geschäftsbereiche anzeigen"
+    },
+    {
+        "name": "Chrono Achievement",
+        "value": "إنجاز كرونو",
+        "valueEn": "Chrono Achievement",
+        "valueFr": "Réalisation chrono",
+        "valueTr": "Krono Başarısı",
+        "valueEs": "Logro cronológico",
+        "valueRu": "Хроно достижение",
+        "valueDe": "Chrono-Erfolg"
     }
 ]
 

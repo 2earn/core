@@ -648,6 +648,38 @@
     text-align: right;
 }
 
+/* ============================================
+   USER-ENTETE MODERN DESIGN ENHANCEMENTS (RTL)
+   ============================================ */
+
+/* RTL user-entete styling */
+[dir="rtl"] .user-entete {
+    gap: 0.75rem;
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .user-entete .header-profile-user {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+[dir="rtl"] .user-entete .text-center {
+    text-align: right !important;
+}
+
+[dir="rtl"] .user-entete .user-name-text {
+    text-align: right;
+}
+
+[dir="rtl"] .user-entete .badge {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .user-entete .validated-user {
+    margin-left: 0;
+    margin-right: 0.5rem;
+}
+
 /* Icon alignment in dropdown items */
 [dir="rtl"] .dropdown-item i.ri-lock-password-line,
 [dir="rtl"] .dropdown-item i.ri-shield-check-line {
@@ -672,25 +704,10 @@
     }
 }
 
-
-
-
-@font-face {
-    font-family: ar400;
-    src: url("../fonts/NotoKufiArabic-Regular.ttf");
-    font-weight: 400;
-}
-
-label, h1, h2, h3, h4, h5, h6, a, button, p, i, span, strong, .btn, div {
-    font-family: ar400;
-    font-weight: 500 !important;
-}
-
 .navbar-menu .navbar-nav .nav-link {
     font-family: ar400 !important;
 
 }
-
 
 .navbar-menu .navbar-nav .nav-link.active {
     color: var(--vz-vertical-menu-item-hover-color);
