@@ -4,6 +4,11 @@ export default {
     "./resources/**/*.blade.php",
     "./resources/**/*.js",
     "./resources/**/*.vue",
+    "./app/View/**/*.php",
+    "./app/Livewire/**/*.php",
+  ],
+  safelist: [
+    // Add commonly used dynamic classes here if needed
   ],
   darkMode: 'class',
   theme: {

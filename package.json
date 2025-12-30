@@ -7,7 +7,9 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "preview": "vite preview"
+        "build:fast": "vite build --mode production",
+        "preview": "vite preview",
+        "optimize": "vite optimize"
     },
     "devDependencies": {
         "@popperjs/core": "^2.11.8",
@@ -62,7 +64,6 @@
         "filepond-plugin-image-exif-orientation": "^1.0.11",
         "filepond-plugin-image-preview": "^4.6.12",
         "flatpickr": "^4.6.9",
-        "fs": "^0.0.1-security",
         "fs-extra": "^11.2.0",
         "fullcalendar": "^5.10.1",
         "glightbox": "^3.1.0",
