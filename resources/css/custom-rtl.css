@@ -351,7 +351,6 @@
 
 #notification-dropdown {
     max-height: 450px;
-    overflow: auto;
 }
 
 #notification-dropdown .simplebar-content {

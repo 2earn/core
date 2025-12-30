@@ -5,8 +5,8 @@
     @if ($notification->read_at === null)
         <div class="position-absolute top-0 start-0 h-100 bg-success" style="width: 4px;"></div>
     @endif
-    <div class="d-flex align-items-start p-3 gap-3 position-relative"
-         style="background: @if ($notification->read_at === null) linear-gradient(135deg, rgba(var(--bs-success-rgb), 0.05) 0%, rgba(var(--bs-success-rgb), 0.02) 100%) @else #ffffff @endif;">
+    <div class="d-flex align-items-start p-1 gap-1 position-relative"
+         style="background: @if ($notification->read_at === null) linear-gradient(135deg, rgba(var(--bs-success-rgb), 0.05) 0%, rgba(var(--bs-success-rgb), 0.02) 100%) @endif;">
         <div class="flex-grow-1 overflow-hidden">
             <div class="d-flex justify-content-between align-items-center mb-1 gap-1">
                 <h6 class="fs-15 fw-bold mb-0 text-dark d-flex align-items-center gap-2">
@@ -31,12 +31,12 @@
             </p>
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                 <a href="{{ \App\Helpers\NotificationHelper::localizeUrl($notification->data['url'],app()->getLocale()) }}"
-                   class="btn btn-sm btn-success px-4 py-2 d-inline-flex align-items-center gap-2 rounded-pill"
+                   class="btn btn-sm btn-success p-1 d-inline-flex align-items-center gap-2 rounded-pill"
                    style="transition: all 0.3s; box-shadow: 0 2px 6px rgba(var(--bs-success-rgb), 0.25);"
                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(var(--bs-success-rgb), 0.35)'"
                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 6px rgba(var(--bs-success-rgb), 0.25)'">
                     <span class="fw-semibold">{{ __('notifications.partnership_request_sent.action') }}</span>
-                    <i class="ri-arrow-right-line"></i>
+
                 </a>
                 <div class="d-flex align-items-center gap-2">
                     <span class="text-muted fs-12 d-sm-none d-inline-flex align-items-center gap-1">
@@ -61,7 +61,7 @@
                         <div class="d-inline-flex align-items-center justify-content-center rounded-circle"
                              style="width: 36px; height: 36px; background: rgba(var(--bs-success-rgb), 0.1);"
                              title="{{__('Read')}}">
-                            <i class="ri-mail-check-line text-success fs-18"></i>
+
                         </div>
                     @endif
                 </div>

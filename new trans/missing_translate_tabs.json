@@ -578,6 +578,86 @@
         "valueEs": "Todo está listo — comencemos",
         "valueRu": "Все готово — давайте начнем",
         "valueDe": "Alles ist bereit — legen wir los"
+    },
+    {
+        "name": "notifications.settings.financial_request_sent",
+        "value": "إشعارات طلبات مالية مرسلة",
+        "valueEn": "Financial request sent notifications",
+        "valueFr": "Notifications de demande financière envoyée",
+        "valueTr": "Finansal talep gönderim bildirimleri",
+        "valueEs": "Notificaciones de solicitud financiera enviada",
+        "valueRu": "Уведомления об отправке финансового запроса",
+        "valueDe": "Benachrichtigungen über gesendete Finanzanfragen"
+    },
+    {
+        "name": "notifications.settings.survey_participation",
+        "value": "إشعارات المشاركة في الاستطلاع",
+        "valueEn": "Survey participation notifications",
+        "valueFr": "Notifications de participation au sondage",
+        "valueTr": "Anket katılım bildirimleri",
+        "valueEs": "Notificaciones de participación en encuestas",
+        "valueRu": "Уведомления об участии в опросе",
+        "valueDe": "Benachrichtigungen über Umfrageteilnahme"
+    },
+    {
+        "name": "notifications.survey_participation.action",
+        "value": "عرض الاستطلاع",
+        "valueEn": "View Survey",
+        "valueFr": "Voir le sondage",
+        "valueTr": "Anketi Görüntüle",
+        "valueEs": "Ver encuesta",
+        "valueRu": "Просмотреть опрос",
+        "valueDe": "Umfrage anzeigen"
+    },
+    {
+        "name": "notifications.settings.cash_to_bfs",
+        "value": "إشعارات تحويل النقد إلى BFS",
+        "valueEn": "Cash to BFS conversion notifications",
+        "valueFr": "Notifications de conversion d'argent en BFS",
+        "valueTr": "Nakit'ten BFS'ye dönüşüm bildirimleri",
+        "valueEs": "Notificaciones de conversión de efectivo a BFS",
+        "valueRu": "Уведомления о конвертации наличных в BFS",
+        "valueDe": "Benachrichtigungen über Bargeld zu BFS Umwandlung"
+    },
+    {
+        "name": "notifications.cash_to_bfs.action",
+        "value": "عرض التحويل",
+        "valueEn": "View Conversion",
+        "valueFr": "Voir la conversion",
+        "valueTr": "Dönüşümü Görüntüle",
+        "valueEs": "Ver conversión",
+        "valueRu": "Просмотреть конвертацию",
+        "valueDe": "Umwandlung anzeigen"
+    },
+    {
+        "name": "notifications.settings.share_purchase",
+        "value": "إشعارات شراء الأسهم",
+        "valueEn": "Share purchase notifications",
+        "valueFr": "Notifications d'achat d'actions",
+        "valueTr": "Hisse satın alma bildirimleri",
+        "valueEs": "Notificaciones de compra de acciones",
+        "valueRu": "Уведомления о покупке акций",
+        "valueDe": "Benachrichtigungen über Aktienkauf"
+    },
+    {
+        "name": "notifications.share_purchase.action",
+        "value": "عرض عملية الشراء",
+        "valueEn": "View Purchase",
+        "valueFr": "Voir l'achat",
+        "valueTr": "Satın Alma İşlemini Görüntüle",
+        "valueEs": "Ver compra",
+        "valueRu": "Просмотреть покупку",
+        "valueDe": "Kauf anzeigen"
+    },
+    {
+        "name": "Keys to database operation completed successfully",
+        "value": "تمت عملية إضافة المفاتيح إلى قاعدة البيانات بنجاح",
+        "valueEn": "Keys to database operation completed successfully",
+        "valueFr": "Opération d'ajout de clés à la base de données terminée avec succès",
+        "valueTr": "Veritabanına anahtar ekleme işlemi başarıyla tamamlandı",
+        "valueEs": "Operación de claves a base de datos completada con éxito",
+        "valueRu": "Операция добавления ключей в базу данных успешно завершена",
+        "valueDe": "Schlüssel zur Datenbankoperation erfolgreich abgeschlossen"
     }
 ]
 
