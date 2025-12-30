@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\TranslationDatabaseToFiles;
 use App\Jobs\TranslationFilesToDatabase;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -12,7 +13,7 @@ class SyncAllTranslations extends Command
 
     protected $signature = 'translate:sync-all {--skip-sync : Skip sync-tabs step} {--skip-merge : Skip merge-all step} {--skip-clean : Skip clean-unused step}';
 
-    protected $description = 'Sync all translations: sync-tabs, merge-all, clean-unused, and update database';
+    protected $description = 'Sync all translations: sync-tabs, merge-all, clean-unused, update database, seed missing keys, and export to files';
 
     public function handle(): int
     {
@@ -26,7 +27,7 @@ class SyncAllTranslations extends Command
         $hasErrors = false;
 
         if (!$this->option('skip-sync')) {
-            $this->info('📝 Step 1/5: Syncing translation keys from code...');
+            $this->info('📝 Step 1/6: Syncing translation keys from code...');
             $this->line('   Command: translate:sync-tabs');
             $this->newLine();
 
@@ -45,12 +46,12 @@ class SyncAllTranslations extends Command
             }
             $this->newLine();
         } else {
-            $this->warn('⏭️  Step 1/5: Skipped (--skip-sync)');
+            $this->warn('⏭️  Step 1/6: Skipped (--skip-sync)');
             $this->newLine();
         }
 
         if (!$this->option('skip-merge')) {
-            $this->info('🔄 Step 2/5: Merging all translation files...');
+            $this->info('🔄 Step 2/6: Merging all translation files...');
             $this->line('   Command: translate:merge-all');
             $this->newLine();
 
@@ -69,12 +70,12 @@ class SyncAllTranslations extends Command
             }
             $this->newLine();
         } else {
-            $this->warn('⏭️  Step 2/5: Skipped (--skip-merge)');
+            $this->warn('⏭️  Step 2/6: Skipped (--skip-merge)');
             $this->newLine();
         }
 
         if (!$this->option('skip-clean')) {
-            $this->info('🧹 Step 3/5: Cleaning unused translation keys...');
+            $this->info('🧹 Step 3/6: Cleaning unused translation keys...');
             $this->line('   Command: translate:clean-unused');
             $this->newLine();
 
@@ -93,11 +94,11 @@ class SyncAllTranslations extends Command
             }
             $this->newLine();
         } else {
-            $this->warn('⏭️  Step 3/5: Skipped (--skip-clean)');
+            $this->warn('⏭️  Step 3/6: Skipped (--skip-clean)');
             $this->newLine();
         }
 
-        $this->info('💾 Step 4/5: Updating database from files...');
+        $this->info('💾 Step 4/6: Updating database from files...');
         $this->line('   Job: TranslationFilesToDatabase');
         $this->newLine();
 
@@ -120,7 +121,7 @@ class SyncAllTranslations extends Command
         }
         $this->newLine();
 
-        $this->info('🌐 Step 5/5: Seeding missing translation keys...');
+        $this->info('🌐 Step 5/6: Seeding missing translation keys...');
         $this->line('   Seeder: MissingTranslateTabsSeeder');
         $this->newLine();
 
@@ -142,6 +143,30 @@ class SyncAllTranslations extends Command
             Log::error($exception->getMessage());
             $this->error("   ❌ Seeding failed: " . $exception->getMessage());
             $steps[] = ['step' => 'Seed Missing Keys', 'status' => 'failed', 'time' => '0s'];
+            $hasErrors = true;
+        }
+        $this->newLine();
+
+        // Step 6: Export database to files
+        $this->info('📤 Step 6/6: Exporting database translations to files...');
+        $this->line('   Job: TranslationDatabaseToFiles');
+        $this->newLine();
+
+        try {
+            $startTime = microtime(true);
+            $job = new TranslationDatabaseToFiles();
+            $job->handle();
+            $endTime = microtime(true);
+            $executionTime = $this->formatTime($endTime - $startTime);
+
+            Log::info(TranslationDatabaseToFiles::class . self::SEPARATION . $executionTime);
+
+            $this->info("   ✅ Export to files completed in {$executionTime}");
+            $steps[] = ['step' => 'Export to Files', 'status' => 'success', 'time' => $executionTime];
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            $this->error("   ❌ Export to files failed: " . $exception->getMessage());
+            $steps[] = ['step' => 'Export to Files', 'status' => 'failed', 'time' => '0s'];
             $hasErrors = true;
         }
         $this->newLine();

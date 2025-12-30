@@ -112,6 +112,27 @@
         direction: rtl;
     }
 
+    /* All badge variants for proper RTL display */
+    .badge {
+        direction: rtl;
+        text-align: center;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        padding: 0.35em 0.65em !important;
+    }
+
+    .badge i,
+    .badge .ri-icon,
+    .badge svg {
+        margin-left: 0.35rem;
+        margin-right: 0;
+    }
+
+    .badge.align-middle {
+        vertical-align: middle;
+    }
+
     /* RTL Dropdown Styles */
     .dropdown-modern {
         right: auto;
@@ -222,6 +243,40 @@
     .icon-flip {
         transform: scaleX(-1);
     }
+
+    /* International Tel Input (iti) RTL fixes */
+    .iti {
+        direction: ltr !important;
+    }
+
+    .iti__country-container {
+        left: 0 !important;
+        right: auto !important;
+    }
+
+    .iti input.iti__tel-input,
+    .iti input.iti__tel-input[type=tel],
+    .iti input.iti__tel-input[type=text] {
+        padding-left: 52px !important;
+        padding-right: 6px !important;
+        text-align: left !important;
+        direction: ltr !important;
+    }
+
+    .iti__selected-country-primary {
+        padding: 0 8px 0 6px !important;
+    }
+
+    .iti__arrow {
+        margin-right: 6px !important;
+        margin-left: 0 !important;
+    }
+
+    .iti__country-name,
+    .iti__flag-box {
+        margin-left: 8px !important;
+        margin-right: 0 !important;
+    }
 }
 
 /* RTL-specific responsive utilities */
@@ -239,6 +294,16 @@
     [dir="rtl"] .btn-outline-modern,
     [dir="rtl"] .btn-ghost-modern {
         direction: rtl;
+    }
+
+    /* Mobile intl-tel-input fixes */
+    [dir="rtl"] .iti {
+        direction: ltr !important;
+    }
+
+    [dir="rtl"] .iti__country-container {
+        left: 0 !important;
+        right: auto !important;
     }
 }
 

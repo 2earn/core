@@ -2,18 +2,21 @@
 
 namespace Database\Seeders;
 
+use App\Jobs\TranslationDatabaseToFiles;
 use Core\Models\translatetabs;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class MissingTranslateTabsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      *
+     * @param bool $exportToFiles Whether to export translations to files after seeding
      * @return void
      */
-    public function run()
+    public function run($exportToFiles = false)
     {
         $jsonPath = base_path('new trans/missing_translate_tabs.json');
 
@@ -45,6 +48,24 @@ class MissingTranslateTabsSeeder extends Seeder
         }
 
         $this->command->info('Missing translation keys have been successfully seeded!');
+
+        // Optionally export to files after seeding
+        if ($exportToFiles) {
+            $this->command->info('Exporting translations to files...');
+            try {
+                $startTime = microtime(true);
+                $job = new TranslationDatabaseToFiles();
+                $job->handle();
+                $endTime = microtime(true);
+                $executionTime = round($endTime - $startTime, 3);
+
+                Log::info('TranslationDatabaseToFiles executed after MissingTranslateTabsSeeder : ' . $executionTime . 's');
+                $this->command->info("Export to files completed in {$executionTime}s");
+            } catch (\Exception $e) {
+                Log::error('Failed to export translations to files: ' . $e->getMessage());
+                $this->command->error('Failed to export translations to files: ' . $e->getMessage());
+            }
+        }
     }
 }
 

@@ -56,6 +56,66 @@ class TopBar extends Component
         return redirect()->route('login', ['locale' => app()->getLocale()]);
     }
 
+    /**
+     * Get validation status configuration based on user status
+     *
+     * @param int $status User status code
+     * @return array Configuration with icon, color, title, and display flag
+     */
+    private function getValidationStatusConfig(int $status): array
+    {
+        $statusConfig = [
+            1 => [
+                'icon' => 'mdi mdi-22px mdi-account-alert',
+                'color' => 'text-warning',
+                'title' => __('National identification request in process'),
+                'show' => true,
+            ],
+            2 => [
+                'icon' => 'mdi mdi-22px mdi-account-check',
+                'color' => 'text-success',
+                'title' => __('National identified'),
+                'show' => true,
+            ],
+            4 => [
+                'icon' => 'mdi mdi-22px mdi-account-check',
+                'color' => 'text-info',
+                'title' => __('International identified'),
+                'show' => true,
+            ],
+            5 => [
+                'icon' => 'mdi mdi-22px mdi-account-alert',
+                'color' => 'text-warning',
+                'title' => __('International identification request in process'),
+                'show' => true,
+            ],
+            6 => [
+                'icon' => 'mdi mdi-22px mdi-account-alert',
+                'color' => 'text-warning',
+                'title' => __('Global identification request in process'),
+                'show' => true,
+            ],
+        ];
+
+        return $statusConfig[$status] ?? [
+            'icon' => '',
+            'color' => '',
+            'title' => '',
+            'show' => false,
+        ];
+    }
+
+    /**
+     * Get badge color class based on user status
+     *
+     * @param int $status User status code
+     * @return string CSS class for badge color
+     */
+    private function getBadgeColorClass(int $status): string
+    {
+        return $status === 1 ? 'text-success' : 'text-muted';
+    }
+
     public function render(settingsManager $settingsManager, BalancesManager $balancesManager)
     {
         $authUser = auth()->user();
@@ -67,15 +127,21 @@ class TopBar extends Component
         if (!$authUser)
             dd('not found page');
         $balances = Balances::getStoredUserBalances($authUser->idUser);
+
+        $userStatus = $user->status;
+        $validationStatus = $this->getValidationStatusConfig($userStatus);
+
         $params = [
             'cash' => !is_null($balances) ? $balances->cash_balance : 0,
             'bfs' => Balances::getTotalBfs($balances),
             'db' => !is_null($balances) ? $balances->discount_balance : 0,
             'user' => $authUser,
-            'userStatus' => $user->status,
+            'userStatus' => $userStatus,
             'userRole' => $user->getRoleNames()->first(),
             'sectors' => BusinessSector::limit(6)->get(),
-            'sectorsNumber' => BusinessSector::count()
+            'sectorsNumber' => BusinessSector::count(),
+            'validationStatus' => $validationStatus,
+            'badgeColorClass' => $this->getBadgeColorClass($userStatus),
         ];
         return view('livewire.top-bar', $params);
     }
