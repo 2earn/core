@@ -104,10 +104,9 @@ class SalesDashboardService
             }
 
             $startDate = $filters['start_date'] ?? now()->subDays(30)->format('Y-m-d');
-            $endDate = $filters['end_date'] ?? now()->format('Y-m-d');
+            $endDate = $filters['end_date'] ?? now()->addDay()->format('Y-m-d');
 
-
-            $results = $this->orderDetailService->getSalesTransactionData([
+            $filtersUpdated = [
                 'start_date' => $startDate,
                 'end_date' => $endDate,
                 'platform_ids' => $filters['platform_ids'] ?? null,
@@ -118,10 +117,8 @@ class SalesDashboardService
                 'user_id' => $filters['user_id'] ?? null,
                 'page' => $filters['page'] ?? 1,
                 'per_page' => $filters['per_page'] ?? 15,
-            ]);
-
-
-            return $results;
+            ];
+            return ['filters' => $filtersUpdated, 'data' => $this->orderDetailService->getSalesTransactionData($filtersUpdated)];
 
         } catch (\Exception $e) {
             Log::error(self::LOG_PREFIX . 'Error fetching sales evolution chart: ' . $e->getMessage(), [
@@ -131,6 +128,7 @@ class SalesDashboardService
             throw $e;
         }
     }
+
     public function getTransactionsDetails(array $filters = []): array
     {
         try {

@@ -250,7 +250,6 @@ class SalesDashboardController extends Controller
             });
 
             $transactions = $this->dashboardService->getTransactions($filters);
-
             Log::info(self::LOG_PREFIX . 'Transactions retrieved successfully', [
                 'filters' => $filters,
                 'total' => $transactions['total'] ?? 0,
@@ -261,6 +260,7 @@ class SalesDashboardController extends Controller
                 'status' => true,
                 'message' => 'Transactions retrieved successfully',
                 'data' => [
+                    'filters' => $transactions['filters'] ?? [],
                     'transactions' => $transactions['data'] ?? [],
                     'pagination' => [
                         'current_page' => $transactions['current_page'] ?? 1,
