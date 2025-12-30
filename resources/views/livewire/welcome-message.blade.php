@@ -27,7 +27,7 @@
                             </h2>
                             <p class="text-white text-opacity-90 mb-0 fs-6 fw-medium">
                                 <i class="ri-check-double-line {{$isRtl ? 'ms-2' : 'me-2'}}"></i>
-                                {{__(getSettingStringParam('Welcome back', __('Everything\'s set—let\'s get started')))}}
+                                {{__(getSettingStringParam('Welcome back', __("Everything's set — let's get started")))}}
                             </p>
                         </div>
                     </div>

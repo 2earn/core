@@ -220,26 +220,6 @@
         "valueDe": "Guten Morgen"
     },
     {
-        "name": "Everything's set",
-        "value": "كل شيء جاهز",
-        "valueEn": "Everything's set",
-        "valueFr": "Tout est prêt",
-        "valueTr": "Her şey hazır",
-        "valueEs": "Todo está listo",
-        "valueRu": "Все готово",
-        "valueDe": "Alles ist bereit"
-    },
-    {
-        "name": "let's get started",
-        "value": "لنبدأ",
-        "valueEn": "let's get started",
-        "valueFr": "commençons",
-        "valueTr": "başlayalım",
-        "valueEs": "empecemos",
-        "valueRu": "давайте начнем",
-        "valueDe": "Lass uns anfangen"
-    },
-    {
         "name": "Complementary information",
         "value": "معلومات تكميلية",
         "valueEn": "Complementary information",
@@ -588,6 +568,16 @@
         "valueEs": "Logro cronológico",
         "valueRu": "Хроно достижение",
         "valueDe": "Chrono-Erfolg"
+    },
+    {
+        "name": "Everything's set — let's get started",
+        "value": "كل شيء جاهز — لنبدأ",
+        "valueEn": "Everything's set — let's get started",
+        "valueFr": "Tout est prêt — commençons",
+        "valueTr": "Her şey hazır — başlayalım",
+        "valueEs": "Todo está listo — comencemos",
+        "valueRu": "Все готово — давайте начнем",
+        "valueDe": "Alles ist bereit — legen wir los"
     }
 ]
 
