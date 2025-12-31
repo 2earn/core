@@ -206,12 +206,27 @@ class CouponService
     public function deleteMultipleByIds(array $ids): int
     {
         try {
-            return BalanceInjectorCoupon::whereIn('id', $ids)
+            return Coupon::whereIn('id', $ids)
                 ->where('consumed', 0)
                 ->delete();
         } catch (\Exception $e) {
             Log::error('Error deleting multiple coupons: ' . $e->getMessage(), ['ids' => $ids]);
             throw $e;
+        }
+    }
+
+    /**
+     * Get all coupons ordered by ID descending
+     *
+     * @return Collection
+     */
+    public function getAllCouponsOrdered(): Collection
+    {
+        try {
+            return Coupon::orderBy('id', 'desc')->get();
+        } catch (\Exception $e) {
+            Log::error('Error fetching all ordered coupons: ' . $e->getMessage());
+            return new Collection();
         }
     }
 

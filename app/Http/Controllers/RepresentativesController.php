@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
+use App\Services\RepresentativesService;
 
 class RepresentativesController extends Controller
 {
+    protected $representativesService;
+
+    public function __construct(RepresentativesService $representativesService)
+    {
+        $this->representativesService = $representativesService;
+    }
 
     public function index()
     {
-        $representatives = DB::table('representatives')->get();
+        $representatives = $this->representativesService->getAll();
         return datatables($representatives)
             ->make(true);
     }
