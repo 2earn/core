@@ -331,5 +331,36 @@ class CouponService
             ->orderBy('value', 'desc')
             ->get();
     }
+
+    /**
+     * Create multiple coupons (bulk creation)
+     *
+     * @param array $pins Array of PIN codes
+     * @param array $sns Array of serial numbers
+     * @param array $couponData Base coupon data (attachment_date, value, platform_id, consumed)
+     * @return int Number of coupons created
+     * @throws \Exception
+     */
+    public function createMultipleCoupons(array $pins, array $sns, array $couponData): int
+    {
+        try {
+            $createdCount = 0;
+
+            foreach ($pins as $key => $pin) {
+                $couponData['pin'] = $pin;
+                $couponData['sn'] = $sns[$key];
+                Coupon::create($couponData);
+                $createdCount++;
+            }
+
+            return $createdCount;
+        } catch (\Exception $e) {
+            Log::error('Error creating multiple coupons: ' . $e->getMessage(), [
+                'pins_count' => count($pins),
+                'sns_count' => count($sns)
+            ]);
+            throw $e;
+        }
+    }
 }
 

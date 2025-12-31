@@ -501,5 +501,22 @@ class PlatformService
             return false;
         }
     }
+
+    /**
+     * Get platforms that have coupon deals
+     *
+     * @return EloquentCollection
+     */
+    public function getPlatformsWithCouponDeals(): EloquentCollection
+    {
+        try {
+            return Platform::whereHas('deals', function ($query) {
+                $query->where('type', \Core\Enum\DealTypeEnum::coupons->value);
+            })->get();
+        } catch (\Exception $e) {
+            Log::error('Error fetching platforms with coupon deals: ' . $e->getMessage());
+            return new EloquentCollection();
+        }
+    }
 }
 
