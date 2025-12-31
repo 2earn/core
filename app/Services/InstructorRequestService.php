@@ -82,13 +82,61 @@ class InstructorRequestService
     {
         try {
             $request = InstructorRequest::findOrFail($id);
-            return $request->update(['status' => $status]);
+            return $request->update([
+                'status' => $status,
+                'examination_date' => now(),
+                'examiner_id' => auth()->user()->id,
+            ]);
         } catch (\Exception $e) {
             Log::error('Error updating instructor request status: ' . $e->getMessage(), [
                 'id' => $id,
                 'status' => $status
             ]);
             return false;
+        }
+    }
+
+    /**
+     * Update instructor request with note (for rejection)
+     *
+     * @param int $id
+     * @param string|int $status
+     * @param string $note
+     * @return bool
+     */
+    public function updateStatusWithNote(int $id, $status, string $note): bool
+    {
+        try {
+            $request = InstructorRequest::findOrFail($id);
+            return $request->update([
+                'status' => $status,
+                'examination_date' => now(),
+                'note' => $note,
+                'examiner_id' => auth()->user()->id,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error updating instructor request status with note: ' . $e->getMessage(), [
+                'id' => $id,
+                'status' => $status,
+                'note' => $note
+            ]);
+            return false;
+        }
+    }
+
+    /**
+     * Get instructor requests by user ID
+     *
+     * @param int $userId
+     * @return Collection
+     */
+    public function getByUserId(int $userId): Collection
+    {
+        try {
+            return InstructorRequest::where('user_id', $userId)->get();
+        } catch (\Exception $e) {
+            Log::error('Error fetching instructor requests by user ID: ' . $e->getMessage(), ['userId' => $userId]);
+            return new Collection();
         }
     }
 
