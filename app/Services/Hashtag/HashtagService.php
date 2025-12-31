@@ -184,5 +184,51 @@ class HashtagService
             return new EloquentCollection();
         }
     }
+
+    /**
+     * Find hashtag by ID or fail
+     *
+     * @param int $id
+     * @return Hashtag
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function findByIdOrFail(int $id): Hashtag
+    {
+        return Hashtag::findOrFail($id);
+    }
+
+    /**
+     * Create a new hashtag
+     *
+     * @param array $data
+     * @return Hashtag|null
+     */
+    public function create(array $data): ?Hashtag
+    {
+        try {
+            return Hashtag::create($data);
+        } catch (\Exception $e) {
+            Log::error('Error creating hashtag: ' . $e->getMessage(), ['data' => $data]);
+            return null;
+        }
+    }
+
+    /**
+     * Update a hashtag
+     *
+     * @param int $id
+     * @param array $data
+     * @return bool
+     */
+    public function update(int $id, array $data): bool
+    {
+        try {
+            $hashtag = Hashtag::findOrFail($id);
+            return $hashtag->update($data);
+        } catch (\Exception $e) {
+            Log::error('Error updating hashtag: ' . $e->getMessage(), ['id' => $id, 'data' => $data]);
+            return false;
+        }
+    }
 }
 

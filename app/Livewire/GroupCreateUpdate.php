@@ -2,16 +2,18 @@
 
 namespace App\Livewire;
 
-use App\Models\Group;
-use App\Models\Target;
+use App\Services\Targeting\GroupService;
+use App\Services\Targeting\TargetService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
 class GroupCreateUpdate extends Component
 {
+    protected GroupService $groupService;
+    protected TargetService $targetService;
+
     public $idTarget, $idGroup;
     public $operator = '&&';
     public $operands = [
@@ -21,6 +23,12 @@ class GroupCreateUpdate extends Component
     public $update = false;
 
     protected $rules = ['operator' => 'required'];
+
+    public function boot(GroupService $groupService, TargetService $targetService)
+    {
+        $this->groupService = $groupService;
+        $this->targetService = $targetService;
+    }
 
     public function mount($idTarget, Request $request)
     {
@@ -33,48 +41,60 @@ class GroupCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('warning', Lang::get('Group operation cancelled'));
+        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])
+            ->with('warning', Lang::get('Group operation cancelled'));
     }
 
     public function edit($idGroup)
     {
-        $question = Group::findOrFail($idGroup);
+        $question = $this->groupService->getByIdOrFail($idGroup);
         $this->idGroup = $idGroup;
         $this->operator = $question->operator;
         $this->update = true;
     }
 
-
     public function updateGroup()
     {
         $this->validate();
-        try {
-            Group::where('id', $this->idGroup)
-                ->update(['operator' => $this->operator, 'target_id' => $this->idTarget]);
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('danger', Lang::get('Something goes wrong while updating Group!!') );
-        }
-        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Group Updated Successfully'));
 
+        $success = $this->groupService->update(
+            $this->idGroup,
+            [
+                'operator' => $this->operator,
+                'target_id' => $this->idTarget
+            ]
+        );
+
+        if (!$success) {
+            return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])
+                ->with('danger', Lang::get('Something goes wrong while updating Group!!'));
+        }
+
+        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])
+            ->with('success', Lang::get('Group Updated Successfully'));
     }
 
     public function store()
     {
         $this->validate();
-        try {
-            Group::create(['operator' => $this->operator, 'target_id' => $this->idTarget]);
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('danger', Lang::get('Something goes wrong while creating Group!!') );
-        }
-        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Group Created Successfully!!'));
-    }
 
+        $result = $this->groupService->create([
+            'operator' => $this->operator,
+            'target_id' => $this->idTarget
+        ]);
+
+        if (!$result) {
+            return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])
+                ->with('danger', Lang::get('Something goes wrong while creating Group!!'));
+        }
+
+        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])
+            ->with('success', Lang::get('Group Created Successfully!!'));
+    }
 
     public function render()
     {
-        $params = ['target' => Target::find($this->idTarget)];
+        $params = ['target' => $this->targetService->getById($this->idTarget)];
         return view('livewire.group-create-update', $params)->extends('layouts.master')->section('content');
     }
 }
