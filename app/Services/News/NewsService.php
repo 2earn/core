@@ -82,6 +82,16 @@ class NewsService
     }
 
     /**
+     * Get all enabled News ordered by newest first
+     *
+     * @return Collection
+     */
+    public function getEnabledNews(): Collection
+    {
+        return News::where('enabled', 1)->orderBy('id', 'desc')->get();
+    }
+
+    /**
      * Create a new News
      *
      * @param array $data
