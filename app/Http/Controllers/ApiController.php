@@ -15,6 +15,7 @@ use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
 use App\Services\Settings\SettingService;
 use App\Services\Sponsorship\SponsorshipFacade;
+use App\Services\UserService;
 use carbon;
 use Core\Enum\BalanceOperationsEnum;
 use Core\Enum\CouponStatusEnum;
@@ -47,7 +48,8 @@ class ApiController extends BaseController
     public function __construct(
         private readonly settingsManager $settingsManager,
         private UserRepository $userRepository,
-        private SettingService $settingService
+        private SettingService $settingService,
+        private UserService $userService
     )
     {
     }
@@ -343,26 +345,9 @@ class ApiController extends BaseController
         return redirect()->route('user_balance_cb', app()->getLocale());
     }
 
-    public function getUsersListQuery()
-    {
-        return User::select('countries.apha2', 'countries.name as country', 'users.id', 'users.status', 'users.idUser', 'idUplineRegister',
-            DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'),
-            'users.mobile', 'users.created_at', 'OptActivation', 'activationCodeValue', 'pass',
-            DB::raw('IFNULL(`vip`.`flashCoefficient`,"##") as coeff'),
-            DB::raw('IFNULL(`vip`.`flashDeadline`,"##") as periode'),
-            DB::raw('IFNULL(`vip`.`flashNote`,"##") as note'),
-            DB::raw('IFNULL(`vip`.`flashMinAmount`,"##") as minshares'),
-            DB::raw('`vip`.`dateFNS` as date'))
-            ->join('metta_users as meta', 'meta.idUser', '=', 'users.idUser')
-            ->join('countries', 'countries.id', '=', 'users.idCountry')
-            ->leftJoin('vip', function ($join) {
-                $join->on('vip.idUser', '=', 'users.idUser')->where('vip.closed', '=', 0);
-            })->orderBy('created_at', 'DESC');
-    }
-
     public function getUsersList()
     {
-        return datatables($this->getUsersListQuery())
+        return datatables($this->userService->getUsersListQuery())
             ->addColumn('register_upline', function ($user) {
                 if ($user->idUplineRegister == 11111111) return trans("system"); else
                     return getRegisterUpline($user->idUplineRegister);

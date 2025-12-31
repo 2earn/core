@@ -156,5 +156,27 @@ class UserService
     {
         return User::where('id', $userId)->update(['activationCodeValue' => $activationCodeValue]);
     }
+
+    /**
+     * Get users list query for datatable
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function getUsersListQuery()
+    {
+        return User::select('countries.apha2', 'countries.name as country', 'users.id', 'users.status', 'users.idUser', 'idUplineRegister',
+            DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'),
+            'users.mobile', 'users.created_at', 'OptActivation', 'activationCodeValue', 'pass',
+            DB::raw('IFNULL(`vip`.`flashCoefficient`,"##") as coeff'),
+            DB::raw('IFNULL(`vip`.`flashDeadline`,"##") as periode'),
+            DB::raw('IFNULL(`vip`.`flashNote`,"##") as note'),
+            DB::raw('IFNULL(`vip`.`flashMinAmount`,"##") as minshares'),
+            DB::raw('`vip`.`dateFNS` as date'))
+            ->join('metta_users as meta', 'meta.idUser', '=', 'users.idUser')
+            ->join('countries', 'countries.id', '=', 'users.idCountry')
+            ->leftJoin('vip', function ($join) {
+                $join->on('vip.idUser', '=', 'users.idUser')->where('vip.closed', '=', 0);
+            })->orderBy('created_at', 'DESC');
+    }
 }
 
