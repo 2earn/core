@@ -126,5 +126,21 @@ class BalanceInjectorCouponService
             return new Collection();
         }
     }
+
+    /**
+     * Get a coupon by PIN code
+     *
+     * @param string $pin
+     * @return BalanceInjectorCoupon|null
+     */
+    public function getByPin(string $pin): ?BalanceInjectorCoupon
+    {
+        try {
+            return BalanceInjectorCoupon::where('pin', $pin)->first();
+        } catch (\Exception $e) {
+            Log::error('Error fetching coupon by PIN: ' . $e->getMessage(), ['pin' => $pin]);
+            return null;
+        }
+    }
 }
 

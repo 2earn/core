@@ -762,4 +762,28 @@ class DealService
             ->orderBy('created_at', 'desc')
             ->get(['id', 'name', 'platform_id', 'status']);
     }
+
+    /**
+     * Find a deal by ID
+     *
+     * @param int $id
+     * @return Deal|null
+     */
+    public function findById(int $id): ?Deal
+    {
+        return Deal::find($id);
+    }
+
+    /**
+     * Delete a deal
+     *
+     * @param int $id
+     * @return bool
+     * @throws \Exception
+     */
+    public function delete(int $id): bool
+    {
+        $deal = Deal::findOrFail($id);
+        return $deal->delete();
+    }
 }
