@@ -142,5 +142,23 @@ class BalanceInjectorCouponService
             return null;
         }
     }
+
+    /**
+     * Get coupons by user ID ordered by created_at descending
+     *
+     * @param int $userId
+     * @return Collection
+     */
+    public function getByUserId(int $userId): Collection
+    {
+        try {
+            return BalanceInjectorCoupon::where('user_id', $userId)
+                ->orderBy('created_at', 'desc')
+                ->get();
+        } catch (\Exception $e) {
+            Log::error('Error fetching coupons by user ID: ' . $e->getMessage(), ['user_id' => $userId]);
+            return new Collection();
+        }
+    }
 }
 

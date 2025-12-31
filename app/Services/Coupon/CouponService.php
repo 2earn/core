@@ -244,6 +244,29 @@ class CouponService
     }
 
     /**
+     * Get purchased coupons for a user by status
+     *
+     * @param int $userId
+     * @param int $status
+     * @return Collection
+     */
+    public function getPurchasedCouponsByStatus(int $userId, int $status): Collection
+    {
+        try {
+            return Coupon::where('user_id', $userId)
+                ->where('status', $status)
+                ->orderBy('id', 'desc')
+                ->get();
+        } catch (\Exception $e) {
+            Log::error('Error fetching purchased coupons by status: ' . $e->getMessage(), [
+                'user_id' => $userId,
+                'status' => $status
+            ]);
+            return new Collection();
+        }
+    }
+
+    /**
      * Mark a coupon as consumed
      *
      * @param int $id

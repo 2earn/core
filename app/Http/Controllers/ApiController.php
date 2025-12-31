@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\DAL\UserRepository;
-use App\Models\BalanceInjectorCoupon;
 use App\Models\BFSsBalances;
 use App\Models\CashBalances;
-use App\Models\Coupon;
 use App\Models\SharesBalances;
 use App\Models\User;
 use App\Models\vip;
 use App\Notifications\SharePurchase;
 use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
+use App\Services\CountriesService;
+use App\Services\Coupon\BalanceInjectorCouponService;
+use App\Services\Coupon\CouponService;
 use App\Services\Settings\SettingService;
 use App\Services\Sponsorship\SponsorshipFacade;
 use App\Services\UserService;
@@ -49,7 +50,10 @@ class ApiController extends BaseController
         private readonly settingsManager $settingsManager,
         private UserRepository $userRepository,
         private SettingService $settingService,
-        private UserService $userService
+        private UserService $userService,
+        private CountriesService $countriesService,
+        private BalanceInjectorCouponService $balanceInjectorCouponService,
+        private CouponService $couponService
     )
     {
     }
@@ -416,7 +420,10 @@ class ApiController extends BaseController
             return new JsonResponse(['message' => Lang::get('Invalid phone number format')], 200);
         }
         try {
-            $country = DB::table('countries')->where('phonecode', $inputName)->first();
+            $country = $this->countriesService->getByPhoneCode($inputName);
+            if (!$country) {
+                return new JsonResponse(['message' => Lang::get('Invalid country code')], 200);
+            }
             $phone = new PhoneNumber($phoneNumber, $country->apha2);
             $phone->formatForCountry($country->apha2);
             return new JsonResponse(['message' => ''], 200);
@@ -429,7 +436,7 @@ class ApiController extends BaseController
 
     public function getUserCouponsInjector()
     {
-        $coupons = BalanceInjectorCoupon::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->get();
+        $coupons = $this->balanceInjectorCouponService->getByUserId(auth()->user()->id);
         return datatables($coupons)
             ->addColumn('action', function ($coupon) {
                 return view('parts.datatable.coupon-action', ['coupon' => $coupon]);
@@ -452,7 +459,8 @@ class ApiController extends BaseController
 
     public function getUserCoupons()
     {
-        return datatables(Coupon::where('user_id', auth()->user()->id)->where('status', CouponStatusEnum::purchased->value)->orderBy('id', 'desc')->get())
+        $coupons = $this->couponService->getPurchasedCouponsByStatus(auth()->user()->id, CouponStatusEnum::purchased->value);
+        return datatables($coupons)
             ->addColumn('action', function ($coupon) {
                 return view('parts.datatable.coupon-consume', ['coupon' => $coupon]);
             })
