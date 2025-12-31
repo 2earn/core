@@ -2,18 +2,25 @@
 
 namespace App\Livewire;
 
-use App\Models\Item;
-use App\Models\Order;
-use App\Models\OrderDetail;
-use Core\Enum\OrderEnum;
+use App\Services\Items\ItemService;
+use App\Services\OrderDetailService;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
 class ItemsDetails extends Component
 {
+    protected ItemService $itemService;
+    protected OrderDetailService $orderDetailService;
+
     public $idItem;
     public $listeners = ['delete' => 'delete'];
 
+    public function boot(ItemService $itemService, OrderDetailService $orderDetailService)
+    {
+        $this->itemService = $itemService;
+        $this->orderDetailService = $orderDetailService;
+    }
 
     public function mount($id)
     {
@@ -24,31 +31,34 @@ class ItemsDetails extends Component
     public function delete($id)
     {
         try {
-            Item::findOrFail($id)->delete();
-            return redirect()->route('items_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Item Deleted Successfully'));
+            $item = $this->itemService->findItemOrFail($id);
+            $item->delete();
+
+            return redirect()->route('items_index', ['locale' => app()->getLocale()])
+                ->with('success', Lang::get('Item Deleted Successfully'));
         } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return redirect()->route('items_index', ['locale' => app()->getLocale()])->with('danger', $exception->getMessage());
+            return redirect()->route('items_index', ['locale' => app()->getLocale()])
+                ->with('danger', $exception->getMessage());
         }
     }
 
     public function render()
     {
-        $item = Item::find($this->idItem);
-        if (is_null($item)) {
-            $this->redirect()->route('items_index', ['locale' => app()->getLocale()]);
-        }
-        $itemId = $this->idItem;
+        $item = $this->itemService->findItem($this->idItem);
 
-        $sumOfItemIds = OrderDetail::where('item_id', $itemId)
-            ->whereHas('order', function ($query) {
-                $query->where('status', OrderEnum::Paid->value);
-            })->sum('qty');
+        if (is_null($item)) {
+            return $this->redirect()->route('items_index', ['locale' => app()->getLocale()]);
+        }
+
+        $sumOfItemIds = $this->orderDetailService->getSumOfPaidItemQuantities($this->idItem);
+
         $params = [
             'item' => $item,
             'sumOfItemIds' => $sumOfItemIds,
         ];
-        return view('livewire.items-details', $params)->extends('layouts.master')->section('content');
 
+        return view('livewire.items-details', $params)
+            ->extends('layouts.master')
+            ->section('content');
     }
 }
