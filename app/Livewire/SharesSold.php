@@ -2,9 +2,7 @@
 
 namespace App\Livewire;
 
-
-use App\Models\CashBalances;
-use App\Models\SharesBalances;
+use App\Services\Balances\CashBalancesService;
 use Carbon\Carbon;
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
@@ -21,6 +19,7 @@ class SharesSold extends Component
     public $cash = 25.033;
     private settingsManager $settingsManager;
     private BalancesManager $balancesManager;
+    private CashBalancesService $cashBalancesService;
 
     protected $listeners = [
         'checkContactNumbre' => 'checkContactNumbre'
@@ -31,10 +30,15 @@ class SharesSold extends Component
         dd('ddd');
     }
 
-    public function mount(settingsManager $settingsManager, BalancesManager $balancesManager)
+    public function mount(
+        settingsManager $settingsManager,
+        BalancesManager $balancesManager,
+        CashBalancesService $cashBalancesService
+    )
     {
         $this->settingsManager = $settingsManager;
         $this->balancesManager = $balancesManager;
+        $this->cashBalancesService = $cashBalancesService;
     }
 
     public function getIp()
@@ -74,14 +78,10 @@ class SharesSold extends Component
         array_push($arraySoldeD, $soldeBFSd);
         array_push($arraySoldeD, $soldeDBd);
         $usermetta_info = collect(DB::table('metta_users')->where('idUser', $user->idUser)->first());
-        $dateAujourdhui = Carbon::now()->format('Y-m-d');
-        $vente_jour = CashBalances::where('balance_operation_id', 42)
-            ->where('beneficiary_id', $user->idUser)
-            ->whereDate('created_at', '=', $dateAujourdhui)
-            ->selectRaw('SUM(value) as total_sum')->first()->total_sum;
-        $vente_total = CashBalances::where('balance_operation_id', 42)
-            ->where('beneficiary_id', $user->idUser)
-            ->selectRaw('SUM(value) as total_sum')->first()->total_sum;
+
+        $salesData = $this->cashBalancesService->getSalesData($user->idUser, 42);
+        $vente_jour = $salesData['today'];
+        $vente_total = $salesData['total'];
 
         $params = [
             "solde" => $s,
