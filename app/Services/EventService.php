@@ -132,5 +132,124 @@ class EventService
             return null;
         }
     }
+
+    /**
+     * Get paginated events with search and counts
+     *
+     * @param string|null $search
+     * @param int $perPage
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getPaginatedWithCounts(?string $search = null, int $perPage = 10)
+    {
+        try {
+            $query = Event::withCount(['comments', 'likes']);
+
+            if ($search) {
+                $query->where('title', 'like', '%' . $search . '%');
+            }
+
+            return $query->orderByDesc('published_at')->paginate($perPage);
+        } catch (\Exception $e) {
+            Log::error('Error fetching paginated events with counts: ' . $e->getMessage());
+            return Event::paginate($perPage);
+        }
+    }
+
+    /**
+     * Get event with relationships (mainImage, likes, comments.user)
+     *
+     * @param int $id
+     * @return Event|null
+     */
+    public function getWithRelationships(int $id): ?Event
+    {
+        try {
+            return Event::with(['mainImage', 'likes', 'comments.user'])->find($id);
+        } catch (\Exception $e) {
+            Log::error('Error fetching event with relationships: ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Check if user has liked an event
+     *
+     * @param int $eventId
+     * @param int $userId
+     * @return bool
+     */
+    public function hasUserLiked(int $eventId, int $userId): bool
+    {
+        try {
+            return Event::whereHas('likes', function ($q) use ($userId, $eventId) {
+                $q->where('user_id', $userId)->where('likable_id', $eventId);
+            })->exists();
+        } catch (\Exception $e) {
+            Log::error('Error checking if user liked event: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Add like to an event
+     *
+     * @param int $eventId
+     * @param int $userId
+     * @return bool
+     */
+    public function addLike(int $eventId, int $userId): bool
+    {
+        try {
+            $event = Event::findOrFail($eventId);
+            $event->likes()->create(['user_id' => $userId]);
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Error adding like to event: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Remove like from an event
+     *
+     * @param int $eventId
+     * @param int $userId
+     * @return bool
+     */
+    public function removeLike(int $eventId, int $userId): bool
+    {
+        try {
+            $event = Event::findOrFail($eventId);
+            $event->likes()->where('user_id', $userId)->delete();
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Error removing like from event: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Add comment to an event
+     *
+     * @param int $eventId
+     * @param int $userId
+     * @param string $content
+     * @return bool
+     */
+    public function addComment(int $eventId, int $userId, string $content): bool
+    {
+        try {
+            $event = Event::findOrFail($eventId);
+            $event->comments()->create([
+                'user_id' => $userId,
+                'content' => $content
+            ]);
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Error adding comment to event: ' . $e->getMessage());
+            return false;
+        }
+    }
 }
 
