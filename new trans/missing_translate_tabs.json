@@ -658,6 +658,406 @@
         "valueEs": "Operación de claves a base de datos completada con éxito",
         "valueRu": "Операция добавления ключей в базу данных успешно завершена",
         "valueDe": "Schlüssel zur Datenbankoperation erfolgreich abgeschlossen"
+    },
+    {
+        "name": "Actual Solde BFS 100",
+        "value": "الرصيد الفعلي BFS 100",
+        "valueEn": "Actual Balance BFS 100",
+        "valueFr": "Solde actuel BFS 100",
+        "valueTr": "Gerçek Bakiye BFS 100",
+        "valueEs": "Saldo actual BFS 100",
+        "valueRu": "Текущий баланс BFS 100",
+        "valueDe": "Aktueller Saldo BFS 100"
+    },
+    {
+        "name": "Choose the payment method",
+        "value": "اختر طريقة الدفع",
+        "valueEn": "Choose the payment method",
+        "valueFr": "Choisissez le mode de paiement",
+        "valueTr": "Ödeme yöntemini seçin",
+        "valueEs": "Elija el método de pago",
+        "valueRu": "Выберите способ оплаты",
+        "valueDe": "Wählen Sie die Zahlungsmethode"
+    },
+    {
+        "name": "Participation to the survey question",
+        "value": "المشاركة في سؤال الاستطلاع",
+        "valueEn": "Participation to the survey question",
+        "valueFr": "Participation à la question du sondage",
+        "valueTr": "Anket sorusuna katılım",
+        "valueEs": "Participación en la pregunta de la encuesta",
+        "valueRu": "Участие в вопросе опроса",
+        "valueDe": "Teilnahme an der Umfragefrage"
+    },
+    {
+        "name": "Outgoming request",
+        "value": "طلب صادر",
+        "valueEn": "Outgoing request",
+        "valueFr": "Demande sortante",
+        "valueTr": "Giden talep",
+        "valueEs": "Solicitud saliente",
+        "valueRu": "Исходящий запрос",
+        "valueDe": "Ausgehende Anfrage"
+    },
+    {
+        "name": "Dashboard",
+        "value": "لوحة التحكم",
+        "valueEn": "Dashboard",
+        "valueFr": "Tableau de bord",
+        "valueTr": "Gösterge Paneli",
+        "valueEs": "Panel de control",
+        "valueRu": "Панель управления",
+        "valueDe": "Dashboard"
+    },
+    {
+        "name": "public",
+        "value": "عام",
+        "valueEn": "public",
+        "valueFr": "public",
+        "valueTr": "genel",
+        "valueEs": "público",
+        "valueRu": "публичный",
+        "valueDe": "öffentlich"
+    },
+    {
+        "name": "OPENED",
+        "value": "مفتوح",
+        "valueEn": "OPENED",
+        "valueFr": "OUVERT",
+        "valueTr": "AÇILDI",
+        "valueEs": "ABIERTO",
+        "valueRu": "ОТКРЫТО",
+        "valueDe": "GEÖFFNET"
+    },
+    {
+        "name": "Fill BFS 100 amount",
+        "value": "املأ مبلغ BFS 100",
+        "valueEn": "Fill BFS 100 amount",
+        "valueFr": "Remplir le montant BFS 100",
+        "valueTr": "BFS 100 miktarını doldurun",
+        "valueEs": "Llenar cantidad BFS 100",
+        "valueRu": "Заполните сумму BFS 100",
+        "valueDe": "BFS 100 Betrag ausfüllen"
+    },
+    {
+        "name": "NEW",
+        "value": "جديد",
+        "valueEn": "NEW",
+        "valueFr": "NOUVEAU",
+        "valueTr": "YENİ",
+        "valueEs": "NUEVO",
+        "valueRu": "НОВЫЙ",
+        "valueDe": "NEU"
+    },
+    {
+        "name": "OPEN",
+        "value": "مفتوح",
+        "valueEn": "OPEN",
+        "valueFr": "OUVERT",
+        "valueTr": "AÇIK",
+        "valueEs": "ABIERTO",
+        "valueRu": "ОТКРЫТ",
+        "valueDe": "OFFEN"
+    },
+    {
+        "name": "CLOSED",
+        "value": "مغلق",
+        "valueEn": "CLOSED",
+        "valueFr": "FERMÉ",
+        "valueTr": "KAPALI",
+        "valueEs": "CERRADO",
+        "valueRu": "ЗАКРЫТО",
+        "valueDe": "GESCHLOSSEN"
+    },
+    {
+        "name": "Successful Sharing Pool title",
+        "value": "عنوان مجمع المشاركة الناجح",
+        "valueEn": "Successful Sharing Pool title",
+        "valueFr": "Titre du pool de partage réussi",
+        "valueTr": "Başarılı Paylaşım Havuzu başlığı",
+        "valueEs": "Título del grupo de intercambio exitoso",
+        "valueRu": "Название успешного пула обмена",
+        "valueDe": "Titel des erfolgreichen Sharing-Pools"
+    },
+    {
+        "name": "Successful Sharing Pool description",
+        "value": "وصف مجمع المشاركة الناجح",
+        "valueEn": "Successful Sharing Pool description",
+        "valueFr": "Description du pool de partage réussi",
+        "valueTr": "Başarılı Paylaşım Havuzu açıklaması",
+        "valueEs": "Descripción del grupo de intercambio exitoso",
+        "valueRu": "Описание успешного пула обмена",
+        "valueDe": "Beschreibung des erfolgreichen Sharing-Pools"
+    },
+    {
+        "name": "Successful Sharing Pool",
+        "value": "مجمع المشاركة الناجح",
+        "valueEn": "Successful Sharing Pool",
+        "valueFr": "Pool de partage réussi",
+        "valueTr": "Başarılı Paylaşım Havuzu",
+        "valueEs": "Grupo de intercambio exitoso",
+        "valueRu": "Успешный пул обмена",
+        "valueDe": "Erfolgreicher Sharing-Pool"
+    },
+    {
+        "name": "ARCHIVED",
+        "value": "مؤرشف",
+        "valueEn": "ARCHIVED",
+        "valueFr": "ARCHIVÉ",
+        "valueTr": "ARŞİVLENDİ",
+        "valueEs": "ARCHIVADO",
+        "valueRu": "АРХИВИРОВАНО",
+        "valueDe": "ARCHIVIERT"
+    },
+    {
+        "name": "No shares found",
+        "value": "لم يتم العثور على أسهم",
+        "valueEn": "No shares found",
+        "valueFr": "Aucune action trouvée",
+        "valueTr": "Hisse bulunamadı",
+        "valueEs": "No se encontraron acciones",
+        "valueRu": "Акции не найдены",
+        "valueDe": "Keine Aktien gefunden"
+    },
+    {
+        "name": "Hashtags",
+        "value": "الوسوم",
+        "valueEn": "Hashtags",
+        "valueFr": "Hashtags",
+        "valueTr": "Hashtagler",
+        "valueEs": "Hashtags",
+        "valueRu": "Хештеги",
+        "valueDe": "Hashtags"
+    },
+    {
+        "name": "Thumbnail",
+        "value": "الصورة المصغرة",
+        "valueEn": "Thumbnail",
+        "valueFr": "Miniature",
+        "valueTr": "Küçük resim",
+        "valueEs": "Miniatura",
+        "valueRu": "Миниатюра",
+        "valueDe": "Vorschaubild"
+    },
+    {
+        "name": "Home Thumbnail",
+        "value": "صورة مصغرة للرئيسية",
+        "valueEn": "Home Thumbnail",
+        "valueFr": "Miniature d'accueil",
+        "valueTr": "Ana Sayfa Küçük Resmi",
+        "valueEs": "Miniatura de inicio",
+        "valueRu": "Миниатюра главной",
+        "valueDe": "Startseiten-Vorschaubild"
+    },
+    {
+        "name": "Logo Image",
+        "value": "صورة الشعار",
+        "valueEn": "Logo Image",
+        "valueFr": "Image du logo",
+        "valueTr": "Logo Görseli",
+        "valueEs": "Imagen del logo",
+        "valueRu": "Изображение логотипа",
+        "valueDe": "Logo-Bild"
+    },
+    {
+        "name": "Register upline",
+        "value": "تسجيل الراعي",
+        "valueEn": "Register upline",
+        "valueFr": "Enregistrer le parrain",
+        "valueTr": "Üst hattı kaydet",
+        "valueEs": "Registrar patrocinador",
+        "valueRu": "Зарегистрировать спонсора",
+        "valueDe": "Upline registrieren"
+    },
+    {
+        "name": "created",
+        "value": "تم الإنشاء",
+        "valueEn": "created",
+        "valueFr": "créé",
+        "valueTr": "oluşturuldu",
+        "valueEs": "creado",
+        "valueRu": "создано",
+        "valueDe": "erstellt"
+    },
+    {
+        "name": "OptValidated",
+        "value": "تم التحقق",
+        "valueEn": "OptValidated",
+        "valueFr": "Validé",
+        "valueTr": "Doğrulandı",
+        "valueEs": "Validado",
+        "valueRu": "Подтверждено",
+        "valueDe": "Validiert"
+    },
+    {
+        "name": "Registred",
+        "value": "مسجل",
+        "valueEn": "Registered",
+        "valueFr": "Enregistré",
+        "valueTr": "Kayıtlı",
+        "valueEs": "Registrado",
+        "valueRu": "Зарегистрирован",
+        "valueDe": "Registriert"
+    },
+    {
+        "name": "Business Flow System",
+        "value": "نظام تدفق الأعمال",
+        "valueEn": "Business Flow System",
+        "valueFr": "Système de flux d'affaires",
+        "valueTr": "İş Akış Sistemi",
+        "valueEs": "Sistema de flujo de negocios",
+        "valueRu": "Система бизнес-потока",
+        "valueDe": "Business Flow System"
+    },
+    {
+        "name": "Total Balance",
+        "value": "الرصيد الإجمالي",
+        "valueEn": "Total Balance",
+        "valueFr": "Solde total",
+        "valueTr": "Toplam Bakiye",
+        "valueEs": "Saldo total",
+        "valueRu": "Общий баланс",
+        "valueDe": "Gesamtguthaben"
+    },
+    {
+        "name": "Total Payments",
+        "value": "إجمالي المدفوعات",
+        "valueEn": "Total Payments",
+        "valueFr": "Total des paiements",
+        "valueTr": "Toplam Ödemeler",
+        "valueEs": "Total de pagos",
+        "valueRu": "Всего платежей",
+        "valueDe": "Gesamtzahlungen"
+    },
+    {
+        "name": "Pending Payments",
+        "value": "المدفوعات المعلقة",
+        "valueEn": "Pending Payments",
+        "valueFr": "Paiements en attente",
+        "valueTr": "Bekleyen Ödemeler",
+        "valueEs": "Pagos pendientes",
+        "valueRu": "Ожидающие платежи",
+        "valueDe": "Ausstehende Zahlungen"
+    },
+    {
+        "name": "Validated Payments",
+        "value": "المدفوعات المعتمدة",
+        "valueEn": "Validated Payments",
+        "valueFr": "Paiements validés",
+        "valueTr": "Onaylanmış Ödemeler",
+        "valueEs": "Pagos validados",
+        "valueRu": "Подтвержденные платежи",
+        "valueDe": "Validierte Zahlungen"
+    },
+    {
+        "name": "Rejected Payments",
+        "value": "المدفوعات المرفوضة",
+        "valueEn": "Rejected Payments",
+        "valueFr": "Paiements rejetés",
+        "valueTr": "Reddedilen Ödemeler",
+        "valueEs": "Pagos rechazados",
+        "valueRu": "Отклоненные платежи",
+        "valueDe": "Abgelehnte Zahlungen"
+    },
+    {
+        "name": "Total Amount (Validated)",
+        "value": "المبلغ الإجمالي (المعتمد)",
+        "valueEn": "Total Amount (Validated)",
+        "valueFr": "Montant total (validé)",
+        "valueTr": "Toplam Tutar (Onaylandı)",
+        "valueEs": "Monto total (validado)",
+        "valueRu": "Общая сумма (подтверждено)",
+        "valueDe": "Gesamtbetrag (validiert)"
+    },
+    {
+        "name": "Reset",
+        "value": "إعادة تعيين",
+        "valueEn": "Reset",
+        "valueFr": "Réinitialiser",
+        "valueTr": "Sıfırla",
+        "valueEs": "Restablecer",
+        "valueRu": "Сбросить",
+        "valueDe": "Zurücksetzen"
+    },
+    {
+        "name": "Notifications list",
+        "value": "قائمة الإشعارات",
+        "valueEn": "Notifications list",
+        "valueFr": "Liste des notifications",
+        "valueTr": "Bildirimler listesi",
+        "valueEs": "Lista de notificaciones",
+        "valueRu": "Список уведомлений",
+        "valueDe": "Benachrichtigungsliste"
+    },
+    {
+        "name": "Category",
+        "value": "الفئة",
+        "valueEn": "Category",
+        "valueFr": "Catégorie",
+        "valueTr": "Kategori",
+        "valueEs": "Categoría",
+        "valueRu": "Категория",
+        "valueDe": "Kategorie"
+    },
+    {
+        "name": "Plan label",
+        "value": "تسمية الخطة",
+        "valueEn": "Plan label",
+        "valueFr": "Libellé du plan",
+        "valueTr": "Plan etiketi",
+        "valueEs": "Etiqueta del plan",
+        "valueRu": "Метка плана",
+        "valueDe": "Plan-Bezeichnung"
+    },
+    {
+        "name": "Order Dashboard",
+        "value": "لوحة الطلبات",
+        "valueEn": "Order Dashboard",
+        "valueFr": "Tableau de bord des commandes",
+        "valueTr": "Sipariş Gösterge Paneli",
+        "valueEs": "Panel de pedidos",
+        "valueRu": "Панель заказов",
+        "valueDe": "Bestellungs-Dashboard"
+    },
+    {
+        "name": "Balance categories",
+        "value": "فئات الرصيد",
+        "valueEn": "Balance categories",
+        "valueFr": "Catégories de solde",
+        "valueTr": "Bakiye kategorileri",
+        "valueEs": "Categorías de saldo",
+        "valueRu": "Категории баланса",
+        "valueDe": "Guthaben-Kategorien"
+    },
+    {
+        "name": "Balance inj. Coupons",
+        "value": "قسائم حقن الرصيد",
+        "valueEn": "Balance inj. Coupons",
+        "valueFr": "Coupons d'injection de solde",
+        "valueTr": "Bakiye enj. Kuponları",
+        "valueEs": "Cupones de iny. de saldo",
+        "valueRu": "Купоны инж. баланса",
+        "valueDe": "Guthaben-Inj. Gutscheine"
+    },
+    {
+        "name": "User list",
+        "value": "قائمة المستخدمين",
+        "valueEn": "User list",
+        "valueFr": "Liste des utilisateurs",
+        "valueTr": "Kullanıcı listesi",
+        "valueEs": "Lista de usuarios",
+        "valueRu": "Список пользователей",
+        "valueDe": "Benutzerliste"
+    },
+    {
+        "name": "Events",
+        "value": "الأحداث",
+        "valueEn": "Events",
+        "valueFr": "Événements",
+        "valueTr": "Etkinlikler",
+        "valueEs": "Eventos",
+        "valueRu": "События",
+        "valueDe": "Veranstaltungen"
     }
 ]
 
