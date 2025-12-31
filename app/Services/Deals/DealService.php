@@ -632,6 +632,7 @@ class DealService
         if (!is_null($startDate) && !is_null($endDate)) {
             $query = $query->whereBetween('orders.payment_datetime', [$startDate, $endDate]);
         }
+        $query = $query->whereNotNull('orders.payment_datetime');
         $query = $query->select(
             DB::raw("items.deal_id"),
             DB::raw("DATE_FORMAT(orders.payment_datetime, '$dateFormat') as date_group"),
