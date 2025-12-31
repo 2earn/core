@@ -191,5 +191,258 @@ class SurveyService
             return false;
         }
     }
+
+    /**
+     * Get non-archived surveys with search and filtering
+     *
+     * @param string|null $search
+     * @param bool $isSuperAdmin
+     * @return Collection
+     */
+    public function getNonArchivedSurveysWithFilters(?string $search = null, bool $isSuperAdmin = false): Collection
+    {
+        try {
+            $query = Survey::where('status', '!=', StatusSurvey::ARCHIVED->value);
+
+            if ($isSuperAdmin) {
+                if (!empty($search)) {
+                    $query->where('name', 'like', '%' . $search . '%');
+                }
+                return $query->orderBy('created_at', 'DESC')->get();
+            } else {
+                $query->where('published', true)
+                    ->where('status', '!=', StatusSurvey::NEW->value);
+
+                if (!empty($search)) {
+                    $query->where('name', 'like', '%' . $search . '%');
+                }
+
+                // Get surveys and filter by canShow()
+                $surveys = $query->orderBy('created_at', 'DESC')->get();
+                return $surveys->filter(function ($survey) {
+                    return $survey->canShow();
+                })->values();
+            }
+        } catch (\Exception $e) {
+            Log::error('Error fetching non-archived surveys with filters: ' . $e->getMessage(), [
+                'search' => $search,
+                'is_super_admin' => $isSuperAdmin
+            ]);
+            return new Collection();
+        }
+    }
+
+    /**
+     * Enable a survey
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function enable(int $id): bool
+    {
+        try {
+            return Survey::where('id', $id)->update([
+                'enabled' => true,
+                'enableDate' => \Carbon\Carbon::now()
+            ]) > 0;
+        } catch (\Exception $e) {
+            Log::error('Error enabling survey: ' . $e->getMessage(), ['survey_id' => $id]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Disable a survey with note
+     *
+     * @param int $id
+     * @param string $note
+     * @return bool
+     */
+    public function disable(int $id, string $note): bool
+    {
+        try {
+            $result = Survey::where('id', $id)->update([
+                'enabled' => false,
+                'disabledBtnDescription' => $note,
+                'disabledate' => \Carbon\Carbon::now()
+            ]);
+
+            $survey = $this->getById($id);
+            $translationModel = \App\Models\TranslaleModel::where('name',
+                \App\Models\TranslaleModel::getTranslateName($survey, "disabledBtnDescription")
+            )->first();
+
+            if (!is_null($translationModel)) {
+                $translationModel->update([
+                    'value' => $note . ' AR',
+                    'valueFr' => $note . ' FR',
+                    'valueEn' => $note . ' EN'
+                ]);
+            } else {
+                \App\Models\TranslaleModel::create([
+                    'name' => \App\Models\TranslaleModel::getTranslateName($survey, 'disabledBtnDescription'),
+                    'value' => $note . ' AR',
+                    'valueFr' => $note . ' FR',
+                    'valueEn' => $note . ' EN',
+                    'valueEs' => $note . ' ES',
+                    'valueTr' => $note . ' TR',
+                    'valueRu' => $note . ' RU',
+                    'valueDe' => $note . ' DE'
+                ]);
+            }
+
+            return $result > 0;
+        } catch (\Exception $e) {
+            Log::error('Error disabling survey: ' . $e->getMessage(), ['survey_id' => $id]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Check if survey can be opened
+     *
+     * @param int $id
+     * @return bool
+     * @throws \Exception
+     */
+    public function canBeOpened(int $id): bool
+    {
+        try {
+            $survey = $this->getById($id);
+
+            if (!$survey->enabled) {
+                throw new \Exception(\Illuminate\Support\Facades\Lang::get('This is disabled'));
+            }
+            if ($survey->targets->isEmpty()) {
+                throw new \Exception(\Illuminate\Support\Facades\Lang::get('No target spacified'));
+            }
+
+            if (!is_null($survey->question)) {
+                if ($survey->question->serveyQuestionChoice()->count() < 2) {
+                    throw new \Exception(\Illuminate\Support\Facades\Lang::get('We need more choices for the question'));
+                }
+            } else {
+                throw new \Exception(\Illuminate\Support\Facades\Lang::get('We need to add the question'));
+            }
+
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Error checking if survey can be opened: ' . $e->getMessage(), ['survey_id' => $id]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Open a survey
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function open(int $id): bool
+    {
+        try {
+            return Survey::where('id', $id)->update([
+                'status' => StatusSurvey::OPEN->value,
+                'openDate' => \Carbon\Carbon::now()
+            ]) > 0;
+        } catch (\Exception $e) {
+            Log::error('Error opening survey: ' . $e->getMessage(), ['survey_id' => $id]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Close a survey
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function close(int $id): bool
+    {
+        try {
+            return Survey::where('id', $id)->update([
+                'status' => StatusSurvey::CLOSED->value,
+                'closeDate' => \Carbon\Carbon::now()
+            ]) > 0;
+        } catch (\Exception $e) {
+            Log::error('Error closing survey: ' . $e->getMessage(), ['survey_id' => $id]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Archive a survey
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function archive(int $id): bool
+    {
+        try {
+            Survey::where('id', $id)->update([
+                'status' => StatusSurvey::ARCHIVED->value,
+                'archivedDate' => \Carbon\Carbon::now()
+            ]);
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Error archiving survey: ' . $e->getMessage(), ['survey_id' => $id]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Publish a survey
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function publish(int $id): bool
+    {
+        try {
+            return Survey::where('id', $id)->update([
+                'published' => true,
+                'publishDate' => \Carbon\Carbon::now()
+            ]) > 0;
+        } catch (\Exception $e) {
+            Log::error('Error publishing survey: ' . $e->getMessage(), ['survey_id' => $id]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Unpublish a survey
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function unpublish(int $id): bool
+    {
+        try {
+            return Survey::where('id', $id)->update([
+                'published' => false,
+                'unpublishDate' => \Carbon\Carbon::now()
+            ]) > 0;
+        } catch (\Exception $e) {
+            Log::error('Error unpublishing survey: ' . $e->getMessage(), ['survey_id' => $id]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Change updatable property of a survey
+     *
+     * @param int $id
+     * @param bool $updatable
+     * @return bool
+     */
+    public function changeUpdatable(int $id, bool $updatable): bool
+    {
+        try {
+            return Survey::where('id', $id)->update(['updatable' => $updatable]) > 0;
+        } catch (\Exception $e) {
+            Log::error('Error changing survey updatable property: ' . $e->getMessage(), ['survey_id' => $id]);
+            throw $e;
+        }
+    }
 }
 
