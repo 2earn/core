@@ -2,13 +2,24 @@
 
 namespace App\Livewire;
 
-use App\Models\CommissionBreakDown;
-use App\Models\Deal;
+use App\Services\CommissionBreakDownService;
+use App\Services\Deals\DealService;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
 class SalesTracking extends Component
 {
+    public $idDeal;
+
+    protected DealService $dealService;
+    protected CommissionBreakDownService $commissionService;
+
+    public function boot(DealService $dealService, CommissionBreakDownService $commissionService)
+    {
+        $this->dealService = $dealService;
+        $this->commissionService = $commissionService;
+    }
+
     public function mount()
     {
         $this->idDeal = Route::current()->parameter('id');
@@ -16,13 +27,13 @@ class SalesTracking extends Component
 
     public function render()
     {
-        $deal = Deal::find($this->idDeal);
+        $deal = $this->dealService->find($this->idDeal);
         if (is_null($deal)) {
-            $this->redirect()->route('deals_index', ['locale' => app()->getLocale()]);
+            return $this->redirect(route('deals_index', ['locale' => app()->getLocale()]));
         }
-        $commissions = CommissionBreakDown::where('deal_id', $this->idDeal)
-            ->orderBy('id', 'ASC')
-            ->get();
+
+        $commissions = $this->commissionService->getByDealId($this->idDeal, 'id', 'ASC');
+
         $params = [
             'deal' => $deal,
             'commissions' => $commissions
