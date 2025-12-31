@@ -444,5 +444,102 @@ class SurveyService
             throw $e;
         }
     }
+
+    /**
+     * Check if user has liked a survey
+     *
+     * @param int $surveyId
+     * @param int $userId
+     * @return bool
+     */
+    public function hasUserLiked(int $surveyId, int $userId): bool
+    {
+        try {
+            return Survey::whereHas('likes', function ($q) use ($userId, $surveyId) {
+                $q->where('user_id', $userId)->where('likable_id', $surveyId);
+            })->exists();
+        } catch (\Exception $e) {
+            Log::error('Error checking if user liked survey: ' . $e->getMessage(), [
+                'survey_id' => $surveyId,
+                'user_id' => $userId
+            ]);
+            return false;
+        }
+    }
+
+    /**
+     * Add like to survey
+     *
+     * @param int $surveyId
+     * @param int $userId
+     * @return bool
+     */
+    public function addLike(int $surveyId, int $userId): bool
+    {
+        try {
+            $survey = $this->getById($surveyId);
+            $survey->likes()->create(['user_id' => $userId]);
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Error adding like to survey: ' . $e->getMessage(), [
+                'survey_id' => $surveyId,
+                'user_id' => $userId
+            ]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Remove like from survey
+     *
+     * @param int $surveyId
+     * @param int $userId
+     * @return bool
+     */
+    public function removeLike(int $surveyId, int $userId): bool
+    {
+        try {
+            $survey = $this->getById($surveyId);
+            $likes = $survey->likes()->get();
+            foreach ($likes as $like) {
+                if ($like->user_id == $userId) {
+                    $like->delete();
+                }
+            }
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Error removing like from survey: ' . $e->getMessage(), [
+                'survey_id' => $surveyId,
+                'user_id' => $userId
+            ]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Add comment to survey
+     *
+     * @param int $surveyId
+     * @param int $userId
+     * @param string $content
+     * @return bool
+     */
+    public function addComment(int $surveyId, int $userId, string $content): bool
+    {
+        try {
+            $survey = $this->getById($surveyId);
+            $survey->comments()->create([
+                'user_id' => $userId,
+                'content' => $content
+            ]);
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Error adding comment to survey: ' . $e->getMessage(), [
+                'survey_id' => $surveyId,
+                'user_id' => $userId
+            ]);
+            throw $e;
+        }
+    }
 }
 
