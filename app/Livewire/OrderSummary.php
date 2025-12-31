@@ -38,7 +38,6 @@ class OrderSummary extends Component
 
         $ordersData = [];
 
-        // Group cart items by platform
         foreach ($cart->cartItem()->get() as $cartItem) {
             $item = $cartItem->item()->first();
             if ($item && $item->deal()->first()) {

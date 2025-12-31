@@ -464,6 +464,58 @@ class OrderService
             throw $e;
         }
     }
+
+    /**
+     * Get orders by IDs for a specific user with specific statuses
+     *
+     * @param int $userId
+     * @param array $orderIds
+     * @param array $statuses
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getOrdersByIdsForUser(int $userId, array $orderIds, array $statuses = [])
+    {
+        try {
+            $query = Order::with(['orderDetails.item.deal.platform', 'platform', 'user'])
+                ->whereIn('id', $orderIds)
+                ->where('user_id', $userId);
+
+            if (!empty($statuses)) {
+                $query->whereIn('status', $statuses);
+            }
+
+            return $query->get();
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error fetching orders by IDs for user: ' . $e->getMessage(), [
+                'user_id' => $userId,
+                'order_ids' => $orderIds,
+                'statuses' => $statuses
+            ]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Find order by ID for a specific user
+     *
+     * @param int $orderId
+     * @param int $userId
+     * @return Order|null
+     */
+    public function findOrderForUser(int $orderId, int $userId): ?Order
+    {
+        try {
+            return Order::where('id', $orderId)
+                ->where('user_id', $userId)
+                ->first();
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error finding order for user: ' . $e->getMessage(), [
+                'order_id' => $orderId,
+                'user_id' => $userId
+            ]);
+            throw $e;
+        }
+    }
 }
 
 
