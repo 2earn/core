@@ -260,16 +260,15 @@ class SalesDashboardController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Transactions retrieved successfully',
-                'data' => [
-                    'transactions' => $transactions['data'] ?? [],
-                    'pagination' => [
-                        'current_page' => $transactions['current_page'] ?? 1,
-                        'per_page' => $transactions['per_page'] ?? 15,
-                        'total' => $transactions['total'] ?? 0,
-                        'last_page' => $transactions['last_page'] ?? 1,
-                        'from' => $transactions['from'] ?? null,
-                        'to' => $transactions['to'] ?? null,
-                    ]
+                'filters' => $transactions['filters'] ?? [],
+                'transactions' => $transactions['data'] ?? [],
+                'pagination' => [
+                    'current_page' => $transactions['current_page'] ?? 1,
+                    'per_page' => $transactions['per_page'] ?? 15,
+                    'total' => $transactions['total'] ?? 0,
+                    'last_page' => $transactions['last_page'] ?? 1,
+                    'from' => $transactions['from'] ?? null,
+                    'to' => $transactions['to'] ?? null,
                 ]
             ], Response::HTTP_OK);
         } catch (\Exception $e) {

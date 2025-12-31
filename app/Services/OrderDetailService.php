@@ -118,7 +118,7 @@ class OrderDetailService
     {
         try {
             $startDate = $filters['start_date'] ?? now()->subDays(30)->format('Y-m-d');
-            $endDate = $filters['end_date'] ?? now()->format('Y-m-d');
+            $endDate = $filters['end_date'] ?? now()->addDay()->format('Y-m-d');
 
 
             $query = Order::query()
@@ -143,7 +143,7 @@ class OrderDetailService
             }
 
             if (!empty($filters['status'])) {
-                $query->where('orders.status', '<=', $filters['status']);
+                $query->where('orders.status', $filters['status']);
             }
 
             if (!empty($filters['note'])) {
@@ -167,6 +167,7 @@ class OrderDetailService
             $perPage = $filters['per_page'] ?? 15;
 
             $paginatedResults = $query->paginate($perPage, ['*'], 'page', $page);
+
 
             Log::info(self::LOG_PREFIX . 'Sales transaction data retrieved successfully', [
                 'filters' => $filters,
