@@ -148,6 +148,7 @@ Route::prefix('/partner/')->name('api_partner_')
             Route::prefix('items')->name('items_')->group(function () {
                 Route::post('/', [ItemsPartnerController::class, 'store'])->name('store');
                 Route::put('/{id}', [ItemsPartnerController::class, 'update'])->name('update');
+                Route::get('/deal/{dealId}', [ItemsPartnerController::class, 'listItemsForDeal'])->name('list_by_deal');
             });
 
             Route::prefix('sales/dashboard')->name('sales_dashboard_')->group(function () {
