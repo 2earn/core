@@ -104,5 +104,33 @@ class EventService
             return false;
         }
     }
+
+    /**
+     * Find event by ID or fail
+     *
+     * @param int $id
+     * @return Event
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function findByIdOrFail(int $id): Event
+    {
+        return Event::findOrFail($id);
+    }
+
+    /**
+     * Get event with main image by ID
+     *
+     * @param int $id
+     * @return Event|null
+     */
+    public function getWithMainImage(int $id): ?Event
+    {
+        try {
+            return Event::with('mainImage')->find($id);
+        } catch (\Exception $e) {
+            Log::error('Error fetching event with main image: ' . $e->getMessage());
+            return null;
+        }
+    }
 }
 

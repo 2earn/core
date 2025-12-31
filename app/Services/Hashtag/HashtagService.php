@@ -169,5 +169,20 @@ class HashtagService
             return null;
         }
     }
+
+    /**
+     * Get all hashtags
+     *
+     * @return EloquentCollection
+     */
+    public function getAll(): EloquentCollection
+    {
+        try {
+            return Hashtag::all();
+        } catch (\Exception $e) {
+            Log::error('Error fetching all hashtags: ' . $e->getMessage());
+            return new EloquentCollection();
+        }
+    }
 }
 
