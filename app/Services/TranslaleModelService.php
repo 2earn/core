@@ -132,5 +132,18 @@ class TranslaleModelService
             return false;
         }
     }
+
+    /**
+     * Get translation for a model attribute
+     *
+     * @param mixed $model
+     * @param string $attribute
+     * @param string $fallback
+     * @return string
+     */
+    public function getTranslation($model, string $attribute, string $fallback = ''): string
+    {
+        return TranslaleModel::getTranslation($model, $attribute, $fallback);
+    }
 }
 

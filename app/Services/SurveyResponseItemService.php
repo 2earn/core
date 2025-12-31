@@ -162,5 +162,45 @@ class SurveyResponseItemService
             return false;
         }
     }
+
+    /**
+     * Count survey response items by question
+     *
+     * @param int $surveyQuestionId
+     * @return int
+     */
+    public function countByQuestion(int $surveyQuestionId): int
+    {
+        try {
+            return SurveyResponseItem::where('surveyQuestion_id', $surveyQuestionId)->count();
+        } catch (\Exception $e) {
+            Log::error('Error counting survey response items by question: ' . $e->getMessage(), [
+                'survey_question_id' => $surveyQuestionId
+            ]);
+            return 0;
+        }
+    }
+
+    /**
+     * Count survey response items by question and choice
+     *
+     * @param int $surveyQuestionId
+     * @param int $surveyQuestionChoiceId
+     * @return int
+     */
+    public function countByQuestionAndChoice(int $surveyQuestionId, int $surveyQuestionChoiceId): int
+    {
+        try {
+            return SurveyResponseItem::where('surveyQuestion_id', $surveyQuestionId)
+                ->where('surveyQuestionChoice_id', $surveyQuestionChoiceId)
+                ->count();
+        } catch (\Exception $e) {
+            Log::error('Error counting survey response items by question and choice: ' . $e->getMessage(), [
+                'survey_question_id' => $surveyQuestionId,
+                'survey_question_choice_id' => $surveyQuestionChoiceId
+            ]);
+            return 0;
+        }
+    }
 }
 
