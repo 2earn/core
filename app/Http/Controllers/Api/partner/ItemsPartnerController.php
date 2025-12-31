@@ -225,4 +225,65 @@ class ItemsPartnerController extends Controller
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    public function removeItemsFromDeal(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'deal_id' => 'required|integer|exists:deals,id',
+            'product_ids' => 'required|array',
+            'product_ids.*' => 'integer|exists:items,id',
+        ]);
+
+        if ($validator->fails()) {
+            Log::error(self::LOG_PREFIX . 'Validation failed', ['errors' => $validator->errors()]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $dealId = $request->input('deal_id');
+        $productIds = $request->input('product_ids');
+
+        $deal = $this->dealService->find($dealId);
+
+        if (!$deal) {
+            Log::error(self::LOG_PREFIX . 'Deal not found', ['id' => $dealId]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Deal not found'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        try {
+            $removedCount = $this->itemService->bulkRemoveFromDeal($productIds, $dealId);
+
+            Log::info(self::LOG_PREFIX . 'Products removed from deal', [
+                'deal_id' => $dealId,
+                'product_ids' => $productIds,
+                'removed_count' => $removedCount
+            ]);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Products removed from deal successfully',
+                'deal_id' => $dealId,
+                'removed_product_ids' => $productIds
+            ], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Failed to remove products from deal', [
+                'deal_id' => $dealId,
+                'product_ids' => $productIds,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Failed to remove products from deal',
+                'error' => $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }
