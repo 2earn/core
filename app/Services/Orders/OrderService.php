@@ -387,6 +387,22 @@ class OrderService
             throw $e;
         }
     }
+
+    /**
+     * Create a new order
+     *
+     * @param array $data
+     * @return Order
+     */
+    public function createOrder(array $data): Order
+    {
+        try {
+            return Order::create($data);
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error creating order: ' . $e->getMessage(), ['data' => $data]);
+            throw $e;
+        }
+    }
 }
 
 

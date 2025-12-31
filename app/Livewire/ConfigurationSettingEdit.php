@@ -2,12 +2,13 @@
 
 namespace App\Livewire;
 
-use Core\Models\Setting;
-use Illuminate\Support\Facades\Log;
+use App\Services\Settings\SettingService;
 use Livewire\Component;
 
 class ConfigurationSettingEdit extends Component
 {
+    protected SettingService $settingService;
+
     public int $settingId;
     public string $parameterName;
     public $IntegerValue;
@@ -25,9 +26,14 @@ class ConfigurationSettingEdit extends Component
         'DecimalValue' => 'nullable|numeric',
     ];
 
+    public function boot(SettingService $settingService)
+    {
+        $this->settingService = $settingService;
+    }
+
     public function mount($id)
     {
-        $setting = Setting::find($id);
+        $setting = $this->settingService->getById($id);
 
         if (!$setting) {
             session()->flash('danger', trans('Setting not found'));
@@ -48,31 +54,25 @@ class ConfigurationSettingEdit extends Component
     {
         $this->validate();
 
-        try {
-            $setting = Setting::find($this->settingId);
+        $success = $this->settingService->updateSetting(
+            $this->settingId,
+            [
+                'ParameterName' => $this->parameterName,
+                'IntegerValue' => $this->IntegerValue,
+                'StringValue' => $this->StringValue,
+                'DecimalValue' => $this->DecimalValue,
+                'Unit' => $this->Unit,
+                'Automatically_calculated' => $this->Automatically_calculated,
+                'Description' => $this->Description,
+            ]
+        );
 
-            if (!$setting) {
-                session()->flash('danger', trans('Setting not found'));
-                return redirect()->route('configuration_setting', app()->getLocale());
-            }
-
-            $setting->ParameterName = $this->parameterName;
-            $setting->IntegerValue = $this->IntegerValue;
-            $setting->StringValue = $this->StringValue;
-            $setting->DecimalValue = $this->DecimalValue;
-            $setting->Unit = $this->Unit;
-            $setting->Automatically_calculated = $this->Automatically_calculated;
-            $setting->Description = $this->Description;
-            $setting->save();
-
-            session()->flash('success', trans('Setting param updated successfully'));
-            return redirect()->route('configuration_setting', app()->getLocale());
-
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
+        if (!$success) {
             session()->flash('danger', trans('Setting param updating failed'));
-
+            return redirect()->route('configuration_setting', app()->getLocale());
         }
+
+        session()->flash('success', trans('Setting param updated successfully'));
         return redirect()->route('configuration_setting', app()->getLocale());
     }
 

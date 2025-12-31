@@ -281,5 +281,55 @@ class CouponService
     {
         return Coupon::where('sn', $sn)->firstOrFail();
     }
+
+    /**
+     * Find a coupon by ID
+     *
+     * @param int $id
+     * @return Coupon|null
+     */
+    public function findCouponById(int $id): ?Coupon
+    {
+        return Coupon::find($id);
+    }
+
+    /**
+     * Update a coupon
+     *
+     * @param Coupon $coupon
+     * @param array $data
+     * @return bool
+     */
+    public function updateCoupon(Coupon $coupon, array $data): bool
+    {
+        return $coupon->update($data);
+    }
+
+    /**
+     * Get available coupons for a platform
+     *
+     * @param int $platformId
+     * @param int $userId
+     * @return Collection
+     */
+    public function getAvailableCouponsForPlatform(int $platformId, int $userId): Collection
+    {
+        return Coupon::where(function ($query) use ($userId) {
+            $query
+                ->orWhere('status', CouponStatusEnum::available->value)
+                ->orWhere(function ($subQueryReservedForOther) {
+                    $subQueryReservedForOther->where('status', CouponStatusEnum::reserved->value)
+                        ->where('reserved_until', '<', now());
+                })
+                ->orWhere(function ($subQueryReservedForUser) use ($userId) {
+                    $subQueryReservedForUser->where('status', CouponStatusEnum::reserved->value)
+                        ->where('reserved_until', '>=', now())
+                        ->where('user_id', $userId);
+                });
+        })
+            ->where('platform_id', $platformId)
+            ->orderBy('value', 'desc')
+            ->get();
+    }
 }
 

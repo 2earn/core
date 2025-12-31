@@ -206,4 +206,18 @@ class ItemService
             ->where('deal_id', $dealId)
             ->update(['deal_id' => null]);
     }
+
+    /**
+     * Find item by ref and platform_id
+     *
+     * @param string $ref
+     * @param int $platformId
+     * @return Item|null
+     */
+    public function findByRefAndPlatform(string $ref, int $platformId): ?Item
+    {
+        return Item::where('ref', $ref)
+            ->where('platform_id', $platformId)
+            ->first();
+    }
 }
