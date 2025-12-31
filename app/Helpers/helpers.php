@@ -440,8 +440,9 @@ if (!function_exists('getUserDisplayedName')) {
         if (is_null($idUser)) {
             $idUser = auth()->user()->idUser;
         }
+        $userService = app(\App\Services\UserService::class);
         $usermetta_info = collect(DB::table('metta_users')->where('idUser', $idUser)->first());
-        $user = DB::table('users')->where('idUser', $idUser)->first();
+        $user = $userService->findByIdUser($idUser);
         $displayedName = "";
         if (config('app.available_locales')[app()->getLocale()]['direction'] === 'rtl')
             if (isset($usermetta_info['arFirstName']) && isset($usermetta_info['arLastName']) && !empty($usermetta_info['arFirstName']) && !empty($usermetta_info['arLastName'])) {

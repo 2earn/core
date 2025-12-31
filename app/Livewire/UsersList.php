@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use App\Models\User;
 use App\Services\UserService;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
@@ -13,6 +12,8 @@ use Livewire\WithPagination;
 class UsersList extends Component
 {
     use WithPagination;
+
+    protected UserService $userService;
 
     protected $listeners = [
         'changePassword' => 'changePassword'
@@ -24,6 +25,11 @@ class UsersList extends Component
     public $sortDirection = 'desc';
 
     protected $queryString = ['search', 'pageCount'];
+
+    public function boot(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
 
     public function updatingSearch()
     {
@@ -49,8 +55,7 @@ class UsersList extends Component
         }
         $user = User::find($id);
         $new_pass = Hash::make($newPassword);
-        DB::table('users')->where('id', $id)
-            ->update(['password' => $new_pass]);
+        $this->userService->updatePassword($id, $new_pass);
 
         return redirect()->route('user_list', app()->getLocale())->with('success', Lang::get('Password updated successfully for user') . ' : ' . getUserDisplayedName($user->idUser));
 

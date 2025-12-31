@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Http\Traits\earnLog;
 use App\Http\Traits\earnTrait;
 use App\Models\User;
+use App\Services\UserService;
 use Carbon\Carbon;
 use Core\Enum\BalanceEnum;
 use Core\Enum\NotificationSettingEnum;
@@ -28,6 +29,8 @@ class Account extends Component
     use WithFileUploads;
     use earnTrait;
     use earnLog;
+
+    protected UserService $userService;
 
 
     public $nbrChild = 9;
@@ -69,6 +72,10 @@ class Account extends Component
         'saveProfileSettings' => 'saveProfileSettings',
     ];
 
+    public function boot(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
 
     public function mount(settingsManager $settingManager)
     {
@@ -362,7 +369,7 @@ class Account extends Component
         if (is_null($usermetta_info->get('childrenCount'))) {
             $usermetta_info->put('childrenCount', 0);
         }
-        $user = DB::table('users')->where('idUser', $userAuth->idUser)->first();
+        $user = $this->userService->findByIdUser($userAuth->idUser);
         $this->countryUser = Lang::get($settingsManager->getCountrieById($user->idCountry)->name);
         $this->usermetta_info = $usermetta_info;
         $this->user = collect($user);

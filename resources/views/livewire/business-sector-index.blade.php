@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-12 card shadow-sm">
             <div class="card-body p-0">
-                <div class="card-header py-4">
+                <div class="card-header py-1">
                     <div class="row align-items-center g-3">
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <form class="items-center">

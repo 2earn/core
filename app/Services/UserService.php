@@ -71,5 +71,78 @@ class UserService
             ->where('status', '>', $minStatus)
             ->get();
     }
+
+    /**
+     * Find user by ID
+     *
+     * @param int $id
+     * @return User|null
+     */
+    public function findById(int $id): ?User
+    {
+        return User::find($id);
+    }
+
+    /**
+     * Update user OTP activation
+     *
+     * @param int $userId
+     * @param string $optCode
+     * @return int Number of rows updated
+     */
+    public function updateOptActivation(int $userId, string $optCode): int
+    {
+        return User::where('id', $userId)->update(['OptActivation' => $optCode]);
+    }
+
+    /**
+     * Update user with custom data
+     *
+     * @param User $user
+     * @param array $data
+     * @return bool
+     */
+    public function updateUser(User $user, array $data): bool
+    {
+        foreach ($data as $key => $value) {
+            $user->$key = $value;
+        }
+        return $user->save();
+    }
+
+    /**
+     * Find user by idUser (business ID)
+     *
+     * @param string $idUser
+     * @return object|null
+     */
+    public function findByIdUser(string $idUser): ?object
+    {
+        return DB::table('users')->where('idUser', $idUser)->first();
+    }
+
+    /**
+     * Update user password by user ID
+     *
+     * @param int $userId
+     * @param string $hashedPassword
+     * @return int Number of rows updated
+     */
+    public function updatePassword(int $userId, string $hashedPassword): int
+    {
+        return DB::table('users')->where('id', $userId)->update(['password' => $hashedPassword]);
+    }
+
+    /**
+     * Update user fields by user ID
+     *
+     * @param int $userId
+     * @param array $data
+     * @return int Number of rows updated
+     */
+    public function updateById(int $userId, array $data): int
+    {
+        return DB::table('users')->where('id', $userId)->update($data);
+    }
 }
 

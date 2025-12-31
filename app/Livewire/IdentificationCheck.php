@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use App\Services\UserService;
 use Carbon\Carbon;
 use Core\Enum\StatusRequest;
 use Core\Models\identificationuserrequest;
@@ -19,6 +20,8 @@ class IdentificationCheck extends Component
 {
 
     use WithFileUploads;
+
+    protected UserService $userService;
 
     const MAX_PHOTO_ALLAWED_SIZE = 2048000;
 
@@ -39,6 +42,10 @@ class IdentificationCheck extends Component
 
     public $listeners = ['sendIndentificationRequest' => 'sendIndentificationRequest'];
 
+    public function boot(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
 
     public function mount()
     {
@@ -183,7 +190,7 @@ class IdentificationCheck extends Component
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth)
             dd('not found page');
-        $user = DB::table('users')->where('idUser', $userAuth->idUser)->first();
+        $user = $this->userService->findByIdUser($userAuth->idUser);
         if (!$user) abort(404);
         $this->userF = collect($user);
         $errors_array = array();
