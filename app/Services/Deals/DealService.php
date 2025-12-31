@@ -786,4 +786,27 @@ class DealService
         $deal = Deal::findOrFail($id);
         return $deal->delete();
     }
+
+    /**
+     * Get deals with user purchase history
+     *
+     * @param int $userId
+     * @return Collection
+     */
+    public function getDealsWithUserPurchases(int $userId): Collection
+    {
+        try {
+            return Deal::with('items')
+                ->whereHas('items.orderDetails.order', function ($query) use ($userId) {
+                    $query->where('user_id', $userId);
+                })
+                ->distinct()
+                ->get();
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Error fetching deals with user purchases: ' . $e->getMessage(), [
+                'user_id' => $userId
+            ]);
+            return new Collection();
+        }
+    }
 }

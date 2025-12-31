@@ -220,4 +220,26 @@ class ItemService
             ->where('platform_id', $platformId)
             ->first();
     }
+
+    /**
+     * Get items with user purchase history
+     *
+     * @param int $userId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getItemsWithUserPurchases(int $userId): \Illuminate\Database\Eloquent\Collection
+    {
+        try {
+            return Item::whereHas('OrderDetails.order', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+                ->distinct()
+                ->get();
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Error fetching items with user purchases: ' . $e->getMessage(), [
+                'user_id' => $userId
+            ]);
+            return new \Illuminate\Database\Eloquent\Collection();
+        }
+    }
 }
