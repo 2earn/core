@@ -23,13 +23,11 @@ class SharesSoldMarketStatus extends Component
     public $SMSBalance;
     public $cash = 25.033;
 
-    // Livewire properties
     public $search = '';
     public $perPage = 100;
     public $sortField = 'created_at';
     public $sortDirection = 'desc';
 
-    // Modal properties
     public $showModal = false;
     public $selectedId;
     public $selectedPhone;
