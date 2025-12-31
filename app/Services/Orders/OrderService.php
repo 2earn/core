@@ -403,6 +403,67 @@ class OrderService
             throw $e;
         }
     }
+
+    /**
+     * Get all orders paginated
+     *
+     * @param int $perPage
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getAllOrdersPaginated(int $perPage = 5)
+    {
+        try {
+            return Order::orderBy('created_at', 'desc')->paginate($perPage);
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error fetching paginated orders: ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    /**
+     * Get count of pending orders for a user
+     *
+     * @param int $userId
+     * @param array $statuses
+     * @return int
+     */
+    public function getPendingOrdersCount(int $userId, array $statuses = []): int
+    {
+        try {
+            return Order::where('user_id', $userId)
+                ->whereIn('status', $statuses)
+                ->count();
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error counting pending orders: ' . $e->getMessage(), [
+                'user_id' => $userId,
+                'statuses' => $statuses
+            ]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Get pending order IDs for a user
+     *
+     * @param int $userId
+     * @param array $statuses
+     * @return array
+     */
+    public function getPendingOrderIds(int $userId, array $statuses = []): array
+    {
+        try {
+            return Order::where('user_id', $userId)
+                ->whereIn('status', $statuses)
+                ->pluck('id')
+                ->toArray();
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error fetching pending order IDs: ' . $e->getMessage(), [
+                'user_id' => $userId,
+                'statuses' => $statuses
+            ]);
+            throw $e;
+        }
+    }
 }
 
 
