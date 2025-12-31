@@ -516,6 +516,89 @@ class OrderService
             throw $e;
         }
     }
+
+    /**
+     * Create orders from grouped cart items
+     *
+     * @param int $userId
+     * @param array $ordersData Array of cart items grouped by platform ID
+     * @param string $status
+     * @return array Array of created order IDs
+     */
+    public function createOrdersFromCartItems(int $userId, array $ordersData, string $status = 'Ready'): array
+    {
+        try {
+            $createdOrderIds = [];
+
+            foreach ($ordersData as $platformId => $platformItems) {
+                $order = Order::create([
+                    'user_id' => $userId,
+                    'platform_id' => $platformId,
+                    'note' => 'Product buy platform ' . $platformId,
+                    'status' => $status,
+                ]);
+
+                foreach ($platformItems as $cartItem) {
+                    $order->orderDetails()->create([
+                        'qty' => $cartItem->qty,
+                        'unit_price' => $cartItem->unit_price,
+                        'total_amount' => $cartItem->total_amount,
+                        'item_id' => $cartItem->item_id,
+                        'shipping' => $cartItem->shipping,
+                    ]);
+                }
+
+                $createdOrderIds[] = $order->id;
+            }
+
+            return $createdOrderIds;
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error creating orders from cart items: ' . $e->getMessage(), [
+                'user_id' => $userId,
+                'platforms_count' => count($ordersData)
+            ]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Create a single order with details
+     *
+     * @param int $userId
+     * @param int $platformId
+     * @param array $cartItems
+     * @param string $status
+     * @return Order
+     */
+    public function createOrderWithDetails(int $userId, int $platformId, array $cartItems, string $status = 'Ready'): Order
+    {
+        try {
+            $order = Order::create([
+                'user_id' => $userId,
+                'platform_id' => $platformId,
+                'note' => 'Product buy platform ' . $platformId,
+                'status' => $status,
+            ]);
+
+            foreach ($cartItems as $cartItem) {
+                $order->orderDetails()->create([
+                    'qty' => $cartItem->qty,
+                    'unit_price' => $cartItem->unit_price,
+                    'total_amount' => $cartItem->total_amount,
+                    'item_id' => $cartItem->item_id,
+                    'shipping' => $cartItem->shipping,
+                ]);
+            }
+
+            return $order;
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error creating order with details: ' . $e->getMessage(), [
+                'user_id' => $userId,
+                'platform_id' => $platformId
+            ]);
+            throw $e;
+        }
+    }
 }
 
 
