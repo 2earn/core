@@ -68,4 +68,52 @@ class SettingService
     {
         return Setting::whereIn('idSETTINGS', $settingIds)->orderBy('idSETTINGS')->get();
     }
+
+    /**
+     * Update setting by parameter name
+     *
+     * @param string $parameterName
+     * @param array $data Array of field values to update (e.g., ['IntegerValue' => 100])
+     * @return int Number of rows updated
+     */
+    public function updateByParameterName(string $parameterName, array $data): int
+    {
+        return Setting::where('ParameterName', $parameterName)->update($data);
+    }
+
+    /**
+     * Update integer value by parameter name
+     *
+     * @param string $parameterName
+     * @param int|string $value
+     * @return int Number of rows updated
+     */
+    public function updateIntegerByParameterName(string $parameterName, int|string $value): int
+    {
+        return $this->updateByParameterName($parameterName, ['IntegerValue' => $value]);
+    }
+
+    /**
+     * Update decimal value by parameter name
+     *
+     * @param string $parameterName
+     * @param float|string $value
+     * @return int Number of rows updated
+     */
+    public function updateDecimalByParameterName(string $parameterName, float|string $value): int
+    {
+        return $this->updateByParameterName($parameterName, ['DecimalValue' => $value]);
+    }
+
+    /**
+     * Update string value by parameter name
+     *
+     * @param string $parameterName
+     * @param string $value
+     * @return int Number of rows updated
+     */
+    public function updateStringByParameterName(string $parameterName, string $value): int
+    {
+        return $this->updateByParameterName($parameterName, ['StringValue' => $value]);
+    }
 }
