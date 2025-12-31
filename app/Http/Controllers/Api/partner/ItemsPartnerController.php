@@ -156,4 +156,73 @@ class ItemsPartnerController extends Controller
             'products' => $products
         ], Response::HTTP_OK);
     }
+
+    public function addItemsToDeal(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'deal_id' => 'required|integer|exists:deals,id',
+            'product_ids' => 'required|array',
+            'product_ids.*' => 'integer|exists:items,id',
+        ]);
+
+        if ($validator->fails()) {
+            Log::error(self::LOG_PREFIX . 'Validation failed', ['errors' => $validator->errors()]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $dealId = $request->input('deal_id');
+        $productIds = $request->input('product_ids');
+
+        $deal = $this->dealService->find($dealId);
+
+        if (!$deal) {
+            Log::error(self::LOG_PREFIX . 'Deal not found', ['id' => $dealId]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Deal not found'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        if (!$deal->validated) {
+            Log::warning(self::LOG_PREFIX . 'Deal is not validated', ['id' => $dealId]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Deal is not validated'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        try {
+            $updatedCount = $this->itemService->bulkUpdateDeal($productIds, $dealId);
+
+            Log::info(self::LOG_PREFIX . 'Products added to deal', [
+                'deal_id' => $dealId,
+                'product_ids' => $productIds,
+                'updated_count' => $updatedCount
+            ]);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Products added to deal successfully',
+                'deal_id' => $dealId,
+                'product_ids' => $productIds
+            ], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Failed to add products to deal', [
+                'deal_id' => $dealId,
+                'product_ids' => $productIds,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Failed to add products to deal',
+                'error' => $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -180,4 +180,16 @@ class ItemService
 
         return $topProducts->toArray();
     }
+
+    /**
+     * Bulk update items to assign them to a deal
+     *
+     * @param array $itemIds Array of item IDs to update
+     * @param int $dealId Deal ID to assign to the items
+     * @return int Number of items updated
+     */
+    public function bulkUpdateDeal(array $itemIds, int $dealId): int
+    {
+        return Item::whereIn('id', $itemIds)->update(['deal_id' => $dealId]);
+    }
 }
