@@ -5,6 +5,7 @@ namespace App\Services\News;
 use App\Models\News;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Log;
 
 class NewsService
 {
@@ -156,6 +157,48 @@ class NewsService
         }
 
         return $duplicate;
+    }
+
+    /**
+     * Check if user has liked a news item
+     *
+     * @param int $newsId
+     * @param int $userId
+     * @return bool
+     */
+    public function hasUserLiked(int $newsId, int $userId): bool
+    {
+        try {
+            return News::whereHas('likes', function ($q) use ($userId, $newsId) {
+                $q->where('user_id', $userId)->where('likable_id', $newsId);
+            })->exists();
+        } catch (\Exception $e) {
+            Log::error('Error checking if user liked news: ' . $e->getMessage(), [
+                'newsId' => $newsId,
+                'userId' => $userId
+            ]);
+            return false;
+        }
+    }
+
+    /**
+     * Get news with relationships
+     *
+     * @param int $id
+     * @param array $with
+     * @return News|null
+     */
+    public function getWithRelations(int $id, array $with = []): ?News
+    {
+        try {
+            return News::with($with)->find($id);
+        } catch (\Exception $e) {
+            Log::error('Error fetching news with relations: ' . $e->getMessage(), [
+                'id' => $id,
+                'with' => $with
+            ]);
+            return null;
+        }
     }
 }
 
