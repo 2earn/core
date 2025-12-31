@@ -123,5 +123,61 @@ class PlatformService
             return false;
         }
     }
+
+    /**
+     * Get platforms with active deals for a business sector
+     *
+     * @param int $businessSectorId
+     * @return Collection
+     */
+    public function getPlatformsWithActiveDeals(int $businessSectorId)
+    {
+        try {
+            return Platform::where('business_sector_id', $businessSectorId)
+                ->where('enabled', true)
+                ->whereHas('deals', function ($query) {
+                    $query->where('status', 2) // DealStatus::Opened = 2
+                        ->where('validated', true);
+                })
+                ->with(['deals' => function ($query) {
+                    $query->where('status', 2)
+                        ->where('validated', true);
+                }])
+                ->get();
+        } catch (\Exception $e) {
+            Log::error('Error fetching platforms with active deals: ' . $e->getMessage(), [
+                'business_sector_id' => $businessSectorId
+            ]);
+            return new Collection();
+        }
+    }
+
+    /**
+     * Get items from enabled platforms for a business sector
+     *
+     * @param int $businessSectorId
+     * @return \Illuminate\Support\Collection
+     */
+    public function getItemsFromEnabledPlatforms(int $businessSectorId): \Illuminate\Support\Collection
+    {
+        try {
+            return Platform::where('business_sector_id', $businessSectorId)
+                ->where('enabled', true)
+                ->with(['items' => function ($query) {
+                    $query->whereHas('deal', function ($dealQuery) {
+                        $dealQuery->where('status', 2) // DealStatus::Opened = 2
+                            ->where('validated', true);
+                    });
+                }])
+                ->get()
+                ->pluck('items')
+                ->flatten();
+        } catch (\Exception $e) {
+            Log::error('Error fetching items from enabled platforms: ' . $e->getMessage(), [
+                'business_sector_id' => $businessSectorId
+            ]);
+            return collect();
+        }
+    }
 }
 

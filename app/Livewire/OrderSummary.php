@@ -48,7 +48,7 @@ class OrderSummary extends Component
         $createdOrderIds = $this->orderService->createOrdersFromCartItems(
             auth()->user()->id,
             $ordersData,
-            OrderEnum::Ready
+            OrderEnum::Ready->name
         );
 
         $this->clearCart();
@@ -68,7 +68,7 @@ class OrderSummary extends Component
                 auth()->user()->id,
                 $platformId,
                 $ordersDataItems,
-                OrderEnum::Ready
+                OrderEnum::Ready->name
             );
 
             $simulation = Ordering::simulate($order);

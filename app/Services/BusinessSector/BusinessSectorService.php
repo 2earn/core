@@ -87,6 +87,25 @@ class BusinessSectorService
     }
 
     /**
+     * Get business sector with images by ID
+     *
+     * @param int $id
+     * @return BusinessSector|null
+     */
+    public function getBusinessSectorWithImages(int $id): ?BusinessSector
+    {
+        try {
+            return BusinessSector::with(['logoImage', 'thumbnailsImage', 'thumbnailsHomeImage'])
+                ->find($id);
+        } catch (\Exception $e) {
+            Log::error('Error fetching business sector with images: ' . $e->getMessage(), [
+                'id' => $id
+            ]);
+            return null;
+        }
+    }
+
+    /**
      * Get business sectors with user purchase history
      *
      * @param int $userId
