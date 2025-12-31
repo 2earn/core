@@ -104,5 +104,33 @@ class TranslaleModelService
             'de' => !empty($translations['de']) ? $translations['de'] : $fallbackName . ' - de',
         ];
     }
+
+    /**
+     * Update translation with title suffix format
+     *
+     * @param TranslaleModel $translationModel
+     * @param string $title
+     * @return bool
+     */
+    public function updateTranslation(TranslaleModel $translationModel, string $title): bool
+    {
+        try {
+            return $translationModel->update([
+                'value' => $title . ' AR',
+                'valueFr' => $title . ' FR',
+                'valueEn' => $title . ' EN',
+                'valueTr' => $title . ' TR',
+                'valueEs' => $title . ' ES',
+                'valueRu' => $title . ' Ru',
+                'valueDe' => $title . ' De'
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error updating translation: ' . $e->getMessage(), [
+                'translation_id' => $translationModel->id,
+                'title' => $title
+            ]);
+            return false;
+        }
+    }
 }
 
