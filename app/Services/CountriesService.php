@@ -54,5 +54,21 @@ class CountriesService
             return collect();
         }
     }
+
+    /**
+     * Get countries for datatable with specific columns
+     *
+     * @param array $columns
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getForDatatable(array $columns = ['id', 'name', 'phonecode', 'langage']): \Illuminate\Database\Eloquent\Collection
+    {
+        try {
+            return countrie::all($columns);
+        } catch (\Exception $e) {
+            Log::error('Error fetching countries for datatable: ' . $e->getMessage(), ['columns' => $columns]);
+            return countrie::hydrate([]);
+        }
+    }
 }
 
