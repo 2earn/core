@@ -132,7 +132,7 @@ class ChangePassword extends Component
     public function sendActivationCodeValue($userAuth, settingsManager $settingManager)
     {
         $check_exchange = $settingManager->randomNewCodeOpt();
-        User::where('id', $userAuth->id)->update(['activationCodeValue' => $check_exchange]);
+        $this->userService->updateActivationCodeValue($userAuth->id, $check_exchange);
         $settingManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::OPTVerification, ['msg' => $check_exchange, 'type' => TypeNotificationEnum::SMS]);
         $userContactActif = $settingManager->getidCountryForSms($userAuth->id);
         $fullNumberSend = $userContactActif->fullNumber;

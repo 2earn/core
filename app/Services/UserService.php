@@ -144,5 +144,17 @@ class UserService
     {
         return DB::table('users')->where('id', $userId)->update($data);
     }
+
+    /**
+     * Update user activation code value
+     *
+     * @param int $userId
+     * @param string $activationCodeValue
+     * @return int Number of rows updated
+     */
+    public function updateActivationCodeValue(int $userId, string $activationCodeValue): int
+    {
+        return User::where('id', $userId)->update(['activationCodeValue' => $activationCodeValue]);
+    }
 }
 

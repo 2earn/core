@@ -112,5 +112,20 @@ class CommittedInvestorRequestService
             return false;
         }
     }
+
+    /**
+     * Get all in-progress committed investor requests
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getInProgressRequests()
+    {
+        try {
+            return CommittedInvestorRequest::where('status', RequestStatus::InProgress->value)->get();
+        } catch (\Exception $e) {
+            Log::error('Error fetching in-progress committed investor requests: ' . $e->getMessage());
+            return new \Illuminate\Database\Eloquent\Collection();
+        }
+    }
 }
 
