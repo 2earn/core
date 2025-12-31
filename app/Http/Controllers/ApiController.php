@@ -7,16 +7,18 @@ use App\Models\BFSsBalances;
 use App\Models\CashBalances;
 use App\Models\SharesBalances;
 use App\Models\User;
-use App\Models\vip;
 use App\Notifications\SharePurchase;
 use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
 use App\Services\CountriesService;
 use App\Services\Coupon\BalanceInjectorCouponService;
 use App\Services\Coupon\CouponService;
+use App\Services\FinancialRequest\FinancialRequestService;
+use App\Services\IdentificationRequestService;
 use App\Services\Settings\SettingService;
 use App\Services\Sponsorship\SponsorshipFacade;
 use App\Services\UserService;
+use App\Services\VipService;
 use carbon;
 use Core\Enum\BalanceOperationsEnum;
 use Core\Enum\CouponStatusEnum;
@@ -53,7 +55,10 @@ class ApiController extends BaseController
         private UserService $userService,
         private CountriesService $countriesService,
         private BalanceInjectorCouponService $balanceInjectorCouponService,
-        private CouponService $couponService
+        private CouponService $couponService,
+        private IdentificationRequestService $identificationRequestService,
+        private FinancialRequestService $financialRequestService,
+        private VipService $vipService
     )
     {
     }
@@ -105,14 +110,12 @@ class ApiController extends BaseController
             if ($userSponsored) {
                 SponsorshipFacade::executeProactifSponsorship($userSponsored->idUser, $ref, $number_of_action, $actual_price, $reciver);
             }
-            $vip = vip::Where('idUser', '=', $reciver)->where('closed', '=', false)->first();
+            $vip = $this->vipService->getActiveVipByUserId($reciver);
             if ($request->flash) {
                 if ($vip->declenched) {
                     if ($number_of_action >= $request->actions) {
                         $flashGift = getFlashGiftedActions($request->actions, $request->vip);
-                        vip::where('idUser', $request->reciver)
-                            ->where('closed', '=', 0)
-                            ->update(['closed' => 1, 'closedDate' => now()]);
+                        $this->vipService->closeVip($request->reciver);
                     } else {
                         $flashGift = getFlashGiftedActions($number_of_action, $request->vip);
                     }
@@ -120,14 +123,10 @@ class ApiController extends BaseController
                     if ($number_of_action >= $request->flashMinShares) {
                         if ($number_of_action >= $request->actions) {
                             $flashGift = getFlashGiftedActions($request->actions, $request->vip);
-                            vip::where('idUser', $request->reciver)
-                                ->where('closed', '=', 0)
-                                ->update(['closed' => 1, 'closedDate' => now(), 'declenched' => 1, 'declenchedDate' => now()]);
+                            $this->vipService->declenchAndCloseVip($request->reciver);
                         } else {
                             $flashGift = getFlashGiftedActions($number_of_action, $request->vip);
-                            vip::where('idUser', $request->reciver)
-                                ->where('closed', '=', 0)
-                                ->update(['declenched' => 1, 'declenchedDate' => now()]);
+                            $this->vipService->declenchVip($request->reciver);
                         }
                     } else {
                         $flashGift = 0;
@@ -385,7 +384,7 @@ class ApiController extends BaseController
                 return view('parts.datatable.user-flag', ['src' => $this->getFormatedFlagResourceName($user->apha2), 'title' => strtolower($user->apha2), 'name' => Lang::get($user->country)]);
             })
             ->addColumn('action', function ($settings) {
-                $hasVip = vip::Where('idUser', '=', $settings->idUser)->where('closed', '=', false)->get();
+                $hasVip = $this->vipService->getActiveVipsByUserId($settings->idUser);
                 $params = [
                     'phone' => $settings->mobile,
                     'user' => $settings,
@@ -395,9 +394,7 @@ class ApiController extends BaseController
                     'isVip' => null
                 ];
                 if ($hasVip->isNotEmpty()) {
-                    $dateStart = new \DateTime($hasVip->first()->dateFNS);
-                    $dateEnd = $dateStart->modify($hasVip->first()->flashDeadline . ' hour');;
-                    $params['isVip'] = $dateEnd > now();
+                    $params['isVip'] = $this->vipService->isVipValid($hasVip->first());
                 }
                 return view('parts.datatable.user-action', $params);
             })
@@ -512,27 +509,10 @@ class ApiController extends BaseController
             ->make(true);
     }
 
-    public function getIdentificationRequestQuery()
-    {
-        return IdentificationUserRequest::select(
-            'users1.id as id',
-            'users1.name as USER',
-            'users1.fullphone_number',
-            'identificationuserrequest.created_at as DateCreation',
-            'users2.name as Validator',
-            'identificationuserrequest.response',
-            'identificationuserrequest.responseDate as DateReponce',
-            'identificationuserrequest.note')
-            ->join('users as users1', 'identificationuserrequest.IdUser', '=', 'users1.idUser')
-            ->leftJoin('users as users2', 'identificationuserrequest.idUserResponse', '=', 'users2.idUser')
-            ->where('identificationuserrequest.status', StatusRequest::InProgressNational->value)
-            ->orWhere('identificationuserrequest.status', StatusRequest::InProgressInternational->value)
-            ->get();
-    }
-
     public function getIdentificationRequest()
     {
-        return datatables($this->getIdentificationRequestQuery())
+        $requests = $this->identificationRequestService->getInProgressRequests();
+        return datatables($requests)
             ->addColumn('action', function ($identifications) {
                 return view('parts.datatable.identification-action', ['identifications' => $identifications]);
             })
@@ -544,19 +524,9 @@ class ApiController extends BaseController
     {
         $requestArray = ['requestInOpen' => null, 'requestOutAccepted' => null, 'requestOutRefused' => null];
         if (auth()->user()) {
-            $requestInOpen = detail_financial_request::join('financial_request', 'financial_request.numeroReq', '=', 'detail_financial_request.numeroRequest')
-                ->where('detail_financial_request.idUser', auth()->user()->idUser)
-                ->where('financial_request.Status', 0)
-                ->where('detail_financial_request.vu', 0)
-                ->count();
-            $requestOutAccepted = FinancialRequest::where('financial_request.idSender', auth()->user()->idUser)
-                ->where('financial_request.Status', 1)
-                ->where('financial_request.vu', 0)
-                ->count();
-            $requestOutRefused = FinancialRequest::where('financial_request.idSender', auth()->user()->idUser)
-                ->where('financial_request.Status', 5)
-                ->where('financial_request.vu', 0)
-                ->count();
+            $requestInOpen = $this->financialRequestService->countRequestsInOpen(auth()->user()->idUser);
+            $requestOutAccepted = $this->financialRequestService->countRequestsOutAccepted(auth()->user()->idUser);
+            $requestOutRefused = $this->financialRequestService->countRequestsOutRefused(auth()->user()->idUser);
             $requestArray = ['requestInOpen' => $requestInOpen, 'requestOutAccepted' => $requestOutAccepted, 'requestOutRefused' => $requestOutRefused];
         }
         return json_encode(array('data' => $requestArray));
