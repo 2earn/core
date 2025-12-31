@@ -139,6 +139,19 @@ class ItemService
     }
 
     /**
+     * Get all items for a specific deal with complete details
+     *
+     * @param int $dealId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getItemsForDeal(int $dealId)
+    {
+        return Item::where('deal_id', $dealId)
+            ->where('ref', '!=', '#0001')
+            ->get();
+    }
+
+    /**
      * Aggregate top-selling items from a query builder
      *
      * @param Builder $query Query builder with order_details joined to orders and items
