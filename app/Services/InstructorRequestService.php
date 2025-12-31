@@ -1,0 +1,112 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\InstructorRequest;
+use Core\Enum\RequestStatus;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Log;
+
+class InstructorRequestService
+{
+    /**
+     * Get all in-progress instructor requests
+     *
+     * @return Collection
+     */
+    public function getInProgressRequests(): Collection
+    {
+        try {
+            return InstructorRequest::where('status', RequestStatus::InProgress->value)->get();
+        } catch (\Exception $e) {
+            Log::error('Error fetching in-progress instructor requests: ' . $e->getMessage());
+            return new Collection();
+        }
+    }
+
+    /**
+     * Get instructor requests by status
+     *
+     * @param string|int $status
+     * @return Collection
+     */
+    public function getByStatus($status): Collection
+    {
+        try {
+            return InstructorRequest::where('status', $status)->get();
+        } catch (\Exception $e) {
+            Log::error('Error fetching instructor requests by status: ' . $e->getMessage(), ['status' => $status]);
+            return new Collection();
+        }
+    }
+
+    /**
+     * Get instructor request by ID
+     *
+     * @param int $id
+     * @return InstructorRequest|null
+     */
+    public function getById(int $id): ?InstructorRequest
+    {
+        try {
+            return InstructorRequest::find($id);
+        } catch (\Exception $e) {
+            Log::error('Error fetching instructor request by ID: ' . $e->getMessage(), ['id' => $id]);
+            return null;
+        }
+    }
+
+    /**
+     * Get all instructor requests
+     *
+     * @return Collection
+     */
+    public function getAll(): Collection
+    {
+        try {
+            return InstructorRequest::all();
+        } catch (\Exception $e) {
+            Log::error('Error fetching all instructor requests: ' . $e->getMessage());
+            return new Collection();
+        }
+    }
+
+    /**
+     * Update instructor request status
+     *
+     * @param int $id
+     * @param string|int $status
+     * @return bool
+     */
+    public function updateStatus(int $id, $status): bool
+    {
+        try {
+            $request = InstructorRequest::findOrFail($id);
+            return $request->update(['status' => $status]);
+        } catch (\Exception $e) {
+            Log::error('Error updating instructor request status: ' . $e->getMessage(), [
+                'id' => $id,
+                'status' => $status
+            ]);
+            return false;
+        }
+    }
+
+    /**
+     * Delete instructor request
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function delete(int $id): bool
+    {
+        try {
+            $request = InstructorRequest::findOrFail($id);
+            return $request->delete();
+        } catch (\Exception $e) {
+            Log::error('Error deleting instructor request: ' . $e->getMessage(), ['id' => $id]);
+            return false;
+        }
+    }
+}
+
