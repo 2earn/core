@@ -138,10 +138,6 @@ class SalesDashboardService
                 }
             }
 
-            $startDate = $filters['start_date'] ?? now()->subDays(30)->format('Y-m-d');
-            $endDate = $filters['end_date'] ?? now()->format('Y-m-d');
-
-
             $results = $this->orderDetailService->getSalesTransactionDetailsData([
                 'order_id' => $filters['order_id'] ?? null,
             ]);
