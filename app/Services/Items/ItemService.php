@@ -192,4 +192,18 @@ class ItemService
     {
         return Item::whereIn('id', $itemIds)->update(['deal_id' => $dealId]);
     }
+
+    /**
+     * Bulk remove items from a deal
+     *
+     * @param array $itemIds Array of item IDs to remove from the deal
+     * @param int $dealId Deal ID to verify items belong to
+     * @return int Number of items removed
+     */
+    public function bulkRemoveFromDeal(array $itemIds, int $dealId): int
+    {
+        return Item::whereIn('id', $itemIds)
+            ->where('deal_id', $dealId)
+            ->update(['deal_id' => null]);
+    }
 }

@@ -154,6 +154,14 @@ GET /api/partner/items/deal/{dealId}
 - Returns products excluding ref "#0001"
 - Returns product count and full product details
 
+### Remove Items from Deal (Bulk)
+```
+POST /api/partner/items/deal/remove-bulk
+```
+- Removes multiple products from a deal in a single request
+- Sets deal_id to null for specified products
+- Includes safety check to only remove items that belong to the deal
+
 ## Notes
 - Products are linked to deals via the `deal_id` foreign key in the `items` table
 - Only validated deals can have items added
