@@ -179,5 +179,110 @@ class PlatformService
             return collect();
         }
     }
+
+    /**
+     * Get paginated platforms with filters
+     *
+     * @param string $search
+     * @param int $perPage
+     * @param array $businessSectors
+     * @param array $types
+     * @param array $enabled
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getPaginatedPlatforms(
+        string $search = '',
+        int $perPage = 15,
+        array $businessSectors = [],
+        array $types = [],
+        array $enabled = []
+    ) {
+        try {
+            $query = Platform::with(['businessSector', 'deals']);
+
+            // Search filter
+            if (!empty($search)) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('description', 'like', '%' . $search . '%')
+                        ->orWhere('url', 'like', '%' . $search . '%');
+                });
+            }
+
+            // Business sector filter
+            if (!empty($businessSectors)) {
+                $query->whereIn('business_sector_id', $businessSectors);
+            }
+
+            // Type filter
+            if (!empty($types)) {
+                $query->whereIn('type', $types);
+            }
+
+            // Enabled filter
+            if (!empty($enabled)) {
+                $enabledValues = array_map(function ($val) {
+                    return $val === 'true' || $val === '1' || $val === 1;
+                }, $enabled);
+                $query->whereIn('enabled', $enabledValues);
+            }
+
+            return $query->orderBy('created_at', 'desc')->paginate($perPage);
+        } catch (\Exception $e) {
+            Log::error('Error fetching paginated platforms: ' . $e->getMessage(), [
+                'search' => $search,
+                'per_page' => $perPage,
+                'business_sectors' => $businessSectors,
+                'types' => $types,
+                'enabled' => $enabled
+            ]);
+            return Platform::paginate($perPage);
+        }
+    }
+
+    /**
+     * Get all enabled platforms
+     *
+     * @return Collection
+     */
+    public function getEnabledPlatforms(): Collection
+    {
+        try {
+            return Platform::where('enabled', true)
+                ->orderBy('name')
+                ->get();
+        } catch (\Exception $e) {
+            Log::error('Error fetching enabled platforms: ' . $e->getMessage());
+            return new Collection();
+        }
+    }
+
+    /**
+     * Get platforms managed by a specific user
+     *
+     * @param int $userId
+     * @param bool $onlyEnabled
+     * @return Collection
+     */
+    public function getPlatformsManagedByUser(int $userId, bool $onlyEnabled = true): Collection
+    {
+        try {
+            $query = Platform::whereHas('managers', function ($q) use ($userId) {
+                $q->where('user_id', $userId);
+            });
+
+            if ($onlyEnabled) {
+                $query->where('enabled', true);
+            }
+
+            return $query->orderBy('name')->get();
+        } catch (\Exception $e) {
+            Log::error('Error fetching platforms managed by user: ' . $e->getMessage(), [
+                'user_id' => $userId,
+                'only_enabled' => $onlyEnabled
+            ]);
+            return new Collection();
+        }
+    }
 }
 
