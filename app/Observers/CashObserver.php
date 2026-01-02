@@ -4,33 +4,47 @@ namespace App\Observers;
 
 use App\Enums\BalanceEnum;
 use App\Models\CashBalances;
-use App\Models\UserCurrentBalanceVertical;
 use App\Services\Balances\Balances;
 use App\Models\BalanceOperation;
+use App\Services\UserCurrentBalanceHorisontalService;
+use App\Services\UserCurrentBalanceVerticalService;
 use Illuminate\Support\Facades\Log;
 
 class CashObserver
 {
+    public function __construct(
+        private UserCurrentBalanceHorisontalService $userCurrentBalanceHorisontalService,
+        private UserCurrentBalanceVerticalService $userCurrentBalanceVerticalService
+    ) {
+    }
+
     public function created(CashBalances $cashBalances)
     {
-        $userCurrentBalancehorisontal = Balances::getStoredUserBalances($cashBalances->beneficiary_id);
-        $newCashBalanceHorisental = $newCashBalanceVertical = $userCurrentBalancehorisontal->cash_balance + BalanceOperation::getMultiplicator($cashBalances->balance_operation_id) * $cashBalances->value;
-        $userCurrentBalancehorisontal->update([Balances::CASH_BALANCE => $newCashBalanceHorisental]);
+        // Calculate balance change
+        $balanceChange = BalanceOperation::getMultiplicator($cashBalances->balance_operation_id) * $cashBalances->value;
 
-        $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $cashBalances->beneficiary_id)
-            ->where('balance_id', BalanceEnum::CASH)
-            ->first();
-
-        $userCurrentBalanceVertical->update(
-            [
-                'current_balance' => $userCurrentBalanceVertical->current_balance + BalanceOperation::getMultiplicator($cashBalances->balance_operation_id) * $cashBalances->value,
-                'previous_balance' => $userCurrentBalanceVertical->current_balance,
-                'last_operation_id' => $cashBalances->id,
-                'last_operation_value' => $cashBalances->value,
-                'last_operation_date' => $cashBalances->created_at,
-            ]
+        // Update horizontal balance using service
+        $balanceData = $this->userCurrentBalanceHorisontalService->calculateNewBalance(
+            $cashBalances->beneficiary_id,
+            Balances::CASH_BALANCE,
+            $balanceChange
         );
-        Log::info('CashObserver current_balance ' . $newCashBalanceVertical);
 
+        if ($balanceData) {
+            $newCashBalanceHorizontal = $balanceData['newBalance'];
+            $balanceData['record']->update([Balances::CASH_BALANCE => $newCashBalanceHorizontal]);
+
+            // Update vertical balance using service
+            $this->userCurrentBalanceVerticalService->updateBalanceAfterOperation(
+                userId: $cashBalances->beneficiary_id,
+                balanceId: BalanceEnum::CASH,
+                balanceChange: $balanceChange,
+                lastOperationId: $cashBalances->id,
+                lastOperationValue: $cashBalances->value,
+                lastOperationDate: $cashBalances->created_at
+            );
+
+            Log::info('CashObserver current_balance ' . $newCashBalanceHorizontal);
+        }
     }
 }
