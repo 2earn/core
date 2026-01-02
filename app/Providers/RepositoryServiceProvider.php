@@ -35,11 +35,12 @@ use App\Services\settingsManager;
 use App\Services\SmsHelper;
 use App\Services\TransactionManager;
 use App\Services\UserBalancesHelper;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 
 
 
-class RepositoryServiceProvider extends ServiceProvider
+class RepositoryServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * Register services.
@@ -82,5 +83,35 @@ class RepositoryServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides(): array
+    {
+        return [
+            ILanguageRepository::class,
+            settingsManager::class,
+            INotificationRepository::class,
+            IUserRepository::class,
+            IUserBalancesRepository::class,
+            ICountriesRepository::class,
+            ITransaction::class,
+            TransactionManager::class,
+            IHobbiesRepository::class,
+            IHistoryNotificationRepository::class,
+            IUserContactRepository::class,
+            SmsHelper::class,
+            UserBalancesHelper::class,
+            CommandeServiceManager::class,
+            IBalanceOperationRepositoty::class,
+            ISettingsRepository::class,
+            INotifyEarn::class,
+            NotifyHelper::class,
+            IUserContactNumberRepository::class,
+        ];
     }
 }
