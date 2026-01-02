@@ -90,5 +90,49 @@ class UserCurrentBalanceHorisontalService
     {
         return UserCurrentBalanceHorisontal::where('user_id', $idUser)->update([$type => $value]);
     }
-}
 
+    /**
+     * Update horizontal balance after a balance operation
+     *
+     * @param int $userId
+     * @param string $balanceField The balance field to update (e.g., 'share_balance', 'cash_balance')
+     * @param float $newBalance The new balance value to set
+     * @return bool
+     */
+    public function updateBalanceField(int $userId, string $balanceField, float $newBalance): bool
+    {
+        $userBalance = $this->getStoredUserBalances($userId);
+
+        if (!$userBalance) {
+            return false;
+        }
+
+        return (bool) $userBalance->update([$balanceField => $newBalance]);
+    }
+
+    /**
+     * Get user balance and calculate new value after operation
+     *
+     * @param int $userId
+     * @param string $balanceField The balance field (e.g., 'share_balance')
+     * @param float $changeAmount The amount to add/subtract
+     * @return array ['record' => UserCurrentBalanceHorisontal, 'newBalance' => float]|null
+     */
+    public function calculateNewBalance(int $userId, string $balanceField, float $changeAmount): ?array
+    {
+        $userBalance = $this->getStoredUserBalances($userId);
+
+        if (!$userBalance) {
+            return null;
+        }
+
+        $currentBalance = $userBalance->{$balanceField} ?? 0;
+        $newBalance = $currentBalance + $changeAmount;
+
+        return [
+            'record' => $userBalance,
+            'currentBalance' => $currentBalance,
+            'newBalance' => $newBalance
+        ];
+    }
+}

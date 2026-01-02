@@ -4,35 +4,45 @@ namespace App\Observers;
 
 use App\Enums\BalanceEnum;
 use App\Models\SharesBalances;
-use App\Models\UserCurrentBalanceVertical;
 use App\Services\Balances\Balances;
 use App\Models\BalanceOperation;
+use App\Services\UserCurrentBalanceHorisontalService;
+use App\Services\UserCurrentBalanceVerticalService;
 use Illuminate\Support\Facades\Log;
 
 class ShareObserver
 {
+    public function __construct(
+        private UserCurrentBalanceHorisontalService $userCurrentBalanceHorisontalService,
+        private UserCurrentBalanceVerticalService $userCurrentBalanceVerticalService
+    ) {
+    }
+
     public function created(SharesBalances $shareBalances)
     {
+        $balanceChange = BalanceOperation::getMultiplicator($shareBalances->balance_operation_id) * $shareBalances->value;
 
-        $userCurrentBalancehorisontal = Balances::getStoredUserBalances($shareBalances->beneficiary_id);
-        $newShareBalanceHorisental = $newShareBalanceVertical = $userCurrentBalancehorisontal->share_balance + BalanceOperation::getMultiplicator($shareBalances->balance_operation_id) * $shareBalances->value;
-        $userCurrentBalancehorisontal->update([Balances::SHARE_BALANCE => $newShareBalanceHorisental]);
-        $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $shareBalances->beneficiary_id)
-            ->where('balance_id', BalanceEnum::SHARE)
-            ->first();
-
-        $userCurrentBalanceVertical->update(
-            [
-                'current_balance' => $userCurrentBalanceVertical->current_balance + BalanceOperation::getMultiplicator($shareBalances->balance_operation_id) * $shareBalances->value,
-                'previous_balance' => $userCurrentBalanceVertical->current_balance,
-                'last_operation_id' => $shareBalances->id,
-                'last_operation_value' => $shareBalances->value,
-                'last_operation_date' => $shareBalances->created_at,
-            ]
+        $balanceData = $this->userCurrentBalanceHorisontalService->calculateNewBalance(
+            $shareBalances->beneficiary_id,
+            Balances::SHARE_BALANCE,
+            $balanceChange
         );
 
-        Log::info('ShareObserver current_balance ' . $newShareBalanceVertical);
+        if ($balanceData) {
+            $newShareBalanceHorizontal = $balanceData['newBalance'];
+            $balanceData['record']->update([Balances::SHARE_BALANCE => $newShareBalanceHorizontal]);
 
+            $this->userCurrentBalanceVerticalService->updateBalanceAfterOperation(
+                userId: $shareBalances->beneficiary_id,
+                balanceId: BalanceEnum::SHARE,
+                balanceChange: $balanceChange,
+                lastOperationId: $shareBalances->id,
+                lastOperationValue: $shareBalances->value,
+                lastOperationDate: $shareBalances->created_at
+            );
+
+            Log::info('ShareObserver current_balance ' . $newShareBalanceHorizontal);
+        }
     }
 
 }

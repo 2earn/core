@@ -4,34 +4,44 @@ namespace App\Observers;
 
 use App\Enums\BalanceEnum;
 use App\Models\TreeBalances;
-use App\Models\UserCurrentBalanceVertical;
 use App\Services\Balances\Balances;
 use App\Models\BalanceOperation;
+use App\Services\UserCurrentBalanceHorisontalService;
+use App\Services\UserCurrentBalanceVerticalService;
 use Illuminate\Support\Facades\Log;
 
 class TreeObserver
 {
+    public function __construct(
+        private UserCurrentBalanceHorisontalService $userCurrentBalanceHorisontalService,
+        private UserCurrentBalanceVerticalService $userCurrentBalanceVerticalService
+    ) {
+    }
+
     public function created(TreeBalances $treeBalances)
     {
+        $balanceChange = BalanceOperation::getMultiplicator($treeBalances->balance_operation_id) * $treeBalances->value;
 
-        $userCurrentBalancehorisontal = Balances::getStoredUserBalances($treeBalances->beneficiary_id);
-        $newTreeBalanceHorisental = $newTreeBalanceVertical = $userCurrentBalancehorisontal->tree_balance + BalanceOperation::getMultiplicator($treeBalances->balance_operation_id) * $treeBalances->value;
-
-        $userCurrentBalancehorisontal->update(['tree_balance' => $newTreeBalanceHorisental]);
-
-        $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $treeBalances->beneficiary_id)
-            ->where('balance_id', BalanceEnum::TREE)
-            ->first();
-
-        $userCurrentBalanceVertical->update(
-            [
-                'current_balance' => $userCurrentBalanceVertical->current_balance + BalanceOperation::getMultiplicator($treeBalances->balance_operation_id) * $treeBalances->value,
-                'previous_balance' => $userCurrentBalanceVertical->current_balance,
-                'last_operation_id' => $treeBalances->id,
-                'last_operation_value' => $treeBalances->value,
-                'last_operation_date' => $treeBalances->created_at,
-            ]
+        $balanceData = $this->userCurrentBalanceHorisontalService->calculateNewBalance(
+            $treeBalances->beneficiary_id,
+            'tree_balance',
+            $balanceChange
         );
-        Log::info('TreeObserver current_balance ' . $newTreeBalanceVertical);
+
+        if ($balanceData) {
+            $newTreeBalanceHorizontal = $balanceData['newBalance'];
+            $balanceData['record']->update(['tree_balance' => $newTreeBalanceHorizontal]);
+
+            $this->userCurrentBalanceVerticalService->updateBalanceAfterOperation(
+                userId: $treeBalances->beneficiary_id,
+                balanceId: BalanceEnum::TREE,
+                balanceChange: $balanceChange,
+                lastOperationId: $treeBalances->id,
+                lastOperationValue: $treeBalances->value,
+                lastOperationDate: $treeBalances->created_at
+            );
+
+            Log::info('TreeObserver current_balance ' . $newTreeBalanceHorizontal);
+        }
     }
 }
