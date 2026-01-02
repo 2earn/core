@@ -2,16 +2,24 @@
 
 namespace App\Livewire;
 
-use App\Models\InstructorRequest as InstructorRequestModel;
-use Core\Enum\RequestStatus;
+use App\Services\InstructorRequestService;
 use Livewire\Component;
 
 class InstructorRequest extends Component
 {
+    protected InstructorRequestService $instructorRequestService;
+
+    public function boot(InstructorRequestService $instructorRequestService)
+    {
+        $this->instructorRequestService = $instructorRequestService;
+    }
 
     public function render()
     {
-        $params = ['instructorRequests' => InstructorRequestModel::where('status', RequestStatus::InProgress->value)->get()];
-        return view('livewire.instructor', $params)->extends('layouts.master')->section('content');
+        $instructorRequests = $this->instructorRequestService->getInProgressRequests();
+
+        return view('livewire.instructor', ['instructorRequests' => $instructorRequests])
+            ->extends('layouts.master')
+            ->section('content');
     }
 }

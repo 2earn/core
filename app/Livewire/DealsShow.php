@@ -2,10 +2,10 @@
 
 namespace App\Livewire;
 
-use App\Models\CommissionBreakDown;
 use App\Models\Deal;
+use App\Services\CommissionBreakDownService;
+use App\Services\Deals\DealService;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
@@ -13,6 +13,9 @@ class DealsShow extends Component
 {
     const INDEX_ROUTE_NAME = 'deals_index';
     const CURRENCY = '$';
+
+    protected CommissionBreakDownService $commissionService;
+    protected DealService $dealService;
 
     public $listeners = [
         'delete' => 'delete',
@@ -32,6 +35,12 @@ class DealsShow extends Component
         $influencerMarginPercentage,
         $CashMarginPercentage,
         $supporterMarginPercentage;
+
+    public function boot(CommissionBreakDownService $commissionService, DealService $dealService)
+    {
+        $this->commissionService = $commissionService;
+        $this->dealService = $dealService;
+    }
 
     public function mount($id)
     {
@@ -59,29 +68,30 @@ class DealsShow extends Component
     {
         $paramRedirect = ['locale' => app()->getLocale()];
         try {
-            Deal::findOrFail($id)->delete();
-            return redirect()->route(self::INDEX_ROUTE_NAME, $paramRedirect)->with('success', Lang::get('Deal Deleted Successfully'));
+            $dealService = app(DealService::class);
+            $dealService->delete($id);
+            return redirect()->route(self::INDEX_ROUTE_NAME, $paramRedirect)
+                ->with('success', Lang::get('Deal Deleted Successfully'));
         } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return redirect()->route(self::INDEX_ROUTE_NAME, $paramRedirect)->with('warning', Lang::get('This Deal cant be Deleted !') . " " . $exception->getMessage());
+            return redirect()->route(self::INDEX_ROUTE_NAME, $paramRedirect)
+                ->with('warning', Lang::get('This Deal cant be Deleted !') . " " . $exception->getMessage());
         }
     }
 
     public function render()
     {
-        $deal = Deal::find($this->idDeal);
+        $deal = $this->dealService->findById($this->idDeal);
         if (is_null($deal)) {
             $this->redirect()->route('deals_index', ['locale' => app()->getLocale()]);
         }
 
-        $commissions = CommissionBreakDown::where('deal_id', $this->idDeal)
-            ->orderBy('id', 'ASC')
-            ->get();
+        $commissions = $this->commissionService->getByDealId($this->idDeal, 'id', 'ASC');
 
-        $this->jackpot = $commissions->sum('cash_jackpot');
-        $this->earn_profit = $commissions->sum('cash_company_profit');
-        $this->proactive_cashback = $commissions->sum('cash_cashback');
-        $this->tree_remuneration = $commissions->sum('cash_tree');
+        $totals = $this->commissionService->calculateTotals($this->idDeal);
+        $this->jackpot = $totals['jackpot'];
+        $this->earn_profit = $totals['earn_profit'];
+        $this->proactive_cashback = $totals['proactive_cashback'];
+        $this->tree_remuneration = $totals['tree_remuneration'];
 
         $params = [
             'deal' => $deal,

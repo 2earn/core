@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Comment;
 use App\Models\News;
 use App\Models\User;
+use App\Services\CommentService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -19,6 +20,13 @@ class NewsShow extends Component
     public $likeCount = 0;
     public $liked = false;
     public $unvalidatedComments = [];
+
+    protected CommentService $commentService;
+
+    public function boot(CommentService $commentService)
+    {
+        $this->commentService = $commentService;
+    }
 
     public function mount($id)
     {
@@ -70,14 +78,14 @@ class NewsShow extends Component
     public function validateComment($commentId)
     {
         if (!auth()->check() || !User::isSuperAdmin()) return;
-        Comment::validate($commentId);
+        $this->commentService->validateComment($commentId, auth()->id());
         $this->loadComments();
     }
 
     public function deleteComment($commentId)
     {
         if (!auth()->check() || !User::isSuperAdmin()) return;
-        Comment::deleteComment($commentId);
+        $this->commentService->deleteComment($commentId);
         $this->loadComments();
     }
 

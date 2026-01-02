@@ -2,13 +2,16 @@
 
 namespace App\Livewire;
 
-use App\Models\Hashtag;
-use App\Models\TranslaleModel;
+use App\Services\Hashtag\HashtagService;
+use App\Services\TranslaleModelService;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
 class HashtagCreateOrUpdate extends Component
 {
+    protected HashtagService $hashtagService;
+    protected TranslaleModelService $translationService;
+
     public $hashtagId;
     public $name = '';
     public $slug = '';
@@ -25,24 +28,25 @@ class HashtagCreateOrUpdate extends Component
         ];
     }
 
+    public function boot(HashtagService $hashtagService, TranslaleModelService $translationService)
+    {
+        $this->hashtagService = $hashtagService;
+        $this->translationService = $translationService;
+    }
+
     public function mount($id = null)
     {
         if ($id) {
-            $hashtag = Hashtag::findOrFail($id);
+            $hashtag = $this->hashtagService->findByIdOrFail($id);
             $this->hashtagId = $hashtag->id;
             $this->name = $hashtag->name;
             $this->slug = $hashtag->slug;
-            $trans = TranslaleModel::where('name', TranslaleModel::getTranslateName($hashtag, 'name'))->first();
+
+            $translateName = $this->translationService->getTranslateName($hashtag, 'name');
+            $trans = $this->translationService->getByName($translateName);
+
             if ($trans) {
-                $this->translations = [
-                    'ar' => $trans->value,
-                    'fr' => $trans->valueFr,
-                    'en' => $trans->valueEn,
-                    'es' => $trans->valueEs,
-                    'tr' => $trans->valueTr,
-                    'ru' => $trans->valueRu,
-                    'de' => $trans->valueDe,
-                ];
+                $this->translations = $this->translationService->getTranslationsArray($trans);
             }
         }
     }
@@ -55,30 +59,39 @@ class HashtagCreateOrUpdate extends Component
     public function save()
     {
         $this->validate();
+
         if ($this->hashtagId) {
-            $hashtag = Hashtag::findOrFail($this->hashtagId);
-            $hashtag->update([
+            $success = $this->hashtagService->update($this->hashtagId, [
                 'name' => $this->name,
                 'slug' => $this->slug,
             ]);
+
+            if (!$success) {
+                session()->flash('error', 'Hashtag update failed.');
+                return redirect()->route('hashtags_index', app()->getLocale());
+            }
+
+            $hashtag = $this->hashtagService->findByIdOrFail($this->hashtagId);
         } else {
-            $hashtag = Hashtag::create([
+            $hashtag = $this->hashtagService->create([
                 'name' => $this->name,
                 'slug' => $this->slug,
             ]);
+
+            if (!$hashtag) {
+                session()->flash('error', 'Hashtag creation failed.');
+                return redirect()->route('hashtags_index', app()->getLocale());
+            }
         }
-        $trans = TranslaleModel::updateOrCreate(
-            ['name' => TranslaleModel::getTranslateName($hashtag, 'name')],
-            [
-                'value' => !empty($this->translations['ar']) ? $this->translations['ar'] : $this->name . ' - ar',
-                'valueFr' => !empty($this->translations['fr']) ? $this->translations['fr'] : $this->name . ' - fr',
-                'valueEn' => !empty($this->translations['en']) ? $this->translations['en'] : $this->name . ' - en',
-                'valueEs' => !empty($this->translations['es']) ? $this->translations['es'] : $this->name . ' - es',
-                'valueTr' => !empty($this->translations['tr']) ? $this->translations['tr'] : $this->name . ' - tr',
-                'valueRu' => !empty($this->translations['ru']) ? $this->translations['ru'] : $this->name . ' - ru',
-                'valueDe' => !empty($this->translations['de']) ? $this->translations['de'] : $this->name . ' - de',
-            ]
+
+        $translateName = $this->translationService->getTranslateName($hashtag, 'name');
+        $preparedTranslations = $this->translationService->prepareTranslationsWithFallback(
+            $this->translations,
+            $this->name
         );
+
+        $this->translationService->updateOrCreate($translateName, $preparedTranslations);
+
         session()->flash('success', $this->hashtagId ? 'Hashtag updated successfully.' : 'Hashtag created successfully.');
         return redirect()->route('hashtags_index', app()->getLocale());
     }

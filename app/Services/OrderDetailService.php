@@ -248,5 +248,26 @@ class OrderDetailService
             default => "DATE(orders.created_at)",
         };
     }
-}
 
+    /**
+     * Get sum of quantities for an item in paid orders
+     *
+     * @param int $itemId
+     * @return int
+     */
+    public function getSumOfPaidItemQuantities(int $itemId): int
+    {
+        try {
+            return OrderDetail::where('item_id', $itemId)
+                ->whereHas('order', function ($query) {
+                    $query->where('status', OrderEnum::Paid->value);
+                })
+                ->sum('qty');
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error getting sum of paid item quantities: ' . $e->getMessage(), [
+                'item_id' => $itemId
+            ]);
+            return 0;
+        }
+    }
+}

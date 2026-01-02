@@ -2,17 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Sms;
 use App\Models\User;
+use App\Services\sms\SmsService;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
 use Core\Services\settingsManager;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class SmsController extends Controller
 {
+    protected $smsService;
+
+    public function __construct(SmsService $smsService)
+    {
+        $this->smsService = $smsService;
+    }
 
     public function index()
     {
@@ -21,70 +26,38 @@ class SmsController extends Controller
 
     public function getSmsData(Request $request)
     {
-        $query = Sms::query()
-            ->select(
-                'sms.id',
-                'sms.message',
-                'sms.destination_number',
-                'sms.source_number',
-                'sms.created_at',
-                'sms.updated_at',
-                'sms.created_by',
-                'sms.updated_by',
-                DB::raw('(SELECT CONCAT(IFNULL(mu.enFirstName, ""), " ", IFNULL(mu.enLastName, "")) FROM users u LEFT JOIN metta_users mu ON u.idUser = mu.idUser WHERE u.id = sms.created_by LIMIT 1) as user_name')
-            );
+        $filters = [
+            'date_from' => $request->filled('date_from') ? $request->date_from : null,
+            'date_to' => $request->filled('date_to') ? $request->date_to : null,
+            'destination_number' => $request->filled('destination_number') ? $request->destination_number : null,
+            'message' => $request->filled('message') ? $request->message : null,
+            'user_id' => $request->filled('user_id') ? $request->user_id : null,
+        ];
 
-        // Apply filters
-        if ($request->filled('date_from')) {
-            $query->whereDate('sms.created_at', '>=', $request->date_from);
-        }
-
-        if ($request->filled('date_to')) {
-            $query->whereDate('sms.created_at', '<=', $request->date_to);
-        }
-
-        if ($request->filled('destination_number')) {
-            $query->where('sms.destination_number', 'like', '%' . $request->destination_number . '%');
-        }
-
-        if ($request->filled('message')) {
-            $query->where('sms.message', 'like', '%' . $request->message . '%');
-        }
-
-        if ($request->filled('user_id')) {
-            $query->where('sms.created_by', $request->user_id);
-        }
+        $query = $this->smsService->getSmsDataQuery(array_filter($filters));
 
         return DataTables::of($query)
             ->addColumn('user_info', function ($sms) {
-                if ($sms->user_name) {
-                    return '<div class="d-flex align-items-center">' .
-                           '<div class="flex-grow-1">' .
-                           '<h5 class="fs-13 mb-0">' . $sms->user_name . '</h5>' .
-                           '<p class="text-muted mb-0">ID: ' . ($sms->created_by ?? 'N/A') . '</p>' .
-                           '</div></div>';
-                }
-                return '<span class="badge bg-secondary">System</span>';
+                return view('parts.datatable.sms-user-info', [
+                    'user_name' => $sms->user_name,
+                    'created_by' => $sms->created_by
+                ])->render();
             })
             ->addColumn('message_preview', function ($sms) {
-                $message = $sms->message ?? '';
-                if (strlen($message) > 50) {
-                    return '<span title="' . htmlspecialchars($message) . '">' .
-                           htmlspecialchars(substr($message, 0, 50)) . '...</span>';
-                }
-                return htmlspecialchars($message);
+                return view('parts.datatable.sms-message-preview', [
+                    'message' => $sms->message
+                ])->render();
             })
             ->addColumn('phone_info', function ($sms) {
-                return '<div>' .
-                       '<strong>' . ($sms->destination_number ?? 'N/A') . '</strong><br>' .
-                       '<small class="text-muted">From: ' . ($sms->source_number ?? 'N/A') . '</small>' .
-                       '</div>';
+                return view('parts.datatable.sms-phone-info', [
+                    'destination_number' => $sms->destination_number,
+                    'source_number' => $sms->source_number
+                ])->render();
             })
             ->editColumn('created_at', function ($sms) {
-                return '<div>' .
-                       '<div>' . $sms->created_at->format(config('app.date_format')) . '</div>' .
-                       '<small class="text-muted">' . $sms->created_at->format('H:i:s') . '</small>' .
-                       '</div>';
+                return view('parts.datatable.sms-created-at', [
+                    'created_at' => $sms->created_at
+                ])->render();
             })
             ->rawColumns(['user_info', 'message_preview', 'phone_info', 'created_at', 'action'])
             ->make(true);
@@ -92,24 +65,17 @@ class SmsController extends Controller
 
     public function getStatistics(Request $request)
     {
-        $today = Sms::whereDate('created_at', today())->count();
-        $week = Sms::whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])->count();
-        $month = Sms::whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
-            ->count();
-        $total = Sms::count();
-
-        return response()->json([
-            'today' => $today,
-            'week' => $week,
-            'month' => $month,
-            'total' => $total
-        ]);
+        return response()->json($this->smsService->getStatistics());
     }
 
     public function show($id)
     {
-        $sms = Sms::findOrFail($id);
+        $sms = $this->smsService->findById($id);
+
+        if (!$sms) {
+            return response()->json(['error' => 'SMS not found'], 404);
+        }
+
         $user = null;
 
         if ($sms->created_by) {

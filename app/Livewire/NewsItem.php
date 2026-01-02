@@ -5,36 +5,45 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\News;
 use App\Models\Comment;
+use App\Services\CommentService;
+use App\Services\News\NewsService;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 class NewsItem extends Component
 {
+    protected NewsService $newsService;
+    protected CommentService $commentService;
+
     public $idNews;
     public $like;
     public $comment;
     public $currentRouteName;
 
+    public function boot(NewsService $newsService, CommentService $commentService)
+    {
+        $this->newsService = $newsService;
+        $this->commentService = $commentService;
+    }
+
     public function mount($idNews)
     {
         $this->idNews = $idNews;
         $this->currentRouteName = Route::currentRouteName();
-        $this->like = News::whereHas('likes', function ($q) {
-            $q->where('user_id', auth()->user()->id)->where('likable_id', $this->idNews);
-        })->exists();
+        $this->like = $this->newsService->hasUserLiked($this->idNews, auth()->user()->id);
     }
 
     public function like()
     {
-        $news = News::findOrFail($this->idNews);
+        $news = $this->newsService->getByIdOrFail($this->idNews);
         $news->likes()->create(['user_id' => auth()->user()->id]);
         $this->like = true;
     }
 
     public function dislike()
     {
-        $news = News::findOrFail($this->idNews);
+        $news = $this->newsService->getByIdOrFail($this->idNews);
         $news->likes()->where('user_id', auth()->user()->id)->delete();
         $this->like = false;
     }

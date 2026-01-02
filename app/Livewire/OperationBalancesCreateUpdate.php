@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
-use App\Models\OperationCategory;
+use App\Services\Balances\OperationCategoryService;
 use Core\Models\Amount;
-use Core\Models\BalanceOperation;
+use Core\Services\BalanceOperationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -16,6 +16,7 @@ class OperationBalancesCreateUpdate extends Component
     public $operation;
     public $ref;
     public $io;
+    public $direction;
     public $source;
     public $mode;
     public $parent_id;
@@ -32,6 +33,17 @@ class OperationBalancesCreateUpdate extends Component
     public $update = false;
     protected $rules = ['name' => 'required'];
 
+    protected BalanceOperationService $balanceOperationService;
+    protected OperationCategoryService $operationCategoryService;
+
+    public function boot(
+        BalanceOperationService $balanceOperationService,
+        OperationCategoryService $operationCategoryService
+    ) {
+        $this->balanceOperationService = $balanceOperationService;
+        $this->operationCategoryService = $operationCategoryService;
+    }
+
     public function mount(Request $request)
     {
         $this->idOperation = $request->input('idOperation');
@@ -39,15 +51,18 @@ class OperationBalancesCreateUpdate extends Component
             $this->edit($this->idOperation);
         }
         $this->allAmounts = Amount::all();
-        $this->allParent = BalanceOperation::all();
-        $this->allCategory = OperationCategory::all();
+        $this->allParent = $this->balanceOperationService->getAll();
+        $this->allCategory = $this->operationCategoryService->getAll();
         $this->allIO = ['IN', 'OUT', 'IO'];
         $this->allModify = [['name' => 'No', 'value' => 0], ['name' => 'yes', 'value' => 1]];
     }
 
     public function edit($idOperation)
     {
-        $balance = BalanceOperation::find($idOperation);
+        $balance = $this->balanceOperationService->findById($idOperation);
+        if (!$balance) {
+            return;
+        }
         $this->operation = $balance->operation;
         $this->direction = $balance->direction;
         $this->ref = $balance->ref;
@@ -69,22 +84,22 @@ class OperationBalancesCreateUpdate extends Component
     public function saveBO()
     {
         try {
-            $balance = BalanceOperation::find($this->idOperation);
+            $balance = $this->balanceOperationService->update($this->idOperation, [
+                'operation' => $this->operation,
+                'direction' => $this->direction,
+                'ref' => $this->ref,
+                'source' => $this->source,
+                'mode' => $this->mode,
+                'amounts_id' => $this->amounts_id,
+                'note' => $this->note,
+                'modify_amount' => $this->modify_amount,
+                'operation_category_id' => $this->operation_category_id,
+                'parent_id' => $this->parent_id,
+            ]);
+
             if (!$balance) {
                 throw new \Exception(Lang::get('No Balances'));
             }
-            $balance->operation = $this->operation;
-            $balance->direction = $this->direction;
-            $balance->ref = $this->ref;
-            $balance->source = $this->source;
-            $balance->mode = $this->mode;
-            $balance->amounts_id = $this->amounts_id;
-            $balance->note = $this->note;
-            $balance->modify_amount = $this->modify_amount;
-            $balance->operation_category_id = $this->operation_category_id;
-            $balance->parent_id = $this->parent_id;
-            $balance->save();
-            $balance = BalanceOperation::find($this->idOperation);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('balances_index', ['locale' => app()->getLocale()])->with('danger', Lang::get('balances update failed'));
@@ -95,7 +110,7 @@ class OperationBalancesCreateUpdate extends Component
 
     public function render()
     {
-        $params = ['balance' => BalanceOperation::find($this->idOperation)];
+        $params = ['balance' => $this->balanceOperationService->findById($this->idOperation)];
         return view('livewire.operation-balances-create-update', $params)->extends('layouts.master')->section('content');
     }
 }

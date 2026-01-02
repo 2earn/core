@@ -112,5 +112,36 @@ class CommittedInvestorRequestService
             return false;
         }
     }
+
+    /**
+     * Get all in-progress committed investor requests
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getInProgressRequests()
+    {
+        try {
+            return CommittedInvestorRequest::where('status', RequestStatus::InProgress->value)->get();
+        } catch (\Exception $e) {
+            Log::error('Error fetching in-progress committed investor requests: ' . $e->getMessage());
+            return new \Illuminate\Database\Eloquent\Collection();
+        }
+    }
+
+    /**
+     * Get all committed investor requests for a specific user
+     *
+     * @param int $userId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getUserCommittedInvestorRequests(int $userId)
+    {
+        try {
+            return CommittedInvestorRequest::where('user_id', $userId)->get();
+        } catch (\Exception $e) {
+            Log::error('Error fetching user committed investor requests: ' . $e->getMessage());
+            return new \Illuminate\Database\Eloquent\Collection();
+        }
+    }
 }
 

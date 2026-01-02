@@ -2,16 +2,15 @@
 
 namespace App\Livewire;
 
-use App\Models\AssignPlatformRole;
-use Core\Models\Platform;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use App\Services\Platform\AssignPlatformRoleService;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class AssignPlatformRolesIndex extends Component
 {
     use WithPagination;
+
+    protected AssignPlatformRoleService $assignPlatformRoleService;
 
     public $selectedStatus = 'all';
     public $search = '';
@@ -23,6 +22,11 @@ class AssignPlatformRolesIndex extends Component
     protected $queryString = ['selectedStatus', 'search'];
 
     protected $listeners = ['refreshComponent' => '$refresh'];
+
+    public function boot(AssignPlatformRoleService $assignPlatformRoleService)
+    {
+        $this->assignPlatformRoleService = $assignPlatformRoleService;
+    }
 
     public function updatingSearch()
     {
@@ -56,61 +60,12 @@ class AssignPlatformRolesIndex extends Component
 
     public function approve($assignmentId)
     {
-        try {
-            DB::beginTransaction();
+        $result = $this->assignPlatformRoleService->approve($assignmentId, auth()->id());
 
-            $assignment = AssignPlatformRole::findOrFail($assignmentId);
-
-            if ($assignment->status !== AssignPlatformRole::STATUS_PENDING) {
-                session()->flash('error', 'This assignment has already been processed.');
-                return;
-            }
-
-            $platform = Platform::findOrFail($assignment->platform_id);
-
-            switch ($assignment->role) {
-                case 'owner':
-                    $platform->owner_id = $assignment->user_id;
-                    break;
-                case 'marketing_manager':
-                    $platform->marketing_manager_id = $assignment->user_id;
-                    break;
-                case 'financial_manager':
-                    $platform->financial_manager_id = $assignment->user_id;
-                    break;
-                default:
-                    throw new \Exception('Invalid role: ' . $assignment->role);
-            }
-
-            $platform->updated_by = auth()->id();
-            $platform->save();
-
-            $assignment->status = AssignPlatformRole::STATUS_APPROVED;
-            $assignment->updated_by = auth()->id();
-            $assignment->save();
-
-            DB::commit();
-
-            Log::info('[AssignPlatformRolesIndex] Role assignment approved', [
-                'assignment_id' => $assignmentId,
-                'user_id' => $assignment->user_id,
-                'platform_id' => $assignment->platform_id,
-                'role' => $assignment->role,
-                'approved_by' => auth()->id()
-            ]);
-
-            session()->flash('success', 'Role assignment approved successfully.');
-
-        } catch (\Throwable $e) {
-            DB::rollBack();
-
-            Log::error('[AssignPlatformRolesIndex] Failed to approve role assignment', [
-                'assignment_id' => $assignmentId,
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-
-            session()->flash('error', 'Failed to approve assignment: ' . $e->getMessage());
+        if ($result['success']) {
+            session()->flash('success', $result['message']);
+        } else {
+            session()->flash('error', $result['message']);
         }
     }
 
@@ -138,79 +93,26 @@ class AssignPlatformRolesIndex extends Component
             'rejectionReason.max' => 'Rejection reason must not exceed 500 characters'
         ]);
 
-        try {
-            DB::beginTransaction();
+        $result = $this->assignPlatformRoleService->reject(
+            $this->selectedAssignmentId,
+            $this->rejectionReason,
+            auth()->id()
+        );
 
-            $assignment = AssignPlatformRole::findOrFail($this->selectedAssignmentId);
-
-            if ($assignment->status !== AssignPlatformRole::STATUS_PENDING) {
-                session()->flash('error', 'This assignment has already been processed.');
-                $this->closeRejectModal();
-                return;
-            }
-
-            $assignment->status = AssignPlatformRole::STATUS_REJECTED;
-            $assignment->rejection_reason = $this->rejectionReason;
-            $assignment->updated_by = auth()->id();
-            $assignment->save();
-
-            if ($assignment->user) {
-                $assignment->user->notify(new \App\Notifications\PlatformRoleAssignmentRejected(
-                    $assignment->platform,
-                    $assignment->role,
-                    $this->rejectionReason
-                ));
-            }
-
-            DB::commit();
-
-            Log::info('[AssignPlatformRolesIndex] Role assignment rejected', [
-                'assignment_id' => $this->selectedAssignmentId,
-                'user_id' => $assignment->user_id,
-                'platform_id' => $assignment->platform_id,
-                'role' => $assignment->role,
-                'rejection_reason' => $this->rejectionReason,
-                'rejected_by' => auth()->id()
-            ]);
-
-            session()->flash('success', 'Role assignment rejected successfully.');
+        if ($result['success']) {
+            session()->flash('success', $result['message']);
             $this->closeRejectModal();
-
-        } catch (\Throwable $e) {
-            DB::rollBack();
-
-            Log::error('[AssignPlatformRolesIndex] Failed to reject role assignment', [
-                'assignment_id' => $this->selectedAssignmentId,
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-
-            session()->flash('error', 'Failed to reject assignment: ' . $e->getMessage());
+        } else {
+            session()->flash('error', $result['message']);
         }
     }
 
     public function render()
     {
-        $query = AssignPlatformRole::with(['platform', 'user'])
-            ->orderBy('created_at', 'desc');
-
-        if ($this->selectedStatus !== 'all') {
-            $query->where('status', $this->selectedStatus);
-        }
-
-        if (!empty($this->search)) {
-            $query->where(function($q) {
-                $q->whereHas('user', function($userQuery) {
-                    $userQuery->where('name', 'like', '%' . $this->search . '%')
-                             ->orWhere('email', 'like', '%' . $this->search . '%');
-                })
-                ->orWhereHas('platform', function($platformQuery) {
-                    $platformQuery->where('name', 'like', '%' . $this->search . '%');
-                })
-                ->orWhere('role', 'like', '%' . $this->search . '%');
-            });
-        }
-        $assignments = $query->paginate(10);
+        $assignments = $this->assignPlatformRoleService->getPaginatedAssignments([
+            'status' => $this->selectedStatus,
+            'search' => $this->search,
+        ], 10);
 
         return view('livewire.assign-platform-roles-index', [
             'assignments' => $assignments

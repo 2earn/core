@@ -13,19 +13,16 @@ class OrderDashboard extends Component
 {
     use WithPagination;
 
-    // Filters
     public $startDate;
     public $endDate;
     public $dealId = null;
     public $productId = null;
     public $userId = null;
 
-    // Data
     public $statistics = [];
     public $deals = [];
     public $products = [];
 
-    // UI State
     public $loading = false;
     public $perPage = 20;
 
@@ -40,14 +37,10 @@ class OrderDashboard extends Component
 
     public function mount()
     {
-        // Set default date range (last 30 days)
         $this->endDate = now()->addDay()->format('Y-m-d');
         $this->startDate = now()->subDays(365)->format('Y-m-d');
 
-        // Load deals and products for filters
         $this->loadDeals();
-
-        // Load initial statistics
         $this->loadStatistics();
     }
 
@@ -73,7 +66,6 @@ class OrderDashboard extends Component
 
     public function updatedDealId()
     {
-        // When deal changes, reload products for that deal
         $this->productId = null;
         $this->loadProducts();
         $this->loadStatistics();

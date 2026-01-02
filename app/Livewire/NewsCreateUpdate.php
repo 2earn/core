@@ -5,6 +5,8 @@ namespace App\Livewire;
 use App\Models\News;
 use App\Models\TranslaleModel;
 use App\Models\Hashtag;
+use App\Services\Hashtag\HashtagService;
+use App\Services\News\NewsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -15,6 +17,9 @@ use Livewire\WithFileUploads;
 class NewsCreateUpdate extends Component
 {
     use WithFileUploads;
+
+    protected NewsService $newsService;
+    protected HashtagService $hashtagService;
 
     public $idNews;
     public $update;
@@ -30,9 +35,15 @@ class NewsCreateUpdate extends Component
         'mainImage' => 'nullable|image|mimes:jpeg,png,jpg',
     ];
 
+    public function boot(NewsService $newsService, HashtagService $hashtagService)
+    {
+        $this->newsService = $newsService;
+        $this->hashtagService = $hashtagService;
+    }
+
     public function mount(Request $request)
     {
-        $this->allHashtags = Hashtag::all();
+        $this->allHashtags = $this->hashtagService->getAll();
         $this->selectedHashtags = [];
         $this->idNews = $request->input('id');
         if (!is_null($this->idNews)) {
@@ -49,7 +60,7 @@ class NewsCreateUpdate extends Component
 
     public function edit($idNews)
     {
-        $news = News::findOrFail($idNews);
+        $news = $this->newsService->getByIdOrFail($idNews);
         $this->idNews = $idNews;
         $this->title = $news->title;
         $this->enabled = $news->enabled == 1 ? true : false;
@@ -71,8 +82,8 @@ class NewsCreateUpdate extends Component
             if ($this->enabled == 1 && is_null($this->published_at)) {
                 $params['published_at'] = now();
             }
-            $news = News::where('id', $this->idNews)->first();
-            $news->update($params);
+            $news = $this->newsService->getByIdOrFail($this->idNews);
+            $this->newsService->update($this->idNews, $params);
             $news->hashtags()->sync($this->selectedHashtags);
             if ($this->mainImage) {
                 if (!is_null($news->mainImage)) {
@@ -103,12 +114,12 @@ class NewsCreateUpdate extends Component
             'content' => $this->content
         ];
         try {
-            $createdNews = News::create($news);
+            $createdNews = $this->newsService->create($news);
             $createdNews->hashtags()->sync($this->selectedHashtags);
 
             createTranslaleModel($createdNews, 'title', $this->title);
             createTranslaleModel($createdNews, 'content', $this->content);
-            
+
             if ($this->mainImage) {
                 $imagePath = $this->mainImage->store('news/' . News::IMAGE_TYPE_MAIN, 'public2');
                 $createdNews->mainImage()->create([
@@ -125,7 +136,7 @@ class NewsCreateUpdate extends Component
 
     public function render()
     {
-        $params = ['news' => News::find($this->idNews)];
+        $params = ['news' => $this->newsService->getById($this->idNews)];
         return view('livewire.news-create-update', $params)->extends('layouts.master')->section('content');
     }
 }

@@ -5,11 +5,12 @@ namespace App\Livewire;
 use App\Http\Traits\earnLog;
 use App\Http\Traits\earnTrait;
 use App\Models\User;
+use App\Services\UserService;
+use App\Services\UserNotificationSettingsService;
 use Core\Enum\BalanceEnum;
 use Core\Enum\NotificationSettingEnum;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
-use Core\Models\UserNotificationSettings;
 use Core\Services\settingsManager;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -20,6 +21,9 @@ class ChangePassword extends Component
 {
     use earnTrait;
     use earnLog;
+
+    protected UserService $userService;
+    protected UserNotificationSettingsService $notificationSettingsService;
 
     const SEND_PASSWORD_CHANGE_OPT = false;
 
@@ -42,6 +46,12 @@ class ChangePassword extends Component
         'newPassword' => ['required', 'regex:/[0-9]/'],
         'confirmedPassword' => 'required|same:newPassword'
     ];
+
+    public function boot(UserService $userService, UserNotificationSettingsService $notificationSettingsService)
+    {
+        $this->userService = $userService;
+        $this->notificationSettingsService = $notificationSettingsService;
+    }
 
     public function mount(settingsManager $settingManager)
     {
@@ -87,9 +97,11 @@ class ChangePassword extends Component
         $authUser = $settingManager->getAuthUser();
         if (!$authUser) return;
 
-        UserNotificationSettings::where('idUser', $authUser->idUser)
-            ->where('idNotification', NotificationSettingEnum::change_pwd_sms->value)
-            ->update(['value' => $this->sendPassSMS]);
+        $this->notificationSettingsService->updateNotificationSetting(
+            $authUser->idUser,
+            NotificationSettingEnum::change_pwd_sms->value,
+            $this->sendPassSMS
+        );
     }
 
     public function PreChangePass(settingsManager $settingManager)
@@ -120,7 +132,7 @@ class ChangePassword extends Component
     public function sendActivationCodeValue($userAuth, settingsManager $settingManager)
     {
         $check_exchange = $settingManager->randomNewCodeOpt();
-        User::where('id', $userAuth->id)->update(['activationCodeValue' => $check_exchange]);
+        $this->userService->updateActivationCodeValue($userAuth->id, $check_exchange);
         $settingManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::OPTVerification, ['msg' => $check_exchange, 'type' => TypeNotificationEnum::SMS]);
         $userContactActif = $settingManager->getidCountryForSms($userAuth->id);
         $fullNumberSend = $userContactActif->fullNumber;
@@ -152,7 +164,7 @@ class ChangePassword extends Component
     public function changePassword($userAuth, settingsManager $settingManager)
     {
         $new_pass = Hash::make($this->newPassword);
-        DB::table('users')->where('id', auth()->user()->id)->update(['password' => $new_pass]);
+        $this->userService->updatePassword(auth()->user()->id, $new_pass);
 
         $sendSMS = $this->sendPassSMS == true ? 1 : 0;
         $settingManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::SendNewSMS, ['msg' => $this->newPassword, 'canSendSMS' => $sendSMS]);

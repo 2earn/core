@@ -2,11 +2,11 @@
 
 namespace App\Livewire;
 
-use App\Models\Comment;
-use App\Models\Survey;
-use App\Models\SurveyQuestion;
-use App\Models\SurveyQuestionChoice;
+use App\Services\CommentService;
 use App\Services\Communication\Communication;
+use App\Services\SurveyQuestionChoiceService;
+use App\Services\SurveyQuestionService;
+use App\Services\SurveyService;
 use Core\Enum\StatusSurvey;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -22,33 +22,48 @@ class SurveyShow extends Component
     public $comment;
     public $disableNote;
 
+    protected SurveyService $surveyService;
+    protected SurveyQuestionService $questionService;
+    protected SurveyQuestionChoiceService $choiceService;
+    protected CommentService $commentService;
+
+    public function boot(
+        SurveyService $surveyService,
+        SurveyQuestionService $questionService,
+        SurveyQuestionChoiceService $choiceService,
+        CommentService $commentService
+    ) {
+        $this->surveyService = $surveyService;
+        $this->questionService = $questionService;
+        $this->choiceService = $choiceService;
+        $this->commentService = $commentService;
+    }
+
     public function mount($idSurvey)
     {
         $this->idSurvey = $idSurvey;
         $this->routeRedirectionParams = ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey];
         $this->currentRouteName = Route::currentRouteName();
-        $this->like = Survey::whereHas('likes', function ($q) {
-            $q->where('user_id', auth()->user()->id)->where('likable_id', $this->idSurvey);
-        })->exists();
+        $this->like = $this->surveyService->hasUserLiked($this->idSurvey, auth()->user()->id);
     }
 
 
     public function removeQuestion($idQuestion)
     {
-        SurveyQuestion::findOrFail($idQuestion)->delete();
+        $this->questionService->delete($idQuestion);
         return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('success', Lang::get('Question Deleted Successfully'));
     }
 
     public function removeChoice($idChoice)
     {
-        SurveyQuestionChoice::findOrFail($idChoice)->delete();
+        $this->choiceService->delete($idChoice);
         return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('success', Lang::get('Choice Deleted Successfully'));
     }
 
     public function enable($id)
     {
         try {
-            Survey::enable($id);
+            $this->surveyService->enable($id);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while Enabling Survey'));
@@ -62,7 +77,7 @@ class SurveyShow extends Component
             if (empty($this->disableNote)) {
                 return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while Disabling Survey'));
             }
-            Survey::disable($id, $this->disableNote);
+            $this->surveyService->disable($id, $this->disableNote);
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -75,7 +90,7 @@ class SurveyShow extends Component
     public function publish($id)
     {
         try {
-            Survey::publish($id);
+            $this->surveyService->publish($id);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while publishing Survey'));
@@ -86,7 +101,7 @@ class SurveyShow extends Component
     public function unpublish($id)
     {
         try {
-            Survey::unpublish($id);
+            $this->surveyService->unpublish($id);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while un publishing Survey'));
@@ -97,8 +112,8 @@ class SurveyShow extends Component
     public function open($id)
     {
         try {
-            Survey::canBeOpened($id);
-            Survey::open($id);
+            $this->surveyService->canBeOpened($id);
+            $this->surveyService->open($id);
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -110,7 +125,7 @@ class SurveyShow extends Component
     public function close($id)
     {
         try {
-            Survey::close($id);
+            $this->surveyService->close($id);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while closing Survey'));
@@ -121,7 +136,7 @@ class SurveyShow extends Component
     public function archive($id)
     {
         try {
-            Survey::archive($id);
+            $this->surveyService->archive($id);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while arciving Survey'));
@@ -132,8 +147,8 @@ class SurveyShow extends Component
     public function changeUpdatable($id)
     {
         try {
-            $survey = Survey::find($id);
-            Survey::changeUpdatable($id, !$survey->updatable);
+            $survey = $this->surveyService->getById($id);
+            $this->surveyService->changeUpdatable($id, !$survey->updatable);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while updating Survey updatable property'));
@@ -144,8 +159,7 @@ class SurveyShow extends Component
 
     public function addLike()
     {
-        $survey = Survey::find($this->idSurvey);
-        $survey->likes()->create(['user_id' => auth()->user()->id]);
+        $this->surveyService->addLike($this->idSurvey, auth()->user()->id);
         $this->like = true;
     }
 
@@ -154,36 +168,30 @@ class SurveyShow extends Component
         if (empty($this->comment)) {
             return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('danger', Lang::get('Empty comment'));
         }
-        $survey = Survey::find($this->idSurvey);
-        $survey->comments()->create(['user_id' => auth()->user()->id, 'content' => $this->comment]);
+        $this->surveyService->addComment($this->idSurvey, auth()->user()->id, $this->comment);
         $this->comment = "";
     }
 
     public function validateComment($idComment)
     {
-        Comment::validate($idComment);
+        $this->commentService->validateComment($idComment, auth()->user()->id);
     }
 
     public function deleteComment($idComment)
     {
-        Comment::deleteComment($idComment);
+        $this->commentService->deleteComment($idComment);
     }
 
     public function dislike()
     {
-        $likes = Survey::find($this->idSurvey)->likes()->get();
-        foreach ($likes as $like) {
-            if ($like->user_id == auth()->user()->id) {
-                $like->delete();
-            }
-        }
+        $this->surveyService->removeLike($this->idSurvey, auth()->user()->id);
         $this->like = false;
     }
 
     public function duplicateSurvey($id)
     {
         try {
-            $survey = Survey::findOrFail($id);
+            $survey = $this->surveyService->findOrFail($id);
             if (intval($survey->status) <= StatusSurvey::OPEN->value) {
                 return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('danger', Lang::get('Only Opened surveys can be duplicated'));
             }
@@ -199,7 +207,7 @@ class SurveyShow extends Component
 
     public function render()
     {
-        $params = ['survey' => Survey::findOrFail($this->idSurvey)];
+        $params = ['survey' => $this->surveyService->findOrFail($this->idSurvey)];
         return view('livewire.survey-show', $params)->extends('layouts.master')->section('content');
     }
 }

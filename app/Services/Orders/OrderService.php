@@ -3,6 +3,7 @@
 namespace App\Services\Orders;
 
 use App\Models\Order;
+use Core\Enum\OrderEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -383,6 +384,218 @@ class OrderService
                 'deal_id' => $dealId,
                 'product_id' => $productId,
                 'user_id' => $userId
+            ]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Create a new order
+     *
+     * @param array $data
+     * @return Order
+     */
+    public function createOrder(array $data): Order
+    {
+        try {
+            return Order::create($data);
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error creating order: ' . $e->getMessage(), ['data' => $data]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Get all orders paginated
+     *
+     * @param int $perPage
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getAllOrdersPaginated(int $perPage = 5)
+    {
+        try {
+            return Order::orderBy('created_at', 'desc')->paginate($perPage);
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error fetching paginated orders: ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    /**
+     * Get count of pending orders for a user
+     *
+     * @param int $userId
+     * @param array $statuses
+     * @return int
+     */
+    public function getPendingOrdersCount(int $userId, array $statuses = []): int
+    {
+        try {
+            return Order::where('user_id', $userId)
+                ->whereIn('status', $statuses)
+                ->count();
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error counting pending orders: ' . $e->getMessage(), [
+                'user_id' => $userId,
+                'statuses' => $statuses
+            ]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Get pending order IDs for a user
+     *
+     * @param int $userId
+     * @param array $statuses
+     * @return array
+     */
+    public function getPendingOrderIds(int $userId, array $statuses = []): array
+    {
+        try {
+            return Order::where('user_id', $userId)
+                ->whereIn('status', $statuses)
+                ->pluck('id')
+                ->toArray();
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error fetching pending order IDs: ' . $e->getMessage(), [
+                'user_id' => $userId,
+                'statuses' => $statuses
+            ]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Get orders by IDs for a specific user with specific statuses
+     *
+     * @param int $userId
+     * @param array $orderIds
+     * @param array $statuses
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getOrdersByIdsForUser(int $userId, array $orderIds, array $statuses = [])
+    {
+        try {
+            $query = Order::with(['orderDetails.item.deal.platform', 'platform', 'user'])
+                ->whereIn('id', $orderIds)
+                ->where('user_id', $userId);
+
+            if (!empty($statuses)) {
+                $query->whereIn('status', $statuses);
+            }
+
+            return $query->get();
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error fetching orders by IDs for user: ' . $e->getMessage(), [
+                'user_id' => $userId,
+                'order_ids' => $orderIds,
+                'statuses' => $statuses
+            ]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Find order by ID for a specific user
+     *
+     * @param int $orderId
+     * @param int $userId
+     * @return Order|null
+     */
+    public function findOrderForUser(int $orderId, int $userId): ?Order
+    {
+        try {
+            return Order::where('id', $orderId)
+                ->where('user_id', $userId)
+                ->first();
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error finding order for user: ' . $e->getMessage(), [
+                'order_id' => $orderId,
+                'user_id' => $userId
+            ]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Create orders from grouped cart items
+     *
+     * @param int $userId
+     * @param array $ordersData Array of cart items grouped by platform ID
+     * @param string $status
+     * @return array Array of created order IDs
+     */
+    public function createOrdersFromCartItems(int $userId, array $ordersData, string $status = 'Ready'): array
+    {
+        try {
+            $createdOrderIds = [];
+
+            foreach ($ordersData as $platformId => $platformItems) {
+                $order = Order::create([
+                    'user_id' => $userId,
+                    'platform_id' => $platformId,
+                    'note' => 'Product buy platform ' . $platformId,
+                    'status' => OrderEnum::Ready,
+                ]);
+
+                foreach ($platformItems as $cartItem) {
+                    $order->orderDetails()->create([
+                        'qty' => $cartItem->qty,
+                        'unit_price' => $cartItem->unit_price,
+                        'total_amount' => $cartItem->total_amount,
+                        'item_id' => $cartItem->item_id,
+                        'shipping' => $cartItem->shipping,
+                    ]);
+                }
+
+                $createdOrderIds[] = $order->id;
+            }
+
+            return $createdOrderIds;
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error creating orders from cart items: ' . $e->getMessage(), [
+                'user_id' => $userId,
+                'platforms_count' => count($ordersData)
+            ]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Create a single order with details
+     *
+     * @param int $userId
+     * @param int $platformId
+     * @param array $cartItems
+     * @param string $status
+     * @return Order
+     */
+    public function createOrderWithDetails(int $userId, int $platformId, array $cartItems, string $status = 'Ready'): Order
+    {
+        try {
+            $order = Order::create([
+                'user_id' => $userId,
+                'platform_id' => $platformId,
+                'note' => 'Product buy platform ' . $platformId,
+                'status' => $status,
+            ]);
+
+            foreach ($cartItems as $cartItem) {
+                $order->orderDetails()->create([
+                    'qty' => $cartItem->qty,
+                    'unit_price' => $cartItem->unit_price,
+                    'total_amount' => $cartItem->total_amount,
+                    'item_id' => $cartItem->item_id,
+                    'shipping' => $cartItem->shipping,
+                ]);
+            }
+
+            return $order;
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error creating order with details: ' . $e->getMessage(), [
+                'user_id' => $userId,
+                'platform_id' => $platformId
             ]);
             throw $e;
         }

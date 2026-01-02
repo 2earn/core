@@ -12,7 +12,11 @@ use App\Models\TreeBalances;
 use App\Models\User;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
+use App\Services\UserCurrentBalanceHorisontalService;
+use App\Services\UserCurrentBalanceVerticalService;
+use App\Services\Settings\SettingService;
 use Core\Enum\BalanceEnum;
+use Core\Models\Setting;
 use Core\Enum\BalanceOperationsEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -30,6 +34,43 @@ class Balances
 
     const MIN_BFSS_TO_GET_DISCOUNT = 1000;
 
+    protected static ?UserCurrentBalanceHorisontalService $balanceService = null;
+    protected static ?UserCurrentBalanceVerticalService $verticalBalanceService = null;
+    protected static ?SettingService $settingService = null;
+
+    /**
+     * Get the balance service instance
+     */
+    protected static function getBalanceService(): UserCurrentBalanceHorisontalService
+    {
+        if (is_null(self::$balanceService)) {
+            self::$balanceService = app(UserCurrentBalanceHorisontalService::class);
+        }
+        return self::$balanceService;
+    }
+
+    /**
+     * Get the vertical balance service instance
+     */
+    protected static function getVerticalBalanceService(): UserCurrentBalanceVerticalService
+    {
+        if (is_null(self::$verticalBalanceService)) {
+            self::$verticalBalanceService = app(UserCurrentBalanceVerticalService::class);
+        }
+        return self::$verticalBalanceService;
+    }
+
+    /**
+     * Get the setting service instance
+     */
+    protected static function getSettingService(): SettingService
+    {
+        if (is_null(self::$settingService)) {
+            self::$settingService = app(SettingService::class);
+        }
+        return self::$settingService;
+    }
+
 
     public function getBalanceCompter()
     {
@@ -37,7 +78,7 @@ class Balances
 
         $value++;
         $newValue = (string)$value;
-        DB::table('settings')->where("ParameterName", "=", 'BALANCES_COMPTER')->update(['IntegerValue' => $newValue]);
+        self::getSettingService()->updateIntegerByParameterName('BALANCES_COMPTER', $newValue);
         return substr((string)pow(10, 7 - strlen($newValue)), 1) . $newValue;
     }
 
@@ -91,36 +132,32 @@ class Balances
 
     public static function getStoredUserBalances($idUser, $balances = null)
     {
-        if (is_null($balances)) {
-            return UserCurrentBalanceHorisontal::where('user_id', $idUser)->first();
-        }
-        return UserCurrentBalanceHorisontal::where('user_id', $idUser)->pluck($balances)->first();
+        return self::getBalanceService()->getStoredUserBalances($idUser, $balances);
     }
 
     public static function getStoredCash($idUser)
     {
-        return Balances::getStoredUserBalances($idUser, 'cash_balances');
+        return self::getBalanceService()->getStoredCash($idUser);
     }
 
     public static function getStoredBfss($idUser, $type)
     {
-        $userCurrentBalanceHorisontal = Balances::getStoredUserBalances($idUser);
-        return $userCurrentBalanceHorisontal->getBfssBalance($type);
+        return self::getBalanceService()->getStoredBfss($idUser, $type);
     }
 
     public static function getStoredDiscount($idUser)
     {
-        return Balances::getStoredUserBalances($idUser, 'discount_balances');
+        return self::getBalanceService()->getStoredDiscount($idUser);
     }
 
     public static function getStoredTree($idUser)
     {
-        return Balances::getStoredUserBalances($idUser, 'tree_balances');
+        return self::getBalanceService()->getStoredTree($idUser);
     }
 
     public static function getStoredSms($idUser)
     {
-        return Balances::getStoredUserBalances($idUser, 'sms_balances');
+        return self::getBalanceService()->getStoredSms($idUser);
     }
 
     public static function addAutomatedFields($balances, $item_id, $deal_id, $order_id, $platform_id, $order_detail_id)
@@ -176,12 +213,12 @@ class Balances
 
     public static function updateCalculatedHorisental($idUser, $type, $value)
     {
-        UserCurrentBalanceHorisontal::where('user_id', $idUser)->update([$type => $value]);
+        return self::getBalanceService()->updateCalculatedHorisental($idUser, $type, $value);
     }
 
     public static function updateCalculatedVertical($idUser, $type, $value)
     {
-        UserCurrentBalanceVertical::where('user_id', $idUser)->where('balance_id', $type)->update(['current_balance' => $value]);
+        return self::getVerticalBalanceService()->updateCalculatedVertical($idUser, $type, $value);
     }
 
     public static function getTotalBfs($userCurrentBalancehorisontal)

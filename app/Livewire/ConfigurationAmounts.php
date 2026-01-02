@@ -2,15 +2,16 @@
 
 namespace App\Livewire;
 
-use Core\Models\Amount;
+use App\Services\AmountService;
 use Core\Services\settingsManager;
-use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class ConfigurationAmounts extends Component
 {
     use WithPagination;
+
+    protected AmountService $amountService;
 
     public $idamountsAm;
     public $amountsnameAm;
@@ -27,6 +28,11 @@ class ConfigurationAmounts extends Component
         'initAmountsFunction' => 'initAmountsFunction',
     ];
 
+    public function boot(AmountService $amountService)
+    {
+        $this->amountService = $amountService;
+    }
+
     public function updatingSearch()
     {
         $this->resetPage();
@@ -40,7 +46,7 @@ class ConfigurationAmounts extends Component
 
     public function initAmountsFunction($id)
     {
-        $amount = Amount::find($id);
+        $amount = $this->amountService->getById($id);
         if (!$amount) return;
 
         $this->idamountsAm = $amount->idamounts;
@@ -56,38 +62,36 @@ class ConfigurationAmounts extends Component
 
     public function saveAmounts()
     {
-        try {
-            $amount = Amount::find($this->idamountsAm);
-            if (!$amount) return;
-            $amount->amountsname = $this->amountsnameAm;
-            $amount->amountswithholding_tax = $this->amountswithholding_taxAm;
-            $amount->amountspaymentrequest = $this->amountspaymentrequestAm;
-            $amount->amountstransfer = $this->amountstransferAm;
-            $amount->amountscash = $this->amountscashAm;
-            $amount->amountsactive = $this->amountsactiveAm;
-            $amount->amountsshortname = $this->amountsshortnameAm;
-            $amount->save();
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return redirect()->route('configuration_amounts', app()->getLocale())->with('danger', trans('Setting param updating failed'));
+        $success = $this->amountService->update(
+            $this->idamountsAm,
+            [
+                'amountsname' => $this->amountsnameAm,
+                'amountswithholding_tax' => $this->amountswithholding_taxAm,
+                'amountspaymentrequest' => $this->amountspaymentrequestAm,
+                'amountstransfer' => $this->amountstransferAm,
+                'amountscash' => $this->amountscashAm,
+                'amountsactive' => $this->amountsactiveAm,
+                'amountsshortname' => $this->amountsshortnameAm,
+            ]
+        );
+
+        if (!$success) {
+            return redirect()->route('configuration_amounts', app()->getLocale())
+                ->with('danger', trans('Setting param updating failed'));
         }
-        return redirect()->route('configuration_amounts', app()->getLocale())->with('success', trans('Setting param updated successfully'));
+
+        return redirect()->route('configuration_amounts', app()->getLocale())
+            ->with('success', trans('Setting param updated successfully'));
     }
 
 
     public function render(settingsManager $settingsManager)
     {
-        $amounts = Amount::query()
-            ->when($this->search, function ($query) {
-                $query->where('amountsname', 'like', '%' . $this->search . '%')
-                      ->orWhere('amountsshortname', 'like', '%' . $this->search . '%');
-            })
-            ->paginate(10);
+        $amounts = $this->amountService->getPaginated($this->search, 10);
 
         return view('livewire.configuration-amounts', [
             'amounts' => $amounts
         ])->extends('layouts.master')->section('content');
     }
-
 
 }

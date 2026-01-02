@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Http\Traits\earnTrait;
 use App\Models\User;
+use App\Services\UserService;
 use Carbon\Carbon;
 use Core\Enum\TypeEventNotificationEnum;
 use Core\Enum\TypeNotificationEnum;
@@ -19,6 +20,8 @@ class ChangeEmail extends Component
     public $user;
     public $numberActif;
 
+    protected UserService $userService;
+
     protected $listeners = [
         'sendVerificationMail' => 'sendVerificationMail',
         'saveVerifiedMail' => 'saveVerifiedMail',
@@ -30,6 +33,11 @@ class ChangeEmail extends Component
         'newEmail' => 'required|email|max:255',
     ];
 
+    public function boot(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     public function mount(settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
@@ -37,7 +45,7 @@ class ChangeEmail extends Component
             abort(404);
         }
 
-        $this->user = User::find($userAuth->id);
+        $this->user = $this->userService->findById($userAuth->id);
         $this->numberActif = $settingsManager->getNumberCOntactActif($userAuth->idUser)->fullNumber;
     }
 
@@ -69,10 +77,11 @@ class ChangeEmail extends Component
         }
 
         $opt = $this->randomNewCodeOpt();
-        $us = User::find($this->user->id);
-        $us->OptActivation = $opt;
-        $us->OptActivation_at = Carbon::now();
-        $us->save();
+        $us = $this->userService->findById($this->user->id);
+        $this->userService->updateUser($us, [
+            'OptActivation' => $opt,
+            'OptActivation_at' => Carbon::now()
+        ]);
 
         $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::VerifMail, [
             'msg' => $opt,
@@ -95,14 +104,14 @@ class ChangeEmail extends Component
 
     public function checkUserEmail($codeOpt = null, settingsManager $settingsManager)
     {
-        $us = User::find($this->user->id);
+        $us = $this->userService->findById($this->user->id);
         if (is_null($codeOpt) || $codeOpt != $us->OptActivation) {
             session()->flash('danger', Lang::get('Invalid OPT code'));
             return;
         }
 
         $check_exchange = $this->randomNewCodeOpt();
-        User::where('id', auth()->user()->id)->update(['OptActivation' => $check_exchange]);
+        $this->userService->updateOptActivation(auth()->user()->id, $check_exchange);
 
         $settingsManager->NotifyUser(auth()->user()->id, TypeEventNotificationEnum::NewContactNumber, [
             'canSendMail' => 1,
@@ -120,16 +129,17 @@ class ChangeEmail extends Component
 
     public function saveVerifiedMail($codeOpt = null)
     {
-        $us = User::find($this->user->id);
+        $us = $this->userService->findById($this->user->id);
         if (is_null($codeOpt) || $codeOpt != $us->OptActivation) {
             session()->flash('danger', Lang::get('Change user email failed - Code OPT'));
             return;
         }
 
-        $us->email_verified = 1;
-        $us->email = $this->newEmail;
-        $us->email_verified_at = Carbon::now();
-        $us->save();
+        $this->userService->updateUser($us, [
+            'email_verified' => 1,
+            'email' => $this->newEmail,
+            'email_verified_at' => Carbon::now()
+        ]);
 
         return redirect()->route('user_form', app()->getLocale())
             ->with('success', Lang::get('User email change completed successfully'));

@@ -22,12 +22,10 @@ class DealValidationRequests extends Component
     public $statusFilter = 'pending';
     public $perPage = 10;
 
-    // Rejection modal properties
     public $showRejectModal = false;
     public $rejectRequestId = null;
     public $rejectionReason = '';
 
-    // Approval modal properties
     public $showApproveModal = false;
     public $approveRequestId = null;
 

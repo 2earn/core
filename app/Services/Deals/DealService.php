@@ -763,4 +763,51 @@ class DealService
             ->orderBy('created_at', 'desc')
             ->get(['id', 'name', 'platform_id', 'status']);
     }
+
+    /**
+     * Find a deal by ID
+     *
+     * @param int $id
+     * @return Deal|null
+     */
+    public function findById(int $id): ?Deal
+    {
+        return Deal::find($id);
+    }
+
+    /**
+     * Delete a deal
+     *
+     * @param int $id
+     * @return bool
+     * @throws \Exception
+     */
+    public function delete(int $id): bool
+    {
+        $deal = Deal::findOrFail($id);
+        return $deal->delete();
+    }
+
+    /**
+     * Get deals with user purchase history
+     *
+     * @param int $userId
+     * @return Collection
+     */
+    public function getDealsWithUserPurchases(int $userId): Collection
+    {
+        try {
+            return Deal::with('items')
+                ->whereHas('items.orderDetails.order', function ($query) use ($userId) {
+                    $query->where('user_id', $userId);
+                })
+                ->distinct()
+                ->get();
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Error fetching deals with user purchases: ' . $e->getMessage(), [
+                'user_id' => $userId
+            ]);
+            return new Collection();
+        }
+    }
 }

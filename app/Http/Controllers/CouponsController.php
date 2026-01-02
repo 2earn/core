@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Coupon;
+use App\Services\Coupon\CouponService;
 use Illuminate\Http\Request as Req;
 use Illuminate\Support\Facades\Log;
 
 class CouponsController extends Controller
 {
+    public function __construct(
+        private CouponService $couponService
+    )
+    {
+    }
 
     public function index()
     {
-        return datatables(Coupon::orderBy('id', 'desc')->get())
+        $coupons = $this->couponService->getAllCouponsOrdered();
+        return datatables($coupons)
             ->addColumn('action', function ($coupon) {
                 return view('parts.datatable.coupon-action', ['coupon' => $coupon]);
             })
@@ -33,6 +39,7 @@ class CouponsController extends Controller
             ->rawColumns(['action', 'platform_id'])
             ->make(true);
     }
+
     public function deleteCoupon(Req $request)
     {
         $ids = $request->input('ids');
@@ -42,8 +49,8 @@ class CouponsController extends Controller
         }
 
         try {
-            Coupon::whereIn('id', $ids)->where('consumed', 0)->delete();
-            return response()->json(['message' => 'Coupons deleted successfully (Only not consumed)']);
+            $deletedCount = $this->couponService->deleteMultipleByIds($ids);
+            return response()->json(['message' => "Coupons deleted successfully (Only not consumed). Deleted: {$deletedCount}"]);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return response()->json(['message' => 'An error occurred while deleting the coupons'], 500);

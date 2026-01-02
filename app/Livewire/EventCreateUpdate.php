@@ -3,16 +3,19 @@
 namespace App\Livewire;
 
 use App\Models\Event;
-use App\Models\Hashtag;
+use App\Services\EventService;
+use App\Services\Hashtag\HashtagService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class EventCreateUpdate extends Component
 {
     use WithFileUploads;
+
+    protected EventService $eventService;
+    protected HashtagService $hashtagService;
 
     public $idEvent;
     public $update;
@@ -36,9 +39,15 @@ class EventCreateUpdate extends Component
         'end_at' => 'nullable|date',
     ];
 
+    public function boot(EventService $eventService, HashtagService $hashtagService)
+    {
+        $this->eventService = $eventService;
+        $this->hashtagService = $hashtagService;
+    }
+
     public function mount(Request $request)
     {
-        $this->allHashtags = Hashtag::all();
+        $this->allHashtags = $this->hashtagService->getAll();
         $this->selectedHashtags = [];
         $this->idEvent = $request->input('id');
         if (!is_null($this->idEvent)) {
@@ -60,7 +69,7 @@ class EventCreateUpdate extends Component
 
     public function edit($idEvent)
     {
-        $event = Event::findOrFail($idEvent);
+        $event = $this->eventService->findByIdOrFail($idEvent);
         $this->idEvent = $idEvent;
         $this->title = $event->title;
         $this->content = $event->content;
@@ -85,11 +94,20 @@ class EventCreateUpdate extends Component
             'end_at' => $this->end_at ? \Carbon\Carbon::parse($this->end_at)->format('Y-m-d H:i:s') : null,
             'location' => $this->location,
         ];
+
         try {
             if ($this->idEvent) {
-                Event::where('id', $this->idEvent)->update($data);
-                $event = Event::find($this->idEvent);
+                // Update existing event
+                $this->eventService->update($this->idEvent, $data);
+                $event = $this->eventService->getById($this->idEvent);
+
+                if (!$event) {
+                    return redirect()->route('event_index', ['locale' => app()->getLocale()])
+                        ->with('error', Lang::get('Event not found'));
+                }
+
                 $event->hashtags()->sync($this->selectedHashtags);
+
                 if ($this->mainImage) {
                     if (!is_null($event->mainImage)) {
                         \Illuminate\Support\Facades\Storage::disk('public2')->delete($event->mainImage->url);
@@ -102,7 +120,14 @@ class EventCreateUpdate extends Component
                     ]);
                 }
             } else {
-                $event = Event::create($data);
+                // Create new event
+                $event = $this->eventService->create($data);
+
+                if (!$event) {
+                    return redirect()->route('event_index', ['locale' => app()->getLocale()])
+                        ->with('error', Lang::get('Event creation failed'));
+                }
+
                 $this->idEvent = $event->id;
                 $event->hashtags()->sync($this->selectedHashtags);
 
@@ -119,18 +144,22 @@ class EventCreateUpdate extends Component
                 }
             }
         } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return redirect()->route('event_index', ['locale' => app()->getLocale()])->with('error', Lang::get('Event save failed'));
+            return redirect()->route('event_index', ['locale' => app()->getLocale()])
+                ->with('error', Lang::get('Event save failed'));
         }
-        return redirect()->route('event_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Event saved successfully'));
+
+        return redirect()->route('event_index', ['locale' => app()->getLocale()])
+            ->with('success', Lang::get('Event saved successfully'));
     }
 
     public function render()
     {
         $event = null;
         if ($this->idEvent) {
-            $event = \App\Models\Event::with('mainImage')->find($this->idEvent);
+            $event = $this->eventService->getWithMainImage($this->idEvent);
         }
-        return view('livewire.event-create-update', compact('event'))->extends('layouts.master')->section('content');
+        return view('livewire.event-create-update', compact('event'))
+            ->extends('layouts.master')
+            ->section('content');
     }
 }

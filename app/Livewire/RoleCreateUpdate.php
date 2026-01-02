@@ -2,12 +2,11 @@
 
 namespace App\Livewire;
 
+use App\Services\Role\RoleService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
-use Spatie\Permission\Models\Role;
 
 class RoleCreateUpdate extends Component
 {
@@ -16,6 +15,13 @@ class RoleCreateUpdate extends Component
         $name;
     protected $rules = ['name' => 'required'];
     public $update = false;
+
+    protected RoleService $roleService;
+
+    public function boot(RoleService $roleService)
+    {
+        $this->roleService = $roleService;
+    }
 
     public function mount(Request $request)
     {
@@ -33,8 +39,7 @@ class RoleCreateUpdate extends Component
 
     public function edit($idRole)
     {
-
-        $role = Role::findOrFail($idRole);
+        $role = $this->roleService->getByIdOrFail($idRole);
         $this->name = $role->name;
         $this->idRole = $role->id;
         $this->update = true;
@@ -47,8 +52,7 @@ class RoleCreateUpdate extends Component
             $params = [
                 'name' => $this->name,
             ];
-            Role::where('id', $this->idRole)
-                ->update($params);
+            $this->roleService->update($this->idRole, $params);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while updating Role'));
@@ -59,10 +63,12 @@ class RoleCreateUpdate extends Component
 
     public function store()
     {
-        $latestRole = Role::orderBy('id', 'desc')->first();
         try {
             $this->validate();
-            DB::insert('insert into roles ( id,name,guard_name,created_at,updated_at) values (?, ?, ?,?, ?)', [$latestRole->id + 1, $this->name, 'web', now(), now()]);
+            $this->roleService->create([
+                'name' => $this->name,
+                'guard_name' => 'web'
+            ]);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('role_create_update', ['locale' => app()->getLocale()])->with('danger', Lang::get('Something goes wrong while creating Role!!') . ' ' . $exception->getMessage());

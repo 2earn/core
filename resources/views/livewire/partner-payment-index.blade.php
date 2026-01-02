@@ -137,7 +137,7 @@
     <div class="row">
         <div class="col-12 card shadow-sm">
             <div class="card-body p-0">
-                <div class="card-header py-4">
+                <div class="card-header py-1">
                     <div class="row align-items-center g-3">
                         <!-- Search -->
                         <div class="col-sm-12 col-md-4">

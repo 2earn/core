@@ -23,7 +23,6 @@ class SmsIndex extends Component
     public $selectedSms = null;
     public $showDetailModal = false;
 
-    // Statistics
     public $totalSms = 0;
     public $todaySms = 0;
     public $weekSms = 0;

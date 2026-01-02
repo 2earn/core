@@ -2,15 +2,17 @@
 
 namespace App\Livewire;
 
-use Core\Models\Amount;
-use Core\Models\Setting;
-use Illuminate\Support\Facades\Log;
+use App\Services\AmountService;
+use App\Services\Settings\SettingService;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class ConfigurationSetting extends Component
 {
     use WithPagination;
+
+    protected SettingService $settingService;
+    protected AmountService $amountService;
 
     public $allAmounts;
     public int $idSetting;
@@ -33,6 +35,12 @@ class ConfigurationSetting extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    public function boot(SettingService $settingService, AmountService $amountService)
+    {
+        $this->settingService = $settingService;
+        $this->amountService = $amountService;
+    }
+
     public function updatingSearch()
     {
         $this->resetPage();
@@ -50,21 +58,12 @@ class ConfigurationSetting extends Component
 
     public function getSettings()
     {
-        $query = Setting::query();
-
-        if ($this->search) {
-            $query->where(function($q) {
-                $q->where('ParameterName', 'like', '%' . $this->search . '%')
-                    ->orWhere('IntegerValue', 'like', '%' . $this->search . '%')
-                    ->orWhere('StringValue', 'like', '%' . $this->search . '%')
-                    ->orWhere('DecimalValue', 'like', '%' . $this->search . '%')
-                    ->orWhere('Unit', 'like', '%' . $this->search . '%')
-                    ->orWhere('Description', 'like', '%' . $this->search . '%');
-            });
-        }
-
-        return $query->orderBy($this->sortField, $this->sortDirection)
-            ->paginate($this->perPage);
+        return $this->settingService->getPaginatedSettings(
+            $this->search,
+            $this->sortField,
+            $this->sortDirection,
+            $this->perPage
+        );
     }
 
     public function editSetting($id)
@@ -75,7 +74,7 @@ class ConfigurationSetting extends Component
 
     public function initSettingFunction($id)
     {
-        $setting = Setting::find($id);
+        $setting = $this->settingService->getById($id);
         if (!$setting) return;
         $this->idSetting = $id;
         $this->parameterName = $setting->ParameterName;
@@ -89,28 +88,31 @@ class ConfigurationSetting extends Component
 
     public function saveSetting()
     {
-        try {
-            $setting = Setting::find($this->idSetting);
-            if (!$setting) return;
-            $setting->ParameterName = $this->parameterName;
-            $setting->IntegerValue = $this->IntegerValue;
-            $setting->StringValue = $this->StringValue;
-            $setting->DecimalValue = $this->DecimalValue;
-            $setting->Unit = $this->Unit;
-            $setting->Automatically_calculated = $this->Automatically_calculated;
-            $setting->Description = $this->Description;
-            $setting->save();
-        }catch (\Exception $exception){
-            Log::error($exception->getMessage());
-            return redirect()->route('configuration_setting', app()->getLocale())->with('danger', trans('Setting param updating failed'));
-        }
-        return redirect()->route('configuration_setting', app()->getLocale())->with('success', trans('Setting param updated successfully'));
+        $success = $this->settingService->updateSetting(
+            $this->idSetting,
+            [
+                'ParameterName' => $this->parameterName,
+                'IntegerValue' => $this->IntegerValue,
+                'StringValue' => $this->StringValue,
+                'DecimalValue' => $this->DecimalValue,
+                'Unit' => $this->Unit,
+                'Automatically_calculated' => $this->Automatically_calculated,
+                'Description' => $this->Description,
+            ]
+        );
 
+        if (!$success) {
+            return redirect()->route('configuration_setting', app()->getLocale())
+                ->with('danger', trans('Setting param updating failed'));
+        }
+
+        return redirect()->route('configuration_setting', app()->getLocale())
+            ->with('success', trans('Setting param updated successfully'));
     }
 
     public function render()
     {
-        $this->allAmounts = Amount::all();
+        $this->allAmounts = $this->amountService->getAll();
         $settings = $this->getSettings();
         return view('livewire.configuration-setting', [
             'settings' => $settings

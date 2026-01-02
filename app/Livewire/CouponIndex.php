@@ -2,9 +2,8 @@
 
 namespace App\Livewire;
 
-use App\Models\Coupon;
+use App\Services\Coupon\CouponService;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -12,6 +11,7 @@ class CouponIndex extends Component
 {
     use WithPagination;
 
+    protected CouponService $couponService;
     protected $paginationTheme = 'bootstrap';
 
     public ?string $search = "";
@@ -20,6 +20,11 @@ class CouponIndex extends Component
     public bool $selectAll = false;
 
     public $listeners = ['delete' => 'delete'];
+
+    public function boot(CouponService $couponService)
+    {
+        $this->couponService = $couponService;
+    }
 
     protected function queryString()
     {
@@ -50,7 +55,13 @@ class CouponIndex extends Component
     public function updatedSelectAll($value)
     {
         if ($value) {
-            $this->selectedIds = $this->getCoupons()->pluck('id')->map(fn($id) => (string)$id)->toArray();
+            $coupons = $this->couponService->getCouponsPaginated(
+                $this->search,
+                'id',
+                'desc',
+                (int)$this->pageCount
+            );
+            $this->selectedIds = $coupons->getCollection()->pluck('id')->map(fn($id) => (string)$id)->toArray();
         } else {
             $this->selectedIds = [];
         }
@@ -59,11 +70,10 @@ class CouponIndex extends Component
     public function delete($id)
     {
         try {
-            Coupon::findOrFail($id)->delete();
+            $this->couponService->deleteById($id);
             session()->flash('success', Lang::get('Coupon deleted successfully'));
             $this->selectedIds = array_diff($this->selectedIds, [$id]);
         } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
             session()->flash('danger', $exception->getMessage());
         }
     }
@@ -76,37 +86,25 @@ class CouponIndex extends Component
                 return;
             }
 
-            $deleted = Coupon::whereIn('id', $this->selectedIds)
-                ->where('consumed', 0)
-                ->delete();
+            $deleted = $this->couponService->deleteMultipleByIds($this->selectedIds);
 
             $this->selectedIds = [];
             $this->selectAll = false;
 
             session()->flash('success', Lang::get('Coupons deleted successfully') . ' (' . Lang::get('Only not consumed') . ')');
         } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
             session()->flash('danger', $exception->getMessage());
         }
     }
 
-    private function getCoupons()
-    {
-        return Coupon::when($this->search, function ($query) {
-            $query->where(function ($q) {
-                $q->where('pin', 'like', '%' . $this->search . '%')
-                    ->orWhere('sn', 'like', '%' . $this->search . '%')
-                    ->orWhere('value', 'like', '%' . $this->search . '%')
-                    ->orWhereHas('platform', function ($query) {
-                        $query->where('name', 'like', '%' . $this->search . '%');
-                    });
-            });
-        })->orderBy('id', 'desc');
-    }
-
     public function render()
     {
-        $coupons = $this->getCoupons()->paginate($this->pageCount);
+        $coupons = $this->couponService->getCouponsPaginated(
+            $this->search,
+            'id',
+            'desc',
+            (int)$this->pageCount
+        );
 
         return view('livewire.coupon-index', [
             'coupons' => $coupons

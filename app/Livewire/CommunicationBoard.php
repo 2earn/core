@@ -2,33 +2,25 @@
 
 namespace App\Livewire;
 
-use App\Models\Event;
-use App\Models\News as NewsModel;
-use App\Models\Survey;
-use Core\Enum\StatusSurvey;
+use App\Services\CommunicationBoardService;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
 class CommunicationBoard extends Component
 {
+    protected CommunicationBoardService $communicationBoardService;
+
     public $communicationBoard = [];
     public $currentRouteName;
 
+    public function boot(CommunicationBoardService $communicationBoardService)
+    {
+        $this->communicationBoardService = $communicationBoardService;
+    }
+
     public function mount()
     {
-        $surveys = Survey::where('status', '<', StatusSurvey::ARCHIVED->value)->orderBy('id', 'desc')->get();
-        $news = NewsModel::where('enabled', 1)->orderBy('id', 'desc')->get();
-        $events = Event::where('enabled', 1)->orderBy('id', 'desc')->get();
-        $communicationBoard = $surveys->merge($news)->merge($events)->sortByDesc('created_at')->values();
-        foreach ($communicationBoard as $key => $value) {
-            if (get_class($value) == 'App\\Models\\Survey') {
-                if ($value->canShow()) {
-                    $this->communicationBoard[$key] = ['type' => get_class($value), 'value' => $value];
-                }
-            } else {
-                $this->communicationBoard[$key] = ['type' => get_class($value), 'value' => $value];
-            }
-        }
+        $this->communicationBoard = $this->communicationBoardService->getCommunicationBoardItems();
         $this->currentRouteName = Route::currentRouteName();
     }
 

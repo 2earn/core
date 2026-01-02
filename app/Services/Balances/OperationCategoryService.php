@@ -35,6 +35,16 @@ class OperationCategoryService
         return OperationCategory::orderBy('id', 'desc')->get();
     }
 
+    /**
+     * Get all categories (alias for getAllCategories for consistency)
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getAll()
+    {
+        return OperationCategory::all();
+    }
+
     public function createCategory(array $data): OperationCategory
     {
         return OperationCategory::create($data);

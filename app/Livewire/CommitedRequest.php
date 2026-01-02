@@ -2,17 +2,23 @@
 
 namespace App\Livewire;
 
-use App\Models\CommittedInvestorRequest;
-use Core\Enum\RequestStatus;
-use Illuminate\Support\Facades\Route;
+use App\Services\CommittedInvestor\CommittedInvestorRequestService;
 use Livewire\Component;
 
 class CommitedRequest extends Component
 {
+    protected CommittedInvestorRequestService $committedInvestorRequestService;
+
+    public function boot(CommittedInvestorRequestService $committedInvestorRequestService)
+    {
+        $this->committedInvestorRequestService = $committedInvestorRequestService;
+    }
 
     public function render()
     {
-        $params = ['commitedInvestorsRequests' => CommittedInvestorRequest::where('status', RequestStatus::InProgress->value)->get()];
+        $params = [
+            'commitedInvestorsRequests' => $this->committedInvestorRequestService->getInProgressRequests()
+        ];
         return view('livewire.commited-request', $params)->extends('layouts.master')->section('content');
     }
 }
