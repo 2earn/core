@@ -2,10 +2,10 @@
 
 namespace App\Observers;
 
+use App\Enums\BalanceEnum;
 use App\Models\SmsBalances;
 use App\Models\UserCurrentBalanceVertical;
 use App\Services\Balances\Balances;
-use Core\Enum\BalanceEnum;
 use Core\Models\BalanceOperation;
 use Illuminate\Support\Facades\Log;
 

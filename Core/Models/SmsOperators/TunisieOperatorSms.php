@@ -2,7 +2,7 @@
 
 namespace Core\Models\SmsOperators;
 
-use Core\Enum\TypeEventNotificationEnum;
+use App\Enums\TypeEventNotificationEnum;
 use Core\Interfaces\IOperateurSms;
 use Illuminate\Support\Facades\Log;
 

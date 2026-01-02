@@ -2,7 +2,7 @@
 
 namespace Core\Models\MailOperator;
 
-use Core\Enum\TypeEventNotificationEnum;
+use App\Enums\TypeEventNotificationEnum;
 use Core\Interfaces\IMailOperator;
 use Illuminate\Support\Facades\Mail;
 

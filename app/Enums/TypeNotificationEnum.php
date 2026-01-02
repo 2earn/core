@@ -1,14 +1,16 @@
 <?php
-namespace Core\Enum ;
+namespace App\Enums;
 
-Enum TypeNotificationEnum:string
+enum TypeNotificationEnum: string
 {
     case SMS = "Sms";
     case MAIL = "Mail";
+
     public static function names(): array
     {
         return array_column(self::cases(), 'name');
     }
+
     public static function values(): array
     {
         return array_column(self::cases(), 'value');
@@ -19,3 +21,4 @@ Enum TypeNotificationEnum:string
         return array_combine(self::values(), self::names());
     }
 }
+

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\payment;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Services\Orders\Ordering;
-use Core\Enum\OrderEnum;
+use App\Enums\OrderEnum;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

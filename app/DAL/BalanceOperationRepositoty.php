@@ -1,7 +1,7 @@
 <?php
 
 namespace App\DAL;
-use Core\Enum\BalanceOperationsEnum;
+use App\Enums\BalanceOperationsEnum;
 use Core\Interfaces\IBalanceOperationRepositoty;
 use Illuminate\Support\Facades\DB;
 

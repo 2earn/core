@@ -3,7 +3,7 @@
 namespace App\Livewire;
 
 
-use Core\Enum\LanguageEnum;
+use App\Enums\LanguageEnum;
 use Core\Services\settingsManager;
 use Livewire\Component;
 

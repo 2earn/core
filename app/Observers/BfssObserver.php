@@ -2,14 +2,14 @@
 
 namespace App\Observers;
 
+use App\Enums\BalanceEnum;
+use App\Enums\BalanceOperationsEnum;
 use App\Models\BFSsBalances;
 use App\Models\DiscountBalances;
 use App\Models\SharesBalances;
 use App\Models\UserCurrentBalanceVertical;
 use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
-use Core\Enum\BalanceEnum;
-use Core\Enum\BalanceOperationsEnum;
 use Core\Models\BalanceOperation;
 use Core\Services\BalancesManager;
 use Illuminate\Support\Facades\Log;

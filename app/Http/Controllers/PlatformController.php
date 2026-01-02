@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BusinessSector;
-use Core\Enum\PlatformType;
+use App\Enums\PlatformType;
 use Core\Models\Platform;
 use Illuminate\Support\Facades\Lang;
 

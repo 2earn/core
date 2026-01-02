@@ -1,7 +1,8 @@
 <?php
 namespace Core\Interfaces;
 
-use Core\Enum\BalanceOperationsEnum;
+use App\Enums\BalanceOperationsEnum;
+
 interface  IBalanceOperationRepositoty {
     public function getBalanceOperationById(BalanceOperationsEnum $operation);
     public function getBalanceOperation() ;

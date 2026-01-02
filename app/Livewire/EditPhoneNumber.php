@@ -2,10 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Enums\TypeEventNotificationEnum;
+use App\Enums\TypeNotificationEnum;
 use App\Services\UserContactNumberService;
 use App\Services\UserService;
-use Core\Enum\TypeEventNotificationEnum;
-use Core\Enum\TypeNotificationEnum;
 use Core\Services\settingsManager;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;

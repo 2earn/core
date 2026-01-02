@@ -2,10 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Enums\TargetType;
 use App\Models\Target;
 use App\Models\TranslaleModel;
 use App\Services\SurveyService;
-use Core\Enum\TargetType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;

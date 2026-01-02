@@ -2,13 +2,13 @@
 
 namespace App\Livewire;
 
+use App\Enums\ExchangeTypeEnum;
+use App\Enums\TypeEventNotificationEnum;
+use App\Enums\TypeNotificationEnum;
 use App\Models\BFSsBalances;
 use App\Models\User;
 use App\Services\Balances\Balances;
 use App\Services\Settings\SettingService;
-use Core\Enum\ExchangeTypeEnum;
-use Core\Enum\TypeEventNotificationEnum;
-use Core\Enum\TypeNotificationEnum;
 use Core\Services\settingsManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;

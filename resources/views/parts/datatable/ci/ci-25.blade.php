@@ -2,7 +2,7 @@
     $idOrder=0;
     $balanceModel=\App\Models\BFSsBalances::find($balance->id);
       $newBalanceModel=\App\Models\BFSsBalances::where('reference',$balanceModel->reference)
-          ->where('balance_operation_id',\Core\Enum\BalanceOperationsEnum::OLD_ID_14->value)->first();
+          ->where('balance_operation_id',\App\Enums\BalanceOperationsEnum::OLD_ID_14->value)->first();
       $user=\App\Models\User::find($newBalanceModel->beneficiary_id_auto);
 @endphp
 

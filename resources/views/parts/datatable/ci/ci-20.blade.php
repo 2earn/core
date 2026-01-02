@@ -1,7 +1,7 @@
 @php
     $idOrder=0;
           $balanceModel=\App\Models\SharesBalances::find($balance->id);
-          $cashModel=\App\Models\CashBalances::where('reference',$balanceModel->reference)->where('balance_operation_id',\Core\Enum\BalanceOperationsEnum::OLD_ID_48->value)->first();
+          $cashModel=\App\Models\CashBalances::where('reference',$balanceModel->reference)->where('balance_operation_id',\App\Enums\BalanceOperationsEnum::OLD_ID_48->value)->first();
 @endphp
 
 @if(!is_null($cashModel))

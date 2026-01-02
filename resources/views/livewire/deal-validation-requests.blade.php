@@ -133,7 +133,7 @@
                                 <i class="fas fa-info-circle me-1"></i>
                                 <strong>{{__('Type')}}:</strong>
                                 <span class="badge bg-info-subtle text-info">
-                                        {{__(\Core\Enum\DealTypeEnum::from($request->deal->type)->name)}}
+                                        {{__(\App\Enums\DealTypeEnum::from($request->deal->type)->name)}}
                                     </span>
                             </small>
                         </div>
@@ -142,7 +142,7 @@
                                 <i class="fas fa-circle-notch me-1"></i>
                                 <strong>{{__('Status')}}:</strong>
                                 <span class="badge bg-primary-subtle text-primary">
-                                        {{__(strtoupper(\Core\Enum\DealStatus::from($request->deal->status)->name))}}
+                                        {{__(strtoupper(\App\Enums\DealStatus::from($request->deal->status)->name))}}
                                     </span>
                             </small>
                         </div>

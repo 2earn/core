@@ -2,9 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\Coupon;
 use App\Services\Coupon\CouponService;
-use Core\Enum\CouponStatusEnum;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;

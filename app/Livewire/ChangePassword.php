@@ -2,15 +2,14 @@
 
 namespace App\Livewire;
 
+use App\Enums\BalanceEnum;
+use App\Enums\NotificationSettingEnum;
+use App\Enums\TypeEventNotificationEnum;
+use App\Enums\TypeNotificationEnum;
 use App\Http\Traits\earnLog;
 use App\Http\Traits\earnTrait;
-use App\Models\User;
-use App\Services\UserService;
 use App\Services\UserNotificationSettingsService;
-use Core\Enum\BalanceEnum;
-use Core\Enum\NotificationSettingEnum;
-use Core\Enum\TypeEventNotificationEnum;
-use Core\Enum\TypeNotificationEnum;
+use App\Services\UserService;
 use Core\Services\settingsManager;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;

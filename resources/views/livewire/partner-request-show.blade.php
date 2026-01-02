@@ -23,13 +23,13 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <label class="form-label"><strong>{{ __('Status') }}:</strong></label>
-                        @if($partnerRequest->status == \Core\Enum\BePartnerRequestStatus::InProgress->value)
+                        @if($partnerRequest->status == \App\Enums\BePartnerRequestStatus::InProgress->value)
                             <span class="badge bg-warning">{{ __('In Progress') }}</span>
-                        @elseif($partnerRequest->status == \Core\Enum\BePartnerRequestStatus::Validated->value)
+                        @elseif($partnerRequest->status == \App\Enums\BePartnerRequestStatus::Validated->value)
                             <span class="badge bg-success">{{ __('Validated') }}</span>
-                        @elseif($partnerRequest->status == \Core\Enum\BePartnerRequestStatus::Validated2earn->value)
+                        @elseif($partnerRequest->status == \App\Enums\BePartnerRequestStatus::Validated2earn->value)
                             <span class="badge bg-info">{{ __('Validated 2earn') }}</span>
-                        @elseif($partnerRequest->status == \Core\Enum\BePartnerRequestStatus::Rejected->value)
+                        @elseif($partnerRequest->status == \App\Enums\BePartnerRequestStatus::Rejected->value)
                             <span class="badge bg-danger">{{ __('Rejected') }}</span>
                         @endif
                     </div>
@@ -127,7 +127,7 @@
                         </div>
                     @endif
 
-                    @if($partnerRequest->status == \Core\Enum\BePartnerRequestStatus::Rejected->value && !is_null($partnerRequest->note))
+                    @if($partnerRequest->status == \App\Enums\BePartnerRequestStatus::Rejected->value && !is_null($partnerRequest->note))
                         <div class="mb-3">
                             <label class="form-label"><strong>{{ __('Rejection Reason') }}:</strong></label>
                             <div class="alert alert-danger">
@@ -138,7 +138,7 @@
                 </div>
             </div>
 
-            @if($partnerRequest->status == \Core\Enum\BePartnerRequestStatus::InProgress->value)
+            @if($partnerRequest->status == \App\Enums\BePartnerRequestStatus::InProgress->value)
                 <div class="card">
                     <div class="card-header bg-light">
                         <h5 class="card-title mb-0">{{ __('Actions') }}</h5>
@@ -202,7 +202,8 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         {{ __('Cancel') }}
                     </button>
-                    <button type="button" class="btn btn-success" wire:click="validatePartnerRequest()" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-success" wire:click="validatePartnerRequest()"
+                            data-bs-dismiss="modal">
                         <i class="fas fa-check"></i> {{ __('Confirm Validation') }}
                     </button>
                 </div>
@@ -230,9 +231,9 @@
                                       placeholder="{{ __('Explain why this request is being rejected...') }}"
                                       required></textarea>
                             @error('rejectionNote')
-                                <div class="invalid-feedback d-block">
-                                    {{ $message }}
-                                </div>
+                            <div class="invalid-feedback d-block">
+                                {{ $message }}
+                            </div>
                             @enderror
                         </div>
                     </div>

@@ -1,1 +1,1 @@
-<span class="badge badge-info">{{__(\Core\Enum\StatusRequest::tryFrom($status)->name)}}</span>
+<span class="badge badge-info">{{__(\App\Enums\StatusRequest::tryFrom($status)->name)}}</span>

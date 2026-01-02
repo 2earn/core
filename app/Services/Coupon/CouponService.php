@@ -2,9 +2,9 @@
 
 namespace App\Services\Coupon;
 
+use App\Enums\CouponStatusEnum;
 use App\Models\BalanceInjectorCoupon;
 use App\Models\Coupon;
-use Core\Enum\CouponStatusEnum;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;

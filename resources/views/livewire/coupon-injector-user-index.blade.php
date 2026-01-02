@@ -54,9 +54,9 @@
                                     <div class="col">
                                         <div class="d-flex align-items-center gap-2">
                                             <span class="badge bg-info fs-14">
-                                                {{__(\Core\Enum\BalanceEnum::tryFrom($coupon->category)->name)}}
+                                                {{__(\App\Enums\BalanceEnum::tryFrom($coupon->category)->name)}}
                                             </span>
-                                            @if($coupon->category==\Core\Enum\BalanceEnum::BFS->value)
+                                            @if($coupon->category==\App\Enums\BalanceEnum::BFS->value)
                                                 <span class="badge bg-vertical-gradient fs-12">
                                                     {{$coupon->type}}
                                                 </span>
@@ -107,7 +107,8 @@
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mt-3">
                                     <div class="small text-muted">
-                                        {{__('Created at')}}: {{ $coupon->created_at->format(config('app.date_format')) }}
+                                        {{__('Created at')}}
+                                        : {{ $coupon->created_at->format(config('app.date_format')) }}
                                     </div>
                                     <div>
                                         @if(!$coupon->consumed)

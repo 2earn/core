@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Enum;
+namespace App\Enums;
 
 enum StatusRequest: int
 {
@@ -14,3 +14,4 @@ enum StatusRequest: int
     case Rejected = 3;
     case ValidInternational = 4;
 }
+

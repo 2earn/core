@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\CouponStatusEnum;
 use App\Models\BalanceInjectorCoupon;
 use App\Models\Coupon;
-use Core\Enum\CouponStatusEnum;
 use Illuminate\Http\Request as Req;
 use Illuminate\Support\Facades\Log;
 

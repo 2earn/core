@@ -1,7 +1,7 @@
 @php
     $balanceModel=\App\Models\CashBalances::find($balance->id);
     $treeModel=\App\Models\TreeBalances::where('reference',$balanceModel->reference)
-    ->where('balance_operation_id',\Core\Enum\BalanceOperationsEnum::OLD_ID_13->value)->first();
+    ->where('balance_operation_id',\App\Enums\BalanceOperationsEnum::OLD_ID_13->value)->first();
 @endphp
 
 @if(!is_null($treeModel))

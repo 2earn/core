@@ -5,7 +5,7 @@ namespace App\Services\Dashboard;
 use App\Models\Order;
 use App\Services\OrderDetailService;
 use App\Services\Platform\PlatformService;
-use Core\Enum\OrderEnum;
+use App\Enums\OrderEnum;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 

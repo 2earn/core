@@ -3,13 +3,13 @@
 namespace App\Services\Sponsorship;
 
 use App\DAL\UserRepository;
+use App\Enums\BalanceOperationsEnum;
 use App\Models\BFSsBalances;
 use App\Models\CashBalances;
 use App\Models\SharesBalances;
 use App\Models\User;
 use App\Services\Balances\Balances;
 use App\Services\Settings\SettingService;
-use Core\Enum\BalanceOperationsEnum;
 use Core\Models\BalanceOperation;
 use Core\Services\BalancesManager;
 use Illuminate\Support\Facades\DB;

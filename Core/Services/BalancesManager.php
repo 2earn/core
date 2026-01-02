@@ -3,7 +3,7 @@
 namespace Core\Services;
 
 
-use Core\Enum\BalanceOperationsEnum;
+use App\Enums\BalanceOperationsEnum;
 use Core\Interfaces\IBalanceOperationRepositoty;
 use Core\Interfaces\IUserBalancesRepository;
 

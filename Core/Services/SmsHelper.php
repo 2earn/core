@@ -2,7 +2,7 @@
 
 namespace Core\Services;
 
-use Core\Enum\TypeEventNotificationEnum;
+use App\Enums\TypeEventNotificationEnum;
 
 
 class SmsHelper

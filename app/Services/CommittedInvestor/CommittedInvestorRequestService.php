@@ -2,8 +2,8 @@
 
 namespace App\Services\CommittedInvestor;
 
+use App\Enums\RequestStatus;
 use App\Models\CommittedInvestorRequest;
-use Core\Enum\RequestStatus;
 use Illuminate\Support\Facades\Log;
 
 class CommittedInvestorRequestService

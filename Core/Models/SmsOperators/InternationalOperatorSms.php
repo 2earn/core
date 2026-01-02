@@ -2,9 +2,8 @@
 
 namespace Core\Models\SmsOperators;
 
-use Core\Enum\TypeEventNotificationEnum;
+use App\Enums\TypeEventNotificationEnum;
 use Core\Interfaces\IOperateurSms;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 
 class InternationalOperatorSms implements IOperateurSms

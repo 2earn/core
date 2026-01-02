@@ -3,11 +3,12 @@
 namespace Core\Interfaces;
 
 
+use App\Enums\BalanceEnum;
 use App\Models\User;
-use Core\Enum\BalanceEnum;
 use Core\Models\metta_user;
 use Core\Models\user_earn;
 use Core\Models\UserContact;
+
 interface IUserRepository
 {
     public function createuser( User $user);

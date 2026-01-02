@@ -2,6 +2,15 @@
 
 namespace Core\Services;
 
+use App\Enums\BalanceEnum;
+use App\Enums\EventBalanceOperationEnum;
+use App\Enums\ExchangeTypeEnum;
+use App\Enums\LanguageEnum;
+use App\Enums\OperateurSmsEnum;
+use App\Enums\SettingsEnum;
+use App\Enums\StatusRequest;
+use App\Enums\TypeEventNotificationEnum;
+use App\Enums\TypeNotificationEnum;
 use App\Http\Traits\earnLog;
 use App\Http\Traits\earnTrait;
 use App\Models\BFSsBalances;
@@ -9,15 +18,6 @@ use App\Models\ContactUser;
 use App\Models\User;
 use App\Services\Balances\Balances;
 use Carbon\Carbon;
-use Core\Enum\BalanceEnum;
-use Core\Enum\EventBalanceOperationEnum;
-use Core\Enum\ExchangeTypeEnum;
-use Core\Enum\LanguageEnum;
-use Core\Enum\OperateurSmsEnum;
-use Core\Enum\SettingsEnum;
-use Core\Enum\StatusRequest;
-use Core\Enum\TypeEventNotificationEnum;
-use Core\Enum\TypeNotificationEnum;
 use Core\Interfaces\ICountriesRepository;
 use Core\Interfaces\IHistoryNotificationRepository;
 use Core\Interfaces\IHobbiesRepository;

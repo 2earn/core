@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Enum;
+namespace App\Enums;
 
 enum BalanceOperationsEnum: int
 {
@@ -35,3 +35,4 @@ enum BalanceOperationsEnum: int
     case OLD_ID_61 = 64;
     case OLD_ID_62 = 65;
 }
+

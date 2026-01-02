@@ -3,10 +3,6 @@ namespace Core\Interfaces;
 
 
 
-use Core\Enum\BalanceEnum;
-use Core\Enum\BalanceOperationsEnum;
-use Core\Models\calculated_userbalances;
-
 interface  IUserBalancesRepository {
     public  function getBalance($idUser) ;
     public  function getCurrentBalance($idUser) ;

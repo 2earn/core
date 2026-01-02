@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
+use App\Enums\StatusSurvey;
+use App\Enums\TargetType;
 use App\Services\Targeting\Targeting;
-use Core\Enum\StatusSurvey;
-use Core\Enum\TargetType;
+use App\Traits\HasAuditing;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Lang;
-use App\Traits\HasAuditing;
 
 class Survey extends Model
 {

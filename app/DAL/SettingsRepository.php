@@ -1,6 +1,6 @@
 <?php
 namespace  App\DAL;
-use Core\Enum\SettingsEnum;
+use App\Enums\SettingsEnum;
 use Core\Interfaces\ISettingsRepository;
 use Illuminate\Support\Facades\DB;
 

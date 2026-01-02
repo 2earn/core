@@ -3,7 +3,7 @@
 namespace App\Services\Orders;
 
 use App\Models\Order;
-use Core\Enum\OrderEnum;
+use App\Enums\OrderEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;

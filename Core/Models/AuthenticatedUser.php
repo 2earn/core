@@ -2,7 +2,7 @@
 
 namespace Core\Models;
 
-use Core\Enum\StatusRequest;
+use App\Enums\StatusRequest;
 use Illuminate\Support\Facades\DB;
 
 class  AuthenticatedUser

@@ -60,7 +60,7 @@ class OrdersIndex extends Component
     {
         return $this->orderService->getPendingOrdersCount(
             auth()->user()->id,
-            [\Core\Enum\OrderEnum::Ready, \Core\Enum\OrderEnum::Simulated]
+            [\App\Enums\OrderEnum::Ready, \App\Enums\OrderEnum::Simulated]
         );
     }
 
@@ -68,7 +68,7 @@ class OrdersIndex extends Component
     {
         $orderIds = $this->orderService->getPendingOrderIds(
             auth()->user()->id,
-            [\Core\Enum\OrderEnum::Ready, \Core\Enum\OrderEnum::Simulated]
+            [\App\Enums\OrderEnum::Ready, \App\Enums\OrderEnum::Simulated]
         );
 
         if (empty($orderIds)) {

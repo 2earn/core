@@ -3,8 +3,6 @@
 namespace App\Livewire;
 
 use App\Models\User;
-use Carbon\Carbon;
-use Core\Enum\StatusRequest;
 use Livewire\Component;
 
 class IdentityCards extends Component

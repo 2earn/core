@@ -1,9 +1,9 @@
 <?php
-namespace Core\Enum;
+namespace App\Enums;
 
 enum BalanceEnum: int
 {
-    case  CASH = 1 ;
+    case CASH = 1;
     case BFS = 2;
     case DB = 3;
     case TREE = 4;

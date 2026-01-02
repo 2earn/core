@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use Core\Enum\NotificationSettingEnum;
+use App\Enums\NotificationSettingEnum;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 

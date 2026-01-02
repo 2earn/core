@@ -1,10 +1,10 @@
 <?php
 
-namespace Core\Enum;
+namespace App\Enums;
 
-enum  DealTypeEnum: string
+enum DealTypeEnum: string
 {
     case public = "0";
     case coupons = "1";
-
 }
+

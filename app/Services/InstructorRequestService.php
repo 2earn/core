@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
+use App\Enums\RequestStatus;
 use App\Models\InstructorRequest;
-use Core\Enum\RequestStatus;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
 

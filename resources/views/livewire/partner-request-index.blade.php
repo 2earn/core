@@ -47,13 +47,13 @@
                                         <small class="text-muted">{{ $request->user?->email }}</small>
                                     </div>
                                     <div>
-                                        @if($request->status == \Core\Enum\BePartnerRequestStatus::InProgress->value)
+                                        @if($request->status == \App\Enums\BePartnerRequestStatus::InProgress->value)
                                             <span class="badge bg-warning">{{ __('In Progress') }}</span>
-                                        @elseif($request->status == \Core\Enum\BePartnerRequestStatus::Validated->value)
+                                        @elseif($request->status == \App\Enums\BePartnerRequestStatus::Validated->value)
                                             <span class="badge bg-success">{{ __('Validated') }}</span>
-                                        @elseif($request->status == \Core\Enum\BePartnerRequestStatus::Validated2earn->value)
+                                        @elseif($request->status == \App\Enums\BePartnerRequestStatus::Validated2earn->value)
                                             <span class="badge bg-info">{{ __('Validated 2earn') }}</span>
-                                        @elseif($request->status == \Core\Enum\BePartnerRequestStatus::Rejected->value)
+                                        @elseif($request->status == \App\Enums\BePartnerRequestStatus::Rejected->value)
                                             <span class="badge bg-danger">{{ __('Rejected') }}</span>
                                         @endif
                                     </div>
@@ -63,14 +63,16 @@
                                 <div class="card-body">
                                     <!-- Business Sector -->
                                     <div class="mb-3">
-                                        <label class="small fw-bold text-muted d-block">{{ __('Business Sector') }}</label>
+                                        <label
+                                            class="small fw-bold text-muted d-block">{{ __('Business Sector') }}</label>
                                         <p class="mb-0">{{ $request->businessSector?->name ?? 'N/A' }}</p>
                                     </div>
 
                                     <!-- Platform URL -->
                                     <div class="mb-3">
                                         <label class="small fw-bold text-muted d-block">{{ __('Platform URL') }}</label>
-                                        <a href="{{ $request->platform_url }}" target="_blank" class="btn btn-sm btn-outline-info">
+                                        <a href="{{ $request->platform_url }}" target="_blank"
+                                           class="btn btn-sm btn-outline-info">
                                             <i class="fas fa-link"></i> {{ __('Visit Platform') }}
                                         </a>
                                     </div>

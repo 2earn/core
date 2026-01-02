@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TypeEventNotificationEnum;
+use App\Enums\TypeNotificationEnum;
 use App\Models\User;
 use App\Services\sms\SmsService;
-use Core\Enum\TypeEventNotificationEnum;
-use Core\Enum\TypeNotificationEnum;
 use Core\Services\settingsManager;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;

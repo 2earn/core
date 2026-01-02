@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TypeEventNotificationEnum;
+use App\Enums\TypeNotificationEnum;
 use App\Http\Traits\earnLog;
 use App\Models\User;
 use Carbon\Carbon;
-use Core\Enum\TypeEventNotificationEnum;
-use Core\Enum\TypeNotificationEnum;
 use Core\Services\settingsManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller

@@ -6,7 +6,7 @@ use App\Models\Deal;
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\User;
-use Core\Enum\OrderEnum;
+use App\Enums\OrderEnum;
 use Core\Models\Platform;
 use Database\Seeders\AddCashSeeder;
 use Faker\Generator;

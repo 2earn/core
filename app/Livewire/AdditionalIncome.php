@@ -2,16 +2,15 @@
 
 namespace App\Livewire;
 
+use App\Enums\BeInstructorRequestStatus;
+use App\Enums\RequestStatus;
+use App\Enums\StatusRequest;
+use App\Models\User;
 use App\Services\Balances\Balances;
 use App\Services\CommittedInvestor\CommittedInvestorRequestService;
 use App\Services\InstructorRequest\InstructorRequestService;
 use App\Services\PartnerRequest\PartnerRequestService;
 use App\Services\Settings\SettingsService;
-use App\Models\User;
-use Core\Enum\RequestStatus;
-use Core\Enum\BeInstructorRequestStatus;
-use Core\Enum\BePartnerRequestStatus;
-use Core\Enum\StatusRequest;
 use Livewire\Component;
 
 class AdditionalIncome extends Component

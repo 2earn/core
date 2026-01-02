@@ -1,7 +1,7 @@
 <?php
 
-use Core\Enum\BalanceEnum;
-use Core\Enum\CouponStatusEnum;
+use App\Enums\BalanceEnum;
+use App\Enums\CouponStatusEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

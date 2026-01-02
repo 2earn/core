@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Enum;
+namespace App\Enums;
 
 enum StatusSurvey: int
 {
@@ -9,3 +9,4 @@ enum StatusSurvey: int
     case CLOSED = 3;
     case ARCHIVED = 4;
 }
+

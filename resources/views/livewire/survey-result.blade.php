@@ -132,7 +132,7 @@
         </div>
     </div>
     @vite('resources/js/surveys.js')
-    @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
+    @if($survey->status==\App\Enums\StatusSurvey::OPEN->value)
         @vite('resources/js/surveys.js')
     @endif
 </div>

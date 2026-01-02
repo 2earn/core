@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\DealStatus;
 use App\Traits\HasAuditing;
-use Core\Enum\DealStatus;
 use Core\Models\Platform;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

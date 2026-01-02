@@ -130,7 +130,7 @@
                         </div>
                         <div>
                                 <span class="badge bg-info-subtle text-info px-3 py-2">
-                                    <i class="ri-information-line me-1"></i>{{ __(\Core\Enum\DealStatus::tryFrom($deal->status)?->name) }}
+                                    <i class="ri-information-line me-1"></i>{{ __(\App\Enums\DealStatus::tryFrom($deal->status)?->name) }}
                                 </span>
                         </div>
                     </div>
@@ -289,7 +289,7 @@
                     },
                     tooltip: {
                         trigger: 'axis',
-                        formatter: function(params) {
+                        formatter: function (params) {
                             if (params && params.length > 0) {
                                 const value = params[0].value;
                                 const formattedValue = new Intl.NumberFormat('en-US', {
@@ -328,7 +328,7 @@
                         type: 'value',
                         name: '{{ __("Revenue") }}',
                         axisLabel: {
-                            formatter: function(value) {
+                            formatter: function (value) {
                                 return new Intl.NumberFormat('en-US', {
                                     style: 'currency',
                                     currency: '{{ config("app.currency_code", "USD") }}',
@@ -377,7 +377,7 @@
 
                 dealChart.setOption(option);
 
-                const resizeHandler = function() {
+                const resizeHandler = function () {
                     if (dealChart) {
                         dealChart.resize();
                     }

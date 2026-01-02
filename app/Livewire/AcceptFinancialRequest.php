@@ -2,10 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Enums\EventBalanceOperationEnum;
 use App\Models\BFSsBalances;
 use App\Services\Balances\Balances;
 use App\Services\FinancialRequest\FinancialRequestService;
-use Core\Enum\EventBalanceOperationEnum;
 use Core\Services\BalancesManager;
 use Core\Services\settingsManager;
 use Core\Services\UserBalancesHelper;

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Traits\HasAuditing;
-use Core\Enum\OrderEnum;
+use App\Enums\OrderEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;

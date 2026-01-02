@@ -41,11 +41,11 @@
                                 </div>
                             @else
                                 @if($soldesAction >= $beCommitedInvestorMinActions)
-                                    @if(is_null($lastCommittedInvestorRequest) || $lastCommittedInvestorRequest?->status == \Core\Enum\RequestStatus::Rejected->value)
+                                    @if(is_null($lastCommittedInvestorRequest) || $lastCommittedInvestorRequest?->status == \App\Enums\RequestStatus::Rejected->value)
                                         <div class="alert alert-danger material-shadow text-center" role="alert">
                                             <p class="mb-2">{{ __('To benefit from this privilege please activate the option') }}</p>
                                             @if(!is_null($lastCommittedInvestorRequest))
-                                                @if(!is_null($lastCommittedInvestorRequest?->note) || $lastCommittedInvestorRequest?->status == \Core\Enum\RequestStatus::Rejected->value)
+                                                @if(!is_null($lastCommittedInvestorRequest?->note) || $lastCommittedInvestorRequest?->status == \App\Enums\RequestStatus::Rejected->value)
                                                     <hr>
                                                     <small class="d-block mt-2">
                                                         <strong>{{ __('Latest request rejection reason') }}:</strong>
@@ -56,7 +56,7 @@
                                         </div>
                                     @endif
 
-                                    @if($lastCommittedInvestorRequest?->status == \Core\Enum\RequestStatus::InProgress->value)
+                                    @if($lastCommittedInvestorRequest?->status == \App\Enums\RequestStatus::InProgress->value)
                                         <div class="alert alert-warning material-shadow text-center" role="status">
                                             <strong>⏳</strong> {{ __('Your request is currently being processed...') }}
                                         </div>
@@ -110,25 +110,25 @@
                         </div>
 
                         <div id="instructor_status">
-                            @if(auth()->user()->instructor == \Core\Enum\BeInstructorRequestStatus::Validated->value)
+                            @if(auth()->user()->instructor == \App\Enums\BeInstructorRequestStatus::Validated->value)
                                 <div class="alert alert-success material-shadow text-center" role="status">
                                     <strong>✓</strong> {{ __('You are Instructor') }}
                                 </div>
                             @endif
 
-                            @if(auth()->user()->instructor == \Core\Enum\BeInstructorRequestStatus::Validated2earn->value)
+                            @if(auth()->user()->instructor == \App\Enums\BeInstructorRequestStatus::Validated2earn->value)
                                 <div class="alert alert-info material-shadow text-center" role="status">
                                     <strong>⏳</strong> {{ __('Waiting for Learn2earn platform validation') }}
                                 </div>
                             @endif
 
-                            @if(auth()->user()->instructor < \Core\Enum\BeInstructorRequestStatus::Validated2earn->value)
+                            @if(auth()->user()->instructor < \App\Enums\BeInstructorRequestStatus::Validated2earn->value)
                                 @if($validatedUser)
-                                    @if(is_null($lastInstructorRequest) || $lastInstructorRequest?->status == \Core\Enum\BeInstructorRequestStatus::Rejected->value)
+                                    @if(is_null($lastInstructorRequest) || $lastInstructorRequest?->status == \App\Enums\BeInstructorRequestStatus::Rejected->value)
                                         <div class="alert alert-danger material-shadow text-center" role="alert">
                                             <p class="mb-2">{{ __('To benefit from this privilege please activate the option') }}</p>
                                             @if(!is_null($lastInstructorRequest))
-                                                @if(!is_null($lastInstructorRequest?->note) || $lastInstructorRequest?->status == \Core\Enum\BeInstructorRequestStatus::Rejected->value)
+                                                @if(!is_null($lastInstructorRequest?->note) || $lastInstructorRequest?->status == \App\Enums\BeInstructorRequestStatus::Rejected->value)
                                                     <hr>
                                                     <small class="d-block mt-2">
                                                         <strong>{{ __('Latest request rejection reason') }}:</strong>
@@ -139,7 +139,7 @@
                                         </div>
                                     @endif
 
-                                    @if($lastInstructorRequest?->status == \Core\Enum\BeInstructorRequestStatus::InProgress->value)
+                                    @if($lastInstructorRequest?->status == \App\Enums\BeInstructorRequestStatus::InProgress->value)
                                         <div class="alert alert-warning material-shadow text-center" role="status">
                                             <strong>⏳</strong> {{ __('Your request is currently being processed...') }}
                                         </div>
@@ -182,15 +182,15 @@
                         </div>
 
                         <div id="partner_status">
-                            @if($lastPartnerRequest?->status == \Core\Enum\BePartnerRequestStatus::Validated->value || $lastPartnerRequest?->status == \Core\Enum\BePartnerRequestStatus::Validated2earn->value)
+                            @if($lastPartnerRequest?->status == \App\Enums\BePartnerRequestStatus::Validated->value || $lastPartnerRequest?->status == \App\Enums\BePartnerRequestStatus::Validated2earn->value)
                                 <div class="alert alert-success material-shadow text-center" role="status">
                                     <strong>✓</strong> {{ __('You are a verified partner') }}
                                 </div>
-                            @elseif($lastPartnerRequest?->status == \Core\Enum\BePartnerRequestStatus::InProgress->value)
+                            @elseif($lastPartnerRequest?->status == \App\Enums\BePartnerRequestStatus::InProgress->value)
                                 <div class="alert alert-warning material-shadow text-center" role="status">
                                     <strong>⏳</strong> {{ __('Your partnership request is under review...') }}
                                 </div>
-                            @elseif($lastPartnerRequest?->status == \Core\Enum\BePartnerRequestStatus::Rejected->value)
+                            @elseif($lastPartnerRequest?->status == \App\Enums\BePartnerRequestStatus::Rejected->value)
                                 <div class="alert alert-danger material-shadow text-center" role="alert">
                                     <p class="mb-2">{{ __('Your partnership request was rejected') }}</p>
                                     @if(!is_null($lastPartnerRequest?->note))

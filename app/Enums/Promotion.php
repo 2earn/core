@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Enum;
+namespace App\Enums;
 
 enum Promotion: int
 {

@@ -71,7 +71,7 @@
                                 <div class="col-6">
                                     <div class="p-2 bg-light rounded">
                                         <p class="text-primary fs-12 mb-1">{{__('Status')}}</p>
-                                        @if($contact->status<\Core\Enum\StatusRequest::OptValidated->value)
+                                        @if($contact->status<\App\Enums\StatusRequest::OptValidated->value)
                                             <span class="badge badge-soft-warning fs-11">
                                                     <i class="ri-time-line align-middle"></i> {{__('Not confirmed user')}}
                                                 </span>

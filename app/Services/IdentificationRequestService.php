@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use Core\Enum\StatusRequest;
+use App\Enums\StatusRequest;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

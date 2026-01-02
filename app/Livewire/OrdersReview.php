@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use App\Services\Orders\OrderService;
 use App\Services\Orders\Ordering;
-use Core\Enum\OrderEnum;
+use App\Enums\OrderEnum;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 

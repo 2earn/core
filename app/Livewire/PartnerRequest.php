@@ -2,8 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Enums\BePartnerRequestStatus;
 use App\Services\PartnerRequest\PartnerRequestService;
-use Core\Enum\BePartnerRequestStatus;
 use Livewire\Component;
 use Livewire\WithPagination;
 

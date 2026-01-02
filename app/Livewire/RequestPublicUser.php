@@ -2,10 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Enums\StatusRequest;
 use App\Notifications\FinancialRequestSent;
 use App\Services\FinancialRequest\FinancialRequestService;
 use App\Services\UserService;
-use Core\Enum\StatusRequest;
 use Core\Services\settingsManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

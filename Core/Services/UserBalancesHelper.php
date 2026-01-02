@@ -2,6 +2,10 @@
 
 namespace Core\Services;
 
+use App\Enums\ActionEnum;
+use App\Enums\BalanceOperationsEnum;
+use App\Enums\EventBalanceOperationEnum;
+use App\Enums\SettingsEnum;
 use App\Models\BFSsBalances;
 use App\Models\CashBalances;
 use App\Models\ChanceBalances;
@@ -10,10 +14,6 @@ use App\Models\SMSBalances;
 use App\Models\TreeBalances;
 use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
-use Core\Enum\ActionEnum;
-use Core\Enum\BalanceOperationsEnum;
-use Core\Enum\EventBalanceOperationEnum;
-use Core\Enum\SettingsEnum;
 use Core\Interfaces\IUserBalancesRepository;
 use Core\Models\BalanceOperation;
 use Illuminate\Support\Facades\DB;

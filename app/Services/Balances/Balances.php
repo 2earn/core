@@ -2,6 +2,8 @@
 
 namespace App\Services\Balances;
 
+use App\Enums\BalanceEnum;
+use App\Enums\BalanceOperationsEnum;
 use App\Models\BalanceInjectorCoupon;
 use App\Models\BFSsBalances;
 use App\Models\CashBalances;
@@ -10,14 +12,9 @@ use App\Models\SharesBalances;
 use App\Models\SMSBalances;
 use App\Models\TreeBalances;
 use App\Models\User;
-use App\Models\UserCurrentBalanceHorisontal;
-use App\Models\UserCurrentBalanceVertical;
+use App\Services\Settings\SettingService;
 use App\Services\UserCurrentBalanceHorisontalService;
 use App\Services\UserCurrentBalanceVerticalService;
-use App\Services\Settings\SettingService;
-use Core\Enum\BalanceEnum;
-use Core\Models\Setting;
-use Core\Enum\BalanceOperationsEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

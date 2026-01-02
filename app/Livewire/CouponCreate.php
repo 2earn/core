@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use App\Services\Coupon\CouponService;
 use App\Services\Platform\PlatformService;
-use Core\Enum\DealTypeEnum;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 

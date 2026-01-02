@@ -26,7 +26,7 @@
             <div class="card-body">
                 @include('livewire.order-item', ['order' => $order])
             </div>
-            @if($order->status->value ==\Core\Enum\OrderEnum::New->value)
+            @if($order->status->value ==\App\Enums\OrderEnum::New->value)
                 <div class="card-body">
                     @if($order->orderDetails->count() > 0)
                         <div class="alert alert-info material-shadow" role="alert">

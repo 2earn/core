@@ -45,7 +45,7 @@
                     </span>
                 @endif
 
-                @if($order->status->value == \Core\Enum\OrderEnum::Dispatched->value && $currentRouteName=="orders_detail")
+                @if($order->status->value == \App\Enums\OrderEnum::Dispatched->value && $currentRouteName=="orders_detail")
                     <button type="button" class="btn btn-success btn-sm ms-auto"
                             onclick="window.print()" title="{{__('Print')}}">
                         <i class="ri-printer-line me-1"></i>{{ __('Print') }}
@@ -258,7 +258,7 @@
                                                 </div>
                                             </div>
 
-                                            @if($order->status->value >= \Core\Enum\OrderEnum::Simulated->value && in_array($currentRouteName, ['orders_simulation', 'orders_detail']))
+                                            @if($order->status->value >= \App\Enums\OrderEnum::Simulated->value && in_array($currentRouteName, ['orders_simulation', 'orders_detail']))
                                                 @if($orderDetail->item->deal()->exists())
                                                     <div class="border-top pt-3 mt-2">
                                                         <h6 class="text-success mb-3">
@@ -429,13 +429,13 @@
         </div>
         <div class="col-12 my-3">
             @if(\App\Models\User::isSuperAdmin())
-                @if($currentRouteName=="orders_detail" && $order->status->value >= \Core\Enum\OrderEnum::Paid->value && $commissions->isNotEmpty() &&(isset($discount) ||isset($bfss)||isset($cash)))
+                @if($currentRouteName=="orders_detail" && $order->status->value >= \App\Enums\OrderEnum::Paid->value && $commissions->isNotEmpty() &&(isset($discount) ||isset($bfss)||isset($cash)))
                     @include('livewire.order-deals', ['orderDeals' => $orderDeals])
                 @endif
             @endif
         </div>
 
-        @if($order->status->value >= \Core\Enum\OrderEnum::Simulated->value  && in_array($currentRouteName, ['orders_simulation', 'orders_detail']))
+        @if($order->status->value >= \App\Enums\OrderEnum::Simulated->value  && in_array($currentRouteName, ['orders_simulation', 'orders_detail']))
             <div class="col-12 mt-2">
                 <h6 class="card-title mb-0">
                     <i class="ri-file-chart-line text-primary me-2"></i>{{__('Order simulation summary')}}
@@ -579,7 +579,7 @@
                 </div>
             </div>
             <div class="col-12 my-3">
-                @if($currentRouteName=="orders_detail" && $order->status->value >= \Core\Enum\OrderEnum::Paid->value &&(!is_null($discount) ||!is_null($bfss)||!is_null($cash)))
+                @if($currentRouteName=="orders_detail" && $order->status->value >= \App\Enums\OrderEnum::Paid->value &&(!is_null($discount) ||!is_null($bfss)||!is_null($cash)))
                     <div class="col-md-12 my-2">
                         <div class=" my-2 border-0 shadow-sm">
                             <h6>
@@ -757,7 +757,7 @@
             </div>
             <div class="col-12 my-3">
                 @if(\App\Models\User::isSuperAdmin())
-                    @if($currentRouteName=="orders_detail" && $order->status->value >= \Core\Enum\OrderEnum::Paid->value && $commissions->isNotEmpty() &&(isset($discount) ||isset($bfss)||isset($cash)))
+                    @if($currentRouteName=="orders_detail" && $order->status->value >= \App\Enums\OrderEnum::Paid->value && $commissions->isNotEmpty() &&(isset($discount) ||isset($bfss)||isset($cash)))
                         @include('livewire.commission-breackdowns', ['commissions' => $commissions])
                     @endif
                 @endif

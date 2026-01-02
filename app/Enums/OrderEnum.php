@@ -1,8 +1,8 @@
 <?php
 
-namespace Core\Enum;
+namespace App\Enums;
 
-enum  OrderEnum: int
+enum OrderEnum: int
 {
     case New = 1;
     case Ready = 2;
@@ -11,3 +11,4 @@ enum  OrderEnum: int
     case Failed = 5;
     case Dispatched = 6;
 }
+

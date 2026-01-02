@@ -2,8 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Enums\Promotion;
 use App\Models\User;
-use Core\Enum\Promotion;
 use Core\Models\Platform;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;

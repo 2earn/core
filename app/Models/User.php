@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Core\Enum\StatusRequest;
+use App\Enums\StatusRequest;
 use Core\Models\identificationuserrequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;

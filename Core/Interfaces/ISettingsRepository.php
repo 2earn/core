@@ -2,7 +2,7 @@
 
 namespace Core\Interfaces;
 
-use Core\Enum\SettingsEnum;
+use App\Enums\SettingsEnum;
 
 interface  ISettingsRepository {
      public function getSetting(SettingsEnum $settings);

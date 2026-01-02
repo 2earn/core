@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Core\Enum\CommissionTypeEnum;
+use App\Enums\CommissionTypeEnum;
+use App\Traits\HasAuditing;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\HasAuditing;
 
 class CommissionBreakDown extends Model
 {

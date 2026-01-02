@@ -72,7 +72,7 @@
                                     <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                         <span><i class="ri-eye-line me-2"></i>{{__('Shows')}}</span>
                                         <span
-                                            class="badge bg-info px-2 py-1">{{__(\Core\Enum\TargetType::tryFrom($survey->show)?->name)}}</span>
+                                            class="badge bg-info px-2 py-1">{{__(\App\Enums\TargetType::tryFrom($survey->show)?->name)}}</span>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                         <span><i class="ri-hashtag me-2"></i>{{__('Show results as number')}}</span>
@@ -103,18 +103,18 @@
                                             <span><i
                                                     class="ri-time-line me-2"></i>{{__('Show attchivement Chrono')}}</span>
                                         <span
-                                            class="badge bg-info px-2 py-1">{{__(\Core\Enum\TargetType::tryFrom($survey->showAttchivementChrono)?->name)}}</span>
+                                            class="badge bg-info px-2 py-1">{{__(\App\Enums\TargetType::tryFrom($survey->showAttchivementChrono)?->name)}}</span>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                         <span><i class="ri-trophy-line me-2"></i>{{__('Show achievement %')}}</span>
                                         <span
-                                            class="badge bg-info px-2 py-1">{{__(\Core\Enum\TargetType::tryFrom($survey->showAttchivementGool)?->name)}}</span>
+                                            class="badge bg-info px-2 py-1">{{__(\App\Enums\TargetType::tryFrom($survey->showAttchivementGool)?->name)}}</span>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                             <span><i
                                                     class="ri-archive-line me-2"></i>{{__('Show after archiving')}}</span>
                                         <span
-                                            class="badge bg-info px-2 py-1">{{__(\Core\Enum\TargetType::tryFrom($survey->showAfterArchiving)?->name)}}</span>
+                                            class="badge bg-info px-2 py-1">{{__(\App\Enums\TargetType::tryFrom($survey->showAfterArchiving)?->name)}}</span>
                                     </li>
                                 </ul>
                             </div>
@@ -129,17 +129,17 @@
                                     <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                         <span><i class="ri-file-chart-line me-2"></i>{{__('Shows result')}}</span>
                                         <span
-                                            class="badge bg-info px-2 py-1">{{__(\Core\Enum\TargetType::tryFrom($survey->showResult)?->name)}}</span>
+                                            class="badge bg-info px-2 py-1">{{__(\App\Enums\TargetType::tryFrom($survey->showResult)?->name)}}</span>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                         <span><i class="ri-thumb-up-line me-2"></i>{{__('Likable')}}</span>
                                         <span
-                                            class="badge bg-info px-2 py-1">{{__(\Core\Enum\TargetType::tryFrom($survey->likable)?->name)}}</span>
+                                            class="badge bg-info px-2 py-1">{{__(\App\Enums\TargetType::tryFrom($survey->likable)?->name)}}</span>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                         <span><i class="ri-chat-3-line me-2"></i>{{__('Commentable')}}</span>
                                         <span
-                                            class="badge bg-info px-2 py-1">{{__(\Core\Enum\TargetType::tryFrom($survey->commentable)?->name)}}</span>
+                                            class="badge bg-info px-2 py-1">{{__(\App\Enums\TargetType::tryFrom($survey->commentable)?->name)}}</span>
                                     </li>
                                 </ul>
                             </div>
@@ -154,7 +154,7 @@
                 @if($survey->canShowAttchivementChrono())
                     <div class="col-sm-12 col-md-6 col-lg-6">
 
-                        @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
+                        @if($survey->status==\App\Enums\StatusSurvey::OPEN->value)
                             <div class="survey-countdown connect-page" title="{{$survey->endDate}}">
                                 <div class="survey-countdown-body">
                                     <div class="survey-cd survey-cd-{{$survey->id}}"
@@ -228,11 +228,11 @@
                     <div class="card border-0 ">
                         <div class="card-body">
                                                  <span class="badge fs-6 px-3 py-2 float-end
-                {{ $survey->status==\Core\Enum\StatusSurvey::NEW->value ? 'bg-primary' : ''  }}
-                {{ $survey->status==\Core\Enum\StatusSurvey::OPEN->value ? 'bg-success' : ''  }}
-                {{ $survey->status==\Core\Enum\StatusSurvey::CLOSED->value ? 'bg-warning' : ''  }}
-                {{ $survey->status==\Core\Enum\StatusSurvey::ARCHIVED->value ? 'bg-dark' : ''  }}">
-                {{ __(\Core\Enum\StatusSurvey::tryFrom($survey->status)->name)}}
+                {{ $survey->status==\App\Enums\StatusSurvey::NEW->value ? 'bg-primary' : ''  }}
+                {{ $survey->status==\App\Enums\StatusSurvey::OPEN->value ? 'bg-success' : ''  }}
+                {{ $survey->status==\App\Enums\StatusSurvey::CLOSED->value ? 'bg-warning' : ''  }}
+                {{ $survey->status==\App\Enums\StatusSurvey::ARCHIVED->value ? 'bg-dark' : ''  }}">
+                {{ __(\App\Enums\StatusSurvey::tryFrom($survey->status)->name)}}
             </span>
                         </div>
                         <div class="card-body">
@@ -529,41 +529,41 @@
                         </a>
                     @endif
 
-                    @if(\App\Models\User::isSuperAdmin() && $survey->status != \Core\Enum\StatusSurvey::ARCHIVED->value &&$currentRouteName=="surveys_show")
+                    @if(\App\Models\User::isSuperAdmin() && $survey->status != \App\Enums\StatusSurvey::ARCHIVED->value &&$currentRouteName=="surveys_show")
                         <button type="button" class="btn btn-outline-primary"
                                 wire:click="duplicateSurvey({{$survey->id}})">
                             <i class="ri-file-copy-line me-1"></i>{{__('Duplicate')}}
                         </button>
 
-                        @if(intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
+                        @if(intval($survey->status)==\App\Enums\StatusSurvey::NEW->value)
                             <a href="{{route('surveys_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id] )}}"
                                class="btn btn-outline-warning">
                                 <i class="ri-edit-line me-1"></i>{{__('Edit')}}
                             </a>
                         @endif
 
-                        @if($survey->status==\Core\Enum\StatusSurvey::NEW->value)
+                        @if($survey->status==\App\Enums\StatusSurvey::NEW->value)
                             <a wire:click="open('{{$survey->id}}')"
                                class="btn btn-outline-success">
                                 <i class="ri-door-open-line me-1"></i>{{__('Open')}}
                             </a>
                         @endif
 
-                        @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
+                        @if($survey->status==\App\Enums\StatusSurvey::OPEN->value)
                             <a wire:click="close('{{$survey->id}}')"
                                class="btn btn-outline-warning">
                                 <i class="ri-door-close-line me-1"></i>{{__('Close')}}
                             </a>
                         @endif
 
-                        @if($survey->status==\Core\Enum\StatusSurvey::CLOSED->value)
+                        @if($survey->status==\App\Enums\StatusSurvey::CLOSED->value)
                             <a wire:click="archive('{{$survey->id}}')"
                                class="btn btn-outline-secondary">
                                 <i class="ri-archive-line me-1"></i>{{__('Send to archive')}}
                             </a>
                         @endif
 
-                        @if($survey->status<\Core\Enum\StatusSurvey::CLOSED->value)
+                        @if($survey->status<\App\Enums\StatusSurvey::CLOSED->value)
                             @if(!$survey->enabled)
                                 <a wire:click="enable('{{$survey->id}}')"
                                    class="btn btn-outline-success">
@@ -629,7 +629,7 @@
                 @endif
             </div>
         @endif
-        @if(intval($survey->status)!==\Core\Enum\StatusSurvey::OPEN->value && !$survey->enabled)
+        @if(intval($survey->status)!==\App\Enums\StatusSurvey::OPEN->value && !$survey->enabled)
             <div class="card-header">
                 <h5 class="mb-0 text-info"><i class="ri-question-line me-2"></i>{{__('Questions')}}</h5>
             </div>
@@ -637,15 +637,15 @@
 
         <div class="card-body">
             @if($survey->question)
-                @if(intval($survey->status)!==\Core\Enum\StatusSurvey::OPEN->value && !$survey->enabled)
+                @if(intval($survey->status)!==\App\Enums\StatusSurvey::OPEN->value && !$survey->enabled)
                     <div class="d-flex flex-wrap gap-2 mb-3">
                         <span
-                            class="badge {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'bg-success' : 'bg-primary' }} px-3 py-2">
+                            class="badge {{ $survey->question->selection== \App\Enums\Selection::MULTIPLE->value ? 'bg-success' : 'bg-primary' }} px-3 py-2">
                             <i class="ri-checkbox-multiple-line me-1"></i>
-                            {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? __('Multiple') : __('Unique') }}
+                            {{ $survey->question->selection== \App\Enums\Selection::MULTIPLE->value ? __('Multiple') : __('Unique') }}
                         </span>
 
-                        @if($survey->question->selection== \Core\Enum\Selection::MULTIPLE->value)
+                        @if($survey->question->selection== \App\Enums\Selection::MULTIPLE->value)
                             <span class="badge bg-info px-3 py-2">
                                 <i class="ri-list-check me-1"></i>
                                 {{__('Max')}} : {{$survey->question->maxResponse}}
@@ -678,7 +678,7 @@
                                 </div>
                             </div>
 
-                            @if(\App\Models\User::isSuperAdmin() && intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
+                            @if(\App\Models\User::isSuperAdmin() && intval($survey->status)==\App\Enums\StatusSurvey::NEW->value)
                                 <div class="mt-3 d-flex gap-2">
                                     <a href="{{route('surveys_question_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id,'IdQuestion'=>$survey->question->id] )}}"
                                        class="btn btn-warning btn-sm">
@@ -713,7 +713,7 @@
                                                 </div>
                                             </div>
 
-                                            @if(\App\Models\User::isSuperAdmin() && intval($survey->status)==\Core\Enum\StatusSurvey::NEW->value)
+                                            @if(\App\Models\User::isSuperAdmin() && intval($survey->status)==\App\Enums\StatusSurvey::NEW->value)
                                                 <div class="btn-group btn-group-sm ms-2">
                                                     <a href="{{route('surveys_question_choice_create_update', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id,'idQuestion'=>$survey->question->id,'idChoice'=>$choice->id] )}}"
                                                        title="{{__('Update Choice')}}"
@@ -769,10 +769,10 @@
         </div>
 
 
-        @if(intval($survey->status)==\Core\Enum\StatusSurvey::OPEN->value && $survey->enabled)
+        @if(intval($survey->status)==\App\Enums\StatusSurvey::OPEN->value && $survey->enabled)
             @livewire('survey-paricipate', ['idSurvey' => $survey->id])
         @endif
-        @if($survey->status>\Core\Enum\StatusSurvey::NEW->value )
+        @if($survey->status>\App\Enums\StatusSurvey::NEW->value )
             @if($survey->canShowResult() )
                 <div class="card">
                     <div class="card-header fw-medium text-muted mb-0">
@@ -994,7 +994,7 @@
                     <div class="d-flex gap-4 align-items-center">
                         <a href="{{route('surveys_show', ['locale'=> app()->getLocale(),'idSurvey'=>$survey->id] )}}"
                            class="btn btn-outline-secondary float-end btn-sm">
-                          {{__('Details')}}
+                            {{__('Details')}}
                         </a>
                     </div>
                 </div>

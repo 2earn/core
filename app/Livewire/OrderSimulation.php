@@ -5,7 +5,7 @@ namespace App\Livewire;
 use App\Models\Order;
 use App\Services\Carts\Carts;
 use App\Services\Orders\Ordering;
-use Core\Enum\OrderEnum;
+use App\Enums\OrderEnum;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;

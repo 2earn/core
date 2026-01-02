@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Enums\NotificationSettingEnum;
+use App\Enums\SettingsEnum;
 use App\Services\Settings\SettingService;
-use Core\Enum\NotificationSettingEnum;
-use Core\Enum\SettingsEnum;
 use Core\Services\settingsManager;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
