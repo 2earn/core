@@ -140,7 +140,7 @@ if (!function_exists('getSwitchBlock')) {
     function getSwitchBlock($id)
     {
         $hours = getSettingService()->getIntegerValue('29');
-        $user = \Core\Models\UserContact::where('id', $id)
+        $user = \App\Models\UserContact::where('id', $id)
             ->pluck('reserved_at')->first();
         if ($user) {
             $user = Carbon::parse($user);

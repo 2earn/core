@@ -102,7 +102,7 @@ class User extends Authenticatable
 
     public function mettaUser()
     {
-        return $this->hasOne(\Core\Models\metta_user::class, 'idUser', 'idUser');
+        return $this->hasOne(\App\Models\metta_user::class, 'idUser', 'idUser');
     }
 
     public function profileImage()

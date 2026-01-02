@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\File;
 
 class AddAuditingToModels extends Command
 {
-    
+
     protected $signature = 'auditing:add-trait {--dry-run : Show what would be changed without making changes}';
 
     protected $description = 'Add HasAuditing trait to all models that extend Illuminate\Database\Eloquent\Model';
@@ -18,7 +18,6 @@ class AddAuditingToModels extends Command
 
         $directories = [
             'App\Models' => app_path('Models'),
-            'Core\Models' => base_path('Core/Models'),
         ];
 
         $totalUpdated = 0;
@@ -113,9 +112,9 @@ class AddAuditingToModels extends Command
 
     protected function addAuditingTrait(string $content): string
     {
-        
+
         if (!str_contains($content, "use App\Traits\HasAuditing;")) {
-            
+
             $pattern = '/(namespace\s+[^;]+;)/';
             if (preg_match($pattern, $content)) {
                 $content = preg_replace(
@@ -128,7 +127,7 @@ class AddAuditingToModels extends Command
         }
 
         if (!preg_match('/use\s+[^;]*HasAuditing/', $content)) {
-            
+
             if (preg_match('/(class\s+\w+[^{]*\{[^}]*?use\s+HasFactory)(;)/s', $content)) {
                 $content = preg_replace(
                     '/(class\s+\w+[^{]*\{[^}]*?use\s+HasFactory)(;)/s',
@@ -137,7 +136,7 @@ class AddAuditingToModels extends Command
                     1
                 );
             }
-            
+
             else if (preg_match('/(class\s+\w+[^{]*\{[^}]*?use\s+[^;]+)(;)/s', $content)) {
                 $content = preg_replace(
                     '/(class\s+\w+[^{]*\{[^}]*?use\s+[^;]+)(;)/s',
@@ -146,7 +145,7 @@ class AddAuditingToModels extends Command
                     1
                 );
             }
-            
+
             else if (preg_match('/(class\s+\w+[^{]*\{)/', $content)) {
                 $content = preg_replace(
                     '/(class\s+\w+[^{]*\{)/',

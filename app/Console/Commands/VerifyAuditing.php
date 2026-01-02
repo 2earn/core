@@ -64,7 +64,6 @@ class VerifyAuditing extends Command
 
         $directories = [
             'App\Models' => app_path('Models'),
-            'Core\Models' => base_path('Core/Models'),
         ];
 
         $totalWithTrait = 0;
@@ -84,7 +83,7 @@ class VerifyAuditing extends Command
                 $className = str_replace('/', '\\', $namespace) . "\\{$filename}";
 
                 try {
-                    
+
                     if (@class_exists($className, false) || @class_exists($className)) {
                         $reflection = new \ReflectionClass($className);
 
@@ -101,7 +100,7 @@ class VerifyAuditing extends Command
                         }
                     }
                 } catch (\Throwable $e) {
-                    
+
                     continue;
                 }
             }

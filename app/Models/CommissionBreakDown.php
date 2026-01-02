@@ -47,7 +47,7 @@ class CommissionBreakDown extends Model
 
     public function platform()
     {
-        return $this->belongsTo(\Core\Models\Platform::class, 'platform_id', 'id');
+        return $this->belongsTo(\App\Models\Platform::class, 'platform_id', 'id');
     }
 
     public function getRecoveredPercentage()
