@@ -20,10 +20,8 @@ class SmsObserver
 
     public function created(SmsBalances $smsBalances)
     {
-        // Calculate balance change
         $balanceChange = BalanceOperation::getMultiplicator($smsBalances->balance_operation_id) * $smsBalances->value;
 
-        // Update horizontal balance using service
         $balanceData = $this->userCurrentBalanceHorisontalService->calculateNewBalance(
             $smsBalances->beneficiary_id,
             'sms_balance',
@@ -34,7 +32,6 @@ class SmsObserver
             $newSmsBalanceHorizontal = $balanceData['newBalance'];
             $balanceData['record']->update(['sms_balance' => $newSmsBalanceHorizontal]);
 
-            // Update vertical balance using service
             $this->userCurrentBalanceVerticalService->updateBalanceAfterOperation(
                 userId: $smsBalances->beneficiary_id,
                 balanceId: BalanceEnum::SMS,

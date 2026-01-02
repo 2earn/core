@@ -69,12 +69,10 @@ class BfssObserver
             $this->checkSharesFromGiftedBFs($bFSsBalances);
         }
 
-        // Update horizontal balance
         $userCurrentBalancehorisontal = Balances::getStoredUserBalances($bFSsBalances->beneficiary_id);
         $newBfssBalanceVertical = floatval($userCurrentBalancehorisontal->getBfssBalance($bFSsBalances->percentage)) + (BalanceOperation::getMultiplicator($bFSsBalances->balance_operation_id) * $bFSsBalances->value);
         $userCurrentBalancehorisontal->setBfssBalance($bFSsBalances->percentage, $newBfssBalanceVertical);
 
-        // Update vertical balance using service
         $balanceChange = BalanceOperation::getMultiplicator($bFSsBalances->balance_operation_id) * $bFSsBalances->value;
 
         $this->userCurrentBalanceVerticalService->updateBalanceAfterOperation(
@@ -86,7 +84,6 @@ class BfssObserver
             lastOperationDate: $bFSsBalances->created_at
         );
 
-        // Get updated vertical balance for logging
         $userCurrentBalanceVertical = $this->userCurrentBalanceVerticalService->getUserBalanceVertical(
             $bFSsBalances->beneficiary_id,
             BalanceEnum::BFS

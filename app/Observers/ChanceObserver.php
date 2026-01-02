@@ -18,12 +18,10 @@ class ChanceObserver
 
     public function created(ChanceBalances $chanceBalances)
     {
-        // Update horizontal balance
         $userCurrentBalancehorisontal = Balances::getStoredUserBalances($chanceBalances->beneficiary_id);
         $newChanceBalanceVertical = $userCurrentBalancehorisontal->getChancesBalance($chanceBalances->pool_id) + BalanceOperation::getMultiplicator($chanceBalances->balance_operation_id) * $chanceBalances->value;
         $userCurrentBalancehorisontal->setChancesBalance($chanceBalances->pool_id, $newChanceBalanceVertical);
 
-        // Update vertical balance using service
         $balanceChange = BalanceOperation::getMultiplicator($chanceBalances->balance_operation_id) * $chanceBalances->value;
 
         $this->userCurrentBalanceVerticalService->updateBalanceAfterOperation(
@@ -35,7 +33,6 @@ class ChanceObserver
             lastOperationDate: $chanceBalances->created_at
         );
 
-        // Get updated vertical balance for logging
         $userCurrentBalanceVertical = $this->userCurrentBalanceVerticalService->getUserBalanceVertical(
             $chanceBalances->beneficiary_id,
             BalanceEnum::CHANCE

@@ -20,10 +20,8 @@ class DiscountObserver
 
     public function created(DiscountBalances $discountBalances)
     {
-        // Calculate balance change
         $balanceChange = BalanceOperation::getMultiplicator($discountBalances->balance_operation_id) * $discountBalances->value;
 
-        // Update horizontal balance using service
         $balanceData = $this->userCurrentBalanceHorisontalService->calculateNewBalance(
             $discountBalances->beneficiary_id,
             Balances::DISCOUNT_BALANCE,
@@ -34,7 +32,6 @@ class DiscountObserver
             $newDiscountBalanceHorizontal = $balanceData['newBalance'];
             $balanceData['record']->update([Balances::DISCOUNT_BALANCE => $newDiscountBalanceHorizontal]);
 
-            // Update vertical balance using service
             $this->userCurrentBalanceVerticalService->updateBalanceAfterOperation(
                 userId: $discountBalances->beneficiary_id,
                 balanceId: BalanceEnum::DB,

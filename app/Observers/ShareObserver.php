@@ -20,10 +20,8 @@ class ShareObserver
 
     public function created(SharesBalances $shareBalances)
     {
-        // Calculate balance change
         $balanceChange = BalanceOperation::getMultiplicator($shareBalances->balance_operation_id) * $shareBalances->value;
 
-        // Update horizontal balance using service
         $balanceData = $this->userCurrentBalanceHorisontalService->calculateNewBalance(
             $shareBalances->beneficiary_id,
             Balances::SHARE_BALANCE,
@@ -34,7 +32,6 @@ class ShareObserver
             $newShareBalanceHorizontal = $balanceData['newBalance'];
             $balanceData['record']->update([Balances::SHARE_BALANCE => $newShareBalanceHorizontal]);
 
-            // Update vertical balance using service
             $this->userCurrentBalanceVerticalService->updateBalanceAfterOperation(
                 userId: $shareBalances->beneficiary_id,
                 balanceId: BalanceEnum::SHARE,
