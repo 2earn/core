@@ -154,8 +154,14 @@
 }
 
 #nav-breadcrumb {
-    padding: 0.250 rem 0;
+    padding: 0.250rem 0;
 }
+
+#user-menu-container, #admin-menu-container {
+    margin: 0;
+    padding: 0;
+}
+
 #user-menu-container .menu-content,
 #admin-menu-container .menu-content {
     width: 100%;
