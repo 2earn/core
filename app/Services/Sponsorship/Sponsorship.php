@@ -9,6 +9,7 @@ use App\Models\CashBalances;
 use App\Models\SharesBalances;
 use App\Models\User;
 use App\Services\Balances\Balances;
+use App\Services\Balances\ShareBalanceService;
 use App\Services\Settings\SettingService;
 use App\Models\BalanceOperation;
 use App\Services\BalancesManager;
@@ -26,7 +27,12 @@ class Sponsorship
     private $saleCount;
     private $retardatifReservation;
 
-    public function __construct(private UserRepository $userRepository, private BalancesManager $balancesManager, private SettingService $settingService)
+    public function __construct(
+        private UserRepository $userRepository,
+        private BalancesManager $balancesManager,
+        private SettingService $settingService,
+        private ShareBalanceService $shareBalanceService
+    )
     {
         $settingIds = ['24', '25', '26', '27', '28', '31', '32'];
         $settingValues = $this->settingService->getIntegerValues($settingIds);
@@ -50,14 +56,12 @@ class Sponsorship
 
     public function executeDelayedSponsorship($upLine, $downLine)
     {
-        $userBalancesQuery = SharesBalances::where('balance_operation_id', BalanceOperationsEnum::OLD_ID_44->value)
-            ->where('beneficiary_id', $downLine->idUser)
-            ->whereRaw('TIMESTAMPDIFF(HOUR, ' . DB::raw('created_at') . ', NOW()) < ?', [$this->retardatifReservation])
-            ->orderBy(DB::raw('created_at'), "ASC")
-            ->limit($this->saleCount);
-
-
-        $userBalances = $userBalancesQuery->get();
+        $userBalances = $this->shareBalanceService->getUserBalancesForDelayedSponsorship(
+            BalanceOperationsEnum::OLD_ID_44->value,
+            $downLine->idUser,
+            $this->retardatifReservation,
+            $this->saleCount
+        );
 
         foreach ($userBalances as $userBalance) {
             $this->executeProactifSponsorship(
