@@ -50,7 +50,7 @@
                                      class="avatar-lg rounded-circle shadow-sm"
                                      alt="{{ $platform->name }}">
                             @else
-                                <img src="{{Vite::asset(\Core\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO)}}"
+                                <img src="{{Vite::asset(\App\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO)}}"
                                      class="avatar-lg rounded-circle shadow-sm"
                                      alt="{{ $platform->name }}">
                             @endif

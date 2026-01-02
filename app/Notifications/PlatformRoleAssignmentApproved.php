@@ -67,7 +67,7 @@ class PlatformRoleAssignmentApproved extends Notification
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Bus\Queueable;
-use Core\Models\Platform;
+use App\Models\Platform;
 use App\Models\AssignPlatformRole;
 
 namespace App\Notifications;

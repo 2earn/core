@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\PlatformType;
 use App\Models\TranslaleModel;
-use Core\Models\Platform;
+use App\Models\Platform;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Vite;
 

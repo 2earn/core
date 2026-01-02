@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 
 use App\Enums\LanguageEnum;
-use Core\Services\settingsManager;
+use App\Services\settingsManager;
 use Livewire\Component;
 
 class CountriesManagement extends Component

@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use Core\Models\UserContactNumber;
+use App\Models\UserContactNumber;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 

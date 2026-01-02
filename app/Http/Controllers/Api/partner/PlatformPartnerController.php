@@ -9,7 +9,7 @@ use App\Services\Platform\PlatformChangeRequestService;
 use App\Services\Platform\PlatformService;
 use App\Services\Platform\PlatformTypeChangeRequestService;
 use App\Services\Platform\PlatformValidationRequestService;
-use Core\Models\Platform;
+use App\Models\Platform;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

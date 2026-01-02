@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\FinancialRequest\FinancialRequestService;
-use Core\Services\settingsManager;
+use App\Services\settingsManager;
 
 class FinancialRequestController extends Controller
 {

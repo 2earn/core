@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Enums\DealStatus;
 use App\Traits\HasAuditing;
-use Core\Models\Platform;
+use App\Models\Platform;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;

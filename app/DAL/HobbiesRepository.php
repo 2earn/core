@@ -1,8 +1,8 @@
 <?php
 namespace App\DAL;
 
-use Core\Interfaces\IHobbiesRepository;
-use Core\Models\hobbie;
+use App\Interfaces\IHobbiesRepository;
+use App\Models\hobbie;
 use Illuminate\Support\Facades\DB;
 class  HobbiesRepository implements IHobbiesRepository
 {

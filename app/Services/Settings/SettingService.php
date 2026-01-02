@@ -2,7 +2,7 @@
 
 namespace App\Services\Settings;
 
-use Core\Models\Setting;
+use App\Models\Setting;
 
 class SettingService
 {

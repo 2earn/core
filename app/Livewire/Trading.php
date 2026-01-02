@@ -6,7 +6,7 @@ use App\Models\SharesBalances;
 use App\Models\vip;
 use App\Services\Settings\SettingService;
 use App\Services\SharesService;
-use Core\Services\BalancesManager;
+use App\Services\BalancesManager;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;

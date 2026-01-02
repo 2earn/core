@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Services\Orders\OrderingSimulation;
-use Core\Models\Platform;
+use App\Models\Platform;
 use Faker\Generator;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;

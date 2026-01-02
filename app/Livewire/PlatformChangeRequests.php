@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use App\Models\PlatformChangeRequest;
 use App\Services\Platform\PlatformChangeRequestService;
-use Core\Models\Platform;
+use App\Models\Platform;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;

@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\DealStatus;
 use App\Enums\DealTypeEnum;
-use Core\Models\Platform;
+use App\Models\Platform;
 use Faker\Generator;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;

@@ -2,8 +2,8 @@
 
 namespace App\DAL;
 
-use Core\Interfaces\ILanguageRepository;
-use Core\Models\language;
+use App\Interfaces\ILanguageRepository;
+use App\Models\language;
 use Illuminate\Support\Facades\DB;
 
 class  LanguageRepository implements ILanguageRepository

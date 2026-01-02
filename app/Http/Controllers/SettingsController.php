@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Core\Models\Setting;
+use App\Models\Setting;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 

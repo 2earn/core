@@ -6,7 +6,7 @@ use App\Enums\TypeEventNotificationEnum;
 use App\Enums\TypeNotificationEnum;
 use App\Services\UserContactNumberService;
 use App\Services\UserService;
-use Core\Services\settingsManager;
+use App\Services\settingsManager;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 

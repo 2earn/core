@@ -115,7 +115,7 @@
                                              class="img-fluid rounded"
                                              style="max-height: 150px; object-fit: contain;">
                                     @else
-                                        <img src="{{ Vite::asset(\Core\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO) }}"
+                                        <img src="{{ Vite::asset(\App\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO) }}"
                                              alt="{{ __('Default platform logo') }}"
                                              class="img-fluid rounded"
                                              style="max-height: 150px; object-fit: contain;">

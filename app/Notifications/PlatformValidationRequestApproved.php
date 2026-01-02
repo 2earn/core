@@ -64,7 +64,7 @@ class PlatformValidationRequestApproved extends Notification
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Bus\Queueable;
-use Core\Models\Platform;
+use App\Models\Platform;
 
 namespace App\Notifications;
 

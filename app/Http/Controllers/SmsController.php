@@ -6,7 +6,7 @@ use App\Enums\TypeEventNotificationEnum;
 use App\Enums\TypeNotificationEnum;
 use App\Models\User;
 use App\Services\sms\SmsService;
-use Core\Services\settingsManager;
+use App\Services\settingsManager;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 

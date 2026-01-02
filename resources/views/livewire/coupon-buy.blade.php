@@ -33,7 +33,7 @@
                                      alt="{{$platform->name}}"
                                      class="img-thumbnail" style="height: 90px; object-fit: contain;">
                             @else
-                                <img src="{{Vite::asset(\Core\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO)}}"
+                                <img src="{{Vite::asset(\App\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO)}}"
                                      alt="{{$platform->name}}"
                                      class="img-thumbnail" style="height: 90px; object-fit: contain;">
                             @endif

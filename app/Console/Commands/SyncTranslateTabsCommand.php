@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Jobs\TranslationDatabaseToFiles;
-use Core\Models\translatetabs;
+use App\Models\translatetabs;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 

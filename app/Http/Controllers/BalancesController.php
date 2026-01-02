@@ -7,7 +7,7 @@ use App\Models\CashBalances;
 use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
 use App\Services\Balances\CashBalancesService;
-use Core\Services\BalancesManager;
+use App\Services\BalancesManager;
 use Illuminate\Http\Request as Req;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;

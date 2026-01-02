@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Core\Models\BalanceOperation;
+use App\Models\BalanceOperation;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

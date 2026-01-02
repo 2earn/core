@@ -16,7 +16,7 @@ use App\Models\OrderDetail;
 use App\Notifications\OrderCompleted;
 use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
-use Core\Models\BalanceOperation;
+use App\Models\BalanceOperation;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

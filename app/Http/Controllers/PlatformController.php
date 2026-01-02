@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BusinessSector;
 use App\Enums\PlatformType;
-use Core\Models\Platform;
+use App\Models\Platform;
 use Illuminate\Support\Facades\Lang;
 
 class PlatformController extends Controller

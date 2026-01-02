@@ -9,7 +9,7 @@ use App\Models\BFSsBalances;
 use App\Models\User;
 use App\Services\Balances\Balances;
 use App\Services\Settings\SettingService;
-use Core\Services\settingsManager;
+use App\Services\settingsManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;

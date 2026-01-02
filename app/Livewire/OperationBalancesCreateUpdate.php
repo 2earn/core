@@ -3,8 +3,8 @@
 namespace App\Livewire;
 
 use App\Services\Balances\OperationCategoryService;
-use Core\Models\Amount;
-use Core\Services\BalanceOperationService;
+use App\Models\Amount;
+use App\Services\BalanceOperationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;

@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use App\Enums\Promotion;
 use App\Models\User;
-use Core\Models\Platform;
+use App\Models\Platform;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;

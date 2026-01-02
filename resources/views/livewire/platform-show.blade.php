@@ -27,7 +27,7 @@
                                              class="avatar-xl rounded-circle"
                                              alt="{{$platform->name}}">
                                     @else
-                                        <img src="{{Vite::asset(\Core\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO)}}"
+                                        <img src="{{Vite::asset(\App\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO)}}"
                                              class="avatar-xl rounded-circle"
                                              alt="{{$platform->name}}">
                                     @endif

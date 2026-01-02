@@ -7,7 +7,7 @@ use App\Enums\DealTypeEnum;
 use App\Enums\PlatformType;
 use App\Models\BusinessSector;
 use App\Models\Item;
-use Core\Models\Platform;
+use App\Models\Platform;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;

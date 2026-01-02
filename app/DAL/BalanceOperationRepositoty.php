@@ -2,7 +2,7 @@
 
 namespace App\DAL;
 use App\Enums\BalanceOperationsEnum;
-use Core\Interfaces\IBalanceOperationRepositoty;
+use App\Interfaces\IBalanceOperationRepositoty;
 use Illuminate\Support\Facades\DB;
 
 class  BalanceOperationRepositoty implements IBalanceOperationRepositoty

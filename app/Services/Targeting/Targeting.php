@@ -4,7 +4,7 @@ namespace App\Services\Targeting;
 
 use App\DAL\UserRepository;
 use App\Models\Condition;
-use Core\Services\BalancesManager;
+use App\Services\BalancesManager;
 use Illuminate\Support\Facades\DB;
 
 class Targeting

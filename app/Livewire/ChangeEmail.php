@@ -7,7 +7,7 @@ use App\Enums\TypeNotificationEnum;
 use App\Http\Traits\earnTrait;
 use App\Services\UserService;
 use Carbon\Carbon;
-use Core\Services\settingsManager;
+use App\Services\settingsManager;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 

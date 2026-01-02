@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\PlatformChangeRequest;
 use App\Services\Platform\PlatformChangeRequestService;
-use Core\Models\Platform;
+use App\Models\Platform;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;

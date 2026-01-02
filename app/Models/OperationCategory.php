@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Core\Models\BalanceOperation;
+use App\Models\BalanceOperation;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasAuditing;
 

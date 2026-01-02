@@ -6,7 +6,7 @@ use App\Enums\BalanceEnum;
 use App\Models\CashBalances;
 use App\Models\UserCurrentBalanceVertical;
 use App\Services\Balances\Balances;
-use Core\Models\BalanceOperation;
+use App\Models\BalanceOperation;
 use Illuminate\Support\Facades\Log;
 
 class CashObserver

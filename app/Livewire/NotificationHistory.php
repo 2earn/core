@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use Core\Services\settingsManager;
+use App\Services\settingsManager;
 use Livewire\Component;
 use Livewire\WithPagination;
 

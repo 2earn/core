@@ -3,7 +3,7 @@
 namespace App\Livewire;
 
 use App\Services\FinancialRequest\FinancialRequestService;
-use Core\Services\settingsManager;
+use App\Services\settingsManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;

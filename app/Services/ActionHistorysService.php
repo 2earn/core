@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use Core\Models\action_historys;
+use App\Models\action_historys;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
 

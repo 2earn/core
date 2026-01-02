@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\partner;
 use App\Http\Controllers\Controller;
 use App\Models\PartnerPayment;
 use App\Services\PartnerPayment\PartnerPaymentService;
-use Core\Models\FinancialRequest;
+use App\Models\FinancialRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

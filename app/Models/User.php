@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Enums\StatusRequest;
-use Core\Models\identificationuserrequest;
+use App\Models\identificationuserrequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;

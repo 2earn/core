@@ -7,7 +7,7 @@ use App\Enums\TypeNotificationEnum;
 use App\Http\Traits\earnLog;
 use App\Models\User;
 use Carbon\Carbon;
-use Core\Services\settingsManager;
+use App\Services\settingsManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;

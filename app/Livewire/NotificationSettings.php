@@ -5,7 +5,7 @@ namespace App\Livewire;
 use App\Enums\NotificationSettingEnum;
 use App\Enums\SettingsEnum;
 use App\Services\Settings\SettingService;
-use Core\Services\settingsManager;
+use App\Services\settingsManager;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;

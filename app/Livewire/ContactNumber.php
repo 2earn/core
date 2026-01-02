@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use App\Http\Traits\earnTrait;
 use App\Services\UserContactService;
-use Core\Services\settingsManager;
+use App\Services\settingsManager;
 use Livewire\Component;
 
 class ContactNumber extends Component

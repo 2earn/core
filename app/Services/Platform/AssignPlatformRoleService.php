@@ -3,7 +3,7 @@
 namespace App\Services\Platform;
 
 use App\Models\AssignPlatformRole;
-use Core\Models\Platform;
+use App\Models\Platform;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 

@@ -10,8 +10,8 @@ use App\Models\SharesBalances;
 use App\Models\User;
 use App\Services\Balances\Balances;
 use App\Services\Settings\SettingService;
-use Core\Models\BalanceOperation;
-use Core\Services\BalancesManager;
+use App\Models\BalanceOperation;
+use App\Services\BalancesManager;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 

@@ -10,7 +10,7 @@ use App\Http\Traits\earnLog;
 use App\Http\Traits\earnTrait;
 use App\Services\UserNotificationSettingsService;
 use App\Services\UserService;
-use Core\Services\settingsManager;
+use App\Services\settingsManager;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;

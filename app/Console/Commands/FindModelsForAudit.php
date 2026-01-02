@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\File;
 
 class FindModelsForAudit extends Command
 {
-    
+
     protected $signature = 'auditing:find-models {--missing : Show only models missing the trait}';
 
     protected $description = 'Find all models and check which ones have the HasAuditing trait';
@@ -43,7 +43,6 @@ class FindModelsForAudit extends Command
 
         $results = [
             'app' => $this->scanDirectory(app_path('Models'), 'App\\Models'),
-            'core' => $this->scanDirectory(base_path('Core/Models'), 'Core\\Models'),
         ];
 
         $showMissingOnly = $this->option('missing');
@@ -52,19 +51,11 @@ class FindModelsForAudit extends Command
         $this->displayResults($results['app'], $showMissingOnly);
         $this->newLine();
 
-        $this->info('📁 Core\Models Directory:');
-        $this->displayResults($results['core'], $showMissingOnly);
-        $this->newLine();
-
         $totalApp = count($results['app']);
         $withTraitApp = count(array_filter($results['app'], fn($r) => $r['has_trait']));
-        $totalCore = count($results['core']);
-        $withTraitCore = count(array_filter($results['core'], fn($r) => $r['has_trait']));
 
         $this->info('📊 Summary:');
         $this->line("  App\\Models: {$withTraitApp}/{$totalApp} models have HasAuditing trait");
-        $this->line("  Core\\Models: {$withTraitCore}/{$totalCore} models have HasAuditing trait");
-        $this->line("  Total: " . ($withTraitApp + $withTraitCore) . "/" . ($totalApp + $totalCore) . " models");
 
         $this->newLine();
 
@@ -101,7 +92,7 @@ class FindModelsForAudit extends Command
             $className = $namespace . '\\' . $modelName;
 
             try {
-                
+
                 if (@class_exists($className, false) || @class_exists($className)) {
                     $reflection = new \ReflectionClass($className);
 
@@ -121,7 +112,7 @@ class FindModelsForAudit extends Command
                     ];
                 }
             } catch (\Throwable $e) {
-                
+
                 continue;
             }
         }
@@ -151,7 +142,7 @@ class FindModelsForAudit extends Command
                 return $value ? 'enabled' : 'disabled';
             }
         } catch (\Throwable $e) {
-            
+
         }
 
         return 'unknown';

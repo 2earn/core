@@ -2,7 +2,7 @@
 
 namespace App\Services\Platform;
 
-use Core\Models\Platform;
+use App\Models\Platform;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
 
