@@ -18,11 +18,13 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center mb-3">
                                 <div class="flex-shrink-0 position-relative">
-                                    <img src="{{\App\Models\User::getUserProfileImage($instructorRequest->user->idUser)}}"
-                                         alt="{{getUserDisplayedName($instructorRequest->user->idUser)}}"
-                                         class="avatar-lg rounded-circle border border-3 border-light shadow-sm"
-                                         onerror="this.src='{{asset('images/users/default-avatar.png')}}'"/>
-                                    <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-light rounded-circle">
+                                    <img
+                                        src="{{\App\Models\User::getUserProfileImage($instructorRequest->user->idUser)}}"
+                                        alt="{{getUserDisplayedName($instructorRequest->user->idUser)}}"
+                                        class="avatar-lg rounded-circle border border-3 border-light shadow-sm"
+                                        onerror="this.src='{{asset('images/users/default-avatar.png')}}'"/>
+                                    <span
+                                        class="position-absolute bottom-0 end-0 p-1 bg-success border border-light rounded-circle">
                                         <span class="visually-hidden">{{__('Active')}}</span>
                                     </span>
                                 </div>
@@ -61,15 +63,13 @@
                     </div>
                 </div>
             @empty
-                <div class="col-12">
-                    <div class="card shadow-sm">
-                        <div class="card-body text-center py-5">
-                            <div class="mb-4">
-                                <i class="ri-inbox-line display-4 text-muted"></i>
-                            </div>
-                            <h5 class="mb-2">{{__('No Instructor requests found')}}</h5>
-                            <p class="text-muted mb-0">{{__('There are no instructor requests at the moment.')}}</p>
+                <div class="col-12 card shadow-sm">
+                    <div class="card-body text-center py-5">
+                        <div class="mb-4">
+                            <i class="ri-inbox-line display-4 text-muted"></i>
                         </div>
+                        <h5 class="mb-2">{{__('No Instructor requests found')}}</h5>
+                        <p class="text-muted mb-0">{{__('There are no instructor requests at the moment.')}}</p>
                     </div>
                 </div>
             @endforelse

@@ -1058,6 +1058,86 @@
         "valueEs": "Eventos",
         "valueRu": "События",
         "valueDe": "Veranstaltungen"
+    },
+    {
+        "name": "New",
+        "value": "جديد",
+        "valueEn": "New",
+        "valueFr": "Nouveau",
+        "valueTr": "Yeni",
+        "valueEs": "Nuevo",
+        "valueRu": "Новый",
+        "valueDe": "Neu"
+    },
+    {
+        "name": "Ready",
+        "value": "جاهز",
+        "valueEn": "Ready",
+        "valueFr": "Prêt",
+        "valueTr": "Hazır",
+        "valueEs": "Listo",
+        "valueRu": "Готов",
+        "valueDe": "Bereit"
+    },
+    {
+        "name": "Simulated",
+        "value": "محاكى",
+        "valueEn": "Simulated",
+        "valueFr": "Simulé",
+        "valueTr": "Simüle edildi",
+        "valueEs": "Simulado",
+        "valueRu": "Симулировано",
+        "valueDe": "Simuliert"
+    },
+    {
+        "name": "Paid",
+        "value": "مدفوع",
+        "valueEn": "Paid",
+        "valueFr": "Payé",
+        "valueTr": "Ödendi",
+        "valueEs": "Pagado",
+        "valueRu": "Оплачено",
+        "valueDe": "Bezahlt"
+    },
+    {
+        "name": "Failed",
+        "value": "فشل",
+        "valueEn": "Failed",
+        "valueFr": "Échoué",
+        "valueTr": "Başarısız",
+        "valueEs": "Fallido",
+        "valueRu": "Неудачно",
+        "valueDe": "Fehlgeschlagen"
+    },
+    {
+        "name": "Dispatched",
+        "value": "مُرسل",
+        "valueEn": "Dispatched",
+        "valueFr": "Expédié",
+        "valueTr": "Gönderildi",
+        "valueEs": "Despachado",
+        "valueRu": "Отправлено",
+        "valueDe": "Versandt"
+    },
+    {
+        "name": "Use coupons",
+        "value": "استخدم القسائم",
+        "valueEn": "Use coupons",
+        "valueFr": "Utiliser les coupons",
+        "valueTr": "Kuponları kullan",
+        "valueEs": "Usar cupones",
+        "valueRu": "Использовать купоны",
+        "valueDe": "Gutscheine verwenden"
+    },
+    {
+        "name": "Discount Breakdown",
+        "value": "تفصيل الخصم",
+        "valueEn": "Discount Breakdown",
+        "valueFr": "Détail de la réduction",
+        "valueTr": "İndirim Dökümü",
+        "valueEs": "Desglose de descuento",
+        "valueRu": "Разбивка скидки",
+        "valueDe": "Rabattaufschlüsselung"
     }
 ]
 

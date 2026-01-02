@@ -225,7 +225,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                                 <span class="badge bg-secondary-subtle text-secondary fs-12">
                                                     #{{$value->id}}
                                                 </span>
-                                                    <div class="alert alert-primary mb-0 py-1 px-3" role="alert">
+                                                    <div class="alert alert-primary mb-0 py-1 p1-3" role="alert">
                                                         <strong class="d-inline-block text-break" style="max-width: 250px;">{{$value->name}}</strong>
                                                     </div>
                                                 </div>
@@ -355,7 +355,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                         <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 text-muted small">
                                             <div>
                                                 <i class="ri-add-line me-1"></i>
-                                                <span>{{__('Created')}}: {{ \Carbon\Carbon::parse($value->created_at)->format(config('app.date_format')) }}</span>
+                                                <span>{{__('Created at')}}: {{ \Carbon\Carbon::parse($value->created_at)->format(config('app.date_format')) }}</span>
                                             </div>
                                             <div>
                                                 <i class="ri-edit-2-line me-1"></i>
