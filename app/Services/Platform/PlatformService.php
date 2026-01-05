@@ -373,5 +373,40 @@ class PlatformService
             return false;
         }
     }
+
+    /**
+     * Get a single platform for a partner if user has a role in it
+     *
+     * @param int $platformId
+     * @param int $userId
+     * @return Platform|null
+     */
+    public function getPlatformForPartner(int $platformId, int $userId): ?Platform
+    {
+        try {
+            return Platform::where('id', $platformId)
+                ->where(function ($q) use ($userId) {
+                    $q->where('owner_id', $userId)
+                        ->orWhere('marketing_manager_id', $userId)
+                        ->orWhere('financial_manager_id', $userId);
+                })
+                ->with([
+                    'businessSector',
+                    'deals',
+                    'logoImage',
+                    'validationRequest',
+                    'pendingValidationRequest',
+                    'pendingTypeChangeRequest',
+                    'pendingChangeRequest'
+                ])
+                ->first();
+        } catch (\Exception $e) {
+            Log::error('Error fetching platform for partner: ' . $e->getMessage(), [
+                'platform_id' => $platformId,
+                'user_id' => $userId
+            ]);
+            return null;
+        }
+    }
 }
 
