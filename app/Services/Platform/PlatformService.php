@@ -284,5 +284,94 @@ class PlatformService
             return new Collection();
         }
     }
+
+    /**
+     * Get platforms for a partner (owner, marketing manager, or financial manager)
+     *
+     * @param int $userId
+     * @param int|null $page
+     * @param string|null $search
+     * @param int $limit
+     * @return array
+     */
+    public function getPlatformsForPartner(int $userId, ?int $page = 1, ?string $search = null, int $limit = 8): array
+    {
+        try {
+            $query = Platform::where(function ($q) use ($userId) {
+                $q->where('owner_id', $userId)
+                    ->orWhere('marketing_manager_id', $userId)
+                    ->orWhere('financial_manager_id', $userId);
+            });
+
+            // Apply search filter
+            if (!empty($search)) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('description', 'like', '%' . $search . '%')
+                        ->orWhere('link', 'like', '%' . $search . '%');
+                });
+            }
+
+            // Get total count
+            $totalCount = $query->count();
+
+            // Apply pagination
+            if ($page !== null && $page > 0) {
+                $offset = ($page - 1) * $limit;
+                $query->skip($offset)->take($limit);
+            }
+
+            // Get platforms with relations
+            $platforms = $query->with([
+                'businessSector',
+                'deals',
+                'logoImage'
+            ])
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            return [
+                'platforms' => $platforms,
+                'total_count' => $totalCount
+            ];
+        } catch (\Exception $e) {
+            Log::error('Error fetching platforms for partner: ' . $e->getMessage(), [
+                'user_id' => $userId,
+                'page' => $page,
+                'search' => $search,
+                'limit' => $limit
+            ]);
+            return [
+                'platforms' => new Collection(),
+                'total_count' => 0
+            ];
+        }
+    }
+
+    /**
+     * Check if a user has a role in a platform (owner, marketing manager, or financial manager)
+     *
+     * @param int $userId
+     * @param int $platformId
+     * @return bool
+     */
+    public function userHasRoleInPlatform(int $userId, int $platformId): bool
+    {
+        try {
+            return Platform::where('id', $platformId)
+                ->where(function ($q) use ($userId) {
+                    $q->where('owner_id', $userId)
+                        ->orWhere('marketing_manager_id', $userId)
+                        ->orWhere('financial_manager_id', $userId);
+                })
+                ->exists();
+        } catch (\Exception $e) {
+            Log::error('Error checking if user has role in platform: ' . $e->getMessage(), [
+                'user_id' => $userId,
+                'platform_id' => $platformId
+            ]);
+            return false;
+        }
+    }
 }
 

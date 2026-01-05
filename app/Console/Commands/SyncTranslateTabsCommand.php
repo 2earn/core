@@ -32,7 +32,30 @@ class SyncTranslateTabsCommand extends Command
         $controllerKeys = $this->getUsedKeysFromPhp($controllersPath);
         $this->info("  Found {$controllerKeys->count()} unique keys in Controllers");
 
-        $usedKeys = $viewKeys->merge($livewireKeys)->merge($controllerKeys)->unique()->values()->toArray();
+        $this->info('- Scanning Models...');
+        $modelsPath = app_path('Models');
+        $modelKeys = $this->getUsedKeysFromPhp($modelsPath);
+        $this->info("  Found {$modelKeys->count()} unique keys in Models");
+
+        $this->info('- Scanning Services...');
+        $servicesPath = app_path('Services');
+        $serviceKeys = $this->getUsedKeysFromPhp($servicesPath);
+        $this->info("  Found {$serviceKeys->count()} unique keys in Services");
+
+        $this->info('- Scanning Notifications...');
+        $notificationsPath = app_path('Notifications');
+        $notificationKeys = $this->getUsedKeysFromPhp($notificationsPath);
+        $this->info("  Found {$notificationKeys->count()} unique keys in Notifications");
+
+        $usedKeys = $viewKeys
+            ->merge($livewireKeys)
+            ->merge($controllerKeys)
+            ->merge($modelKeys)
+            ->merge($serviceKeys)
+            ->merge($notificationKeys)
+            ->unique()
+            ->values()
+            ->toArray();
         $this->info("Total unique translation keys found: " . count($usedKeys));
 
         $tabKeys = translatetabs::pluck('name')->toArray();
@@ -125,6 +148,12 @@ class SyncTranslateTabsCommand extends Command
                 }
 
                 if (preg_match_all('/@lang\(["\']([^"\')]+)["\']\)/', $content, $matches)) {
+                    foreach ($matches[1] as $key) {
+                        $usedKeys->push($key);
+                    }
+                }
+
+                if (preg_match_all('/Lang::get\(["\']([^"\')]+)["\']\)/', $content, $matches)) {
                     foreach ($matches[1] as $key) {
                         $usedKeys->push($key);
                     }
