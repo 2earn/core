@@ -62,6 +62,12 @@ class Item extends Model
     {
         return $this->hasOne(Platform::class, 'id', 'platform_id');
     }
+
+    public function dealChanges()
+    {
+        return $this->hasMany(DealProductChange::class);
+    }
+
     public function thumbnailsImage()
     {
         return $this->morphOne(Image::class, 'imageable')->where('type', '=', self::IMAGE_TYPE_THUMBNAILS);

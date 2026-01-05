@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\partner;
 
 use App\Http\Controllers\Controller;
 use App\Models\Deal;
+use App\Models\DealProductChange;
 use App\Models\Item;
 use App\Models\User;
 use App\Notifications\ItemsAddedToDeal;
@@ -202,6 +203,16 @@ class ItemsPartnerController extends Controller
         try {
             $updatedCount = $this->itemService->bulkUpdateDeal($productIds, $dealId);
 
+            foreach ($productIds as $productId) {
+                DealProductChange::create([
+                    'deal_id' => $dealId,
+                    'item_id' => $productId,
+                    'action' => 'added',
+                    'changed_by' => auth()->id(),
+                    'note' => 'Product added to deal via API'
+                ]);
+            }
+
             Log::info(self::LOG_PREFIX . 'Products added to deal', [
                 'deal_id' => $dealId,
                 'product_ids' => $productIds,
@@ -264,6 +275,16 @@ class ItemsPartnerController extends Controller
 
         try {
             $removedCount = $this->itemService->bulkRemoveFromDeal($productIds, $dealId);
+
+            foreach ($productIds as $productId) {
+                DealProductChange::create([
+                    'deal_id' => $dealId,
+                    'item_id' => $productId,
+                    'action' => 'removed',
+                    'changed_by' => auth()->id(),
+                    'note' => 'Product removed from deal via API'
+                ]);
+            }
 
             Log::info(self::LOG_PREFIX . 'Products removed from deal', [
                 'deal_id' => $dealId,
