@@ -1138,6 +1138,26 @@
         "valueEs": "Desglose de descuento",
         "valueRu": "Разбивка скидки",
         "valueDe": "Rabattaufschlüsselung"
+    },
+    {
+        "name": "User Guides",
+        "value": "أدلة المستخدم",
+        "valueEn": "User Guides",
+        "valueFr": "Guides d'utilisateur",
+        "valueTr": "Kullanıcı Kılavuzları",
+        "valueEs": "Guías de usuario",
+        "valueRu": "Руководства пользователя",
+        "valueDe": "Benutzerhandbücher"
+    },
+    {
+        "name": "User Guide Details",
+        "value": "تفاصيل دليل المستخدم",
+        "valueEn": "User Guide Details",
+        "valueFr": "Détails du guide d'utilisateur",
+        "valueTr": "Kullanıcı Kılavuzu Detayları",
+        "valueEs": "Detalles de la guía de usuario",
+        "valueRu": "Детали руководства пользователя",
+        "valueDe": "Benutzerhandbuch Details"
     }
 ]
 
