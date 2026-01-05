@@ -2,12 +2,19 @@
 
 namespace App\Services;
 
+use App\Interfaces\IUserRepository;
+use App\Models\AuthenticatedUser;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 class UserService
 {
+    public function __construct(
+        private IUserRepository $userRepository
+    )
+    {
+    }
     /**
      * Get paginated users with joins and filters.
      *
@@ -177,6 +184,70 @@ class UserService
             ->leftJoin('vip', function ($join) {
                 $join->on('vip.idUser', '=', 'users.idUser')->where('vip.closed', '=', 0);
             })->orderBy('created_at', 'DESC');
+    }
+
+    /**
+     * Get authenticated user by ID with metta user data
+     *
+     * @param int|string $id User ID
+     * @return AuthenticatedUser|null
+     */
+    public function getAuthUserById($id): ?AuthenticatedUser
+    {
+        // Try to get user by primary ID
+        $user = $this->userRepository->getUserById($id);
+
+        // If not found, try by idUser (business ID)
+        if (!$user) {
+            $user = User::where('idUser', $id)->first();
+            if (!$user) {
+                return null;
+            }
+        }
+
+        // Get metta user data
+        $userMetta = $this->userRepository->getAllMettaUser()
+            ->where('idUser', '=', $user->idUser)
+            ->first();
+
+        // Build authenticated user object
+        $userAuth = new AuthenticatedUser();
+        $userAuth->id = $user->id;
+        $userAuth->idUser = $user->idUser;
+        $userAuth->mobile = $user->mobile;
+        $userAuth->arFirstName = $userMetta->arFirstName ?? null;
+        $userAuth->arLastName = $userMetta->arLastName ?? null;
+        $userAuth->enFirstName = $userMetta->enFirstName ?? null;
+        $userAuth->enLastName = $userMetta->enLastName ?? null;
+        $userAuth->iden_notif = $user->iden_notif;
+
+        return $userAuth;
+    }
+
+    /**
+     * Get new validated status based on current user status
+     *
+     * @param string $idUser
+     * @return int|null
+     */
+    public function getNewValidatedstatus(string $idUser): ?int
+    {
+        $user = User::where('idUser', $idUser)->first();
+
+        if (!$user) {
+            return null;
+        }
+
+        if ($user->status == StatusRequest::InProgressNational->value) {
+            return StatusRequest::ValidNational->value;
+        }
+
+        if ($user->status == StatusRequest::InProgressInternational->value || $user->status == StatusRequest::InProgressGlobal->value) {
+            return StatusRequest::ValidInternational->value;
+        }
+
+
+        return null;
     }
 }
 

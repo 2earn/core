@@ -137,4 +137,38 @@ class Sponsorship
         }
     }
 
+    /**
+     * Add sponsoring relationship between upline and downline
+     *
+     * @param mixed $upLine Upline user
+     * @param mixed $downLine Downline user
+     * @return mixed Updated downline user
+     */
+    public function addSponsoring($upLine, $downLine)
+    {
+        return $this->userRepository->addSponsoring($upLine, $downLine);
+    }
+
+    /**
+     * Remove sponsoring relationship for a user
+     *
+     * @param string $idUser User ID
+     * @return mixed Updated user
+     */
+    public function removeSponsoring(string $idUser)
+    {
+        return $this->userRepository->removeSponsoring($idUser, $this->reservation);
+    }
+
+    /**
+     * Check if user can sponsor more users
+     *
+     * @param string $idUser User ID
+     * @return bool True if user can sponsor, false otherwise
+     */
+    public function checkCanSponsorship(string $idUser): bool
+    {
+        $maxSponsorship = $this->settingService->getIntegerValue('33');
+        return $this->userRepository->checkCanSponsorship($idUser, $this->reservation, $maxSponsorship);
+    }
 }

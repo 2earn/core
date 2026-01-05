@@ -20,10 +20,8 @@ class CashObserver
 
     public function created(CashBalances $cashBalances)
     {
-        // Calculate balance change
         $balanceChange = BalanceOperation::getMultiplicator($cashBalances->balance_operation_id) * $cashBalances->value;
 
-        // Update horizontal balance using service
         $balanceData = $this->userCurrentBalanceHorisontalService->calculateNewBalance(
             $cashBalances->beneficiary_id,
             Balances::CASH_BALANCE,
@@ -34,7 +32,6 @@ class CashObserver
             $newCashBalanceHorizontal = $balanceData['newBalance'];
             $balanceData['record']->update([Balances::CASH_BALANCE => $newCashBalanceHorizontal]);
 
-            // Update vertical balance using service
             $this->userCurrentBalanceVerticalService->updateBalanceAfterOperation(
                 userId: $cashBalances->beneficiary_id,
                 balanceId: BalanceEnum::CASH,

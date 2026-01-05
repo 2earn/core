@@ -17,6 +17,7 @@ use App\Models\BFSsBalances;
 use App\Models\ContactUser;
 use App\Models\User;
 use App\Services\Balances\Balances;
+use App\Services\Sponsorship\Sponsorship;
 use Carbon\Carbon;
 use App\Interfaces\ICountriesRepository;
 use App\Interfaces\IHistoryNotificationRepository;
@@ -62,7 +63,14 @@ class settingsManager
         private BalancesManager                $balancesManager,
         private UserBalancesHelper             $userBalancesHelper,
         private IUserBalancesRepository        $userBalanceRepository,
-        private IUserContactNumberRepository   $userContactNumberRepository
+        private IUserContactNumberRepository   $userContactNumberRepository,
+        private MettaUserService               $mettaUserService,
+        private UserContactNumberService       $userContactNumberService,
+        private ContactUserService             $contactUserService,
+        private UserService                    $userService,
+        private IdentificationRequestService   $identificationRequestService,
+        private MessageService                 $messageService,
+        private Sponsorship                    $sponsorship
     )
     {
 
@@ -244,60 +252,40 @@ class settingsManager
 
     public function createMettaUser(User $user)
     {
-        $metta = new  metta_user();
-        $metta->idUser = $user->idUser;
-        $metta->idCountry = $user->idCountry;
-        $countrie_earn = DB::table('countries')->where('phonecode', $user->id_phone)->first();
-        foreach (LanguageEnum::cases() as $lanque) {
-            if ($lanque->name == $countrie_earn->langage) {
-                $metta->idLanguage = $lanque->value;
-                break;
-            }
-        }
-        return $this->userRepository->createmettaUser($metta);
+        $this->mettaUserService->createMettaUser($user);
     }
 
     public function createUserContactNumber(User $user, $iso)
     {
-        UserContactNumber::Create([
-            'idUser' => $user->idUser,
-            'mobile' => $user->mobile,
-            'codeP' => $user->idCountry,
-            'active' => 1,
-            'isoP' => strtolower($iso),
-            'isID' => true,
-            'fullNumber' => $user->fullphone_number,
-        ]);
+        $this->userContactNumberService->createUserContactNumber(
+            $user->idUser,
+            $user->mobile,
+            $user->idCountry,
+            $iso,
+            $user->fullphone_number
+        );
     }
 
     public function updateUserContactNumber(User $user, $iso)
     {
-        $userContactNumber = UserContactNumber::where('idUser', $user->idUser)->get();
-        if ($userContactNumber) {
-            $userContactNumber->update([
-                'idUser' => $user->idUser,
-                'mobile' => $user->mobile,
-                'codeP' => $user->idCountry,
-                'active' => 1,
-                'isoP' => $iso,
-                'isID' => true,
-                'fullNumber' => $user->fullphone_number,
-            ]);
-            $userContactNumber->save();
-        }
+        $this->userContactNumberService->updateUserContactNumber(
+            $user->idUser,
+            $user->mobile,
+            $user->idCountry,
+            $iso,
+            $user->fullphone_number
+        );
     }
 
     public function createUserContactNumberByProp($idUser, $mobile, $idCountry, $iso, $fullNumber)
     {
-        return UserContactNumber::create([
-            'idUser' => $idUser,
-            'mobile' => $mobile,
-            'codeP' => $idCountry,
-            'active' => 0,
-            'isoP' => $iso,
-            'fullNumber' => $fullNumber,
-            'isID' => false
-        ]);
+        return $this->userContactNumberService->createUserContactNumberByProp(
+            $idUser,
+            $mobile,
+            $idCountry,
+            $iso,
+            $fullNumber
+        );
     }
 
     public function createUserEarn(User $user, $ccode)
@@ -324,13 +312,7 @@ class settingsManager
 
     public function checkUserInvited(User $user)
     {
-        $user_invited = DB::table('user_contacts')->where('disponible', -2)
-            ->where('fullphone_number', $user->fullphone_number)
-            ->where('idUser', $user->idUpline)->first();
-        if (isset($user_invited)) {
-            return User::where('idUser', $user->idUpline)->first();
-        }
-        return false;
+        return $this->contactUserService->checkUserInvited($user);
     }
 
     public function getidCountryForSms($id)
@@ -500,24 +482,7 @@ class settingsManager
 
     public function getAuthUserById($id)
     {
-        $user = $this->userRepository->getUserById($id);
-        if (!$user) {
-            $user = User::where('idUser', $id)->first();
-            if (!$user) {
-                return null;
-            }
-        }
-        $userMetta = $this->getMettaUser()->where('idUser', '=', $user->idUser)->first();
-        $userAuth = new AuthenticatedUser();
-        $userAuth->id = $user->id;
-        $userAuth->idUser = $user->idUser;
-        $userAuth->mobile = $user->mobile;
-        $userAuth->arFirstName = $userMetta->arFirstName;
-        $userAuth->arLastName = $userMetta->arLastName;
-        $userAuth->enFirstName = $userMetta->enFirstName;
-        $userAuth->enLastName = $userMetta->enLastName;
-        $userAuth->iden_notif = $user->iden_notif;
-        return $userAuth;
+        return $this->userService->getAuthUserById($id);
     }
 
     public function getUserNotificationSetting($idUser)
@@ -572,171 +537,39 @@ class settingsManager
 
     public function updateIdentity($requestIdentification, $status, $response, $note)
     {
-        $requestIdentification->status = $status;
-        $requestIdentification->idUserResponse = $this->getAuthUser()->idUser;
-        $requestIdentification->response = $response;
-        $requestIdentification->note = $note;
-        $requestIdentification->responseDate = Carbon::now();
-        $requestIdentification->save();
+        $this->identificationRequestService->updateIdentity($requestIdentification, $status, $response, $note);
     }
 
     public function rejectIdentity($idUser, $note)
     {
-        $requestIdentification = identificationuserrequest::where('idUser', $idUser);
-        $requestIdentification = $requestIdentification->where(function ($query) {
-            $query->where('status', '=', StatusRequest::InProgressNational->value)
-                ->orWhere('status', '=', StatusRequest::InProgressInternational->value)
-                ->orWhere('status', '=', StatusRequest::InProgressGlobal->value);
+        $this->identificationRequestService->rejectIdentity($idUser, $note, function ($userId, $event, $params) {
+            $this->NotifyUser($userId, $event, $params);
         });
-
-        $requestIdentification = $requestIdentification->get()->first();
-        if ($requestIdentification == null) return;
-        $user = User::where('idUser', $idUser)->first();
-        $userStatus = StatusRequest::OptValidated->value;
-
-        if ($user->status == StatusRequest::InProgressInternational->value) {
-            $userStatus = StatusRequest::ValidNational->value;
-        }
-        $this->updateIdentity($requestIdentification, $userStatus, 1, $note);
-        User::where('idUser', $idUser)->update(['status' => $userStatus]);
-        $user = User::where('idUser', $idUser)->first();
-        $uMetta = metta_user::where('idUser', $idUser)->first();
-        if (($user->iden_notif == 1)) {
-            $lang = app()->getLocale();
-            if ($uMetta && $uMetta->idLanguage != null) {
-                $language = language::where('name', $uMetta->idLanguage)->first();
-                $lang = $language?->PrefixLanguage;
-            }
-            $params = ['msg' => $note, 'type' => TypeNotificationEnum::SMS, 'canSendSMS' => 1, 'lang' => $lang];
-            $this->NotifyUser($user->id, TypeEventNotificationEnum::RequestDenied, $params);
-        }
     }
 
     public function getNewValidatedstatus($idUser)
     {
-        $user = User::where('idUser', $idUser)->first();
-
-        if ($user->status == StatusRequest::InProgressNational->value) {
-            return StatusRequest::ValidNational->value;
-        }
-        if ($user->status == StatusRequest::InProgressInternational->value || $user->status == StatusRequest::InProgressGlobal->value) {
-            return StatusRequest::ValidInternational->value;
-        }
+        return $this->userService->getNewValidatedstatus($idUser);
     }
 
     public function validateIdentity($idUser)
     {
-        $requestIdentification = identificationuserrequest::where('idUser', $idUser);
-        $requestIdentification = $requestIdentification->where(function ($query) {
-            $query->where('status', '=', StatusRequest::InProgressNational->value)
-                ->orWhere('status', '=', StatusRequest::InProgressInternational->value)
-                ->orWhere('status', '=', StatusRequest::InProgressGlobal->value);
-        });
-
-        $requestIdentification = $requestIdentification->get()->first();
-        if ($requestIdentification == null) return;
-        $user = User::where('idUser', $idUser)->first();
-        $newStatus = $this->getNewValidatedstatus($idUser);
-
-        $this->updateIdentity($requestIdentification, $newStatus, 1, null);
-        User::where('idUser', $idUser)->update(['status' => $newStatus]);
-        $uMetta = metta_user::where('idUser', $idUser)->first();
-        if (($user->iden_notif == 1)) {
-            $lang = app()->getLocale();
-            if ($uMetta && $uMetta->idLanguage != null) {
-                $language = language::where('name', $uMetta->idLanguage)->first();
-                $lang = $language?->PrefixLanguage;
-            }
-            $this->NotifyUser($user->id, TypeEventNotificationEnum::RequestAccepted, ['msg' => " ", 'type' => TypeNotificationEnum::SMS, 'canSendSMS' => 1, 'lang' => $lang]);
-        }
+        $this->identificationRequestService->validateIdentity(
+            $idUser,
+            fn($userId) => $this->getNewValidatedstatus($userId),
+            fn($userId, $event, $params) => $this->NotifyUser($userId, $event, $params)
+        );
     }
 
     public function getMessageFinal($mes, TypeEventNotificationEnum $typeOperation): string
     {
-        $PrefixMsg = "";
-        $finalMsg = "";
-        $langage = "";
-
-        switch ($typeOperation) {
-            case TypeEventNotificationEnum::Inscri :
-                $PrefixMsg = Lang::get('Prefix_SmsInscri');
-                break;
-            case TypeEventNotificationEnum::Password  :
-                $PrefixMsg = Lang::get('Prefix_SmsPassword');
-                break;
-            case TypeEventNotificationEnum::ToUpline  :
-                $PrefixMsg = Lang::get('Prefix_SmsToUpline');
-                break;
-            case TypeEventNotificationEnum::RequestDenied  :
-                $PrefixMsg = Lang::get('Prefix_SmsRequestDenied');
-                break;
-            case TypeEventNotificationEnum::ForgetPassword  :
-                $PrefixMsg = Lang::get('Prefix_SmsForgetPassword');
-                break;
-            case TypeEventNotificationEnum::OPTVerification  :
-                $PrefixMsg = Lang::get('Prefix_SmsOPTVerification');
-                break;
-            case TypeEventNotificationEnum::VerifMail  :
-                $PrefixMsg = Lang::get('Prefix_MailVerifMail');
-                break;
-            case TypeEventNotificationEnum::SendNewSMS  :
-                $PrefixMsg = Lang::get('Prefix_SMSNewPass');
-                break;
-            case TypeEventNotificationEnum::RequestAccepted  :
-                $PrefixMsg = Lang::get('Prefix sms request accepted');
-                break;
-            case TypeEventNotificationEnum::NewContactNumber  :
-                $PrefixMsg = Lang::get('Prefix mail new contact number');
-                break;
-            case TypeEventNotificationEnum::none  :
-                $PrefixMsg = "";
-                break;
-        }
-        return $finalMsg = $PrefixMsg . " " . $mes;
+        return $this->messageService->getMessageFinal($mes, $typeOperation);
     }
 
 
     public function getMessageFinalByLang($mes, TypeEventNotificationEnum $typeOperation, $newLang): string
     {
-        $PrefixMsg = "";
-        $finalMsg = "";
-        $ancLang = app()->getLocale();
-        app()->setLocale($newLang);
-        $langage = "";
-        switch ($typeOperation) {
-            case TypeEventNotificationEnum::Inscri :
-                $PrefixMsg = Lang::get('Prefix_SmsInscri');
-                break;
-            case TypeEventNotificationEnum::Password  :
-                $PrefixMsg = Lang::get('Prefix_SmsPassword');
-                break;
-            case TypeEventNotificationEnum::ToUpline  :
-                $PrefixMsg = Lang::get('Prefix_SmsToUpline');
-                break;
-            case TypeEventNotificationEnum::RequestDenied  :
-                $PrefixMsg = Lang::get('Prefix_SmsRequestDenied');
-                break;
-            case TypeEventNotificationEnum::ForgetPassword  :
-                $PrefixMsg = Lang::get('Prefix_SmsForgetPassword');
-                break;
-            case TypeEventNotificationEnum::OPTVerification  :
-                $PrefixMsg = Lang::get('Prefix_SmsOPTVerification');
-                break;
-            case TypeEventNotificationEnum::VerifMail  :
-                $PrefixMsg = Lang::get('prefix mail verif mail');
-                break;
-            case TypeEventNotificationEnum::SendNewSMS  :
-                $PrefixMsg = Lang::get('Prefix SMS new pass');
-                break;
-            case TypeEventNotificationEnum::RequestAccepted  :
-                $PrefixMsg = Lang::get('Prefix sms request accepted');
-                break;
-            case TypeEventNotificationEnum::NewContactNumber  :
-                $PrefixMsg = Lang::get('Prefix mail new contact number');
-                break;
-        }
-        app()->setLocale($ancLang);
-        return $finalMsg = $PrefixMsg . " " . $mes;
+        return $this->messageService->getMessageFinalByLang($mes, $typeOperation, $newLang);
     }
 
 
@@ -826,19 +659,7 @@ class settingsManager
 
     public function createNewContactUser($idUser, $name, $idContact, $lastName, $mobile, $fullphone, $phonecode)
     {
-        $contact_user = new ContactUser([
-            'idUser' => $idUser,
-            'name' => $name,
-            'idContact' => $idContact,
-            'lastName' => $lastName,
-            'mobile' => $mobile,
-            'fullphone_number' => $fullphone,
-            'phonecode' => $phonecode,
-            'availablity' => '0',
-            'disponible' => 1
-        ]);
-        $contact_user->save();
-        return $contact_user;
+        return $this->contactUserService->createNewContactUser($idUser, $name, $idContact, $lastName, $mobile, $fullphone, $phonecode);
     }
 
     public function getUserContactV2(ContactUser $contactUser)
@@ -853,19 +674,16 @@ class settingsManager
 
     public function addSponsoring($upLine, $downLine)
     {
-        return $this->userRepository->addSponsoring($upLine, $downLine);
+        return $this->sponsorship->addSponsoring($upLine, $downLine);
     }
 
     public function removeSponsoring($idUser)
     {
-        $reservation = Setting::find(25);
-        return $this->userRepository->removeSponsoring($idUser, $reservation->IntegerValue);
+        return $this->sponsorship->removeSponsoring($idUser);
     }
 
     public function checkCanSponsorship()
     {
-        $maxSponsorship = Setting::find(33);
-        $reservation = Setting::find(25);
-        return $this->userRepository->checkCanSponsorship(\auth()->user()->idUser, $reservation->IntegerValue, $maxSponsorship->IntegerValue);
+        return $this->sponsorship->checkCanSponsorship(\auth()->user()->idUser);
     }
 }

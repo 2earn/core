@@ -3,7 +3,15 @@
 namespace App\Services;
 
 use App\Enums\StatusRequest;
+use App\Enums\TypeEventNotificationEnum;
+use App\Enums\TypeNotificationEnum;
+use App\Models\identificationuserrequest;
+use App\Models\language;
+use App\Models\metta_user;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -122,6 +130,198 @@ class IdentificationRequestService
         } catch (\Exception $e) {
             Log::error('Error fetching identification request by ID: ' . $e->getMessage(), ['id' => $id]);
             return null;
+        }
+    }
+
+    /**
+     * Get in-progress identification request by user ID
+     *
+     * @param string $idUser
+     * @return identificationuserrequest|null
+     */
+    public function getInProgressRequestByUserId(string $idUser): ?identificationuserrequest
+    {
+        try {
+            $request = identificationuserrequest::where('idUser', $idUser)
+                ->where(function ($query) {
+                    $query->where('status', '=', StatusRequest::InProgressNational->value)
+                        ->orWhere('status', '=', StatusRequest::InProgressInternational->value)
+                        ->orWhere('status', '=', StatusRequest::InProgressGlobal->value);
+                })
+                ->first();
+
+            return $request;
+        } catch (\Exception $e) {
+            Log::error('Error fetching in-progress request by user ID: ' . $e->getMessage(), [
+                'idUser' => $idUser
+            ]);
+            return null;
+        }
+    }
+
+    /**
+     * Update identification request
+     *
+     * @param identificationuserrequest $requestIdentification
+     * @param int $status
+     * @param int $response
+     * @param string|null $note
+     * @return bool
+     */
+    public function updateIdentity(identificationuserrequest $requestIdentification, int $status, int $response, ?string $note): bool
+    {
+        try {
+            $requestIdentification->status = $status;
+            $requestIdentification->idUserResponse = Auth::user()->idUser ?? null;
+            $requestIdentification->response = $response;
+            $requestIdentification->note = $note;
+            $requestIdentification->responseDate = Carbon::now();
+            return $requestIdentification->save();
+        } catch (\Exception $e) {
+            Log::error('Error updating identification request: ' . $e->getMessage(), [
+                'requestId' => $requestIdentification->id ?? null
+            ]);
+            return false;
+        }
+    }
+
+    /**
+     * Reject identification request
+     *
+     * @param string $idUser
+     * @param string $note
+     * @param callable $notifyCallback Callback to handle notification
+     * @return bool
+     */
+    public function rejectIdentity(string $idUser, string $note, callable $notifyCallback): bool
+    {
+        try {
+            DB::beginTransaction();
+
+            // Get the in-progress request
+            $requestIdentification = $this->getInProgressRequestByUserId($idUser);
+            if (!$requestIdentification) {
+                Log::warning('No in-progress identification request found for user', ['idUser' => $idUser]);
+                return false;
+            }
+
+            // Get user
+            $user = User::where('idUser', $idUser)->first();
+            if (!$user) {
+                Log::warning('User not found', ['idUser' => $idUser]);
+                return false;
+            }
+
+            // Determine new status
+            $userStatus = StatusRequest::OptValidated->value;
+            if ($user->status == StatusRequest::InProgressInternational->value) {
+                $userStatus = StatusRequest::ValidNational->value;
+            }
+
+            // Update the identification request
+            $this->updateIdentity($requestIdentification, $userStatus, 1, $note);
+
+            // Update user status
+            User::where('idUser', $idUser)->update(['status' => $userStatus]);
+
+            // Handle notification if user opted in
+            if ($user->iden_notif == 1) {
+                $uMetta = metta_user::where('idUser', $idUser)->first();
+                $lang = app()->getLocale();
+
+                if ($uMetta && $uMetta->idLanguage != null) {
+                    $language = language::where('name', $uMetta->idLanguage)->first();
+                    $lang = $language?->PrefixLanguage ?? $lang;
+                }
+
+                // Call the notification callback
+                $notifyCallback($user->id, TypeEventNotificationEnum::RequestDenied, [
+                    'msg' => $note,
+                    'type' => TypeNotificationEnum::SMS,
+                    'canSendSMS' => 1,
+                    'lang' => $lang
+                ]);
+            }
+
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error rejecting identity: ' . $e->getMessage(), [
+                'idUser' => $idUser,
+                'note' => $note
+            ]);
+            return false;
+        }
+    }
+
+    /**
+     * Validate identification request
+     *
+     * @param string $idUser
+     * @param callable $getNewValidatedStatusCallback Callback to get new validated status
+     * @param callable $notifyCallback Callback to handle notification
+     * @return bool
+     */
+    public function validateIdentity(string $idUser, callable $getNewValidatedStatusCallback, callable $notifyCallback): bool
+    {
+        try {
+            DB::beginTransaction();
+
+            // Get the in-progress request
+            $requestIdentification = $this->getInProgressRequestByUserId($idUser);
+            if (!$requestIdentification) {
+                Log::warning('No in-progress identification request found for validation', ['idUser' => $idUser]);
+                return false;
+            }
+
+            // Get user
+            $user = User::where('idUser', $idUser)->first();
+            if (!$user) {
+                Log::warning('User not found for validation', ['idUser' => $idUser]);
+                return false;
+            }
+
+            // Get new status from callback
+            $newStatus = $getNewValidatedStatusCallback($idUser);
+            if (!$newStatus) {
+                Log::warning('Unable to determine new validated status', ['idUser' => $idUser]);
+                return false;
+            }
+
+            // Update the identification request
+            $this->updateIdentity($requestIdentification, $newStatus, 1, null);
+
+            // Update user status
+            User::where('idUser', $idUser)->update(['status' => $newStatus]);
+
+            // Handle notification if user opted in
+            if ($user->iden_notif == 1) {
+                $uMetta = metta_user::where('idUser', $idUser)->first();
+                $lang = app()->getLocale();
+
+                if ($uMetta && $uMetta->idLanguage != null) {
+                    $language = language::where('name', $uMetta->idLanguage)->first();
+                    $lang = $language?->PrefixLanguage ?? $lang;
+                }
+
+                // Call the notification callback
+                $notifyCallback($user->id, TypeEventNotificationEnum::RequestAccepted, [
+                    'msg' => " ",
+                    'type' => TypeNotificationEnum::SMS,
+                    'canSendSMS' => 1,
+                    'lang' => $lang
+                ]);
+            }
+
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error validating identity: ' . $e->getMessage(), [
+                'idUser' => $idUser
+            ]);
+            return false;
         }
     }
 }

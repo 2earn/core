@@ -3,7 +3,10 @@
 namespace App\Services;
 
 use App\Models\ContactUser;
+use App\Models\User;
+use App\Models\UserContact;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class ContactUserService
@@ -144,6 +147,81 @@ class ContactUserService
         } catch (\Exception $e) {
             Log::error('Error deleting contact user: ' . $e->getMessage(), ['id' => $id]);
             return false;
+        }
+    }
+
+    /**
+     * Check if user was invited by checking user_contacts
+     *
+     * @param User $user
+     * @return User|false
+     */
+    public function checkUserInvited(User $user): User|false
+    {
+        try {
+            $user_invited = UserContact::where('disponible', -2)
+                ->where('fullphone_number', $user->fullphone_number)
+                ->where('idUser', $user->idUpline)
+                ->first();
+
+            if ($user_invited) {
+                return User::where('idUser', $user->idUpline)->first();
+            }
+
+            return false;
+        } catch (\Exception $e) {
+            Log::error('Error checking if user was invited: ' . $e->getMessage(), [
+                'userId' => $user->idUser ?? null,
+                'fullphone_number' => $user->fullphone_number ?? null,
+                'idUpline' => $user->idUpline ?? null
+            ]);
+            return false;
+        }
+    }
+
+    /**
+     * Create a new contact user with specific parameters
+     *
+     * @param string $idUser
+     * @param string $name
+     * @param string|null $idContact
+     * @param string $lastName
+     * @param string $mobile
+     * @param string $fullphone
+     * @param string $phonecode
+     * @return ContactUser|null
+     */
+    public function createNewContactUser(
+        string $idUser,
+        string $name,
+        ?string $idContact,
+        string $lastName,
+        string $mobile,
+        string $fullphone,
+        string $phonecode
+    ): ?ContactUser
+    {
+        try {
+            $contact_user = new ContactUser([
+                'idUser' => $idUser,
+                'name' => $name,
+                'idContact' => $idContact,
+                'lastName' => $lastName,
+                'mobile' => $mobile,
+                'fullphone_number' => $fullphone,
+                'phonecode' => $phonecode,
+                'availablity' => '0',
+                'disponible' => 1
+            ]);
+            $contact_user->save();
+            return $contact_user;
+        } catch (\Exception $e) {
+            Log::error('Error creating new contact user: ' . $e->getMessage(), [
+                'idUser' => $idUser,
+                'name' => $name,
+                'mobile' => $mobile
+            ]);
+            return null;
         }
     }
 }
