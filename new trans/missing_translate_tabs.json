@@ -1158,6 +1158,46 @@
         "valueEs": "Detalles de la guía de usuario",
         "valueRu": "Детали руководства пользователя",
         "valueDe": "Benutzerhandbuch Details"
+    },
+    {
+        "name": "Items Added to Deal",
+        "value": "تمت إضافة عناصر إلى الصفقة",
+        "valueEn": "Items Added to Deal",
+        "valueFr": "Articles ajoutés à l'offre",
+        "valueTr": "Anlaşmaya Ürünler Eklendi",
+        "valueEs": "Artículos añadidos al trato",
+        "valueRu": "Товары добавлены к сделке",
+        "valueDe": "Artikel zum Deal hinzugefügt"
+    },
+    {
+        "name": "Items Removed from Deal",
+        "value": "تمت إزالة عناصر من الصفقة",
+        "valueEn": "Items Removed from Deal",
+        "valueFr": "Articles retirés de l'offre",
+        "valueTr": "Anlaşmadan Ürünler Kaldırıldı",
+        "valueEs": "Artículos eliminados del trato",
+        "valueRu": "Товары удалены из сделки",
+        "valueDe": "Artikel aus Deal entfernt"
+    },
+    {
+        "name": ":count items have been added to deal: :deal",
+        "value": "تمت إضافة :count عنصر إلى الصفقة: :deal",
+        "valueEn": ":count items have been added to deal: :deal",
+        "valueFr": ":count articles ont été ajoutés à l'offre: :deal",
+        "valueTr": ":deal anlaşmasına :count ürün eklendi",
+        "valueEs": "Se han añadido :count artículos al trato: :deal",
+        "valueRu": ":count товаров добавлено к сделке: :deal",
+        "valueDe": ":count Artikel wurden zum Deal hinzugefügt: :deal"
+    },
+    {
+        "name": ":count items have been removed from deal: :deal",
+        "value": "تمت إزالة :count عنصر من الصفقة: :deal",
+        "valueEn": ":count items have been removed from deal: :deal",
+        "valueFr": ":count articles ont été retirés de l'offre: :deal",
+        "valueTr": ":deal anlaşmasından :count ürün kaldırıldı",
+        "valueEs": "Se han eliminado :count artículos del trato: :deal",
+        "valueRu": ":count товаров удалено из сделки: :deal",
+        "valueDe": ":count Artikel wurden aus dem Deal entfernt: :deal"
     }
 ]
 

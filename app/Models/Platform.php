@@ -2,16 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\BusinessSector;
-use App\Models\Coupon;
-use App\Models\Deal;
-use App\Models\Image;
-use App\Models\Item;
-use App\Models\PlatformChangeRequest;
-use App\Models\PlatformTypeChangeRequest;
-use App\Models\PlatformValidationRequest;
-use App\Models\ProductDealHistory;
-use App\Models\User;
 use App\Traits\HasAuditing;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -132,6 +122,31 @@ class Platform extends Model
     public function pendingChangeRequest()
     {
         return $this->hasOne(PlatformChangeRequest::class)->where('status', 'pending')->latest();
+    }
+
+    public function platformRoleAssignments(): HasMany
+    {
+        return $this->hasMany(AssignPlatformRole::class);
+    }
+
+    /**
+     * Get all users with roles in this platform (owner, marketing manager, financial manager)
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getPlatformRoleUsers()
+    {
+        $userIds = array_filter([
+            $this->owner_id,
+            $this->marketing_manager_id,
+            $this->financial_manager_id
+        ]);
+
+        if (empty($userIds)) {
+            return User::whereIn('id', [])->get(); // Returns empty Eloquent Collection
+        }
+
+        return User::whereIn('id', $userIds)->get();
     }
 
     public function selected($idUser = null)
