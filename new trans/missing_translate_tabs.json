@@ -1198,6 +1198,46 @@
         "valueEs": "Se han eliminado :count artículos del trato: :deal",
         "valueRu": ":count товаров удалено из сделки: :deal",
         "valueDe": ":count Artikel wurden aus dem Deal entfernt: :deal"
+    },
+    {
+        "name": "Orders created successfully",
+        "value": "تم إنشاء الطلبات بنجاح",
+        "valueEn": "Orders created successfully",
+        "valueFr": "Commandes créées avec succès",
+        "valueTr": "Siparişler başarıyla oluşturuldu",
+        "valueEs": "Pedidos creados exitosamente",
+        "valueRu": "Заказы успешно созданы",
+        "valueDe": "Bestellungen erfolgreich erstellt"
+    },
+    {
+        "name": "Create Order & Simulate it",
+        "value": "إنشاء طلب ومحاكاته",
+        "valueEn": "Create Order & Simulate it",
+        "valueFr": "Créer et simuler la commande",
+        "valueTr": "Sipariş Oluştur ve Simüle Et",
+        "valueEs": "Crear pedido y simularlo",
+        "valueRu": "Создать заказ и симулировать",
+        "valueDe": "Bestellung erstellen und simulieren"
+    },
+    {
+        "name": "Order simulation",
+        "value": "محاكاة الطلب",
+        "valueEn": "Order simulation",
+        "valueFr": "Simulation de commande",
+        "valueTr": "Sipariş simülasyonu",
+        "valueEs": "Simulación de pedido",
+        "valueRu": "Симуляция заказа",
+        "valueDe": "Bestellungssimulation"
+    },
+    {
+        "name": "Complete Order",
+        "value": "إتمام الطلب",
+        "valueEn": "Complete Order",
+        "valueFr": "Finaliser la commande",
+        "valueTr": "Siparişi Tamamla",
+        "valueEs": "Completar pedido",
+        "valueRu": "Завершить заказ",
+        "valueDe": "Bestellung abschließen"
     }
 ]
 
