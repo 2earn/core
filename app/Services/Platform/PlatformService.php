@@ -347,5 +347,31 @@ class PlatformService
             ];
         }
     }
+
+    /**
+     * Check if a user has a role in a platform (owner, marketing manager, or financial manager)
+     *
+     * @param int $userId
+     * @param int $platformId
+     * @return bool
+     */
+    public function userHasRoleInPlatform(int $userId, int $platformId): bool
+    {
+        try {
+            return Platform::where('id', $platformId)
+                ->where(function ($q) use ($userId) {
+                    $q->where('owner_id', $userId)
+                        ->orWhere('marketing_manager_id', $userId)
+                        ->orWhere('financial_manager_id', $userId);
+                })
+                ->exists();
+        } catch (\Exception $e) {
+            Log::error('Error checking if user has role in platform: ' . $e->getMessage(), [
+                'user_id' => $userId,
+                'platform_id' => $platformId
+            ]);
+            return false;
+        }
+    }
 }
 
