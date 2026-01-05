@@ -6,6 +6,7 @@ php artisan db:seed
 # For local envs
 php artisan db:seed --class=OrderingSeeder
 php artisan db:seed --class=OrdersTableSeeder
+php artisan db:seed --class=OrdersTablePaymentSeeder
 
 php artisan translate:sync-all
 php artisan translate:update-model
