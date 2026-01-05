@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Api\partner;
 
 use App\Http\Controllers\Controller;
 use App\Models\Deal;
-use App\Models\DealProductChange;
 use App\Models\Item;
 use App\Models\User;
 use App\Notifications\ItemsAddedToDeal;
 use App\Notifications\ItemsRemovedFromDeal;
 use App\Services\Deals\DealService;
+use App\Services\Deals\DealProductChangeService;
 use App\Services\Items\ItemService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -23,11 +23,17 @@ class ItemsPartnerController extends Controller
 
     protected ItemService $itemService;
     protected DealService $dealService;
+    protected DealProductChangeService $changeService;
 
-    public function __construct(ItemService $itemService, DealService $dealService)
+    public function __construct(
+        ItemService $itemService,
+        DealService $dealService,
+        DealProductChangeService $changeService
+    )
     {
         $this->itemService = $itemService;
         $this->dealService = $dealService;
+        $this->changeService = $changeService;
     }
 
     public function store(Request $request)
@@ -203,15 +209,13 @@ class ItemsPartnerController extends Controller
         try {
             $updatedCount = $this->itemService->bulkUpdateDeal($productIds, $dealId);
 
-            foreach ($productIds as $productId) {
-                DealProductChange::create([
-                    'deal_id' => $dealId,
-                    'item_id' => $productId,
-                    'action' => 'added',
-                    'changed_by' => auth()->id(),
-                    'note' => 'Product added to deal via API'
-                ]);
-            }
+            $this->changeService->createBulkChanges(
+                $dealId,
+                $productIds,
+                'added',
+                auth()->id(),
+                'Product added to deal via API'
+            );
 
             Log::info(self::LOG_PREFIX . 'Products added to deal', [
                 'deal_id' => $dealId,
@@ -276,15 +280,13 @@ class ItemsPartnerController extends Controller
         try {
             $removedCount = $this->itemService->bulkRemoveFromDeal($productIds, $dealId);
 
-            foreach ($productIds as $productId) {
-                DealProductChange::create([
-                    'deal_id' => $dealId,
-                    'item_id' => $productId,
-                    'action' => 'removed',
-                    'changed_by' => auth()->id(),
-                    'note' => 'Product removed from deal via API'
-                ]);
-            }
+            $this->changeService->createBulkChanges(
+                $dealId,
+                $productIds,
+                'removed',
+                auth()->id(),
+                'Product removed from deal via API'
+            );
 
             Log::info(self::LOG_PREFIX . 'Products removed from deal', [
                 'deal_id' => $dealId,

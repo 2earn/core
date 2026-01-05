@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\mobile\CashBalanceController;
 use App\Http\Controllers\Api\mobile\UserController;
 use App\Http\Controllers\Api\partner\PlanLabelPartnerController;
 use App\Http\Controllers\Api\partner\DealPartnerController;
+use App\Http\Controllers\Api\partner\DealProductChangeController;
 use App\Http\Controllers\Api\partner\ItemsPartnerController;
 use App\Http\Controllers\Api\partner\OrderDetailsPartnerController;
 use App\Http\Controllers\Api\partner\OrderPartnerController;
@@ -137,6 +138,12 @@ Route::prefix('/partner/')->name('api_partner_')
                 Route::post('/change/cancel', [DealPartnerController::class, 'cancelChangeRequest'])->name('change_cancel');
                 Route::get('/dashboard/indicators', [DealPartnerController::class, 'dashboardIndicators'])->name('dashboard_indicators');
                 Route::get('/performance/chart', [DealPartnerController::class, 'performanceChart'])->name('performance_chart');
+
+                Route::prefix('product-changes')->name('product_changes_')->group(function () {
+                    Route::get('/', [DealProductChangeController::class, 'index'])->name('index');
+                    Route::get('/statistics', [DealProductChangeController::class, 'statistics'])->name('statistics');
+                    Route::get('/{id}', [DealProductChangeController::class, 'show'])->name('show');
+                });
             });
 
             Route::prefix('orders')->name('orders_')->group(function () {
