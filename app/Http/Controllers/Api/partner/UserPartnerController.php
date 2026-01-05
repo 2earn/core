@@ -43,7 +43,6 @@ class UserPartnerController extends Controller
                 ]
             );
 
-
             Log::info(self::LOG_PREFIX . 'Role assign request sent successfully, waiting for approval', [
                 'assignment_id' => $assignPlatformRole->id,
                 'user_id' => $validated['user_id'],
@@ -81,19 +80,13 @@ class UserPartnerController extends Controller
         }
     }
 
-    /**
-     * Get all platforms where the user has a role (owner, marketing, or financial)
-     *
-     * @param GetPartnerPlatformsRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function getPartnerPlatforms(GetPartnerPlatformsRequest $request)
     {
         $validated = $request->validated();
         $userId = $validated['user_id'];
 
         try {
-            // Get platforms where the user is owner, marketing manager, or financial manager
+
             $platforms = Platform::where(function ($query) use ($userId) {
                 $query->where('owner_id', $userId)
                     ->orWhere('marketing_manager_id', $userId)
@@ -102,7 +95,7 @@ class UserPartnerController extends Controller
             ->with(['businessSector', 'logoImage'])
             ->get()
             ->map(function ($platform) use ($userId) {
-                // Determine the user's role(s) on this platform
+
                 $roles = [];
                 if ($platform->owner_id == $userId) {
                     $roles[] = 'owner';
@@ -165,6 +158,4 @@ class UserPartnerController extends Controller
         }
     }
 }
-
-
 

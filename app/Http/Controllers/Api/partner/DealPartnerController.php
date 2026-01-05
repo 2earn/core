@@ -80,7 +80,6 @@ class DealPartnerController extends Controller
         $validatedData['validated'] = false;
         $validatedData['current_turnover'] = $request->input('current_turnover', 0);
 
-
         try {
             DB::beginTransaction();
 
@@ -147,7 +146,6 @@ class DealPartnerController extends Controller
                 'message' => 'Deal not found'
             ], Response::HTTP_NOT_FOUND);
         }
-
 
         if ($deal->validated) {
             Log::warning(self::LOG_PREFIX . 'Deal is already validated', [
@@ -233,7 +231,6 @@ class DealPartnerController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        // Get deal using the service
         $deal = $this->dealService->getPartnerDealById($dealId, $userId);
 
         if (!$deal) {
@@ -244,7 +241,6 @@ class DealPartnerController extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
 
-        // Get change requests using the service
         $changeRequests = $this->dealService->getDealChangeRequests($dealId);
         $validationRequests = $this->dealService->getDealValidationRequests($dealId);
 
@@ -261,7 +257,6 @@ class DealPartnerController extends Controller
     public function update(UpdateDealRequest $request, Deal $deal)
     {
         $validatedData = $request->validated();
-
 
         if (array_key_exists('current_turnover', $validatedData)) {
             $validatedData['current_turnover'] = $validatedData['current_turnover'] ?? 0;

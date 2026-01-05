@@ -271,7 +271,6 @@ class ItemsPartnerController extends Controller
                 'removed_count' => $removedCount
             ]);
 
-            // Send notifications to all users with roles in this platform
             $this->notifyPlatformUsers($deal, $removedCount, $productIds, 'removed');
 
             return response()->json([
@@ -296,19 +295,9 @@ class ItemsPartnerController extends Controller
         }
     }
 
-    /**
-     * Notify all users with roles in the platform
-     *
-     * @param Deal $deal
-     * @param int $itemsCount
-     * @param array $productIds
-     * @param string $action ('added' or 'removed')
-     * @return void
-     */
     private function notifyPlatformUsers(Deal $deal, int $itemsCount, array $productIds, string $action): void
     {
         try {
-            // Get the platform
             $platform = $deal->platform;
 
             if (!$platform) {
@@ -319,7 +308,6 @@ class ItemsPartnerController extends Controller
                 return;
             }
 
-            // Get users with roles in the platform (owner, marketing manager, financial manager)
             $platformUsers = $platform->getPlatformRoleUsers();
 
             if ($platformUsers->isEmpty()) {
@@ -329,10 +317,8 @@ class ItemsPartnerController extends Controller
                 return;
             }
 
-            // Choose the appropriate notification class
             $notificationClass = $action === 'added' ? ItemsAddedToDeal::class : ItemsRemovedFromDeal::class;
 
-            // Send notification to all platform users
             Notification::send($platformUsers, new $notificationClass($deal, $itemsCount, $productIds));
 
             Log::info(self::LOG_PREFIX . 'Notifications sent to platform users', [

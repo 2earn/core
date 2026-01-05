@@ -197,12 +197,6 @@ class SalesDashboardController extends Controller
         }
     }
 
-    /**
-     * Get top-selling deals chart data
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function getTransactions(Request $request): JsonResponse
     {
         try {
@@ -284,12 +278,6 @@ class SalesDashboardController extends Controller
         }
     }
 
-    /**
-     * Get top-selling deals chart data
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function getTransactionsDetails(Request $request): JsonResponse
     {
         try {
