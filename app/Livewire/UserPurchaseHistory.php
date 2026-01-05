@@ -7,7 +7,7 @@ use App\Services\Deals\DealService;
 use App\Services\Items\ItemService;
 use App\Services\Orders\OrderService;
 use App\Services\Platform\PlatformService;
-use Core\Enum\OrderEnum;
+use App\Enums\OrderEnum;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 use Livewire\WithPagination;

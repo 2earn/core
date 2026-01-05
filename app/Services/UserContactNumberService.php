@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use Core\Models\UserContactNumber;
+use App\Models\UserContactNumber;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -123,6 +123,87 @@ class UserContactNumberService
             ]);
             return false;
         }
+    }
+
+    /**
+     * Create a new user contact number
+     *
+     * @param string $idUser
+     * @param string $mobile
+     * @param int $codeP
+     * @param string $iso
+     * @param string $fullNumber
+     * @return UserContactNumber
+     */
+    public function createUserContactNumber(string $idUser, string $mobile, int $codeP, string $iso, string $fullNumber): UserContactNumber
+    {
+        return UserContactNumber::create([
+            'idUser' => $idUser,
+            'mobile' => $mobile,
+            'codeP' => $codeP,
+            'active' => 1,
+            'isoP' => strtolower($iso),
+            'isID' => true,
+            'fullNumber' => $fullNumber,
+        ]);
+    }
+
+    /**
+     * Update user contact number for a user
+     *
+     * @param string $idUser
+     * @param string $mobile
+     * @param int $codeP
+     * @param string $iso
+     * @param string $fullNumber
+     * @return bool
+     */
+    public function updateUserContactNumber(string $idUser, string $mobile, int $codeP, string $iso, string $fullNumber): bool
+    {
+        try {
+            $userContactNumbers = UserContactNumber::where('idUser', $idUser)->get();
+            if ($userContactNumbers->isNotEmpty()) {
+                foreach ($userContactNumbers as $userContactNumber) {
+                    $userContactNumber->update([
+                        'idUser' => $idUser,
+                        'mobile' => $mobile,
+                        'codeP' => $codeP,
+                        'active' => 1,
+                        'isoP' => $iso,
+                        'isID' => true,
+                        'fullNumber' => $fullNumber,
+                    ]);
+                }
+                return true;
+            }
+            return false;
+        } catch (\Exception $e) {
+            Log::error('Error updating user contact number: ' . $e->getMessage(), ['idUser' => $idUser]);
+            return false;
+        }
+    }
+
+    /**
+     * Create a user contact number by properties
+     *
+     * @param string $idUser
+     * @param string $mobile
+     * @param int $idCountry
+     * @param string $iso
+     * @param string $fullNumber
+     * @return UserContactNumber
+     */
+    public function createUserContactNumberByProp(string $idUser, string $mobile, int $idCountry, string $iso, string $fullNumber): UserContactNumber
+    {
+        return UserContactNumber::create([
+            'idUser' => $idUser,
+            'mobile' => $mobile,
+            'codeP' => $idCountry,
+            'active' => 0,
+            'isoP' => $iso,
+            'fullNumber' => $fullNumber,
+            'isID' => false
+        ]);
     }
 }
 

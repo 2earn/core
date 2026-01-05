@@ -2,12 +2,12 @@
 
 namespace App\Livewire;
 
+use App\Enums\StatusRequest;
 use App\Models\User;
 use App\Models\UserCurrentBalanceVertical;
 use App\Models\vip;
 use App\Services\Balances\Balances;
-use Core\Enum\StatusRequest;
-use Core\Models\metta_user;
+use App\Models\metta_user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;

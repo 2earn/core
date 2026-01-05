@@ -1,7 +1,7 @@
 <?php
 namespace  App\DAL;
-use Core\Enum\SettingsEnum;
-use Core\Interfaces\ISettingsRepository;
+use App\Enums\SettingsEnum;
+use App\Interfaces\ISettingsRepository;
 use Illuminate\Support\Facades\DB;
 
 class SettingsRepository implements  ISettingsRepository{

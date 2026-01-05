@@ -5096,7 +5096,7 @@ div.dtr-modal div.dtr-modal-close {
 
 @media (max-width: 575px) {
     #page-topbar .navbar-header {
-        padding: 0.5rem 0.75rem;
+        padding: 2.5rem 1rem;
         min-height: 64px;
     }
 

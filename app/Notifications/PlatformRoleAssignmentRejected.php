@@ -3,7 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\AssignPlatformRole;
-use Core\Models\Platform;
+use App\Models\Platform;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;

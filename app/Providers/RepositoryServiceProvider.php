@@ -15,31 +15,32 @@ use App\DAL\UserBalancesRepository;
 use App\DAL\UserContactNumberRepository;
 use App\DAL\UserContactRepository;
 use App\DAL\UserRepository;
-use Core\Interfaces\IBalanceOperationRepositoty;
-use Core\Interfaces\ICountriesRepository;
-use Core\Interfaces\IHistoryNotificationRepository;
-use Core\Interfaces\IHobbiesRepository;
-use Core\Interfaces\ILanguageRepository;
-use Core\Interfaces\INotificationRepository;
-use Core\Interfaces\INotifyEarn;
-use Core\Interfaces\ISettingsRepository;
-use Core\Interfaces\ITransaction;
-use Core\Interfaces\IUserBalancesRepository;
-use Core\Interfaces\IUserContactNumberRepository;
-use Core\Interfaces\IUserContactRepository;
-use Core\Interfaces\IUserRepository;
-use Core\Services\CommandeServiceManager;
-use Core\Services\NotifyEarn;
-use Core\Services\NotifyHelper;
-use Core\Services\settingsManager;
-use Core\Services\SmsHelper;
-use Core\Services\TransactionManager;
-use Core\Services\UserBalancesHelper;
+use App\Interfaces\IBalanceOperationRepositoty;
+use App\Interfaces\ICountriesRepository;
+use App\Interfaces\IHistoryNotificationRepository;
+use App\Interfaces\IHobbiesRepository;
+use App\Interfaces\ILanguageRepository;
+use App\Interfaces\INotificationRepository;
+use App\Interfaces\INotifyEarn;
+use App\Interfaces\ISettingsRepository;
+use App\Interfaces\ITransaction;
+use App\Interfaces\IUserBalancesRepository;
+use App\Interfaces\IUserContactNumberRepository;
+use App\Interfaces\IUserContactRepository;
+use App\Interfaces\IUserRepository;
+use App\Services\CommandeServiceManager;
+use App\Services\NotifyEarn;
+use App\Services\NotifyHelper;
+use App\Services\settingsManager;
+use App\Services\SmsHelper;
+use App\Services\TransactionManager;
+use App\Services\UserBalancesHelper;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 
 
 
-class RepositoryServiceProvider extends ServiceProvider
+class RepositoryServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * Register services.
@@ -82,5 +83,35 @@ class RepositoryServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides(): array
+    {
+        return [
+            ILanguageRepository::class,
+            settingsManager::class,
+            INotificationRepository::class,
+            IUserRepository::class,
+            IUserBalancesRepository::class,
+            ICountriesRepository::class,
+            ITransaction::class,
+            TransactionManager::class,
+            IHobbiesRepository::class,
+            IHistoryNotificationRepository::class,
+            IUserContactRepository::class,
+            SmsHelper::class,
+            UserBalancesHelper::class,
+            CommandeServiceManager::class,
+            IBalanceOperationRepositoty::class,
+            ISettingsRepository::class,
+            INotifyEarn::class,
+            NotifyHelper::class,
+            IUserContactNumberRepository::class,
+        ];
     }
 }

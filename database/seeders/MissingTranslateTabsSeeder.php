@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Jobs\TranslationDatabaseToFiles;
-use Core\Models\translatetabs;
+use App\Models\translatetabs;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

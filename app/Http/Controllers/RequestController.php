@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Core\Services\settingsManager;
+use App\Services\settingsManager;
 use Illuminate\Support\Facades\DB;
 
 class RequestController extends Controller

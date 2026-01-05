@@ -12,15 +12,15 @@
                                         <i class="ri-hashtag me-1"></i>{{$key+1}}
                                     </span>
                             <span title="{{__('Commission brackdown Status')}}" class="badge fs-14
-                                     @if($commission->type->value==\Core\Enum\CommissionTypeEnum::IN->value)
+                                     @if($commission->type->value==\App\Enums\CommissionTypeEnum::IN->value)
                                      bg-primary
-                                     @elseif($commission->type->value==\Core\Enum\CommissionTypeEnum::OUT->value)
+                                     @elseif($commission->type->value==\App\Enums\CommissionTypeEnum::OUT->value)
                                      bg-secondary
                                      @else
                                      bg-warning
                                      @endif
                                      ">
-                                        <i class="ri-arrow-left-right-line me-1"></i>{{__(\Core\Enum\CommissionTypeEnum::tryFrom($commission->type->value)->name)}}
+                                        <i class="ri-arrow-left-right-line me-1"></i>{{__(\App\Enums\CommissionTypeEnum::tryFrom($commission->type->value)->name)}}
                                     </span>
                             @if($commission->trigger)
                                 <span class="text-danger fs-14" title="{{__('Order trigger')}}">
@@ -44,7 +44,7 @@
                                     </h6>
                                 </div>
                                 <div class="card-body">
-                                    @if($commission->type->value!==\Core\Enum\CommissionTypeEnum::OUT->value)
+                                    @if($commission->type->value!==\App\Enums\CommissionTypeEnum::OUT->value)
                                         <div
                                             class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
                                                     <span class="text-muted">
@@ -119,7 +119,7 @@
                                     </h6>
                                 </div>
                                 <div class="card-body">
-                                    @if($commission->type->value!==\Core\Enum\CommissionTypeEnum::OUT->value)
+                                    @if($commission->type->value!==\App\Enums\CommissionTypeEnum::OUT->value)
                                         <div
                                             class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
                                                     <span class="text-muted">
@@ -147,7 +147,7 @@
                         </div>
 
                         <!-- Camembert Parts (Full Width) -->
-                        @if($commission->type->value!==\Core\Enum\CommissionTypeEnum::OUT->value)
+                        @if($commission->type->value!==\App\Enums\CommissionTypeEnum::OUT->value)
                             <div class="col-12">
                                 <div class="card border-success">
                                     <div class="card-header bg-success-subtle">

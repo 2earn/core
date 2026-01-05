@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use App\Services\ActionHistorysService;
 use App\Services\AmountService;
-use Core\Services\settingsManager;
+use App\Services\settingsManager;
 use Livewire\Component;
 use Livewire\WithPagination;
 

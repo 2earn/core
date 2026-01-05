@@ -8,7 +8,7 @@ use App\Models\DiscountBalances;
 use App\Models\SharesBalances;
 use App\Models\SMSBalances;
 use App\Models\TreeBalances;
-use Core\Models\user_balance;
+use App\Models\user_balance;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

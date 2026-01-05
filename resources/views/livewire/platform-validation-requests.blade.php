@@ -73,7 +73,7 @@
                             <div>
                                 <p class="text-muted mb-1 small">{{__('Platform Type')}}</p>
                                 <span class="badge bg-info-subtle text-info fs-6 px-3 py-2">
-                                        {{__('Type')}} {{__(\Core\Enum\PlatformType::from($request->platform->type)->name) ?? 'N/A'}}
+                                        {{__('Type')}} {{__(\App\Enums\PlatformType::from($request->platform->type)->name) ?? 'N/A'}}
                                     </span>
                             </div>
                         </div>

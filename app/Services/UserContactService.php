@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use Core\Models\UserContactNumber;
+use App\Models\UserContactNumber;
 use Illuminate\Support\Collection;
 
 class UserContactService

@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use App\Services\Dashboard\SalesDashboardService;
 use App\Services\Platform\PlatformService;
-use Core\Models\Platform;
+use App\Models\Platform;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 

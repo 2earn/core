@@ -3,7 +3,7 @@
 namespace App\Services\Platform;
 
 use App\Models\PlatformTypeChangeRequest;
-use Core\Models\Platform;
+use App\Models\Platform;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 

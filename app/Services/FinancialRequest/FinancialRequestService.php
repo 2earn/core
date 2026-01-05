@@ -2,8 +2,8 @@
 
 namespace App\Services\FinancialRequest;
 
-use Core\Models\detail_financial_request;
-use Core\Models\FinancialRequest;
+use App\Models\detail_financial_request;
+use App\Models\FinancialRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 

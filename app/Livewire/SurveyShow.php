@@ -2,12 +2,12 @@
 
 namespace App\Livewire;
 
+use App\Enums\StatusSurvey;
 use App\Services\CommentService;
 use App\Services\Communication\Communication;
 use App\Services\SurveyQuestionChoiceService;
 use App\Services\SurveyQuestionService;
 use App\Services\SurveyService;
-use Core\Enum\StatusSurvey;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;

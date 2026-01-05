@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Core\Models\Platform;
+use App\Models\Platform;
 
 class UpdatePlatformOwnersSeeder extends Seeder
 {

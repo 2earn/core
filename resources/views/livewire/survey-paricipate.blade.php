@@ -34,11 +34,12 @@
                                     {{__('Participation to the survey question')}}
                                 </h5>
                                 <div class="d-flex gap-2 align-items-center">
-                                    <span class="badge {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger'  }}">
-                                        <i class="{{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? 'ri-checkbox-multiple-line' : 'ri-radio-button-line' }} me-1"></i>
-                                        {{ $survey->question->selection== \Core\Enum\Selection::MULTIPLE->value ? __('Multiple') : __('Unique')  }}
+                                    <span
+                                        class="badge {{ $survey->question->selection== \App\Enums\Selection::MULTIPLE->value ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger'  }}">
+                                        <i class="{{ $survey->question->selection== \App\Enums\Selection::MULTIPLE->value ? 'ri-checkbox-multiple-line' : 'ri-radio-button-line' }} me-1"></i>
+                                        {{ $survey->question->selection== \App\Enums\Selection::MULTIPLE->value ? __('Multiple') : __('Unique')  }}
                                     </span>
-                                    @if($survey->question->selection== \Core\Enum\Selection::MULTIPLE->value )
+                                    @if($survey->question->selection== \App\Enums\Selection::MULTIPLE->value )
                                         <span class="badge bg-info-subtle text-info">
                                             <i class="ri-list-check me-1"></i>
                                             {{__('Max')}} {{$survey->question->maxResponse}}
@@ -71,7 +72,7 @@
                                         @forelse ($survey->question->serveyQuestionChoice as $choice)
                                             <div class="col-12">
                                                 <div class="card card-body border shadow-none  mb-0">
-                                                    @if($survey->question->selection == \Core\Enum\Selection::UNIQUE->value)
+                                                    @if($survey->question->selection == \App\Enums\Selection::UNIQUE->value)
                                                         <div class="form-check">
                                                             <input
                                                                 wire:model.live="responces"
@@ -81,8 +82,10 @@
                                                                 name="flexRadioDefault"
                                                                 id="flexRadio_{{$survey->question->id}}_{{$choice->id}}"
                                                             >
-                                                            <label class="form-check-label fw-medium" for="flexRadio_{{$survey->question->id}}_{{$choice->id}}">
-                                                                <span class="badge bg-primary-subtle text-primary me-2">{{$loop->index+1}}</span>
+                                                            <label class="form-check-label fw-medium"
+                                                                   for="flexRadio_{{$survey->question->id}}_{{$choice->id}}">
+                                                                <span
+                                                                    class="badge bg-primary-subtle text-primary me-2">{{$loop->index+1}}</span>
                                                                 {{\App\Models\TranslaleModel::getTranslation($choice,'title',$choice->title)}}
                                                             </label>
                                                         </div>
@@ -95,8 +98,10 @@
                                                                 value="{{$choice->id}}"
                                                                 id="flexCheck_{{$survey->question->id}}_{{$choice->id}}"
                                                             >
-                                                            <label class="form-check-label fw-medium" for="flexCheck_{{$survey->question->id}}_{{$choice->id}}">
-                                                                <span class="badge bg-primary-subtle text-primary me-2">{{$loop->index+1}}</span>
+                                                            <label class="form-check-label fw-medium"
+                                                                   for="flexCheck_{{$survey->question->id}}_{{$choice->id}}">
+                                                                <span
+                                                                    class="badge bg-primary-subtle text-primary me-2">{{$loop->index+1}}</span>
                                                                 {{\App\Models\TranslaleModel::getTranslation($choice,'title',$choice->title)}}
                                                             </label>
                                                         </div>
@@ -123,7 +128,8 @@
                                         wire:loading.attr="disabled">
                                     <i class="ri-send-plane-fill me-1 align-bottom"></i>
                                     {{__('Participate')}}
-                                    <span wire:loading class="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span>
+                                    <span wire:loading class="spinner-border spinner-border-sm ms-2" role="status"
+                                          aria-hidden="true"></span>
                                 </button>
                             </div>
                         </div>
@@ -132,7 +138,7 @@
             </div>
         @endif
     </div>
-    @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
+    @if($survey->status==\App\Enums\StatusSurvey::OPEN->value)
         @vite('resources/js/surveys.js')
     @endif
 

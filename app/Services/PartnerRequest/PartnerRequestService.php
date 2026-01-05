@@ -2,8 +2,8 @@
 
 namespace App\Services\PartnerRequest;
 
+use App\Enums\BePartnerRequestStatus;
 use App\Models\PartnerRequest;
-use Core\Enum\BePartnerRequestStatus;
 use Illuminate\Support\Facades\Log;
 
 class PartnerRequestService

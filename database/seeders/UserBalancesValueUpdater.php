@@ -2,15 +2,15 @@
 
 namespace Database\Seeders;
 
+use App\Enums\BalanceEnum;
+use App\Enums\BalanceOperationsEnum;
+use App\Enums\StatusRequest;
 use App\Models\ChanceBalances;
 use App\Models\TreeBalances;
 use App\Models\User;
 use App\Models\UserCurrentBalanceVertical;
 use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
-use Core\Enum\BalanceEnum;
-use Core\Enum\BalanceOperationsEnum;
-use Core\Enum\StatusRequest;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 

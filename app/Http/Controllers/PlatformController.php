@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\BusinessSector;
-use Core\Enum\PlatformType;
-use Core\Models\Platform;
+use App\Enums\PlatformType;
+use App\Models\Platform;
 use Illuminate\Support\Facades\Lang;
 
 class PlatformController extends Controller

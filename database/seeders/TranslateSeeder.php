@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Core\Models\translatetabs;
+use App\Models\translatetabs;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;

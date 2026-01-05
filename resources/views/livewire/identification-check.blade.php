@@ -8,7 +8,7 @@
            }
         @endphp
 
-        
+
         <div class="card border-0 shadow-sm">
             <div class="card-body p-4">
                 <div class="row align-items-center">
@@ -16,7 +16,8 @@
                         <div class="d-flex align-items-center mb-3">
                             <div class="flex-shrink-0">
                                 <div class="avatar-sm rounded-circle bg-primary-subtle">
-                                    <i class="ri-shield-check-line fs-3 text-primary d-flex align-items-center justify-content-center" style="height: 40px;"></i>
+                                    <i class="ri-shield-check-line fs-3 text-primary d-flex align-items-center justify-content-center"
+                                       style="height: 40px;"></i>
                                 </div>
                             </div>
                             <div class="flex-grow-1 ms-3">
@@ -36,12 +37,12 @@
                                     data-bs-toggle="modal"
                                     @if(!$usermetta_info2['enFirstName'] || !$usermetta_info2['enLastName'] || !$usermetta_info2['birthday'] || !$usermetta_info2['nationalID'] || !$userF['email'])
                                         disabled
-                                        title="{{__('Please fill in required information first')}}"
+                                    title="{{__('Please fill in required information first')}}"
                                     @endif
 
                                     @if($userAuth->status== 4 && $moreThanSixMonths)
                                         disabled
-                                        title="{{__('Verification not available at this time')}}"
+                                    title="{{__('Verification not available at this time')}}"
                                     @endif
 
                                     @if($hasRequest) data-bs-target="#accountValidationModal"
@@ -51,7 +52,8 @@
                             </button>
 
                             @if(!$usermetta_info2['enFirstName'] || !$usermetta_info2['enLastName'] || !$usermetta_info2['birthday'] || !$usermetta_info2['nationalID'] || !$userF['email'])
-                                <a href="{{route('account',app()->getLocale())}}" class="btn btn-outline-secondary btn-label">
+                                <a href="{{route('account',app()->getLocale())}}"
+                                   class="btn btn-outline-secondary btn-label">
                                     <i class="ri-edit-line label-icon align-middle fs-16 me-2"></i>
                                     {{__('Complete Profile')}}
                                 </a>
@@ -69,7 +71,7 @@
             </div>
         </div>
 
-        
+
         @if(!empty($errors_array))
             <div class="alert alert-warning alert-border-left alert-dismissible fade show shadow-sm mt-3" role="alert">
                 <div class="d-flex">
@@ -101,7 +103,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
-        
+
         <div class="modal fade" id="accountValidationModal" tabindex="-1" aria-labelledby="accountValidationModal"
              aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -135,7 +137,7 @@
             </div>
         </div>
 
-        
+
         <div wire:ignore class="modal fade" id="identificationModal" tabindex="-1"
              aria-labelledby="identificationModalLabel"
              aria-hidden="true">
@@ -144,7 +146,8 @@
                     <div class="modal-header bg-primary-subtle border-0 p-4">
                         <div class="d-flex align-items-center">
                             <div class="flex-shrink-0">
-                                <div class="avatar-sm rounded-circle bg-primary text-white d-flex align-items-center justify-content-center">
+                                <div
+                                    class="avatar-sm rounded-circle bg-primary text-white d-flex align-items-center justify-content-center">
                                     <i class="ri-shield-user-line fs-4"></i>
                                 </div>
                             </div>
@@ -162,14 +165,15 @@
                             <div class="step-arrow-nav border-bottom">
                                 <ul class="nav nav-pills nav-justified custom-nav mb-0" id="myTab" role="tablist">
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link p-3 active d-flex align-items-center justify-content-center"
-                                                id="pills-bill-info-tab"
-                                                data-bs-toggle="pill"
-                                                data-bs-target="#pills-bill-info"
-                                                type="button"
-                                                role="tab"
-                                                aria-controls="pills-bill-info"
-                                                aria-selected="true">
+                                        <button
+                                            class="nav-link p-3 active d-flex align-items-center justify-content-center"
+                                            id="pills-bill-info-tab"
+                                            data-bs-toggle="pill"
+                                            data-bs-target="#pills-bill-info"
+                                            type="button"
+                                            role="tab"
+                                            aria-controls="pills-bill-info"
+                                            aria-selected="true">
                                             <i class="ri-user-line fs-5 me-2"></i>
                                             <span class="d-none d-sm-inline">{{__('Personal info')}}</span>
                                             <span class="d-inline d-sm-none">{{__('Step')}} 1</span>
@@ -208,7 +212,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="tab-content">
-                                
+
                                 <div class="tab-pane fade show active" id="pills-bill-info" role="tabpanel"
                                      aria-labelledby="pills-bill-info-tab">
                                     <div class="alert alert-info border-0 mb-4 d-none"
@@ -238,51 +242,51 @@
                                             <div class="table-responsive">
                                                 <table class="table table-hover table-nowrap mb-0">
                                                     <tbody>
-                                                        <tr>
-                                                            <td class="fw-semibold text-muted" style="width: 40%;">
-                                                                <i class="ri-user-3-line me-2 text-primary"></i>
-                                                                {{__('First name identificatdion modal')}}
-                                                            </td>
-                                                            <td class="fw-medium">
-                                                                {{$usermetta_info2['enFirstName']}}
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="fw-semibold text-muted">
-                                                                <i class="ri-user-3-line me-2 text-primary"></i>
-                                                                {{__('Last name identificatdion modal')}}
-                                                            </td>
-                                                            <td class="fw-medium">
-                                                                {{$usermetta_info2['enLastName']}}
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="fw-semibold text-muted">
-                                                                <i class="ri-calendar-line me-2 text-primary"></i>
-                                                                {{__('Date of birth identificatdion modal')}}
-                                                            </td>
-                                                            <td class="fw-medium">
-                                                                {{$usermetta_info2['birthday']}}
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="fw-semibold text-muted">
-                                                                <i class="ri-bank-card-2-line me-2 text-primary"></i>
-                                                                {{__('National ID identificatdion modal')}}
-                                                            </td>
-                                                            <td class="fw-medium forceltr">
-                                                                {{$usermetta_info2['nationalID']}}
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="fw-semibold text-muted">
-                                                                <i class="ri-mail-line me-2 text-primary"></i>
-                                                                {{__('Email identificatdion modal')}}
-                                                            </td>
-                                                            <td class="fw-medium forceltr">
-                                                                {{$userF['email']}}
-                                                            </td>
-                                                        </tr>
+                                                    <tr>
+                                                        <td class="fw-semibold text-muted" style="width: 40%;">
+                                                            <i class="ri-user-3-line me-2 text-primary"></i>
+                                                            {{__('First name identificatdion modal')}}
+                                                        </td>
+                                                        <td class="fw-medium">
+                                                            {{$usermetta_info2['enFirstName']}}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="fw-semibold text-muted">
+                                                            <i class="ri-user-3-line me-2 text-primary"></i>
+                                                            {{__('Last name identificatdion modal')}}
+                                                        </td>
+                                                        <td class="fw-medium">
+                                                            {{$usermetta_info2['enLastName']}}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="fw-semibold text-muted">
+                                                            <i class="ri-calendar-line me-2 text-primary"></i>
+                                                            {{__('Date of birth identificatdion modal')}}
+                                                        </td>
+                                                        <td class="fw-medium">
+                                                            {{$usermetta_info2['birthday']}}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="fw-semibold text-muted">
+                                                            <i class="ri-bank-card-2-line me-2 text-primary"></i>
+                                                            {{__('National ID identificatdion modal')}}
+                                                        </td>
+                                                        <td class="fw-medium forceltr">
+                                                            {{$usermetta_info2['nationalID']}}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="fw-semibold text-muted">
+                                                            <i class="ri-mail-line me-2 text-primary"></i>
+                                                            {{__('Email identificatdion modal')}}
+                                                        </td>
+                                                        <td class="fw-medium forceltr">
+                                                            {{$userF['email']}}
+                                                        </td>
+                                                    </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -314,7 +318,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                
+
                                 <div class="tab-pane fade" id="pills-identities-card" role="tabpanel"
                                      aria-labelledby="pills-identities-card-tab">
                                     <div class="alert alert-info border-0 alert-border-left mb-4" role="alert">
@@ -422,7 +426,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                
+
                                 <div class="tab-pane fade" id="pills-inter-identities-card" role="tabpanel"
                                      aria-labelledby="pills-inter-identities-card-tab">
                                     <div class="alert alert-warning border-0 alert-border-left mb-4" role="alert">
@@ -441,9 +445,9 @@
                                                 <input class="form-check-input"
                                                        wire:model.live="internationalCard"
                                                        type="checkbox"
-                                                       @if($userAuth->status==\Core\Enum\StatusRequest::ValidInternational)
+                                                       @if($userAuth->status==\App\Enums\StatusRequest::ValidInternational)
                                                            disabled
-                                                           title="{{__('Already validated')}}"
+                                                       title="{{__('Already validated')}}"
                                                        @endif
                                                        id="international-card">
                                                 <label for="international-card" class="form-check-label fw-semibold">

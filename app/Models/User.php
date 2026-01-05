@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Core\Enum\StatusRequest;
-use Core\Models\identificationuserrequest;
+use App\Enums\StatusRequest;
+use App\Models\identificationuserrequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -102,7 +102,7 @@ class User extends Authenticatable
 
     public function mettaUser()
     {
-        return $this->hasOne(\Core\Models\metta_user::class, 'idUser', 'idUser');
+        return $this->hasOne(\App\Models\metta_user::class, 'idUser', 'idUser');
     }
 
     public function profileImage()

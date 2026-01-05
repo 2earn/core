@@ -2,11 +2,10 @@
 
 namespace App\Livewire;
 
-use App\Models\PartnerRequest as PartnerRequestModel;
-use App\Services\PartnerRequest\PartnerRequestService;
-use App\Notifications\PartnershipRequestValidated;
+use App\Enums\BePartnerRequestStatus;
 use App\Notifications\PartnershipRequestRejected;
-use Core\Enum\BePartnerRequestStatus;
+use App\Notifications\PartnershipRequestValidated;
+use App\Services\PartnerRequest\PartnerRequestService;
 use Livewire\Component;
 
 class PartnerRequestShow extends Component

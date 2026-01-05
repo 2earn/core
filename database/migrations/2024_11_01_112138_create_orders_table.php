@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Core\Enum\OrderEnum;
+use App\Enums\OrderEnum;
 return new class extends Migration
 {
     /**

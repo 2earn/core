@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use Core\Models\Amount;
+use App\Models\Amount;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
 

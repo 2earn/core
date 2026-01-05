@@ -218,5 +218,39 @@ class ShareBalanceService
             return false;
         }
     }
+
+    /**
+     * Get user balances for delayed sponsorship within time window
+     *
+     * @param int $balanceOperationId Balance operation ID (e.g., OLD_ID_44)
+     * @param int $beneficiaryId Beneficiary user ID
+     * @param int $retardatifReservation Hours threshold for delayed reservation
+     * @param int $saleCount Limit of records to retrieve
+     * @return \Illuminate\Support\Collection
+     */
+    public function getUserBalancesForDelayedSponsorship(
+        int $balanceOperationId,
+        int $beneficiaryId,
+        int $retardatifReservation,
+        int $saleCount
+    ) {
+        try {
+            return DB::table('shares_balances')
+                ->where('balance_operation_id', $balanceOperationId)
+                ->where('beneficiary_id', $beneficiaryId)
+                ->whereRaw('TIMESTAMPDIFF(HOUR, created_at, NOW()) < ?', [$retardatifReservation])
+                ->orderBy('created_at', 'ASC')
+                ->limit($saleCount)
+                ->get();
+        } catch (\Exception $e) {
+            Log::error('Error fetching user balances for delayed sponsorship: ' . $e->getMessage(), [
+                'balance_operation_id' => $balanceOperationId,
+                'beneficiary_id' => $beneficiaryId,
+                'retardatif_reservation' => $retardatifReservation,
+                'sale_count' => $saleCount
+            ]);
+            return collect([]);
+        }
+    }
 }
 

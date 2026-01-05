@@ -2,15 +2,15 @@
 
 namespace App\DAL;
 
+use App\Enums\BalanceEnum;
+use App\Enums\StatusRequest;
 use App\Models\ContactUser;
 use App\Models\User;
 use Carbon\Carbon;
-use Core\Enum\BalanceEnum;
-use Core\Enum\StatusRequest;
-use Core\Interfaces\IUserRepository;
-use Core\Models\metta_user;
-use Core\Models\user_earn;
-use Core\Models\UserContact;
+use App\Interfaces\IUserRepository;
+use App\Models\metta_user;
+use App\Models\user_earn;
+use App\Models\UserContact;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;

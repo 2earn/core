@@ -3,7 +3,7 @@
 namespace App\DAL;
 
 use App\Models\User;
-use Core\Interfaces\IHistoryNotificationRepository;
+use App\Interfaces\IHistoryNotificationRepository;
 use Illuminate\Support\Facades\DB;
 
 class  HistoryNotificationRepository implements IHistoryNotificationRepository

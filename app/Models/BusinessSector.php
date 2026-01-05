@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Core\Models\Platform;
+use App\Models\Platform;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasAuditing;

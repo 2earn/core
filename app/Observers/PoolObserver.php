@@ -8,7 +8,6 @@ class PoolObserver
 {
     public function sharePool(Pool $pool)
     {
-
     }
 
     public function init(Pool $pool)

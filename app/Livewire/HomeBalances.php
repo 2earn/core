@@ -3,8 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\vip;
-use Core\Services\BalancesManager;
-use Core\Services\settingsManager;
+use App\Services\BalancesManager;
+use App\Services\settingsManager;
 use Livewire\Component;
 
 class HomeBalances extends Component

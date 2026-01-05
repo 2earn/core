@@ -19,7 +19,7 @@
                         {{$user['idUser']}}
                     </div>
                     <div class="badge bg-primary-subtle text-primary position-absolute top-0 end-0 m-3 fs-6">
-                        {{__(\Core\Enum\StatusRequest::from($user->status)->name)}}
+                        {{__(\App\Enums\StatusRequest::from($user->status)->name)}}
                     </div>
                     <div class="text-center mt-4">
                         <div class="profile-user position-relative d-inline-block mx-auto mb-4">
@@ -27,9 +27,10 @@
                                  class="rounded-circle avatar-xxl img-thumbnail user-profile-image shadow-sm"
                                  alt="{{__('User profile image')}}"
                                  loading="lazy">
-                            <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-3 border-white rounded-circle"
-                                  style="width: 1.5rem; height: 1.5rem;"
-                                  title="{{__('Active')}}"></span>
+                            <span
+                                class="position-absolute bottom-0 end-0 p-1 bg-success border border-3 border-white rounded-circle"
+                                style="width: 1.5rem; height: 1.5rem;"
+                                title="{{__('Active')}}"></span>
                         </div>
                         <h2 class="mb-1 fw-bold text-dark">
                             {{$dispalyedUserCred}}
@@ -145,7 +146,8 @@
                                             <i class="ri-mail-check-line text-success me-2" aria-hidden="true"></i>
                                             <strong class="text-muted small">{{__('email_verified')}}</strong>
                                         </div>
-                                        <span class="badge bg-success-subtle text-success">{{$user->email_verified}}</span>
+                                        <span
+                                            class="badge bg-success-subtle text-success">{{$user->email_verified}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -187,10 +189,10 @@
                                 <strong>{{__('Upline')}}</strong>
                                 <span class="float-end">{{$user->Upline}}</span>
                             </li>
-                        @endif
-                    </ul>
+                            @endif
+                            </ul>
+                    </div>
                 </div>
-            </div>
         </div>
 
         <div class="col-xl-4">
@@ -211,7 +213,8 @@
                                             <i class="ri-user-line text-primary me-2" aria-hidden="true"></i>
                                             <strong class="text-muted small">{{__('Arabic Firstname')}}</strong>
                                         </div>
-                                        <span class="badge bg-primary-subtle text-primary">{{$metta->arFirstName}}</span>
+                                        <span
+                                            class="badge bg-primary-subtle text-primary">{{$metta->arFirstName}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -457,7 +460,7 @@
                                             <div class="d-flex align-items-center">
                                                 <i class="ri-funds-line text-primary me-2" aria-hidden="true"></i>
                                                 <div>
-                                                    <h6 class="mb-0 fw-semibold">{{__(\Core\Enum\BalanceEnum::tryFrom($balance->balance_id)->name)}}</h6>
+                                                    <h6 class="mb-0 fw-semibold">{{__(\App\Enums\BalanceEnum::tryFrom($balance->balance_id)->name)}}</h6>
                                                     <small class="text-muted">{{$balance?->last_operation_date}}</small>
                                                 </div>
                                             </div>
@@ -466,14 +469,19 @@
                                             <div class="text-center">
                                                 <span class="badge bg-secondary-subtle text-secondary">
                                                     {{formatSolde($balance?->previous_balance,3)}}
-                                                    @if($balance->balance_id < 4) {{config('app.currency')}} @endif
+                                                    @if($balance->balance_id < 4)
+                                                        {{config('app.currency')}}
+                                                    @endif
                                                 </span>
-                                                <small class="d-block text-muted mt-1">{{__('Previous balance')}}</small>
+                                                <small
+                                                    class="d-block text-muted mt-1">{{__('Previous balance')}}</small>
                                             </div>
                                             <div class="text-center">
                                                 <span class="badge bg-success-subtle text-success">
                                                     {{formatSolde($balance?->current_balance,3)}}
-                                                    @if($balance->balance_id < 4) {{config('app.currency')}} @endif
+                                                    @if($balance->balance_id < 4)
+                                                        {{config('app.currency')}}
+                                                    @endif
                                                 </span>
                                                 <small class="d-block text-muted mt-1">{{__('Current balance')}}</small>
                                             </div>
@@ -528,7 +536,8 @@
                                                 <i class="ri-percent-line text-primary me-2" aria-hidden="true"></i>
                                                 <strong class="text-muted small">{{__('Flash coefficient')}}</strong>
                                             </div>
-                                            <span class="badge bg-primary-subtle text-primary">{{$vip->flashCoefficient}}</span>
+                                            <span
+                                                class="badge bg-primary-subtle text-primary">{{$vip->flashCoefficient}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -538,10 +547,12 @@
                                     <div class="card-body py-2 px-3">
                                         <div class="d-flex align-items-center justify-content-between">
                                             <div class="d-flex align-items-center">
-                                                <i class="ri-calendar-check-line text-success me-2" aria-hidden="true"></i>
+                                                <i class="ri-calendar-check-line text-success me-2"
+                                                   aria-hidden="true"></i>
                                                 <strong class="text-muted small">{{__('Flash Deadline')}}</strong>
                                             </div>
-                                            <span class="badge bg-success-subtle text-success">{{$vip->flashDeadline}}</span>
+                                            <span
+                                                class="badge bg-success-subtle text-success">{{$vip->flashDeadline}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -554,7 +565,8 @@
                                                 <i class="ri-sticky-note-line text-warning me-2" aria-hidden="true"></i>
                                                 <strong class="text-muted small">{{__('Flash note')}}</strong>
                                             </div>
-                                            <span class="badge bg-warning-subtle text-warning text-end flex-grow-1 ms-2 text-wrap">{{$vip->flashNote}}</span>
+                                            <span
+                                                class="badge bg-warning-subtle text-warning text-end flex-grow-1 ms-2 text-wrap">{{$vip->flashNote}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -564,7 +576,8 @@
                                     <div class="card-body py-2 px-3">
                                         <div class="d-flex align-items-center justify-content-between">
                                             <div class="d-flex align-items-center">
-                                                <i class="ri-money-dollar-circle-line text-info me-2" aria-hidden="true"></i>
+                                                <i class="ri-money-dollar-circle-line text-info me-2"
+                                                   aria-hidden="true"></i>
                                                 <strong class="text-muted small">{{__('Flash min amount')}}</strong>
                                             </div>
                                             <span class="badge bg-info-subtle text-info">{{$vip->flashMinAmount}}</span>

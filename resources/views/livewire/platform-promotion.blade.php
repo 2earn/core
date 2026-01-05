@@ -50,7 +50,7 @@
                                      class="avatar-lg rounded-circle shadow-sm"
                                      alt="{{ $platform->name }}">
                             @else
-                                <img src="{{Vite::asset(\Core\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO)}}"
+                                <img src="{{Vite::asset(\App\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO)}}"
                                      class="avatar-lg rounded-circle shadow-sm"
                                      alt="{{ $platform->name }}">
                             @endif
@@ -78,7 +78,7 @@
                                 @if($user->id!=$platform->marketing_manager_id)
                                     <button type="button"
                                             class="btn btn-outline-secondary btn-sm"
-                                            wire:click="grantRole({{$user->id}},{{$platform->id}},{{\Core\Enum\Promotion::Marketing->value}})">
+                                            wire:click="grantRole({{$user->id}},{{$platform->id}},{{\App\Enums\Promotion::Marketing->value}})">
                                         <i class="ri-megaphone-line align-middle me-1"></i>
                                         {{__('Administrative')}}
                                     </button>
@@ -86,7 +86,7 @@
                                 @if($user->id!=$platform->financial_manager_id)
                                     <button type="button"
                                             class="btn btn-outline-info btn-sm"
-                                            wire:click="grantRole({{$user->id}},{{$platform->id}},{{\Core\Enum\Promotion::Financial->value}})">
+                                            wire:click="grantRole({{$user->id}},{{$platform->id}},{{\App\Enums\Promotion::Financial->value}})">
                                         <i class="ri-money-dollar-circle-line align-middle me-1"></i>
                                         {{__('Financial')}}
                                     </button>
@@ -94,7 +94,7 @@
                                 @if($user->id!=$platform->owner_id)
                                     <button type="button"
                                             class="btn btn-outline-primary btn-sm"
-                                            wire:click="grantRole({{$user->id}},{{$platform->id}},{{\Core\Enum\Promotion::Owner->value}})">
+                                            wire:click="grantRole({{$user->id}},{{$platform->id}},{{\App\Enums\Promotion::Owner->value}})">
                                         <i class="ri-vip-crown-line align-middle me-1"></i>
                                         {{__('Owner')}}
                                     </button>
@@ -116,7 +116,7 @@
                                             <div class="d-flex align-items-center justify-content-between mb-2">
                                                     <span class="badge bg-secondary text-white fs-6">
                                                         <i class="ri-megaphone-line me-1"></i>
-                                                        {{__(\Core\Enum\Promotion::Marketing->name)}}
+                                                        {{__(\App\Enums\Promotion::Marketing->name)}}
                                                     </span>
                                                 @if($user->id==$platform->marketing_manager_id)
                                                     <span class="badge bg-success-subtle text-success">
@@ -130,7 +130,7 @@
                                             @if($user->id==$platform->marketing_manager_id)
                                                 <button type="button"
                                                         class="btn btn-soft-danger btn-sm w-100"
-                                                        wire:click="revokeRole({{$platform->id}},{{\Core\Enum\Promotion::Marketing->value}})">
+                                                        wire:click="revokeRole({{$platform->id}},{{\App\Enums\Promotion::Marketing->value}})">
                                                     <i class="ri-close-circle-line me-1"></i>
                                                     {{__('Revoke')}}
                                                 </button>
@@ -145,7 +145,7 @@
                                             <div class="d-flex align-items-center justify-content-between mb-2">
                                                     <span class="badge bg-info text-white fs-6">
                                                         <i class="ri-money-dollar-circle-line me-1"></i>
-                                                        {{__(\Core\Enum\Promotion::Financial->name)}}
+                                                        {{__(\App\Enums\Promotion::Financial->name)}}
                                                     </span>
                                                 @if($user->id==$platform->financial_manager_id)
                                                     <span class="badge bg-success-subtle text-success">
@@ -159,7 +159,7 @@
                                             @if($user->id==$platform->financial_manager_id)
                                                 <button type="button"
                                                         class="btn btn-soft-danger btn-sm w-100"
-                                                        wire:click="revokeRole({{$platform->id}},{{\Core\Enum\Promotion::Financial->value}})">
+                                                        wire:click="revokeRole({{$platform->id}},{{\App\Enums\Promotion::Financial->value}})">
                                                     <i class="ri-close-circle-line me-1"></i>
                                                     {{__('Revoke')}}
                                                 </button>
@@ -174,7 +174,7 @@
                                             <div class="d-flex align-items-center justify-content-between mb-2">
                                                     <span class="badge bg-primary text-white fs-6">
                                                         <i class="ri-vip-crown-line me-1"></i>
-                                                        {{__(\Core\Enum\Promotion::Owner->name)}}
+                                                        {{__(\App\Enums\Promotion::Owner->name)}}
                                                     </span>
                                                 @if($user->id==$platform->owner_id)
                                                     <span class="badge bg-success-subtle text-success">
@@ -188,7 +188,7 @@
                                             @if($user->id==$platform->owner_id)
                                                 <button type="button"
                                                         class="btn btn-soft-danger btn-sm w-100"
-                                                        wire:click="revokeRole({{$platform->id}},{{\Core\Enum\Promotion::Owner->value}})">
+                                                        wire:click="revokeRole({{$platform->id}},{{\App\Enums\Promotion::Owner->value}})">
                                                     <i class="ri-close-circle-line me-1"></i>
                                                     {{__('Revoke')}}
                                                 </button>

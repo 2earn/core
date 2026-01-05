@@ -2,16 +2,16 @@
 
 namespace App\Livewire;
 
+use App\Enums\StatusRequest;
+use App\Enums\TypeEventNotificationEnum;
+use App\Enums\TypeNotificationEnum;
 use App\Http\Traits\earnLog;
 use App\Http\Traits\earnTrait;
 use App\Models\User;
 use App\Services\UserService;
 use Carbon\Carbon;
-use Core\Enum\StatusRequest;
-use Core\Enum\TypeEventNotificationEnum;
-use Core\Enum\TypeNotificationEnum;
-use Core\Models\metta_user;
-use Core\Services\settingsManager;
+use App\Models\metta_user;
+use App\Services\settingsManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;

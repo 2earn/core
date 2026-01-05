@@ -10,43 +10,39 @@
     <div class="row">
         @include('layouts.flash-messages')
     </div>
-    <div id="wellcome-message">
         <livewire:welcome-message/>
-    </div>
     @if($flash)
         <div class="row justify-content-center">
-            <div class="col-12">
-                <div class="card vip-background">
-                    <div class="card-body">
-                        <div class="row col-12" role="alert">
-                            <p>  {{__('Dear vip')}} : <br><strong
-                                    class="mx-3">{{getUserDisplayedName(auth()->user()->idUser)}},</strong><br>
-                                {{__('A mode for a')}} <span
-                                    class="col-auto flash-red">{{$flashTimes}}</span> {{__('times bonus over')}}
-                                <span
-                                    class="col-auto flash-red">{{$flashPeriod}} {{__('hours')}}</span> {{__('with a minimum of')}}
-                                <span
-                                    class="col-auto flash-red">{{formatSolde($flashMinShares,0)}} {{__('Shares')}}</span>. {{__('il vous reste')}}
-                                <span
-                                    class="col-auto flash-red">{{formatSolde($vip->solde,0)}}{{__('Shares')}}</span>
-                                {{__('à conssommer. avec lachat de')}}
-                                <span
-                                    class="col-auto flash-red">{{formatSolde($actions,0)}}</span>
-                                {{__('actions')}} ,
-                                {{__('et les benefices instentannés seront')}}
-                                <span
-                                    class="col-auto flash-red">{{formatSolde($benefices,2)}}                                    <span
-                                        class="text-muted"> {{config('app.currency')}}</span>
+            <div class="col-12 card vip-background">
+                <div class="card-body">
+                    <div class="row col-12" role="alert">
+                        <p>  {{__('Dear vip')}} : <br><strong
+                                class="mx-3">{{getUserDisplayedName(auth()->user()->idUser)}},</strong><br>
+                            {{__('A mode for a')}} <span
+                                class="col-auto flash-red">{{$flashTimes}}</span> {{__('times bonus over')}}
+                            <span
+                                class="col-auto flash-red">{{$flashPeriod}} {{__('hours')}}</span> {{__('with a minimum of')}}
+                            <span
+                                class="col-auto flash-red">{{formatSolde($flashMinShares,0)}} {{__('Shares')}}</span>. {{__('il vous reste')}}
+                            <span
+                                class="col-auto flash-red">{{formatSolde($vip->solde,0)}}{{__('Shares')}}</span>
+                            {{__('à conssommer. avec lachat de')}}
+                            <span
+                                class="col-auto flash-red">{{formatSolde($actions,0)}}</span>
+                            {{__('actions')}} ,
+                            {{__('et les benefices instentannés seront')}}
+                            <span
+                                class="col-auto flash-red">{{formatSolde($benefices,2)}}                                    <span
+                                    class="text-muted"> {{config('app.currency')}}</span>
                                 </span>
-                            </p>
-                        </div>
-                        <div class="row col-12">
-                            <div class="discount-time text-center">
-                                <h5 id="flash-timer" class="mb-0 flash-red"></h5>
-                            </div>
-                        </div>
-
+                        </p>
                     </div>
+                    <div class="row col-12">
+                        <div class="discount-time text-center">
+                            <h5 id="flash-timer" class="mb-0 flash-red"></h5>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

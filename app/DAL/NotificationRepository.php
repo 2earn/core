@@ -3,9 +3,9 @@
 namespace App\DAL;
 
 
-use Core\Interfaces\INotificationRepository;
-use Core\Models\NotificationsSettings;
-use Core\Models\UserNotificationSettings;
+use App\Interfaces\INotificationRepository;
+use App\Models\NotificationsSettings;
+use App\Models\UserNotificationSettings;
 use Illuminate\Support\Facades\DB;
 
 class  NotificationRepository implements INotificationRepository

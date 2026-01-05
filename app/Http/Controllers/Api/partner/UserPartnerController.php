@@ -7,7 +7,7 @@ use App\Http\Requests\Api\Partner\AddRoleRequest;
 use App\Http\Requests\Api\Partner\GetPartnerPlatformsRequest;
 use App\Models\AssignPlatformRole;
 use App\Models\User;
-use Core\Models\Platform;
+use App\Models\Platform;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

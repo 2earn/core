@@ -2,10 +2,10 @@
 
 namespace App\Services\Communication;
 
+use App\Enums\StatusSurvey;
 use App\Models\Event;
 use App\Models\News;
 use App\Models\Survey;
-use Core\Enum\StatusSurvey;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 

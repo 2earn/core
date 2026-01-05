@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use Core\Models\UserNotificationSettings;
+use App\Models\UserNotificationSettings;
 
 class UserNotificationSettingsService
 {

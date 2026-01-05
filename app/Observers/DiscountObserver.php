@@ -2,39 +2,47 @@
 
 namespace App\Observers;
 
+use App\Enums\BalanceEnum;
 use App\Models\DiscountBalances;
-use App\Models\UserCurrentBalanceVertical;
 use App\Services\Balances\Balances;
-use Core\Enum\BalanceEnum;
-use Core\Models\BalanceOperation;
+use App\Models\BalanceOperation;
+use App\Services\UserCurrentBalanceHorisontalService;
+use App\Services\UserCurrentBalanceVerticalService;
 use Illuminate\Support\Facades\Log;
 
 class DiscountObserver
 {
+    public function __construct(
+        private UserCurrentBalanceHorisontalService $userCurrentBalanceHorisontalService,
+        private UserCurrentBalanceVerticalService $userCurrentBalanceVerticalService
+    ) {
+    }
+
     public function created(DiscountBalances $discountBalances)
     {
-        $userCurrentBalancehorisontal = Balances::getStoredUserBalances($discountBalances->beneficiary_id);
-        $newDiscountBalanceHorisental = $newDiscountBalanceVertical = $userCurrentBalancehorisontal->discount_balance + BalanceOperation::getMultiplicator($discountBalances->balance_operation_id) * $discountBalances->value;
+        $balanceChange = BalanceOperation::getMultiplicator($discountBalances->balance_operation_id) * $discountBalances->value;
 
-        $userCurrentBalancehorisontal->update([Balances::DISCOUNT_BALANCE => $newDiscountBalanceHorisental]);
-
-        $userCurrentBalanceVertical = UserCurrentBalanceVertical::where('user_id', $discountBalances->beneficiary_id)
-            ->where('balance_id', BalanceEnum::DB)
-            ->first();
-
-
-        $userCurrentBalanceVertical->update(
-            [
-                'current_balance' => $userCurrentBalanceVertical->current_balance + BalanceOperation::getMultiplicator($discountBalances->balance_operation_id) * $discountBalances->value,
-                'previous_balance' => $userCurrentBalanceVertical->current_balance,
-                'last_operation_id' => $discountBalances->id,
-                'last_operation_value' => $discountBalances->value,
-                'last_operation_date' => $discountBalances->created_at,
-            ]
+        $balanceData = $this->userCurrentBalanceHorisontalService->calculateNewBalance(
+            $discountBalances->beneficiary_id,
+            Balances::DISCOUNT_BALANCE,
+            $balanceChange
         );
 
-        Log::info('DiscountObserver current_balance '. $newDiscountBalanceVertical,);
+        if ($balanceData) {
+            $newDiscountBalanceHorizontal = $balanceData['newBalance'];
+            $balanceData['record']->update([Balances::DISCOUNT_BALANCE => $newDiscountBalanceHorizontal]);
 
+            $this->userCurrentBalanceVerticalService->updateBalanceAfterOperation(
+                userId: $discountBalances->beneficiary_id,
+                balanceId: BalanceEnum::DB,
+                balanceChange: $balanceChange,
+                lastOperationId: $discountBalances->id,
+                lastOperationValue: $discountBalances->value,
+                lastOperationDate: $discountBalances->created_at
+            );
+
+            Log::info('DiscountObserver current_balance ' . $newDiscountBalanceHorizontal);
+        }
     }
 
 }

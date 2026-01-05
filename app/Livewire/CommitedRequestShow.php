@@ -2,10 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Enums\RequestStatus;
 use App\Models\User;
 use App\Services\CommittedInvestor\CommittedInvestorRequestService;
 use App\Services\UserService;
-use Core\Enum\RequestStatus;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 

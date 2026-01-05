@@ -4,10 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\BusinessSector;
 use App\Models\TranslaleModel;
-use Core\Enum\PlatformType;
-use Core\Models\Platform;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Vite;
 
 class BusinessSectorSeeder extends Seeder
 {

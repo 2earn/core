@@ -310,7 +310,7 @@ class DealService
         $query = Deal::query();
 
         if ($isSuperAdmin) {
-            $query->whereNot('status', \Core\Enum\DealStatus::Archived->value);
+            $query->whereNot('status', \App\Enums\DealStatus::Archived->value);
         } else {
             $query->whereHas('platform', function ($query) use ($userId) {
                 $query->where('financial_manager_id', '=', $userId)
@@ -442,7 +442,7 @@ class DealService
      */
     public function getArchivedDeals(?string $search = null, bool $isSuperAdmin = false): Collection
     {
-        $query = Deal::where('status', '=', \Core\Enum\DealStatus::Archived->value);
+        $query = Deal::where('status', '=', \App\Enums\DealStatus::Archived->value);
 
         if (!is_null($search) && !empty($search)) {
             $query->where('name', 'like', '%' . $search . '%');
@@ -513,7 +513,7 @@ class DealService
             ->count();
 
         $activeDealsCount = (clone $baseQuery)
-            ->where('status', \Core\Enum\DealStatus::Opened->value)
+            ->where('status', \App\Enums\DealStatus::Opened->value)
             ->count();
 
         $totalRevenue = (clone $baseQuery)

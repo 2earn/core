@@ -5,8 +5,8 @@ namespace App\Livewire;
 
 use App\Models\vip as Vip;
 use App\Services\Settings\SettingService;
-use Core\Services\BalancesManager;
-use Core\Services\settingsManager as SettingsManager;
+use App\Services\BalancesManager;
+use App\Services\settingsManager as SettingsManager;
 use DateInterval;
 use DateTime;
 use Illuminate\Support\Facades\DB;

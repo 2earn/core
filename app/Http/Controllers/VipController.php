@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\vip;
-use Core\Models\Setting;
+use App\Models\Setting;
 use Illuminate\Http\Request as Req;
 
 class VipController extends Controller

@@ -7,9 +7,9 @@ use App\Services\Balances\BalancesFacade;
 use App\Services\Users\UserTokenFacade;
 use App\Services\Settings\SettingService;
 use Carbon\Carbon;
-use Core\Models\countrie;
-use Core\Models\Setting;
-use Core\Models\UserContact;
+use App\Models\countrie;
+use App\Models\Setting;
+use App\Models\UserContact;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -140,7 +140,7 @@ if (!function_exists('getSwitchBlock')) {
     function getSwitchBlock($id)
     {
         $hours = getSettingService()->getIntegerValue('29');
-        $user = \Core\Models\UserContact::where('id', $id)
+        $user = \App\Models\UserContact::where('id', $id)
             ->pluck('reserved_at')->first();
         if ($user) {
             $user = Carbon::parse($user);

@@ -3,12 +3,10 @@
 namespace App\Livewire;
 
 
-use App\Models\CashBalances;
+use App\Enums\BalanceOperationsEnum;
 use App\Services\Balances\CashBalancesService;
-use Carbon\Carbon;
-use Core\Enum\BalanceOperationsEnum;
-use Core\Services\BalancesManager;
-use Core\Services\settingsManager;
+use App\Services\BalancesManager;
+use App\Services\settingsManager;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;

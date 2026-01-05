@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Services\Items\ItemService;
-use Core\Enum\OrderEnum;
+use App\Enums\OrderEnum;
 use Illuminate\Support\Facades\Log;
 
 class OrderDetailService

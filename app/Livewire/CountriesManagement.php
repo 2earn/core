@@ -3,8 +3,8 @@
 namespace App\Livewire;
 
 
-use Core\Enum\LanguageEnum;
-use Core\Services\settingsManager;
+use App\Enums\LanguageEnum;
+use App\Services\settingsManager;
 use Livewire\Component;
 
 class CountriesManagement extends Component

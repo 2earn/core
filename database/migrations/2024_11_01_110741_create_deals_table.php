@@ -1,10 +1,10 @@
 <?php
 
-use Core\Enum\DealStatus;
+use App\Enums\DealStatus;
+use App\Enums\DealTypeEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Core\Enum\DealTypeEnum;
 
 return new class extends Migration {
 

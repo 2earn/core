@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Enums\DealStatus;
 use App\Services\Deals\DealService;
 use App\Services\Platform\PlatformService;
-use Core\Enum\DealStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;

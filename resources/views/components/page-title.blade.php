@@ -221,7 +221,7 @@
                             <span>{{__('Settlement tracking')}}</span>
                         </a>
                     </div>
-                    @if(\Core\Models\Platform::havePartnerSpecialRole(auth()->user()->id))
+                    @if(\App\Models\Platform::havePartnerSpecialRole(auth()->user()->id))
                         <div class="col">
                             <a href="{{route('platform_index',['locale'=>app()->getLocale()],false )}}"
                                class="menu-link-modern {{$currentRouteName=='platform_index'? 'active' : ''}}"
@@ -231,7 +231,7 @@
                             </a>
                         </div>
                     @endif
-                    @if(\Core\Models\Platform::havePartnerSpecialRole(auth()->user()->id))
+                    @if(\App\Models\Platform::havePartnerSpecialRole(auth()->user()->id))
                         <div class="col">
                             <a href="{{route('deals_index',['locale'=>app()->getLocale()],false )}}"
                                class="menu-link-modern {{$currentRouteName=='deals_index'? 'active' : ''}}"
@@ -241,7 +241,7 @@
                             </a>
                         </div>
                     @endif
-                    @if(\Core\Models\Platform::havePartnerSpecialRole(auth()->user()->id))
+                    @if(\App\Models\Platform::havePartnerSpecialRole(auth()->user()->id))
                         <div class="col">
                             <a href="{{route('partner_payment_index',['locale'=>app()->getLocale()],false )}}"
                                class="menu-link-modern {{in_array($currentRouteName, ['partner_payment_index', 'partner_payment_detail', 'partner_payment_manage']) ? 'active' : ''}}"

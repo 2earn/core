@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use Core\Models\countrie;
+use App\Models\countrie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 

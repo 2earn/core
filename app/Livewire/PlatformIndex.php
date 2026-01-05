@@ -4,8 +4,8 @@ namespace App\Livewire;
 
 use App\Models\BusinessSector;
 use App\Services\Platform\PlatformService;
-use Core\Enum\PlatformType;
-use Core\Models\Platform as ModelsPlatform;
+use App\Enums\PlatformType;
+use App\Models\Platform as ModelsPlatform;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;

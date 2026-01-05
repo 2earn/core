@@ -79,12 +79,12 @@
                                 </h5>
                                 @php
                                     $statusClass = match($order->status) {
-                                        \Core\Enum\OrderEnum::Ready => 'bg-info-subtle text-info',
-                                        \Core\Enum\OrderEnum::Paid => 'bg-success-subtle text-success',
-                                        \Core\Enum\OrderEnum::Failed => 'bg-danger-subtle text-danger',
-                                        \Core\Enum\OrderEnum::Simulated => 'bg-warning-subtle text-warning',
-                                        \Core\Enum\OrderEnum::New => 'bg-primary-subtle text-primary',
-                                        \Core\Enum\OrderEnum::Dispatched => 'bg-success-subtle text-success',
+                                        \App\Enums\OrderEnum::Ready => 'bg-info-subtle text-info',
+                                        \App\Enums\OrderEnum::Paid => 'bg-success-subtle text-success',
+                                        \App\Enums\OrderEnum::Failed => 'bg-danger-subtle text-danger',
+                                        \App\Enums\OrderEnum::Simulated => 'bg-warning-subtle text-warning',
+                                        \App\Enums\OrderEnum::New => 'bg-primary-subtle text-primary',
+                                        \App\Enums\OrderEnum::Dispatched => 'bg-success-subtle text-success',
                                         default => 'bg-secondary-subtle text-secondary',
                                     };
                                 @endphp
@@ -161,7 +161,7 @@
                             @endif
 
                             <!-- Action Button / Links -->
-                            @if($order->status == \Core\Enum\OrderEnum::Ready)
+                            @if($order->status == \App\Enums\OrderEnum::Ready)
                                 <button wire:click="simulateOrder({{ $order->id }})"
                                         class="btn btn-success w-100"
                                         wire:loading.attr="disabled"
@@ -175,12 +175,12 @@
                                             {{__('Processing...')}}
                                         </span>
                                 </button>
-                            @elseif($order->status == \Core\Enum\OrderEnum::Simulated)
+                            @elseif($order->status == \App\Enums\OrderEnum::Simulated)
                                 <a href="{{ route('orders_simulation', ['locale' => app()->getLocale(), 'id' => $order->id]) }}"
                                    class="btn btn-primary w-100">
                                     <i class="ri-eye-line me-1"></i>{{__('View Simulation Results')}}
                                 </a>
-                            @elseif($order->status == \Core\Enum\OrderEnum::Failed)
+                            @elseif($order->status == \App\Enums\OrderEnum::Failed)
                                 <div class="alert alert-danger mb-0">
                                     <i class="ri-close-circle-line me-1"></i>
                                     {{ __('Order simulation failed') }}

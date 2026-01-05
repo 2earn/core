@@ -16,7 +16,6 @@ class AddAuditingFieldsToFillable extends Command
 
         $directories = [
             'App\Models' => app_path('Models'),
-            'Core\Models' => base_path('Core/Models'),
         ];
 
         $totalUpdated = 0;
@@ -109,7 +108,7 @@ class AddAuditingFieldsToFillable extends Command
 
     protected function addAuditingFieldsToFillable(string $content, string $filename): string
     {
-        
+
         $pattern = '/(protected\s+\$fillable\s*=\s*\[)(.*?)(\];)/s';
 
         if (!preg_match($pattern, $content, $matches)) {

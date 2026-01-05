@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Core\Models\countrie;
+use App\Models\countrie;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasAuditing;

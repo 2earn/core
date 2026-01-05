@@ -2,8 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Enums\BalanceEnum;
 use App\Models\BalanceInjectorCoupon;
-use Core\Enum\BalanceEnum;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Str;
 use Livewire\Component;

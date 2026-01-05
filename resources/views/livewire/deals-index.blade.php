@@ -14,16 +14,16 @@
 
     @if(\App\Models\User::isSuperAdmin())
         <div class="row">
-                <div class="col-12 card  deals-sub-menu">
-                    <div class="card-body d-flex align-items-center justify-content-end">
-                        <div class="d-flex gap-1">
-                            <a href="{{route('deals_all_requests', ['locale' => app()->getLocale()])}}"
-                               class="btn btn-outline-primary">
-                                <i class="fas fa-list me-1"></i>{{__('All Requests')}}
-                            </a>
-                        </div>
+            <div class="col-12 card  deals-sub-menu">
+                <div class="card-body d-flex align-items-center justify-content-end">
+                    <div class="d-flex gap-1">
+                        <a href="{{route('deals_all_requests', ['locale' => app()->getLocale()])}}"
+                           class="btn btn-outline-primary">
+                            <i class="fas fa-list me-1"></i>{{__('All Requests')}}
+                        </a>
                     </div>
                 </div>
+            </div>
         </div>
     @endif
 
@@ -244,7 +244,7 @@
                                     <i class="fas fa-circle-notch me-1"></i>{{__('Status')}}
                                 </p>
                                 <span class="badge bg-primary-subtle text-primary px-2 py-1">
-                                                {{__(strtoupper(\Core\Enum\DealStatus::from($deal->status)->name))}}
+                                                {{__(strtoupper(\App\Enums\DealStatus::from($deal->status)->name))}}
                                             </span>
                             </div>
                         </div>
@@ -254,7 +254,7 @@
                                     <i class="fas fa-tag me-1"></i>{{__('Type')}}
                                 </p>
                                 <span class="badge bg-info-subtle text-info px-2 py-1">
-                                                {{__(\Core\Enum\DealTypeEnum::from($deal->type)->name)}}
+                                                {{__(\App\Enums\DealTypeEnum::from($deal->type)->name)}}
                                             </span>
                             </div>
                         </div>
@@ -357,7 +357,7 @@
                                 </a>
                             @endif
 
-                            @if(\Core\Models\Platform::havePartnerSpecialRole(auth()->user()->id))
+                            @if(\App\Models\Platform::havePartnerSpecialRole(auth()->user()->id))
                                 <a class="btn btn-sm btn-soft-secondary flex-fill"
                                    target="_blank"
                                    title="{{__('For User Role')}}"
@@ -374,7 +374,7 @@
                                 <i class="fas fa-edit me-1"></i>
                                 {{__('Edit')}}
                             </a>
-                            @if($deal->status< \Core\Enum\DealStatus::Opened->value)
+                            @if($deal->status< \App\Enums\DealStatus::Opened->value)
                                 <button class="btn btn-sm btn-soft-success updateDeal flex-fill"
                                         data-status="0"
                                         data-id="{{$deal->id}}"
@@ -402,29 +402,29 @@
                     </div>
                     @if($deal->validated)
                         <div class="d-flex gap-2 flex-wrap mt-2">
-                            @if($deal->status== \Core\Enum\DealStatus::New->value)
+                            @if($deal->status== \App\Enums\DealStatus::New->value)
                                 <button class="btn btn-sm btn-soft-info updateDeal flex-fill"
-                                        data-status="{{\Core\Enum\DealStatus::Opened->value}}"
+                                        data-status="{{\App\Enums\DealStatus::Opened->value}}"
                                         data-id="{{$deal->id}}"
-                                        data-status-name="{{__(\Core\Enum\DealStatus::Opened->name)}}">
+                                        data-status-name="{{__(\App\Enums\DealStatus::Opened->name)}}">
                                     <i class="fas fa-door-open me-1"></i>
                                     {{__('Open')}}
                                 </button>
                             @endif
-                            @if($deal->status== \Core\Enum\DealStatus::Opened->value)
+                            @if($deal->status== \App\Enums\DealStatus::Opened->value)
                                 <button class="btn btn-sm btn-soft-warning updateDeal flex-fill"
-                                        data-status="{{\Core\Enum\DealStatus::Closed->value}}"
+                                        data-status="{{\App\Enums\DealStatus::Closed->value}}"
                                         data-id="{{$deal->id}}"
-                                        data-status-name="{{__(\Core\Enum\DealStatus::Closed->name)}}">
+                                        data-status-name="{{__(\App\Enums\DealStatus::Closed->name)}}">
                                     <i class="fas fa-times-circle me-1"></i>
                                     {{__('Close')}}
                                 </button>
                             @endif
-                            @if($deal->status== \Core\Enum\DealStatus::Closed->value)
+                            @if($deal->status== \App\Enums\DealStatus::Closed->value)
                                 <button class="btn btn-sm btn-soft-secondary updateDeal flex-fill"
-                                        data-status="{{\Core\Enum\DealStatus::Archived->value}}"
+                                        data-status="{{\App\Enums\DealStatus::Archived->value}}"
                                         data-id="{{$deal->id}}"
-                                        data-status-name="{{__(\Core\Enum\DealStatus::Archived->name)}}">
+                                        data-status-name="{{__(\App\Enums\DealStatus::Archived->name)}}">
                                     <i class="fas fa-archive me-1"></i>
                                     {{__('Archive')}}
                                 </button>

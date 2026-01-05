@@ -80,7 +80,7 @@
                                         </div>
                                         <div class="text-end">
                                             <span class="badge badge-soft-primary fs-11" title="{{$user->status}}">
-                                                {{__(\Core\Enum\StatusRequest::from($user->status)->name)}}
+                                                {{__(\App\Enums\StatusRequest::from($user->status)->name)}}
                                             </span>
                                         </div>
                                     </div>

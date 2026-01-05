@@ -13,94 +13,94 @@
     @endcomponent
 
     <div class="row">
-            <div class="col-12 card border-0 shadow-sm overflow-hidden">
-                <div class="bg-soft-primary" style="height: 120px;"></div>
-                <div class="card-body pt-0">
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <div class="d-flex align-items-end mb-3" style="margin-top: -60px;">
+        <div class="col-12 card border-0 shadow-sm overflow-hidden">
+            <div class="bg-soft-primary" style="height: 120px;"></div>
+            <div class="card-body pt-0">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="d-flex align-items-end mb-3" style="margin-top: -60px;">
 
-                                <div class="flex-shrink-0 me-3">
-                                    <div class="avatar-xl border border-4 border-white rounded-circle bg-white shadow">
-                                        @if ($platform?->logoImage)
-                                            <img src="{{ asset('uploads/' . $platform->logoImage->url) }}"
-                                                 class="avatar-xl rounded-circle"
-                                                 alt="{{$platform->name}}">
-                                        @else
-                                            <img src="{{Vite::asset(\Core\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO)}}"
-                                                 class="avatar-xl rounded-circle"
-                                                 alt="{{$platform->name}}">
-                                        @endif
-                                    </div>
-                                </div>
-
-
-                                <div class="flex-grow-1">
-                                    <h3 class="mb-1" title="ID: {{$platform->id}}">
-                                        {{\App\Models\TranslaleModel::getTranslation($platform,'name',$platform->name)}}
-                                        @if($platform->enabled)
-                                            <span class="badge bg-success-subtle text-success align-middle">
-                                                <i class="ri-checkbox-circle-line align-middle"></i> {{__('Enabled')}}
-                                            </span>
-                                        @else
-                                            <span class="badge bg-danger-subtle text-danger align-middle">
-                                                <i class="ri-close-circle-line align-middle"></i> {{__('Disabled')}}
-                                            </span>
-                                        @endif
-                                    </h3>
-                                    <div class="d-flex flex-wrap gap-3 align-items-center">
-                                        @if($platform->type)
-                                            <div class="text-muted">
-                                                <i class="ri-stack-line align-middle me-1"></i>
-                                                <span
-                                                    class="fw-medium">{{__(\Core\Enum\PlatformType::tryFrom($platform->type)->name) ?? 'N/A'}}</span>
-                                            </div>
-                                        @endif
-                                        @if($platform->businessSector)
-                                            <div class="text-muted">
-                                                <i class="ri-building-line align-middle me-1"></i>
-                                                <span class="fw-medium">{{$platform->businessSector->name}}</span>
-                                            </div>
-                                        @endif
-                                        @if($platform->created_at)
-                                            <div class="text-muted">
-                                                <i class="ri-calendar-line align-middle me-1"></i>
-                                                <span>{{__('Joined')}} {{$platform->created_at->format(config('app.date_format'))}}</span>
-                                            </div>
-                                        @endif
-                                    </div>
-                                    @if(\App\Models\User::isSuperAdmin())
-                                        <div class="mt-2">
-                                            <a class="btn btn-sm btn-soft-info"
-                                               href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($platform,'name')])}}">
-                                                <i class="ri-translate-2 align-middle me-1"></i>{{__('Update Translation')}}
-                                            </a>
-                                        </div>
+                            <div class="flex-shrink-0 me-3">
+                                <div class="avatar-xl border border-4 border-white rounded-circle bg-white shadow">
+                                    @if ($platform?->logoImage)
+                                        <img src="{{ asset('uploads/' . $platform->logoImage->url) }}"
+                                             class="avatar-xl rounded-circle"
+                                             alt="{{$platform->name}}">
+                                    @else
+                                        <img src="{{Vite::asset(\App\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO)}}"
+                                             class="avatar-xl rounded-circle"
+                                             alt="{{$platform->name}}">
                                     @endif
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-lg-4 mt-2">
-                            <div class="d-flex justify-content-lg-end mx-2 mt-lg-0">
-                                @if($platform->link)
-                                    <a href="{{$platform->link}}"
-                                       target="_blank"
-                                       class="btn btn-info">
-                                        <i class="ri-external-link-line align-middle me-1"></i>
-                                        {{__('Visit Website')}}
-                                    </a>
+
+                            <div class="flex-grow-1">
+                                <h3 class="mb-1" title="ID: {{$platform->id}}">
+                                    {{\App\Models\TranslaleModel::getTranslation($platform,'name',$platform->name)}}
+                                    @if($platform->enabled)
+                                        <span class="badge bg-success-subtle text-success align-middle">
+                                                <i class="ri-checkbox-circle-line align-middle"></i> {{__('Enabled')}}
+                                            </span>
+                                    @else
+                                        <span class="badge bg-danger-subtle text-danger align-middle">
+                                                <i class="ri-close-circle-line align-middle"></i> {{__('Disabled')}}
+                                            </span>
+                                    @endif
+                                </h3>
+                                <div class="d-flex flex-wrap gap-3 align-items-center">
+                                    @if($platform->type)
+                                        <div class="text-muted">
+                                            <i class="ri-stack-line align-middle me-1"></i>
+                                            <span
+                                                class="fw-medium">{{__(\App\Enums\PlatformType::tryFrom($platform->type)->name) ?? 'N/A'}}</span>
+                                        </div>
+                                    @endif
+                                    @if($platform->businessSector)
+                                        <div class="text-muted">
+                                            <i class="ri-building-line align-middle me-1"></i>
+                                            <span class="fw-medium">{{$platform->businessSector->name}}</span>
+                                        </div>
+                                    @endif
+                                    @if($platform->created_at)
+                                        <div class="text-muted">
+                                            <i class="ri-calendar-line align-middle me-1"></i>
+                                            <span>{{__('Joined')}} {{$platform->created_at->format(config('app.date_format'))}}</span>
+                                        </div>
+                                    @endif
+                                </div>
+                                @if(\App\Models\User::isSuperAdmin())
+                                    <div class="mt-2">
+                                        <a class="btn btn-sm btn-soft-info"
+                                           href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($platform,'name')])}}">
+                                            <i class="ri-translate-2 align-middle me-1"></i>{{__('Update Translation')}}
+                                        </a>
+                                    </div>
                                 @endif
-                                <a href="{{route('platform_create_update',['locale'=>app()->getLocale(), 'id' => $platform->id])}}"
-                                   class="btn btn-soft-secondary">
-                                    <i class="ri-pencil-line align-middle me-1"></i>
-                                    {{__('Edit')}}
-                                </a>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 mt-2">
+                        <div class="d-flex justify-content-lg-end mx-2 mt-lg-0">
+                            @if($platform->link)
+                                <a href="{{$platform->link}}"
+                                   target="_blank"
+                                   class="btn btn-info">
+                                    <i class="ri-external-link-line align-middle me-1"></i>
+                                    {{__('Visit Website')}}
+                                </a>
+                            @endif
+                            <a href="{{route('platform_create_update',['locale'=>app()->getLocale(), 'id' => $platform->id])}}"
+                               class="btn btn-soft-secondary">
+                                <i class="ri-pencil-line align-middle me-1"></i>
+                                {{__('Edit')}}
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     </div>
     <div class="row mt-2">
         <div class="col-xl-3 col-md-6">
@@ -248,21 +248,21 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                        <a href="{{route('platform_create_update',['locale'=>app()->getLocale(), 'id' => $platform->id])}}"
-                           class="btn btn-soft-info mx-2">
-                            <i class="ri-pencil-line align-middle me-1"></i>{{__('Edit Platform')}}
-                        </a>
-                        @if($platform->link)
-                            <a href="{{$platform->link}}"
-                               target="_blank"
-                               class="btn btn-soft-secondary mx-2">
-                                <i class="ri-external-link-line align-middle me-1"></i>{{__('Visit Website')}}
-                            </a>
-                        @endif
-                        <a href="{{route('platform_index',['locale'=>app()->getLocale()])}}"
+                    <a href="{{route('platform_create_update',['locale'=>app()->getLocale(), 'id' => $platform->id])}}"
+                       class="btn btn-soft-info mx-2">
+                        <i class="ri-pencil-line align-middle me-1"></i>{{__('Edit Platform')}}
+                    </a>
+                    @if($platform->link)
+                        <a href="{{$platform->link}}"
+                           target="_blank"
                            class="btn btn-soft-secondary mx-2">
-                            <i class="ri-arrow-left-line align-middle me-1"></i>{{__('Back to List')}}
+                            <i class="ri-external-link-line align-middle me-1"></i>{{__('Visit Website')}}
                         </a>
+                    @endif
+                    <a href="{{route('platform_index',['locale'=>app()->getLocale()])}}"
+                       class="btn btn-soft-secondary mx-2">
+                        <i class="ri-arrow-left-line align-middle me-1"></i>{{__('Back to List')}}
+                    </a>
                 </div>
             </div>
         </div>
@@ -287,7 +287,7 @@
                             @if($platform->type)
                                 <tr>
                                     <td class="text-muted">{{__('Type')}}</td>
-                                    <td class="fw-medium text-end">{{__(\Core\Enum\PlatformType::tryFrom($platform->type)->name) ?? 'N/A'}}</td>
+                                    <td class="fw-medium text-end">{{__(\App\Enums\PlatformType::tryFrom($platform->type)->name) ?? 'N/A'}}</td>
                                 </tr>
                             @endif
                             @if($platform->businessSector)

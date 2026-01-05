@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Enums\BeInstructorRequestStatus;
 use App\Services\InstructorRequestService;
 use App\Services\UserService;
-use Core\Enum\BeInstructorRequestStatus;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
