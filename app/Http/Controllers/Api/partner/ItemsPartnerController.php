@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Notifications\ItemsAddedToDeal;
 use App\Notifications\ItemsRemovedFromDeal;
 use App\Services\Deals\DealService;
+use App\Services\Deals\DealProductChangeService;
 use App\Services\Items\ItemService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -22,11 +23,17 @@ class ItemsPartnerController extends Controller
 
     protected ItemService $itemService;
     protected DealService $dealService;
+    protected DealProductChangeService $changeService;
 
-    public function __construct(ItemService $itemService, DealService $dealService)
+    public function __construct(
+        ItemService $itemService,
+        DealService $dealService,
+        DealProductChangeService $changeService
+    )
     {
         $this->itemService = $itemService;
         $this->dealService = $dealService;
+        $this->changeService = $changeService;
     }
 
     public function store(Request $request)
@@ -202,6 +209,14 @@ class ItemsPartnerController extends Controller
         try {
             $updatedCount = $this->itemService->bulkUpdateDeal($productIds, $dealId);
 
+            $this->changeService->createBulkChanges(
+                $dealId,
+                $productIds,
+                'added',
+                auth()->id(),
+                'Product added to deal via API'
+            );
+
             Log::info(self::LOG_PREFIX . 'Products added to deal', [
                 'deal_id' => $dealId,
                 'product_ids' => $productIds,
@@ -264,6 +279,14 @@ class ItemsPartnerController extends Controller
 
         try {
             $removedCount = $this->itemService->bulkRemoveFromDeal($productIds, $dealId);
+
+            $this->changeService->createBulkChanges(
+                $dealId,
+                $productIds,
+                'removed',
+                auth()->id(),
+                'Product removed from deal via API'
+            );
 
             Log::info(self::LOG_PREFIX . 'Products removed from deal', [
                 'deal_id' => $dealId,
