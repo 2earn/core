@@ -25,12 +25,6 @@ class PartnerPaymentController extends Controller
         $this->partnerPaymentService = $partnerPaymentService;
     }
 
-    /**
-     * Get partner payments list with filtering
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function index(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
@@ -145,13 +139,6 @@ class PartnerPaymentController extends Controller
         }
     }
 
-    /**
-     * Get a single partner payment by ID
-     *
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
-     */
     public function show(Request $request, int $id): JsonResponse
     {
         $validator = Validator::make($request->all(), [
@@ -211,7 +198,6 @@ class PartnerPaymentController extends Controller
         }
     }
 
-
     public function createDemand(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
@@ -241,7 +227,6 @@ class PartnerPaymentController extends Controller
                     'message' => 'User is not a platform partner'
                 ], Response::HTTP_FORBIDDEN);
             }
-
 
             DB::beginTransaction();
 
@@ -285,12 +270,6 @@ class PartnerPaymentController extends Controller
         }
     }
 
-    /**
-     * Get payment statistics for a partner
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function statistics(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
@@ -369,12 +348,6 @@ class PartnerPaymentController extends Controller
         }
     }
 
-    /**
-     * Verify if user is a platform partner
-     *
-     * @param int $userId
-     * @return bool
-     */
     private function verifyUserIsPartner(int $userId): bool
     {
         return DB::table('platforms')
@@ -386,11 +359,6 @@ class PartnerPaymentController extends Controller
             ->exists();
     }
 
-    /**
-     * Generate a security code for financial request
-     *
-     * @return string
-     */
     private function generateSecurityCode(): string
     {
         return strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 8));

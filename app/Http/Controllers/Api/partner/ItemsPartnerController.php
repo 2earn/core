@@ -5,11 +5,15 @@ namespace App\Http\Controllers\Api\partner;
 use App\Http\Controllers\Controller;
 use App\Models\Deal;
 use App\Models\Item;
+use App\Models\User;
+use App\Notifications\ItemsAddedToDeal;
+use App\Notifications\ItemsRemovedFromDeal;
 use App\Services\Deals\DealService;
 use App\Services\Items\ItemService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 
 class ItemsPartnerController extends Controller
@@ -204,6 +208,8 @@ class ItemsPartnerController extends Controller
                 'updated_count' => $updatedCount
             ]);
 
+            $this->notifyPlatformUsers($deal, $updatedCount, $productIds, 'added');
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Products added to deal successfully',
@@ -265,6 +271,8 @@ class ItemsPartnerController extends Controller
                 'removed_count' => $removedCount
             ]);
 
+            $this->notifyPlatformUsers($deal, $removedCount, $productIds, 'removed');
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Products removed from deal successfully',
@@ -284,6 +292,50 @@ class ItemsPartnerController extends Controller
                 'message' => 'Failed to remove products from deal',
                 'error' => $e->getMessage()
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private function notifyPlatformUsers(Deal $deal, int $itemsCount, array $productIds, string $action): void
+    {
+        try {
+            $platform = $deal->platform;
+
+            if (!$platform) {
+                Log::warning(self::LOG_PREFIX . 'Platform not found for deal', [
+                    'deal_id' => $deal->id,
+                    'platform_id' => $deal->platform_id
+                ]);
+                return;
+            }
+
+            $platformUsers = $platform->getPlatformRoleUsers();
+
+            if ($platformUsers->isEmpty()) {
+                Log::info(self::LOG_PREFIX . 'No users found for platform notification', [
+                    'platform_id' => $deal->platform_id
+                ]);
+                return;
+            }
+
+            $notificationClass = $action === 'added' ? ItemsAddedToDeal::class : ItemsRemovedFromDeal::class;
+
+            Notification::send($platformUsers, new $notificationClass($deal, $itemsCount, $productIds));
+
+            Log::info(self::LOG_PREFIX . 'Notifications sent to platform users', [
+                'deal_id' => $deal->id,
+                'platform_id' => $deal->platform_id,
+                'action' => $action,
+                'users_count' => $platformUsers->count(),
+                'user_ids' => $platformUsers->pluck('id')->toArray()
+            ]);
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Failed to send notifications to platform users', [
+                'deal_id' => $deal->id,
+                'platform_id' => $deal->platform_id,
+                'action' => $action,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
         }
     }
 }

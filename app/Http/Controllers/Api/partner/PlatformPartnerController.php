@@ -74,7 +74,7 @@ class PlatformPartnerController extends Controller
         }]);
 
         $platforms->each(function ($platform) {
-            // Use services to get counts
+
             $platform->type_change_requests_count = $this->platformTypeChangeRequestService
                 ->getFilteredQuery(null, null)
                 ->where('platform_id', $platform->id)
@@ -90,7 +90,6 @@ class PlatformPartnerController extends Controller
                 ->where('platform_id', $platform->id)
                 ->count();
 
-            // Get recent requests using services
             $platform->typeChangeRequests = $this->platformTypeChangeRequestService
                 ->getFilteredQuery(null, null)
                 ->where('platform_id', $platform->id)
@@ -112,7 +111,6 @@ class PlatformPartnerController extends Controller
                 ->limit(3)
                 ->get();
         });
-
 
         return response()->json([
             'status' => true,
@@ -192,7 +190,6 @@ class PlatformPartnerController extends Controller
         $data = $validator->validated();
         $data['enabled'] = false;
 
-
         $validationRequest = $this->platformValidationRequestService->createRequest(
             $data['platform_id'],
             $data['owner_id']
@@ -239,7 +236,6 @@ class PlatformPartnerController extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
 
-        // Use services to get requests
         $typeChangeRequests = $this->platformTypeChangeRequestService
             ->getFilteredQuery(null, null)
             ->where('platform_id', $platformId)
@@ -298,7 +294,6 @@ class PlatformPartnerController extends Controller
         $updatedBy = $validatedData['updated_by'];
         unset($validatedData['updated_by']);
 
-        // Filter out only the fields that are actually changing
         $changes = [];
         foreach ($validatedData as $field => $value) {
             if ($platform->{$field} != $value) {
@@ -309,7 +304,6 @@ class PlatformPartnerController extends Controller
             }
         }
 
-        // If no changes, return early
         if (empty($changes)) {
             return response()->json([
                 'status' => 'Failed',
@@ -317,7 +311,6 @@ class PlatformPartnerController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        // Create a change request
         $changeRequest = $this->platformChangeRequestService->createRequest(
             $platform->id,
             $changes,
@@ -513,7 +506,6 @@ class PlatformPartnerController extends Controller
             ], Response::HTTP_FORBIDDEN);
         }
 
-
         Log::info(self::LOG_PREFIX . 'Change request cancelled', [
             'change_request_id' => $changeRequestId,
             'platform_id' => $changeRequest->platform_id
@@ -526,12 +518,6 @@ class PlatformPartnerController extends Controller
         ], Response::HTTP_OK);
     }
 
-    /**
-     * Get top-selling platforms chart data
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function getTopSellingPlatforms(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
