@@ -16,7 +16,7 @@ class DealService
      * Get deals for a partner user with filters
      *
      * @param int $userId
-     * @param int|null $platformId
+     * @param array|null $platformIds
      * @param string|null $search
      * @param int|null $page
      * @param int $perPage
@@ -24,7 +24,7 @@ class DealService
      */
     public function getPartnerDeals(
         int     $userId,
-        ?int    $platformId = null,
+        ?array  $platformIds = null,
         ?string $search = null,
         ?int    $page = null,
         int     $perPage = 5
@@ -41,15 +41,15 @@ class DealService
             });
         }
 
-        $query->whereHas('platform', function ($query) use ($userId, $platformId) {
+        $query->whereHas('platform', function ($query) use ($userId, $platformIds) {
             $query->where(function ($q) use ($userId) {
                 $q->where('marketing_manager_id', $userId)
                     ->orWhere('financial_manager_id', $userId)
                     ->orWhere('owner_id', $userId);
             });
 
-            if ($platformId) {
-                $query->where('platform_id', $platformId);
+            if ($platformIds && !empty($platformIds)) {
+                $query->whereIn('id', $platformIds);
             }
         });
 
@@ -62,13 +62,13 @@ class DealService
      * Get total count of deals for a partner user
      *
      * @param int $userId
-     * @param int|null $platformId
+     * @param array|null $platformIds
      * @param string|null $search
      * @return int
      */
     public function getPartnerDealsCount(
         int     $userId,
-        ?int    $platformId = null,
+        ?array  $platformIds = null,
         ?string $search = null
     ): int
     {
@@ -83,15 +83,15 @@ class DealService
             });
         }
 
-        $query->whereHas('platform', function ($query) use ($userId, $platformId) {
+        $query->whereHas('platform', function ($query) use ($userId, $platformIds) {
             $query->where(function ($q) use ($userId) {
                 $q->where('marketing_manager_id', $userId)
                     ->orWhere('financial_manager_id', $userId)
                     ->orWhere('owner_id', $userId);
             });
 
-            if ($platformId) {
-                $query->where('platform_id', $platformId);
+            if ($platformIds && !empty($platformIds)) {
+                $query->whereIn('id', $platformIds);
             }
         });
 
@@ -452,12 +452,12 @@ class DealService
     }
 
     /**
-     * Get dashboard indicators and progress for deals
+     * Get dashboard indicators for partner deals
      *
      * @param int $userId
      * @param string|null $startDate
      * @param string|null $endDate
-     * @param int|null $platformId
+     * @param array|null $platformIds
      * @param int|null $dealId
      * @return array
      */
@@ -465,7 +465,7 @@ class DealService
         int     $userId,
         ?string $startDate = null,
         ?string $endDate = null,
-        ?int    $platformId = null,
+        ?array  $platformIds = null,
         ?int    $dealId = null
     ): array
     {
@@ -486,8 +486,8 @@ class DealService
             $query->where('end_date', '<=', $endDate);
         }
 
-        if ($platformId) {
-            $query->where('platform_id', $platformId);
+        if ($platformIds && !empty($platformIds)) {
+            $query->whereIn('platform_id', $platformIds);
         }
 
         if ($dealId) {

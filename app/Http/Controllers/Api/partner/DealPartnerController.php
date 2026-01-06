@@ -32,7 +32,8 @@ class DealPartnerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|integer|exists:users,id',
-            'platform_id' => 'nullable|integer|exists:platforms,id',
+            'platform_ids' => 'nullable|array',
+            'platform_ids.*' => 'integer|exists:platforms,id',
             'page' => 'nullable|integer|min:1',
             'limit' => 'nullable|integer|min:1',
             'search' => 'nullable|string|max:255'
@@ -48,20 +49,20 @@ class DealPartnerController extends Controller
         }
 
         $userId = $request->input('user_id');
-        $platformId = $request->input('platform_id');
+        $platformIds = $request->input('platform_ids');
         $page = $request->input('page');
         $limit = $request->input('limit') ?? 8;
         $search = $request->input('search');
 
         $deals = $this->dealService->getPartnerDeals(
             $userId,
-            $platformId,
+            $platformIds,
             $search,
             $page,
             $limit
         );
 
-        $totalCount = $this->dealService->getPartnerDealsCount($userId, $platformId, $search);
+        $totalCount = $this->dealService->getPartnerDealsCount($userId, $platformIds, $search);
 
         $this->dealService->enrichDealsWithRequests($deals);
 
@@ -457,7 +458,8 @@ class DealPartnerController extends Controller
             'user_id' => 'required|integer|exists:users,id',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
-            'platform_id' => 'nullable|integer|exists:platforms,id',
+            'platform_ids' => 'nullable|array',
+            'platform_ids.*' => 'integer|exists:platforms,id',
             'deal_id' => 'nullable|integer|exists:deals,id'
         ]);
 
@@ -473,7 +475,7 @@ class DealPartnerController extends Controller
         $userId = $request->input('user_id');
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
-        $platformId = $request->input('platform_id');
+        $platformIds = $request->input('platform_ids');
         $dealId = $request->input('deal_id');
 
         try {
@@ -481,7 +483,7 @@ class DealPartnerController extends Controller
                 $userId,
                 $startDate,
                 $endDate,
-                $platformId,
+                $platformIds,
                 $dealId
             );
 
@@ -490,7 +492,7 @@ class DealPartnerController extends Controller
                 'filters' => [
                     'start_date' => $startDate,
                     'end_date' => $endDate,
-                    'platform_id' => $platformId,
+                    'platform_ids' => $platformIds,
                     'deal_id' => $dealId
                 ]
             ]);
