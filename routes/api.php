@@ -49,6 +49,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/countries', [App\Http\Controllers\CountriesController::class, 'index'])->name('api_countries');
         Route::get('/settings', [App\Http\Controllers\SettingsController::class, 'index'])->name('api_settings');
         Route::get('/amounts', [App\Http\Controllers\SettingsController::class, 'getAmounts'])->name('api_Amounts');
+
         Route::get('/balance/operations', [App\Http\Controllers\BalancesOperationsController::class, 'index'])->name('api_balance_operations');
         Route::get('/balance/operations/categories', [App\Http\Controllers\BalancesOperationsController::class, 'getCategories'])->name('api_operations_categories');
         Route::get('/action/historys', [App\Http\Controllers\SharesController::class, 'index'])->name('api_action_history');
@@ -174,6 +175,13 @@ Route::prefix('/partner/')->name('api_partner_')
                 Route::get('/{id}', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'show'])->name('show');
                 Route::post('/demand', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'createDemand'])->name('create_demand');
                 Route::get('/statistics/summary', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'statistics'])->name('statistics');
+            });
+
+            Route::prefix('partner-requests')->name('partner_requests_')->group(function () {
+                Route::get('/', [\App\Http\Controllers\Api\Admin\PartnerRequestController::class, 'index'])->name('index');
+                Route::get('/{id}', [\App\Http\Controllers\Api\Admin\PartnerRequestController::class, 'show'])->name('show');
+                Route::post('/', [\App\Http\Controllers\Api\Admin\PartnerRequestController::class, 'store'])->name('store');
+                Route::put('/{id}', [\App\Http\Controllers\Api\Admin\PartnerRequestController::class, 'update'])->name('update');
             });
 
             Route::get('/plan-label', [PlanLabelPartnerController::class, 'index'])->name('deals_plan_label_index');
