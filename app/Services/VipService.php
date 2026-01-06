@@ -80,7 +80,7 @@ class VipService
      * @param int $userId
      * @return bool
      */
-    public function declenchVip(int $userId): bool
+    public function declenchVip($userId): bool
     {
         try {
             return vip::where('idUser', $userId)
@@ -163,6 +163,164 @@ class VipService
                 'error' => $e->getMessage()
             ]);
             return false;
+        }
+    }
+
+    /**
+     * Calculate VIP actions
+     *
+     * @param vip $vip
+     * @param int $totalActions
+     * @param int $maxBonus
+     * @param float $flashCoefficient
+     * @return int
+     */
+    public function calculateVipActions(vip $vip, int $totalActions, int $maxBonus, float $flashCoefficient): int
+    {
+        try {
+            return find_actions(
+                $vip->solde,
+                $totalActions,
+                $maxBonus,
+                $flashCoefficient,
+                $vip->flashCoefficient
+            );
+        } catch (\Exception $e) {
+            Log::error('Error calculating VIP actions', [
+                'vipId' => $vip->id ?? null,
+                'error' => $e->getMessage()
+            ]);
+            return 0;
+        }
+    }
+
+    /**
+     * Calculate VIP benefits
+     *
+     * @param vip $vip
+     * @param int $actions
+     * @param float $actualActionValue
+     * @return float
+     */
+    public function calculateVipBenefits(vip $vip, int $actions, float $actualActionValue): float
+    {
+        try {
+            return ($vip->solde - $actions) * $actualActionValue;
+        } catch (\Exception $e) {
+            Log::error('Error calculating VIP benefits', [
+                'vipId' => $vip->id ?? null,
+                'error' => $e->getMessage()
+            ]);
+            return 0.0;
+        }
+    }
+
+    /**
+     * Calculate VIP cost
+     *
+     * @param vip $vip
+     * @param int $actions
+     * @param float $actualActionValue
+     * @return float
+     */
+    public function calculateVipCost(vip $vip, int $actions, float $actualActionValue): float
+    {
+        try {
+            $denominator = ($actions * $vip->flashCoefficient) + getGiftedActions($actions);
+
+            if ($denominator == 0) {
+                return 0.0;
+            }
+
+            return formatSolde(
+                ($actions * $actualActionValue) / $denominator,
+                2
+            );
+        } catch (\Exception $e) {
+            Log::error('Error calculating VIP cost', [
+                'vipId' => $vip->id ?? null,
+                'error' => $e->getMessage()
+            ]);
+            return 0.0;
+        }
+    }
+
+    /**
+     * Get VIP flash status with formatted date
+     *
+     * @param vip $vip
+     * @return array
+     */
+    public function getVipFlashStatus(vip $vip): array
+    {
+        try {
+            $currentDateTime = new \DateTime();
+            $flashWindowEnd = (new \DateTime($vip->dateFNS))
+                ->add(new \DateInterval('PT' . $vip->flashDeadline . 'H'));
+
+            return [
+                'isFlashActive' => $currentDateTime < $flashWindowEnd,
+                'flashEndDate' => $flashWindowEnd->format('F j, Y G:i:s'),
+                'flashTimes' => $vip->flashCoefficient,
+                'flashPeriod' => $vip->flashDeadline,
+                'flashMinShares' => $vip->flashMinAmount,
+            ];
+        } catch (\Exception $e) {
+            Log::error('Error getting VIP flash status', [
+                'vipId' => $vip->id ?? null,
+                'error' => $e->getMessage()
+            ]);
+            return [
+                'isFlashActive' => false,
+                'flashEndDate' => '',
+                'flashTimes' => 1,
+                'flashPeriod' => 0,
+                'flashMinShares' => -1,
+            ];
+        }
+    }
+
+    /**
+     * Get complete VIP calculations
+     *
+     * @param vip $vip
+     * @param int $totalActions
+     * @param int $maxBonus
+     * @param float $flashCoefficient
+     * @param float $actualActionValue
+     * @return array
+     */
+    public function getVipCalculations(vip $vip, int $totalActions, int $maxBonus, float $flashCoefficient, float $actualActionValue): array
+    {
+        try {
+            $actions = $this->calculateVipActions($vip, $totalActions, $maxBonus, $flashCoefficient);
+            $benefits = $this->calculateVipBenefits($vip, $actions, $actualActionValue);
+            $cost = $this->calculateVipCost($vip, $actions, $actualActionValue);
+            $flashStatus = $this->getVipFlashStatus($vip);
+
+            return [
+                'actions' => $actions,
+                'benefits' => $benefits,
+                'cost' => $cost,
+                'flashStatus' => $flashStatus,
+            ];
+        } catch (\Exception $e) {
+            Log::error('Error getting VIP calculations', [
+                'vipId' => $vip->id ?? null,
+                'error' => $e->getMessage()
+            ]);
+            return [
+                'actions' => 0,
+                'benefits' => 0.0,
+                'cost' => 0.0,
+                'flashStatus' => [
+                    'isFlashActive' => false,
+                    'flashEndDate' => '',
+                    'flashTimes' => 1,
+                    'flashPeriod' => 0,
+                    'flashMinShares' => -1,
+                ],
+            ];
         }
     }
 }

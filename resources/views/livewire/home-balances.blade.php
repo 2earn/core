@@ -263,8 +263,12 @@
                         </p>
                     </div>
                     <a href="{{route('business_hub_trading',app()->getLocale())}}"
-                       class="link-info text-decoration-none float-end float-end @if($flash) btn-flash @endif"
-                       style="transition: all 0.3s ease; border-width: 2px;">{{ __('Buy Shares') }}</a>
+                       class="text-decoration-none float-end @if($flash) btn btn-flash-gold px-4 py-2 fw-bold shadow-lg @else link-info @endif">
+                        @if($flash)
+                            <i class="ri-flashlight-fill me-2 flash-icon-animate"></i>
+                        @endif
+                        <span style="position: relative; z-index: 2;">{{ __('Buy Shares') }}</span>
+                    </a>
                 </div>
             </div>
         </div>

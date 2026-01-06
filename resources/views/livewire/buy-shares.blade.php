@@ -245,23 +245,31 @@
                         </div>
                     @endif
                     <div class="col-12 mt-3">
-                        <div class="hstack gap-2 justify-content-end">
+                        <div class="hstack gap-2 justify-content-end flex-wrap">
                             @if($flash)
-                                <button type="button" class="btn btn-outline-warning d-flex align-items-center gap-2">
-                                    <i class="ri-gift-line"></i>
-                                    <span>{{__('Flash gift')}}: <strong
-                                            class="flash-background ms-1">{{$flashGift}}</strong></span>
+                                <button type="button" id="flash-gift"
+                                        class="btn btn-flash-gift btn-sm d-flex align-items-center gap-2">
+                                    <i class="ri-gift-fill fs-16 flash-gift-icon"></i>
+                                    <span class="d-flex align-items-center gap-2">
+                                        <span style="white-space: nowrap;">{{__('Flash gift')}}:</span>
+                                        <span class="flash-value-badge">{{$flashGift}}</span>
+                                    </span>
                                 </button>
-                                <button type="button" class="btn btn-outline-warning d-flex align-items-center gap-2">
-                                    <i class="ri-money-dollar-circle-line"></i>
-                                    <span>{{__('Flash gain')}}: <strong
-                                            class="flash-background ms-1">{{$flashGain}}$</strong></span>
+
+                                <button type="button" id="flash-gain"
+                                        class="btn btn-flash-gain btn-sm d-flex align-items-center gap-2">
+                                    <i class="ri-money-dollar-circle-fill fs-16 flash-gain-icon"></i>
+                                    <span class="d-flex align-items-center gap-2">
+                                        <span style="white-space: nowrap;">{{__('Flash gain')}}:</span>
+                                        <span class="flash-value-badge">{{$flashGain}}$</span>
+                                    </span>
                                 </button>
                             @endif
                             <button type="button" id="buy-action-submit"
                                     wire:loading.attr="disabled"
                                     wire:target="simulate"
-                                    class="btn @if($flash) btn-warning text-white @else btn-primary @endif btn d-flex align-items-center gap-2">
+                                    class="btn @if($flash) btn-warning text-white @else btn-primary @endif btn d-flex align-items-center gap-2 shadow-sm"
+                                    style="font-weight: 500; padding: 0.5rem 1.25rem; transition: all 0.3s ease;">
                                 <i class="ri-shopping-cart-2-line"></i>
                                 <span>{{ __('Confirm the purchase of shares') }}</span>
                                 <div class="spinner-border spinner-border-sm buy-action-submit-spinner"
