@@ -1278,6 +1278,16 @@
         "valueEs": "Acerca de la operación en efectivo",
         "valueRu": "О денежной операции",
         "valueDe": "Über die Bargeldoperation"
+    },
+    {
+        "name": "Communication Board",
+        "value": "لوحة التواصل",
+        "valueEn": "Communication Board",
+        "valueFr": "Tableau de communication",
+        "valueTr": "İletişim Panosu",
+        "valueEs": "Tablero de comunicación",
+        "valueRu": "Доска объявлений",
+        "valueDe": "Kommunikationstafel"
     }
 ]
 
