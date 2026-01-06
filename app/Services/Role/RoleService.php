@@ -96,7 +96,6 @@ class RoleService
      */
     public function delete(int $id): ?bool
     {
-        // Roles with ID <= 4 are system roles and cannot be deleted
         if ($id <= 4) {
             throw new \Exception('This Role cannot be deleted!');
         }

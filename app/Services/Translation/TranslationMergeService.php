@@ -16,17 +16,14 @@ class TranslationMergeService
     public function mergeTranslations(string $sourcePath, string $languageCode): array
     {
         try {
-            // Validate source file exists
             if (!file_exists($sourcePath)) {
                 return $this->errorResponse("Source file not found: {$sourcePath}");
             }
 
             $targetPath = resource_path("lang/{$languageCode}.json");
 
-            // Create backup
             $backupPath = $this->createBackup($targetPath);
 
-            // Read current translations
             $current = $this->readTranslations($targetPath);
             if ($current === null) {
                 return $this->errorResponse("Could not parse current {$languageCode}.json file");
@@ -34,7 +31,6 @@ class TranslationMergeService
 
             $currentCount = count($current);
 
-            // Read new translations
             $new = $this->readTranslations($sourcePath);
             if ($new === null) {
                 return $this->errorResponse("Could not parse source translations file");
@@ -42,18 +38,14 @@ class TranslationMergeService
 
             $newCount = count($new);
 
-            // Merge arrays - new translations will overwrite existing ones
             $merged = array_merge($current, $new);
 
-            // Sort by key
             ksort($merged);
 
-            // Write back with proper Unicode encoding
             if (!$this->writeTranslations($targetPath, $merged)) {
                 return $this->errorResponse("Could not write to {$languageCode}.json file");
             }
 
-            // Return success with data
             return [
                 'success' => true,
                 'currentCount' => $currentCount,

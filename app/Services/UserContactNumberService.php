@@ -77,10 +77,8 @@ class UserContactNumberService
         try {
             DB::beginTransaction();
 
-            // Deactivate all
             $this->deactivateAllForUser($idUser);
 
-            // Activate specific one
             $this->setAsActiveAndPrimary($contactId);
 
             DB::commit();
@@ -107,10 +105,7 @@ class UserContactNumberService
         try {
             DB::beginTransaction();
 
-            // Deactivate all
             $this->deactivateAllForUser($idUser);
-
-            // Activate the new one
             $this->setAsActiveAndPrimary($newContactId);
 
             DB::commit();

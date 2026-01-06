@@ -59,7 +59,6 @@ class SmsService
                     DB::raw('(SELECT CONCAT(IFNULL(mu.enFirstName, ""), " ", IFNULL(mu.enLastName, "")) FROM users u LEFT JOIN metta_users mu ON u.idUser = mu.idUser WHERE u.id = sms.created_by LIMIT 1) as user_name')
                 );
 
-            // Apply filters
             if (!empty($filters['date_from'])) {
                 $query->whereDate('sms.created_at', '>=', $filters['date_from']);
             }
@@ -109,7 +108,6 @@ class SmsService
                 DB::raw('(SELECT CONCAT(IFNULL(mu.enFirstName, ""), " ", IFNULL(mu.enLastName, "")) FROM users u LEFT JOIN metta_users mu ON u.idUser = mu.idUser WHERE u.id = sms.created_by LIMIT 1) as user_name')
             );
 
-        // Apply filters
         if (!empty($filters['date_from'])) {
             $query->whereDate('sms.created_at', '>=', $filters['date_from']);
         }

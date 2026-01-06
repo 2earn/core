@@ -21,12 +21,10 @@ class AssignPlatformRoleService
         $query = AssignPlatformRole::with(['platform', 'user'])
             ->orderBy('created_at', 'desc');
 
-        // Filter by status
         if (!empty($filters['status']) && $filters['status'] !== 'all') {
             $query->where('status', $filters['status']);
         }
 
-        // Filter by search
         if (!empty($filters['search'])) {
             $query->where(function($q) use ($filters) {
                 $q->whereHas('user', function($userQuery) use ($filters) {
@@ -57,7 +55,6 @@ class AssignPlatformRoleService
 
             $assignment = AssignPlatformRole::findOrFail($assignmentId);
 
-            // Check if already processed
             if ($assignment->status !== AssignPlatformRole::STATUS_PENDING) {
                 return [
                     'success' => false,
@@ -65,7 +62,6 @@ class AssignPlatformRoleService
                 ];
             }
 
-            // Update platform with the new role assignment
             $platform = Platform::findOrFail($assignment->platform_id);
 
             switch ($assignment->role) {
@@ -85,7 +81,6 @@ class AssignPlatformRoleService
             $platform->updated_by = $approvedBy;
             $platform->save();
 
-            // Update assignment status
             $assignment->status = AssignPlatformRole::STATUS_APPROVED;
             $assignment->updated_by = $approvedBy;
             $assignment->save();
@@ -136,7 +131,6 @@ class AssignPlatformRoleService
 
             $assignment = AssignPlatformRole::findOrFail($assignmentId);
 
-            // Check if already processed
             if ($assignment->status !== AssignPlatformRole::STATUS_PENDING) {
                 return [
                     'success' => false,
@@ -144,13 +138,11 @@ class AssignPlatformRoleService
                 ];
             }
 
-            // Update assignment status
             $assignment->status = AssignPlatformRole::STATUS_REJECTED;
             $assignment->rejection_reason = $rejectionReason;
             $assignment->updated_by = $rejectedBy;
             $assignment->save();
 
-            // Send notification to user
             if ($assignment->user) {
                 $assignment->user->notify(new \App\Notifications\PlatformRoleAssignmentRejected(
                     $assignment->platform,

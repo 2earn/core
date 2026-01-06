@@ -90,7 +90,6 @@ class PartnerPaymentService
 
             $payment->validate($validatorId);
 
-            // Notify the partner about payment validation
             if ($payment->partner) {
                 $payment->partner->notify(new PartnerPaymentValidated($payment));
             }
@@ -131,7 +130,6 @@ class PartnerPaymentService
 
             $payment->reject($rejectorId, $reason);
 
-            // Notify the partner about payment rejection
             if ($payment->partner) {
                 $payment->partner->notify(new PartnerPaymentRejected($payment));
             }
@@ -205,7 +203,6 @@ class PartnerPaymentService
     {
         $query = PartnerPayment::with(['partner', 'validator', 'rejector']);
 
-        // If not super admin, only show payments where user is the receiver (partner)
         if (!\App\Models\User::isSuperAdmin()) {
             $query->where('partner_id', auth()->id());
         }

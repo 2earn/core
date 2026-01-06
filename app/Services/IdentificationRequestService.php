@@ -198,33 +198,27 @@ class IdentificationRequestService
         try {
             DB::beginTransaction();
 
-            // Get the in-progress request
             $requestIdentification = $this->getInProgressRequestByUserId($idUser);
             if (!$requestIdentification) {
                 Log::warning('No in-progress identification request found for user', ['idUser' => $idUser]);
                 return false;
             }
 
-            // Get user
             $user = User::where('idUser', $idUser)->first();
             if (!$user) {
                 Log::warning('User not found', ['idUser' => $idUser]);
                 return false;
             }
 
-            // Determine new status
             $userStatus = StatusRequest::OptValidated->value;
             if ($user->status == StatusRequest::InProgressInternational->value) {
                 $userStatus = StatusRequest::ValidNational->value;
             }
 
-            // Update the identification request
             $this->updateIdentity($requestIdentification, $userStatus, 1, $note);
 
-            // Update user status
             User::where('idUser', $idUser)->update(['status' => $userStatus]);
 
-            // Handle notification if user opted in
             if ($user->iden_notif == 1) {
                 $uMetta = metta_user::where('idUser', $idUser)->first();
                 $lang = app()->getLocale();
@@ -234,7 +228,6 @@ class IdentificationRequestService
                     $lang = $language?->PrefixLanguage ?? $lang;
                 }
 
-                // Call the notification callback
                 $notifyCallback($user->id, TypeEventNotificationEnum::RequestDenied, [
                     'msg' => $note,
                     'type' => TypeNotificationEnum::SMS,
@@ -268,34 +261,28 @@ class IdentificationRequestService
         try {
             DB::beginTransaction();
 
-            // Get the in-progress request
             $requestIdentification = $this->getInProgressRequestByUserId($idUser);
             if (!$requestIdentification) {
                 Log::warning('No in-progress identification request found for validation', ['idUser' => $idUser]);
                 return false;
             }
 
-            // Get user
             $user = User::where('idUser', $idUser)->first();
             if (!$user) {
                 Log::warning('User not found for validation', ['idUser' => $idUser]);
                 return false;
             }
 
-            // Get new status from callback
             $newStatus = $getNewValidatedStatusCallback($idUser);
             if (!$newStatus) {
                 Log::warning('Unable to determine new validated status', ['idUser' => $idUser]);
                 return false;
             }
 
-            // Update the identification request
             $this->updateIdentity($requestIdentification, $newStatus, 1, null);
 
-            // Update user status
             User::where('idUser', $idUser)->update(['status' => $newStatus]);
 
-            // Handle notification if user opted in
             if ($user->iden_notif == 1) {
                 $uMetta = metta_user::where('idUser', $idUser)->first();
                 $lang = app()->getLocale();
@@ -305,7 +292,6 @@ class IdentificationRequestService
                     $lang = $language?->PrefixLanguage ?? $lang;
                 }
 
-                // Call the notification callback
                 $notifyCallback($user->id, TypeEventNotificationEnum::RequestAccepted, [
                     'msg' => " ",
                     'type' => TypeNotificationEnum::SMS,

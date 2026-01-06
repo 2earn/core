@@ -194,10 +194,8 @@ class UserService
      */
     public function getAuthUserById($id): ?AuthenticatedUser
     {
-        // Try to get user by primary ID
         $user = $this->userRepository->getUserById($id);
 
-        // If not found, try by idUser (business ID)
         if (!$user) {
             $user = User::where('idUser', $id)->first();
             if (!$user) {
@@ -205,12 +203,10 @@ class UserService
             }
         }
 
-        // Get metta user data
         $userMetta = $this->userRepository->getAllMettaUser()
             ->where('idUser', '=', $user->idUser)
             ->first();
 
-        // Build authenticated user object
         $userAuth = new AuthenticatedUser();
         $userAuth->id = $user->id;
         $userAuth->idUser = $user->idUser;

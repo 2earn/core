@@ -22,12 +22,10 @@ class ItemService
     {
         $query = Item::query();
 
-        // Apply search filter
         if (!is_null($search) && !empty($search)) {
             $query->where('name', 'like', '%' . $search . '%');
         }
 
-        // Order by created date descending
         $query->orderBy('created_at', 'desc');
 
         return $query->paginate($perPage);
@@ -92,13 +90,11 @@ class ItemService
             return;
         }
 
-        // Delete existing image if present
         if (!is_null($item->thumbnailsImage)) {
             Storage::disk('public2')->delete($item->thumbnailsImage->url);
             $item->thumbnailsImage()->delete();
         }
 
-        // Store new image
         $imagePath = $image->store('business-sectors/' . Item::IMAGE_TYPE_THUMBNAILS, 'public2');
         $item->thumbnailsImage()->create([
             'url' => $imagePath,
