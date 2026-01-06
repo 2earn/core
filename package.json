@@ -2,7 +2,7 @@
     "type": "module",
     "private": true,
     "name": "2earn",
-    "version": "6.0.0.0",
+    "version": "7.0.0.0",
     "author": "2earn Team",
     "scripts": {
         "dev": "vite",
