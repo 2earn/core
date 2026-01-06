@@ -1238,6 +1238,26 @@
         "valueEs": "Completar pedido",
         "valueRu": "Завершить заказ",
         "valueDe": "Bestellung abschließen"
+    },
+    {
+        "name": "Good Afternoon",
+        "value": "مساء الخير",
+        "valueEn": "Good Afternoon",
+        "valueFr": "Bon après-midi",
+        "valueTr": "İyi öğleden sonralar",
+        "valueEs": "Buenas tardes",
+        "valueRu": "Добрый день",
+        "valueDe": "Guten Tag"
+    },
+    {
+        "name": "Edit translation succeeded",
+        "value": "نجح تعديل الترجمة",
+        "valueEn": "Edit translation succeeded",
+        "valueFr": "Modification de la traduction réussie",
+        "valueTr": "Çeviri düzenleme başarılı",
+        "valueEs": "Edición de traducción exitosa",
+        "valueRu": "Редактирование перевода выполнено успешно",
+        "valueDe": "Übersetzungsbearbeitung erfolgreich"
     }
 ]
 
