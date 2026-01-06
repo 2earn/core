@@ -210,10 +210,8 @@ class OrderService
     ): array
     {
         try {
-            // Base query for orders
             $query = Order::query();
 
-            // Apply date filters
             if ($startDate) {
                 $query->where('payment_datetime', '>=', $startDate);
             }
@@ -222,12 +220,10 @@ class OrderService
                 $query->where('payment_datetime', '<=', $endDate);
             }
 
-            // Apply user filter
             if ($userId) {
                 $query->where('user_id', $userId);
             }
 
-            // Filter by deal or product through order_details -> items
             if ($dealId || $productId) {
                 $query->whereHas('OrderDetails', function ($q) use ($dealId, $productId) {
                     $q->whereHas('item', function ($itemQuery) use ($dealId, $productId) {
@@ -241,13 +237,10 @@ class OrderService
                 });
             }
 
-            // Clone query for different calculations
             $baseQuery = clone $query;
 
-            // Total orders count
             $totalOrders = $query->count();
 
-            // Orders by status
             $ordersByStatus = (clone $baseQuery)
                 ->select('status', DB::raw('COUNT(*) as count'))
                 ->groupBy('status')
@@ -256,24 +249,19 @@ class OrderService
                     return [$item->status->value => $item->count];
                 });
 
-            // Total revenue (sum of total_order)
             $totalRevenue = (clone $baseQuery)
                 ->sum('total_order') ?? 0;
 
-            // Total paid amount
             $totalPaid = (clone $baseQuery)
                 ->whereNotNull('payment_datetime')
                 ->sum('paid_cash') ?? 0;
 
-            // Total items sold (sum of quantities)
             $totalItemsSold = (clone $baseQuery)
                 ->join('order_details', 'orders.id', '=', 'order_details.order_id')
                 ->sum('order_details.qty') ?? 0;
 
-            // Average order value
             $averageOrderValue = $totalOrders > 0 ? round($totalRevenue / $totalOrders, 2) : 0;
 
-            // Orders by deal (top 10)
             $ordersByDeal = DB::table('orders')
                 ->join('order_details', 'orders.id', '=', 'order_details.order_id')
                 ->join('items', 'order_details.item_id', '=', 'items.id')
@@ -302,7 +290,6 @@ class OrderService
                 ->limit(10)
                 ->get();
 
-            // Top products
             $topProducts = DB::table('orders')
                 ->join('order_details', 'orders.id', '=', 'order_details.order_id')
                 ->join('items', 'order_details.item_id', '=', 'items.id')
@@ -334,7 +321,6 @@ class OrderService
                 ->limit(10)
                 ->get();
 
-            // Recent orders list
             $ordersList = Order::query()
                 ->when($startDate, function ($q) use ($startDate) {
                     return $q->where('payment_datetime', '>=', $startDate);

@@ -136,7 +136,7 @@ class PlatformService
             return Platform::where('business_sector_id', $businessSectorId)
                 ->where('enabled', true)
                 ->whereHas('deals', function ($query) {
-                    $query->where('status', 2) // DealStatus::Opened = 2
+                    $query->where('status', 2)
                         ->where('validated', true);
                 })
                 ->with(['deals' => function ($query) {
@@ -165,7 +165,7 @@ class PlatformService
                 ->where('enabled', true)
                 ->with(['items' => function ($query) {
                     $query->whereHas('deal', function ($dealQuery) {
-                        $dealQuery->where('status', 2) // DealStatus::Opened = 2
+                        $dealQuery->where('status', 2)
                             ->where('validated', true);
                     });
                 }])
@@ -200,7 +200,6 @@ class PlatformService
         try {
             $query = Platform::with(['businessSector', 'deals']);
 
-            // Search filter
             if (!empty($search)) {
                 $query->where(function ($q) use ($search) {
                     $q->where('name', 'like', '%' . $search . '%')
@@ -209,17 +208,14 @@ class PlatformService
                 });
             }
 
-            // Business sector filter
             if (!empty($businessSectors)) {
                 $query->whereIn('business_sector_id', $businessSectors);
             }
 
-            // Type filter
             if (!empty($types)) {
                 $query->whereIn('type', $types);
             }
 
-            // Enabled filter
             if (!empty($enabled)) {
                 $enabledValues = array_map(function ($val) {
                     return $val === 'true' || $val === '1' || $val === 1;
@@ -303,7 +299,6 @@ class PlatformService
                     ->orWhere('financial_manager_id', $userId);
             });
 
-            // Apply search filter
             if (!empty($search)) {
                 $query->where(function ($q) use ($search) {
                     $q->where('name', 'like', '%' . $search . '%')
@@ -312,16 +307,13 @@ class PlatformService
                 });
             }
 
-            // Get total count
             $totalCount = $query->count();
 
-            // Apply pagination
             if ($page !== null && $page > 0) {
                 $offset = ($page - 1) * $limit;
                 $query->skip($offset)->take($limit);
             }
 
-            // Get platforms with relations
             $platforms = $query->with([
                 'businessSector',
                 'deals',

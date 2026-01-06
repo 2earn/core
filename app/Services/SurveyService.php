@@ -120,14 +120,12 @@ class SurveyService
         try {
             $query = Survey::where('status', '=', StatusSurvey::ARCHIVED->value);
 
-            // Apply search filter if provided
             if (!empty($search)) {
                 $query->where('name', 'like', '%' . $search . '%');
             }
 
             $surveys = $query->get();
 
-            // Filter surveys that can be shown after archiving
             return $surveys->filter(function ($survey) {
                 return $survey->canShowAfterArchiving();
             })->values();
@@ -217,7 +215,6 @@ class SurveyService
                     $query->where('name', 'like', '%' . $search . '%');
                 }
 
-                // Get surveys and filter by canShow()
                 $surveys = $query->orderBy('created_at', 'DESC')->get();
                 return $surveys->filter(function ($survey) {
                     return $survey->canShow();

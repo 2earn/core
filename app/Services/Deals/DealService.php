@@ -707,17 +707,14 @@ class DealService
         $endDate = \Carbon\Carbon::parse($dealEndDate);
         $currentDate = \Carbon\Carbon::now();
 
-        // If current date is before start date
         if ($currentDate->lt($startDate)) {
             return 0;
         }
 
-        // If current date is after end date
         if ($currentDate->gt($endDate)) {
             return 100;
         }
 
-        // Calculate percentage of time elapsed
         $totalDuration = $startDate->diffInDays($endDate);
         $elapsedDuration = $startDate->diffInDays($currentDate);
 

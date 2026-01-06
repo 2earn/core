@@ -34,12 +34,10 @@ class BusinessSectorService
         try {
             $query = BusinessSector::query();
 
-            // Handle eager loading of relationships
             if (isset($params['with']) && is_array($params['with'])) {
                 $query->with($params['with']);
             }
 
-            // Handle search
             if (isset($params['search']) && !empty($params['search'])) {
                 $search = $params['search'];
                 $query->where(function ($q) use ($search) {
@@ -48,19 +46,16 @@ class BusinessSectorService
                 });
             }
 
-            // Handle ordering
             if (isset($params['order_by'])) {
                 $orderDirection = $params['order_direction'] ?? 'asc';
                 $query->orderBy($params['order_by'], $orderDirection);
             }
 
-            // Handle pagination
             if (isset($params['PAGE_SIZE'])) {
                 $page = $params['page'] ?? 1;
                 return $query->paginate($params['PAGE_SIZE'], ['*'], 'page', $page);
             }
 
-            // Return collection if no pagination
             return $query->get();
         } catch (\Exception $e) {
             Log::error('Error fetching business sectors: ' . $e->getMessage(), [

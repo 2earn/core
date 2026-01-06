@@ -78,7 +78,6 @@ class HashtagService
     public function createHashtag(array $data): ?Hashtag
     {
         try {
-            // Generate slug if not provided
             if (empty($data['slug']) && !empty($data['name'])) {
                 $data['slug'] = Str::slug($data['name']);
             }
@@ -102,7 +101,6 @@ class HashtagService
         try {
             $hashtag = Hashtag::findOrFail($id);
 
-            // Generate slug if name is updated
             if (!empty($data['name']) && empty($data['slug'])) {
                 $data['slug'] = Str::slug($data['name']);
             }
