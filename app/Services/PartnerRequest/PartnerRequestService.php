@@ -68,7 +68,7 @@ class PartnerRequestService
      * @param int $userId
      * @return bool
      */
-    public function hasInProgressRequest(int $userId): bool
+    public function hasInProgressRequest($userId): bool
     {
         try {
             return PartnerRequest::where('user_id', $userId)
