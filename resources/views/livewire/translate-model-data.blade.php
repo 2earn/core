@@ -187,22 +187,17 @@
                 <div class="row g-3">
                     @foreach ($translates as $value)
                         <div class="col-12">
-                            <div class="card border shadow-sm">
+                            <div class="card border shadow-sm translate-item">
                                 <div class="card-header bg-light">
                                     <div
-                                        class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
-
-                                        <div class="d-flex gap-2 w-100 w-md-auto flex-shrink-0">
-                                            <button type="button" wire:click="initTranslate({{$value->id}})"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#editTranslationModal"
-                                                    class="btn btn-info btn-sm flex-fill flex-md-grow-0">
-                                                <i class="ri-edit-line me-1"></i>{{__('Edit')}}
-                                            </button>
-                                            <button type="button" onclick="confirmDelete({{$value->id}})"
-                                                    class="btn btn-danger btn-sm flex-fill flex-md-grow-0">
-                                                <i class="ri-delete-bin-line me-1"></i>{{__('Delete')}}
-                                            </button>
+                                        class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 text-muted small">
+                                        <div>
+                                            <i class="ri-add-line me-1"></i>
+                                            <span>{{__('Created')}}: {{ \Carbon\Carbon::parse($value->created_at)->format(config('app.date_format')) }}</span>
+                                        </div>
+                                        <div>
+                                            <i class="ri-edit-2-line me-1"></i>
+                                            <span>{{__('Updated')}}: {{ \Carbon\Carbon::parse($value->updated_at)->format(config('app.date_format')) }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -376,14 +371,19 @@
                                 </div>
                                 <div class="card-footer bg-light">
                                     <div
-                                        class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 text-muted small">
-                                        <div>
-                                            <i class="ri-add-line me-1"></i>
-                                            <span>{{__('Created')}}: {{ \Carbon\Carbon::parse($value->created_at)->format(config('app.date_format')) }}</span>
-                                        </div>
-                                        <div>
-                                            <i class="ri-edit-2-line me-1"></i>
-                                            <span>{{__('Updated')}}: {{ \Carbon\Carbon::parse($value->updated_at)->format(config('app.date_format')) }}</span>
+                                        class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+
+                                        <div class="d-flex gap-2 w-100 w-md-auto flex-shrink-0">
+                                            <button type="button" wire:click="initTranslate({{$value->id}})"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#editTranslationModal"
+                                                    class="btn btn-info btn-sm flex-fill flex-md-grow-0">
+                                                <i class="ri-edit-line me-1"></i>{{__('Edit')}}
+                                            </button>
+                                            <button type="button" onclick="confirmDelete({{$value->id}})"
+                                                    class="btn btn-danger btn-sm flex-fill flex-md-grow-0">
+                                                <i class="ri-delete-bin-line me-1"></i>{{__('Delete')}}
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
