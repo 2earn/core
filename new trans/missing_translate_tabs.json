@@ -4428,5 +4428,165 @@
         "valueEs":  "Your instructor request is sent",
         "valueRu":  "Your instructor request is sent",
         "valueDe":  "Your instructor request is sent"
+    },
+    {
+        "name":  "Actually is vip",
+        "value":  "Actually is vip",
+        "valueEn":  "Actually is vip",
+        "valueFr":  "Actually is vip",
+        "valueTr":  "Actually is vip",
+        "valueEs":  "Actually is vip",
+        "valueRu":  "Actually is vip",
+        "valueDe":  "Actually is vip"
+    },
+    {
+        "name":  "Business sector operation canceled",
+        "value":  "Business sector operation canceled",
+        "valueEn":  "Business sector operation canceled",
+        "valueFr":  "Business sector operation canceled",
+        "valueTr":  "Business sector operation canceled",
+        "valueEs":  "Business sector operation canceled",
+        "valueRu":  "Business sector operation canceled",
+        "valueDe":  "Business sector operation canceled"
+    },
+    {
+        "name":  "Choice operation canceled",
+        "value":  "Choice operation canceled",
+        "valueEn":  "Choice operation canceled",
+        "valueFr":  "Choice operation canceled",
+        "valueTr":  "Choice operation canceled",
+        "valueEs":  "Choice operation canceled",
+        "valueRu":  "Choice operation canceled",
+        "valueDe":  "Choice operation canceled"
+    },
+    {
+        "name":  "Condition operation canceled",
+        "value":  "Condition operation canceled",
+        "valueEn":  "Condition operation canceled",
+        "valueFr":  "Condition operation canceled",
+        "valueTr":  "Condition operation canceled",
+        "valueEs":  "Condition operation canceled",
+        "valueRu":  "Condition operation canceled",
+        "valueDe":  "Condition operation canceled"
+    },
+    {
+        "name":  "Coupons operation canceled",
+        "value":  "Coupons operation canceled",
+        "valueEn":  "Coupons operation canceled",
+        "valueFr":  "Coupons operation canceled",
+        "valueTr":  "Coupons operation canceled",
+        "valueEs":  "Coupons operation canceled",
+        "valueRu":  "Coupons operation canceled",
+        "valueDe":  "Coupons operation canceled"
+    },
+    {
+        "name":  "Deal operation canceled",
+        "value":  "Deal operation canceled",
+        "valueEn":  "Deal operation canceled",
+        "valueFr":  "Deal operation canceled",
+        "valueTr":  "Deal operation canceled",
+        "valueEs":  "Deal operation canceled",
+        "valueRu":  "Deal operation canceled",
+        "valueDe":  "Deal operation canceled"
+    },
+    {
+        "name":  "Create request",
+        "value":  "Create request",
+        "valueEn":  "Create request",
+        "valueFr":  "Create request",
+        "valueTr":  "Create request",
+        "valueEs":  "Create request",
+        "valueRu":  "Create request",
+        "valueDe":  "Create request"
+    },
+    {
+        "name":  "Group Created Successfully",
+        "value":  "Group Created Successfully",
+        "valueEn":  "Group Created Successfully",
+        "valueFr":  "Group Created Successfully",
+        "valueTr":  "Group Created Successfully",
+        "valueEs":  "Group Created Successfully",
+        "valueRu":  "Group Created Successfully",
+        "valueDe":  "Group Created Successfully"
+    },
+    {
+        "name":  "Platform Created Successfully",
+        "value":  "Platform Created Successfully",
+        "valueEn":  "Platform Created Successfully",
+        "valueFr":  "Platform Created Successfully",
+        "valueTr":  "Platform Created Successfully",
+        "valueEs":  "Platform Created Successfully",
+        "valueRu":  "Platform Created Successfully",
+        "valueDe":  "Platform Created Successfully"
+    },
+    {
+        "name":  "Something goes wrong while creating Condition",
+        "value":  "Something goes wrong while creating Condition",
+        "valueEn":  "Something goes wrong while creating Condition",
+        "valueFr":  "Something goes wrong while creating Condition",
+        "valueTr":  "Something goes wrong while creating Condition",
+        "valueEs":  "Something goes wrong while creating Condition",
+        "valueRu":  "Something goes wrong while creating Condition",
+        "valueDe":  "Something goes wrong while creating Condition"
+    },
+    {
+        "name":  "Something goes wrong while creating Group",
+        "value":  "Something goes wrong while creating Group",
+        "valueEn":  "Something goes wrong while creating Group",
+        "valueFr":  "Something goes wrong while creating Group",
+        "valueTr":  "Something goes wrong while creating Group",
+        "valueEs":  "Something goes wrong while creating Group",
+        "valueRu":  "Something goes wrong while creating Group",
+        "valueDe":  "Something goes wrong while creating Group"
+    },
+    {
+        "name":  "Something goes wrong while creating Platform",
+        "value":  "Something goes wrong while creating Platform",
+        "valueEn":  "Something goes wrong while creating Platform",
+        "valueFr":  "Something goes wrong while creating Platform",
+        "valueTr":  "Something goes wrong while creating Platform",
+        "valueEs":  "Something goes wrong while creating Platform",
+        "valueRu":  "Something goes wrong while creating Platform",
+        "valueDe":  "Something goes wrong while creating Platform"
+    },
+    {
+        "name":  "Something goes wrong while creating Role",
+        "value":  "Something goes wrong while creating Role",
+        "valueEn":  "Something goes wrong while creating Role",
+        "valueFr":  "Something goes wrong while creating Role",
+        "valueTr":  "Something goes wrong while creating Role",
+        "valueEs":  "Something goes wrong while creating Role",
+        "valueRu":  "Something goes wrong while creating Role",
+        "valueDe":  "Something goes wrong while creating Role"
+    },
+    {
+        "name":  "Something goes wrong while creating Target",
+        "value":  "Something goes wrong while creating Target",
+        "valueEn":  "Something goes wrong while creating Target",
+        "valueFr":  "Something goes wrong while creating Target",
+        "valueTr":  "Something goes wrong while creating Target",
+        "valueEs":  "Something goes wrong while creating Target",
+        "valueRu":  "Something goes wrong while creating Target",
+        "valueDe":  "Something goes wrong while creating Target"
+    },
+    {
+        "name":  "Something goes wrong while updating Condition",
+        "value":  "Something goes wrong while updating Condition",
+        "valueEn":  "Something goes wrong while updating Condition",
+        "valueFr":  "Something goes wrong while updating Condition",
+        "valueTr":  "Something goes wrong while updating Condition",
+        "valueEs":  "Something goes wrong while updating Condition",
+        "valueRu":  "Something goes wrong while updating Condition",
+        "valueDe":  "Something goes wrong while updating Condition"
+    },
+    {
+        "name":  "Something goes wrong while updating Group",
+        "value":  "Something goes wrong while updating Group",
+        "valueEn":  "Something goes wrong while updating Group",
+        "valueFr":  "Something goes wrong while updating Group",
+        "valueTr":  "Something goes wrong while updating Group",
+        "valueEs":  "Something goes wrong while updating Group",
+        "valueRu":  "Something goes wrong while updating Group",
+        "valueDe":  "Something goes wrong while updating Group"
     }
 ]
