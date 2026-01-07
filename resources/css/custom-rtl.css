@@ -41,58 +41,47 @@
 }
 
 
-/* News Item Card Styles */
-.news-item {
-    background: linear-gradient(135deg, #e0f7ff 0%, #b3e5fc 75%);
-    border-left: 4px solid #0dcaf0;
+.news-item,
+.event-item,
+.survey-item {
     transition: all 0.3s ease;
+    border-radius: 0.5rem;
+}
+
+/* News Item - Blue accent - RTL */
+.news-item {
+    border-right: 5px solid #0d6efd;
+    border-left: none;
 }
 
 .news-item:hover {
-    box-shadow: 0 8px 16px rgba(13, 202, 240, 0.3);
+    box-shadow: 0 8px 16px rgba(13, 110, 253, 0.25);
     transform: translateY(-2px);
+    border-right-color: #0a58ca;
 }
 
-
-/* Event Item Card Styles */
+/* Event Item - Red/Pink accent - RTL */
 .event-item {
-    background: linear-gradient(135deg, #ffebee 0%, #fce4ec 75%);
-    border-right: 4px solid #ef9a9a;
+    border-right: 5px solid #dc3545;
     border-left: none;
-    transition: all 0.3s ease;
 }
 
 .event-item:hover {
-    box-shadow: 0 8px 16px rgba(239, 154, 154, 0.3);
+    box-shadow: 0 8px 16px rgba(220, 53, 69, 0.25);
     transform: translateY(-2px);
+    border-right-color: #b02a37;
 }
 
-
-/* Survey Item Card Styles */
+/* Survey Item - Orange/Amber accent - RTL */
 .survey-item {
-    background: linear-gradient(135deg, #fffbf5 0%, #fef6ed 75%);
-    border-right: 4px solid #e8d4b8;
+    border-right: 5px solid #fd7e14;
     border-left: none;
-    transition: all 0.3s ease;
 }
 
 .survey-item:hover {
-    box-shadow: 0 8px 16px rgba(232, 212, 184, 0.3);
+    box-shadow: 0 8px 16px rgba(253, 126, 20, 0.25);
     transform: translateY(-2px);
-}
-
-.survey-item .card-header, .news-item .card-header, .event-item .card-header {
-    background-color: transparent !important;
-    border-bottom: 1px solid rgba(255, 152, 0, 0.2);
-}
-
-.survey-item .card-body, .news-item .card-body, .event-item .card-body {
-    background-color: transparent !important;
-}
-
-.survey-item .card-footer, .news-item .card-footer, .event-item .card-footer {
-    background-color: transparent !important;
-    border-top: 1px solid rgba(255, 152, 0, 0.2);
+    border-right-color: #ca6510;
 }
 
 

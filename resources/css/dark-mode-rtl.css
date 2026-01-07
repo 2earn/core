@@ -98,36 +98,44 @@
 }
 
 /* News Item Card - Dark Mode RTL */
+/* Unified Item Card Styles - Dark Mode RTL - Same background, different accents */
+[data-layout-mode="dark"] .news-item,
+[data-layout-mode="dark"] .event-item,
+[data-layout-mode="dark"] .survey-item {
+    background: linear-gradient(135deg, #2a2e33 0%, #1f2226 75%);
+}
+
+/* News Item - Blue accent - Dark Mode RTL */
 [data-layout-mode="dark"] .news-item {
-    background: linear-gradient(135deg, #1e3a4c 0%, #1a2f3d 75%);
-    border-right: 4px solid #4a90b5;
+    border-right: 5px solid #4d96ff;
     border-left: none;
 }
 
 [data-layout-mode="dark"] .news-item:hover {
-    box-shadow: 0 8px 16px rgba(74, 144, 181, 0.25);
+    box-shadow: 0 8px 16px rgba(77, 150, 255, 0.3);
+    border-right-color: #3d86ef;
 }
 
-/* Event Item Card - Dark Mode RTL */
+/* Event Item - Red/Pink accent - Dark Mode RTL */
 [data-layout-mode="dark"] .event-item {
-    background: linear-gradient(135deg, #3d2a2e 0%, #352428 75%);
-    border-right: 4px solid #c06b6b;
+    border-right: 5px solid #ff5c7c;
     border-left: none;
 }
 
 [data-layout-mode="dark"] .event-item:hover {
-    box-shadow: 0 8px 16px rgba(192, 107, 107, 0.25);
+    box-shadow: 0 8px 16px rgba(255, 92, 124, 0.3);
+    border-right-color: #ef4c6c;
 }
 
-/* Survey Item Card - Dark Mode RTL */
+/* Survey Item - Orange/Amber accent - Dark Mode RTL */
 [data-layout-mode="dark"] .survey-item {
-    background: linear-gradient(135deg, #3a3225 0%, #322b20 75%);
-    border-right: 4px solid #c9a86c;
+    border-right: 5px solid #ff9d3d;
     border-left: none;
 }
 
 [data-layout-mode="dark"] .survey-item:hover {
-    box-shadow: 0 8px 16px rgba(201, 168, 108, 0.25);
+    box-shadow: 0 8px 16px rgba(255, 157, 61, 0.3);
+    border-right-color: #ef8d2d;
 }
 
 /* Card Header/Body/Footer - Dark Mode RTL */

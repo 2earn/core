@@ -1,9 +1,14 @@
 <div class="row">
     <div class="col-12 card event-item">
         <div class="card-header">
-            <h4>
-                {{\App\Models\TranslaleModel::getTranslation($event,'title',$event->title)}}
-            </h4>
+            <div class="d-flex align-items-start gap-2">
+                <span class="badge bg-danger" style="font-size: 0.875rem; padding: 0.35rem 0.65rem;">
+                    <i class="ri-calendar-event-line"></i> {{__('Events')}}
+                </span>
+                <h4 class="flex-grow-1">
+                    {{\App\Models\TranslaleModel::getTranslation($event,'title',$event->title)}}
+                </h4>
+            </div>
             @if(\App\Models\User::isSuperAdmin())
                 <p class="mx-2">
                     <a class="link-info float-end"
