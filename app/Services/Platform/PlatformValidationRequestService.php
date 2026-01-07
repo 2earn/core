@@ -164,7 +164,7 @@ class PlatformValidationRequestService
         $request = $this->findRequest($requestId);
 
         if ($request->status !== PlatformValidationRequest::STATUS_PENDING) {
-            throw new \Exception('Only pending requests can be cancelled');
+            throw new \Exception('Only pending requests can be canceled');
         }
 
         $request->status = PlatformValidationRequest::STATUS_CANCELLED;

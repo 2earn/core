@@ -42,7 +42,7 @@ class GroupCreateUpdate extends Component
     public function cancel()
     {
         return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])
-            ->with('warning', Lang::get('Group operation cancelled'));
+            ->with('warning', Lang::get('Group operation canceled'));
     }
 
     public function edit($idGroup)

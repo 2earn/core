@@ -81,7 +81,7 @@ class ItemsCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('items_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Item operation cancelled'));
+        return redirect()->route('items_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Item operation canceled'));
     }
 
     public function updateI()

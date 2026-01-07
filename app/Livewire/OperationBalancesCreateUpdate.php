@@ -78,7 +78,7 @@ class OperationBalancesCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('balances_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Operation operation cancelled'));
+        return redirect()->route('balances_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Operation operation canceled'));
     }
 
     public function saveBO()

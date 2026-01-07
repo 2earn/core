@@ -251,6 +251,14 @@
                             </a>
                         </div>
                     @endif
+                    <div class="col">
+                        <a href="{{route('communication_board',app()->getLocale(),false)}}"
+                           class="menu-link-modern {{$currentRouteName=='communication_board'? 'active' : ''}}"
+                           role="button">
+                            <i class="ri-message-2-fill"></i>
+                            <span>{{__('Communication Board')}}</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

@@ -147,7 +147,7 @@ class IdentificationCheck extends Component
 
             $this->sendIdentificationRequest($newStatus, $settingsManager);
             User::where('idUser', $userAuth->idUser)->update(['status' => $newStatus, 'asked_at' => date(config('app.date_format')), 'iden_notif' => $this->notify]);
-            $this->messageVerif = Lang::get('demande_creer');
+            $this->messageVerif = Lang::get('Create request');
             return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Identification send request success'));
         } else {
             $this->messageVerif = Lang::get('Identification request missing information');

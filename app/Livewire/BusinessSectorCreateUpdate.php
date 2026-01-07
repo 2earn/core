@@ -56,7 +56,7 @@ class BusinessSectorCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('business_sector_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Business sector operation cancelled'));
+        return redirect()->route('business_sector_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Business sector operation canceled'));
     }
 
     public function removeImage($property)

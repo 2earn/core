@@ -49,7 +49,6 @@
     @endif
     <livewire:home-balances/>
     <livewire:bussiness-sectors-home/>
-    <livewire:communication-board/>
     <livewire:home-stats/>
     @push('scripts')
         <script src="https://cdn.lordicon.com/lordicon.js"></script>

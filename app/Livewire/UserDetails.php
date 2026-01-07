@@ -54,7 +54,7 @@ class UserDetails extends Component
             $dateStart = new \DateTime($hasVip->first()->dateFNS);
             $dateEnd = $dateStart->modify($hasVip->first()->flashDeadline . ' hour');;
             if ($dateEnd > now()) {
-                $params['vipMessage'] = Lang::get('Acctually is vip');
+                $params['vipMessage'] = Lang::get('Actually is vip');
                 $params['vip'] = vip::where('idUser', $params['user']->idUser)->first();
             } else {
                 $params['vipMessage'] = Lang::get('It was a vip');

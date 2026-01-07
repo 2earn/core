@@ -10,10 +10,10 @@
                             <i class="ri-home-gear-line me-1"></i> {{__('Home')}}
                         </a>
                     @endif
-                    <h4 class="m-2">
-                        @if(\App\Models\User::isSuperAdmin())
-                            {{$survey->id}} -
-                        @endif
+                    <span class="badge bg-warning text-dark" style="font-size: 0.875rem; padding: 0.35rem 0.65rem;">
+                        <i class="ri-survey-line"></i> {{__('Survey')}}
+                    </span>
+                    <h4>
                         {{\App\Models\TranslaleModel::getTranslation($survey,'name',$survey->name)}}
                     </h4>
                 </div>

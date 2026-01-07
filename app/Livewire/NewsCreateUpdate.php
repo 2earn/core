@@ -55,7 +55,7 @@ class NewsCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('news_index', ['locale' => app()->getLocale(), 'idNews' => $this->idNews])->with('warning', Lang::get('News operation cancelled'));
+        return redirect()->route('news_index', ['locale' => app()->getLocale(), 'idNews' => $this->idNews])->with('warning', Lang::get('News operation canceled'));
     }
 
     public function edit($idNews)
