@@ -193,11 +193,11 @@
                                         class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 text-muted small">
                                         <div>
                                             <i class="ri-add-line me-1"></i>
-                                            <span>{{__('Created')}}: {{ \Carbon\Carbon::parse($value->created_at)->format(config('app.date_format')) }}</span>
+                                            <span>{{__('Created at')}}: {{ \Carbon\Carbon::parse($value->created_at)->format(config('app.date_format')) }}</span>
                                         </div>
                                         <div>
                                             <i class="ri-edit-2-line me-1"></i>
-                                            <span>{{__('Updated')}}: {{ \Carbon\Carbon::parse($value->updated_at)->format(config('app.date_format')) }}</span>
+                                            <span>{{__('Updated at')}}: {{ \Carbon\Carbon::parse($value->updated_at)->format(config('app.date_format')) }}</span>
                                         </div>
                                     </div>
                                 </div>
