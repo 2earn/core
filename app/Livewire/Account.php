@@ -107,7 +107,7 @@ class Account extends Component
         if (!is_null($this->photoBack) && gettype($this->photoBack) == "object") {
             $this->photoBack->storeAs('profiles', 'back-id-image' . $um->idUser . '.png', 'public2');
         }
-        return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Edit_profil_succes'));
+        return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Edit profile success'));
     }
 
     public function saveProfileSettings()
@@ -250,7 +250,7 @@ class Account extends Component
         }
 
         if ($this->paramIdUser == "")
-            return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Edit_profil_succes'));
+            return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Edit profile success'));
         else {
             $settingsManager->validateIdentity($us->idUser);
             return redirect()->route('requests_identification', app()->getLocale());

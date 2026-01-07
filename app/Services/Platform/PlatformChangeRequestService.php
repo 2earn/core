@@ -218,7 +218,7 @@ class PlatformChangeRequestService
         $changeRequest = $this->findRequest($requestId);
 
         if (!$changeRequest->canBeCancelled()) {
-            throw new \Exception('Only pending change requests can be cancelled. Current status: ' . $changeRequest->status);
+            throw new \Exception('Only pending change requests can be canceled. Current status: ' . $changeRequest->status);
         }
 
         $changeRequest->status = PlatformChangeRequest::STATUS_CANCELLED;

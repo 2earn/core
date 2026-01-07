@@ -130,7 +130,7 @@ class ManageContact extends Component
             $validatedPhone = true;
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            session()->flash('danger', Lang::get('Phone Number does not match the provided country.'));
+            session()->flash('danger', Lang::get('Phone Number does not match the provided country'));
             return;
         }
 

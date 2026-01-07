@@ -34,7 +34,7 @@ class RoleCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Role operation cancelled'));
+        return redirect()->route('role_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Role operation canceled'));
     }
 
     public function edit($idRole)

@@ -125,7 +125,7 @@ class DealsCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale(), 'id' => $this->idDeal])->with('warning', Lang::get('Deal operation cancelled'));
+        return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale(), 'id' => $this->idDeal])->with('warning', Lang::get('Deal operation canceled'));
     }
 
     public function updateDeal()

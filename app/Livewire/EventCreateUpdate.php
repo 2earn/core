@@ -64,7 +64,7 @@ class EventCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('event_index', ['locale' => app()->getLocale(), 'idEvent' => $this->idEvent])->with('warning', Lang::get('Event operation cancelled'));
+        return redirect()->route('event_index', ['locale' => app()->getLocale(), 'idEvent' => $this->idEvent])->with('warning', Lang::get('Event operation canceled'));
     }
 
     public function edit($idEvent)

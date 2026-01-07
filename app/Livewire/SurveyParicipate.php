@@ -108,7 +108,7 @@ class SurveyParicipate extends Component
         if (!is_null($survey->goals)) {
             if ($this->surveyResponseService->countBySurvey($this->idSurvey) >= $survey->goals) {
                 $this->surveyService->close($survey->id);
-                throw new \Exception(Lang::get('Gools limit ratcheted'));
+                throw new \Exception(Lang::get('Goals limit ratcheted'));
             }
         }
 

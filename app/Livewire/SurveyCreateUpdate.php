@@ -189,7 +189,7 @@ class SurveyCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('surveys_index', app()->getLocale())->with('warning', Lang::get('Survey operation cancelled'));
+        return redirect()->route('surveys_index', app()->getLocale())->with('warning', Lang::get('Survey operation canceled'));
     }
 
     public function updateSurvey()

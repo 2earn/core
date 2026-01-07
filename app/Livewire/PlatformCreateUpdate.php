@@ -82,7 +82,7 @@ class PlatformCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Platform operation cancelled'));
+        return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Platform operation canceled'));
     }
 
     public function edit($idPlatform)

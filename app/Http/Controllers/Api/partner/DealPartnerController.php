@@ -374,7 +374,7 @@ class DealPartnerController extends Controller
         }
 
         if (!$validationRequest->canBeCancelled()) {
-            Log::warning(self::LOG_PREFIX . 'Validation request cannot be cancelled', [
+            Log::warning(self::LOG_PREFIX . 'Validation request cannot be canceled', [
                 'validation_request_id' => $validationRequestId,
                 'current_status' => $validationRequest->status
             ]);
@@ -387,7 +387,7 @@ class DealPartnerController extends Controller
         $validationRequest->status = DealValidationRequest::STATUS_CANCELLED;
         $validationRequest->save();
 
-        Log::info(self::LOG_PREFIX . 'Validation request cancelled', [
+        Log::info(self::LOG_PREFIX . 'Validation request canceled', [
             'validation_request_id' => $validationRequestId,
             'deal_id' => $validationRequest->deal_id
         ]);
@@ -427,7 +427,7 @@ class DealPartnerController extends Controller
         }
 
         if (!$changeRequest->canBeCancelled()) {
-            Log::warning(self::LOG_PREFIX . 'Change request cannot be cancelled', [
+            Log::warning(self::LOG_PREFIX . 'Change request cannot be canceled', [
                 'change_request_id' => $changeRequestId,
                 'current_status' => $changeRequest->status
             ]);
@@ -440,7 +440,7 @@ class DealPartnerController extends Controller
         $changeRequest->status = DealChangeRequest::STATUS_CANCELLED;
         $changeRequest->save();
 
-        Log::info(self::LOG_PREFIX . 'Change request cancelled', [
+        Log::info(self::LOG_PREFIX . 'Change request canceled', [
             'change_request_id' => $changeRequestId,
             'deal_id' => $changeRequest->deal_id
         ]);

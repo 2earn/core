@@ -181,7 +181,7 @@ class UserFormContent extends Component
         }
 
         if ($this->paramIdUser == "")
-            return redirect()->route('user_form', app()->getLocale())->with('success', Lang::get('Edit_profil_succes'));
+            return redirect()->route('user_form', app()->getLocale())->with('success', Lang::get('Edit profile success'));
         else {
             $settingsManager->validateIdentity($us->idUser);
             return redirect()->route('requests_identification', app()->getLocale());

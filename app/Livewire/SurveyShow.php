@@ -139,7 +139,7 @@ class SurveyShow extends Component
             $this->surveyService->archive($id);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while arciving Survey'));
+            return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while archiving survey'));
         }
         return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('success', Lang::get('Survey arcived Successfully'));
     }

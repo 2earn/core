@@ -81,7 +81,7 @@ class PlatformChangeRequest extends Model
     }
 
     /**
-     * Check if the request is cancelled.
+     * Check if the request is canceled.
      */
     public function isCancelled(): bool
     {
@@ -89,7 +89,7 @@ class PlatformChangeRequest extends Model
     }
 
     /**
-     * Check if the request can be cancelled.
+     * Check if the request can be canceled.
      */
     public function canBeCancelled(): bool
     {
@@ -121,7 +121,7 @@ class PlatformChangeRequest extends Model
     }
 
     /**
-     * Scope a query to only include cancelled requests.
+     * Scope a query to only include canceled requests.
      */
     public function scopeCancelled($query)
     {

@@ -55,7 +55,7 @@ class GroupConditionCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('warning', Lang::get('Condition operation cancelled'));
+        return redirect()->route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('warning', Lang::get('Condition operation canceled'));
     }
 
     public function updateGroupCondition()

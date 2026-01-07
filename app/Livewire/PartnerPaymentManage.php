@@ -111,7 +111,7 @@ class PartnerPaymentManage extends Component
     public function cancel()
     {
         return redirect()->route('partner_payment_index', ['locale' => app()->getLocale()])
-            ->with('warning', Lang::get('Partner payment operation cancelled'));
+            ->with('warning', Lang::get('Partner payment operation canceled'));
     }
 
     public function save()

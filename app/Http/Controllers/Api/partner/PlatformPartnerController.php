@@ -458,14 +458,14 @@ class PlatformPartnerController extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
 
-        Log::info(self::LOG_PREFIX . 'Validation request cancelled', [
+        Log::info(self::LOG_PREFIX . 'Validation request canceled', [
             'validation_request_id' => $validationRequestId,
             'platform_id' => $validationRequest->platform_id,
         ]);
 
         return response()->json([
             'status' => true,
-            'message' => 'Validation request cancelled successfully',
+            'message' => 'Validation request canceled successfully',
             'data' => $validationRequest
         ], Response::HTTP_OK);
     }
@@ -496,7 +496,7 @@ class PlatformPartnerController extends Controller
                 'message' => 'Change request not found'
             ], Response::HTTP_NOT_FOUND);
         } catch (\Exception $e) {
-            Log::warning(self::LOG_PREFIX . 'Change request cannot be cancelled', [
+            Log::warning(self::LOG_PREFIX . 'Change request cannot be canceled', [
                 'change_request_id' => $changeRequestId,
                 'error' => $e->getMessage()
             ]);
@@ -506,14 +506,14 @@ class PlatformPartnerController extends Controller
             ], Response::HTTP_FORBIDDEN);
         }
 
-        Log::info(self::LOG_PREFIX . 'Change request cancelled', [
+        Log::info(self::LOG_PREFIX . 'Change request canceled', [
             'change_request_id' => $changeRequestId,
             'platform_id' => $changeRequest->platform_id
         ]);
 
         return response()->json([
             'status' => true,
-            'message' => 'Change request cancelled successfully',
+            'message' => 'Change request canceled successfully',
             'data' => $changeRequest
         ], Response::HTTP_OK);
     }
