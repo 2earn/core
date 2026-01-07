@@ -29,7 +29,7 @@ class OrderingSimulation
 
     public static function createItem($platformId, $faker)
     {
-        $unit_price = mt_rand(1000, 3000) / 100;
+        $unit_price = mt_rand(1000, 10000) / 100;
         $itemName = $faker->word();
         $description = $faker->text();
         $reference = $faker->randomNumber(4);

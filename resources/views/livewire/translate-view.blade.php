@@ -210,7 +210,7 @@ align-items: center;background-color: black;position: fixed;top: 0px;left: 0px;z
                                             </div>
                                             <div>
                                                 <i class="ri-edit-2-line me-1"></i>
-                                                <span>{{__('Updated')}}: {{ \Carbon\Carbon::parse($value->updated_at)->format(config('app.date_format')) }}</span>
+                                                <span>{{__('Updated at')}}: {{ \Carbon\Carbon::parse($value->updated_at)->format(config('app.date_format')) }}</span>
                                             </div>
                                         </div>
                                     </div>
