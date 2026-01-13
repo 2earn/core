@@ -19,6 +19,8 @@ class Balances
     const BFSS_BALANCE = 'bfss_balance';
     const DISCOUNT_BALANCE = 'discount_balance';
 
+    const MIN_BFSS_TO_GET_DISCOUNT = 200;
+
 
     public function getBalanceCompter()
     {
@@ -206,5 +208,18 @@ class Balances
                 Balances::updateCalculatedHorisental($idUser, Balances::DISCOUNT_BALANCE, $value);
                 Balances::updateCalculatedVertical($idUser, $type, $value);
         }
+    }
+
+    public static function getDiscountEarnedFromBFS100I($bFSsBalancesValue): float
+    {
+        $minBfs = getSettingIntegerParam('MIN_BFSS_TO_GET_DISCOUNT', self::MIN_BFSS_TO_GET_DISCOUNT);
+        $value = 0;
+        if ($minBfs > $bFSsBalancesValue) {
+            $pourcentage = $bFSsBalancesValue / $minBfs;
+            $value = $pourcentage * $bFSsBalancesValue;
+        } else {
+            $value = $bFSsBalancesValue;
+        }
+        return $value;
     }
 }
