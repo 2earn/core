@@ -28,12 +28,13 @@ class BfssObserver
         $balances = Balances::getStoredUserBalances($bFSsBalances->beneficiary_id);
         $balanceOperation = BalanceOperation::find($bFSsBalances->balance_operation_id);
         if ($bFSsBalances->percentage == "100.00" && $balanceOperation->io == 'I') {
+            $value = Balances::getDiscountEarnedFromBFS100I($bFSsBalances->value);
             DiscountBalances::addLine([
                     'balance_operation_id' => BalanceOperationsEnum::FROM_BFS->value,
                     'operator_id' => Balances::SYSTEM_SOURCE_ID,
                     'beneficiary_id' => $bFSsBalances->beneficiary_id,
                     'reference' => $bFSsBalances->reference,
-                    'value' => min($md, $bFSsBalances->value * (pow(abs($bFSsBalances->value - 10), 1.5) / $rc)),
+                    'value' => $value,
                     'description' => number_format(100 * min($md, $bFSsBalances->value * (pow(abs($bFSsBalances->value - 10), 1.5) / $rc)) / $md, 2, '.', '') . '%',
                     'current_balance' => $balances->discount_balance + min($md, $bFSsBalances->value * (pow(abs($bFSsBalances->value - 10), 1.5) / $rc))
                 ]
