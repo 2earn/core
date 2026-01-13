@@ -31,7 +31,7 @@ class BfssObserver
         $rc = $setting[1];
         $balances = Balances::getStoredUserBalances($bFSsBalances->beneficiary_id);
         $balanceOperation = BalanceOperation::find($bFSsBalances->balance_operation_id);
-        Log::info($bFSsBalances->percentage.'  - --- -- '.json_encode($balanceOperation));
+
         if ($bFSsBalances->percentage == "100.00" && $balanceOperation->io == 'I') {
             $this->checkSharesFromGiftedBFs($bFSsBalances);
         }
@@ -74,7 +74,6 @@ class BfssObserver
     public function checkSharesFromGiftedBFs(BFSsBalances $bFSsBalances)
     {
         $minBfs = getSettingIntegerParam('MIN_BFSS_TO_GET_ACTION', self::MIN_BFSS_TO_GET_ACTION);
-        Log::info($minBfs . ' ____________ ' . $bFSsBalances->value);
         if ($minBfs <= $bFSsBalances->value) {
             $actualActionValue = actualActionValue(getSelledActions(true), false);
             $ref = BalancesFacade::getReference(BalanceOperationsEnum::SPONSORSHIP_COMMISSION_SHARE->value);
