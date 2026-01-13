@@ -44,8 +44,8 @@ class BfssObserver
                     'beneficiary_id' => $bFSsBalances->beneficiary_id,
                     'reference' => $bFSsBalances->reference,
                     'value' => $value,
-                    'description' => number_format(100 * min($md, $bFSsBalances->value * (pow(abs($bFSsBalances->value - 10), 1.5) / $rc)) / $md, 2, '.', '') . '%',
-                    'current_balance' => $balances->discount_balance + min($md, $bFSsBalances->value * (pow(abs($bFSsBalances->value - 10), 1.5) / $rc))
+                    'description' => number_format(100 * $value, 2, '.', '') . '%',
+                    'current_balance' => $balances->discount_balance + $value
                 ]
             );
         }
