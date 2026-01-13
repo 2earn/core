@@ -2,6 +2,7 @@
 
 use App\Livewire\AcceptFinancialRequest;
 use App\Livewire\Account;
+use App\Livewire\AddCashBalance;
 use App\Livewire\ChangePassword;
 use App\Livewire\CheckOptCode;
 use App\Livewire\ConfigurationHA;
@@ -234,6 +235,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
             Route::prefix('/balances')->name('balances_')->group(function () {
                 Route::get('/index', \App\Livewire\Balances::class)->name('index');
+                Route::get('/add-cash', AddCashBalance::class)->name('add_cash');
             });
 
             Route::get('/index/test', \App\Livewire\NewBalance::class)->name('index_test');

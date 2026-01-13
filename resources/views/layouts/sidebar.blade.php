@@ -341,6 +341,14 @@
                                 <span>{{__('Balance operations')}}</span>
                             </a>
                         </li>
+                        <li class="nav-item cool-link {{$currentRouteName=='balances_add_cash'? 'active' : ''}}">
+                            <a href="{{route('balances_add_cash',['locale'=>request()->route("locale")],false )}}"
+                               class="nav-link menu-link {{$currentRouteName=='balances_add_cash'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-money-dollar-circle-fill"></i>
+                                <span>{{__('Add Cash Balance')}}</span>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link menu-link {{!in_array($currentRouteName, $sidebarRoleArray)? 'collapsed' : 'active'}}"
                                href="#sidebarRole" data-bs-toggle="collapse"
