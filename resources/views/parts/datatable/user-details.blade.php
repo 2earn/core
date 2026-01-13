@@ -3,6 +3,10 @@
         <li class="list-group-item"><strong>{{__('Opt activation code')}}:</strong> <span
                 class="float-end">{{$user->OptActivation}}</span></li>
     @endif
+    @if($user->activationCodeValue)
+        <li class="list-group-item"><strong>{{__('Activation code value')}}:</strong> <span
+                class="float-end">{{$user->activationCodeValue}}</span></li>
+    @endif
     @if($user->register_upline)
         <li class="list-group-item"><strong>{{__('Register upline')}}:</strong> <span
                 class="float-end">{{$user->register_upline}}</span>

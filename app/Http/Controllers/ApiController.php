@@ -759,7 +759,7 @@ class ApiController extends BaseController
 
     public function getUsersListQuery()
     {
-        return User::select('countries.apha2', 'countries.name as country', 'users.id', 'users.status', 'users.idUser', 'idUplineRegister',
+        return User::select('countries.apha2', 'countries.name as country', 'users.id', 'users.status', 'users.idUser', 'users.activationCodeValue', 'idUplineRegister',
             DB::raw('CONCAT(nvl( meta.arFirstName,meta.enFirstName), \' \' ,nvl( meta.arLastName,meta.enLastName)) AS name'),
             'users.mobile', 'users.created_at', 'OptActivation', 'pass',
             DB::raw('IFNULL(`vip`.`flashCoefficient`,"##") as coeff'),
