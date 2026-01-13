@@ -4,8 +4,10 @@ namespace App\Observers;
 
 use App\Models\BFSsBalances;
 use App\Models\DiscountBalances;
+use App\Models\SharesBalances;
 use App\Models\UserCurrentBalanceVertical;
 use App\Services\Balances\Balances;
+use App\Services\Balances\BalancesFacade;
 use Core\Enum\BalanceEnum;
 use Core\Enum\BalanceOperationsEnum;
 use Core\Models\BalanceOperation;
@@ -16,6 +18,8 @@ use Illuminate\Support\Facades\Log;
 
 class BfssObserver
 {
+    const MIN_BFSS_TO_GET_ACTION = 1000;
+
     public function __construct(private BalancesManager $balancesManager)
     {
     }
@@ -27,6 +31,11 @@ class BfssObserver
         $rc = $setting[1];
         $balances = Balances::getStoredUserBalances($bFSsBalances->beneficiary_id);
         $balanceOperation = BalanceOperation::find($bFSsBalances->balance_operation_id);
+
+        if ($bFSsBalances->percentage == "100.00" && $balanceOperation->io == 'I') {
+            $this->checkSharesFromGiftedBFs($bFSsBalances);
+        }
+
         if ($bFSsBalances->percentage == "100.00" && $balanceOperation->io == 'I') {
             $value = Balances::getDiscountEarnedFromBFS100I($bFSsBalances->value);
             DiscountBalances::addLine([
@@ -60,5 +69,27 @@ class BfssObserver
         );
 
         Log::info('BfsObserver current_balance ' . $newBfssBalanceVertical . '(Pourcentage: ' . $bFSsBalances->percentage . ') => Total Bfss: ' . $userCurrentBalanceVertical->current_balance);
+    }
+
+    public function checkSharesFromGiftedBFs(BFSsBalances $bFSsBalances)
+    {
+        $minBfs = getSettingIntegerParam('MIN_BFSS_TO_GET_ACTION', self::MIN_BFSS_TO_GET_ACTION);
+        if ($minBfs <= $bFSsBalances->value) {
+            $actualActionValue = actualActionValue(getSelledActions(true), false);
+            $ref = BalancesFacade::getReference(BalanceOperationsEnum::SPONSORSHIP_COMMISSION_SHARE->value);
+            $numberOfActions = intval($bFSsBalances->value / $actualActionValue);
+            $balances = Balances::getStoredUserBalances(auth()->user()->idUser);
+            SharesBalances::addLine([
+                'balance_operation_id' => BalanceOperationsEnum::SPONSORSHIP_COMMISSION_SHARE->value,
+                'operator_id' => Balances::SYSTEM_SOURCE_ID,
+                'beneficiary_id' => auth()->user()->idUser,
+                'reference' => $ref,
+                'unit_price' => 0,
+                'description' => $numberOfActions . ' share(s) from BFS',
+                'value' => $numberOfActions,
+                'current_balance' => $balances->share_balance + $numberOfActions
+            ]);
+            Log::info('BfsObserver: ' . $numberOfActions . ' share(s) credited to user ID ' . auth()->user()->idUser . ' from gifted BFS balance of ' . $bFSsBalances->value);
+        }
     }
 }
