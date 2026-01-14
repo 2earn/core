@@ -68,9 +68,9 @@ class addContactUserSeeder extends Seeder
             'updated_at' => now()
         ]);
 
-        // Create metta user using MettaUsersService
-        $this->mettaUsersService->createMettaUserByData(
-            idUser: '9999' . $num,
+        // Create metta user using MettaUserService
+        $this->mettaUserService->createMettaUserByData(
+            idUser: (string)$idUser,
             idLanguage: 1,
             idCountry: 222
         );
