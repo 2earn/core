@@ -136,10 +136,12 @@ class MettaUsersService
 
         $countrie_earn = DB::table('countries')->where('phonecode', $user->id_phone)->first();
 
-        foreach (LanguageEnum::cases() as $lanque) {
-            if ($lanque->name == $countrie_earn->langage) {
-                $metta->idLanguage = $lanque->value;
-                break;
+        if ($countrie_earn) {
+            foreach (LanguageEnum::cases() as $lanque) {
+                if ($lanque->name == $countrie_earn->langage) {
+                    $metta->idLanguage = $lanque->value;
+                    break;
+                }
             }
         }
 
