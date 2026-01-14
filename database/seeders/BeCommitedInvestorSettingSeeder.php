@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Setting;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class BeCommitedInvestorSettingSeeder extends Seeder
 {
@@ -14,12 +14,9 @@ class BeCommitedInvestorSettingSeeder extends Seeder
      */
     public function run()
     {
-        if (!DB::table('settings')->where("ParameterName", "=", 'BE_COMMITED_INVESTOR')->exists()) {
-            DB::table('settings')->insert([
-                'ParameterName' => 'BE_COMMITED_INVESTOR',
-                'IntegerValue' => 1000,
-            ]);
-        }
-
+        Setting::updateOrCreate(
+            ['ParameterName' => 'BE_COMMITED_INVESTOR'],
+            ['IntegerValue' => 1000]
+        );
     }
 }

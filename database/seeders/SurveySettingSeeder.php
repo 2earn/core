@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Setting;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class SurveySettingSeeder extends Seeder
 {
@@ -14,17 +14,14 @@ class SurveySettingSeeder extends Seeder
      */
     public function run()
     {
-        if (!DB::table('settings')->where("ParameterName", "=", 'DELAY_AFTER_CLOSED')->exists()) {
-            DB::table('settings')->insert([
-                'ParameterName' => 'DELAY_AFTER_CLOSED',
-                'IntegerValue' => 9,
-            ]);
-        }
-        if (!DB::table('settings')->where("ParameterName", "=", 'DELAY_AFTER_ARCHIVED')->exists()) {
-            DB::table('settings')->insert([
-                'ParameterName' => 'DELAY_AFTER_ARCHIVED',
-                'IntegerValue' => 99,
-            ]);
-        }
+        Setting::updateOrCreate(
+            ['ParameterName' => 'DELAY_AFTER_CLOSED'],
+            ['IntegerValue' => 9]
+        );
+
+        Setting::updateOrCreate(
+            ['ParameterName' => 'DELAY_AFTER_ARCHIVED'],
+            ['IntegerValue' => 99]
+        );
     }
 }

@@ -5,16 +5,16 @@ namespace Database\Seeders;
 use App\Enums\DealStatus;
 use App\Enums\DealTypeEnum;
 use App\Models\Platform;
+use App\Models\Setting;
 use Faker\Generator;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\DB;
 
 class DealsInsertSeeder extends Seeder
 {
     public function getDealParam($name)
     {
-        $param = DB::table('settings')->where("ParameterName", "=", $name)->first();
+        $param = Setting::where("ParameterName", "=", $name)->first();
         if (!is_null($param)) {
             return $param->DecimalValue;
         }

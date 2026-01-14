@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Setting;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class WattsappHelpNumberSettingSeeder extends Seeder
 {
@@ -14,12 +14,9 @@ class WattsappHelpNumberSettingSeeder extends Seeder
      */
     public function run()
     {
-        if (!DB::table('settings')->where("ParameterName", "=", 'WHATSAPP_HELP_NUMBER')->exists()) {
-            DB::table('settings')->insert([
-                'ParameterName' => 'WHATSAPP_HELP_NUMBER',
-                'StringValue' => '+966597555211',
-            ]);
-        }
-
+        Setting::updateOrCreate(
+            ['ParameterName' => 'WHATSAPP_HELP_NUMBER'],
+            ['StringValue' => '+966597555211']
+        );
     }
 }

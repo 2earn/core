@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Setting;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class LimitSettingSeeder extends Seeder
 {
@@ -14,11 +14,14 @@ class LimitSettingSeeder extends Seeder
      */
     public function run()
     {
-        if (!DB::table('settings')->where("ParameterName", "=", 'EXPIRE_AT')->exists()) {
-            DB::table('settings')->insert(['ParameterName' => 'EXPIRE_AT', 'IntegerValue' => 30]);
-        }
-        if (!DB::table('settings')->where("ParameterName", "=", 'MAX_ATTEMPT')->exists()) {
-            DB::table('settings')->insert(['ParameterName' => 'MAX_ATTEMPT', 'IntegerValue' => 3]);
-        }
+        Setting::updateOrCreate(
+            ['ParameterName' => 'EXPIRE_AT'],
+            ['IntegerValue' => 30]
+        );
+
+        Setting::updateOrCreate(
+            ['ParameterName' => 'MAX_ATTEMPT'],
+            ['IntegerValue' => 3]
+        );
     }
 }
