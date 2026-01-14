@@ -21,7 +21,7 @@ class  UserRepository implements IUserRepository
 {
     public function getAllMettaUser()
     {
-        return DB::table('metta_users')->get();
+        return metta_user::all();
     }
 
     public function getAllUsersErans()
@@ -212,9 +212,7 @@ class  UserRepository implements IUserRepository
     public function getConditionalMettaUser($attribute, $value)
     {
 
-        $user = DB::table('metta_users')
-            ->where([[$attribute, '=', $value]])
-            ->get()->first();
+        $user = metta_user::where($attribute, '=', $value)->first();
         if (!$user)
             return null;
         return $user;

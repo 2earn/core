@@ -2,13 +2,20 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Services\UserService;
+use App\Services\MettaUsersService;
+use App\Services\UserContactNumberService;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
+    public function __construct(
+        private UserService $userService,
+        private MettaUsersService $mettaUsersService,
+        private UserContactNumberService $userContactNumberService
+    ) {}
+
     /**
      * Run the database seeds.
      *
@@ -16,7 +23,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-       DB::table('users')->insert([
+        $this->userService->createUser([
             'name' => "admin2earn",
             'email' => 'admin@2earn.com',
             'password' => Hash::make('admin2earn'),
@@ -32,19 +39,17 @@ class UserSeeder extends Seeder
             'registred_from' => 3
         ]);
 
-        DB::table('metta_users')->insert([
+        $this->mettaUsersService->createMettaUser([
             'idUser' => '999999999',
             'idLanguage' => '1'
         ]);
 
-        DB::table('usercontactnumber')->insert([
-            'mobile' => '99999999',
-            'idUser' => '999999999',
-            'active' => '1',
-            'isID' => '1',
-            'isoP' => 'tn',
-            'fullNumber' => '0021699999999'
-        ]);
-
+        $this->userContactNumberService->createUserContactNumber(
+            idUser: '999999999',
+            mobile: '99999999',
+            codeP: 216,
+            iso: 'tn',
+            fullNumber: '0021699999999'
+        );
     }
 }
