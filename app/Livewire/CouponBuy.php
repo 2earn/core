@@ -154,7 +154,7 @@ class CouponBuy extends Component
 
     public function BuyCoupon($cpns)
     {
-        $platform = $this->platformService->getPlatformById($this->idPlatform);
+        $platform = $this->platformService->getById($this->idPlatform);
         $order = $this->orderService->createOrder([
             'user_id' => auth()->user()->id,
             'platform_id' => $this->idPlatform,
@@ -257,7 +257,7 @@ class CouponBuy extends Component
 
     public function render()
     {
-        $params = ['platform' => $this->platformService->getPlatformById($this->idPlatform)];
+        $params = ['platform' => $this->platformService->getById($this->idPlatform)];
         return view('livewire.coupon-buy', $params)->extends('layouts.master')->section('content');
     }
 }

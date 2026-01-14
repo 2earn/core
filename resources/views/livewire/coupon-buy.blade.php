@@ -128,7 +128,7 @@
                 </div>
                 <div class="row mt-3">
                     @if(!$buyed && $preSumulationResult && $amount>0   && ($lastValue+$amount<=$maxAmount))
-                        <div class="col-lg-6 mb-3">
+                        <div class="col-lg-12 mb-3">
                             <div class="card shadow-sm h-100">
                                 <div class="card-header bg-success-subtle">
                                     <h5 class="card-title mb-0 text-success">
@@ -167,7 +167,7 @@
                                                             @endif
                                                         >
                                                         @if(!is_array($coupon))
-                                                                {{$coupon->sn}}
+                                                                <span title="{{$coupon->platform()->first()->name}}">    {{$coupon->sn}}</span>
                                                             @endif
                                                         </span>
                                                     </td>
@@ -217,7 +217,7 @@
                         </div>
                     @endif
                     @if(!$buyed && $result  && $lastValue+$amount>0 && !$equal)
-                        <div class="col-lg-6 mb-3">
+                        <div class="col-lg-12 mb-3">
                             <div class="card shadow-sm h-100">
                                 <div class="card-header bg-warning-subtle">
                                     <h5 class="card-title mb-0 text-warning">
@@ -255,7 +255,7 @@
                                                             @endif
                                                         >
                                                         @if(!is_array($coupon))
-                                                                {{$coupon->sn}}
+                                                                <span title="{{$coupon->platform()->first()->name}}">    {{$coupon->sn}}</span>
                                                             @endif
                                                         </span>
                                                     </td>
@@ -343,7 +343,7 @@
                                                             @endif
                                                         >
                                                         @if(!is_array($coupon))
-                                                                {{$coupon->sn}}
+                                                                <span title="{{$coupon->platform()->first()->name}}">    {{$coupon->sn}}</span>
                                                             @endif
                                                         </span>
                                                     </td>
