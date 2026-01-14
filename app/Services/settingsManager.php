@@ -64,7 +64,7 @@ class settingsManager
         private UserBalancesHelper             $userBalancesHelper,
         private IUserBalancesRepository        $userBalanceRepository,
         private IUserContactNumberRepository   $userContactNumberRepository,
-        private MettaUserService               $mettaUserService,
+        private MettaUsersService              $mettaUsersService,
         private UserContactNumberService       $userContactNumberService,
         private ContactUserService             $contactUserService,
         private UserService                    $userService,
@@ -252,7 +252,7 @@ class settingsManager
 
     public function createMettaUser(User $user)
     {
-        $this->mettaUserService->createMettaUser($user);
+        $this->mettaUsersService->createMettaUserFromUser($user);
     }
 
     public function createUserContactNumber(User $user, $iso)

@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Services\ContactUserService;
-use App\Services\MettaUserService;
+use App\Services\MettaUsersService;
 use App\Services\UserContactNumberService;
 use App\Services\UserService;
 use Faker\Generator;
@@ -15,7 +15,7 @@ class addContactUserSeeder extends Seeder
 {
     public function __construct(
         private UserService $userService,
-        private MettaUserService $mettaUserService,
+        private MettaUsersService $mettaUsersService,
         private UserContactNumberService $userContactNumberService,
         private ContactUserService $contactUserService
     ) {
