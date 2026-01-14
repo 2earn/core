@@ -24,15 +24,14 @@ class BalancesSeeder extends Seeder
             ['IntegerValue' => 2]
         );
 
+        // Handle legacy parameter name migration before creating/updating INITIAL_DISCOUNT
+        Setting::where('ParameterName', 'discount By registering')
+            ->update(['ParameterName' => 'INITIAL_DISCOUNT']);
+
         Setting::updateOrCreate(
             ['ParameterName' => 'INITIAL_DISCOUNT'],
             ['IntegerValue' => 20]
         );
-
-        // Handle legacy parameter name migration
-        Setting::where('ParameterName', 'discount By registering')
-            ->update(['ParameterName' => 'INITIAL_DISCOUNT']);
-
         Setting::updateOrCreate(
             ['ParameterName' => 'TOTAL_TREE'],
             ['IntegerValue' => 125]

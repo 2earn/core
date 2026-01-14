@@ -257,9 +257,7 @@ class UserService
     public function createUser(array $data): ?int
     {
         try {
-            $user = new User();
-            $user->forceFill($data);
-            $user->save();
+            $user = User::create($data);
             return $user->id;
         } catch (\Exception $e) {
             Log::error('Error creating user: ' . $e->getMessage(), ['data' => $data]);

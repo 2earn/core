@@ -70,7 +70,7 @@ class addContactUserSeeder extends Seeder
 
         // Create metta user using MettaUserService
         $this->mettaUserService->createMettaUserByData(
-            idUser: '9999' . $num,
+            idUser: (string)$idUser,
             idLanguage: 1,
             idCountry: 222
         );

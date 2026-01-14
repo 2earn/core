@@ -217,7 +217,7 @@ class IdentificationRequestService
 
             $this->updateIdentity($requestIdentification, $userStatus, 1, $note);
 
-            User::where('idUser', $idUser)->update(['status' => StatusRequest::Refused->value]);
+            User::where('idUser', $idUser)->update(['status' => $userStatus]);
 
             if ($user->iden_notif == 1) {
                 $uMetta = MettaUser::where('idUser', $idUser)->first();
