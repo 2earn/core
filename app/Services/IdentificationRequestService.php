@@ -7,7 +7,7 @@ use App\Enums\TypeEventNotificationEnum;
 use App\Enums\TypeNotificationEnum;
 use App\Models\identificationuserrequest;
 use App\Models\language;
-use App\Models\metta_user;
+use App\Models\MettaUser;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
@@ -220,7 +220,7 @@ class IdentificationRequestService
             User::where('idUser', $idUser)->update(['status' => $userStatus]);
 
             if ($user->iden_notif == 1) {
-                $uMetta = metta_user::where('idUser', $idUser)->first();
+                $uMetta = MettaUser::where('idUser', $idUser)->first();
                 $lang = app()->getLocale();
 
                 if ($uMetta && $uMetta->idLanguage != null) {
@@ -284,7 +284,7 @@ class IdentificationRequestService
             User::where('idUser', $idUser)->update(['status' => $newStatus]);
 
             if ($user->iden_notif == 1) {
-                $uMetta = metta_user::where('idUser', $idUser)->first();
+                $uMetta = MettaUser::where('idUser', $idUser)->first();
                 $lang = app()->getLocale();
 
                 if ($uMetta && $uMetta->idLanguage != null) {

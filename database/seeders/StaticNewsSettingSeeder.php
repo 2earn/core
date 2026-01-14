@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Setting;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class StaticNewsSettingSeeder extends Seeder
 {
@@ -14,12 +14,9 @@ class StaticNewsSettingSeeder extends Seeder
      */
     public function run()
     {
-        if (!DB::table('settings')->where("ParameterName", "=", 'ENABLE_STATIC_NEWS')->exists()) {
-            DB::table('settings')->insert([
-                'ParameterName' => 'ENABLE_STATIC_NEWS',
-                'IntegerValue' => '1',
-            ]);
-        }
-
+        Setting::updateOrCreate(
+            ['ParameterName' => 'ENABLE_STATIC_NEWS'],
+            ['IntegerValue' => 1]
+        );
     }
 }

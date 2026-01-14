@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Setting;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class GiftedShareSettingSeeder extends Seeder
 {
@@ -14,13 +14,9 @@ class GiftedShareSettingSeeder extends Seeder
      */
     public function run()
     {
-
-        if (!DB::table('settings')->where("ParameterName", "=", 'GIFTED_SHARES')->exists()) {
-            DB::table('settings')->insert([
-                'ParameterName' => 'GIFTED_SHARES',
-                'IntegerValue' => 750000,
-            ]);
-        }
-
+        Setting::updateOrCreate(
+            ['ParameterName' => 'GIFTED_SHARES'],
+            ['IntegerValue' => 750000]
+        );
     }
 }

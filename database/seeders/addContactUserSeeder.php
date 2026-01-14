@@ -2,14 +2,25 @@
 
 namespace Database\Seeders;
 
+use App\Services\ContactUserService;
+use App\Services\MettaUsersService;
+use App\Services\UserContactNumberService;
+use App\Services\UserService;
 use Faker\Generator;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class addContactUserSeeder extends Seeder
 {
+    public function __construct(
+        private UserService $userService,
+        private MettaUsersService $mettaUsersService,
+        private UserContactNumberService $userContactNumberService,
+        private ContactUserService $contactUserService
+    ) {
+    }
+
     /**
      * Run the database seeds.
      *
@@ -35,15 +46,18 @@ class addContactUserSeeder extends Seeder
         $names = explode(" ", $name);
         $num = $faker->randomNumber(5, true);
         $phone = 22900000 + $num;
+        $idUser = 999900000 + $num;
+        $fullPhoneNumber = '00216' . $phone;
 
-        DB::table('users')->insert([
+        // Create user using UserService
+        $this->userService->createUser([
             'name' => $name,
             'email' => str_replace(' ', '', strtolower($name)) . '@2earn.com',
             'password' => Hash::make($name),
             'email_verified_at' => now(),
-            'idUser' => 999900000 + $num,
+            'idUser' => $idUser,
             'mobile' => $phone,
-            'fullphone_number' => '00216' . $phone,
+            'fullphone_number' => $fullPhoneNumber,
             'status' => 1,
             'idCountry' => 222,
             'is_public' => 1,
@@ -54,28 +68,30 @@ class addContactUserSeeder extends Seeder
             'updated_at' => now()
         ]);
 
-        DB::table('metta_users')->insert([
-            'idUser' => '9999' . $num,
-            'idLanguage' => '1'
-        ]);
+        // Create metta user using MettaUserService
+        $this->mettaUserService->createMettaUserByData(
+            idUser: (string)$idUser,
+            idLanguage: 1,
+            idCountry: 222
+        );
 
-        DB::table('usercontactnumber')->insert([
-            'mobile' => $phone,
-            'idUser' => 999900000 + $num,
-            'active' => '1',
-            'isID' => '1',
-            'isoP' => 'tn',
-            'fullNumber' => '00216' . $phone
-        ]);
+        // Create user contact number using UserContactNumberService
+        $this->userContactNumberService->createUserContactNumber(
+            idUser: (string)$idUser,
+            mobile: (string)$phone,
+            codeP: 216,
+            iso: 'tn',
+            fullNumber: $fullPhoneNumber
+        );
 
-
-        DB::table('contact_users')->insert([
+        // Create contact user using ContactUserService
+        $this->contactUserService->create([
             'name' => $names[0],
-            'lastName' => $names[1],
+            'lastName' => $names[1] ?? '',
             'idUser' => '197604325',
-            'idContact' => 999900000 + $num,
+            'idContact' => $idUser,
             'mobile' => $phone,
-            'fullphone_number' => '00216' . $phone,
+            'fullphone_number' => $fullPhoneNumber,
             'phonecode' => 216,
             'disponible' => 1,
             'availablity' => 0,

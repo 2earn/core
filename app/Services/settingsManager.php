@@ -33,7 +33,7 @@ use App\Models\AuthenticatedUser;
 use App\Models\countrie;
 use App\Models\identificationuserrequest;
 use App\Models\language;
-use App\Models\metta_user;
+use App\Models\MettaUser;
 use App\Models\Setting;
 use App\Models\user_earn;
 use App\Models\UserContact;
@@ -64,7 +64,7 @@ class settingsManager
         private UserBalancesHelper             $userBalancesHelper,
         private IUserBalancesRepository        $userBalanceRepository,
         private IUserContactNumberRepository   $userContactNumberRepository,
-        private MettaUserService               $mettaUserService,
+        private MettaUsersService              $mettaUsersService,
         private UserContactNumberService       $userContactNumberService,
         private ContactUserService             $contactUserService,
         private UserService                    $userService,
@@ -252,7 +252,7 @@ class settingsManager
 
     public function createMettaUser(User $user)
     {
-        $this->mettaUserService->createMettaUser($user);
+        $this->mettaUsersService->createMettaUserFromUser($user);
     }
 
     public function createUserContactNumber(User $user, $iso)

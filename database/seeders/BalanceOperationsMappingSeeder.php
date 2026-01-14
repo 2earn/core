@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\BalanceOperation;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class BalanceOperationsMappingSeeder extends Seeder
 {
@@ -12,7 +12,7 @@ class BalanceOperationsMappingSeeder extends Seeder
     public function run(): void
     {
 
-        DB::table('balance_operations')->insert([
+        BalanceOperation::insert([
             ['id' => 1, 'ref' => 'BAL01-CAT001-NUM001', 'operation_category_id' => 1, 'operation' => 'GIFTGIFT', 'direction' => 'IN', 'balance_id' => 1, 'parent_operation_id' => null, 'relateble' => FALSE, 'relateble_model' => null, 'relateble_types' => null, 'created_at' => now(), 'updated_at' => now()],
             ['id' => 2, 'ref' => 'BAL02-CAT001-NUM001', 'operation_category_id' => 1, 'operation' => 'GIFTGIFT', 'direction' => 'IN', 'balance_id' => 2, 'parent_operation_id' => null, 'relateble' => FALSE, 'relateble_model' => null, 'relateble_types' => null, 'created_at' => now(), 'updated_at' => now()],
             ['id' => 3, 'ref' => 'BAL03-CAT001-NUM001', 'operation_category_id' => 1, 'operation' => 'WELCOME GIFTGIFT', 'direction' => 'IN', 'balance_id' => 3, 'parent_operation_id' => null, 'relateble' => FALSE, 'relateble_model' => null, 'relateble_types' => null, 'created_at' => now(), 'updated_at' => now()],

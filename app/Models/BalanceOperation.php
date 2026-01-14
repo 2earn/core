@@ -32,6 +32,11 @@ class BalanceOperation extends Model
         'operation_category_id',
         'ref',
         'direction',
+        'balance_id',
+        'parent_operation_id',
+        'relateble',
+        'relateble_model',
+        'relateble_types',
         'created_by',
         'updated_by',
     ];
