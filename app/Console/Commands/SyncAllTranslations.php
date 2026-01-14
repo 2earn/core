@@ -174,9 +174,40 @@ class SyncAllTranslations extends Command
         $endTimeTotal = microtime(true);
         $totalTime = $this->formatTime($endTimeTotal - $startTimeTotal);
 
+        // Cleanup backup files
+        $this->cleanupBackupFiles();
+
         $this->displaySummary($steps, $totalTime, $hasErrors);
 
         return $hasErrors ? self::FAILURE : self::SUCCESS;
+    }
+
+    /**
+     * Delete all .backup files from resources/lang directory
+     */
+    protected function cleanupBackupFiles(): void
+    {
+        $this->newLine();
+        $this->info('🧹 Cleaning up backup files...');
+
+        $langPath = resource_path('lang');
+        $backupFiles = glob($langPath . '/*.backup*');
+
+        $deletedCount = 0;
+        foreach ($backupFiles as $file) {
+            if (file_exists($file) && is_file($file)) {
+                unlink($file);
+                $deletedCount++;
+                $this->line("   Deleted: " . basename($file));
+            }
+        }
+
+        if ($deletedCount > 0) {
+            $this->info("   ✅ Deleted {$deletedCount} backup file(s)");
+        } else {
+            $this->line("   ℹ️  No backup files found");
+        }
+        $this->newLine();
     }
 
     protected function displaySummary(array $steps, string $totalTime, bool $hasErrors): void

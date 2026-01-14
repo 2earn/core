@@ -39,5 +39,34 @@ class MettaUserService
 
         $this->userRepository->createmettaUser($metta);
     }
+
+    /**
+     * Create a metta user record with raw data
+     *
+     * @param string $idUser
+     * @param int $idLanguage
+     * @param int|null $idCountry
+     * @return metta_user|null
+     */
+    public function createMettaUserByData(string $idUser, int $idLanguage, ?int $idCountry = null): ?metta_user
+    {
+        try {
+            $metta = new metta_user();
+            $metta->idUser = $idUser;
+            $metta->idLanguage = $idLanguage;
+            if ($idCountry) {
+                $metta->idCountry = $idCountry;
+            }
+
+            $this->userRepository->createmettaUser($metta);
+            return $metta;
+        } catch (\Exception $e) {
+            \Log::error('Error creating metta user by data: ' . $e->getMessage(), [
+                'idUser' => $idUser,
+                'idLanguage' => $idLanguage
+            ]);
+            return null;
+        }
+    }
 }
 

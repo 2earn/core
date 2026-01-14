@@ -2,11 +2,13 @@
 
 namespace App\Services;
 
+use App\Enums\StatusRequest;
 use App\Interfaces\IUserRepository;
 use App\Models\AuthenticatedUser;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class UserService
 {
@@ -244,6 +246,22 @@ class UserService
 
 
         return null;
+    }
+
+    /**
+     * Create a new user with all necessary fields
+     *
+     * @param array $data
+     * @return int|null Returns the user ID or null on failure
+     */
+    public function createUser(array $data): ?int
+    {
+        try {
+            return DB::table('users')->insertGetId($data);
+        } catch (\Exception $e) {
+            Log::error('Error creating user: ' . $e->getMessage(), ['data' => $data]);
+            return null;
+        }
     }
 }
 
