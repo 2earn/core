@@ -260,7 +260,7 @@ class UserService
             $user = new User();
             $user->forceFill($data);
             $user->save();
-            return $user->idUser ?? $user->id;
+            return $user->id;
         } catch (\Exception $e) {
             Log::error('Error creating user: ' . $e->getMessage(), ['data' => $data]);
             return null;
