@@ -14,6 +14,11 @@ class ChangePasswordSettingSeeder extends Seeder
      */
     public function run()
     {
+        // NOTE:
+        // The "OPT" suffix in the following ParameterName values is a legacy
+        // abbreviation for "OPTION". These names are kept as-is to maintain
+        // backward compatibility with existing data and configuration.
+        // For new settings, prefer using the full word "OPTION" in names.
         Setting::updateOrCreate(
             ['ParameterName' => 'SEND_PASSWORD_CHANGE_OPT'],
             ['IntegerValue' => 1]
