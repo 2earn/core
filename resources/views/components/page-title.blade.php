@@ -383,6 +383,14 @@
                             </a>
                         </div>
                         <div class="col">
+                            <a href="{{route('balances_add_cash',['locale'=>app()->getLocale()],false )}}"
+                               class="menu-link-modern {{$currentRouteName=='balances_add_cash'? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-money-dollar-circle-fill "></i>
+                                <span>{{__('Add Cash Balance')}}</span>
+                            </a>
+                        </div>
+                        <div class="col">
                             <a href="{{route('balances_categories_index',['locale'=>app()->getLocale()],false )}}"
                                class="menu-link-modern {{$currentRouteName=='$1'? 'active' : ''}}"
                                role="button">

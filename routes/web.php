@@ -303,6 +303,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::prefix('/balances')->name('balances_')->group(function () {
                 Route::get('/index', \App\Livewire\Balances::class)->name('index');
                 Route::get('/', \App\Livewire\OperationBalancesCreateUpdate::class)->name('create_update');
+                Route::get('/add-cash', \App\Livewire\AddCashBalance::class)->name('add_cash');
                 Route::prefix('/categories')->name('categories_')->group(function () {
                     Route::get('/index', \App\Livewire\OperationCategoryIndex::class)->name('index');
                     Route::get('/', \App\Livewire\OperationCategoryCreateUpdate::class)->name('create_update');

@@ -2,10 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Enums\BalanceOperationsEnum;
 use App\Models\CashBalances;
 use App\Models\User;
 use App\Services\Balances\Balances;
-use Core\Enum\BalanceOperationsEnum;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -96,10 +96,10 @@ class AddCashBalance extends Component
 
             // Add cash balance
             CashBalances::addLine([
-                'balance_operation_id' => BalanceOperationsEnum::SI_CB->value,
+                'balance_operation_id' => BalanceOperationsEnum::OLD_ID_63->value,
                 'operator_id' => Auth::id() ?? $idUser,
                 'beneficiary_id' => $idUser,
-                'reference' => $balances->getReference(BalanceOperationsEnum::SI_CB->value),
+                'reference' => $balances->getReference(BalanceOperationsEnum::OLD_ID_63->value),
                 'description' => !empty($this->description)
                     ? $this->description
                     : "Cash balance added by admin",
