@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Services\UserService;
 use Carbon\Carbon;
 use App\Models\identificationuserrequest;
-use App\Models\metta_user;
+use App\Models\MettaUser;
 use App\Services\settingsManager;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -88,7 +88,7 @@ class IdentificationCheck extends Component
             'birthday' => $this->usermetta_info2['birthday'],
             'nationalID' => $this->usermetta_info2['nationalID'],
         ];
-        metta_user::where('idUser', $userAuth->idUser)->update($updatedMetaUserParams);
+        MettaUser::where('idUser', $userAuth->idUser)->update($updatedMetaUserParams);
 
 
         $photoFrontValidated = User::getNationalFrontImage($userAuth->idUser) != User::DEFAULT_NATIONAL_FRONT_URL;

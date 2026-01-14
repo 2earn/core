@@ -5,10 +5,10 @@ namespace App\DAL;
 use App\Enums\BalanceEnum;
 use App\Enums\StatusRequest;
 use App\Models\ContactUser;
+use App\Models\MettaUser;
 use App\Models\User;
 use Carbon\Carbon;
 use App\Interfaces\IUserRepository;
-use App\Models\metta_user;
 use App\Models\user_earn;
 use App\Models\UserContact;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +21,7 @@ class  UserRepository implements IUserRepository
 {
     public function getAllMettaUser()
     {
-        return metta_user::all();
+        return MettaUser::all();
     }
 
     public function getAllUsersErans()
@@ -193,10 +193,10 @@ class  UserRepository implements IUserRepository
                 ->first();
     }
 
-    public function createmettaUser(metta_user $metta_user)
+    public function createmettaUser(MettaUser $metta_user)
     {
         // TODO: Implement createmettaUser() method. ..
-        if (!metta_user::where('idUser', $metta_user->idUser)->exists()) {
+        if (!MettaUser::where('idUser', $metta_user->idUser)->exists()) {
             $metta_user->save();
         }
     }
@@ -212,7 +212,7 @@ class  UserRepository implements IUserRepository
     public function getConditionalMettaUser($attribute, $value)
     {
 
-        $user = metta_user::where($attribute, '=', $value)->first();
+        $user = MettaUser::where($attribute, '=', $value)->first();
         if (!$user)
             return null;
         return $user;

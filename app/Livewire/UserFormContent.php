@@ -10,7 +10,7 @@ use App\Http\Traits\earnTrait;
 use App\Models\User;
 use App\Services\UserService;
 use Carbon\Carbon;
-use App\Models\metta_user;
+use App\Models\MettaUser;
 use App\Services\settingsManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -117,7 +117,7 @@ class UserFormContent extends Component
     {
         $canModify = true;
         $us = User::find($this->user['id']);
-        $um = metta_user::find($this->usermetta_info['id']);
+        $um = MettaUser::find($this->usermetta_info['id']);
 
         if ($this->paramIdUser == "" && $us->hasIdentificationRequest()) {
             $canModify = false;
@@ -164,7 +164,7 @@ class UserFormContent extends Component
         }
 
         $um->save();
-        $um = metta_user::find($this->usermetta_info['id']);
+        $um = MettaUser::find($this->usermetta_info['id']);
 
         // Save is_public setting
         $us->is_public = $this->user['is_public'];

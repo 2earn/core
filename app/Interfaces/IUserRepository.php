@@ -5,7 +5,7 @@ namespace App\Interfaces;
 
 use App\Enums\BalanceEnum;
 use App\Models\User;
-use App\Models\metta_user;
+use App\Models\MettaUser;
 use App\Models\user_earn;
 use App\Models\UserContact;
 
@@ -26,7 +26,7 @@ interface IUserRepository
     public function logoutUser();
     public function getUserByFullnumber($number);
     public function  getSoldeUserByAmount($idUser,BalanceEnum $amount);
-    public function createmettaUser(metta_user $mettaUser);
+    public function createmettaUser(MettaUser $mettaUser);
     public function createUserEarn(user_earn $userEarn) ;
     public function getUserByMobileContry($mobile, $idContry);
     public function getConditionalMettaUser($attribute, $value);

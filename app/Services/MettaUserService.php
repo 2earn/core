@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Enums\LanguageEnum;
 use App\Interfaces\IUserRepository;
-use App\Models\metta_user;
+use App\Models\MettaUser;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -24,7 +24,7 @@ class MettaUserService
      */
     public function createMettaUser(User $user): void
     {
-        $metta = new metta_user();
+        $metta = new MettaUser();
         $metta->idUser = $user->idUser;
         $metta->idCountry = $user->idCountry;
 
@@ -46,12 +46,12 @@ class MettaUserService
      * @param string $idUser
      * @param int $idLanguage
      * @param int|null $idCountry
-     * @return metta_user|null
+     * @return MettaUser|null
      */
-    public function createMettaUserByData(string $idUser, int $idLanguage, ?int $idCountry = null): ?metta_user
+    public function createMettaUserByData(string $idUser, int $idLanguage, ?int $idCountry = null): ?MettaUser
     {
         try {
-            $metta = new metta_user();
+            $metta = new MettaUser();
             $metta->idUser = $idUser;
             $metta->idLanguage = $idLanguage;
             if ($idCountry) {

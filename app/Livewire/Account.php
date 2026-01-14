@@ -11,7 +11,7 @@ use App\Models\User;
 use App\Services\UserService;
 use Carbon\Carbon;
 use App\Models\identificationuserrequest;
-use App\Models\metta_user;
+use App\Models\MettaUser;
 use App\Services\settingsManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -95,7 +95,7 @@ class Account extends Component
 
     public function SaveChangeEdit()
     {
-        $um = metta_user::find($this->usermetta_info['id']);
+        $um = MettaUser::find($this->usermetta_info['id']);
         $um->enLastName = $this->usermetta_info['enLastName'];
         $um->enFirstName = $this->usermetta_info['enFirstName'];
         $um->birthday = $this->usermetta_info['birthday'];
@@ -193,7 +193,7 @@ class Account extends Component
     {
         $canModify = true;
         $us = User::find($this->user['id']);
-        $um = metta_user::find($this->usermetta_info['id']);
+        $um = MettaUser::find($this->usermetta_info['id']);
 
         if ($this->paramIdUser == "" && $us->hasIdentificationRequest()) {
             $canModify = false;
@@ -235,7 +235,7 @@ class Account extends Component
             $us->status = StatusRequest::InProgressNational->value;
         }
         $um->save();
-        $um = metta_user::find($this->usermetta_info['id']);
+        $um = MettaUser::find($this->usermetta_info['id']);
         $us->is_public = $this->user['is_public'];
         $us->save();
         $us = User::find($this->user['id']);

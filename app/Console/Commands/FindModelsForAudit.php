@@ -29,7 +29,7 @@ class FindModelsForAudit extends Command
         'representatives' => null,
         'pool' => 'Pool',
         'platforms' => 'Platform',
-        'metta_users' => 'metta_user',
+        'metta_users' => 'MettaUser',
         'financial_request' => 'FinancialRequest',
         'detail_financial_request' => 'detail_financial_request',
         'countries' => 'countrie',

@@ -33,7 +33,7 @@ use App\Models\AuthenticatedUser;
 use App\Models\countrie;
 use App\Models\identificationuserrequest;
 use App\Models\language;
-use App\Models\metta_user;
+use App\Models\MettaUser;
 use App\Models\Setting;
 use App\Models\user_earn;
 use App\Models\UserContact;
