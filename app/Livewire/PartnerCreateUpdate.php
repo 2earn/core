@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use App\Models\BusinessSector;
 use App\Services\Partner\PartnerService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -43,12 +42,13 @@ class PartnerCreateUpdate extends Component
         $this->partnerService = $partnerService;
     }
 
-    public function mount(Request $request)
+    public function mount($id = null)
     {
         $this->businessSectors = BusinessSector::orderBy('name')->get();
-        $this->id = $request->input('id');
-        if (!is_null($this->id)) {
-            $this->edit($this->id);
+
+        if (!is_null($id)) {
+            $this->id = $id;
+            $this->edit($id);
         }
     }
 
