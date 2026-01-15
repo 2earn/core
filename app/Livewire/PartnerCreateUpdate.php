@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\BusinessSector;
 use App\Services\Partner\PartnerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,10 +14,11 @@ class PartnerCreateUpdate extends Component
 {
     public $id;
     public $company_name;
-    public $business_sector;
+    public $business_sector_id;
     public $platform_url;
     public $platform_description;
     public $partnership_reason;
+    public $businessSectors = [];
 
     public $update = false;
 
@@ -24,7 +26,7 @@ class PartnerCreateUpdate extends Component
 
     protected $rules = [
         'company_name' => 'required|string|max:255',
-        'business_sector' => 'nullable|string|max:255',
+        'business_sector_id' => 'nullable|exists:business_sectors,id',
         'platform_url' => 'nullable|url|max:500',
         'platform_description' => 'nullable|string',
         'partnership_reason' => 'nullable|string',
@@ -32,6 +34,7 @@ class PartnerCreateUpdate extends Component
 
     protected $messages = [
         'company_name.required' => 'Company name is required',
+        'business_sector_id.exists' => 'Invalid business sector selected',
         'platform_url.url' => 'Platform URL must be a valid URL',
     ];
 
@@ -42,6 +45,7 @@ class PartnerCreateUpdate extends Component
 
     public function mount(Request $request)
     {
+        $this->businessSectors = BusinessSector::orderBy('name')->get();
         $this->id = $request->input('id');
         if (!is_null($this->id)) {
             $this->edit($this->id);
@@ -59,7 +63,7 @@ class PartnerCreateUpdate extends Component
 
         $this->id = $id;
         $this->company_name = $partner->company_name;
-        $this->business_sector = $partner->business_sector;
+        $this->business_sector_id = $partner->business_sector_id;
         $this->platform_url = $partner->platform_url;
         $this->platform_description = $partner->platform_description;
         $this->partnership_reason = $partner->partnership_reason;
@@ -79,7 +83,7 @@ class PartnerCreateUpdate extends Component
         try {
             $this->partnerService->updatePartner($this->id, [
                 'company_name' => $this->company_name,
-                'business_sector' => $this->business_sector,
+                'business_sector_id' => $this->business_sector_id,
                 'platform_url' => $this->platform_url,
                 'platform_description' => $this->platform_description,
                 'partnership_reason' => $this->partnership_reason,
@@ -101,7 +105,7 @@ class PartnerCreateUpdate extends Component
 
         $partnerData = [
             'company_name' => $this->company_name,
-            'business_sector' => $this->business_sector,
+            'business_sector_id' => $this->business_sector_id,
             'platform_url' => $this->platform_url,
             'platform_description' => $this->platform_description,
             'partnership_reason' => $this->partnership_reason,

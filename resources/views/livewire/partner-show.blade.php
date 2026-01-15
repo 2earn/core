@@ -47,8 +47,8 @@
                                     <tr>
                                         <th class="ps-0">{{__('Business Sector')}}:</th>
                                         <td class="text-muted">
-                                            @if($partner->business_sector)
-                                                <span class="badge bg-soft-info text-info">{{ $partner->business_sector }}</span>
+                                            @if($partner->businessSector)
+                                                <span class="badge bg-soft-info text-info">{{ $partner->businessSector->name }}</span>
                                             @else
                                                 <span class="text-muted">-</span>
                                             @endif

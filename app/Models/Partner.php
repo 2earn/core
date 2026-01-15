@@ -12,13 +12,21 @@ class Partner extends Model
 
     protected $fillable = [
         'company_name',
-        'business_sector',
+        'business_sector_id',
         'platform_url',
         'platform_description',
         'partnership_reason',
         'created_by',
         'updated_by',
     ];
+
+    /**
+     * Get the business sector
+     */
+    public function businessSector()
+    {
+        return $this->belongsTo(BusinessSector::class, 'business_sector_id', 'id');
+    }
 
     /**
      * Get the user who created this partner

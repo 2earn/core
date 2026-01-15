@@ -37,11 +37,15 @@
 
                         <div class="form-group col-sm-12 col-md-6 mb-3">
                             <label for="BusinessSector">{{__('Business Sector')}}</label>
-                            <input type="text" class="form-control @error('business_sector') is-invalid @enderror"
+                            <select class="form-select @error('business_sector_id') is-invalid @enderror"
                                    id="BusinessSector"
-                                   placeholder="{{__('Enter Business Sector')}}"
-                                   wire:model.live="business_sector">
-                            @error('business_sector') <span class="text-danger">{{ $message }}</span>@enderror
+                                   wire:model.live="business_sector_id">
+                                <option value="">{{__('Select Business Sector')}}</option>
+                                @foreach($businessSectors as $sector)
+                                    <option value="{{ $sector->id }}">{{ $sector->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('business_sector_id') <span class="text-danger">{{ $message }}</span>@enderror
                         </div>
                     </div>
 

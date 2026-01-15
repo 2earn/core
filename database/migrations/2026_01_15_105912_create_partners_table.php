@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('partners', function (Blueprint $table) {
             $table->id();
             $table->string('company_name', 255);
-            $table->string('business_sector', 255)->nullable();
+            $table->unsignedBigInteger('business_sector_id')->nullable();
             $table->string('platform_url', 500)->nullable();
             $table->text('platform_description')->nullable();
             $table->text('partnership_reason')->nullable();
@@ -22,6 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
 
+            $table->foreign('business_sector_id')->references('id')->on('business_sectors')->onDelete('set null');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
         });

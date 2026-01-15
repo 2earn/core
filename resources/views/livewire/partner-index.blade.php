@@ -25,7 +25,7 @@
                         </div>
                         @if(\App\Models\User::isSuperAdmin())
                             <div class="col-sm-12 col-md-3  col-lg-6">
-                                <a href="{{route('partner_create_update', app()->getLocale())}}"
+                                <a href="{{route('partner_create', app()->getLocale())}}"
                                    class="btn btn-outline-info add-btn float-end"
                                    id="create-btn">
                                     {{__('Create new partner')}}
@@ -44,74 +44,91 @@
 
                     @if($partners->count())
                         <div class="col-12">
-                            <div class="table-responsive">
-                                <table class="table table-hover table-striped align-middle">
-                                    <thead class="table-light">
-                                    <tr>
-                                        <th>{{__('Company Name')}}</th>
-                                        <th>{{__('Business Sector')}}</th>
-                                        <th>{{__('Platform URL')}}</th>
-                                        <th>{{__('Created At')}}</th>
-                                        @if(\App\Models\User::isSuperAdmin())
-                                            <th class="text-end">{{__('Actions')}}</th>
-                                        @endif
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($partners as $partner)
-                                        <tr>
-                                            <td>
-                                                <strong>{{ $partner->company_name }}</strong>
-                                            </td>
-                                            <td>
-                                                @if($partner->business_sector)
-                                                    <span class="badge bg-soft-info text-info">{{ $partner->business_sector }}</span>
-                                                @else
-                                                    <span class="text-muted">-</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if($partner->platform_url)
-                                                    <a href="{{ $partner->platform_url }}" target="_blank"
-                                                       class="text-primary" title="{{__('Visit website')}}">
-                                                        <i class="ri-external-link-line"></i>
-                                                        {{ Str::limit($partner->platform_url, 30) }}
-                                                    </a>
-                                                @else
-                                                    <span class="text-muted">-</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <small
-                                                    class="text-muted">{{ $partner->created_at->format('Y-m-d H:i') }}</small>
-                                            </td>
-                                            @if(\App\Models\User::isSuperAdmin())
-                                                <td class="text-end">
-                                                    <a href="{{route('partner_show',['locale'=> app()->getLocale(),'id'=>$partner->id])}}"
-                                                       class="btn btn-sm btn-soft-info me-1"
-                                                       title="{{__('View Details')}}">
-                                                        <i class="ri-eye-line"></i>
-                                                    </a>
-                                                    <a href="{{route('partner_create_update',['locale'=> app()->getLocale(),'id'=>$partner->id])}}"
-                                                       class="btn btn-sm btn-soft-primary me-1"
-                                                       title="{{__('Edit')}}">
-                                                        <i class="ri-edit-line"></i>
-                                                    </a>
-                                                    <button wire:click="deletePartner('{{ $partner->id }}')"
-                                                            class="btn btn-sm btn-soft-danger"
-                                                            title="{{__('Delete Partner')}}"
-                                                            onclick="return confirm('{{__('Are you sure you want to delete this partner?')}}')">
-                                                        <i class="ri-delete-bin-line"></i>
-                                                        <span wire:loading wire:target="deletePartner('{{ $partner->id }}')"
-                                                              class="spinner-border spinner-border-sm ms-1"
-                                                              role="status" aria-hidden="true"></span>
-                                                    </button>
-                                                </td>
-                                            @endif
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
+                            <div class="row g-3">
+                                @foreach($partners as $partner)
+                                    <div class="col-12">
+                                        <div class="card border mb-0 shadow-sm hover-shadow">
+                                            <div class="card-body">
+                                                <div class="row align-items-center">
+                                                    <div class="col-lg-8">
+                                                        <div class="d-flex align-items-start">
+                                                            <div class="flex-shrink-0">
+                                                                <div class="avatar-sm">
+                                                                    <div class="avatar-title bg-soft-primary text-primary rounded">
+                                                                        <i class="ri-building-line fs-20"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="flex-grow-1 ms-3">
+                                                                <h5 class="fs-16 mb-1">
+                                                                    <a href="{{route('partner_show',['locale'=> app()->getLocale(),'id'=>$partner->id])}}"
+                                                                       class="text-dark">
+                                                                        {{ $partner->company_name }}
+                                                                    </a>
+                                                                </h5>
+                                                                <div class="d-flex flex-wrap gap-2 align-items-center mb-2">
+                                                                    @if($partner->businessSector)
+                                                                        <span class="badge bg-soft-info text-info">
+                                                                            <i class="ri-price-tag-3-line me-1"></i>
+                                                                            {{ $partner->businessSector->name }}
+                                                                        </span>
+                                                                    @endif
+                                                                    <span class="text-muted">
+                                                                        <i class="ri-calendar-line me-1"></i>
+                                                                        {{ $partner->created_at->format('Y-m-d H:i') }}
+                                                                    </span>
+                                                                </div>
+                                                                @if($partner->platform_url)
+                                                                    <div class="text-muted">
+                                                                        <i class="ri-links-line me-1"></i>
+                                                                        <a href="{{ $partner->platform_url }}" target="_blank"
+                                                                           class="text-primary" title="{{__('Visit website')}}">
+                                                                            {{ Str::limit($partner->platform_url, 50) }}
+                                                                            <i class="ri-external-link-line ms-1"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                @endif
+                                                                @if($partner->platform_description)
+                                                                    <p class="text-muted mb-0 mt-2">
+                                                                        {{ Str::limit($partner->platform_description, 150) }}
+                                                                    </p>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @if(\App\Models\User::isSuperAdmin())
+                                                        <div class="col-lg-4">
+                                                            <div class="d-flex flex-wrap gap-2 justify-content-lg-end mt-3 mt-lg-0">
+                                                                <a href="{{route('partner_show',['locale'=> app()->getLocale(),'id'=>$partner->id])}}"
+                                                                   class="btn btn-soft-info btn-sm"
+                                                                   title="{{__('View Details')}}">
+                                                                    <i class="ri-eye-line me-1"></i>
+                                                                    {{__('View')}}
+                                                                </a>
+                                                                <a href="{{route('partner_update',['locale'=> app()->getLocale(),'id'=>$partner->id])}}"
+                                                                   class="btn btn-soft-primary btn-sm"
+                                                                   title="{{__('Edit')}}">
+                                                                    <i class="ri-edit-line me-1"></i>
+                                                                    {{__('Edit')}}
+                                                                </a>
+                                                                <button wire:click="deletePartner('{{ $partner->id }}')"
+                                                                        class="btn btn-soft-danger btn-sm"
+                                                                        title="{{__('Delete Partner')}}"
+                                                                        onclick="return confirm('{{__('Are you sure you want to delete this partner?')}}')">
+                                                                    <i class="ri-delete-bin-line me-1"></i>
+                                                                    {{__('Delete')}}
+                                                                    <span wire:loading wire:target="deletePartner('{{ $partner->id }}')"
+                                                                          class="spinner-border spinner-border-sm ms-1"
+                                                                          role="status" aria-hidden="true"></span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                         <div class="col-12 mt-3">{{ $partners->links() }}</div>
@@ -130,4 +147,3 @@
         </div>
     </div>
 </div>
-
