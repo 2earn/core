@@ -1250,7 +1250,8 @@ class ApiController extends BaseController
 
     public function getUserCoupons()
     {
-        return datatables(Coupon::where('user_id', auth()->user()->id)->where('status', CouponStatusEnum::purchased->value)->orderBy('id', 'desc')->get())
+        $coupons = Coupon::where('user_id', auth()->user()->id)->whereIn('status', [CouponStatusEnum::purchased->value, CouponStatusEnum::consumed->value])->orderBy('id', 'desc')->get();
+        return datatables($coupons)
             ->addColumn('action', function ($coupon) {
                 return view('parts.datatable.coupon-consume', ['coupon' => $coupon]);
             })
