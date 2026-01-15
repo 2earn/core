@@ -55,18 +55,16 @@
             </div>
             <div class="card-footer">
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="col-md-12">
                         @if($update)
                             <button wire:click.prevent="updateCategory()"
-                                    class="btn btn-success btn-block">{{__('Update')}}</button>
+                                    class="btn btn-success btn-block float-end">{{__('Update')}}</button>
                         @else
                             <button wire:click.prevent="storeCategory()"
                                     class="btn btn-success btn-block float-end">{{__('Save')}}</button>
                         @endif
-                    </div>
-                    <div class="col-md-2">
                         <button wire:click.prevent="cancel()"
-                                class="btn btn-danger float-end">{{__('Cancel')}}</button>
+                                class="btn btn-danger float-end mx-1">{{__('Cancel')}}</button>
                     </div>
                 </div>
             </div>
