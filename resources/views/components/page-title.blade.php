@@ -483,6 +483,13 @@
                             </a>
                         </div>
                         <div class="col">
+                            <a href="{{route('partner_index', app()->getLocale(),false)}}"
+                               class="menu-link-modern {{$currentRouteName=='partner_index'? 'active' : ''}}">
+                                <i class="ri-team-line"></i>
+                                <span>{{ __('Partners') }}</span>
+                            </a>
+                        </div>
+                        <div class="col">
                             <a href="{{route('sms_index', app()->getLocale(),false)}}"
                                class="menu-link-modern {{$currentRouteName=='$1'? 'active' : ''}}">
                                 <i class="ri-message-2-fill "></i>
