@@ -85,9 +85,7 @@
                 <div class="row g-4">
                     <div class="col-12">
                         <div class="justify-content-sm-end">
-                            <div class="search-box ms-2">
-                                <p>{{ __('bfs description') }}</p>
-                            </div>
+                                <p class="text-muted">{{ __('bfs description') }}</p>
                         </div>
                     </div>
                 </div>
