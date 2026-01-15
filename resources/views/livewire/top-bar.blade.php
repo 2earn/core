@@ -152,6 +152,12 @@
                                 <a class="dropdown-item" href="{{route('faq_index',app()->getLocale())}}">
                                     <span class="text-muted"> {{ __('Frequently asked questions') }}</span>
                                 </a>
+                                @if(\App\Models\User::isSuperAdmin())
+                                    <a class="dropdown-item" href="{{route('partner_index',app()->getLocale())}}">
+                                        <i class="ri-team-line text-muted fs-16 align-middle me-2"></i>
+                                        <span class="text-muted"> {{ __('Partners') }}</span>
+                                    </a>
+                                @endif
                                 <a class="dropdown-item" href="{{ route('user_guides_index', app()->getLocale()) }}">
                                     <span class="text-muted">{{ __('User Guides') }}</span>
                                 </a>

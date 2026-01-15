@@ -234,6 +234,15 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/{id}', \App\Livewire\PartnerPaymentDetail::class)->name('detail');
         });
 
+        Route::prefix('/partner')->name('partner_')->group(function () {
+            Route::get('/index', \App\Livewire\PartnerIndex::class)->name('index');
+            Route::middleware(['IsSuperAdmin'])->group(function () {
+                Route::get('/create', \App\Livewire\PartnerCreateUpdate::class)->name('create_update');
+                Route::get('/{id}/edit', \App\Livewire\PartnerCreateUpdate::class)->name('create_update');
+                Route::get('/{id}/show', \App\Livewire\PartnerShow::class)->name('show');
+            });
+        });
+
             // SUPER ADMIN MENU
         // -----------------------------------------------------------
 
