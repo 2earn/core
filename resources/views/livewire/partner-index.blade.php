@@ -105,7 +105,7 @@
                                                                     <i class="ri-eye-line me-1"></i>
                                                                     {{__('View')}}
                                                                 </a>
-                                                                <a href="{{route('partner_update',['locale'=> app()->getLocale(),'id'=>$partner->id])}}"
+                                                                <a href="{{route('partner_create_update',['locale'=> app()->getLocale(),'id'=>$partner->id])}}"
                                                                    class="btn btn-soft-primary btn-sm"
                                                                    title="{{__('Edit')}}">
                                                                     <i class="ri-edit-line me-1"></i>
