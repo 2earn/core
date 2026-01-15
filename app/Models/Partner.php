@@ -43,5 +43,13 @@ class Partner extends Model
     {
         return $this->belongsTo(User::class, 'updated_by', 'id');
     }
+
+    /**
+     * Get all entity roles (polymorphic)
+     */
+    public function roles()
+    {
+        return $this->morphMany(EntityRole::class, 'roleable');
+    }
 }
 

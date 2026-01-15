@@ -130,6 +130,14 @@ class Platform extends Model
     }
 
     /**
+     * Get all entity roles (polymorphic)
+     */
+    public function roles()
+    {
+        return $this->morphMany(EntityRole::class, 'roleable');
+    }
+
+    /**
      * Get all users with roles in this platform (owner, marketing manager, financial manager)
      *
      * @return \Illuminate\Database\Eloquent\Collection
