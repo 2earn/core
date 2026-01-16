@@ -49,23 +49,27 @@ class EntityRoleService
     /**
      * Get roles for a specific platform
      */
-    public function getRolesForPlatform($platformId)
+    public function getRolesForPlatform($platformId, $paginate = false, $perPage = 10)
     {
-        return EntityRole::where('roleable_type', Platform::class)
+        $query = EntityRole::where('roleable_type', Platform::class)
             ->where('roleable_id', $platformId)
-            ->with(['creator', 'updater'])
-            ->get();
+            ->with(['user', 'creator', 'updater'])
+            ->orderBy('created_at', 'desc');
+
+        return $paginate ? $query->paginate($perPage) : $query->get();
     }
 
     /**
      * Get roles for a specific partner
      */
-    public function getRolesForPartner($partnerId)
+    public function getRolesForPartner($partnerId, $paginate = false, $perPage = 10)
     {
-        return EntityRole::where('roleable_type', Partner::class)
+        $query = EntityRole::where('roleable_type', Partner::class)
             ->where('roleable_id', $partnerId)
-            ->with(['creator', 'updater'])
-            ->get();
+            ->with(['user', 'creator', 'updater'])
+            ->orderBy('created_at', 'desc');
+
+        return $paginate ? $query->paginate($perPage) : $query->get();
     }
 
     /**
@@ -80,7 +84,9 @@ class EntityRoleService
                 'name' => $data['name'],
                 'roleable_id' => $platformId,
                 'roleable_type' => Platform::class,
+                'user_id' => $data['user_id'] ?? null,
                 'created_by' => $data['created_by'] ?? null,
+                'updated_by' => $data['updated_by'] ?? null,
             ];
 
             $role = EntityRole::create($roleData);
@@ -106,7 +112,9 @@ class EntityRoleService
                 'name' => $data['name'],
                 'roleable_id' => $partnerId,
                 'roleable_type' => Partner::class,
+                'user_id' => $data['user_id'] ?? null,
                 'created_by' => $data['created_by'] ?? null,
+                'updated_by' => $data['updated_by'] ?? null,
             ];
 
             $role = EntityRole::create($roleData);
@@ -132,6 +140,7 @@ class EntityRoleService
 
             $updateData = [
                 'name' => $data['name'],
+                'user_id' => $data['user_id'] ?? $role->user_id,
                 'updated_by' => $data['updated_by'] ?? null,
             ];
 

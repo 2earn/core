@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
-use App\Models\EntityRole;
 use App\Models\Partner;
 use App\Models\User;
+use App\Services\EntityRole\EntityRoleService;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -29,6 +29,13 @@ class PartnerEntityRoleManager extends Component
     public $editRoleUserId = '';
 
     public $listeners = ['refreshComponent' => '$refresh'];
+
+    protected $entityRoleService;
+
+    public function boot(EntityRoleService $entityRoleService)
+    {
+        $this->entityRoleService = $entityRoleService;
+    }
 
     public function mount($partnerId)
     {
@@ -63,10 +70,8 @@ class PartnerEntityRoleManager extends Component
         ]);
 
         try {
-            EntityRole::create([
+            $this->entityRoleService->createPartnerRole($this->partnerId, [
                 'name' => $this->newRoleName,
-                'roleable_id' => $this->partnerId,
-                'roleable_type' => Partner::class,
                 'user_id' => $this->newRoleUserId ?: null,
                 'created_by' => auth()->id(),
                 'updated_by' => auth()->id(),
@@ -83,7 +88,7 @@ class PartnerEntityRoleManager extends Component
 
     public function editRole($roleId)
     {
-        $role = EntityRole::findOrFail($roleId);
+        $role = $this->entityRoleService->getRoleById($roleId);
         $this->editingRoleId = $roleId;
         $this->editRoleName = $role->name;
         $this->editRoleUserId = $role->user_id;
@@ -100,8 +105,7 @@ class PartnerEntityRoleManager extends Component
         ]);
 
         try {
-            $role = EntityRole::findOrFail($this->editingRoleId);
-            $role->update([
+            $this->entityRoleService->updateRole($this->editingRoleId, [
                 'name' => $this->editRoleName,
                 'user_id' => $this->editRoleUserId ?: null,
                 'updated_by' => auth()->id(),
@@ -124,7 +128,7 @@ class PartnerEntityRoleManager extends Component
     public function revokeRole($roleId)
     {
         try {
-            EntityRole::findOrFail($roleId)->delete();
+            $this->entityRoleService->deleteRole($roleId);
             session()->flash('success', Lang::get('Role revoked successfully'));
             $this->dispatch('refreshComponent');
         } catch (\Exception $exception) {
@@ -156,11 +160,7 @@ class PartnerEntityRoleManager extends Component
 
     public function render()
     {
-        $roles = EntityRole::where('roleable_id', $this->partnerId)
-            ->where('roleable_type', Partner::class)
-            ->with(['user', 'creator', 'updater'])
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+        $roles = $this->entityRoleService->getRolesForPartner($this->partnerId, true, 10);
 
         return view('livewire.partner-entity-role-manager', [
             'roles' => $roles,
