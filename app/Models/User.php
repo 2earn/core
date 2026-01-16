@@ -100,6 +100,11 @@ class User extends Authenticatable
         return $this->hasMany(CashBalances::class);
     }
 
+    public function entityRoles()
+    {
+        return $this->hasMany(EntityRole::class, 'user_id', 'id');
+    }
+
     public function mettaUser()
     {
         return $this->hasOne(\App\Models\MettaUser::class, 'idUser', 'idUser');

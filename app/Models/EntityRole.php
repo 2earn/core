@@ -15,6 +15,7 @@ class EntityRole extends Model
         'name',
         'roleable_id',
         'roleable_type',
+        'user_id',
         'created_by',
         'updated_by',
     ];
@@ -30,6 +31,14 @@ class EntityRole extends Model
     public function roleable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    /**
+     * Get the user associated with this entity role
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     /**
