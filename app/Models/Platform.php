@@ -21,9 +21,6 @@ class Platform extends Model
         'link',
         'show_profile',
         'image_link',
-        'owner_id',
-        'marketing_manager_id',
-        'financial_manager_id',
         'business_sector_id',
         'created_by',
         'updated_by',
@@ -171,18 +168,14 @@ class Platform extends Model
     }
 
 
-    public
-    static function havePartnerSpecialRole($id)
+    public static function havePartnerSpecialRole($id)
     {
         if (User::isSuperAdmin()) {
             return true;
         }
-        return Platform::where(function ($query) use ($id) {
-            $query
-                ->where('financial_manager_id', '=', $id)
-                ->orWhere('owner_id', '=', $id)
-                ->orWhere('marketing_manager_id', '=', $id);
-        })
+        return DB::table('entity_roles')
+            ->where('user_id', $id)
+            ->where('roleable_type', 'App\\Models\\Platform')
             ->exists();
     }
 

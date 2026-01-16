@@ -274,4 +274,17 @@ class EntityRoleService
             ->pluck('roleable_id')
             ->toArray();
     }
+
+    /**
+     * Get all user IDs that have platform roles
+     *
+     * @return array
+     */
+    public function getAllPlatformPartnerUserIds(): array
+    {
+        return EntityRole::where('roleable_type', Platform::class)
+            ->distinct()
+            ->pluck('user_id')
+            ->toArray();
+    }
 }
