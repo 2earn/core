@@ -293,10 +293,8 @@ class PlatformService
     public function getPlatformsForPartner(int $userId, ?int $page = 1, ?string $search = null, int $limit = 8): array
     {
         try {
-            $query = Platform::where(function ($q) use ($userId) {
-                $q->where('owner_id', $userId)
-                    ->orWhere('marketing_manager_id', $userId)
-                    ->orWhere('financial_manager_id', $userId);
+            $query = Platform::whereHas('roles', function ($q) use ($userId) {
+                $q->where('user_id', $userId);
             });
 
             if (!empty($search)) {
@@ -351,10 +349,8 @@ class PlatformService
     {
         try {
             return Platform::where('id', $platformId)
-                ->where(function ($q) use ($userId) {
-                    $q->where('owner_id', $userId)
-                        ->orWhere('marketing_manager_id', $userId)
-                        ->orWhere('financial_manager_id', $userId);
+                ->whereHas('roles', function ($q) use ($userId) {
+                    $q->where('user_id', $userId);
                 })
                 ->exists();
         } catch (\Exception $e) {
@@ -377,10 +373,8 @@ class PlatformService
     {
         try {
             return Platform::where('id', $platformId)
-                ->where(function ($q) use ($userId) {
-                    $q->where('owner_id', $userId)
-                        ->orWhere('marketing_manager_id', $userId)
-                        ->orWhere('financial_manager_id', $userId);
+                ->whereHas('roles', function ($q) use ($userId) {
+                    $q->where('user_id', $userId);
                 })
                 ->with([
                     'businessSector',
