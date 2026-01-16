@@ -141,6 +141,15 @@ class PartnerEntityRoleManager extends Component
 
         return User::where('name', 'like', '%' . $this->userSearch . '%')
             ->orWhere('email', 'like', '%' . $this->userSearch . '%')
+            ->orWhere('idUser', 'like', '%' . $this->userSearch . '%')
+            ->orWhereHas('mettaUser', function ($query) {
+                $query->where('email', 'like', '%' . $this->userSearch . '%')
+                    ->orWhere('secondEmail', 'like', '%' . $this->userSearch . '%');
+            })
+            ->orWhereHas('contactUser', function ($query) {
+                $query->where('mobile', 'like', '%' . $this->userSearch . '%')
+                    ->orWhere('fullphone_number', 'like', '%' . $this->userSearch . '%');
+            })
             ->limit(10)
             ->get();
     }

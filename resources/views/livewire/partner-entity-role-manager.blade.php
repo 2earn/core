@@ -57,7 +57,7 @@
                                            class="form-control @error('newRoleUserId') is-invalid @enderror"
                                            id="userSearch"
                                            wire:model.live="userSearch"
-                                           placeholder="{{ __('Search user by name or email') }}"
+                                           placeholder="{{ __('Search user by name, email, phone or ID') }}"
                                            autocomplete="off">
 
                                     @if($showUserDropdown && $this->searchedUsers->count() > 0)
@@ -74,9 +74,19 @@
                                                                     {{ substr($user->name, 0, 1) }}
                                                                 </span>
                                                         </div>
-                                                        <div>
+                                                        <div class="flex-grow-1">
                                                             <div class="fw-semibold">{{ $user->name }}</div>
-                                                            <small class="text-muted">{{ $user->email }}</small>
+                                                            <small class="text-muted d-block">{{ $user->email }}</small>
+                                                            <div class="d-flex gap-2 mt-1">
+                                                                @if($user->idUser)
+                                                                    <small class="badge bg-soft-info text-info">ID: {{ $user->idUser }}</small>
+                                                                @endif
+                                                                @if($user->contactUser && $user->contactUser->mobile)
+                                                                    <small class="badge bg-soft-success text-success">
+                                                                        <i class="ri-phone-line"></i> {{ $user->contactUser->mobile }}
+                                                                    </small>
+                                                                @endif
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -154,7 +164,7 @@
                                                 <input type="text"
                                                        class="form-control form-control-sm"
                                                        wire:model.live="userSearch"
-                                                       placeholder="{{ __('Search user') }}"
+                                                       placeholder="{{ __('Search user by name, email, phone or ID') }}"
                                                        autocomplete="off">
 
                                                 @if($showUserDropdown && $this->searchedUsers->count() > 0)
@@ -172,11 +182,21 @@
                                                                                 {{ substr($user->name, 0, 1) }}
                                                                             </span>
                                                                     </div>
-                                                                    <div>
+                                                                    <div class="flex-grow-1">
                                                                         <div
                                                                             class="fw-semibold small">{{ $user->name }}</div>
                                                                         <small
-                                                                            class="text-muted">{{ $user->email }}</small>
+                                                                            class="text-muted d-block">{{ $user->email }}</small>
+                                                                        <div class="d-flex gap-2 mt-1">
+                                                                            @if($user->idUser)
+                                                                                <small class="badge bg-soft-info text-info">ID: {{ $user->idUser }}</small>
+                                                                            @endif
+                                                                            @if($user->contactUser && $user->contactUser->mobile)
+                                                                                <small class="badge bg-soft-success text-success">
+                                                                                    <i class="ri-phone-line"></i> {{ $user->contactUser->mobile }}
+                                                                                </small>
+                                                                            @endif
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>

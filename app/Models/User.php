@@ -110,6 +110,11 @@ class User extends Authenticatable
         return $this->hasOne(\App\Models\MettaUser::class, 'idUser', 'idUser');
     }
 
+    public function contactUser()
+    {
+        return $this->hasOne(\App\Models\ContactUser::class, 'idUser', 'idUser');
+    }
+
     public function profileImage()
     {
         return $this->morphOne(Image::class, 'imageable')->where('type', '=', self::IMAGE_TYPE_PROFILE);
