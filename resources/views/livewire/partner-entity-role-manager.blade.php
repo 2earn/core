@@ -52,54 +52,59 @@
                         <div class="col-md-5">
                             <label for="userSearch" class="form-label">{{ __('Assign User (Optional)') }}</label>
                             <div class="position-relative">
-                                <input type="text"
-                                       class="form-control @error('newRoleUserId') is-invalid @enderror"
-                                       id="userSearch"
-                                       wire:model.live="userSearch"
-                                       placeholder="{{ __('Search user by name or email') }}"
-                                       autocomplete="off">
+                                @if(!$newRoleUserId)
+                                    <input type="text"
+                                           class="form-control @error('newRoleUserId') is-invalid @enderror"
+                                           id="userSearch"
+                                           wire:model.live="userSearch"
+                                           placeholder="{{ __('Search user by name or email') }}"
+                                           autocomplete="off">
 
-                                @if($showUserDropdown && $this->searchedUsers->count() > 0)
-                                    <div class="position-absolute w-100 bg-white border rounded shadow-sm mt-1"
-                                         style="z-index: 1000; max-height: 200px; overflow-y: auto;">
-                                        @foreach($this->searchedUsers as $user)
-                                            <div class="px-3 py-2 cursor-pointer hover-bg-light"
-                                                 wire:click="selectUser({{ $user->id }})"
-                                                 style="cursor: pointer;">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar-xs me-2">
-                                                            <span
-                                                                class="avatar-title rounded-circle bg-soft-primary text-primary">
-                                                                {{ substr($user->name, 0, 1) }}
-                                                            </span>
-                                                    </div>
-                                                    <div>
-                                                        <div class="fw-semibold">{{ $user->name }}</div>
-                                                        <small class="text-muted">{{ $user->email }}</small>
+                                    @if($showUserDropdown && $this->searchedUsers->count() > 0)
+                                        <div class="position-absolute w-100 bg-white border rounded shadow-sm mt-1"
+                                             style="z-index: 1000; max-height: 200px; overflow-y: auto;">
+                                            @foreach($this->searchedUsers as $user)
+                                                <div class="px-3 py-2 cursor-pointer hover-bg-light"
+                                                     wire:click="selectUser({{ $user->id }})"
+                                                     style="cursor: pointer;">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="avatar-xs me-2">
+                                                                <span
+                                                                    class="avatar-title rounded-circle bg-soft-primary text-primary">
+                                                                    {{ substr($user->name, 0, 1) }}
+                                                                </span>
+                                                        </div>
+                                                        <div>
+                                                            <div class="fw-semibold">{{ $user->name }}</div>
+                                                            <small class="text-muted">{{ $user->email }}</small>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                @else
+                                    @php
+                                        $selectedUser = \App\Models\User::find($newRoleUserId);
+                                    @endphp
+                                    @if($selectedUser)
+                                        <div class="d-flex align-items-center bg-light p-2 rounded">
+                                            <div class="avatar-xs me-2">
+                                                <span class="avatar-title rounded-circle bg-soft-success text-success">
+                                                    {{ substr($selectedUser->name, 0, 1) }}
+                                                </span>
                                             </div>
-                                        @endforeach
-                                    </div>
-                                @endif
-
-                                @if($newRoleUserId)
-                                    <div class="mt-2">
-                                        @php
-                                            $selectedUser = \App\Models\User::find($newRoleUserId);
-                                        @endphp
-                                        @if($selectedUser)
-                                            <div class="d-flex align-items-center bg-light p-2 rounded">
-                                                <i class="ri-user-line me-2"></i>
-                                                <span class="me-2">{{ $selectedUser->name }}</span>
-                                                <button type="button"
-                                                        class="btn btn-sm btn-soft-danger ms-auto"
-                                                        wire:click="$set('newRoleUserId', '')">
-                                                    <i class="ri-close-line"></i>
-                                                </button>
+                                            <div class="flex-grow-1">
+                                                <div class="fw-semibold">{{ $selectedUser->name }}</div>
+                                                <small class="text-muted">{{ $selectedUser->email }}</small>
                                             </div>
-                                        @endif
-                                    </div>
+                                            <button type="button"
+                                                    class="btn btn-sm btn-soft-danger"
+                                                    wire:click="$set('newRoleUserId', '')">
+                                                <i class="ri-close-line"></i>
+                                            </button>
+                                        </div>
+                                    @endif
                                 @endif
 
                                 @error('newRoleUserId')
@@ -145,57 +150,61 @@
                                     <div class="col-md-5">
                                         <label class="form-label small">{{ __('Assigned User') }}</label>
                                         <div class="position-relative">
-                                            <input type="text"
-                                                   class="form-control form-control-sm"
-                                                   wire:model.live="userSearch"
-                                                   placeholder="{{ __('Search user') }}"
-                                                   autocomplete="off">
+                                            @if(!$editRoleUserId)
+                                                <input type="text"
+                                                       class="form-control form-control-sm"
+                                                       wire:model.live="userSearch"
+                                                       placeholder="{{ __('Search user') }}"
+                                                       autocomplete="off">
 
-                                            @if($showUserDropdown && $this->searchedUsers->count() > 0)
-                                                <div
-                                                    class="position-absolute w-100 bg-white border rounded shadow-sm mt-1"
-                                                    style="z-index: 1000; max-height: 200px; overflow-y: auto;">
-                                                    @foreach($this->searchedUsers as $user)
-                                                        <div class="px-3 py-2 cursor-pointer hover-bg-light"
-                                                             wire:click="selectUser({{ $user->id }})"
-                                                             style="cursor: pointer;">
-                                                            <div class="d-flex align-items-center">
-                                                                <div class="avatar-xs me-2">
-                                                                        <span
-                                                                            class="avatar-title rounded-circle bg-soft-primary text-primary">
-                                                                            {{ substr($user->name, 0, 1) }}
-                                                                        </span>
-                                                                </div>
-                                                                <div>
-                                                                    <div
-                                                                        class="fw-semibold small">{{ $user->name }}</div>
-                                                                    <small
-                                                                        class="text-muted">{{ $user->email }}</small>
+                                                @if($showUserDropdown && $this->searchedUsers->count() > 0)
+                                                    <div
+                                                        class="position-absolute w-100 bg-white border rounded shadow-sm mt-1"
+                                                        style="z-index: 1000; max-height: 200px; overflow-y: auto;">
+                                                        @foreach($this->searchedUsers as $user)
+                                                            <div class="px-3 py-2 cursor-pointer hover-bg-light"
+                                                                 wire:click="selectUser({{ $user->id }})"
+                                                                 style="cursor: pointer;">
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="avatar-xs me-2">
+                                                                            <span
+                                                                                class="avatar-title rounded-circle bg-soft-primary text-primary">
+                                                                                {{ substr($user->name, 0, 1) }}
+                                                                            </span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <div
+                                                                            class="fw-semibold small">{{ $user->name }}</div>
+                                                                        <small
+                                                                            class="text-muted">{{ $user->email }}</small>
+                                                                    </div>
                                                                 </div>
                                                             </div>
+                                                        @endforeach
+                                                    </div>
+                                                @endif
+                                            @else
+                                                @php
+                                                    $editSelectedUser = \App\Models\User::find($editRoleUserId);
+                                                @endphp
+                                                @if($editSelectedUser)
+                                                    <div class="d-flex align-items-center bg-light p-2 rounded">
+                                                        <div class="avatar-xs me-2">
+                                                            <span class="avatar-title rounded-circle bg-soft-success text-success">
+                                                                {{ substr($editSelectedUser->name, 0, 1) }}
+                                                            </span>
                                                         </div>
-                                                    @endforeach
-                                                </div>
-                                            @endif
-
-                                            @if($editRoleUserId)
-                                                <div class="mt-2">
-                                                    @php
-                                                        $editSelectedUser = \App\Models\User::find($editRoleUserId);
-                                                    @endphp
-                                                    @if($editSelectedUser)
-                                                        <div class="d-flex align-items-center bg-light p-2 rounded">
-                                                            <i class="ri-user-line me-2"></i>
-                                                            <span
-                                                                class="me-2 small">{{ $editSelectedUser->name }}</span>
-                                                            <button type="button"
-                                                                    class="btn btn-sm btn-soft-danger ms-auto"
-                                                                    wire:click="$set('editRoleUserId', '')">
-                                                                <i class="ri-close-line"></i>
-                                                            </button>
+                                                        <div class="flex-grow-1">
+                                                            <div class="fw-semibold small">{{ $editSelectedUser->name }}</div>
+                                                            <small class="text-muted">{{ $editSelectedUser->email }}</small>
                                                         </div>
-                                                    @endif
-                                                </div>
+                                                        <button type="button"
+                                                                class="btn btn-sm btn-soft-danger"
+                                                                wire:click="$set('editRoleUserId', '')">
+                                                            <i class="ri-close-line"></i>
+                                                        </button>
+                                                    </div>
+                                                @endif
                                             @endif
                                         </div>
                                     </div>
@@ -278,14 +287,50 @@
                                         <i class="ri-pencil-line"></i>
                                     </button>
                                     <button class="btn btn-soft-danger btn-sm"
-                                            wire:click="revokeRole({{ $role->id }})"
-                                            onclick="return confirm('{{ __('Are you sure you want to revoke this role?') }}')"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#revokeModal{{ $role->id }}"
                                             title="{{ __('Revoke') }}">
                                         <i class="ri-delete-bin-line"></i>
                                     </button>
                                 </div>
                             </div>
                         @endif
+                    </div>
+
+                    <!-- Revoke Confirmation Modal -->
+                    <div class="modal fade" id="revokeModal{{ $role->id }}" tabindex="-1" aria-hidden="true" wire:ignore.self>
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header bg-danger-subtle">
+                                    <h5 class="modal-title text-danger">
+                                        <i class="ri-alert-line me-2"></i>{{ __('Confirm Revoke') }}
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p class="mb-3">{{ __('Are you sure you want to revoke this role?') }}</p>
+                                    <div class="bg-light p-3 rounded">
+                                        <strong>{{ __('Role Name') }}:</strong> {{ $role->name }}<br>
+                                        @if($role->user)
+                                            <strong>{{ __('Assigned User') }}:</strong> {{ $role->user->name }} ({{ $role->user->email }})
+                                        @endif
+                                    </div>
+                                    <div class="alert alert-warning mt-3 mb-0">
+                                        <i class="ri-error-warning-line me-2"></i>{{ __('This action cannot be undone.') }}
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        <i class="ri-close-line me-1"></i>{{ __('Cancel') }}
+                                    </button>
+                                    <button type="button" class="btn btn-danger"
+                                            wire:click="revokeRole({{ $role->id }})"
+                                            data-bs-dismiss="modal">
+                                        <i class="ri-delete-bin-line me-1"></i>{{ __('Revoke Role') }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 @empty
                     <div class="text-center py-5">
