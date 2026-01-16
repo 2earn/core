@@ -105,6 +105,12 @@
                                                                     <i class="ri-eye-line me-1"></i>
                                                                     {{__('View')}}
                                                                 </a>
+                                                                <a href="{{route('partner_roles',['locale'=> app()->getLocale(),'partnerId'=>$partner->id])}}"
+                                                                   class="btn btn-soft-primary btn-sm"
+                                                                   title="{{__('Manage Roles')}}">
+                                                                    <i class="ri-shield-user-line me-1"></i>
+                                                                    {{__('Manage Roles')}}
+                                                                </a>
                                                                 <a href="{{route('partner_update',['locale'=> app()->getLocale(),'id'=>$partner->id])}}"
                                                                    class="btn btn-soft-primary btn-sm"
                                                                    title="{{__('Edit')}}">
