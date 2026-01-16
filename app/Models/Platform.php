@@ -135,19 +135,15 @@ class Platform extends Model
     }
 
     /**
-     * Get all users with roles in this platform (owner, marketing manager, financial manager)
+     * Get all users with roles in this platform
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getPlatformRoleUsers()
     {
-        $userIds = array_filter([
-            $this->owner_id,
-            $this->marketing_manager_id,
-            $this->financial_manager_id
-        ]);
+        $userIds = $this->roles()->pluck('user_id')->unique()->filter();
 
-        if (empty($userIds)) {
+        if ($userIds->isEmpty()) {
             return User::whereIn('id', [])->get(); // Returns empty Eloquent Collection
         }
 
