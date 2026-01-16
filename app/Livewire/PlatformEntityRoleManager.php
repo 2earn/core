@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Platform;
 use App\Models\User;
 use App\Services\EntityRole\EntityRoleService;
+use App\Services\UserService;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -31,10 +32,12 @@ class PlatformEntityRoleManager extends Component
     public $listeners = ['refreshComponent' => '$refresh'];
 
     protected $entityRoleService;
+    protected $userService;
 
-    public function boot(EntityRoleService $entityRoleService)
+    public function boot(EntityRoleService $entityRoleService, UserService $userService)
     {
         $this->entityRoleService = $entityRoleService;
+        $this->userService = $userService;
     }
 
     public function mount($platformId)
@@ -139,23 +142,7 @@ class PlatformEntityRoleManager extends Component
 
     public function getSearchedUsersProperty()
     {
-        if (empty($this->userSearch)) {
-            return collect();
-        }
-
-        return User::where('name', 'like', '%' . $this->userSearch . '%')
-            ->orWhere('email', 'like', '%' . $this->userSearch . '%')
-            ->orWhere('idUser', 'like', '%' . $this->userSearch . '%')
-            ->orWhereHas('mettaUser', function ($query) {
-                $query->where('email', 'like', '%' . $this->userSearch . '%')
-                    ->orWhere('secondEmail', 'like', '%' . $this->userSearch . '%');
-            })
-            ->orWhereHas('contactUser', function ($query) {
-                $query->where('mobile', 'like', '%' . $this->userSearch . '%')
-                    ->orWhere('fullphone_number', 'like', '%' . $this->userSearch . '%');
-            })
-            ->limit(10)
-            ->get();
+        return $this->userService->searchUsers($this->userSearch, 10);
     }
 
     public function render()
