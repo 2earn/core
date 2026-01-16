@@ -220,4 +220,58 @@ class EntityRoleService
 
         return $query->exists();
     }
+
+    /**
+     * Check if a user has any role in platforms
+     *
+     * @param int $userId
+     * @return bool
+     */
+    public function userHasPlatformRole(int $userId): bool
+    {
+        return EntityRole::where('user_id', $userId)
+            ->where('roleable_type', Platform::class)
+            ->exists();
+    }
+
+    /**
+     * Check if a user has any role in partners
+     *
+     * @param int $userId
+     * @return bool
+     */
+    public function userHasPartnerRole(int $userId): bool
+    {
+        return EntityRole::where('user_id', $userId)
+            ->where('roleable_type', Partner::class)
+            ->exists();
+    }
+
+    /**
+     * Get all platform IDs where user has a role
+     *
+     * @param int $userId
+     * @return array
+     */
+    public function getUserPlatformIds(int $userId): array
+    {
+        return EntityRole::where('user_id', $userId)
+            ->where('roleable_type', Platform::class)
+            ->pluck('roleable_id')
+            ->toArray();
+    }
+
+    /**
+     * Get all partner IDs where user has a role
+     *
+     * @param int $userId
+     * @return array
+     */
+    public function getUserPartnerIds(int $userId): array
+    {
+        return EntityRole::where('user_id', $userId)
+            ->where('roleable_type', Partner::class)
+            ->pluck('roleable_id')
+            ->toArray();
+    }
 }
