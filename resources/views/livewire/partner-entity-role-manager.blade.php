@@ -1,6 +1,6 @@
 <div class="container">
     @section('title')
-        {{ __('Manage Entity Roles') }} - {{ $partner->company_name }}
+        {{ __('Manage Partner Entity Roles') }} - {{ $partner->company_name }}
     @endsection
 
     @component('components.breadcrumb')
@@ -8,7 +8,7 @@
             <a href="{{route('partner_index', app()->getLocale())}}">{{ __('Partners') }}</a>
         @endslot
         @slot('title')
-            {{ __('Manage Roles') }}
+                {{ __('Manage Partner Entity Roles') }} - {{ $partner->company_name }}
         @endslot
     @endcomponent
     <div class="row">

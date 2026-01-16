@@ -1,13 +1,13 @@
 <div class="container">
     @section('title')
-        {{ __('Manage Entity Roles') }} - {{ $platform->name }}
+        {{ __('Manage Platform Entity Roles') }} - {{ $platform->name }}
     @endsection
     @component('components.breadcrumb')
         @slot('li_1')
             <a href="{{route('platform_index', app()->getLocale())}}">{{ __('Platforms') }}</a>
         @endslot
         @slot('title')
-            {{ __('Manage Roles') }}
+                {{ __('Manage Platform Entity Roles') }} - {{ $platform->name }}
         @endslot
     @endcomponent
     <div class="row">
