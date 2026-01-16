@@ -7,12 +7,13 @@
             <a href="{{route('platform_index', app()->getLocale())}}">{{ __('Platforms') }}</a>
         @endslot
         @slot('title')
-                {{ __('Manage Platform Entity Roles') }} - {{ $platform->name }}
+            {{ __('Manage Platform Entity Roles') }} - {{ $platform->name }}
         @endslot
     @endcomponent
     <div class="row">
-        <div class="col-12 card shadow-sm border-0 mb-4">
-            <div class="card-header bg-primary-subtle">
+        @include('layouts.flash-messages')
+        <div class="col-12 card shadow-sm border-0">
+            <div class="card-body">
                 <div class="d-flex align-items-center">
                     <i class="ri-shield-user-line fs-4 text-primary me-2"></i>
                     <div>
@@ -21,14 +22,6 @@
                         <small class="text-muted">{{ __('Manage roles and assign users') }}</small>
                     </div>
                 </div>
-            </div>
-        </div>
-        @include('layouts.flash-messages')
-        <div class="col-12 card shadow-sm border-0">
-            <div class="card-header bg-light">
-                <h6 class="mb-0">
-                    <i class="ri-add-circle-line me-2"></i>{{ __('Add New Role') }}
-                </h6>
             </div>
             <div class="card-body">
                 <form wire:submit.prevent="addRole">
@@ -72,11 +65,13 @@
                                                                 </span>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <div class="fw-semibold">{{ getUserDisplayedNameFromId($user->id) }}</div>
+                                                            <div
+                                                                class="fw-semibold">{{ getUserDisplayedNameFromId($user->id) }}</div>
                                                             <small class="text-muted d-block">{{ $user->email }}</small>
                                                             <div class="d-flex gap-2 mt-1">
                                                                 @if($user->idUser)
-                                                                    <small class="badge bg-soft-info text-info">ID: {{ $user->idUser }}</small>
+                                                                    <small
+                                                                        class="badge bg-soft-info text-info">ID: {{ $user->idUser }}</small>
                                                                 @endif
                                                                 @if($user->contactUser && $user->contactUser->mobile)
                                                                     <small class="badge bg-soft-success text-success">
@@ -102,7 +97,8 @@
                                                 </span>
                                             </div>
                                             <div class="flex-grow-1">
-                                                <div class="fw-semibold">{{ getUserDisplayedNameFromId($selectedUser->id) }}</div>
+                                                <div
+                                                    class="fw-semibold">{{ getUserDisplayedNameFromId($selectedUser->id) }}</div>
                                                 <small class="text-muted">{{ $selectedUser->email }}</small>
                                             </div>
                                             <button type="button"
@@ -185,10 +181,12 @@
                                                                             class="text-muted d-block">{{ $user->email }}</small>
                                                                         <div class="d-flex gap-2 mt-1">
                                                                             @if($user->idUser)
-                                                                                <small class="badge bg-soft-info text-info">ID: {{ $user->idUser }}</small>
+                                                                                <small
+                                                                                    class="badge bg-soft-info text-info">ID: {{ $user->idUser }}</small>
                                                                             @endif
                                                                             @if($user->contactUser && $user->contactUser->mobile)
-                                                                                <small class="badge bg-soft-success text-success">
+                                                                                <small
+                                                                                    class="badge bg-soft-success text-success">
                                                                                     <i class="ri-phone-line"></i> {{ $user->contactUser->mobile }}
                                                                                 </small>
                                                                             @endif
@@ -206,13 +204,16 @@
                                                 @if($editSelectedUser)
                                                     <div class="d-flex align-items-center bg-light p-2 rounded">
                                                         <div class="avatar-xs me-2">
-                                                            <span class="avatar-title rounded-circle bg-soft-success text-success">
+                                                            <span
+                                                                class="avatar-title rounded-circle bg-soft-success text-success">
                                                                 {{ substr(getUserDisplayedNameFromId($editSelectedUser->id), 0, 1) }}
                                                             </span>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <div class="fw-semibold small">{{ getUserDisplayedNameFromId($editSelectedUser->id) }}</div>
-                                                            <small class="text-muted">{{ $editSelectedUser->email }}</small>
+                                                            <div
+                                                                class="fw-semibold small">{{ getUserDisplayedNameFromId($editSelectedUser->id) }}</div>
+                                                            <small
+                                                                class="text-muted">{{ $editSelectedUser->email }}</small>
                                                         </div>
                                                         <button type="button"
                                                                 class="btn btn-sm btn-soft-danger"
@@ -314,21 +315,24 @@
                     </div>
 
                     <!-- Revoke Confirmation Modal -->
-                    <div class="modal fade" id="revokeModal{{ $role->id }}" tabindex="-1" aria-hidden="true" wire:ignore.self>
+                    <div class="modal fade" id="revokeModal{{ $role->id }}" tabindex="-1" aria-hidden="true"
+                         wire:ignore.self>
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header bg-danger-subtle">
                                     <h5 class="modal-title text-danger">
                                         <i class="ri-alert-line me-2"></i>{{ __('Confirm Revoke') }}
                                     </h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <p class="mb-3">{{ __('Are you sure you want to revoke this role?') }}</p>
                                     <div class="bg-light p-3 rounded">
                                         <strong>{{ __('Role Name') }}:</strong> {{ $role->name }}<br>
                                         @if($role->user)
-                                            <strong>{{ __('Assigned User') }}:</strong> {{ $role->user->name }} ({{ $role->user->email }})
+                                            <strong>{{ __('Assigned User') }}:</strong> {{ $role->user->name }}
+                                            ({{ $role->user->email }})
                                         @endif
                                     </div>
                                     <div class="alert alert-warning mt-3 mb-0">
