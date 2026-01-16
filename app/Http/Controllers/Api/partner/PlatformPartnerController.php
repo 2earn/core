@@ -171,7 +171,7 @@ class PlatformPartnerController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'owner_id' => 'required|exists:users,id',
+            'requested_by' => 'required|exists:users,id',
             'platform_id' => 'required|exists:platforms,id'
         ]);
 
@@ -189,7 +189,7 @@ class PlatformPartnerController extends Controller
 
         $validationRequest = $this->platformValidationRequestService->createRequest(
             $data['platform_id'],
-            $data['owner_id']
+            $data['requested_by']
         );
 
         Log::info(self::LOG_PREFIX . 'Validation request created', [
