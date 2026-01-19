@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\EntityRole;
 use App\Models\PlatformChangeRequest;
 use App\Services\Platform\PlatformChangeRequestService;
 use App\Models\Platform;
