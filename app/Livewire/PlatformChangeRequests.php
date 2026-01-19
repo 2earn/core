@@ -196,9 +196,6 @@ class PlatformChangeRequests extends Component
             'type' => 'Type',
             'show_profile' => 'Show Profile',
             'image_link' => 'Image Link',
-            'owner_id' => 'Owner',
-            'marketing_manager_id' => 'Marketing Manager',
-            'financial_manager_id' => 'Financial Manager',
             'business_sector_id' => 'Business Sector',
         ];
 

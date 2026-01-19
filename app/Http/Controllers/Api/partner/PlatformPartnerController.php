@@ -128,10 +128,7 @@ class PlatformPartnerController extends Controller
             'link' => 'sometimes|url',
             'show_profile' => 'boolean',
             'image_link' => 'nullable|string',
-            'owner_id' => 'required|exists:users,id',
             'created_by' => 'required|exists:users,id',
-            'marketing_manager_id' => 'nullable|exists:users,id',
-            'financial_manager_id' => 'nullable|exists:users,id',
             'business_sector_id' => 'nullable|exists:business_sectors,id'
         ]);
 
@@ -174,7 +171,7 @@ class PlatformPartnerController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'owner_id' => 'required|exists:users,id',
+            'requested_by' => 'required|exists:users,id',
             'platform_id' => 'required|exists:platforms,id'
         ]);
 
@@ -192,7 +189,7 @@ class PlatformPartnerController extends Controller
 
         $validationRequest = $this->platformValidationRequestService->createRequest(
             $data['platform_id'],
-            $data['owner_id']
+            $data['requested_by']
         );
 
         Log::info(self::LOG_PREFIX . 'Validation request created', [
@@ -275,9 +272,6 @@ class PlatformPartnerController extends Controller
             'show_profile' => 'sometimes|boolean',
             'image_link' => 'nullable|string',
             'updated_by' => 'required|exists:users,id',
-            'owner_id' => 'sometimes|exists:users,id',
-            'marketing_manager_id' => 'nullable|exists:users,id',
-            'financial_manager_id' => 'nullable|exists:users,id',
             'business_sector_id' => 'nullable|exists:business_sectors,id'
         ]);
 
