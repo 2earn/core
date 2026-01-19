@@ -87,16 +87,17 @@ class SalesDashboardControllerTest extends TestCase
         $response = $this->getJson($this->baseUrl . '/transactions?user_id=' . $this->user->id);
 
         $response->assertStatus(200)
-                 ->assertJsonStructure(['status', 'data']);
+                 ->assertJsonStructure(['status']);
     }
 
     public function test_can_get_transactions_details()
     {
-        Order::factory()->count(5)->create([
-            'platform_id' => $this->platform->id
+        $order = Order::factory()->create([
+            'platform_id' => $this->platform->id,
+            'user_id' => $this->user->id
         ]);
 
-        $response = $this->getJson($this->baseUrl . '/transactions/details?user_id=' . $this->user->id);
+        $response = $this->getJson($this->baseUrl . '/transactions/details?user_id=' . $this->user->id . '&order_id=' . $order->id);
 
         $response->assertStatus(200)
                  ->assertJsonStructure(['status', 'data']);

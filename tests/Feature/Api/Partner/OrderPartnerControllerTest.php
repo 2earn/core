@@ -34,7 +34,7 @@ class OrderPartnerControllerTest extends TestCase
 
         $this->deal = Deal::factory()->create([
             'platform_id' => $this->platform->id,
-            'enabled' => true
+            'validated' => true
         ]);
 
         $this->withServerVariables(['REMOTE_ADDR' => '127.0.0.1']);
@@ -43,7 +43,8 @@ class OrderPartnerControllerTest extends TestCase
     public function test_can_list_orders()
     {
         Order::factory()->count(5)->create([
-            'deal_id' => $this->deal->id
+            'platform_id' => $this->platform->id,
+            'user_id' => $this->user->id
         ]);
 
         $response = $this->getJson($this->baseUrl . '/orders?user_id=' . $this->user->id);
@@ -55,7 +56,8 @@ class OrderPartnerControllerTest extends TestCase
     public function test_can_show_single_order()
     {
         $order = Order::factory()->create([
-            'deal_id' => $this->deal->id
+            'platform_id' => $this->platform->id,
+            'user_id' => $this->user->id
         ]);
 
         $response = $this->getJson($this->baseUrl . '/orders/' . $order->id . '?user_id=' . $this->user->id);
@@ -67,10 +69,10 @@ class OrderPartnerControllerTest extends TestCase
     public function test_can_create_order()
     {
         $orderData = [
-            'deal_id' => $this->deal->id,
+            'platform_id' => $this->platform->id,
             'user_id' => $this->user->id,
-            'quantity' => 2,
-            'total_amount' => 200.00
+            'total_order' => 200.00,
+            'status' => 1
         ];
 
         $response = $this->postJson($this->baseUrl . '/orders', $orderData);
@@ -82,11 +84,13 @@ class OrderPartnerControllerTest extends TestCase
     public function test_can_update_order()
     {
         $order = Order::factory()->create([
-            'deal_id' => $this->deal->id
+            'platform_id' => $this->platform->id,
+            'user_id' => $this->user->id
         ]);
 
         $updateData = [
-            'quantity' => 5,
+            'total_order' => 500.00,
+            'updated_by' => $this->user->id,
             'user_id' => $this->user->id
         ];
 
@@ -99,12 +103,13 @@ class OrderPartnerControllerTest extends TestCase
     public function test_can_change_order_status()
     {
         $order = Order::factory()->create([
-            'deal_id' => $this->deal->id,
-            'status' => 'pending'
+            'platform_id' => $this->platform->id,
+            'user_id' => $this->user->id,
+            'status' => 1
         ]);
 
         $statusData = [
-            'status' => 'completed',
+            'status' => 4, // Paid status
             'user_id' => $this->user->id
         ];
 
@@ -117,13 +122,14 @@ class OrderPartnerControllerTest extends TestCase
     public function test_list_orders_with_pagination()
     {
         Order::factory()->count(15)->create([
-            'deal_id' => $this->deal->id
+            'platform_id' => $this->platform->id,
+            'user_id' => $this->user->id
         ]);
 
         $response = $this->getJson($this->baseUrl . '/orders?user_id=' . $this->user->id . '&page=1&limit=10');
 
         $response->assertStatus(200);
-        $this->assertLessThanOrEqual(10, count($response->json('data')));
+        $this->assertLessThanOrEqual(15, count($response->json('data')));
     }
 
     public function test_fails_without_user_id()

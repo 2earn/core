@@ -24,7 +24,10 @@ class ItemsPartnerControllerTest extends TestCase
 
         $this->user = User::factory()->create();
         $this->platform = Platform::factory()->create(['created_by' => $this->user->id]);
-        $this->deal = Deal::factory()->create(['platform_id' => $this->platform->id]);
+        $this->deal = Deal::factory()->create([
+            'platform_id' => $this->platform->id,
+            'validated' => true
+        ]);
         $this->withServerVariables(['REMOTE_ADDR' => '127.0.0.1']);
     }
 
@@ -32,9 +35,11 @@ class ItemsPartnerControllerTest extends TestCase
     {
         $itemData = [
             'name' => 'Test Item',
-            'description' => 'Test description',
+            'ref' => 'TEST-' . uniqid(),
             'price' => 50.00,
-            'user_id' => $this->user->id
+            'description' => 'Test description',
+            'platform_id' => $this->platform->id,
+            'created_by' => $this->user->id
         ];
 
         $response = $this->postJson($this->baseUrl, $itemData);
@@ -45,11 +50,11 @@ class ItemsPartnerControllerTest extends TestCase
 
     public function test_can_update_item()
     {
-        $item = Item::factory()->create();
+        $item = Item::factory()->create(['platform_id' => $this->platform->id]);
 
         $updateData = [
             'name' => 'Updated Item',
-            'user_id' => $this->user->id
+            'updated_by' => $this->user->id
         ];
 
         $response = $this->putJson($this->baseUrl . '/' . $item->id, $updateData);
@@ -60,23 +65,30 @@ class ItemsPartnerControllerTest extends TestCase
 
     public function test_can_list_items_for_deal()
     {
-        Item::factory()->count(5)->create([
-            'deal_id' => $this->deal->id
+        // Create validated deal
+        $deal = Deal::factory()->create([
+            'platform_id' => $this->platform->id,
+            'validated' => true
         ]);
 
-        $response = $this->getJson($this->baseUrl . '/deal/' . $this->deal->id . '?user_id=' . $this->user->id);
+        Item::factory()->count(5)->create([
+            'deal_id' => $deal->id,
+            'platform_id' => $this->platform->id
+        ]);
+
+        $response = $this->getJson($this->baseUrl . '/deal/' . $deal->id);
 
         $response->assertStatus(200)
-                 ->assertJsonStructure(['status', 'data']);
+                 ->assertJsonStructure(['deal_id', 'deal_name', 'products_count', 'products']);
     }
 
     public function test_can_add_items_to_deal_in_bulk()
     {
-        $items = Item::factory()->count(3)->create();
+        $items = Item::factory()->count(3)->create(['platform_id' => $this->platform->id]);
 
         $bulkData = [
             'deal_id' => $this->deal->id,
-            'item_ids' => $items->pluck('id')->toArray(),
+            'product_ids' => $items->pluck('id')->toArray(),
             'user_id' => $this->user->id
         ];
 
@@ -89,12 +101,13 @@ class ItemsPartnerControllerTest extends TestCase
     public function test_can_remove_items_from_deal_in_bulk()
     {
         $items = Item::factory()->count(3)->create([
-            'deal_id' => $this->deal->id
+            'deal_id' => $this->deal->id,
+            'platform_id' => $this->platform->id
         ]);
 
         $bulkData = [
             'deal_id' => $this->deal->id,
-            'item_ids' => $items->pluck('id')->toArray(),
+            'product_ids' => $items->pluck('id')->toArray(),
             'user_id' => $this->user->id
         ];
 
@@ -106,7 +119,7 @@ class ItemsPartnerControllerTest extends TestCase
 
     public function test_create_item_fails_with_invalid_data()
     {
-        $invalidData = ['user_id' => $this->user->id];
+        $invalidData = ['created_by' => $this->user->id];
 
         $response = $this->postJson($this->baseUrl, $invalidData);
 
@@ -117,7 +130,7 @@ class ItemsPartnerControllerTest extends TestCase
     {
         $this->withServerVariables(['REMOTE_ADDR' => '192.168.1.1']);
 
-        $response = $this->getJson($this->baseUrl . '/deal/' . $this->deal->id . '?user_id=' . $this->user->id);
+        $response = $this->getJson($this->baseUrl . '/deal/' . $this->deal->id);
 
         $response->assertStatus(403)
                  ->assertJson(['error' => 'Unauthorized. Invalid IP.']);
