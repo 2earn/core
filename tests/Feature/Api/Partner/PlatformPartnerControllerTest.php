@@ -17,7 +17,7 @@ class PlatformPartnerControllerTest extends TestCase
     use DatabaseTransactions;
 
     protected $user;
-    protected $baseUrl = '/api/partner/platforms';
+    protected $baseUrl = '/api/partner/platforms/platforms';
 
     /**
      * Define hooks to bypass Passport for testing
@@ -273,7 +273,7 @@ class PlatformPartnerControllerTest extends TestCase
         ];
 
         // Act
-        $response = $this->postJson($this->baseUrl . '/validate', $data);
+        $response = $this->postJson('/api/partner/platforms/validate', $data);
 
         // Assert
         $response->assertStatus(201)
@@ -455,7 +455,7 @@ class PlatformPartnerControllerTest extends TestCase
         ];
 
         // Act
-        $response = $this->postJson($this->baseUrl . '/change', $changeData);
+        $response = $this->postJson('/api/partner/platforms/change', $changeData);
 
         // Assert
         $response->assertStatus(201)
@@ -495,7 +495,7 @@ class PlatformPartnerControllerTest extends TestCase
         ];
 
         // Act
-        $response = $this->postJson($this->baseUrl . '/change', $changeData);
+        $response = $this->postJson('/api/partner/platforms/change', $changeData);
 
         // Assert
         $response->assertStatus(403)
@@ -523,7 +523,7 @@ class PlatformPartnerControllerTest extends TestCase
         ];
 
         // Act
-        $response = $this->postJson($this->baseUrl . '/change', $changeData);
+        $response = $this->postJson('/api/partner/platforms/change', $changeData);
 
         // Assert
         $response->assertStatus(403)
@@ -556,7 +556,7 @@ class PlatformPartnerControllerTest extends TestCase
         ];
 
         // Act
-        $response = $this->postJson($this->baseUrl . '/validation/cancel', $cancelData);
+        $response = $this->postJson('/api/partner/platforms/validation/cancel', $cancelData);
 
         // Assert
         $response->assertStatus(200)
@@ -588,7 +588,7 @@ class PlatformPartnerControllerTest extends TestCase
         ];
 
         // Act
-        $response = $this->postJson($this->baseUrl . '/change/cancel', $cancelData);
+        $response = $this->postJson('/api/partner/platforms/change/cancel', $cancelData);
 
         // Assert
         $response->assertStatus(200)

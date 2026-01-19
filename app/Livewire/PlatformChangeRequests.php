@@ -210,6 +210,17 @@ class PlatformChangeRequests extends Component
             $this->perPage
         );
 
+        // Load EntityRoles for each platform
+        foreach ($requests as $request) {
+            if ($request->platform) {
+                $request->platform->ownerRole = EntityRole::where('roleable_type', 'App\Models\Platform')
+                    ->where('roleable_id', $request->platform->id)
+                    ->where('name', 'owner')
+                    ->with('user')
+                    ->first();
+            }
+        }
+
         return view('livewire.platform-change-requests', [
             'requests' => $requests
         ])->extends('layouts.master')->section('content');

@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Enums\PlatformType;
+use App\Models\EntityRole;
 use App\Services\Platform\PlatformTypeChangeRequestService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -166,6 +167,17 @@ class PlatformTypeChangeRequests extends Component
             $this->search,
             $this->perPage
         );
+
+        // Load EntityRoles for each platform
+        foreach ($requests as $request) {
+            if ($request->platform) {
+                $request->platform->ownerRole = EntityRole::where('roleable_type', 'App\Models\Platform')
+                    ->where('roleable_id', $request->platform->id)
+                    ->where('name', 'owner')
+                    ->with('user')
+                    ->first();
+            }
+        }
 
         return view('livewire.platform-type-change-requests', [
             'requests' => $requests

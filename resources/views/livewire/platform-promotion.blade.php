@@ -69,13 +69,20 @@
                     </div>
 
 
-                    @if($user->id!=$platform->marketing_manager_id||$user->id!=$platform->financial_manager_id||$user->id!=$platform->owner_id)
+                    @php
+                        $hasMarketingRole = isset($platform->entityRoles['marketing_manager']) && $platform->entityRoles['marketing_manager']->user_id == $user->id;
+                        $hasFinancialRole = isset($platform->entityRoles['financial_manager']) && $platform->entityRoles['financial_manager']->user_id == $user->id;
+                        $hasOwnerRole = isset($platform->entityRoles['owner']) && $platform->entityRoles['owner']->user_id == $user->id;
+                        $hasAnyRole = $hasMarketingRole || $hasFinancialRole || $hasOwnerRole;
+                    @endphp
+
+                    @if(!$hasMarketingRole || !$hasFinancialRole || !$hasOwnerRole)
                         <div class="mb-3">
                             <p class="text-primary fs-6 fw-semibold mb-2">
                                 <i class="ri-user-add-line me-1"></i>{{__('Grant Role')}}
                             </p>
                             <div class="d-flex flex-wrap gap-2">
-                                @if($user->id!=$platform->marketing_manager_id)
+                                @if(!$hasMarketingRole)
                                     <button type="button"
                                             class="btn btn-outline-secondary btn-sm"
                                             wire:click="grantRole({{$user->id}},{{$platform->id}},{{\App\Enums\Promotion::Marketing->value}})">
@@ -83,7 +90,7 @@
                                         {{__('Administrative')}}
                                     </button>
                                 @endif
-                                @if($user->id!=$platform->financial_manager_id)
+                                @if(!$hasFinancialRole)
                                     <button type="button"
                                             class="btn btn-outline-info btn-sm"
                                             wire:click="grantRole({{$user->id}},{{$platform->id}},{{\App\Enums\Promotion::Financial->value}})">
@@ -91,7 +98,7 @@
                                         {{__('Financial')}}
                                     </button>
                                 @endif
-                                @if($user->id!=$platform->owner_id)
+                                @if(!$hasOwnerRole)
                                     <button type="button"
                                             class="btn btn-outline-primary btn-sm"
                                             wire:click="grantRole({{$user->id}},{{$platform->id}},{{\App\Enums\Promotion::Owner->value}})">
@@ -104,13 +111,16 @@
                     @endif
 
 
-                    @if($user->id==$platform->marketing_manager_id||$user->id==$platform->financial_manager_id||$user->id==$platform->owner_id)
+                    @if($hasAnyRole)
                         <div>
                             <p class="text-primary fs-6 fw-semibold mb-2">
                                 <i class="ri-shield-user-line me-1"></i>{{__('Current Roles')}}
                             </p>
                             <div class="row g-2">
-                                @if($platform->marketing_manager_id)
+                                @if(isset($platform->entityRoles['marketing_manager']))
+                                    @php
+                                        $marketingManagerId = $platform->entityRoles['marketing_manager']->user_id;
+                                    @endphp
                                     <div class="col-md-4">
                                         <div class="p-3 bg-secondary-subtle rounded">
                                             <div class="d-flex align-items-center justify-content-between mb-2">
@@ -118,7 +128,7 @@
                                                         <i class="ri-megaphone-line me-1"></i>
                                                         {{__(\App\Enums\Promotion::Marketing->name)}}
                                                     </span>
-                                                @if($user->id==$platform->marketing_manager_id)
+                                                @if($user->id == $marketingManagerId)
                                                     <span class="badge bg-success-subtle text-success">
                                                             <i class="ri-checkbox-circle-line me-1"></i>{{__('You')}}
                                                         </span>
@@ -127,7 +137,7 @@
                                                         class="badge bg-light text-muted">{{__('Other user')}}</span>
                                                 @endif
                                             </div>
-                                            @if($user->id==$platform->marketing_manager_id)
+                                            @if($user->id == $marketingManagerId)
                                                 <button type="button"
                                                         class="btn btn-soft-danger btn-sm w-100"
                                                         wire:click="revokeRole({{$platform->id}},{{\App\Enums\Promotion::Marketing->value}})">
@@ -139,7 +149,10 @@
                                     </div>
                                 @endif
 
-                                @if($platform->financial_manager_id)
+                                @if(isset($platform->entityRoles['financial_manager']))
+                                    @php
+                                        $financialManagerId = $platform->entityRoles['financial_manager']->user_id;
+                                    @endphp
                                     <div class="col-md-4">
                                         <div class="p-3 bg-info-subtle rounded">
                                             <div class="d-flex align-items-center justify-content-between mb-2">
@@ -147,7 +160,7 @@
                                                         <i class="ri-money-dollar-circle-line me-1"></i>
                                                         {{__(\App\Enums\Promotion::Financial->name)}}
                                                     </span>
-                                                @if($user->id==$platform->financial_manager_id)
+                                                @if($user->id == $financialManagerId)
                                                     <span class="badge bg-success-subtle text-success">
                                                             <i class="ri-checkbox-circle-line me-1"></i>{{__('You')}}
                                                         </span>
@@ -156,7 +169,7 @@
                                                         class="badge bg-light text-muted">{{__('Other user')}}</span>
                                                 @endif
                                             </div>
-                                            @if($user->id==$platform->financial_manager_id)
+                                            @if($user->id == $financialManagerId)
                                                 <button type="button"
                                                         class="btn btn-soft-danger btn-sm w-100"
                                                         wire:click="revokeRole({{$platform->id}},{{\App\Enums\Promotion::Financial->value}})">
@@ -168,7 +181,10 @@
                                     </div>
                                 @endif
 
-                                @if($platform->owner_id)
+                                @if(isset($platform->entityRoles['owner']))
+                                    @php
+                                        $ownerId = $platform->entityRoles['owner']->user_id;
+                                    @endphp
                                     <div class="col-md-4">
                                         <div class="p-3 bg-primary-subtle rounded">
                                             <div class="d-flex align-items-center justify-content-between mb-2">
@@ -176,7 +192,7 @@
                                                         <i class="ri-vip-crown-line me-1"></i>
                                                         {{__(\App\Enums\Promotion::Owner->name)}}
                                                     </span>
-                                                @if($user->id==$platform->owner_id)
+                                                @if($user->id == $ownerId)
                                                     <span class="badge bg-success-subtle text-success">
                                                             <i class="ri-checkbox-circle-line me-1"></i>{{__('You')}}
                                                         </span>
@@ -185,7 +201,7 @@
                                                         class="badge bg-light text-muted">{{__('Other user')}}</span>
                                                 @endif
                                             </div>
-                                            @if($user->id==$platform->owner_id)
+                                            @if($user->id == $ownerId)
                                                 <button type="button"
                                                         class="btn btn-soft-danger btn-sm w-100"
                                                         wire:click="revokeRole({{$platform->id}},{{\App\Enums\Promotion::Owner->value}})">
