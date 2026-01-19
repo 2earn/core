@@ -299,9 +299,16 @@ class PlatformPartnerController extends Controller
         }
 
         if (empty($changes)) {
+            Log::warning(self::LOG_PREFIX . 'No changes detected in platform update', [
+                'platform_id' => $platform->id,
+                'requested_by' => $updatedBy
+            ]);
             return response()->json([
                 'status' => 'Failed',
-                'message' => 'No changes detected'
+                'message' => 'No changes detected',
+                'errors' => [
+                    'update' => ['No changes were made to the platform. Please modify at least one field.']
+                ]
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 

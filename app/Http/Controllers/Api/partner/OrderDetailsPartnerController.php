@@ -39,7 +39,12 @@ class OrderDetailsPartnerController extends Controller
 
         $orderDetail = OrderDetail::create($data);
 
-        return response()->json($orderDetail, Response::HTTP_CREATED);
+        Log::info(self::LOG_PREFIX . 'Order detail created successfully', ['id' => $orderDetail->id]);
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Order detail created successfully',
+            'data' => $orderDetail
+        ], Response::HTTP_CREATED);
     }
 
     public function update(Request $request, $orderDetailId)

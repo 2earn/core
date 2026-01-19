@@ -43,7 +43,7 @@ class OrderDetailsPartnerControllerTest extends TestCase
             'user_id' => $this->user->id
         ];
         $response = $this->postJson($this->baseUrl, $data);
-        $response->assertStatus(201)->assertJsonStructure(['status', 'message', 'data']);
+     $response->assertStatus(201)->assertJsonStructure(['status', 'message', 'data']);
     }
 
     public function test_can_update_order_detail()

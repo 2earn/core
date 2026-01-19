@@ -62,14 +62,40 @@ class DealProductChangeControllerTest extends TestCase
 
     /**
      * Test: GET /api/partner/deals/product-changes - List product changes
+     * Should show both items added to and removed from deals
      */
     public function test_can_list_product_changes()
     {
-        // Arrange
-        ItemDealHistory::factory()->count(5)->create([
-            'deal_id' => $this->deal->id,
-            'item_id' => $this->item->id,
+        // Arrange - Create items that were added to deal (currently active)
+        $activeItems = Item::factory()->count(3)->create([
+            'platform_id' => $this->platform->id
         ]);
+
+        foreach ($activeItems as $item) {
+            ItemDealHistory::create([
+                'deal_id' => $this->deal->id,
+                'item_id' => $item->id,
+                'start_date' => now()->subDays(rand(5, 20)),
+                'end_date' => null, // Still in the deal
+                'created_by' => $this->user->id
+            ]);
+        }
+
+        // Create items that were removed from deal
+        $removedItems = Item::factory()->count(2)->create([
+            'platform_id' => $this->platform->id
+        ]);
+
+        foreach ($removedItems as $item) {
+            ItemDealHistory::create([
+                'deal_id' => $this->deal->id,
+                'item_id' => $item->id,
+                'start_date' => now()->subDays(30),
+                'end_date' => now()->subDays(rand(1, 10)), // Removed from deal
+                'created_by' => $this->user->id,
+                'updated_by' => $this->user->id
+            ]);
+        }
 
         // Act
         $response = $this->getJson($this->baseUrl);
@@ -79,21 +105,45 @@ class DealProductChangeControllerTest extends TestCase
                  ->assertJsonStructure([
                      'status',
                      'data'
+                 ])
+                 ->assertJson([
+                     'status' => 'success'
                  ]);
     }
 
     /**
      * Test: GET /api/partner/deals/product-changes - List with filters
+     * Filter by specific deal to see only changes for that deal
      */
     public function test_can_list_product_changes_with_filters()
     {
-        // Arrange
-        ItemDealHistory::factory()->count(3)->create([
-            'deal_id' => $this->deal->id,
-            'item_id' => $this->item->id,
+        // Arrange - Create another deal to test filtering
+        $otherDeal = Deal::factory()->create([
+            'platform_id' => $this->platform->id,
+            'validated' => true
         ]);
 
-        // Act
+        // Create changes for the main deal
+        $item1 = Item::factory()->create(['platform_id' => $this->platform->id]);
+        ItemDealHistory::create([
+            'deal_id' => $this->deal->id,
+            'item_id' => $item1->id,
+            'start_date' => now()->subDays(10),
+            'end_date' => null, // Added to deal
+            'created_by' => $this->user->id
+        ]);
+
+        // Create changes for other deal (should be filtered out)
+        $item2 = Item::factory()->create(['platform_id' => $this->platform->id]);
+        ItemDealHistory::create([
+            'deal_id' => $otherDeal->id,
+            'item_id' => $item2->id,
+            'start_date' => now()->subDays(5),
+            'end_date' => null,
+            'created_by' => $this->user->id
+        ]);
+
+        // Act - Filter by specific deal
         $response = $this->getJson($this->baseUrl . '?deal_id=' . $this->deal->id);
 
         // Assert
@@ -101,19 +151,34 @@ class DealProductChangeControllerTest extends TestCase
                  ->assertJsonStructure([
                      'status',
                      'data'
+                 ])
+                 ->assertJson([
+                     'status' => 'success'
                  ]);
     }
 
     /**
      * Test: GET /api/partner/deals/product-changes - List with pagination
+     * Test pagination of product changes showing both additions and removals
      */
     public function test_can_list_product_changes_with_pagination()
     {
-        // Arrange
-        ItemDealHistory::factory()->count(20)->create([
-            'deal_id' => $this->deal->id,
-            'item_id' => $this->item->id,
+        // Arrange - Create 20 product changes (mix of additions and removals)
+        $items = Item::factory()->count(20)->create([
+            'platform_id' => $this->platform->id
         ]);
+
+        foreach ($items as $index => $item) {
+            ItemDealHistory::create([
+                'deal_id' => $this->deal->id,
+                'item_id' => $item->id,
+                'start_date' => now()->subDays(30 - $index),
+                // Half still in deal, half removed
+                'end_date' => $index < 10 ? null : now()->subDays(rand(1, 5)),
+                'created_by' => $this->user->id,
+                'updated_by' => $index < 10 ? null : $this->user->id
+            ]);
+        }
 
         // Act
         $response = $this->getJson($this->baseUrl . '?per_page=10');
@@ -123,20 +188,32 @@ class DealProductChangeControllerTest extends TestCase
                  ->assertJsonStructure([
                      'status',
                      'data'
+                 ])
+                 ->assertJson([
+                     'status' => 'success'
                  ]);
     }
 
     /**
      * Test: GET /api/partner/deals/product-changes - List with date filters
+     * Test filtering product changes by date range
      */
     public function test_can_list_product_changes_with_date_filters()
     {
-        // Arrange
-        ItemDealHistory::factory()->count(3)->create([
-            'deal_id' => $this->deal->id,
-            'item_id' => $this->item->id,
-            'created_at' => now()->subDays(5)
+        // Arrange - Create changes at different dates
+        $items = Item::factory()->count(3)->create([
+            'platform_id' => $this->platform->id
         ]);
+
+        foreach ($items as $index => $item) {
+            ItemDealHistory::create([
+                'deal_id' => $this->deal->id,
+                'item_id' => $item->id,
+                'start_date' => now()->subDays(5 + $index),
+                'end_date' => null,
+                'created_by' => $this->user->id
+            ]);
+        }
 
         // Act
         $fromDate = now()->subDays(10)->format('Y-m-d');
@@ -148,29 +225,65 @@ class DealProductChangeControllerTest extends TestCase
                  ->assertJsonStructure([
                      'status',
                      'data'
+                 ])
+                 ->assertJson([
+                     'status' => 'success'
                  ]);
     }
 
     /**
      * Test: GET /api/partner/deals/product-changes/{id} - Show single product change
+     * This test validates tracking of adding and removing products from deals
      */
     public function test_can_show_single_product_change()
     {
-        // Arrange
-        $change = ItemDealHistory::factory()->create([
-            'deal_id' => $this->deal->id,
-            'item_id' => $this->item->id,
+        // Arrange - Simulate adding a product to a deal
+        $addedItem = Item::factory()->create([
+            'platform_id' => $this->platform->id
         ]);
 
-        // Act
-        $response = $this->getJson($this->baseUrl . '/' . $change->id);
+        // Create history record when item was added to deal
+        $addHistory = ItemDealHistory::create([
+            'deal_id' => $this->deal->id,
+            'item_id' => $addedItem->id,
+            'start_date' => now()->subDays(10), // Added 10 days ago
+            'end_date' => null, // Still active in the deal
+            'created_by' => $this->user->id
+        ]);
+
+        // Simulate removing a product from a deal
+        $removedItem = Item::factory()->create([
+            'platform_id' => $this->platform->id
+        ]);
+
+        // Create history record when item was removed from deal
+        $removeHistory = ItemDealHistory::create([
+            'deal_id' => $this->deal->id,
+            'item_id' => $removedItem->id,
+            'start_date' => now()->subDays(30), // Was added 30 days ago
+            'end_date' => now()->subDays(5), // Removed 5 days ago
+            'updated_by' => $this->user->id
+        ]);
+
+        // Act - Get the history of the removed item (showing add + remove action)
+        $response = $this->getJson($this->baseUrl . '/' . $removeHistory->id);
 
         // Assert
         $response->assertStatus(200)
                  ->assertJsonStructure([
                      'status',
                      'data'
+                 ])
+                 ->assertJson([
+                     'status' => 'success'
                  ]);
+
+        // Verify the response contains the history data
+        $data = $response->json('data');
+        $this->assertEquals($this->deal->id, $data['deal_id']);
+        $this->assertEquals($removedItem->id, $data['item_id']);
+        $this->assertNotNull($data['start_date']); // Has add date
+        $this->assertNotNull($data['end_date']); // Has remove date
     }
 
     /**
