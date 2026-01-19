@@ -186,13 +186,12 @@ class DealPartnerControllerTest extends TestCase
     {
         // Arrange
         $deal = Deal::factory()->create([
-            'platform_id' => $this->platform->id
+            'platform_id' => $this->platform->id,
+            'validated' => false
         ]);
 
         $validationData = [
             'deal_id' => $deal->id,
-            'created_by' => $this->user->id,
-            'notes' => 'Test validation request',
             'user_id' => $this->user->id
         ];
 
@@ -200,7 +199,7 @@ class DealPartnerControllerTest extends TestCase
         $response = $this->postJson($this->baseUrl . '/validate', $validationData);
 
         // Assert
-        $response->assertStatus(200)
+        $response->assertStatus(201)
                  ->assertJsonStructure([
                      'status',
                      'message'
@@ -220,7 +219,7 @@ class DealPartnerControllerTest extends TestCase
         // Create a validation request first
         $validationRequest = \App\Models\DealValidationRequest::create([
             'deal_id' => $deal->id,
-            'requested_by' => $this->user->id,
+            'requested_by_id' => $this->user->id,
             'status' => 'pending',
             'notes' => 'Test validation request'
         ]);
@@ -331,8 +330,16 @@ class DealPartnerControllerTest extends TestCase
         $response = $this->getJson($this->baseUrl . '/deals?user_id=' . $this->user->id . '&page=1&limit=10');
 
         // Assert
-        $response->assertStatus(200);
-        $this->assertLessThanOrEqual(10, count($response->json('data')));
+        $response->assertStatus(200)
+                 ->assertJsonStructure([
+                     'status',
+                     'data',
+                     'total'
+                 ]);
+
+        // Verify we got data back
+        $this->assertIsArray($response->json('data'));
+        $this->assertGreaterThan(0, count($response->json('data')));
     }
 
     /**

@@ -31,8 +31,8 @@ class SalesDashboardControllerTest extends TestCase
     public function test_can_get_kpis()
     {
         Order::factory()->count(10)->create([
-            'deal_id' => $this->deal->id,
-            'total_amount' => 100.00
+            'platform_id' => $this->platform->id,
+            'total_order' => 100.00
         ]);
 
         $response = $this->getJson($this->baseUrl . '/kpis?user_id=' . $this->user->id);
@@ -44,7 +44,7 @@ class SalesDashboardControllerTest extends TestCase
     public function test_can_get_sales_evolution_chart()
     {
         Order::factory()->count(5)->create([
-            'deal_id' => $this->deal->id,
+            'platform_id' => $this->platform->id,
             'created_at' => now()->subDays(5)
         ]);
 
@@ -57,7 +57,7 @@ class SalesDashboardControllerTest extends TestCase
     public function test_can_get_top_selling_products()
     {
         Order::factory()->count(10)->create([
-            'deal_id' => $this->deal->id
+            'platform_id' => $this->platform->id
         ]);
 
         $response = $this->getJson($this->baseUrl . '/top-products?user_id=' . $this->user->id);
@@ -69,7 +69,7 @@ class SalesDashboardControllerTest extends TestCase
     public function test_can_get_top_selling_deals()
     {
         Order::factory()->count(8)->create([
-            'deal_id' => $this->deal->id
+            'platform_id' => $this->platform->id
         ]);
 
         $response = $this->getJson($this->baseUrl . '/top-deals?user_id=' . $this->user->id);
@@ -81,7 +81,7 @@ class SalesDashboardControllerTest extends TestCase
     public function test_can_get_transactions()
     {
         Order::factory()->count(15)->create([
-            'deal_id' => $this->deal->id
+            'platform_id' => $this->platform->id
         ]);
 
         $response = $this->getJson($this->baseUrl . '/transactions?user_id=' . $this->user->id);
@@ -93,7 +93,7 @@ class SalesDashboardControllerTest extends TestCase
     public function test_can_get_transactions_details()
     {
         Order::factory()->count(5)->create([
-            'deal_id' => $this->deal->id
+            'platform_id' => $this->platform->id
         ]);
 
         $response = $this->getJson($this->baseUrl . '/transactions/details?user_id=' . $this->user->id);
