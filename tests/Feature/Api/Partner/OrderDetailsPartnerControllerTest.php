@@ -23,18 +23,23 @@ class OrderDetailsPartnerControllerTest extends TestCase
         parent::setUp();
         $this->user = User::factory()->create();
         $platform = Platform::factory()->create(['created_by' => $this->user->id]);
-        $deal = Deal::factory()->create(['platform_id' => $platform->id]);
-        $this->order = Order::factory()->create(['deal_id' => $deal->id]);
+        $this->order = Order::factory()->create([
+            'platform_id' => $platform->id,
+            'user_id' => $this->user->id
+        ]);
         $this->withServerVariables(['REMOTE_ADDR' => '127.0.0.1']);
     }
 
     public function test_can_create_order_detail()
     {
+        $item = \App\Models\Item::factory()->create();
+
         $data = [
             'order_id' => $this->order->id,
-            'product_name' => 'Test Product',
-            'quantity' => 2,
-            'price' => 50.00,
+            'item_id' => $item->id,
+            'qty' => 2,
+            'unit_price' => 50.00,
+            'created_by' => $this->user->id,
             'user_id' => $this->user->id
         ];
         $response = $this->postJson($this->baseUrl, $data);
@@ -45,7 +50,8 @@ class OrderDetailsPartnerControllerTest extends TestCase
     {
         $detail = OrderDetail::factory()->create(['order_id' => $this->order->id]);
         $data = [
-            'quantity' => 5,
+            'qty' => 5,
+            'updated_by' => $this->user->id,
             'user_id' => $this->user->id
         ];
         $response = $this->putJson($this->baseUrl . '/' . $detail->id, $data);

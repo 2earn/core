@@ -39,8 +39,9 @@ class PartnerRequestControllerTest extends TestCase
     {
         $data = [
             'user_id' => $this->user->id,
-            'business_name' => 'Test Business',
-            'description' => 'Test description'
+            'company_name' => 'Test Business',
+            'business_sector_id' => 1,
+            'platform_description' => 'Test description'
         ];
         $response = $this->postJson($this->baseUrl, $data);
         $response->assertStatus(201)->assertJsonStructure(['status', 'message', 'data']);
@@ -49,7 +50,11 @@ class PartnerRequestControllerTest extends TestCase
     public function test_can_update_partner_request()
     {
         $request = PartnerRequest::factory()->create(['user_id' => $this->user->id]);
-        $data = ['business_name' => 'Updated Business', 'user_id' => $this->user->id];
+        $data = [
+            'company_name' => 'Updated Business',
+            'status' => 1, // Use integer for status
+            'user_id' => $this->user->id
+        ];
         $response = $this->putJson($this->baseUrl . '/' . $request->id, $data);
         $response->assertStatus(200)->assertJsonStructure(['status', 'message', 'data']);
     }
