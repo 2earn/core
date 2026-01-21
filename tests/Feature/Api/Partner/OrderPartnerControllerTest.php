@@ -72,13 +72,14 @@ class OrderPartnerControllerTest extends TestCase
             'platform_id' => $this->platform->id,
             'user_id' => $this->user->id,
             'total_order' => 200.00,
-            'status' => 1
+            'created_by' => $this->user->id,
+            'status' => 'new'
         ];
 
         $response = $this->postJson($this->baseUrl . '/orders', $orderData);
 
         $response->assertStatus(201)
-                 ->assertJsonStructure(['status', 'message', 'data']);
+                 ->assertJsonStructure(['id', 'platform_id', 'user_id', 'total_order', 'status']);
     }
 
     public function test_can_update_order()
@@ -109,7 +110,7 @@ class OrderPartnerControllerTest extends TestCase
         ]);
 
         $statusData = [
-            'status' => 4, // Paid status
+            'status' => 2, // Ready status (only valid status for this endpoint)
             'user_id' => $this->user->id
         ];
 

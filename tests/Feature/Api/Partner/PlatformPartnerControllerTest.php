@@ -678,20 +678,6 @@ class PlatformPartnerControllerTest extends TestCase
                  ]);
     }
 
-    /**
-     * Test: GET /api/partner/platforms/top-selling - Validation fails
-     */
-    public function test_top_selling_fails_without_user_id()
-    {
-        $this->markTestSkipped('Top-selling endpoint not yet implemented in controller');
-
-        // Act
-        $response = $this->getJson('/api/partner/platforms/top-selling');
-
-        // Assert - This won't be reached when skipped
-        $response->assertStatus(422)
-                 ->assertJsonValidationErrors(['user_id']);
-    }
 
     /**
      * Test: Authorization - User cannot access other user's platforms

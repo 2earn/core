@@ -8,7 +8,7 @@ use App\Models\Deal;
 use App\Models\Item;
 use App\Models\Platform;
 use App\Models\EntityRole;
-use App\Models\ItemDealHistory;
+use App\Models\DealProductChange;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DealProductChangeControllerTest extends TestCase
@@ -72,12 +72,12 @@ class DealProductChangeControllerTest extends TestCase
         ]);
 
         foreach ($activeItems as $item) {
-            ItemDealHistory::create([
+            DealProductChange::create([
                 'deal_id' => $this->deal->id,
                 'item_id' => $item->id,
-                'start_date' => now()->subDays(rand(5, 20)),
-                'end_date' => null, // Still in the deal
-                'created_by' => $this->user->id
+                'action' => 'added',
+                'changed_by' => $this->user->id,
+                'note' => 'Added to deal'
             ]);
         }
 
@@ -87,13 +87,12 @@ class DealProductChangeControllerTest extends TestCase
         ]);
 
         foreach ($removedItems as $item) {
-            ItemDealHistory::create([
+            DealProductChange::create([
                 'deal_id' => $this->deal->id,
                 'item_id' => $item->id,
-                'start_date' => now()->subDays(30),
-                'end_date' => now()->subDays(rand(1, 10)), // Removed from deal
-                'created_by' => $this->user->id,
-                'updated_by' => $this->user->id
+                'action' => 'removed',
+                'changed_by' => $this->user->id,
+                'note' => 'Removed from deal'
             ]);
         }
 
@@ -125,22 +124,22 @@ class DealProductChangeControllerTest extends TestCase
 
         // Create changes for the main deal
         $item1 = Item::factory()->create(['platform_id' => $this->platform->id]);
-        ItemDealHistory::create([
+        DealProductChange::create([
             'deal_id' => $this->deal->id,
             'item_id' => $item1->id,
-            'start_date' => now()->subDays(10),
-            'end_date' => null, // Added to deal
-            'created_by' => $this->user->id
+            'action' => 'added',
+            'changed_by' => $this->user->id,
+            'note' => 'Added to main deal'
         ]);
 
         // Create changes for other deal (should be filtered out)
         $item2 = Item::factory()->create(['platform_id' => $this->platform->id]);
-        ItemDealHistory::create([
+        DealProductChange::create([
             'deal_id' => $otherDeal->id,
             'item_id' => $item2->id,
-            'start_date' => now()->subDays(5),
-            'end_date' => null,
-            'created_by' => $this->user->id
+            'action' => 'added',
+            'changed_by' => $this->user->id,
+            'note' => 'Added to other deal'
         ]);
 
         // Act - Filter by specific deal
@@ -169,14 +168,12 @@ class DealProductChangeControllerTest extends TestCase
         ]);
 
         foreach ($items as $index => $item) {
-            ItemDealHistory::create([
+            DealProductChange::create([
                 'deal_id' => $this->deal->id,
                 'item_id' => $item->id,
-                'start_date' => now()->subDays(30 - $index),
-                // Half still in deal, half removed
-                'end_date' => $index < 10 ? null : now()->subDays(rand(1, 5)),
-                'created_by' => $this->user->id,
-                'updated_by' => $index < 10 ? null : $this->user->id
+                'action' => $index < 10 ? 'added' : 'removed',
+                'changed_by' => $this->user->id,
+                'note' => $index < 10 ? 'Added to deal' : 'Removed from deal'
             ]);
         }
 
@@ -206,13 +203,16 @@ class DealProductChangeControllerTest extends TestCase
         ]);
 
         foreach ($items as $index => $item) {
-            ItemDealHistory::create([
+            $change = DealProductChange::create([
                 'deal_id' => $this->deal->id,
                 'item_id' => $item->id,
-                'start_date' => now()->subDays(5 + $index),
-                'end_date' => null,
-                'created_by' => $this->user->id
+                'action' => 'added',
+                'changed_by' => $this->user->id,
+                'note' => 'Added to deal'
             ]);
+            // Update timestamp after creation to bypass guarded attributes
+            $change->created_at = now()->subDays(5 + $index);
+            $change->save();
         }
 
         // Act
@@ -242,13 +242,13 @@ class DealProductChangeControllerTest extends TestCase
             'platform_id' => $this->platform->id
         ]);
 
-        // Create history record when item was added to deal
-        $addHistory = ItemDealHistory::create([
+        // Create product change record when item was added to deal
+        $addChange = DealProductChange::create([
             'deal_id' => $this->deal->id,
             'item_id' => $addedItem->id,
-            'start_date' => now()->subDays(10), // Added 10 days ago
-            'end_date' => null, // Still active in the deal
-            'created_by' => $this->user->id
+            'action' => 'added',
+            'changed_by' => $this->user->id,
+            'note' => 'Added to deal'
         ]);
 
         // Simulate removing a product from a deal
@@ -256,34 +256,49 @@ class DealProductChangeControllerTest extends TestCase
             'platform_id' => $this->platform->id
         ]);
 
-        // Create history record when item was removed from deal
-        $removeHistory = ItemDealHistory::create([
+        // Create product change record when item was removed from deal
+        $removeChange = DealProductChange::create([
             'deal_id' => $this->deal->id,
             'item_id' => $removedItem->id,
-            'start_date' => now()->subDays(30), // Was added 30 days ago
-            'end_date' => now()->subDays(5), // Removed 5 days ago
-            'updated_by' => $this->user->id
+            'action' => 'removed',
+            'changed_by' => $this->user->id,
+            'note' => 'Removed from deal'
         ]);
 
-        // Act - Get the history of the removed item (showing add + remove action)
-        $response = $this->getJson($this->baseUrl . '/' . $removeHistory->id);
+        // Act - Get the product change for the removed item
+        $response = $this->getJson($this->baseUrl . '/' . $removeChange->id);
 
         // Assert
         $response->assertStatus(200)
                  ->assertJsonStructure([
                      'status',
-                     'data'
+                     'data' => [
+                         'id',
+                         'deal_id',
+                         'item_id',
+                         'action',
+                         'changed_by',
+                         'note',
+                         'deal',
+                         'item'
+                     ]
                  ])
                  ->assertJson([
                      'status' => 'success'
                  ]);
 
-        // Verify the response contains the history data
+        // Verify the response contains the change data
         $data = $response->json('data');
         $this->assertEquals($this->deal->id, $data['deal_id']);
         $this->assertEquals($removedItem->id, $data['item_id']);
-        $this->assertNotNull($data['start_date']); // Has add date
-        $this->assertNotNull($data['end_date']); // Has remove date
+        $this->assertEquals('removed', $data['action']);
+
+        // Check if changed_by is loaded as a relationship or just an ID
+        if (is_array($data['changed_by'])) {
+            $this->assertEquals($this->user->id, $data['changed_by']['id']);
+        } else {
+            $this->assertEquals($this->user->id, $data['changed_by']);
+        }
     }
 
     /**
@@ -308,10 +323,19 @@ class DealProductChangeControllerTest extends TestCase
     public function test_can_get_statistics()
     {
         // Arrange
-        ItemDealHistory::factory()->count(10)->create([
-            'deal_id' => $this->deal->id,
-            'item_id' => $this->item->id,
+        $items = Item::factory()->count(10)->create([
+            'platform_id' => $this->platform->id
         ]);
+
+        foreach ($items as $index => $item) {
+            DealProductChange::create([
+                'deal_id' => $this->deal->id,
+                'item_id' => $item->id,
+                'action' => $index < 5 ? 'added' : 'removed',
+                'changed_by' => $this->user->id,
+                'note' => 'Test change'
+            ]);
+        }
 
         // Act
         $response = $this->getJson($this->baseUrl . '/statistics');
@@ -330,10 +354,19 @@ class DealProductChangeControllerTest extends TestCase
     public function test_can_get_statistics_with_filters()
     {
         // Arrange
-        ItemDealHistory::factory()->count(5)->create([
-            'deal_id' => $this->deal->id,
-            'item_id' => $this->item->id,
+        $items = Item::factory()->count(5)->create([
+            'platform_id' => $this->platform->id
         ]);
+
+        foreach ($items as $item) {
+            DealProductChange::create([
+                'deal_id' => $this->deal->id,
+                'item_id' => $item->id,
+                'action' => 'added',
+                'changed_by' => $this->user->id,
+                'note' => 'Test change'
+            ]);
+        }
 
         // Act
         $response = $this->getJson($this->baseUrl . '/statistics?deal_id=' . $this->deal->id);
@@ -352,11 +385,22 @@ class DealProductChangeControllerTest extends TestCase
     public function test_can_get_statistics_with_date_range()
     {
         // Arrange
-        ItemDealHistory::factory()->count(3)->create([
-            'deal_id' => $this->deal->id,
-            'item_id' => $this->item->id,
-            'created_at' => now()->subDays(7)
+        $items = Item::factory()->count(3)->create([
+            'platform_id' => $this->platform->id
         ]);
+
+        foreach ($items as $item) {
+            $change = DealProductChange::create([
+                'deal_id' => $this->deal->id,
+                'item_id' => $item->id,
+                'action' => 'added',
+                'changed_by' => $this->user->id,
+                'note' => 'Test change'
+            ]);
+            // Update timestamp after creation to bypass guarded attributes
+            $change->created_at = now()->subDays(7);
+            $change->save();
+        }
 
         // Act
         $fromDate = now()->subDays(30)->format('Y-m-d');
