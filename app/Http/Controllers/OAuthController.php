@@ -22,6 +22,7 @@ class OAuthController extends Controller
             ->withBasicAuth(config('services.auth_2earn.client_id'), config('services.auth_2earn.secret'))
             ->post(config('services.auth_2earn.token'), ['grant_type' => 'authorization_code', 'code' => $code, 'redirect_uri' => config('services.auth_2earn.redirect')]);
 
+        Log::info('Http', ['client_id' => config('services.auth_2earn.client_id'), 'secret' => config('services.auth_2earn.secret')]);
         Log::info('OAuth token response', ['response' => $response->body()]);
 
         if (!$response->ok()) {
