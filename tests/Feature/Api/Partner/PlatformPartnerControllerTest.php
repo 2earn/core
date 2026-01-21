@@ -625,7 +625,7 @@ class PlatformPartnerControllerTest extends TestCase
         ];
 
         // Act
-        $response = $this->getJson($this->baseUrl . '/top-selling?' . http_build_query($params));
+        $response = $this->getJson('/api/partner/platforms/top-selling?' . http_build_query($params));
 
         // Assert
         $response->assertStatus(200)
@@ -669,7 +669,7 @@ class PlatformPartnerControllerTest extends TestCase
         ];
 
         // Act
-        $response = $this->getJson($this->baseUrl . '/top-selling?' . http_build_query($params));
+        $response = $this->getJson('/api/partner/platforms/top-selling?' . http_build_query($params));
 
         // Assert
         $response->assertStatus(200)
@@ -686,7 +686,7 @@ class PlatformPartnerControllerTest extends TestCase
         $this->markTestSkipped('Top-selling endpoint not yet implemented in controller');
 
         // Act
-        $response = $this->getJson($this->baseUrl . '/top-selling');
+        $response = $this->getJson('/api/partner/platforms/top-selling');
 
         // Assert - This won't be reached when skipped
         $response->assertStatus(422)

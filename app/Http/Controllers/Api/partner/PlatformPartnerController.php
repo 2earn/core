@@ -224,7 +224,7 @@ class PlatformPartnerController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $platform = $this->platformService->getPlatformForPartner($platformId, $userId);
+        $platform = $this->platformService->getPlatformForPartner(intval($platformId), $userId);
         if (!$platform) {
             Log::error(self::LOG_PREFIX . 'Platform not found', ['platform_id' => $platformId, 'user_id' => $userId]);
             return response()->json([
