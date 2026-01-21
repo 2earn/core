@@ -191,6 +191,7 @@ class OrderPartnerController extends Controller
         $order->update($data);
         return response()->json([
             'status' => true,
+            'message' => 'Order updated successfully',
             'data' => $order
         ]);
     }

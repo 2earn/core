@@ -4,6 +4,7 @@ namespace App\Services\Platform;
 
 use App\Models\AssignPlatformRole;
 use App\Models\Platform;
+use App\Models\EntityRole;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -64,22 +65,28 @@ class AssignPlatformRoleService
 
             $platform = Platform::findOrFail($assignment->platform_id);
 
-            switch ($assignment->role) {
-                case 'owner':
-                    $platform->owner_id = $assignment->user_id;
-                    break;
-                case 'marketing_manager':
-                    $platform->marketing_manager_id = $assignment->user_id;
-                    break;
-                case 'financial_manager':
-                    $platform->financial_manager_id = $assignment->user_id;
-                    break;
-                default:
-                    throw new \Exception('Invalid role: ' . $assignment->role);
-            }
+            // Check if role already exists for this platform
+            $existingRole = EntityRole::where('roleable_type', 'App\Models\Platform')
+                ->where('roleable_id', $assignment->platform_id)
+                ->where('name', $assignment->role)
+                ->first();
 
-            $platform->updated_by = $approvedBy;
-            $platform->save();
+            if ($existingRole) {
+                // Update existing role to new user
+                $existingRole->user_id = $assignment->user_id;
+                $existingRole->updated_by = $approvedBy;
+                $existingRole->save();
+            } else {
+                // Create new EntityRole
+                EntityRole::create([
+                    'user_id' => $assignment->user_id,
+                    'name' => $assignment->role,
+                    'roleable_type' => 'App\Models\Platform',
+                    'roleable_id' => $assignment->platform_id,
+                    'created_by' => $approvedBy,
+                    'updated_by' => $approvedBy,
+                ]);
+            }
 
             $assignment->status = AssignPlatformRole::STATUS_APPROVED;
             $assignment->updated_by = $approvedBy;
@@ -87,7 +94,7 @@ class AssignPlatformRoleService
 
             DB::commit();
 
-            Log::info('[AssignPlatformRoleService] Role assignment approved', [
+            Log::info('[AssignPlatformRoleService] Role assignment approved via EntityRole', [
                 'assignment_id' => $assignmentId,
                 'user_id' => $assignment->user_id,
                 'platform_id' => $assignment->platform_id,
@@ -138,6 +145,9 @@ class AssignPlatformRoleService
                 ];
             }
 
+            // Mark assignment as rejected
+            // Note: We don't create or modify EntityRole records on rejection
+            // EntityRole records are only created when an assignment is approved
             $assignment->status = AssignPlatformRole::STATUS_REJECTED;
             $assignment->rejection_reason = $rejectionReason;
             $assignment->updated_by = $rejectedBy;

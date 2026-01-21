@@ -377,10 +377,12 @@ class SalesDashboardService
                 ->whereNotNull('commission_break_downs.purchase_value');
 
             if (!empty($userId)) {
-                $query->where(function ($q) use ($userId) {
-                    $q->where('platforms.owner_id', $userId)
-                        ->orWhere('platforms.marketing_manager_id', $userId)
-                        ->orWhere('platforms.financial_manager_id', $userId);
+                // Filter platforms where user has an EntityRole
+                $query->whereIn('platforms.id', function ($subQuery) use ($userId) {
+                    $subQuery->select('roleable_id')
+                        ->from('entity_roles')
+                        ->where('user_id', $userId)
+                        ->where('roleable_type', 'App\Models\Platform');
                 });
             }
 

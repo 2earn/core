@@ -331,9 +331,12 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    @if($platform->owner_id || $platform->marketing_manager_id || $platform->financial_manager_id)
+                    @if($platform->entityRoles->isNotEmpty())
                         <div class="vstack gap-3">
-                            @if($platform->owner_id)
+                            @if(isset($platform->entityRoles['owner']))
+                                @php
+                                    $ownerRole = $platform->entityRoles['owner'];
+                                @endphp
                                 <div class="d-flex align-items-center p-2 bg-soft-primary rounded">
                                     <div class="flex-shrink-0">
                                         <div class="avatar-xs">
@@ -344,11 +347,20 @@
                                     </div>
                                     <div class="flex-grow-1 ms-2">
                                         <p class="text-muted mb-0 small">{{__('Owner')}}</p>
-                                        <h6 class="mb-0">ID: {{$platform->owner_id}}</h6>
+                                        <h6 class="mb-0">
+                                            @if($ownerRole->user)
+                                                {{$ownerRole->user->name ?? 'User ID: ' . $ownerRole->user_id}}
+                                            @else
+                                                User ID: {{$ownerRole->user_id}}
+                                            @endif
+                                        </h6>
                                     </div>
                                 </div>
                             @endif
-                            @if($platform->marketing_manager_id)
+                            @if(isset($platform->entityRoles['marketing_manager']))
+                                @php
+                                    $marketingRole = $platform->entityRoles['marketing_manager'];
+                                @endphp
                                 <div class="d-flex align-items-center p-2 bg-soft-info rounded">
                                     <div class="flex-shrink-0">
                                         <div class="avatar-xs">
@@ -359,11 +371,20 @@
                                     </div>
                                     <div class="flex-grow-1 ms-2">
                                         <p class="text-muted mb-0 small">{{__('Marketing Manager')}}</p>
-                                        <h6 class="mb-0">ID: {{$platform->marketing_manager_id}}</h6>
+                                        <h6 class="mb-0">
+                                            @if($marketingRole->user)
+                                                {{$marketingRole->user->name ?? 'User ID: ' . $marketingRole->user_id}}
+                                            @else
+                                                User ID: {{$marketingRole->user_id}}
+                                            @endif
+                                        </h6>
                                     </div>
                                 </div>
                             @endif
-                            @if($platform->financial_manager_id)
+                            @if(isset($platform->entityRoles['financial_manager']))
+                                @php
+                                    $financialRole = $platform->entityRoles['financial_manager'];
+                                @endphp
                                 <div class="d-flex align-items-center p-2 bg-soft-success rounded">
                                     <div class="flex-shrink-0">
                                         <div class="avatar-xs">
@@ -374,7 +395,13 @@
                                     </div>
                                     <div class="flex-grow-1 ms-2">
                                         <p class="text-muted mb-0 small">{{__('Financial Manager')}}</p>
-                                        <h6 class="mb-0">ID: {{$platform->financial_manager_id}}</h6>
+                                        <h6 class="mb-0">
+                                            @if($financialRole->user)
+                                                {{$financialRole->user->name ?? 'User ID: ' . $financialRole->user_id}}
+                                            @else
+                                                User ID: {{$financialRole->user_id}}
+                                            @endif
+                                        </h6>
                                     </div>
                                 </div>
                             @endif

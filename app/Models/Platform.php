@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\HasAuditing;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class Platform extends Model
 {
-    use HasAuditing;
+    use HasFactory, HasAuditing;
 
     protected $fillable = [
         'name',
