@@ -1,0 +1,425 @@
+/* Test Report Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    overflow: hidden;
+}
+
+/* Header */
+.header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 50px 40px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 3em;
+    margin-bottom: 15px;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.header .subtitle {
+    font-size: 1.2em;
+    opacity: 0.95;
+    margin-bottom: 10px;
+}
+
+.header .timestamp {
+    opacity: 0.85;
+    font-size: 0.95em;
+}
+
+/* Statistics Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    padding: 50px 40px;
+    background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
+}
+
+.stat-card {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.stat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.stat-card .icon {
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.stat-card .number {
+    font-size: 3.5em;
+    font-weight: 800;
+    margin: 15px 0;
+    line-height: 1;
+}
+
+.stat-card .label {
+    color: #666;
+    font-size: 0.95em;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+}
+
+/* Stat Card Colors */
+.stat-card.passed {
+    border-color: #28a745;
+}
+.stat-card.passed .number { color: #28a745; }
+.stat-card.passed:hover { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; }
+.stat-card.passed:hover .number,
+.stat-card.passed:hover .label { color: white; }
+
+.stat-card.failed {
+    border-color: #dc3545;
+}
+.stat-card.failed .number { color: #dc3545; }
+.stat-card.failed:hover { background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); color: white; }
+.stat-card.failed:hover .number,
+.stat-card.failed:hover .label { color: white; }
+
+.stat-card.skipped {
+    border-color: #ffc107;
+}
+.stat-card.skipped .number { color: #ffc107; }
+.stat-card.skipped:hover { background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%); color: white; }
+.stat-card.skipped:hover .number,
+.stat-card.skipped:hover .label { color: white; }
+
+.stat-card.total {
+    border-color: #667eea;
+}
+.stat-card.total .number { color: #667eea; }
+.stat-card.total:hover { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+.stat-card.total:hover .number,
+.stat-card.total:hover .label { color: white; }
+
+.stat-card.rate {
+    border-color: #17a2b8;
+}
+.stat-card.rate .number { color: #17a2b8; }
+.stat-card.rate:hover { background: linear-gradient(135deg, #17a2b8 0%, #138496 100%); color: white; }
+.stat-card.rate:hover .number,
+.stat-card.rate:hover .label { color: white; }
+
+.stat-card.time {
+    border-color: #6f42c1;
+}
+.stat-card.time .number { font-size: 2.5em; color: #6f42c1; }
+.stat-card.time:hover { background: linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%); color: white; }
+.stat-card.time:hover .number,
+.stat-card.time:hover .label { color: white; }
+
+/* Progress Bar */
+.progress-section {
+    padding: 30px 40px;
+    background: #f8f9fa;
+}
+
+.progress-bar-container {
+    height: 50px;
+    background: #e9ecef;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: inset 0 3px 6px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 1.2em;
+    transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.4);
+}
+
+.progress-fill.low {
+    background: linear-gradient(90deg, #dc3545 0%, #c82333 100%);
+}
+
+.progress-fill.medium {
+    background: linear-gradient(90deg, #ffc107 0%, #ff9800 100%);
+}
+
+/* Test Suites Section */
+.test-suites {
+    padding: 50px 40px;
+}
+
+.section-title {
+    font-size: 2.2em;
+    margin-bottom: 30px;
+    color: #333;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.section-title::before {
+    content: '📋';
+    font-size: 1.2em;
+}
+
+.test-suite {
+    margin-bottom: 35px;
+    border: 2px solid #e9ecef;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.test-suite:hover {
+    border-color: #667eea;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15);
+}
+
+.test-suite-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 25px 30px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #e9ecef;
+    transition: all 0.2s ease;
+}
+
+.test-suite-header:hover {
+    background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+}
+
+.test-suite-title {
+    font-size: 1.4em;
+    font-weight: 700;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.test-suite-stats {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.test-suite-stat {
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.test-suite-stat.passed {
+    background: #d4edda;
+    color: #155724;
+}
+
+.test-suite-stat.failed {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.test-suite-stat.time {
+    background: #e7e7ff;
+    color: #4c4c9d;
+}
+
+/* Test Cases */
+.test-cases {
+    background: white;
+}
+
+.test-case {
+    padding: 18px 30px;
+    border-bottom: 1px solid #f1f3f5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.test-case:last-child {
+    border-bottom: none;
+}
+
+.test-case:hover {
+    background: #f8f9fa;
+    padding-left: 35px;
+}
+
+.test-case-name {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.05em;
+}
+
+.status-icon {
+    font-size: 1.3em;
+    width: 24px;
+    text-align: center;
+}
+
+.status-icon.passed { color: #28a745; }
+.status-icon.failed { color: #dc3545; }
+.status-icon.skipped { color: #ffc107; }
+
+.test-case-status {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.test-case-time {
+    color: #666;
+    font-size: 0.9em;
+    font-weight: 500;
+    min-width: 60px;
+    text-align: right;
+}
+
+.status-badge {
+    padding: 6px 16px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-badge.passed {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-badge.failed {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.status-badge.skipped {
+    background: #fff3cd;
+    color: #856404;
+}
+
+/* Footer */
+.footer {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 30px 40px;
+    text-align: center;
+    color: #666;
+    border-top: 2px solid #e9ecef;
+}
+
+.footer strong {
+    color: #667eea;
+    font-size: 1.1em;
+}
+
+.footer p {
+    margin: 8px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        border-radius: 8px;
+    }
+
+    .header h1 {
+        font-size: 2em;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        padding: 30px 20px;
+    }
+
+    .stat-card {
+        padding: 20px;
+    }
+
+    .stat-card .number {
+        font-size: 2.5em;
+    }
+
+    .test-suites {
+        padding: 30px 20px;
+    }
+
+    .test-suite-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .test-case {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: white;
+        padding: 0;
+    }
+
+    .container {
+        box-shadow: none;
+    }
+
+    .test-suite {
+        page-break-inside: avoid;
+    }
+}
