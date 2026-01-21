@@ -287,4 +287,59 @@ class EntityRoleService
             ->pluck('user_id')
             ->toArray();
     }
+
+    /**
+     * Get all platforms with roles for a specific user
+     *
+     * @param int $userId
+     * @param array $with Additional relationships to eager load
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getPlatformsWithRolesForUser(int $userId, array $with = [])
+    {
+        $defaultWith = ['businessSector', 'logoImage'];
+        $with = array_merge($defaultWith, $with);
+
+        return Platform::whereHas('roles', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })
+        ->with(array_merge($with, ['roles' => function ($query) use ($userId) {
+            $query->where('user_id', $userId)
+                  ->select('id', 'user_id', 'name', 'roleable_id', 'roleable_type', 'created_at', 'updated_at');
+        }]))
+        ->get();
+    }
+
+    /**
+     * Get role names for a user on a specific platform
+     *
+     * @param int $userId
+     * @param int $platformId
+     * @return array
+     */
+    public function getUserRolesForPlatform(int $userId, int $platformId): array
+    {
+        return EntityRole::where('user_id', $userId)
+            ->where('roleable_id', $platformId)
+            ->where('roleable_type', Platform::class)
+            ->pluck('name')
+            ->toArray();
+    }
+
+    /**
+     * Get a specific role by user, platform, and role name
+     *
+     * @param int $userId
+     * @param int $platformId
+     * @param string $roleName
+     * @return EntityRole|null
+     */
+    public function getRoleByUserPlatformAndName(int $userId, int $platformId, string $roleName): ?EntityRole
+    {
+        return EntityRole::where('user_id', $userId)
+            ->where('roleable_id', $platformId)
+            ->where('roleable_type', Platform::class)
+            ->where('name', $roleName)
+            ->first();
+    }
 }
