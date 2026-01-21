@@ -132,6 +132,7 @@ Route::prefix('/partner/')->name('api_partner_')
             });
 
             Route::prefix('deals')->name('deals_')->group(function () {
+
                 Route::apiResource('/deals', DealPartnerController::class)->except('destroy');
                 Route::patch('/{deal}/status', [DealPartnerController::class, 'changeStatus'])->name('change_status');
                 Route::post('/validate', [DealPartnerController::class, 'validateRequest'])->name('validate_request');

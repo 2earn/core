@@ -292,5 +292,20 @@ class UserService
             ->limit($limit)
             ->get();
     }
+
+    /**
+     * Get user by ID with entity roles
+     *
+     * @param int $userId
+     * @return User|null
+     */
+    public function getUserWithRoles(int $userId): ?User
+    {
+        return User::with(['entityRoles' => function ($query) {
+            $query->select('id', 'user_id', 'name', 'roleable_id', 'roleable_type')
+                  ->with('roleable:id,name');
+        }])->find($userId);
+    }
 }
+
 
