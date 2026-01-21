@@ -22,7 +22,10 @@ class OAuthController extends Controller
             ->post(config('services.auth_2earn.token'), ['grant_type' => 'authorization_code', 'code' => $code, 'redirect_uri' => config('services.auth_2earn.redirect')]);
 
         if (!$response->ok()) {
-            return response()->json(['error' => 'unauthorized', 'message' => trans('Error while retrieving the token')], 401);
+            return response()->json([
+                'error' => 'unauthorized',
+                'message' => trans('Error while retrieving the token') . ' Details: ' . $response->body()
+            ], 401);
         }
 
         session(['token_responce' => $response->json()]);
