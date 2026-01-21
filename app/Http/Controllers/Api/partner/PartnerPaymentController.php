@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\partner;
 use App\Http\Controllers\Controller;
 use App\Models\PartnerPayment;
 use App\Services\PartnerPayment\PartnerPaymentService;
+use App\Services\EntityRole\EntityRoleService;
 use App\Models\FinancialRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -18,11 +19,13 @@ class PartnerPaymentController extends Controller
     private const LOG_PREFIX = '[PartnerPaymentController] ';
 
     protected $partnerPaymentService;
+    protected $entityRoleService;
 
-    public function __construct(PartnerPaymentService $partnerPaymentService)
+    public function __construct(PartnerPaymentService $partnerPaymentService, EntityRoleService $entityRoleService)
     {
         $this->middleware('check.url');
         $this->partnerPaymentService = $partnerPaymentService;
+        $this->entityRoleService = $entityRoleService;
     }
 
     public function index(Request $request): JsonResponse
@@ -350,13 +353,7 @@ class PartnerPaymentController extends Controller
 
     private function verifyUserIsPartner(int $userId): bool
     {
-        return DB::table('platforms')
-            ->where(function ($query) use ($userId) {
-                $query->where('financial_manager_id', $userId)
-                    ->orWhere('marketing_manager_id', $userId)
-                    ->orWhere('owner_id', $userId);
-            })
-            ->exists();
+        return $this->entityRoleService->userHasPlatformRole($userId);
     }
 
     private function generateSecurityCode(): string

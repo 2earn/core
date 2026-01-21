@@ -225,6 +225,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         Route::prefix('/platform')->name('platform_')->group(function () {
             Route::get('/index', \App\Livewire\PlatformIndex::class)->name('index');
+            Route::get('/{platformId}/roles', \App\Livewire\PlatformEntityRoleManager::class)->name('roles');
         });
 
         Route::prefix('/partner-payments')->name('partner_payment_')->group(function () {
@@ -232,6 +233,16 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/', \App\Livewire\PartnerPaymentIndex::class)->name('index');
             Route::get('/{id}/edit', \App\Livewire\PartnerPaymentManage::class)->name('edit');
             Route::get('/{id}', \App\Livewire\PartnerPaymentDetail::class)->name('detail');
+        });
+
+        Route::prefix('/partner')->name('partner_')->group(function () {
+            Route::get('/index', \App\Livewire\PartnerIndex::class)->name('index');
+            Route::get('/{partnerId}/roles', \App\Livewire\PartnerEntityRoleManager::class)->name('roles');
+            Route::middleware(['IsSuperAdmin'])->group(function () {
+                Route::get('/create', \App\Livewire\PartnerCreateUpdate::class)->name('create');
+                Route::get('/{id}/edit', \App\Livewire\PartnerCreateUpdate::class)->name('update');
+                Route::get('/{id}/show', \App\Livewire\PartnerShow::class)->name('show');
+            });
         });
 
             // SUPER ADMIN MENU

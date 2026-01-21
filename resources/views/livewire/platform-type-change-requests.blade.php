@@ -138,12 +138,16 @@
 
 
                         <div class="row mt-3 pt-3 border-top">
-                            @if(isset($request->platform?->owner_id))
+                            @if(isset($request->platform?->ownerRole))
                                 <div class="col-md-6">
                                     <small class="text-muted">
                                         <i class="ri-user-line me-1"></i>
                                         <strong>{{__('Owner')}}:</strong>
-                                        {{getUserDisplayedNameFromId($request->platform->owner_id) ?? 'N/A'}}
+                                        @if($request->platform->ownerRole->user)
+                                            {{$request->platform->ownerRole->user->name ?? getUserDisplayedNameFromId($request->platform->ownerRole->user_id)}}
+                                        @else
+                                            {{getUserDisplayedNameFromId($request->platform->ownerRole->user_id) ?? 'N/A'}}
+                                        @endif
                                     </small>
                                 </div>
                             @endif

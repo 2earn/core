@@ -87,25 +87,16 @@ class UserPartnerController extends Controller
 
         try {
 
-            $platforms = Platform::where(function ($query) use ($userId) {
-                $query->where('owner_id', $userId)
-                    ->orWhere('marketing_manager_id', $userId)
-                    ->orWhere('financial_manager_id', $userId);
+            $platforms = Platform::whereHas('roles', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
             })
-            ->with(['businessSector', 'logoImage'])
+            ->with(['businessSector', 'logoImage', 'roles' => function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            }])
             ->get()
             ->map(function ($platform) use ($userId) {
 
-                $roles = [];
-                if ($platform->owner_id == $userId) {
-                    $roles[] = 'owner';
-                }
-                if ($platform->marketing_manager_id == $userId) {
-                    $roles[] = 'marketing';
-                }
-                if ($platform->financial_manager_id == $userId) {
-                    $roles[] = 'financial';
-                }
+                $roles = $platform->roles->pluck('name')->toArray();
 
                 return [
                     'id' => $platform->id,

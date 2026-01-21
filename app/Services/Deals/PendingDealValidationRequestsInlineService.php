@@ -166,9 +166,9 @@ class PendingDealValidationRequestsInlineService
 
         if (!$isSuperAdmin && $userId) {
             $query->whereHas('deal.platform', function ($q) use ($userId) {
-                $q->where('financial_manager_id', $userId)
-                    ->orWhere('marketing_manager_id', $userId)
-                    ->orWhere('owner_id', $userId);
+                $q->whereHas('roles', function ($roleQuery) use ($userId) {
+                    $roleQuery->where('user_id', $userId);
+                });
             });
         }
 

@@ -42,10 +42,8 @@ class DealService
         }
 
         $query->whereHas('platform', function ($query) use ($userId, $platformIds) {
-            $query->where(function ($q) use ($userId) {
-                $q->where('marketing_manager_id', $userId)
-                    ->orWhere('financial_manager_id', $userId)
-                    ->orWhere('owner_id', $userId);
+            $query->whereHas('roles', function ($roleQuery) use ($userId) {
+                $roleQuery->where('user_id', $userId);
             });
 
             if ($platformIds && !empty($platformIds)) {
@@ -84,10 +82,8 @@ class DealService
         }
 
         $query->whereHas('platform', function ($query) use ($userId, $platformIds) {
-            $query->where(function ($q) use ($userId) {
-                $q->where('marketing_manager_id', $userId)
-                    ->orWhere('financial_manager_id', $userId)
-                    ->orWhere('owner_id', $userId);
+            $query->whereHas('roles', function ($roleQuery) use ($userId) {
+                $roleQuery->where('user_id', $userId);
             });
 
             if ($platformIds && !empty($platformIds)) {
@@ -110,10 +106,8 @@ class DealService
         return Deal::with('platform')
             ->where('id', $dealId)
             ->whereHas('platform', function ($query) use ($userId) {
-                $query->where(function ($q) use ($userId) {
-                    $q->where('marketing_manager_id', $userId)
-                        ->orWhere('financial_manager_id', $userId)
-                        ->orWhere('owner_id', $userId);
+                $query->whereHas('roles', function ($roleQuery) use ($userId) {
+                    $roleQuery->where('user_id', $userId);
                 });
             })
             ->first();
@@ -227,10 +221,8 @@ class DealService
     public function userHasPermission(Deal $deal, int $userId): bool
     {
         return $deal->platform()
-            ->where(function ($query) use ($userId) {
-                $query->where('marketing_manager_id', $userId)
-                    ->orWhere('financial_manager_id', $userId)
-                    ->orWhere('owner_id', $userId);
+            ->whereHas('roles', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
             })
             ->exists();
     }
@@ -313,9 +305,9 @@ class DealService
             $query->whereNot('status', \App\Enums\DealStatus::Archived->value);
         } else {
             $query->whereHas('platform', function ($query) use ($userId) {
-                $query->where('financial_manager_id', '=', $userId)
-                    ->orWhere('owner_id', '=', $userId)
-                    ->orWhere('marketing_manager_id', '=', $userId);
+                $query->whereHas('roles', function ($roleQuery) use ($userId) {
+                    $roleQuery->where('user_id', $userId);
+                });
             });
         }
 
@@ -471,10 +463,8 @@ class DealService
     {
         $query = Deal::query()
             ->whereHas('platform', function ($query) use ($userId) {
-                $query->where(function ($q) use ($userId) {
-                    $q->where('marketing_manager_id', $userId)
-                        ->orWhere('financial_manager_id', $userId)
-                        ->orWhere('owner_id', $userId);
+                $query->whereHas('roles', function ($roleQuery) use ($userId) {
+                    $roleQuery->where('user_id', $userId);
                 });
             });
 
@@ -744,10 +734,8 @@ class DealService
 
         if (!$isSuperAdmin) {
             $query->whereHas('platform', function ($q) use ($userId) {
-                $q->where(function ($q2) use ($userId) {
-                    $q2->where('financial_manager_id', $userId)
-                       ->orWhere('owner_id', $userId)
-                       ->orWhere('marketing_manager_id', $userId);
+                $q->whereHas('roles', function ($roleQuery) use ($userId) {
+                    $roleQuery->where('user_id', $userId);
                 });
             });
         }

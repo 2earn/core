@@ -264,5 +264,33 @@ class UserService
             return null;
         }
     }
+
+    /**
+     * Search users by multiple criteria (name, email, phone, idUser)
+     *
+     * @param string $searchTerm Search term
+     * @param int $limit Maximum number of results
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function searchUsers(string $searchTerm, int $limit = 10)
+    {
+        if (empty($searchTerm)) {
+            return User::whereRaw('1 = 0')->get(); // Return empty Eloquent Collection
+        }
+
+        return User::where('name', 'like', '%' . $searchTerm . '%')
+            ->orWhere('email', 'like', '%' . $searchTerm . '%')
+            ->orWhere('idUser', 'like', '%' . $searchTerm . '%')
+            ->orWhereHas('mettaUser', function ($query) use ($searchTerm) {
+                $query->where('email', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('secondEmail', 'like', '%' . $searchTerm . '%');
+            })
+            ->orWhereHas('contactUser', function ($query) use ($searchTerm) {
+                $query->where('mobile', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('fullphone_number', 'like', '%' . $searchTerm . '%');
+            })
+            ->limit($limit)
+            ->get();
+    }
 }
 
