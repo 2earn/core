@@ -238,6 +238,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::prefix('/partner')->name('partner_')->group(function () {
             Route::get('/index', \App\Livewire\PartnerIndex::class)->name('index');
             Route::get('/{partnerId}/roles', \App\Livewire\PartnerEntityRoleManager::class)->name('roles');
+            Route::get('/role-requests', \App\Livewire\PartnerRoleRequestManage::class)->name('role_requests');
             Route::middleware(['IsSuperAdmin'])->group(function () {
                 Route::get('/create', \App\Livewire\PartnerCreateUpdate::class)->name('create');
                 Route::get('/{id}/edit', \App\Livewire\PartnerCreateUpdate::class)->name('update');

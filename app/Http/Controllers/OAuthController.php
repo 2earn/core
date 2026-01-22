@@ -16,7 +16,6 @@ class OAuthController extends Controller
     {
         $code = $request->input('code');
 
-        // On envoie tout dans le corps (Body) pour éviter les blocages de Headers sur Plesk
         $response = Http::asForm()
             ->withOptions(['verify' => false])
             ->post(config('services.auth_2earn.token'), [
@@ -28,6 +27,9 @@ class OAuthController extends Controller
             ]);
 
         Log::info('OAuth token response:', ['body' => $response->body()]);
+
+        Log::info('Http', ['client_id' => config('services.auth_2earn.client_id'), 'secret' => config('services.auth_2earn.secret')]);
+        Log::info('OAuth token response', ['response' => $response->body()]);
 
         if (!$response->ok()) {
             return response()->json([
@@ -56,7 +58,6 @@ class OAuthController extends Controller
             $user = User::where('id', $user_id)->first();
 
             if (!$user) {
-                // Création ou logique de récupération utilisateur
                 return redirect('/login')->with('error', 'User not found');
             }
 

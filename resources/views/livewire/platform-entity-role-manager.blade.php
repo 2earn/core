@@ -279,7 +279,7 @@
                                                 <small>{{ $role->created_at->format(config('app.date_format')) }}</small>
                                                 @if($role->creator)
                                                     <br><small
-                                                        class="text-muted">{{ __('by') }} {{ $role->creator->name }}</small>
+                                                        class="text-muted">{{ __('by') }} {{ getUserDisplayedNameFromId($role->creator->id) }}</small>
                                                 @endif
                                             </div>
                                         </div>

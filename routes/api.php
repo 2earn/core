@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\partner\DealProductChangeController;
 use App\Http\Controllers\Api\partner\ItemsPartnerController;
 use App\Http\Controllers\Api\partner\OrderDetailsPartnerController;
 use App\Http\Controllers\Api\partner\OrderPartnerController;
+use App\Http\Controllers\Api\partner\PartnerRolePartnerController;
 use App\Http\Controllers\Api\partner\PlatformPartnerController;
 use App\Http\Controllers\Api\partner\SalesDashboardController;
 use App\Http\Controllers\Api\partner\UserPartnerController;
@@ -132,6 +133,7 @@ Route::prefix('/partner/')->name('api_partner_')
             });
 
             Route::prefix('deals')->name('deals_')->group(function () {
+
                 Route::apiResource('/deals', DealPartnerController::class)->except('destroy');
                 Route::patch('/{deal}/status', [DealPartnerController::class, 'changeStatus'])->name('change_status');
                 Route::post('/validate', [DealPartnerController::class, 'validateRequest'])->name('validate_request');
@@ -182,6 +184,13 @@ Route::prefix('/partner/')->name('api_partner_')
                 Route::get('/{id}', [\App\Http\Controllers\Api\Admin\PartnerRequestController::class, 'show'])->name('show');
                 Route::post('/', [\App\Http\Controllers\Api\Admin\PartnerRequestController::class, 'store'])->name('store');
                 Route::put('/{id}', [\App\Http\Controllers\Api\Admin\PartnerRequestController::class, 'update'])->name('update');
+            });
+
+            Route::prefix('role-requests')->name('role_requests_')->group(function () {
+                Route::get('/', [PartnerRolePartnerController::class, 'index'])->name('index');
+                Route::get('/{id}', [PartnerRolePartnerController::class, 'show'])->name('show');
+                Route::post('/', [PartnerRolePartnerController::class, 'store'])->name('store');
+                Route::post('/{id}/cancel', [PartnerRolePartnerController::class, 'cancel'])->name('cancel');
             });
 
             Route::get('/plan-label', [PlanLabelPartnerController::class, 'index'])->name('deals_plan_label_index');
