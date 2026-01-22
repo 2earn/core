@@ -11,7 +11,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PartnerRoleRequestTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected $partner;
     protected $user;
