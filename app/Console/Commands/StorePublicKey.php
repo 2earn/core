@@ -28,13 +28,11 @@ class StorePublicKey extends Command
     {
         $keyContent = $this->argument('key-content');
 
-        // Validate key format
         if (!str_contains($keyContent, '-----BEGIN PUBLIC KEY-----')) {
             $this->error('Invalid public key format. Must be in PEM format.');
             return 1;
         }
 
-        // Get the configured path
         $keyPath = config('services.auth_2earn.public_key_path');
 
         if (!$keyPath) {
@@ -42,14 +40,12 @@ class StorePublicKey extends Command
             return 1;
         }
 
-        // Create directory if it doesn't exist
         $directory = dirname($keyPath);
         if (!Storage::exists($directory)) {
             Storage::makeDirectory($directory);
             $this->info("Created directory: storage/app/{$directory}");
         }
 
-        // Store the key
         Storage::put($keyPath, $keyContent);
 
         $fullPath = storage_path('app/' . $keyPath);
