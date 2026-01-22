@@ -3,71 +3,78 @@
 namespace App\Services\BusinessSector;
 
 use App\Models\BusinessSector;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
-use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class BusinessSectorService
 {
     /**
-     * Get all business sectors with optional filters
+     * Get all business sectors
      *
-     * @param array $filters
-     * @return EloquentCollection|\Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return Collection
      */
-    public function getBusinessSectors(array $filters = [])
+    public function getAll(): Collection
     {
         try {
-            $query = BusinessSector::query();
-
-            if (!empty($filters['search'])) {
-                $query->where(function($q) use ($filters) {
-                    $q->where('name', 'like', '%' . $filters['search'] . '%')
-                      ->orWhere('description', 'like', '%' . $filters['search'] . '%');
-                });
-            }
-
-            if (!empty($filters['color'])) {
-                $query->where('color', $filters['color']);
-            }
-
-            if (!empty($filters['with'])) {
-                $query->with($filters['with']);
-            }
-
-            $orderBy = $filters['order_by'] ?? 'created_at';
-            $orderDirection = $filters['order_direction'] ?? 'desc';
-            $query->orderBy($orderBy, $orderDirection);
-
-            if (!empty($filters['PAGE_SIZE'])) {
-                return $query->paginate($filters['PAGE_SIZE']);
-            }
-
-            return $query->get();
+            return BusinessSector::all();
         } catch (\Exception $e) {
-            Log::error('Error fetching business sectors: ' . $e->getMessage());
-            return new EloquentCollection();
+            Log::error('Error fetching all business sectors: ' . $e->getMessage());
+            return new Collection();
         }
     }
 
     /**
-     * Get business sector by ID with relationships
+     * Get business sectors with filters, pagination and relations
      *
-     * @param int $id
-     * @param array $with
-     * @return BusinessSector|null
+     * @param array $params
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|Collection
      */
-    public function getBusinessSectorById(int $id, array $with = []): ?BusinessSector
+    public function getBusinessSectors(array $params = [])
     {
         try {
             $query = BusinessSector::query();
 
-            if (!empty($with)) {
-                $query->with($with);
+            if (isset($params['with']) && is_array($params['with'])) {
+                $query->with($params['with']);
             }
 
-            return $query->find($id);
+            if (isset($params['search']) && !empty($params['search'])) {
+                $search = $params['search'];
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                        ->orWhere('description', 'like', "%{$search}%");
+                });
+            }
+
+            if (isset($params['order_by'])) {
+                $orderDirection = $params['order_direction'] ?? 'asc';
+                $query->orderBy($params['order_by'], $orderDirection);
+            }
+
+            if (isset($params['PAGE_SIZE'])) {
+                $page = $params['page'] ?? 1;
+                return $query->paginate($params['PAGE_SIZE'], ['*'], 'page', $page);
+            }
+
+            return $query->get();
+        } catch (\Exception $e) {
+            Log::error('Error fetching business sectors: ' . $e->getMessage(), [
+                'params' => $params
+            ]);
+            return new Collection();
+        }
+    }
+
+    /**
+     * Get business sector by ID
+     *
+     * @param int $id
+     * @return BusinessSector|null
+     */
+    public function getById(int $id): ?BusinessSector
+    {
+        try {
+            return BusinessSector::find($id);
         } catch (\Exception $e) {
             Log::error('Error fetching business sector by ID: ' . $e->getMessage());
             return null;
@@ -75,7 +82,7 @@ class BusinessSectorService
     }
 
     /**
-     * Get business sector with all images
+     * Get business sector with images by ID
      *
      * @param int $id
      * @return BusinessSector|null
@@ -86,99 +93,45 @@ class BusinessSectorService
             return BusinessSector::with(['logoImage', 'thumbnailsImage', 'thumbnailsHomeImage'])
                 ->find($id);
         } catch (\Exception $e) {
-            Log::error('Error fetching business sector with images: ' . $e->getMessage());
+            Log::error('Error fetching business sector with images: ' . $e->getMessage(), [
+                'id' => $id
+            ]);
             return null;
         }
     }
 
     /**
-     * Get business sectors with platform counts
+     * Get business sectors with user purchase history
      *
-     * @return EloquentCollection
+     * @param int $userId
+     * @return Collection
      */
-    public function getBusinessSectorsWithCounts(): EloquentCollection
+    public function getSectorsWithUserPurchases(int $userId): Collection
     {
         try {
-            return BusinessSector::withCount([
-                'platforms',
-                'platforms as enabled_platforms_count' => function($query) {
-                    $query->where('enabled', true);
-                }
-            ])
-            ->with(['logoImage', 'thumbnailsImage'])
-            ->orderBy('created_at', 'desc')
-            ->get();
+            return BusinessSector::whereHas('platforms.items.orderDetails.order', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+                ->distinct()
+                ->get();
         } catch (\Exception $e) {
-            Log::error('Error fetching business sectors with counts: ' . $e->getMessage());
-            return new EloquentCollection();
+            Log::error('Error fetching business sectors with user purchases: ' . $e->getMessage(), [
+                'user_id' => $userId
+            ]);
+            return new Collection();
         }
     }
 
     /**
-     * Get business sectors with enabled platforms
+     * Find business sector by ID or fail
      *
-     * @return EloquentCollection
+     * @param int $id
+     * @return BusinessSector
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function getBusinessSectorsWithEnabledPlatforms(): EloquentCollection
+    public function findOrFail(int $id): BusinessSector
     {
-        try {
-            return BusinessSector::with([
-                'logoImage',
-                'thumbnailsImage',
-                'platforms' => function($query) {
-                    $query->where('enabled', true)
-                          ->with('logoImage')
-                          ->orderBy('created_at');
-                }
-            ])
-            ->has('platforms')
-            ->orderBy('created_at', 'desc')
-            ->get();
-        } catch (\Exception $e) {
-            Log::error('Error fetching business sectors with enabled platforms: ' . $e->getMessage());
-            return new EloquentCollection();
-        }
-    }
-
-    /**
-     * Get business sector statistics
-     *
-     * @param int|null $businessSectorId
-     * @return array
-     */
-    public function getStatistics(?int $businessSectorId = null): array
-    {
-        try {
-            $query = BusinessSector::query();
-
-            if ($businessSectorId) {
-                $query->where('id', $businessSectorId);
-            }
-
-            $totalSectors = $query->count();
-            $sectorsWithPlatforms = (clone $query)->has('platforms')->count();
-            $totalPlatforms = (clone $query)->withCount('platforms')->get()->sum('platforms_count');
-            $enabledPlatforms = (clone $query)->withCount([
-                'platforms as enabled_platforms_count' => function($q) {
-                    $q->where('enabled', true);
-                }
-            ])->get()->sum('enabled_platforms_count');
-
-            return [
-                'total_sectors' => $totalSectors,
-                'sectors_with_platforms' => $sectorsWithPlatforms,
-                'total_platforms' => $totalPlatforms,
-                'enabled_platforms' => $enabledPlatforms,
-            ];
-        } catch (\Exception $e) {
-            Log::error('Error getting business sector statistics: ' . $e->getMessage());
-            return [
-                'total_sectors' => 0,
-                'sectors_with_platforms' => 0,
-                'total_platforms' => 0,
-                'enabled_platforms' => 0,
-            ];
-        }
+        return BusinessSector::findOrFail($id);
     }
 
     /**
@@ -187,46 +140,45 @@ class BusinessSectorService
      * @param array $data
      * @return BusinessSector|null
      */
-    public function createBusinessSector(array $data): ?BusinessSector
+    public function create(array $data): ?BusinessSector
     {
         try {
             return BusinessSector::create($data);
         } catch (\Exception $e) {
             Log::error('Error creating business sector: ' . $e->getMessage());
-            return null;
+            throw $e;
         }
     }
 
     /**
-     * Update business sector data
+     * Update a business sector
      *
      * @param int $id
      * @param array $data
-     * @return BusinessSector|null
+     * @return bool
      */
-    public function updateBusinessSector(int $id, array $data): ?BusinessSector
+    public function update(int $id, array $data): bool
     {
         try {
-            $businessSector = BusinessSector::findOrFail($id);
-            $businessSector->update($data);
-            return $businessSector->fresh();
+            $sector = BusinessSector::findOrFail($id);
+            return $sector->update($data);
         } catch (\Exception $e) {
             Log::error('Error updating business sector: ' . $e->getMessage());
-            return null;
+            return false;
         }
     }
 
     /**
-     * Delete business sector
+     * Delete a business sector
      *
      * @param int $id
      * @return bool
      */
-    public function deleteBusinessSector(int $id): bool
+    public function delete(int $id): bool
     {
         try {
-            $businessSector = BusinessSector::findOrFail($id);
-            return $businessSector->delete();
+            $sector = BusinessSector::findOrFail($id);
+            return $sector->delete();
         } catch (\Exception $e) {
             Log::error('Error deleting business sector: ' . $e->getMessage());
             return false;
@@ -234,143 +186,13 @@ class BusinessSectorService
     }
 
     /**
-     * Check if business sector has platforms
+     * Delete a business sector (alias for delete method)
      *
      * @param int $id
      * @return bool
      */
-    public function hasPlatforms(int $id): bool
+    public function deleteBusinessSector(int $id): bool
     {
-        try {
-            return BusinessSector::where('id', $id)->has('platforms')->exists();
-        } catch (\Exception $e) {
-            Log::error('Error checking if business sector has platforms: ' . $e->getMessage());
-            return false;
-        }
-    }
-
-    /**
-     * Get business sectors for dropdown/select
-     *
-     * @return EloquentCollection
-     */
-    public function getForSelect(): EloquentCollection
-    {
-        try {
-            return BusinessSector::select('id', 'name', 'color')
-                ->orderBy('name')
-                ->get();
-        } catch (\Exception $e) {
-            Log::error('Error fetching business sectors for select: ' . $e->getMessage());
-            return new EloquentCollection();
-        }
-    }
-
-    /**
-     * Search business sectors
-     *
-     * @param string $searchTerm
-     * @param int $limit
-     * @return EloquentCollection
-     */
-    public function search(string $searchTerm, int $limit = 10): EloquentCollection
-    {
-        try {
-            return BusinessSector::where('name', 'like', '%' . $searchTerm . '%')
-                ->orWhere('description', 'like', '%' . $searchTerm . '%')
-                ->with(['logoImage'])
-                ->limit($limit)
-                ->get();
-        } catch (\Exception $e) {
-            Log::error('Error searching business sectors: ' . $e->getMessage());
-            return new EloquentCollection();
-        }
-    }
-
-    /**
-     * Handle image upload for business sector
-     *
-     * @param BusinessSector $businessSector
-     * @param TemporaryUploadedFile|null $image
-     * @param string $imageType
-     * @return bool
-     */
-    public function handleImageUpload(BusinessSector $businessSector, ?TemporaryUploadedFile $image, string $imageType): bool
-    {
-        if (!$image) {
-            return false;
-        }
-
-        try {
-            $this->deleteBusinessSectorImage($businessSector, $imageType);
-
-            $imagePath = $image->store('business-sectors/' . $imageType, 'public2');
-
-            $relationMethod = $this->getImageRelationMethod($imageType);
-            $businessSector->{$relationMethod}()->create([
-                'url' => $imagePath,
-                'type' => $imageType,
-                'created_by' => auth()->id(),
-            ]);
-
-            return true;
-        } catch (\Exception $e) {
-            Log::error('Error handling image upload: ' . $e->getMessage());
-            return false;
-        }
-    }
-
-    /**
-     * Delete business sector image
-     *
-     * @param BusinessSector $businessSector
-     * @param string $imageType
-     * @return bool
-     */
-    public function deleteBusinessSectorImage(BusinessSector $businessSector, string $imageType): bool
-    {
-        try {
-            $relationMethod = $this->getImageRelationMethod($imageType);
-            $image = $businessSector->{$relationMethod};
-
-            if ($image) {
-                Storage::disk('public2')->delete($image->url);
-                $image->delete();
-            }
-
-            return true;
-        } catch (\Exception $e) {
-            Log::error('Error deleting business sector image: ' . $e->getMessage());
-            return false;
-        }
-    }
-
-    /**
-     * Get image relation method name based on type
-     *
-     * @param string $imageType
-     * @return string
-     */
-    private function getImageRelationMethod(string $imageType): string
-    {
-        return match($imageType) {
-            BusinessSector::IMAGE_TYPE_THUMBNAILS => 'thumbnailsImage',
-            BusinessSector::IMAGE_TYPE_THUMBNAILS_HOME => 'thumbnailsHomeImage',
-            BusinessSector::IMAGE_TYPE_LOGO => 'logoImage',
-            default => 'logoImage',
-        };
-    }
-
-    /**
-     * Get business sector by ID or fail
-     *
-     * @param int $id
-     * @return BusinessSector
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     */
-    public function getBusinessSectorByIdOrFail(int $id): BusinessSector
-    {
-        return BusinessSector::findOrFail($id);
+        return $this->delete($id);
     }
 }
-

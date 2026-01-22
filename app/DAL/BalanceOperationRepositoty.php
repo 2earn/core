@@ -1,8 +1,8 @@
 <?php
 
 namespace App\DAL;
-use Core\Enum\BalanceOperationsEnum;
-use Core\Interfaces\IBalanceOperationRepositoty;
+use App\Enums\BalanceOperationsEnum;
+use App\Interfaces\IBalanceOperationRepositoty;
 use Illuminate\Support\Facades\DB;
 
 class  BalanceOperationRepositoty implements IBalanceOperationRepositoty

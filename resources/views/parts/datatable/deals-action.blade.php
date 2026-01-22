@@ -7,7 +7,7 @@
                        class="btn btn-xs btn-outline-info btn2earnTable  m-1">{{__('Show')}}</a>
                 @endif
 
-                @if(\Core\Models\Platform::havePartnerSpecialRole(auth()->user()->id))
+                @if(\App\Models\Platform::havePartnerSpecialRole(auth()->user()->id))
                     <a class="link-warning" target="_blank"
                        href="{{route('sales_tracking',['locale'=>app()->getLocale(),'id'=>$deal->id])}}">
                         @if(\App\Models\User::isSuperAdmin())
@@ -23,7 +23,7 @@
         @if(!$deal->validated)
             <a href="{{route('deals_create_update', ['locale' => app()->getLocale(), 'id' => $deal->id, 'idPlatform' => $deal->platform_id])}}"
                class="btn btn-xs btn-primary btn2earnTable  m-1">{{__('Edit')}}</a>
-            @if($deal->status< \Core\Enum\DealStatus::Opened->value)
+            @if($deal->status< \App\Enums\DealStatus::Opened->value)
                 <button class="btn btn-secondary updateDeal" data-status="0"
                         data-id="{{$deal->id}}" data-status-name="{{__('Validate')}}">
                     {{__('Validate')}}
@@ -34,23 +34,23 @@
             <a href="{{route('items_create_update',['locale'=>app()->getLocale(), 'dealId' => $deal->id])}}"
                class="btn btn-outline-success">{{__('Create Item')}}
             </a>
-            @if($deal->status== \Core\Enum\DealStatus::New->value)
-                <button class="btn btn-secondary updateDeal" data-status="{{\Core\Enum\DealStatus::Opened->value}}"
-                        data-id="{{$deal->id}}" data-status-name="{{__(\Core\Enum\DealStatus::Opened->name)}}">
+            @if($deal->status== \App\Enums\DealStatus::New->value)
+                <button class="btn btn-secondary updateDeal" data-status="{{\App\Enums\DealStatus::Opened->value}}"
+                        data-id="{{$deal->id}}" data-status-name="{{__(\App\Enums\DealStatus::Opened->name)}}">
                     {{__('Open')}}
                 </button>
             @endif
             @if($deal->validated)
-                @if($deal->status== \Core\Enum\DealStatus::Opened->value)
-                    <button class="btn btn-secondary updateDeal" data-status="{{\Core\Enum\DealStatus::Closed->value}}"
-                            data-id="{{$deal->id}}" data-status-name="{{__(\Core\Enum\DealStatus::Closed->name)}}">
+                @if($deal->status== \App\Enums\DealStatus::Opened->value)
+                    <button class="btn btn-secondary updateDeal" data-status="{{\App\Enums\DealStatus::Closed->value}}"
+                            data-id="{{$deal->id}}" data-status-name="{{__(\App\Enums\DealStatus::Closed->name)}}">
                         {{__('close')}}
                     </button>
                 @endif
-                @if($deal->status== \Core\Enum\DealStatus::Closed->value)
+                @if($deal->status== \App\Enums\DealStatus::Closed->value)
                     <button class="btn btn-secondary updateDeal"
-                            data-status="{{\Core\Enum\DealStatus::Archived->value}}"
-                            data-id="{{$deal->id}}" data-status-name="{{__(\Core\Enum\DealStatus::Archived->name)}}">
+                            data-status="{{\App\Enums\DealStatus::Archived->value}}"
+                            data-id="{{$deal->id}}" data-status-name="{{__(\App\Enums\DealStatus::Archived->name)}}">
                         {{__('Archive')}}
                     </button>
                 @endif

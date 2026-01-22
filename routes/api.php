@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\mobile\CashBalanceController;
 use App\Http\Controllers\Api\mobile\UserController;
 use App\Http\Controllers\Api\partner\PlanLabelPartnerController;
 use App\Http\Controllers\Api\partner\DealPartnerController;
+use App\Http\Controllers\Api\partner\DealProductChangeController;
 use App\Http\Controllers\Api\partner\ItemsPartnerController;
 use App\Http\Controllers\Api\partner\OrderDetailsPartnerController;
 use App\Http\Controllers\Api\partner\OrderPartnerController;
@@ -48,6 +49,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/countries', [App\Http\Controllers\CountriesController::class, 'index'])->name('api_countries');
         Route::get('/settings', [App\Http\Controllers\SettingsController::class, 'index'])->name('api_settings');
         Route::get('/amounts', [App\Http\Controllers\SettingsController::class, 'getAmounts'])->name('api_Amounts');
+
         Route::get('/balance/operations', [App\Http\Controllers\BalancesOperationsController::class, 'index'])->name('api_balance_operations');
         Route::get('/balance/operations/categories', [App\Http\Controllers\BalancesOperationsController::class, 'getCategories'])->name('api_operations_categories');
         Route::get('/action/historys', [App\Http\Controllers\SharesController::class, 'index'])->name('api_action_history');
@@ -137,6 +139,12 @@ Route::prefix('/partner/')->name('api_partner_')
                 Route::post('/change/cancel', [DealPartnerController::class, 'cancelChangeRequest'])->name('change_cancel');
                 Route::get('/dashboard/indicators', [DealPartnerController::class, 'dashboardIndicators'])->name('dashboard_indicators');
                 Route::get('/performance/chart', [DealPartnerController::class, 'performanceChart'])->name('performance_chart');
+
+                Route::prefix('product-changes')->name('product_changes_')->group(function () {
+                    Route::get('/', [DealProductChangeController::class, 'index'])->name('index');
+                    Route::get('/statistics', [DealProductChangeController::class, 'statistics'])->name('statistics');
+                    Route::get('/{id}', [DealProductChangeController::class, 'show'])->name('show');
+                });
             });
 
             Route::prefix('orders')->name('orders_')->group(function () {
@@ -148,6 +156,9 @@ Route::prefix('/partner/')->name('api_partner_')
             Route::prefix('items')->name('items_')->group(function () {
                 Route::post('/', [ItemsPartnerController::class, 'store'])->name('store');
                 Route::put('/{id}', [ItemsPartnerController::class, 'update'])->name('update');
+                Route::get('/deal/{dealId}', [ItemsPartnerController::class, 'listItemsForDeal'])->name('list_by_deal');
+                Route::post('/deal/add-bulk', [ItemsPartnerController::class, 'addItemsToDeal'])->name('add_to_deal_bulk');
+                Route::post('/deal/remove-bulk', [ItemsPartnerController::class, 'removeItemsFromDeal'])->name('remove_from_deal_bulk');
             });
 
             Route::prefix('sales/dashboard')->name('sales_dashboard_')->group(function () {
@@ -164,6 +175,13 @@ Route::prefix('/partner/')->name('api_partner_')
                 Route::get('/{id}', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'show'])->name('show');
                 Route::post('/demand', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'createDemand'])->name('create_demand');
                 Route::get('/statistics/summary', [\App\Http\Controllers\Api\partner\PartnerPaymentController::class, 'statistics'])->name('statistics');
+            });
+
+            Route::prefix('partner-requests')->name('partner_requests_')->group(function () {
+                Route::get('/', [\App\Http\Controllers\Api\Admin\PartnerRequestController::class, 'index'])->name('index');
+                Route::get('/{id}', [\App\Http\Controllers\Api\Admin\PartnerRequestController::class, 'show'])->name('show');
+                Route::post('/', [\App\Http\Controllers\Api\Admin\PartnerRequestController::class, 'store'])->name('store');
+                Route::put('/{id}', [\App\Http\Controllers\Api\Admin\PartnerRequestController::class, 'update'])->name('update');
             });
 
             Route::get('/plan-label', [PlanLabelPartnerController::class, 'index'])->name('deals_plan_label_index');

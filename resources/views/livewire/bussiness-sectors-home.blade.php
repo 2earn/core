@@ -57,7 +57,6 @@
                                    class="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2 mt-auto">
                                     <i class="ri-eye-line"></i>
                                     <span>{{__('View Details')}}</span>
-                                    <i class="ri-arrow-right-line ms-auto"></i>
                                 </a>
                             </div>
                         </div>
@@ -67,10 +66,8 @@
             <div class="row my-5">
                 <div class="col-12 text-center">
                     <a href="{{route('business_sector_index',['locale'=> app()->getLocale()])}}"
-                       class="btn btn-view-all-sectors btn-lg px-5 py-3 d-inline-flex align-items-center gap-3">
-                        <i class="ri-grid-line fs-18"></i>
+                       class="btn btn-view-all-sectors btn-lg d-inline-flex align-items-center gap-3">
                         <span class="fw-semibold text-muted">{{__('View All Business Sectors')}}</span>
-                        <i class="ri-arrow-right-line fs-18 ms-1 arrow-icon"></i>
                     </a>
                 </div>
             </div>

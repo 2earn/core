@@ -5,7 +5,7 @@ namespace App\Services\Dashboard;
 use App\Models\Order;
 use App\Services\OrderDetailService;
 use App\Services\Platform\PlatformService;
-use Core\Enum\OrderEnum;
+use App\Enums\OrderEnum;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -35,38 +35,34 @@ class SalesDashboardService
     public function getKpiData(array $filters = []): array
     {
         try {
-            // Check if user has role in platform when both are provided
-            if (!empty($filters['user_id']) && !empty($filters['platform_id'])) {
-                if (!$this->platformService->userHasRoleInPlatform($filters['user_id'], $filters['platform_id'])) {
-                    Log::warning(self::LOG_PREFIX . 'User does not have role in platform', [
-                        'user_id' => $filters['user_id'],
-                        'platform_id' => $filters['platform_id']
-                    ]);
-                    throw new \Exception('User does not have a role in this platform');
+            if (!empty($filters['user_id']) && !empty($filters['platform_ids'])) {
+                foreach ($filters['platform_ids'] as $platformId) {
+                    if (!$this->platformService->userHasRoleInPlatform($filters['user_id'], $platformId)) {
+                        Log::warning(self::LOG_PREFIX . 'User does not have role in platform', [
+                            'user_id' => $filters['user_id'],
+                            'platform_id' => $platformId
+                        ]);
+                        throw new \Exception('User does not have a role in one or more platforms');
+                    }
                 }
             }
 
             $query = $this->buildBaseQuery($filters);
 
-            // Get total sales (all orders)
             $totalSales = (clone $query)->count();
 
-            // Get orders in progress (Ready status)
             $ordersInProgress = (clone $query)
                 ->where('orders.status', OrderEnum::Ready->value)
                 ->count();
 
-            // Get successful orders (Dispatched status)
             $ordersSuccessful = (clone $query)
                 ->where('orders.status', OrderEnum::Dispatched->value)
                 ->count();
 
-            // Get failed orders (Failed status)
             $ordersFailed = (clone $query)
                 ->where('orders.status', OrderEnum::Failed->value)
                 ->count();
 
-            // Get total unique customers
             $totalCustomers = (clone $query)
                 ->distinct('orders.user_id')
                 ->count('orders.user_id');
@@ -90,7 +86,6 @@ class SalesDashboardService
     public function getTransactions(array $filters = []): array
     {
         try {
-            // Handle platform_ids array - check if user has role in any of the platforms
             if (!empty($filters['user_id']) && !empty($filters['platform_ids'])) {
                 foreach ($filters['platform_ids'] as $platformId) {
                     if (!$this->platformService->userHasRoleInPlatform($filters['user_id'], $platformId)) {
@@ -104,10 +99,9 @@ class SalesDashboardService
             }
 
             $startDate = $filters['start_date'] ?? now()->subDays(30)->format('Y-m-d');
-            $endDate = $filters['end_date'] ?? now()->format('Y-m-d');
+            $endDate = $filters['end_date'] ?? now()->addDay()->format('Y-m-d');
 
-
-            $results = $this->orderDetailService->getSalesTransactionData([
+            $filtersUpdated = [
                 'start_date' => $startDate,
                 'end_date' => $endDate,
                 'platform_ids' => $filters['platform_ids'] ?? null,
@@ -118,10 +112,8 @@ class SalesDashboardService
                 'user_id' => $filters['user_id'] ?? null,
                 'page' => $filters['page'] ?? 1,
                 'per_page' => $filters['per_page'] ?? 15,
-            ]);
-
-
-            return $results;
+            ];
+            return ['filters' => $filtersUpdated, 'data' => $this->orderDetailService->getSalesTransactionData($filtersUpdated)];
 
         } catch (\Exception $e) {
             Log::error(self::LOG_PREFIX . 'Error fetching sales evolution chart: ' . $e->getMessage(), [
@@ -131,6 +123,7 @@ class SalesDashboardService
             throw $e;
         }
     }
+
     public function getTransactionsDetails(array $filters = []): array
     {
         try {
@@ -143,10 +136,6 @@ class SalesDashboardService
                     throw new \Exception('User does not have a role in this platform');
                 }
             }
-
-            $startDate = $filters['start_date'] ?? now()->subDays(30)->format('Y-m-d');
-            $endDate = $filters['end_date'] ?? now()->format('Y-m-d');
-
 
             $results = $this->orderDetailService->getSalesTransactionDetailsData([
                 'order_id' => $filters['order_id'] ?? null,
@@ -241,7 +230,6 @@ class SalesDashboardService
     {
         $query = Order::query();
 
-        // Filter by date range
         if (!empty($filters['start_date'])) {
             $query->where('orders.created_at', '>=', $filters['start_date']);
         }
@@ -250,10 +238,9 @@ class SalesDashboardService
             $query->where('orders.created_at', '<=', $filters['end_date']);
         }
 
-        // Filter by platform_id through order_details and items
-        if (!empty($filters['platform_id'])) {
+        if (!empty($filters['platform_ids']) && is_array($filters['platform_ids'])) {
             $query->whereHas('OrderDetails.item', function ($q) use ($filters) {
-                $q->where('items.platform_id', $filters['platform_id']);
+                $q->whereIn('items.platform_id', $filters['platform_ids']);
             });
         }
 
@@ -300,7 +287,6 @@ class SalesDashboardService
     public function getTopSellingDeals(array $filters = []): array
     {
         try {
-            // Check if user has role in platform when both are provided
             if (!empty($filters['user_id']) && !empty($filters['platform_id'])) {
                 if (!$this->platformService->userHasRoleInPlatform($filters['user_id'], $filters['platform_id'])) {
                     Log::warning(self::LOG_PREFIX . 'User does not have role in platform', [
@@ -313,7 +299,6 @@ class SalesDashboardService
 
             $limit = $filters['limit'] ?? 5;
 
-            // Build query for successful orders (Dispatched status)
             $query = Order::query()
                 ->select(
                     'deals.id as deal_id',
@@ -326,7 +311,6 @@ class SalesDashboardService
                 ->join('deals', 'items.deal_id', '=', 'deals.id')
                 ->where('orders.status', OrderEnum::Dispatched->value);
 
-            // Filter by date range
             if (!empty($filters['start_date'])) {
                 $query->where('orders.created_at', '>=', $filters['start_date']);
             }
@@ -335,12 +319,10 @@ class SalesDashboardService
                 $query->where('orders.created_at', '<=', $filters['end_date']);
             }
 
-            // Filter by platform_id
             if (!empty($filters['platform_id'])) {
                 $query->where('deals.platform_id', $filters['platform_id']);
             }
 
-            // Group by deal and order by total sales
             $topDeals = $query
                 ->groupBy('deals.id', 'deals.name')
                 ->orderByDesc('total_sales')
@@ -384,7 +366,6 @@ class SalesDashboardService
             $limit = $filters['limit'] ?? 10;
             $userId = $filters['user_id'] ?? null;
 
-            // Build query to get platforms ranked by total sales from commission_break_downs
             $query = DB::table('commission_break_downs')
                 ->select(
                     'platforms.id as platform_id',
@@ -395,16 +376,16 @@ class SalesDashboardService
                 ->whereNotNull('commission_break_downs.platform_id')
                 ->whereNotNull('commission_break_downs.purchase_value');
 
-            // Filter by user access - only show platforms the user has a role in
             if (!empty($userId)) {
-                $query->where(function ($q) use ($userId) {
-                    $q->where('platforms.owner_id', $userId)
-                        ->orWhere('platforms.marketing_manager_id', $userId)
-                        ->orWhere('platforms.financial_manager_id', $userId);
+                // Filter platforms where user has an EntityRole
+                $query->whereIn('platforms.id', function ($subQuery) use ($userId) {
+                    $subQuery->select('roleable_id')
+                        ->from('entity_roles')
+                        ->where('user_id', $userId)
+                        ->where('roleable_type', 'App\Models\Platform');
                 });
             }
 
-            // Filter by date range
             if (!empty($filters['start_date'])) {
                 $query->where('commission_break_downs.created_at', '>=', $filters['start_date']);
             }
@@ -413,7 +394,6 @@ class SalesDashboardService
                 $query->where('commission_break_downs.created_at', '<=', $filters['end_date']);
             }
 
-            // Group by platform and order by total sales descending
             $topPlatforms = $query
                 ->groupBy('platforms.id', 'platforms.name')
                 ->orderByDesc('total_sales')

@@ -12,15 +12,15 @@
                                         <i class="ri-hashtag me-1"></i>{{$key+1}}
                                     </span>
                             <span title="{{__('Commission brackdown Status')}}" class="badge fs-14
-                                     @if($commission->type->value==\Core\Enum\CommissionTypeEnum::IN->value)
+                                     @if($commission->type->value==\App\Enums\CommissionTypeEnum::IN->value)
                                      bg-primary
-                                     @elseif($commission->type->value==\Core\Enum\CommissionTypeEnum::OUT->value)
+                                     @elseif($commission->type->value==\App\Enums\CommissionTypeEnum::OUT->value)
                                      bg-secondary
                                      @else
                                      bg-warning
                                      @endif
                                      ">
-                                        <i class="ri-arrow-left-right-line me-1"></i>{{__(\Core\Enum\CommissionTypeEnum::tryFrom($commission->type->value)->name)}}
+                                        <i class="ri-arrow-left-right-line me-1"></i>{{__(\App\Enums\CommissionTypeEnum::tryFrom($commission->type->value)->name)}}
                                     </span>
                             @if($commission->trigger)
                                 <span class="text-danger fs-14" title="{{__('Order trigger')}}">
@@ -44,14 +44,14 @@
                                     </h6>
                                 </div>
                                 <div class="card-body">
-                                    @if($commission->type->value!==\Core\Enum\CommissionTypeEnum::OUT->value)
+                                    @if($commission->type->value!==\App\Enums\CommissionTypeEnum::OUT->value)
                                         <div
                                             class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
                                                     <span class="text-muted">
                                                         <i class="ri-history-line me-1"></i>{{__('Old')}}
                                                     </span>
                                             <span class="text-info-subtle text-info fs-14">
-                                                        {{$commission->old_turnover}} {{config('app.currency')}}
+                                                        {{formatSolde($commission->old_turnover)}} {{config('app.currency')}}
                                                     </span>
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center">
@@ -59,7 +59,7 @@
                                                         <i class="ri-refresh-line me-1"></i>{{__('New')}}
                                                     </span>
                                             <span class="text-info fs-14">
-                                                        {{$commission->new_turnover}} {{config('app.currency')}}
+                                                        {{formatSolde($commission->new_turnover)}} {{config('app.currency')}}
                                                     </span>
                                         </div>
                                     @else
@@ -87,7 +87,7 @@
                                                     <i class="ri-shopping-cart-line me-1"></i>{{__('Purchase value')}}
                                                 </span>
                                         <span class="text-warning fs-14">
-                                                    {{$commission->purchase_value}} {{config('app.currency')}}
+                                                    {{formatSolde($commission->purchase_value)}} {{config('app.currency')}}
                                                 </span>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center mb-2">
@@ -95,7 +95,7 @@
                                                     <i class="ri-money-dollar-circle-line me-1"></i>{{__('Commission')}}
                                                 </span>
                                         <span class="text-success fs-14">
-                                                    {{$commission->commission_value}} {{config('app.currency')}}
+                                                    {{formatSolde($commission->commission_value)}} {{config('app.currency')}}
                                                 </span>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center">
@@ -103,7 +103,7 @@
                                                     <i class="ri-percent-line me-1"></i>{{__('Percentage')}}
                                                 </span>
                                         <span class="text-success-subtle text-success">
-                                                    {{$commission->commission_percentage}} %
+                                                    {{formatSolde($commission->commission_percentage)}} %
                                                 </span>
                                     </div>
                                 </div>
@@ -119,14 +119,14 @@
                                     </h6>
                                 </div>
                                 <div class="card-body">
-                                    @if($commission->type->value!==\Core\Enum\CommissionTypeEnum::OUT->value)
+                                    @if($commission->type->value!==\App\Enums\CommissionTypeEnum::OUT->value)
                                         <div
                                             class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
                                                     <span class="text-muted">
                                                         <i class="ri-add-circle-line me-1"></i>{{__('Additional')}}
                                                     </span>
                                             <span class="text-warning fs-14">
-                                                        {{$commission->additional_amount}} {{config('app.currency')}}
+                                                        {{formatSolde($commission->additional_amount)}} {{config('app.currency')}}
                                                     </span>
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center">
@@ -134,7 +134,7 @@
                                                         <i class="ri-pie-chart-2-line me-1"></i>{{__('Camembert')}}
                                                     </span>
                                             <span class="text-success fs-14">
-                                                        {{$commission->camembert}} {{config('app.currency')}}
+                                                        {{formatSolde($commission->camembert)}} {{config('app.currency')}}
                                                     </span>
                                         </div>
                                     @else
@@ -147,7 +147,7 @@
                         </div>
 
                         <!-- Camembert Parts (Full Width) -->
-                        @if($commission->type->value!==\Core\Enum\CommissionTypeEnum::OUT->value)
+                        @if($commission->type->value!==\App\Enums\CommissionTypeEnum::OUT->value)
                             <div class="col-12">
                                 <div class="card border-success">
                                     <div class="card-header bg-success-subtle">
@@ -222,7 +222,7 @@
                                                     <div
                                                         class="card-body d-flex align-items-center justify-content-center">
                                                                 <span class="text-info fs-14">
-                                                                    {{$commission->cash_cashback}} {{config('app.currency')}}
+                                                                    {{formatSolde($commission->cash_cashback)}} {{config('app.currency')}}
                                                                 </span>
                                                     </div>
                                                 </div>

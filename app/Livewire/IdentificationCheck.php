@@ -2,12 +2,13 @@
 
 namespace App\Livewire;
 
+use App\Enums\StatusRequest;
 use App\Models\User;
+use App\Services\UserService;
 use Carbon\Carbon;
-use Core\Enum\StatusRequest;
-use Core\Models\identificationuserrequest;
-use Core\Models\metta_user;
-use Core\Services\settingsManager;
+use App\Models\identificationuserrequest;
+use App\Models\MettaUser;
+use App\Services\settingsManager;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -19,6 +20,8 @@ class IdentificationCheck extends Component
 {
 
     use WithFileUploads;
+
+    protected UserService $userService;
 
     const MAX_PHOTO_ALLAWED_SIZE = 2048000;
 
@@ -39,6 +42,10 @@ class IdentificationCheck extends Component
 
     public $listeners = ['sendIndentificationRequest' => 'sendIndentificationRequest'];
 
+    public function boot(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
 
     public function mount()
     {
@@ -81,7 +88,7 @@ class IdentificationCheck extends Component
             'birthday' => $this->usermetta_info2['birthday'],
             'nationalID' => $this->usermetta_info2['nationalID'],
         ];
-        metta_user::where('idUser', $userAuth->idUser)->update($updatedMetaUserParams);
+        MettaUser::where('idUser', $userAuth->idUser)->update($updatedMetaUserParams);
 
 
         $photoFrontValidated = User::getNationalFrontImage($userAuth->idUser) != User::DEFAULT_NATIONAL_FRONT_URL;
@@ -140,7 +147,7 @@ class IdentificationCheck extends Component
 
             $this->sendIdentificationRequest($newStatus, $settingsManager);
             User::where('idUser', $userAuth->idUser)->update(['status' => $newStatus, 'asked_at' => date(config('app.date_format')), 'iden_notif' => $this->notify]);
-            $this->messageVerif = Lang::get('demande_creer');
+            $this->messageVerif = Lang::get('Create request');
             return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Identification send request success'));
         } else {
             $this->messageVerif = Lang::get('Identification request missing information');
@@ -183,7 +190,7 @@ class IdentificationCheck extends Component
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth)
             dd('not found page');
-        $user = DB::table('users')->where('idUser', $userAuth->idUser)->first();
+        $user = $this->userService->findByIdUser($userAuth->idUser);
         if (!$user) abort(404);
         $this->userF = collect($user);
         $errors_array = array();

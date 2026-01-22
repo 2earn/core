@@ -2,10 +2,9 @@
 
 namespace App\Livewire;
 
-use App\Models\Event;
 use App\Services\Communication\Communication;
+use App\Services\EventService;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -14,12 +13,19 @@ class EventIndex extends Component
 {
     use WithPagination;
 
+    protected EventService $eventService;
+
     const PAGE_SIZE = 5;
     public $search = '';
     public $currentRouteName;
     protected $paginationTheme = 'bootstrap';
     public $eventIdToDelete = null;
     public $listeners = ['delete' => 'delete', 'clearDeleteEventId' => 'clearDeleteEventId'];
+
+    public function boot(EventService $eventService)
+    {
+        $this->eventService = $eventService;
+    }
 
     public function mount()
     {
@@ -45,14 +51,15 @@ class EventIndex extends Component
     public function delete()
     {
         try {
-            Event::destroy($this->eventIdToDelete);
+            $this->eventService->delete($this->eventIdToDelete);
             $this->eventIdToDelete = null;
             $this->dispatch('hideDeleteModal');
-            return redirect()->route('event_index', ['locale' => app()->getLocale()])->with('success', Lang::get('Event deleted successfully'));
+            return redirect()->route('event_index', ['locale' => app()->getLocale()])
+                ->with('success', Lang::get('Event deleted successfully'));
         } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
             $this->dispatch('hideDeleteModal');
-            return redirect()->route('event_index', ['locale' => app()->getLocale()])->with('error', Lang::get('Event deletion failed'));
+            return redirect()->route('event_index', ['locale' => app()->getLocale()])
+                ->with('error', Lang::get('Event deletion failed'));
         }
     }
 
@@ -65,19 +72,19 @@ class EventIndex extends Component
     {
         try {
             Communication::duplicateEvent($id);
-            return redirect()->route('event_index', ['locale' => app()->getLocale()])->with('success', __('Event duplicated successfully'));
+            return redirect()->route('event_index', ['locale' => app()->getLocale()])
+                ->with('success', __('Event duplicated successfully'));
         } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return redirect()->route('event_index', ['locale' => app()->getLocale()])->with('error', __('Event duplication failed'));
+            return redirect()->route('event_index', ['locale' => app()->getLocale()])
+                ->with('error', __('Event duplication failed'));
         }
     }
 
     public function render()
     {
-        $events = Event::withCount(['comments', 'likes'])
-            ->where('title', 'like', "%{$this->search}%")
-            ->orderByDesc('published_at')
-            ->paginate(self::PAGE_SIZE);
-        return view('livewire.event-index', compact('events'))->extends('layouts.master')->section('content');
+        $events = $this->eventService->getPaginatedWithCounts($this->search, self::PAGE_SIZE);
+        return view('livewire.event-index', compact('events'))
+            ->extends('layouts.master')
+            ->section('content');
     }
 }

@@ -2,10 +2,8 @@
 
 namespace App\Livewire;
 
-use App\Models\Survey;
-use App\Models\TranslaleModel;
 use App\Models\User;
-use Core\Enum\StatusSurvey;
+use App\Services\SurveyService;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +20,12 @@ class SurveyIndex extends Component
     public $currentRouteName;
     protected $paginationTheme = 'bootstrap';
 
+    protected SurveyService $surveyService;
+
+    public function boot(SurveyService $surveyService)
+    {
+        $this->surveyService = $surveyService;
+    }
 
     public function updatingSearch(): void
     {
@@ -36,7 +40,7 @@ class SurveyIndex extends Component
     public function enable($id)
     {
         try {
-            Survey::enable($id);
+            $this->surveyService->enable($id);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while Enabling Survey'));
@@ -50,7 +54,7 @@ class SurveyIndex extends Component
             if (empty($this->disableNote)) {
                 throw new \Exception(Lang::get('Something goes wrong while Disabling Survey'));
             }
-            Survey::disable($id, $this->disableNote);
+            $this->surveyService->disable($id, $this->disableNote);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while Disabling Survey'));
@@ -62,8 +66,8 @@ class SurveyIndex extends Component
     public function open($id)
     {
         try {
-            Survey::canBeOpened($id);
-            Survey::open($id);
+            $this->surveyService->canBeOpened($id);
+            $this->surveyService->open($id);
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -76,7 +80,7 @@ class SurveyIndex extends Component
     public function close($id)
     {
         try {
-            Survey::close($id);
+            $this->surveyService->close($id);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while closing Survey'));
@@ -87,10 +91,10 @@ class SurveyIndex extends Component
     public function archive($id)
     {
         try {
-            Survey::archive($id);
+            $this->surveyService->archive($id);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while arciving Survey'));
+            return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while archiving survey'));
         }
         return redirect()->route('surveys_index', app()->getLocale())->with('success', Lang::get('Survey arcived Successfully'));
 
@@ -99,7 +103,7 @@ class SurveyIndex extends Component
     public function publish($id)
     {
         try {
-            Survey::publish($id);
+            $this->surveyService->publish($id);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while publishing Survey'));
@@ -111,7 +115,7 @@ class SurveyIndex extends Component
     public function unpublish($id)
     {
         try {
-            Survey::unpublish($id);
+            $this->surveyService->unpublish($id);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while un publishing Survey'));
@@ -123,8 +127,8 @@ class SurveyIndex extends Component
     public function changeUpdatable($id)
     {
         try {
-            $survey = Survey::find($id);
-            Survey::changeUpdatable($id, !$survey->updatable);
+            $survey = $this->surveyService->getById($id);
+            $this->surveyService->changeUpdatable($id, !$survey->updatable);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->route('surveys_index', app()->getLocale())->with('danger', Lang::get('Something goes wrong while updating Survey updatable property'));
@@ -135,39 +139,10 @@ class SurveyIndex extends Component
 
     public function getSurveys()
     {
-        $surveys = [];
-        $surveysQuery = Survey::where('status', '!=', StatusSurvey::ARCHIVED->value);
-
-        if (User::isSuperAdmin()) {
-
-            if (!is_null($this->search) && !empty($this->search)) {
-                $surveysQuery = $surveysQuery->where('name', 'like', '%' . $this->search . '%');
-            }
-
-        } else {
-
-            $surveysQuery = $surveysQuery->where('published', true)
-                ->where('status', '!=', StatusSurvey::NEW->value);
-
-            if (!is_null($this->search) && !empty($this->search)) {
-                $surveysQuery = $surveysQuery
-                    ->where('name', 'like', '%' . $this->search . '%');
-            }
-
-        }
-
-        if (User::isSuperAdmin()) {
-            return $surveysQuery
-                ->orderBy('created_at', 'DESC')
-                ->get();
-        }
-
-        foreach ($surveysQuery->orderBy('created_at', 'DESC')->get() as $survey) {
-            if ($survey->canShow()) {
-                $surveys[] = $survey;
-            }
-        }
-        return $surveys;
+        return $this->surveyService->getNonArchivedSurveysWithFilters(
+            $this->search,
+            User::isSuperAdmin()
+        );
     }
 
 

@@ -141,6 +141,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
         Route::get('/contact-number', ContactNumber::class)->name('contact_number');
         Route::get('/contact-number/add', \App\Livewire\AddContactNumber::class)->name('add_contact_number');
         Route::get('/change-email', \App\Livewire\ChangeEmail::class)->name('change_email');
+        Route::get('/communication-board', \App\Livewire\CommunicationBoard::class)->name('communication_board');
         Route::get('/balances/exchange/funding/Request-public-user', RequestPublicUser::class)->name('user_request_public');
         Route::get('/balances/exchange/funding/strip', stripView::class)->name('payment_strip');
         Route::get('/paytabs', '\\App\\Livewire\\Pay@test')->name('paytabs');
@@ -224,6 +225,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
         Route::prefix('/platform')->name('platform_')->group(function () {
             Route::get('/index', \App\Livewire\PlatformIndex::class)->name('index');
+            Route::get('/{platformId}/roles', \App\Livewire\PlatformEntityRoleManager::class)->name('roles');
         });
 
         Route::prefix('/partner-payments')->name('partner_payment_')->group(function () {
@@ -231,6 +233,16 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::get('/', \App\Livewire\PartnerPaymentIndex::class)->name('index');
             Route::get('/{id}/edit', \App\Livewire\PartnerPaymentManage::class)->name('edit');
             Route::get('/{id}', \App\Livewire\PartnerPaymentDetail::class)->name('detail');
+        });
+
+        Route::prefix('/partner')->name('partner_')->group(function () {
+            Route::get('/index', \App\Livewire\PartnerIndex::class)->name('index');
+            Route::get('/{partnerId}/roles', \App\Livewire\PartnerEntityRoleManager::class)->name('roles');
+            Route::middleware(['IsSuperAdmin'])->group(function () {
+                Route::get('/create', \App\Livewire\PartnerCreateUpdate::class)->name('create');
+                Route::get('/{id}/edit', \App\Livewire\PartnerCreateUpdate::class)->name('update');
+                Route::get('/{id}/show', \App\Livewire\PartnerShow::class)->name('show');
+            });
         });
 
             // SUPER ADMIN MENU
@@ -302,6 +314,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
             Route::prefix('/balances')->name('balances_')->group(function () {
                 Route::get('/index', \App\Livewire\Balances::class)->name('index');
                 Route::get('/', \App\Livewire\OperationBalancesCreateUpdate::class)->name('create_update');
+                Route::get('/add-cash', \App\Livewire\AddCashBalance::class)->name('add_cash');
                 Route::prefix('/categories')->name('categories_')->group(function () {
                     Route::get('/index', \App\Livewire\OperationCategoryIndex::class)->name('index');
                     Route::get('/', \App\Livewire\OperationCategoryCreateUpdate::class)->name('create_update');

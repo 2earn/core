@@ -2,7 +2,7 @@
 
 namespace App\Services\Settings;
 
-use Core\Models\Setting;
+use App\Models\Setting;
 
 class SettingService
 {
@@ -67,5 +67,106 @@ class SettingService
     public function getByIds(array $settingIds)
     {
         return Setting::whereIn('idSETTINGS', $settingIds)->orderBy('idSETTINGS')->get();
+    }
+
+    /**
+     * Update setting by parameter name
+     *
+     * @param string $parameterName
+     * @param array $data Array of field values to update (e.g., ['IntegerValue' => 100])
+     * @return int Number of rows updated
+     */
+    public function updateByParameterName(string $parameterName, array $data): int
+    {
+        return Setting::where('ParameterName', $parameterName)->update($data);
+    }
+
+    /**
+     * Update integer value by parameter name
+     *
+     * @param string $parameterName
+     * @param int|string $value
+     * @return int Number of rows updated
+     */
+    public function updateIntegerByParameterName(string $parameterName, int|string $value): int
+    {
+        return $this->updateByParameterName($parameterName, ['IntegerValue' => $value]);
+    }
+
+    /**
+     * Update decimal value by parameter name
+     *
+     * @param string $parameterName
+     * @param float|string $value
+     * @return int Number of rows updated
+     */
+    public function updateDecimalByParameterName(string $parameterName, float|string $value): int
+    {
+        return $this->updateByParameterName($parameterName, ['DecimalValue' => $value]);
+    }
+
+    /**
+     * Update string value by parameter name
+     *
+     * @param string $parameterName
+     * @param string $value
+     * @return int Number of rows updated
+     */
+    public function updateStringByParameterName(string $parameterName, string $value): int
+    {
+        return $this->updateByParameterName($parameterName, ['StringValue' => $value]);
+    }
+
+    /**
+     * Get paginated settings with search and sorting
+     *
+     * @param string|null $search
+     * @param string $sortField
+     * @param string $sortDirection
+     * @param int $perPage
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getPaginatedSettings(?string $search, string $sortField = 'idSETTINGS', string $sortDirection = 'desc', int $perPage = 10)
+    {
+        $query = Setting::query();
+
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('ParameterName', 'like', '%' . $search . '%')
+                    ->orWhere('IntegerValue', 'like', '%' . $search . '%')
+                    ->orWhere('StringValue', 'like', '%' . $search . '%')
+                    ->orWhere('DecimalValue', 'like', '%' . $search . '%')
+                    ->orWhere('Unit', 'like', '%' . $search . '%')
+                    ->orWhere('Description', 'like', '%' . $search . '%');
+            });
+        }
+
+        return $query->orderBy($sortField, $sortDirection)->paginate($perPage);
+    }
+
+    /**
+     * Update a setting with multiple fields
+     *
+     * @param int $id
+     * @param array $data
+     * @return bool
+     */
+    public function updateSetting(int $id, array $data): bool
+    {
+        try {
+            $setting = Setting::find($id);
+            if (!$setting) {
+                return false;
+            }
+
+            foreach ($data as $key => $value) {
+                $setting->$key = $value;
+            }
+
+            return $setting->save();
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Error updating setting: ' . $e->getMessage());
+            return false;
+        }
     }
 }

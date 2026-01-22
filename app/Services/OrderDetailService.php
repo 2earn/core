@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Services\Items\ItemService;
-use Core\Enum\OrderEnum;
+use App\Enums\OrderEnum;
 use Illuminate\Support\Facades\Log;
 
 class OrderDetailService
@@ -118,7 +118,7 @@ class OrderDetailService
     {
         try {
             $startDate = $filters['start_date'] ?? now()->subDays(30)->format('Y-m-d');
-            $endDate = $filters['end_date'] ?? now()->format('Y-m-d');
+            $endDate = $filters['end_date'] ?? now()->addDay()->format('Y-m-d');
 
 
             $query = Order::query()
@@ -143,7 +143,7 @@ class OrderDetailService
             }
 
             if (!empty($filters['status'])) {
-                $query->where('orders.status', '<=', $filters['status']);
+                $query->where('orders.status', $filters['status']);
             }
 
             if (!empty($filters['note'])) {
@@ -167,6 +167,7 @@ class OrderDetailService
             $perPage = $filters['per_page'] ?? 15;
 
             $paginatedResults = $query->paginate($perPage, ['*'], 'page', $page);
+
 
             Log::info(self::LOG_PREFIX . 'Sales transaction data retrieved successfully', [
                 'filters' => $filters,
@@ -247,5 +248,26 @@ class OrderDetailService
             default => "DATE(orders.created_at)",
         };
     }
-}
 
+    /**
+     * Get sum of quantities for an item in paid orders
+     *
+     * @param int $itemId
+     * @return int
+     */
+    public function getSumOfPaidItemQuantities(int $itemId): int
+    {
+        try {
+            return OrderDetail::where('item_id', $itemId)
+                ->whereHas('order', function ($query) {
+                    $query->where('status', OrderEnum::Paid->value);
+                })
+                ->sum('qty');
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error getting sum of paid item quantities: ' . $e->getMessage(), [
+                'item_id' => $itemId
+            ]);
+            return 0;
+        }
+    }
+}

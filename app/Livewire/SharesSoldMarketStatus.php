@@ -7,8 +7,8 @@ use App\Models\CashBalances;
 use App\Services\Balances\CashBalancesService;
 use App\Services\Balances\ShareBalanceService;
 use Carbon\Carbon;
-use Core\Services\BalancesManager;
-use Core\Services\settingsManager;
+use App\Services\BalancesManager;
+use App\Services\settingsManager;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -23,13 +23,11 @@ class SharesSoldMarketStatus extends Component
     public $SMSBalance;
     public $cash = 25.033;
 
-    // Livewire properties
     public $search = '';
     public $perPage = 100;
     public $sortField = 'created_at';
     public $sortDirection = 'desc';
 
-    // Modal properties
     public $showModal = false;
     public $selectedId;
     public $selectedPhone;

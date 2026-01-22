@@ -2,10 +2,10 @@
 
 namespace App\Livewire;
 
-use App\Models\Survey;
-use App\Models\SurveyQuestion;
-use App\Models\SurveyQuestionChoice;
-use App\Models\TranslaleModel;
+use App\Services\SurveyQuestionChoiceService;
+use App\Services\SurveyQuestionService;
+use App\Services\SurveyService;
+use App\Services\TranslaleModelService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -22,6 +22,23 @@ class SurveyQuestionChoiceCreateUpdate extends Component
     protected $rules = [
         'title' => 'required'
     ];
+
+    protected SurveyQuestionChoiceService $choiceService;
+    protected TranslaleModelService $translationService;
+    protected SurveyService $surveyService;
+    protected SurveyQuestionService $questionService;
+
+    public function boot(
+        SurveyQuestionChoiceService $choiceService,
+        TranslaleModelService $translationService,
+        SurveyService $surveyService,
+        SurveyQuestionService $questionService
+    ) {
+        $this->choiceService = $choiceService;
+        $this->translationService = $translationService;
+        $this->surveyService = $surveyService;
+        $this->questionService = $questionService;
+    }
 
     public function resetFields()
     {
@@ -40,12 +57,12 @@ class SurveyQuestionChoiceCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('warning', Lang::get('Choice operation cancelled'));
+        return redirect()->route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('warning', Lang::get('Choice operation canceled'));
     }
 
     public function edit($idChoice)
     {
-        $choice = SurveyQuestionChoice::findOrFail($idChoice);
+        $choice = $this->choiceService->findOrFail($idChoice);
         $this->idQuestion = $choice->question_id;
         $this->title = $choice->title;
         $this->idChoice = $idChoice;
@@ -56,23 +73,16 @@ class SurveyQuestionChoiceCreateUpdate extends Component
     {
         $this->validate();
         try {
-            $old = SurveyQuestionChoice::where('id', $this->idChoice)->first();
-            SurveyQuestionChoice::where('id', $this->idChoice)->update(['title' => $this->title]);
-            $new = SurveyQuestionChoice::where('id', $this->idChoice)->first();
+            $old = $this->choiceService->getById($this->idChoice);
+            $this->choiceService->updateById($this->idChoice, ['title' => $this->title]);
+            $new = $this->choiceService->getById($this->idChoice);
 
-            $translationModel = TranslaleModel::where('name', TranslaleModel::getTranslateName(SurveyQuestionChoice::find($this->idChoice), 'title'))->first();
+            $choice = $this->choiceService->getById($this->idChoice);
+            $translationName = $this->translationService->getTranslateName($choice, 'title');
+            $translationModel = $this->translationService->getByName($translationName);
+
             if ($new->title != $old->title && !is_null($translationModel)) {
-                $translationModel->update(
-                    [
-                        'value' => $this->title . ' AR',
-                        'valueFr' => $this->title . ' FR',
-                        'valueEn' => $this->title . ' EN',
-                        'valueTr' => $this->title . ' TR',
-                        'valueEs' => $this->title . ' ES',
-                        'valueRu' => $this->title . ' Ru',
-                        'valueDe' => $this->title . ' De'
-                    ]
-                );
+                $this->translationService->updateTranslation($translationModel, $this->title);
             }
 
         } catch (\Exception $exception) {
@@ -86,11 +96,10 @@ class SurveyQuestionChoiceCreateUpdate extends Component
     {
         $this->validate();
         try {
-            $surveyQuestionChoice = SurveyQuestionChoice::create(
-                [
-                    'title' => $this->title,
-                    'question_id' => $this->idQuestion
-                ]);
+            $surveyQuestionChoice = $this->choiceService->create([
+                'title' => $this->title,
+                'question_id' => $this->idQuestion
+            ]);
             createTranslaleModel($surveyQuestionChoice, 'title', $this->title);
 
         } catch (\Exception $exception) {
@@ -106,8 +115,8 @@ class SurveyQuestionChoiceCreateUpdate extends Component
         $params = [
             'idSurvey' => $this->idSurvey,
             'idQuestion' => $this->idQuestion,
-            'question' => SurveyQuestion::find($this->idQuestion),
-            'survey' => Survey::find($this->idSurvey)
+            'question' => $this->questionService->getById($this->idQuestion),
+            'survey' => $this->surveyService->getById($this->idSurvey)
         ];
         return view('livewire.survey-question-choice-create-update', $params)->extends('layouts.master')->section('content');
     }

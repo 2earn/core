@@ -42,7 +42,7 @@
                                     </div>
                                     <div class="card-body d-flex align-items-center justify-content-center">
                                             <span class="text-warning fs-16">
-                                                {{$orderDealsItem->total_amount}} {{config('app.currency')}}
+                                                {{formatSolde($orderDealsItem->total_amount)}} {{config('app.currency')}}
                                             </span>
                                     </div>
                                 </div>
@@ -143,13 +143,13 @@
                                         <div class="d-flex justify-content-between align-items-center mb-2">
                                             <span class="text-muted small">{{__('Amount')}}</span>
                                             <span class="text-success fs-14">
-                                                    {{$orderDealsItem->final_discount}} {{config('app.currency')}}
+                                                    {{formatSolde($orderDealsItem->final_discount)}} {{config('app.currency')}}
                                                 </span>
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <span class="text-muted small">{{__('Percentage')}}</span>
                                             <span class="text-success-subtle text-success">
-                                                    {{$orderDealsItem->final_discount_percentage * 100}} {{config('app.percentage')}}
+                                                    {{formatSolde($orderDealsItem->final_discount_percentage * 100)}} {{config('app.percentage')}}
                                                 </span>
                                         </div>
                                     </div>
@@ -166,7 +166,7 @@
                                     </div>
                                     <div class="card-body d-flex align-items-center justify-content-center">
                                             <span class="text-warning fs-16">
-                                                {{$orderDealsItem->lost_discount}} {{config('app.currency')}}
+                                                {{formatSolde($orderDealsItem->lost_discount)}} {{config('app.currency')}}
                                             </span>
                                     </div>
                                 </div>
@@ -182,7 +182,7 @@
                                     </div>
                                     <div class="card-body d-flex align-items-center justify-content-center">
                                             <span class="text-danger fs-16">
-                                                {{$orderDealsItem->final_amount}} {{config('app.currency')}}
+                                                {{formatSolde($orderDealsItem->final_amount)}} {{config('app.currency')}}
                                             </span>
                                     </div>
                                 </div>

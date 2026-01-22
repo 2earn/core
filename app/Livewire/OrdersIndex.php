@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\Order;
+use App\Services\Orders\OrderService;
 use App\Services\Orders\OrderingSimulation;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +23,13 @@ class OrdersIndex extends Component
         'simulateOrderCreation' => 'simulateOrderCreation',
         'validateOrderCreation' => 'validateOrderCreation'
     ];
+
+    protected OrderService $orderService;
+
+    public function boot(OrderService $orderService)
+    {
+        $this->orderService = $orderService;
+    }
 
     public function mount()
     {
@@ -51,17 +58,18 @@ class OrdersIndex extends Component
 
     public function getPendingOrdersCount()
     {
-        return Order::where('user_id', auth()->user()->id)
-            ->whereIn('status', [\Core\Enum\OrderEnum::Ready, \Core\Enum\OrderEnum::Simulated])
-            ->count();
+        return $this->orderService->getPendingOrdersCount(
+            auth()->user()->id,
+            [\App\Enums\OrderEnum::Ready, \App\Enums\OrderEnum::Simulated]
+        );
     }
 
     public function goToOrdersReview()
     {
-        $orderIds = Order::where('user_id', auth()->user()->id)
-            ->whereIn('status', [\Core\Enum\OrderEnum::Ready, \Core\Enum\OrderEnum::Simulated])
-            ->pluck('id')
-            ->toArray();
+        $orderIds = $this->orderService->getPendingOrderIds(
+            auth()->user()->id,
+            [\App\Enums\OrderEnum::Ready, \App\Enums\OrderEnum::Simulated]
+        );
 
         if (empty($orderIds)) {
             session()->flash('info', trans('No pending orders to review'));
@@ -76,7 +84,7 @@ class OrdersIndex extends Component
 
     public function render()
     {
-        $params['orders'] = Order::orderBy('created_at', 'desc')->paginate(self::PAGE_SIZE);
+        $params['orders'] = $this->orderService->getAllOrdersPaginated(self::PAGE_SIZE);
         $params['pendingOrdersCount'] = $this->getPendingOrdersCount();
         return view('livewire.orders-index', $params)->extends('layouts.master')->section('content');
     }

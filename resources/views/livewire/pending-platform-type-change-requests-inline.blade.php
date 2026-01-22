@@ -15,13 +15,13 @@
                                 <div class="col-md-3 col-6">
                                     <small class="text-muted">
                                         <i class="ri-arrow-right-s-line me-1"></i>
-                                        {{__(\Core\Enum\PlatformType::tryFrom($request->old_type)->name ?? 'N/A')}}
+                                        {{__(\App\Enums\PlatformType::tryFrom($request->old_type)->name ?? 'N/A')}}
                                     </small>
                                 </div>
                                 <div class="col-md-3 col-6">
                                     <small class="text-success fw-bold">
                                         <i class="ri-arrow-right-line me-1"></i>
-                                        {{__(\Core\Enum\PlatformType::tryFrom($request->new_type)->name ?? 'N/A')}}
+                                        {{__(\App\Enums\PlatformType::tryFrom($request->new_type)->name ?? 'N/A')}}
                                     </small>
                                 </div>
                                 <div class="col-md-1 col-12 text-md-end mt-2 mt-md-0">

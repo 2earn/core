@@ -47,7 +47,7 @@ class FaqCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('faq_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Faq operation cancelled'));
+        return redirect()->route('faq_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Faq operation canceled'));
     }
 
     public function updateFaq()

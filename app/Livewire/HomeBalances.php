@@ -2,8 +2,9 @@
 
 namespace App\Livewire;
 
-use Core\Services\BalancesManager;
-use Core\Services\settingsManager;
+use App\Models\vip;
+use App\Services\BalancesManager;
+use App\Services\settingsManager;
 use Livewire\Component;
 
 class HomeBalances extends Component
@@ -52,7 +53,7 @@ class HomeBalances extends Component
             '3_2Fraction' => str_pad(intval(($actualActionValueRaw - floor($actualActionValueRaw)) * 100000) - intval(($actualActionValueRaw - floor($actualActionValueRaw)) * 100) * 1000, 3, "0", STR_PAD_LEFT)
         ];
 
-        $this->flash = \App\Models\vip::where('idUser', '=', $user->idUser)
+        $this->flash = vip::where('idUser', '=', $user->idUser)
             ->where('closed', '=', false)
             ->whereRaw('DATE_ADD(dateFNS, INTERVAL flashDeadline HOUR) > NOW()')
             ->exists();

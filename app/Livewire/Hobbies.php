@@ -2,8 +2,8 @@
 
 namespace App\Livewire;
 
-use Core\Models\hobbie;
-use Core\Services\settingsManager;
+use App\Models\hobbie;
+use App\Services\settingsManager;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 

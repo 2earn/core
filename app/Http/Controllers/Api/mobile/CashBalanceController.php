@@ -14,7 +14,6 @@ class CashBalanceController extends Controller
 {
     private const LOG_PREFIX = '[CashBalanceMobileController] ';
 
-
     public function store(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
@@ -44,7 +43,7 @@ class CashBalanceController extends Controller
         try {
 
             $validatedData = $validator->validated();
-            
+
             $cashBalance = CashBalances::create($validatedData);
 
             Log::info(self::LOG_PREFIX . 'Cash balance created successfully', ['id' => $cashBalance->id]);

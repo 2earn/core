@@ -6,8 +6,8 @@ use App\Models\Deal;
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\User;
-use Core\Enum\OrderEnum;
-use Core\Models\Platform;
+use App\Enums\OrderEnum;
+use App\Models\Platform;
 use Database\Seeders\AddCashSeeder;
 use Faker\Generator;
 use Illuminate\Support\Facades\Log;
@@ -29,7 +29,7 @@ class OrderingSimulation
 
     public static function createItem($platformId, $faker)
     {
-        $unit_price = mt_rand(1000, 3000) / 100;
+        $unit_price = mt_rand(1000, 10000) / 100;
         $itemName = $faker->word();
         $description = $faker->text();
         $reference = $faker->randomNumber(4);

@@ -2,10 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Enums\BePartnerRequestStatus;
 use App\Models\BusinessSector;
 use App\Notifications\PartnershipRequestSent;
 use App\Services\PartnerRequest\PartnerRequestService;
-use Core\Enum\BePartnerRequestStatus;
 use Livewire\Component;
 
 class PartnerRequestForm extends Component

@@ -12,8 +12,7 @@ class CleanUpDuplicateSurveyResponsesSeeder extends Seeder
 
     public function run(): void
     {
-        $duplicates = DB::table('survey_responses')
-            ->select('survey_id', 'user_id', DB::raw('COUNT(*) as total'))
+        $duplicates = SurveyResponse::select('survey_id', 'user_id', DB::raw('COUNT(*) as total'))
             ->groupBy('survey_id', 'user_id')
             ->having('total', '>', 1)
             ->get();

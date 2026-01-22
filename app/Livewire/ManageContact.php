@@ -2,13 +2,13 @@
 
 namespace App\Livewire;
 
+use App\Enums\StatusRequest;
 use App\Models\ContactUser;
-use Core\Enum\StatusRequest;
-use Core\Models\countrie;
-use Core\Services\settingsManager;
-use Core\Services\TransactionManager;
+use App\Services\ContactUserService;
+use App\Services\CountriesService;
+use App\Services\settingsManager;
+use App\Services\TransactionManager;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -16,6 +16,9 @@ use Propaganistas\LaravelPhone\PhoneNumber;
 
 class ManageContact extends Component
 {
+    protected ContactUserService $contactUserService;
+    protected CountriesService $countriesService;
+
     public $contactId = null;
     public string $contactName = "";
     public string $contactLastName = "";
@@ -33,18 +36,21 @@ class ManageContact extends Component
         'save' => 'save',
     ];
 
+    public function boot(ContactUserService $contactUserService, CountriesService $countriesService)
+    {
+        $this->contactUserService = $contactUserService;
+        $this->countriesService = $countriesService;
+    }
+
     public function mount(Request $request, settingsManager $settingsManager)
     {
         $contactId = $request->input('contact');
 
         if ($contactId) {
-            // Edit mode
             $this->isEditMode = true;
             $this->contactId = $contactId;
 
-            $userContact = ContactUser::where('id', $contactId)
-                ->where('idUser', auth()->user()->idUser)
-                ->first();
+            $userContact = $this->contactUserService->findByIdAndUserId($contactId, auth()->user()->idUser);
 
             if (is_null($userContact)) {
                 return redirect()->route('contacts_index', app()->getLocale())
@@ -60,7 +66,7 @@ class ManageContact extends Component
                 ->first();
 
             $phone = !empty($userContact->phonecode) ? $userContact->phonecode : $user->idCountry;
-            $country = countrie::where('phonecode', $phone)->first();
+            $country = $this->countriesService->getCountryModelByPhoneCode($phone);
 
             if ($country) {
                 $this->phoneCode = strtolower($country->apha2);
@@ -107,7 +113,6 @@ class ManageContact extends Component
 
     public function save($phone, $ccode, $fullNumber, settingsManager $settingsManager, TransactionManager $transactionManager)
     {
-        // Validate contact data
         $validationMessage = $this->validateContact();
         if ($validationMessage) {
             session()->flash('danger', $validationMessage);
@@ -119,13 +124,13 @@ class ManageContact extends Component
         $validatedPhone = false;
 
         try {
-            $country = DB::table('countries')->where('phonecode', $ccode)->first();
+            $country = $this->countriesService->getByPhoneCode($ccode);
             $phoneObj = new PhoneNumber($fullNumber, $country->apha2);
             $phoneObj->formatForCountry($country->apha2);
             $validatedPhone = true;
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            session()->flash('danger', Lang::get('Phone Number does not match the provided country.'));
+            session()->flash('danger', Lang::get('Phone Number does not match the provided country'));
             return;
         }
 
@@ -134,7 +139,6 @@ class ManageContact extends Component
                 $transactionManager->beginTransaction();
 
                 if ($this->isEditMode) {
-                    // Update existing contact
                     $user = $settingsManager->getUserByFullNumber($fullphone_number);
 
                     if (!$user) {
@@ -147,9 +151,10 @@ class ManageContact extends Component
                         );
                     } else {
 
-                        $ContactUser = ContactUser::where('idUser', $settingsManager->getAuthUser()->idUser)
-                            ->where('fullphone_number', $fullphone_number)
-                            ->first();
+                        $ContactUser = $this->contactUserService->findByUserIdAndFullPhone(
+                            $settingsManager->getAuthUser()->idUser,
+                            $fullphone_number
+                        );
 
                         if ($ContactUser) {
                             $transactionManager->rollback();
@@ -187,11 +192,11 @@ class ManageContact extends Component
                         ->with('success', Lang::get('User updated') . ' : ' . $contact_user->name . ' ' . $contact_user->lastName . ' : ' . $contact_user->mobile);
 
                 } else {
-                    // Create new contact
-                    $contact_user_exist = ContactUser::where('idUser', $settingsManager->getAuthUser()->idUser)
-                        ->where('mobile', $mobile)
-                        ->where('phonecode', $ccode)
-                        ->first();
+                    $contact_user_exist = $this->contactUserService->findByUserIdMobileAndCode(
+                        $settingsManager->getAuthUser()->idUser,
+                        $mobile,
+                        $ccode
+                    );
 
                     if ($contact_user_exist) {
                         $transactionManager->rollback();

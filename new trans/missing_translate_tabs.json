@@ -1,0 +1,4592 @@
+[
+    {
+        "name": "langar",
+        "value": "العربية",
+        "valueEn": "Arabic",
+        "valueFr": "Arabe",
+        "valueTr": "Arapça",
+        "valueEs": "Árabe",
+        "valueRu": "Арабский",
+        "valueDe": "Arabisch"
+    },
+    {
+        "name": "langfr",
+        "value": "الفرنسية",
+        "valueEn": "French",
+        "valueFr": "Français",
+        "valueTr": "Fransızca",
+        "valueEs": "Francés",
+        "valueRu": "Французский",
+        "valueDe": "Französisch"
+    },
+    {
+        "name": "langtr",
+        "value": "التركية",
+        "valueEn": "Turkish",
+        "valueFr": "Turc",
+        "valueTr": "Türkçe",
+        "valueEs": "Turco",
+        "valueRu": "Турецкий",
+        "valueDe": "Türkisch"
+    },
+    {
+        "name": "langen",
+        "value": "الإنجليزية",
+        "valueEn": "English",
+        "valueFr": "Anglais",
+        "valueTr": "İngilizce",
+        "valueEs": "Inglés",
+        "valueRu": "Английский",
+        "valueDe": "Englisch"
+    },
+    {
+        "name": "langru",
+        "value": "الروسية",
+        "valueEn": "Russian",
+        "valueFr": "Russe",
+        "valueTr": "Rusça",
+        "valueEs": "Ruso",
+        "valueRu": "Русский",
+        "valueDe": "Russisch"
+    },
+    {
+        "name": "langes",
+        "value": "الإسبانية",
+        "valueEn": "Spanish",
+        "valueFr": "Espagnol",
+        "valueTr": "İspanyolca",
+        "valueEs": "Español",
+        "valueRu": "Испанский",
+        "valueDe": "Spanisch"
+    },
+    {
+        "name": "langde",
+        "value": "الألمانية",
+        "valueEn": "German",
+        "valueFr": "Allemand",
+        "valueTr": "Almanca",
+        "valueEs": "Alemán",
+        "valueRu": "Немецкий",
+        "valueDe": "Deutsch"
+    },
+    {
+        "name": "Users balances Recaps",
+        "value": "ملخصات أرصدة المستخدمين",
+        "valueEn": "Users balances Recaps",
+        "valueFr": "Récapitulatifs des soldes des utilisateurs",
+        "valueTr": "Kullanıcı bakiye özetleri",
+        "valueEs": "Resúmenes de saldos de usuarios",
+        "valueRu": "Сводки балансов пользователей",
+        "valueDe": "Zusammenfassungen der Benutzerguthaben"
+    },
+    {
+        "name": "Business Sectors",
+        "value": "القطاعات التجارية",
+        "valueEn": "Business Sectors",
+        "valueFr": "Secteurs d'activité",
+        "valueTr": "İş Sektörleri",
+        "valueEs": "Sectores empresariales",
+        "valueRu": "Бизнес-секторы",
+        "valueDe": "Geschäftsbereiche"
+    },
+    {
+        "name": "Explore our diverse range of business opportunities",
+        "value": "استكشف مجموعتنا المتنوعة من فرص الأعمال",
+        "valueEn": "Explore our diverse range of business opportunities",
+        "valueFr": "Explorez notre gamme diversifiée d'opportunités commerciales",
+        "valueTr": "Çeşitli iş fırsatlarımızı keşfedin",
+        "valueEs": "Explore nuestra diversa gama de oportunidades de negocio",
+        "valueRu": "Изучите наш разнообразный спектр бизнес-возможностей",
+        "valueDe": "Entdecken Sie unser vielfältiges Angebot an Geschäftsmöglichkeiten"
+    },
+    {
+        "name": "Database to File Completed",
+        "value": "اكتمل التصدير من قاعدة البيانات إلى الملف",
+        "valueEn": "Database to File Completed",
+        "valueFr": "Exportation de la base de données vers le fichier terminée",
+        "valueTr": "Veritabanından dosyaya aktarım tamamlandı",
+        "valueEs": "Exportación de base de datos a archivo completada",
+        "valueRu": "Экспорт базы данных в файл завершен",
+        "valueDe": "Datenbank zu Datei Export abgeschlossen"
+    },
+    {
+        "name": "Translation Merge",
+        "value": "دمج الترجمات",
+        "valueEn": "Translation Merge",
+        "valueFr": "Fusion des traductions",
+        "valueTr": "Çeviri birleştirme",
+        "valueEs": "Fusión de traducciones",
+        "valueRu": "Объединение переводов",
+        "valueDe": "Übersetzungszusammenführung"
+    },
+    {
+        "name": "notifications.order_completed.action",
+        "value": "عرض الطلب",
+        "valueEn": "View Order",
+        "valueFr": "Voir la commande",
+        "valueTr": "Siparişi görüntüle",
+        "valueEs": "Ver pedido",
+        "valueRu": "Просмотреть заказ",
+        "valueDe": "Bestellung anzeigen"
+    },
+    {
+        "name": "Mark them all as read",
+        "value": "تحديد الكل كمقروء",
+        "valueEn": "Mark them all as read",
+        "valueFr": "Tout marquer comme lu",
+        "valueTr": "Tümünü okundu olarak işaretle",
+        "valueEs": "Marcar todos como leídos",
+        "valueRu": "Отметить все как прочитанные",
+        "valueDe": "Alle als gelesen markieren"
+    },
+    {
+        "name": "Notifications list Completed",
+        "value": "اكتملت قائمة الإشعارات",
+        "valueEn": "Notifications list Completed",
+        "valueFr": "Liste des notifications terminée",
+        "valueTr": "Bildirim listesi tamamlandı",
+        "valueEs": "Lista de notificaciones completada",
+        "valueRu": "Список уведомлений завершен",
+        "valueDe": "Benachrichtigungsliste abgeschlossen"
+    },
+    {
+        "name": "notifications.settings.order_completed",
+        "value": "إشعارات إتمام الطلب",
+        "valueEn": "Order completion notifications",
+        "valueFr": "Notifications de commande terminée",
+        "valueTr": "Sipariş tamamlama bildirimleri",
+        "valueEs": "Notificaciones de pedido completado",
+        "valueRu": "Уведомления о завершении заказа",
+        "valueDe": "Benachrichtigungen über Bestellabschluss"
+    },
+    {
+        "name": "User Menu",
+        "value": "قائمة المستخدم",
+        "valueEn": "User Menu",
+        "valueFr": "Menu utilisateur",
+        "valueTr": "Kullanıcı Menüsü",
+        "valueEs": "Menú de usuario",
+        "valueRu": "Меню пользователя",
+        "valueDe": "Benutzermenü"
+    },
+    {
+        "name": "Admin Menu",
+        "value": "قائمة المشرف",
+        "valueEn": "Admin Menu",
+        "valueFr": "Menu administrateur",
+        "valueTr": "Yönetici Menüsü",
+        "valueEs": "Menú de administrador",
+        "valueRu": "Меню администратора",
+        "valueDe": "Admin-Menü"
+    },
+    {
+        "name": "Balance injector",
+        "value": "محقن الرصيد",
+        "valueEn": "Balance injector",
+        "valueFr": "Injecteur de solde",
+        "valueTr": "Bakiye enjektörü",
+        "valueEs": "Inyector de saldo",
+        "valueRu": "Инжектор баланса",
+        "valueDe": "Guthaben-Injektor"
+    },
+    {
+        "name": "Users Statistics",
+        "value": "إحصائيات المستخدمين",
+        "valueEn": "Users Statistics",
+        "valueFr": "Statistiques des utilisateurs",
+        "valueTr": "Kullanıcı İstatistikleri",
+        "valueEs": "Estadísticas de usuarios",
+        "valueRu": "Статистика пользователей",
+        "valueDe": "Benutzerstatistiken"
+    },
+    {
+        "name": "H.A. amount Settings",
+        "value": "إعدادات مبلغ H.A.",
+        "valueEn": "H.A. amount Settings",
+        "valueFr": "Paramètres du montant H.A.",
+        "valueTr": "H.A. tutar ayarları",
+        "valueEs": "Configuración de cantidad H.A.",
+        "valueRu": "Настройки суммы H.A.",
+        "valueDe": "H.A. Betrag Einstellungen"
+    },
+    {
+        "name": "Good Morning",
+        "value": "صباح الخير",
+        "valueEn": "Good Morning",
+        "valueFr": "Bonjour",
+        "valueTr": "Günaydın",
+        "valueEs": "Buenos días",
+        "valueRu": "Доброе утро",
+        "valueDe": "Guten Morgen"
+    },
+    {
+        "name": "Complementary information",
+        "value": "معلومات تكميلية",
+        "valueEn": "Complementary information",
+        "valueFr": "Informations complémentaires",
+        "valueTr": "Tamamlayıcı bilgiler",
+        "valueEs": "Información complementaria",
+        "valueRu": "Дополнительная информация",
+        "valueDe": "Ergänzende Informationen"
+    },
+    {
+        "name": "cont_inscri_email",
+        "value": "بريد تأكيد التسجيل",
+        "valueEn": "Registration confirmation email",
+        "valueFr": "E-mail de confirmation d'inscription",
+        "valueTr": "Kayıt onay e-postası",
+        "valueEs": "Correo de confirmación de registro",
+        "valueRu": "Письмо подтверждения регистрации",
+        "valueDe": "Registrierungsbestätigungs-E-Mail"
+    },
+    {
+        "name": "invit_achat_email",
+        "value": "بريد دعوة الشراء",
+        "valueEn": "Purchase invitation email",
+        "valueFr": "E-mail d'invitation d'achat",
+        "valueTr": "Satın alma davet e-postası",
+        "valueEs": "Correo de invitación de compra",
+        "valueRu": "Письмо-приглашение к покупке",
+        "valueDe": "Kaufeinladungs-E-Mail"
+    },
+    {
+        "name": "cart_validate_email",
+        "value": "بريد تأكيد السلة",
+        "valueEn": "Cart validation email",
+        "valueFr": "E-mail de validation du panier",
+        "valueTr": "Sepet doğrulama e-postası",
+        "valueEs": "Correo de validación de carrito",
+        "valueRu": "Письмо подтверждения корзины",
+        "valueDe": "Warenkorb-Validierungs-E-Mail"
+    },
+    {
+        "name": "discount_plateforme_p",
+        "value": "خصم المنصة %",
+        "valueEn": "Platform discount %",
+        "valueFr": "Réduction plateforme %",
+        "valueTr": "Platform indirimi %",
+        "valueEs": "Descuento de plataforma %",
+        "valueRu": "Скидка платформы %",
+        "valueDe": "Plattform-Rabatt %"
+    },
+    {
+        "name": "discount_email_p",
+        "value": "خصم البريد الإلكتروني %",
+        "valueEn": "Email discount %",
+        "valueFr": "Réduction e-mail %",
+        "valueTr": "E-posta indirimi %",
+        "valueEs": "Descuento de correo %",
+        "valueRu": "Скидка на email %",
+        "valueDe": "E-Mail-Rabatt %"
+    },
+    {
+        "name": "discount_sms_p",
+        "value": "خصم الرسائل النصية %",
+        "valueEn": "SMS discount %",
+        "valueFr": "Réduction SMS %",
+        "valueTr": "SMS indirimi %",
+        "valueEs": "Descuento SMS %",
+        "valueRu": "Скидка на SMS %",
+        "valueDe": "SMS-Rabatt %"
+    },
+    {
+        "name": "validate_phone_email",
+        "value": "بريد التحقق من الهاتف",
+        "valueEn": "Phone validation email",
+        "valueFr": "E-mail de validation du téléphone",
+        "valueTr": "Telefon doğrulama e-postası",
+        "valueEs": "Correo de validación de teléfono",
+        "valueRu": "Письмо подтверждения телефона",
+        "valueDe": "Telefon-Validierungs-E-Mail"
+    },
+    {
+        "name": "cashBack80_sms",
+        "value": "رسالة نصية استرداد 80%",
+        "valueEn": "CashBack 80% SMS",
+        "valueFr": "SMS cashback 80%",
+        "valueTr": "CashBack %80 SMS",
+        "valueEs": "SMS reembolso 80%",
+        "valueRu": "SMS кэшбэк 80%",
+        "valueDe": "CashBack 80% SMS"
+    },
+    {
+        "name": "campagnes_sms",
+        "value": "رسائل الحملات",
+        "valueEn": "Campaigns SMS",
+        "valueFr": "SMS campagnes",
+        "valueTr": "Kampanya SMS",
+        "valueEs": "SMS de campañas",
+        "valueRu": "SMS кампании",
+        "valueDe": "Kampagnen-SMS"
+    },
+    {
+        "name": "rappel_formation_sms",
+        "value": "رسالة تذكير بالتدريب",
+        "valueEn": "Training reminder SMS",
+        "valueFr": "SMS rappel de formation",
+        "valueTr": "Eğitim hatırlatma SMS",
+        "valueEs": "SMS recordatorio de formación",
+        "valueRu": "SMS напоминание о обучении",
+        "valueDe": "Schulungserinnerungs-SMS"
+    },
+    {
+        "name": "discount_sms",
+        "value": "رسالة خصم",
+        "valueEn": "Discount SMS",
+        "valueFr": "SMS réduction",
+        "valueTr": "İndirim SMS",
+        "valueEs": "SMS de descuento",
+        "valueRu": "SMS скидка",
+        "valueDe": "Rabatt-SMS"
+    },
+    {
+        "name": "delivery_sms",
+        "value": "رسالة تسليم",
+        "valueEn": "Delivery SMS",
+        "valueFr": "SMS livraison",
+        "valueTr": "Teslimat SMS",
+        "valueEs": "SMS de entrega",
+        "valueRu": "SMS доставка",
+        "valueDe": "Liefer-SMS"
+    },
+    {
+        "name": "tree_dead_sms",
+        "value": "رسالة وفاة الشجرة",
+        "valueEn": "Tree death SMS",
+        "valueFr": "SMS arbre mort",
+        "valueTr": "Ağaç ölümü SMS",
+        "valueEs": "SMS árbol muerto",
+        "valueRu": "SMS смерть дерева",
+        "valueDe": "Baum-Tod-SMS"
+    },
+    {
+        "name": "cont_inscri_sms",
+        "value": "رسالة تأكيد التسجيل",
+        "valueEn": "Registration confirmation SMS",
+        "valueFr": "SMS confirmation d'inscription",
+        "valueTr": "Kayıt onay SMS",
+        "valueEs": "SMS de confirmación de registro",
+        "valueRu": "SMS подтверждение регистрации",
+        "valueDe": "Registrierungsbestätigungs-SMS"
+    },
+    {
+        "name": "change_pwd_sms",
+        "value": "رسالة تغيير كلمة المرور",
+        "valueEn": "Change password SMS",
+        "valueFr": "SMS changement de mot de passe",
+        "valueTr": "Şifre değiştirme SMS",
+        "valueEs": "SMS cambio de contraseña",
+        "valueRu": "SMS изменение пароля",
+        "valueDe": "Passwort ändern SMS"
+    },
+    {
+        "name": "iden_valide_sms",
+        "value": "رسالة التحقق من الهوية",
+        "valueEn": "Identity validation SMS",
+        "valueFr": "SMS validation d'identité",
+        "valueTr": "Kimlik doğrulama SMS",
+        "valueEs": "SMS validación de identidad",
+        "valueRu": "SMS проверка личности",
+        "valueDe": "Identitätsvalidierungs-SMS"
+    },
+    {
+        "name": "new_cnx_sms",
+        "value": "رسالة اتصال جديد",
+        "valueEn": "New connection SMS",
+        "valueFr": "SMS nouvelle connexion",
+        "valueTr": "Yeni bağlantı SMS",
+        "valueEs": "SMS nueva conexión",
+        "valueRu": "SMS новое подключение",
+        "valueDe": "Neue Verbindung SMS"
+    },
+    {
+        "name": "Coupon injector runner",
+        "value": "منفذ محقن القسائم",
+        "valueEn": "Coupon injector runner",
+        "valueFr": "Exécuteur d'injecteur de coupons",
+        "valueTr": "Kupon enjektör çalıştırıcı",
+        "valueEs": "Ejecutor de inyector de cupones",
+        "valueRu": "Исполнитель инжектора купонов",
+        "valueDe": "Gutschein-Injektor-Runner"
+    },
+    {
+        "name": "Coupon runner",
+        "value": "منفذ القسائم",
+        "valueEn": "Coupon runner",
+        "valueFr": "Exécuteur de coupons",
+        "valueTr": "Kupon çalıştırıcı",
+        "valueEs": "Ejecutor de cupones",
+        "valueRu": "Исполнитель купонов",
+        "valueDe": "Gutschein-Runner"
+    },
+    {
+        "name": "Pin code",
+        "value": "رمز PIN",
+        "valueEn": "Pin code",
+        "valueFr": "Code PIN",
+        "valueTr": "Pin kodu",
+        "valueEs": "Código PIN",
+        "valueRu": "ПИН-код",
+        "valueDe": "PIN-Code"
+    },
+    {
+        "name": "Coupon runner table",
+        "value": "جدول منفذ القسائم",
+        "valueEn": "Coupon runner table",
+        "valueFr": "Table d'exécuteur de coupons",
+        "valueTr": "Kupon çalıştırıcı tablosu",
+        "valueEs": "Tabla de ejecutor de cupones",
+        "valueRu": "Таблица исполнителя купонов",
+        "valueDe": "Gutschein-Runner-Tabelle"
+    },
+    {
+        "name": "Total Amount (Validated)",
+        "value": "المبلغ الإجمالي (مُعتمَد)",
+        "valueEn": "Total Amount (Validated)",
+        "valueFr": "Montant total (Validé)",
+        "valueTr": "Toplam Tutar (Doğrulanmış)",
+        "valueEs": "Monto total (Validado)",
+        "valueRu": "Общая сумма (Подтверждено)",
+        "valueDe": "Gesamtbetrag (Validiert)"
+    },
+    {
+        "name": "Table of my shares purchases",
+        "value": "جدول مشترياتي من الأسهم",
+        "valueEn": "Table of my shares purchases",
+        "valueFr": "Tableau de mes achats d'actions",
+        "valueTr": "Hisse alımlarım tablosu",
+        "valueEs": "Tabla de mis compras de acciones",
+        "valueRu": "Таблица моих покупок акций",
+        "valueDe": "Tabelle meiner Aktienkäufe"
+    },
+    {
+        "name": "Create new event",
+        "value": "إنشاء حدث جديد",
+        "valueEn": "Create new event",
+        "valueFr": "Créer un nouvel événement",
+        "valueTr": "Yeni etkinlik oluştur",
+        "valueEs": "Crear nuevo evento",
+        "valueRu": "Создать новое событие",
+        "valueDe": "Neues Event erstellen"
+    },
+    {
+        "name": "Search events",
+        "value": "البحث في الأحداث",
+        "valueEn": "Search events",
+        "valueFr": "Rechercher des événements",
+        "valueTr": "Etkinlik ara",
+        "valueEs": "Buscar eventos",
+        "valueRu": "Поиск событий",
+        "valueDe": "Events suchen"
+    },
+    {
+        "name": "No events found",
+        "value": "لم يتم العثور على أحداث",
+        "valueEn": "No events found",
+        "valueFr": "Aucun événement trouvé",
+        "valueTr": "Etkinlik bulunamadı",
+        "valueEs": "No se encontraron eventos",
+        "valueRu": "События не найдены",
+        "valueDe": "Keine Events gefunden"
+    },
+    {
+        "name": "Published At",
+        "value": "تاريخ النشر",
+        "valueEn": "Published At",
+        "valueFr": "Publié le",
+        "valueTr": "Yayınlanma Tarihi",
+        "valueEs": "Publicado el",
+        "valueRu": "Опубликовано",
+        "valueDe": "Veröffentlicht am"
+    },
+    {
+        "name": "Start At",
+        "value": "تاريخ البدء",
+        "valueEn": "Start At",
+        "valueFr": "Commence le",
+        "valueTr": "Başlangıç Tarihi",
+        "valueEs": "Comienza el",
+        "valueRu": "Начало",
+        "valueDe": "Beginnt am"
+    },
+    {
+        "name": "End At",
+        "value": "تاريخ الانتهاء",
+        "valueEn": "End At",
+        "valueFr": "Se termine le",
+        "valueTr": "Bitiş Tarihi",
+        "valueEs": "Termina el",
+        "valueRu": "Окончание",
+        "valueDe": "Endet am"
+    },
+    {
+        "name": "Location",
+        "value": "الموقع",
+        "valueEn": "Location",
+        "valueFr": "Lieu",
+        "valueTr": "Konum",
+        "valueEs": "Ubicación",
+        "valueRu": "Место",
+        "valueDe": "Standort"
+    },
+    {
+        "name": "Title",
+        "value": "العنوان",
+        "valueEn": "Title",
+        "valueFr": "Titre",
+        "valueTr": "Başlık",
+        "valueEs": "Título",
+        "valueRu": "Название",
+        "valueDe": "Titel"
+    },
+    {
+        "name": "Enter location",
+        "value": "أدخل الموقع",
+        "valueEn": "Enter location",
+        "valueFr": "Entrer le lieu",
+        "valueTr": "Konum girin",
+        "valueEs": "Ingresar ubicación",
+        "valueRu": "Введите место",
+        "valueDe": "Standort eingeben"
+    },
+    {
+        "name": "View All Business Sectors",
+        "value": "عرض جميع القطاعات التجارية",
+        "valueEn": "View All Business Sectors",
+        "valueFr": "Voir tous les secteurs d'activité",
+        "valueTr": "Tüm İş Sektörlerini Görüntüle",
+        "valueEs": "Ver todos los sectores empresariales",
+        "valueRu": "Просмотреть все бизнес-секторы",
+        "valueDe": "Alle Geschäftsbereiche anzeigen"
+    },
+    {
+        "name": "Chrono Achievement",
+        "value": "إنجاز زمني",
+        "valueEn": "Chrono Achievement",
+        "valueFr": "Réalisation chrono",
+        "valueTr": "Krono Başarısı",
+        "valueEs": "Logro cronológico",
+        "valueRu": "Хроно достижение",
+        "valueDe": "Chrono-Erfolg"
+    },
+    {
+        "name": "Everything's set — let's get started",
+        "value": "كل شيء جاهز — فلنبدأ",
+        "valueEn": "Everything's set — let's get started",
+        "valueFr": "Tout est prêt — commençons",
+        "valueTr": "Her şey hazır — başlayalım",
+        "valueEs": "Todo está listo — comencemos",
+        "valueRu": "Все готово — давайте начнем",
+        "valueDe": "Alles ist bereit — legen wir los"
+    },
+    {
+        "name": "notifications.settings.financial_request_sent",
+        "value": "إشعارات إرسال الطلبات المالية",
+        "valueEn": "Financial request sent notifications",
+        "valueFr": "Notifications de demande financière envoyée",
+        "valueTr": "Finansal talep gönderim bildirimleri",
+        "valueEs": "Notificaciones de solicitud financiera enviada",
+        "valueRu": "Уведомления об отправке финансового запроса",
+        "valueDe": "Benachrichtigungen über gesendete Finanzanfragen"
+    },
+    {
+        "name": "notifications.settings.survey_participation",
+        "value": "إشعارات المشاركة في الاستطلاع",
+        "valueEn": "Survey participation notifications",
+        "valueFr": "Notifications de participation au sondage",
+        "valueTr": "Anket katılım bildirimleri",
+        "valueEs": "Notificaciones de participación en encuestas",
+        "valueRu": "Уведомления об участии в опросе",
+        "valueDe": "Benachrichtigungen über Umfrageteilnahme"
+    },
+    {
+        "name": "notifications.survey_participation.action",
+        "value": "عرض الاستطلاع",
+        "valueEn": "View Survey",
+        "valueFr": "Voir le sondage",
+        "valueTr": "Anketi Görüntüle",
+        "valueEs": "Ver encuesta",
+        "valueRu": "Просмотреть опрос",
+        "valueDe": "Umfrage anzeigen"
+    },
+    {
+        "name": "notifications.settings.cash_to_bfs",
+        "value": "إشعارات تحويل النقد إلى BFS",
+        "valueEn": "Cash to BFS conversion notifications",
+        "valueFr": "Notifications de conversion d'argent en BFS",
+        "valueTr": "Nakit'ten BFS'ye dönüşüm bildirimleri",
+        "valueEs": "Notificaciones de conversión de efectivo a BFS",
+        "valueRu": "Уведомления о конвертации наличных в BFS",
+        "valueDe": "Benachrichtigungen über Bargeld zu BFS Umwandlung"
+    },
+    {
+        "name": "notifications.cash_to_bfs.action",
+        "value": "عرض عملية التحويل",
+        "valueEn": "View Conversion",
+        "valueFr": "Voir la conversion",
+        "valueTr": "Dönüşümü Görüntüle",
+        "valueEs": "Ver conversión",
+        "valueRu": "Просмотреть конвертацию",
+        "valueDe": "Umwandlung anzeigen"
+    },
+    {
+        "name": "notifications.settings.share_purchase",
+        "value": "إشعارات شراء الأسهم",
+        "valueEn": "Share purchase notifications",
+        "valueFr": "Notifications d'achat d'actions",
+        "valueTr": "Hisse satın alma bildirimleri",
+        "valueEs": "Notificaciones de compra de acciones",
+        "valueRu": "Уведомления о покупке акций",
+        "valueDe": "Benachrichtigungen über Aktienkauf"
+    },
+    {
+        "name": "notifications.share_purchase.action",
+        "value": "عرض عملية الشراء",
+        "valueEn": "View Purchase",
+        "valueFr": "Voir l'achat",
+        "valueTr": "Satın Alma İşlemini Görüntüle",
+        "valueEs": "Ver compra",
+        "valueRu": "Просмотреть покупку",
+        "valueDe": "Kauf anzeigen"
+    },
+    {
+        "name": "Keys to database operation completed successfully",
+        "value": "اكتملت عملية إضافة المفاتيح إلى قاعدة البيانات بنجاح",
+        "valueEn": "Keys to database operation completed successfully",
+        "valueFr": "Opération d'ajout de clés à la base de données terminée avec succès",
+        "valueTr": "Veritabanına anahtar ekleme işlemi başarıyla tamamlandı",
+        "valueEs": "Operación de claves a base de datos completada con éxito",
+        "valueRu": "Операция добавления ключей в базу данных успешно завершена",
+        "valueDe": "Schlüssel zur Datenbankoperation erfolgreich abgeschlossen"
+    },
+    {
+        "name": "Actual Solde BFS 100",
+        "value": "الرصيد الفعلي BFS 100",
+        "valueEn": "Actual Balance BFS 100",
+        "valueFr": "Solde actuel BFS 100",
+        "valueTr": "Gerçek Bakiye BFS 100",
+        "valueEs": "Saldo actual BFS 100",
+        "valueRu": "Текущий баланс BFS 100",
+        "valueDe": "Aktueller Saldo BFS 100"
+    },
+    {
+        "name": "Choose the payment method",
+        "value": "اختر طريقة الدفع",
+        "valueEn": "Choose the payment method",
+        "valueFr": "Choisissez le mode de paiement",
+        "valueTr": "Ödeme yöntemini seçin",
+        "valueEs": "Elija el método de pago",
+        "valueRu": "Выберите способ оплаты",
+        "valueDe": "Wählen Sie die Zahlungsmethode"
+    },
+    {
+        "name": "Participation to the survey question",
+        "value": "المشاركة في سؤال الاستطلاع",
+        "valueEn": "Participation to the survey question",
+        "valueFr": "Participation à la question du sondage",
+        "valueTr": "Anket sorusuna katılım",
+        "valueEs": "Participación en la pregunta de la encuesta",
+        "valueRu": "Участие в вопросе опроса",
+        "valueDe": "Teilnahme an der Umfragefrage"
+    },
+    {
+        "name": "Outgoming request",
+        "value": "طلب صادر",
+        "valueEn": "Outgoing request",
+        "valueFr": "Demande sortante",
+        "valueTr": "Giden talep",
+        "valueEs": "Solicitud saliente",
+        "valueRu": "Исходящий запрос",
+        "valueDe": "Ausgehende Anfrage"
+    },
+    {
+        "name": "Dashboard",
+        "value": "لوحة التحكم",
+        "valueEn": "Dashboard",
+        "valueFr": "Tableau de bord",
+        "valueTr": "Gösterge Paneli",
+        "valueEs": "Panel de control",
+        "valueRu": "Панель управления",
+        "valueDe": "Dashboard"
+    },
+    {
+        "name": "public",
+        "value": "عام",
+        "valueEn": "public",
+        "valueFr": "public",
+        "valueTr": "genel",
+        "valueEs": "público",
+        "valueRu": "публичный",
+        "valueDe": "öffentlich"
+    },
+    {
+        "name": "OPENED",
+        "value": "مفتوح",
+        "valueEn": "OPENED",
+        "valueFr": "OUVERT",
+        "valueTr": "AÇILDI",
+        "valueEs": "ABIERTO",
+        "valueRu": "ОТКРЫТО",
+        "valueDe": "GEÖFFNET"
+    },
+    {
+        "name": "Fill BFS 100 amount",
+        "value": "املأ مبلغ BFS 100",
+        "valueEn": "Fill BFS 100 amount",
+        "valueFr": "Remplir le montant BFS 100",
+        "valueTr": "BFS 100 miktarını doldurun",
+        "valueEs": "Llenar cantidad BFS 100",
+        "valueRu": "Заполните сумму BFS 100",
+        "valueDe": "BFS 100 Betrag ausfüllen"
+    },
+    {
+        "name": "NEW",
+        "value": "جديد",
+        "valueEn": "NEW",
+        "valueFr": "NOUVEAU",
+        "valueTr": "YENİ",
+        "valueEs": "NUEVO",
+        "valueRu": "НОВЫЙ",
+        "valueDe": "NEU"
+    },
+    {
+        "name": "OPEN",
+        "value": "مفتوح",
+        "valueEn": "OPEN",
+        "valueFr": "OUVERT",
+        "valueTr": "AÇIK",
+        "valueEs": "ABIERTO",
+        "valueRu": "ОТКРЫТ",
+        "valueDe": "OFFEN"
+    },
+    {
+        "name": "CLOSED",
+        "value": "مغلق",
+        "valueEn": "CLOSED",
+        "valueFr": "FERMÉ",
+        "valueTr": "KAPALI",
+        "valueEs": "CERRADO",
+        "valueRu": "ЗАКРЫТО",
+        "valueDe": "GESCHLOSSEN"
+    },
+    {
+        "name": "Successful Sharing Pool title",
+        "value": "عنوان مجمع المشاركة الناجح",
+        "valueEn": "Successful Sharing Pool title",
+        "valueFr": "Titre du pool de partage réussi",
+        "valueTr": "Başarılı Paylaşım Havuzu başlığı",
+        "valueEs": "Título del grupo de intercambio exitoso",
+        "valueRu": "Название успешного пула обмена",
+        "valueDe": "Titel des erfolgreichen Sharing-Pools"
+    },
+    {
+        "name": "Successful Sharing Pool description",
+        "value": "وصف مجمع المشاركة الناجح",
+        "valueEn": "Successful Sharing Pool description",
+        "valueFr": "Description du pool de partage réussi",
+        "valueTr": "Başarılı Paylaşım Havuzu açıklaması",
+        "valueEs": "Descripción del grupo de intercambio exitoso",
+        "valueRu": "Описание успешного пула обмена",
+        "valueDe": "Beschreibung des erfolgreichen Sharing-Pools"
+    },
+    {
+        "name": "Successful Sharing Pool",
+        "value": "مجمع المشاركة الناجح",
+        "valueEn": "Successful Sharing Pool",
+        "valueFr": "Pool de partage réussi",
+        "valueTr": "Başarılı Paylaşım Havuzu",
+        "valueEs": "Grupo de intercambio exitoso",
+        "valueRu": "Успешный пул обмена",
+        "valueDe": "Erfolgreicher Sharing-Pool"
+    },
+    {
+        "name": "ARCHIVED",
+        "value": "مؤرشف",
+        "valueEn": "ARCHIVED",
+        "valueFr": "ARCHIVÉ",
+        "valueTr": "ARŞİVLENDİ",
+        "valueEs": "ARCHIVADO",
+        "valueRu": "АРХИВИРОВАНО",
+        "valueDe": "ARCHIVIERT"
+    },
+    {
+        "name": "No shares found",
+        "value": "لم يتم العثور على أسهم",
+        "valueEn": "No shares found",
+        "valueFr": "Aucune action trouvée",
+        "valueTr": "Hisse bulunamadı",
+        "valueEs": "No se encontraron acciones",
+        "valueRu": "Акции не найдены",
+        "valueDe": "Keine Aktien gefunden"
+    },
+    {
+        "name": "Hashtags",
+        "value": "الهاشتاغات",
+        "valueEn": "Hashtags",
+        "valueFr": "Hashtags",
+        "valueTr": "Hashtagler",
+        "valueEs": "Hashtags",
+        "valueRu": "Хештеги",
+        "valueDe": "Hashtags"
+    },
+    {
+        "name": "Thumbnail",
+        "value": "الصورة المصغرة",
+        "valueEn": "Thumbnail",
+        "valueFr": "Miniature",
+        "valueTr": "Küçük resim",
+        "valueEs": "Miniatura",
+        "valueRu": "Миниатюра",
+        "valueDe": "Vorschaubild"
+    },
+    {
+        "name": "Home Thumbnail",
+        "value": "الصورة المصغرة للصفحة الرئيسية",
+        "valueEn": "Home Thumbnail",
+        "valueFr": "Miniature d'accueil",
+        "valueTr": "Ana Sayfa Küçük Resmi",
+        "valueEs": "Miniatura de inicio",
+        "valueRu": "Миниатюра главной",
+        "valueDe": "Startseiten-Vorschaubild"
+    },
+    {
+        "name": "Logo Image",
+        "value": "صورة الشعار",
+        "valueEn": "Logo Image",
+        "valueFr": "Image du logo",
+        "valueTr": "Logo Görseli",
+        "valueEs": "Imagen del logo",
+        "valueRu": "Изображение логотипа",
+        "valueDe": "Logo-Bild"
+    },
+    {
+        "name": "Register upline",
+        "value": "تسجيل الراعي",
+        "valueEn": "Register upline",
+        "valueFr": "Enregistrer le parrain",
+        "valueTr": "Üst hattı kaydet",
+        "valueEs": "Registrar patrocinador",
+        "valueRu": "Зарегистрировать спонсора",
+        "valueDe": "Upline registrieren"
+    },
+    {
+        "name": "created",
+        "value": "تم إنشاؤه",
+        "valueEn": "created",
+        "valueFr": "créé",
+        "valueTr": "oluşturuldu",
+        "valueEs": "creado",
+        "valueRu": "создано",
+        "valueDe": "erstellt"
+    },
+    {
+        "name": "OptValidated",
+        "value": "تم التحقق",
+        "valueEn": "OptValidated",
+        "valueFr": "Validé",
+        "valueTr": "Doğrulandı",
+        "valueEs": "Validado",
+        "valueRu": "Подтверждено",
+        "valueDe": "Validiert"
+    },
+    {
+        "name": "Registred",
+        "value": "مسجل",
+        "valueEn": "Registered",
+        "valueFr": "Enregistré",
+        "valueTr": "Kayıtlı",
+        "valueEs": "Registrado",
+        "valueRu": "Зарегистрирован",
+        "valueDe": "Registriert"
+    },
+    {
+        "name": "Business Flow System",
+        "value": "نظام تدفق الأعمال",
+        "valueEn": "Business Flow System",
+        "valueFr": "Système de flux d'affaires",
+        "valueTr": "İş Akış Sistemi",
+        "valueEs": "Sistema de flujo de negocios",
+        "valueRu": "Система бизнес-потока",
+        "valueDe": "Business Flow System"
+    },
+    {
+        "name": "Total Balance",
+        "value": "الرصيد الإجمالي",
+        "valueEn": "Total Balance",
+        "valueFr": "Solde total",
+        "valueTr": "Toplam Bakiye",
+        "valueEs": "Saldo total",
+        "valueRu": "Общий баланс",
+        "valueDe": "Gesamtguthaben"
+    },
+    {
+        "name": "Total Payments",
+        "value": "إجمالي المدفوعات",
+        "valueEn": "Total Payments",
+        "valueFr": "Total des paiements",
+        "valueTr": "Toplam Ödemeler",
+        "valueEs": "Total de pagos",
+        "valueRu": "Всего платежей",
+        "valueDe": "Gesamtzahlungen"
+    },
+    {
+        "name": "Pending Payments",
+        "value": "المدفوعات المعلقة",
+        "valueEn": "Pending Payments",
+        "valueFr": "Paiements en attente",
+        "valueTr": "Bekleyen Ödemeler",
+        "valueEs": "Pagos pendientes",
+        "valueRu": "Ожидающие платежи",
+        "valueDe": "Ausstehende Zahlungen"
+    },
+    {
+        "name": "Validated Payments",
+        "value": "المدفوعات المعتمدة",
+        "valueEn": "Validated Payments",
+        "valueFr": "Paiements validés",
+        "valueTr": "Onaylanmış Ödemeler",
+        "valueEs": "Pagos validados",
+        "valueRu": "Подтвержденные платежи",
+        "valueDe": "Validierte Zahlungen"
+    },
+    {
+        "name": "Rejected Payments",
+        "value": "المدفوعات المرفوضة",
+        "valueEn": "Rejected Payments",
+        "valueFr": "Paiements rejetés",
+        "valueTr": "Reddedilen Ödemeler",
+        "valueEs": "Pagos rechazados",
+        "valueRu": "Отклоненные платежи",
+        "valueDe": "Abgelehnte Zahlungen"
+    },
+    {
+        "name": "Total Amount (Validated)",
+        "value": "المبلغ الإجمالي (المعتمد)",
+        "valueEn": "Total Amount (Validated)",
+        "valueFr": "Montant total (validé)",
+        "valueTr": "Toplam Tutar (Onaylandı)",
+        "valueEs": "Monto total (validado)",
+        "valueRu": "Общая сумма (подтверждено)",
+        "valueDe": "Gesamtbetrag (validiert)"
+    },
+    {
+        "name": "Reset",
+        "value": "إعادة التعيين",
+        "valueEn": "Reset",
+        "valueFr": "Réinitialiser",
+        "valueTr": "Sıfırla",
+        "valueEs": "Restablecer",
+        "valueRu": "Сбросить",
+        "valueDe": "Zurücksetzen"
+    },
+    {
+        "name": "Notifications list",
+        "value": "قائمة الإشعارات",
+        "valueEn": "Notifications list",
+        "valueFr": "Liste des notifications",
+        "valueTr": "Bildirimler listesi",
+        "valueEs": "Lista de notificaciones",
+        "valueRu": "Список уведомлений",
+        "valueDe": "Benachrichtigungsliste"
+    },
+    {
+        "name": "Category",
+        "value": "الفئة",
+        "valueEn": "Category",
+        "valueFr": "Catégorie",
+        "valueTr": "Kategori",
+        "valueEs": "Categoría",
+        "valueRu": "Категория",
+        "valueDe": "Kategorie"
+    },
+    {
+        "name": "Plan label",
+        "value": "تسمية الخطة",
+        "valueEn": "Plan label",
+        "valueFr": "Libellé du plan",
+        "valueTr": "Plan etiketi",
+        "valueEs": "Etiqueta del plan",
+        "valueRu": "Метка плана",
+        "valueDe": "Plan-Bezeichnung"
+    },
+    {
+        "name": "Order Dashboard",
+        "value": "لوحة الطلبات",
+        "valueEn": "Order Dashboard",
+        "valueFr": "Tableau de bord des commandes",
+        "valueTr": "Sipariş Gösterge Paneli",
+        "valueEs": "Panel de pedidos",
+        "valueRu": "Панель заказов",
+        "valueDe": "Bestellungs-Dashboard"
+    },
+    {
+        "name": "Balance categories",
+        "value": "فئات الرصيد",
+        "valueEn": "Balance categories",
+        "valueFr": "Catégories de solde",
+        "valueTr": "Bakiye kategorileri",
+        "valueEs": "Categorías de saldo",
+        "valueRu": "Категории баланса",
+        "valueDe": "Guthaben-Kategorien"
+    },
+    {
+        "name": "Balance inj. Coupons",
+        "value": "قسائم حقن الرصيد",
+        "valueEn": "Balance inj. Coupons",
+        "valueFr": "Coupons d'injection de solde",
+        "valueTr": "Bakiye enj. Kuponları",
+        "valueEs": "Cupones de iny. de saldo",
+        "valueRu": "Купоны инж. баланса",
+        "valueDe": "Guthaben-Inj. Gutscheine"
+    },
+    {
+        "name": "User list",
+        "value": "قائمة المستخدمين",
+        "valueEn": "User list",
+        "valueFr": "Liste des utilisateurs",
+        "valueTr": "Kullanıcı listesi",
+        "valueEs": "Lista de usuarios",
+        "valueRu": "Список пользователей",
+        "valueDe": "Benutzerliste"
+    },
+    {
+        "name": "Events",
+        "value": "الأحداث",
+        "valueEn": "Events",
+        "valueFr": "Événements",
+        "valueTr": "Etkinlikler",
+        "valueEs": "Eventos",
+        "valueRu": "События",
+        "valueDe": "Veranstaltungen"
+    },
+    {
+        "name": "New",
+        "value": "جديد",
+        "valueEn": "New",
+        "valueFr": "Nouveau",
+        "valueTr": "Yeni",
+        "valueEs": "Nuevo",
+        "valueRu": "Новый",
+        "valueDe": "Neu"
+    },
+    {
+        "name": "Ready",
+        "value": "جاهز",
+        "valueEn": "Ready",
+        "valueFr": "Prêt",
+        "valueTr": "Hazır",
+        "valueEs": "Listo",
+        "valueRu": "Готов",
+        "valueDe": "Bereit"
+    },
+    {
+        "name": "Simulated",
+        "value": "محاكى",
+        "valueEn": "Simulated",
+        "valueFr": "Simulé",
+        "valueTr": "Simüle edildi",
+        "valueEs": "Simulado",
+        "valueRu": "Симулировано",
+        "valueDe": "Simuliert"
+    },
+    {
+        "name": "Paid",
+        "value": "مدفوع",
+        "valueEn": "Paid",
+        "valueFr": "Payé",
+        "valueTr": "Ödendi",
+        "valueEs": "Pagado",
+        "valueRu": "Оплачено",
+        "valueDe": "Bezahlt"
+    },
+    {
+        "name": "Failed",
+        "value": "فشل",
+        "valueEn": "Failed",
+        "valueFr": "Échoué",
+        "valueTr": "Başarısız",
+        "valueEs": "Fallido",
+        "valueRu": "Неудачно",
+        "valueDe": "Fehlgeschlagen"
+    },
+    {
+        "name": "Dispatched",
+        "value": "مُرسل",
+        "valueEn": "Dispatched",
+        "valueFr": "Expédié",
+        "valueTr": "Gönderildi",
+        "valueEs": "Despachado",
+        "valueRu": "Отправлено",
+        "valueDe": "Versandt"
+    },
+    {
+        "name": "Use coupons",
+        "value": "استخدام القسائم",
+        "valueEn": "Use coupons",
+        "valueFr": "Utiliser les coupons",
+        "valueTr": "Kuponları kullan",
+        "valueEs": "Usar cupones",
+        "valueRu": "Использовать купоны",
+        "valueDe": "Gutscheine verwenden"
+    },
+    {
+        "name": "Discount Breakdown",
+        "value": "تفاصيل الخصم",
+        "valueEn": "Discount Breakdown",
+        "valueFr": "Détail de la réduction",
+        "valueTr": "İndirim Dökümü",
+        "valueEs": "Desglose de descuento",
+        "valueRu": "Разбивка скидки",
+        "valueDe": "Rabattaufschlüsselung"
+    },
+    {
+        "name": "User Guides",
+        "value": "أدلة المستخدم",
+        "valueEn": "User Guides",
+        "valueFr": "Guides d'utilisateur",
+        "valueTr": "Kullanıcı Kılavuzları",
+        "valueEs": "Guías de usuario",
+        "valueRu": "Руководства пользователя",
+        "valueDe": "Benutzerhandbücher"
+    },
+    {
+        "name": "User Guide Details",
+        "value": "تفاصيل دليل المستخدم",
+        "valueEn": "User Guide Details",
+        "valueFr": "Détails du guide d'utilisateur",
+        "valueTr": "Kullanıcı Kılavuzu Detayları",
+        "valueEs": "Detalles de la guía de usuario",
+        "valueRu": "Детали руководства пользователя",
+        "valueDe": "Benutzerhandbuch Details"
+    },
+    {
+        "name": "Items Added to Deal",
+        "value": "تمت إضافة عناصر إلى الصفقة",
+        "valueEn": "Items Added to Deal",
+        "valueFr": "Articles ajoutés à l'offre",
+        "valueTr": "Anlaşmaya Ürünler Eklendi",
+        "valueEs": "Artículos añadidos al trato",
+        "valueRu": "Товары добавлены к сделке",
+        "valueDe": "Artikel zum Deal hinzugefügt"
+    },
+    {
+        "name": "Items Removed from Deal",
+        "value": "تمت إزالة عناصر من الصفقة",
+        "valueEn": "Items Removed from Deal",
+        "valueFr": "Articles retirés de l'offre",
+        "valueTr": "Anlaşmadan Ürünler Kaldırıldı",
+        "valueEs": "Artículos eliminados del trato",
+        "valueRu": "Товары удалены из сделки",
+        "valueDe": "Artikel aus Deal entfernt"
+    },
+    {
+        "name": ":count items have been added to deal: :deal",
+        "value": "تمت إضافة :count عنصر إلى الصفقة: :deal",
+        "valueEn": ":count items have been added to deal: :deal",
+        "valueFr": ":count articles ont été ajoutés à l'offre: :deal",
+        "valueTr": ":deal anlaşmasına :count ürün eklendi",
+        "valueEs": "Se han añadido :count artículos al trato: :deal",
+        "valueRu": ":count товаров добавлено к сделке: :deal",
+        "valueDe": ":count Artikel wurden zum Deal hinzugefügt: :deal"
+    },
+    {
+        "name": ":count items have been removed from deal: :deal",
+        "value": "تمت إزالة :count عنصر من الصفقة: :deal",
+        "valueEn": ":count items have been removed from deal: :deal",
+        "valueFr": ":count articles ont été retirés de l'offre: :deal",
+        "valueTr": ":deal anlaşmasından :count ürün kaldırıldı",
+        "valueEs": "Se han eliminado :count artículos del trato: :deal",
+        "valueRu": ":count товаров удалено из сделки: :deal",
+        "valueDe": ":count Artikel wurden aus dem Deal entfernt: :deal"
+    },
+    {
+        "name": "Orders created successfully",
+        "value": "تم إنشاء الطلبات بنجاح",
+        "valueEn": "Orders created successfully",
+        "valueFr": "Commandes créées avec succès",
+        "valueTr": "Siparişler başarıyla oluşturuldu",
+        "valueEs": "Pedidos creados exitosamente",
+        "valueRu": "Заказы успешно созданы",
+        "valueDe": "Bestellungen erfolgreich erstellt"
+    },
+    {
+        "name": "Create Order & Simulate it",
+        "value": "إنشاء طلب ومحاكاته",
+        "valueEn": "Create Order & Simulate it",
+        "valueFr": "Créer et simuler la commande",
+        "valueTr": "Sipariş Oluştur ve Simüle Et",
+        "valueEs": "Crear pedido y simularlo",
+        "valueRu": "Создать заказ и симулировать",
+        "valueDe": "Bestellung erstellen und simulieren"
+    },
+    {
+        "name": "Order simulation",
+        "value": "محاكاة الطلب",
+        "valueEn": "Order simulation",
+        "valueFr": "Simulation de commande",
+        "valueTr": "Sipariş simülasyonu",
+        "valueEs": "Simulación de pedido",
+        "valueRu": "Симуляция заказа",
+        "valueDe": "Bestellungssimulation"
+    },
+    {
+        "name": "Complete Order",
+        "value": "إتمام الطلب",
+        "valueEn": "Complete Order",
+        "valueFr": "Finaliser la commande",
+        "valueTr": "Siparişi Tamamla",
+        "valueEs": "Completar pedido",
+        "valueRu": "Завершить заказ",
+        "valueDe": "Bestellung abschließen"
+    },
+    {
+        "name": "Good Afternoon",
+        "value": "مساء الخير",
+        "valueEn": "Good Afternoon",
+        "valueFr": "Bon après-midi",
+        "valueTr": "İyi öğleden sonralar",
+        "valueEs": "Buenas tardes",
+        "valueRu": "Добрый день",
+        "valueDe": "Guten Tag"
+    },
+    {
+        "name": "Edit translation succeeded",
+        "value": "نجح تعديل الترجمة",
+        "valueEn": "Edit translation succeeded",
+        "valueFr": "Modification de la traduction réussie",
+        "valueTr": "Çeviri düzenleme başarılı",
+        "valueEs": "Edición de traducción exitosa",
+        "valueRu": "Редактирование перевода выполнено успешно",
+        "valueDe": "Übersetzungsbearbeitung erfolgreich"
+    },
+    {
+        "name": "No share operation found",
+        "value": "لم يتم العثور على عملية أسهم",
+        "valueEn": "No share operation found",
+        "valueFr": "Aucune opération d'actions trouvée",
+        "valueTr": "Hisse işlemi bulunamadı",
+        "valueEs": "No se encontró ninguna operación de acciones",
+        "valueRu": "Операция с акциями не найдена",
+        "valueDe": "Keine Aktienoperation gefunden"
+    },
+    {
+        "name": "About the cash operation",
+        "value": "حول العملية النقدية",
+        "valueEn": "About the cash operation",
+        "valueFr": "À propos de l'opération en espèces",
+        "valueTr": "Nakit işlemi hakkında",
+        "valueEs": "Acerca de la operación en efectivo",
+        "valueRu": "О денежной операции",
+        "valueDe": "Über die Bargeldoperation"
+    },
+    {
+        "name": "Communication Board",
+        "value": "لوحة التواصل",
+        "valueEn": "Communication Board",
+        "valueFr": "Tableau de communication",
+        "valueTr": "İletişim Panosu",
+        "valueEs": "Tablero de comunicación",
+        "valueRu": "Доска объявлений",
+        "valueDe": "Kommunikationstafel"
+    },
+    {
+        "name": "(No commissions)",
+        "value": "(لا عمولات)",
+        "valueEn": "(No commissions)",
+        "valueFr": "(Aucune commission)",
+        "valueTr": "(Komisyon yok)",
+        "valueEs": "(Sin comisiones)",
+        "valueRu": "(Без комиссий)",
+        "valueDe": "(Keine Provisionen)"
+    },
+    {
+        "name": "accepted Request",
+        "value": "طلب مقبول",
+        "valueEn": "accepted Request",
+        "valueFr": "Demande acceptée",
+        "valueTr": "Kabul edilen talep",
+        "valueEs": "Solicitud aceptada",
+        "valueRu": "Запрос принят",
+        "valueDe": "Akzeptierte Anfrage"
+    },
+    {
+        "name": "Acctually is vip",
+        "value": "في الواقع هو في أي بي",
+        "valueEn": "Actually is vip",
+        "valueFr": "En fait est vip",
+        "valueTr": "Aslında vip",
+        "valueEs": "En realidad es vip",
+        "valueRu": "На самом деле является vip",
+        "valueDe": "Eigentlich ist vip"
+    },
+    {
+        "name": "Adding contact number completed successfully",
+        "value": "تمت إضافة رقم الاتصال بنجاح",
+        "valueEn": "Adding contact number completed successfully",
+        "valueFr": "Ajout du numéro de contact terminé avec succès",
+        "valueTr": "İletişim numarası ekleme başarıyla tamamlandı",
+        "valueEs": "Agregar número de contacto completado con éxito",
+        "valueRu": "Добавление контактного номера завершено успешно",
+        "valueDe": "Hinzufügen der Kontaktnummer erfolgreich abgeschlossen"
+    },
+    {
+        "name": "Already has a sponsor",
+        "value": "لديه راعي بالفعل",
+        "valueEn": "Already has a sponsor",
+        "valueFr": "A déjà un parrain",
+        "valueTr": "Zaten bir sponsora sahip",
+        "valueEs": "Ya tiene un patrocinador",
+        "valueRu": "Уже есть спонсор",
+        "valueDe": "Hat bereits einen Sponsor"
+    },
+    {
+        "name": "Amount simulation failed",
+        "value": "فشلت محاكاة المبلغ",
+        "valueEn": "Amount simulation failed",
+        "valueFr": "Simulation du montant échouée",
+        "valueTr": "Tutar simülasyonu başarısız",
+        "valueEs": "Simulación de monto fallida",
+        "valueRu": "Симуляция суммы не удалась",
+        "valueDe": "Betragssimulation fehlgeschlagen"
+    },
+    {
+        "name": "An error occurred while deleting coupons",
+        "value": "حدث خطأ أثناء حذف القسائم",
+        "valueEn": "An error occurred while deleting coupons",
+        "valueFr": "Une erreur est survenue lors de la suppression des coupons",
+        "valueTr": "Kuponlar silinirken bir hata oluştu",
+        "valueEs": "Ocurrió un error al eliminar cupones",
+        "valueRu": "Произошла ошибка при удалении купонов",
+        "valueDe": "Beim Löschen der Gutscheine ist ein Fehler aufgetreten"
+    },
+    {
+        "name": "Available",
+        "value": "متاح",
+        "valueEn": "Available",
+        "valueFr": "Disponible",
+        "valueTr": "Mevcut",
+        "valueEs": "Disponible",
+        "valueRu": "Доступно",
+        "valueDe": "Verfügbar"
+    },
+    {
+        "name": "Back id image",
+        "value": "صورة بطاقة الهوية الخلفية",
+        "valueEn": "Back id image",
+        "valueFr": "Image recto de la carte d'identité",
+        "valueTr": "Arka kimlik resmi",
+        "valueEs": "Imagen de identificación trasera",
+        "valueRu": "Изображение обратной стороны удостоверения",
+        "valueDe": "Rückseitenbild des Ausweises"
+    },
+    {
+        "name": "Bad password change credential",
+        "value": "بيانات تغيير كلمة المرور غير صالحة",
+        "valueEn": "Bad password change credential",
+        "valueFr": "Informations de changement de mot de passe incorrectes",
+        "valueTr": "Geçersiz şifre değiştirme bilgisi",
+        "valueEs": "Credencial de cambio de contraseña incorrecta",
+        "valueRu": "Неверные данные для смены пароля",
+        "valueDe": "Ungültige Anmeldeinformationen zum Passwortwechsel"
+    },
+    {
+        "name": "Bad pin code",
+        "value": "رمز PIN غير صحيح",
+        "valueEn": "Bad pin code",
+        "valueFr": "Code PIN incorrect",
+        "valueTr": "Hatalı pin kodu",
+        "valueEs": "Código PIN incorrecto",
+        "valueRu": "Неверный ПИН-код",
+        "valueDe": "Ungültiger PIN-Code"
+    },
+    {
+        "name": "balances update failed",
+        "value": "فشل تحديث الأرصدة",
+        "valueEn": "balances update failed",
+        "valueFr": "Échec de la mise à jour des soldes",
+        "valueTr": "Bakiye güncelleme başarısız",
+        "valueEs": "Actualización de saldos fallida",
+        "valueRu": "Не удалось обновить балансы",
+        "valueDe": "Aktualisierung der Guthaben fehlgeschlagen"
+    },
+    {
+        "name": "balances updated successfully",
+        "value": "تم تحديث الأرصدة بنجاح",
+        "valueEn": "balances updated successfully",
+        "valueFr": "Soldes mis à jour avec succès",
+        "valueTr": "Bakiyeler başarıyla güncellendi",
+        "valueEs": "Saldos actualizados exitosamente",
+        "valueRu": "Балансы успешно обновлены",
+        "valueDe": "Guthaben erfolgreich aktualisiert"
+    },
+    {
+        "name": "BFS to sms exchange operation seceded",
+        "value": "نجحت عملية تبادل BFS إلى الرسائل النصية",
+        "valueEn": "BFS to sms exchange operation succeeded",
+        "valueFr": "Opération d'échange BFS vers SMS réussie",
+        "valueTr": "BFS'den SMS'ye dönüşüm işlemi başarılı oldu",
+        "valueEs": "Operación de intercambio de BFS a SMS exitosa",
+        "valueRu": "Операция обмена BFS на SMS выполнена успешно",
+        "valueDe": "BFS-zu-SMS-Austauschoperation erfolgreich"
+    },
+    {
+        "name": "blocked for",
+        "value": "محظور لمدة",
+        "valueEn": "blocked for",
+        "valueFr": "bloqué pour",
+        "valueTr": "şu kadar süreyle engellendi",
+        "valueEs": "bloqueado por",
+        "valueRu": "заблокирован на",
+        "valueDe": "blockiert für"
+    },
+    {
+        "name": "Business sector Created Successfully",
+        "value": "تم إنشاء القطاع التجاري بنجاح",
+        "valueEn": "Business sector Created Successfully",
+        "valueFr": "Secteur d'activité créé avec succès",
+        "valueTr": "İş sektörü başarıyla oluşturuldu",
+        "valueEs": "Sector empresarial creado exitosamente",
+        "valueRu": "Бизнес-сектор успешно создан",
+        "valueDe": "Geschäftsbereich erfolgreich erstellt"
+    },
+    {
+        "name": "Business sector Deleted Successfully",
+        "value": "تم حذف القطاع التجاري بنجاح",
+        "valueEn": "Business sector Deleted Successfully",
+        "valueFr": "Secteur d'activité supprimé avec succès",
+        "valueTr": "İş sektörü başarıyla silindi",
+        "valueEs": "Sector empresarial eliminado exitosamente",
+        "valueRu": "Бизнес-сектор успешно удален",
+        "valueDe": "Geschäftsbereich erfolgreich gelöscht"
+    },
+    {
+        "name": "Business sector operation cancelled",
+        "value": "تم إلغاء عملية القطاع التجاري",
+        "valueEn": "Business sector operation cancelled",
+        "valueFr": "Opération du secteur d'activité annulée",
+        "valueTr": "İş sektörü işlemi iptal edildi",
+        "valueEs": "Operación del sector empresarial cancelada",
+        "valueRu": "Операция с бизнес-сектором отменена",
+        "valueDe": "Geschäftsbereichsoperation abgebrochen"
+    },
+    {
+        "name": "Business sector Updated Successfully",
+        "value": "تم تحديث القطاع التجاري بنجاح",
+        "valueEn": "Business sector Updated Successfully",
+        "valueFr": "Secteur d'activité mis à jour avec succès",
+        "valueTr": "İş sektörü başarıyla güncellendi",
+        "valueEs": "Sector empresarial actualizado exitosamente",
+        "valueRu": "Бизнес-сектор успешно обновлен",
+        "valueDe": "Geschäftsbereich erfolgreich aktualisiert"
+    },
+    {
+        "name": "Cannot delete consumed coupon",
+        "value": "لا يمكن حذف القسيمة المستخدمة",
+        "valueEn": "Cannot delete consumed coupon",
+        "valueFr": "Impossible de supprimer un coupon consommé",
+        "valueTr": "Kullanılmış kupon silinemez",
+        "valueEs": "No se puede eliminar cupón consumido",
+        "valueRu": "Нельзя удалить использованный купон",
+        "valueDe": "Verbrauchter Gutschein kann nicht gelöscht werden"
+    },
+    {
+        "name": "Cannot edit a validated payment",
+        "value": "لا يمكن تحرير دفعة معتمدة",
+        "valueEn": "Cannot edit a validated payment",
+        "valueFr": "Impossible de modifier un paiement validé",
+        "valueTr": "Onaylanmış bir ödeme düzenlenemez",
+        "valueEs": "No se puede editar un pago validado",
+        "valueRu": "Нельзя редактировать подтвержденный платеж",
+        "valueDe": "Ein validierter Zahlung kann nicht bearbeitet werden"
+    },
+    {
+        "name": "Cart is empty",
+        "value": "السلة فارغة",
+        "valueEn": "Cart is empty",
+        "valueFr": "Le panier est vide",
+        "valueTr": "Sepet boş",
+        "valueEs": "El carrito está vacío",
+        "valueRu": "Корзина пуста",
+        "valueDe": "Warenkorb ist leer"
+    },
+    {
+        "name": "Change user email failed - Code OPT",
+        "value": "فشل تغيير بريد المستخدم - رمز OPT",
+        "valueEn": "Change user email failed - Code OPT",
+        "valueFr": "Échec du changement d'e-mail utilisateur - Code OPT",
+        "valueTr": "Kullanıcı e-postası değiştirilemedi - OPT Kodu",
+        "valueEs": "Cambio de correo de usuario fallido - Código OPT",
+        "valueRu": "Не удалось изменить email пользователя - Код OPT",
+        "valueDe": "Benutzer-E-Mail-Änderung fehlgeschlagen - OPT-Code"
+    },
+    {
+        "name": "Choice Created Successfully",
+        "value": "تم إنشاء الخيار بنجاح",
+        "valueEn": "Choice Created Successfully",
+        "valueFr": "Choix créé avec succès",
+        "valueTr": "Seçenek başarıyla oluşturuldu",
+        "valueEs": "Opción creada exitosamente",
+        "valueRu": "Выбор успешно создан",
+        "valueDe": "Auswahl erfolgreich erstellt"
+    },
+    {
+        "name": "Choice Deleted Successfully",
+        "value": "تم حذف الخيار بنجاح",
+        "valueEn": "Choice Deleted Successfully",
+        "valueFr": "Choix supprimé avec succès",
+        "valueTr": "Seçenek başarıyla silindi",
+        "valueEs": "Opción eliminada exitosamente",
+        "valueRu": "Выбор успешно удален",
+        "valueDe": "Auswahl erfolgreich gelöscht"
+    },
+    {
+        "name": "Choice operation cancelled",
+        "value": "تم إلغاء عملية الخيار",
+        "valueEn": "Choice operation cancelled",
+        "valueFr": "Opération de choix annulée",
+        "valueTr": "Seçenek işlemi iptal edildi",
+        "valueEs": "Operación de opción cancelada",
+        "valueRu": "Операция с выбором отменена",
+        "valueDe": "Auswahloperation abgebrochen"
+    },
+    {
+        "name": "Choice Updated Successfully",
+        "value": "تم تحديث الخيار بنجاح",
+        "valueEn": "Choice Updated Successfully",
+        "valueFr": "Choix mis à jour avec succès",
+        "valueTr": "Seçenek başarıyla güncellendi",
+        "valueEs": "Opción actualizada exitosamente",
+        "valueRu": "Выбор успешно обновлен",
+        "valueDe": "Auswahl erfolgreich aktualisiert"
+    },
+    {
+        "name": "Committed investor request is Rejected",
+        "value": "تم رفض طلب المستثمر الملتزم",
+        "valueEn": "Committed investor request is Rejected",
+        "valueFr": "La demande d'investisseur engagé est rejetée",
+        "valueTr": "Taahhütlü yatırımcı talebi reddedildi",
+        "valueEs": "Solicitud de inversor comprometido rechazada",
+        "valueRu": "Запрос обязанного инвестора отклонен",
+        "valueDe": "Verpflichteter Investorantrag abgelehnt"
+    },
+    {
+        "name": "Committed investor request is validated",
+        "value": "تم اعتماد طلب المستثمر الملتزم",
+        "valueEn": "Committed investor request is validated",
+        "valueFr": "La demande d'investisseur engagé est validée",
+        "valueTr": "Taahhütlü yatırımcı talebi doğrulandı",
+        "valueEs": "Solicitud de inversor comprometido validada",
+        "valueRu": "Запрос обязанного инвестора подтвержден",
+        "valueDe": "Verpflichteter Investorantrag validiert"
+    },
+    {
+        "name": "Condition Created Successfully",
+        "value": "تم إنشاء الشرط بنجاح",
+        "valueEn": "Condition Created Successfully",
+        "valueFr": "Condition créée avec succès",
+        "valueTr": "Koşul başarıyla oluşturuldu",
+        "valueEs": "Condición creada exitosamente",
+        "valueRu": "Условие успешно создано",
+        "valueDe": "Bedingung erfolgreich erstellt"
+    },
+    {
+        "name": "Condition Deleted Successfully",
+        "value": "تم حذف الشرط بنجاح",
+        "valueEn": "Condition Deleted Successfully",
+        "valueFr": "Condition supprimée avec succès",
+        "valueTr": "Koşul başarıyla silindi",
+        "valueEs": "Condición eliminada exitosamente",
+        "valueRu": "Условие успешно удалено",
+        "valueDe": "Bedingung erfolgreich gelöscht"
+    },
+    {
+        "name": "Condition operation cancelled",
+        "value": "تم إلغاء عملية الشرط",
+        "valueEn": "Condition operation cancelled",
+        "valueFr": "Opération de condition annulée",
+        "valueTr": "Koşul işlemi iptal edildi",
+        "valueEs": "Operación de condición cancelada",
+        "valueRu": "Операция с условием отменена",
+        "valueDe": "Bedingungsoperation abgebrochen"
+    },
+    {
+        "name": "Condition Updated Successfully",
+        "value": "تم تحديث الشرط بنجاح",
+        "valueEn": "Condition Updated Successfully",
+        "valueFr": "Condition mise à jour avec succès",
+        "valueTr": "Koşul başarıyla güncellendi",
+        "valueEs": "Condición actualizada exitosamente",
+        "valueRu": "Условие успешно обновлено",
+        "valueDe": "Bedingung erfolgreich aktualisiert"
+    },
+    {
+        "name": "Contact number deleted with success",
+        "value": "تم حذف رقم الاتصال بنجاح",
+        "valueEn": "Contact number deleted with success",
+        "valueFr": "Numéro de contact supprimé avec succès",
+        "valueTr": "İletişim numarası başarıyla silindi",
+        "valueEs": "Número de contacto eliminado con éxito",
+        "valueRu": "Контактный номер успешно удален",
+        "valueDe": "Kontaktnummer erfolgreich gelöscht"
+    },
+    {
+        "name": "Contact with first name and last name",
+        "value": "جهة اتصال بالاسم الأول والاسم الأخير",
+        "valueEn": "Contact with first name and last name",
+        "valueFr": "Contact avec prénom et nom",
+        "valueTr": "Adı ve soyadı olan kişi",
+        "valueEs": "Contacto con nombre y apellido",
+        "valueRu": "Контакт с именем и фамилией",
+        "valueDe": "Kontakt mit Vorname und Nachname"
+    },
+    {
+        "name": "Contact with same number",
+        "value": "جهة اتصال بنفس الرقم",
+        "valueEn": "Contact with same number",
+        "valueFr": "Contact avec le même numéro",
+        "valueTr": "Aynı numaralı kişi",
+        "valueEs": "Contacto con el mismo número",
+        "valueRu": "Контакт с таким же номером",
+        "valueDe": "Kontakt mit gleicher Nummer"
+    },
+    {
+        "name": "Coupon consumed Successfully",
+        "value": "تم استخدام القسيمة بنجاح",
+        "valueEn": "Coupon consumed Successfully",
+        "valueFr": "Coupon consommé avec succès",
+        "valueTr": "Kupon başarıyla kullanıldı",
+        "valueEs": "Cupón consumido exitosamente",
+        "valueRu": "Купон успешно использован",
+        "valueDe": "Gutschein erfolgreich eingelöst"
+    },
+    {
+        "name": "Coupon Deleted Successfully",
+        "value": "تم حذف القسيمة بنجاح",
+        "valueEn": "Coupon Deleted Successfully",
+        "valueFr": "Coupon supprimé avec succès",
+        "valueTr": "Kupon başarıyla silindi",
+        "valueEs": "Cupón eliminado exitosamente",
+        "valueRu": "Купон успешно удален",
+        "valueDe": "Gutschein erfolgreich gelöscht"
+    },
+    {
+        "name": "Coupons created Successfully",
+        "value": "تم إنشاء القسائم بنجاح",
+        "valueEn": "Coupons created Successfully",
+        "valueFr": "Coupons créés avec succès",
+        "valueTr": "Kuponlar başarıyla oluşturuldu",
+        "valueEs": "Cupones creados exitosamente",
+        "valueRu": "Купоны успешно созданы",
+        "valueDe": "Gutscheine erfolgreich erstellt"
+    },
+    {
+        "name": "Coupons creation Failed",
+        "value": "فشل إنشاء القسائم",
+        "valueEn": "Coupons creation Failed",
+        "valueFr": "Échec de la création des coupons",
+        "valueTr": "Kupon oluşturma başarısız",
+        "valueEs": "Creación de cupones fallida",
+        "valueRu": "Не удалось создать купоны",
+        "valueDe": "Gutscheinerstellung fehlgeschlagen"
+    },
+    {
+        "name": "Coupons deleted successfully",
+        "value": "تم حذف القسائم بنجاح",
+        "valueEn": "Coupons deleted successfully",
+        "valueFr": "Coupons supprimés avec succès",
+        "valueTr": "Kuponlar başarıyla silindi",
+        "valueEs": "Cupones eliminados exitosamente",
+        "valueRu": "Купоны успешно удалены",
+        "valueDe": "Gutscheine erfolgreich gelöscht"
+    },
+    {
+        "name": "Coupons deleted successfully (Only not consumed)",
+        "value": "تم حذف القسائم بنجاح (غير المستخدمة فقط)",
+        "valueEn": "Coupons deleted successfully (Only not consumed)",
+        "valueFr": "Coupons supprimés avec succès (seulement non consommés)",
+        "valueTr": "Kuponlar başarıyla silindi (sadece kullanılmayanlar)",
+        "valueEs": "Cupones eliminados exitosamente (solo no consumidos)",
+        "valueRu": "Купоны успешно удалены (только неиспользованные)",
+        "valueDe": "Gutscheine erfolgreich gelöscht (nur nicht eingelöste)"
+    },
+    {
+        "name": "Coupons operation cancelled",
+        "value": "تم إلغاء عملية القسائم",
+        "valueEn": "Coupons operation cancelled",
+        "valueFr": "Opération de coupons annulée",
+        "valueTr": "Kupon işlemi iptal edildi",
+        "valueEs": "Operación de cupones cancelada",
+        "valueRu": "Операция с купонами отменена",
+        "valueDe": "Gutscheinoperation abgebrochen"
+    },
+    {
+        "name": "Coupons order failed",
+        "value": "فشل طلب القسائم",
+        "valueEn": "Coupons order failed",
+        "valueFr": "Commande de coupons échouée",
+        "valueTr": "Kupon siparişi başarısız",
+        "valueEs": "Pedido de cupones fallido",
+        "valueRu": "Заказ купонов не удался",
+        "valueDe": "Gutscheinbestellung fehlgeschlagen"
+    },
+    {
+        "name": "Date limit ratcheted",
+        "value": "تم تجاوز حد التاريخ",
+        "valueEn": "Date limit ratcheted",
+        "valueFr": "Limite de date dépassée",
+        "valueTr": "Tarih limiti aşıldı",
+        "valueEs": "Límite de fecha superado",
+        "valueRu": "Превышен лимит даты",
+        "valueDe": "Datumslimit überschritten"
+    },
+    {
+        "name": "Deal change request approved successfully",
+        "value": "تمت الموافقة على طلب تغيير الصفقة بنجاح",
+        "valueEn": "Deal change request approved successfully",
+        "valueFr": "Demande de modification d'offre approuvée avec succès",
+        "valueTr": "Anlaşma değişiklik talebi başarıyla onaylandı",
+        "valueEs": "Solicitud de cambio de trato aprobada exitosamente",
+        "valueRu": "Запрос на изменение сделки успешно одобрен",
+        "valueDe": "Deal-Änderungsanfrage erfolgreich genehmigt"
+    },
+    {
+        "name": "Deal change request rejected successfully",
+        "value": "تم رفض طلب تغيير الصفقة بنجاح",
+        "valueEn": "Deal change request rejected successfully",
+        "valueFr": "Demande de modification d'offre rejetée avec succès",
+        "valueTr": "Anlaşma değişiklik talebi başarıyla reddedildi",
+        "valueEs": "Solicitud de cambio de trato rechazada exitosamente",
+        "valueRu": "Запрос на изменение сделки успешно отклонен",
+        "valueDe": "Deal-Änderungsanfrage erfolgreich abgelehnt"
+    },
+    {
+        "name": "Deal Created Successfully",
+        "value": "تم إنشاء الصفقة بنجاح",
+        "valueEn": "Deal Created Successfully",
+        "valueFr": "Offre créée avec succès",
+        "valueTr": "Anlaşma başarıyla oluşturuldu",
+        "valueEs": "Trato creado exitosamente",
+        "valueRu": "Сделка успешно создана",
+        "valueDe": "Deal erfolgreich erstellt"
+    },
+    {
+        "name": "Deal Deleted Successfully",
+        "value": "تم حذف الصفقة بنجاح",
+        "valueEn": "Deal Deleted Successfully",
+        "valueFr": "Offre supprimée avec succès",
+        "valueTr": "Anlaşma başarıyla silindi",
+        "valueEs": "Trato eliminado exitosamente",
+        "valueRu": "Сделка успешно удалена",
+        "valueDe": "Deal erfolgreich gelöscht"
+    },
+    {
+        "name": "Deal not found",
+        "value": "لم يتم العثور على الصفقة",
+        "valueEn": "Deal not found",
+        "valueFr": "Offre non trouvée",
+        "valueTr": "Anlaşma bulunamadı",
+        "valueEs": "Trato no encontrado",
+        "valueRu": "Сделка не найдена",
+        "valueDe": "Deal nicht gefunden"
+    },
+    {
+        "name": "Deal operation cancelled",
+        "value": "تم إلغاء عملية الصفقة",
+        "valueEn": "Deal operation cancelled",
+        "valueFr": "Opération d'offre annulée",
+        "valueTr": "Anlaşma işlemi iptal edildi",
+        "valueEs": "Operación de trato cancelada",
+        "valueRu": "Операция со сделкой отменена",
+        "valueDe": "Deal-Operation abgebrochen"
+    },
+    {
+        "name": "Deal Updated Successfully",
+        "value": "تم تحديث الصفقة بنجاح",
+        "valueEn": "Deal Updated Successfully",
+        "valueFr": "Offre mise à jour avec succès",
+        "valueTr": "Anlaşma başarıyla güncellendi",
+        "valueEs": "Trato actualizado exitosamente",
+        "valueRu": "Сделка успешно обновлена",
+        "valueDe": "Deal erfolgreich aktualisiert"
+    },
+    {
+        "name": "Deal validation request approved successfully",
+        "value": "تمت الموافقة على طلب التحقق من الصفقة بنجاح",
+        "valueEn": "Deal validation request approved successfully",
+        "valueFr": "Demande de validation d'offre approuvée avec succès",
+        "valueTr": "Anlaşma doğrulama talebi başarıyla onaylandı",
+        "valueEs": "Solicitud de validación de trato aprobada exitosamente",
+        "valueRu": "Запрос на проверку сделки успешно одобрен",
+        "valueDe": "Deal-Validierungsanfrage erfolgreich genehmigt"
+    },
+    {
+        "name": "Deal validation request rejected",
+        "value": "تم رفض طلب التحقق من الصفقة",
+        "valueEn": "Deal validation request rejected",
+        "valueFr": "Demande de validation d'offre rejetée",
+        "valueTr": "Anlaşma doğrulama talebi reddedildi",
+        "valueEs": "Solicitud de validación de trato rechazada",
+        "valueRu": "Запрос на проверку сделки отклонен",
+        "valueDe": "Deal-Validierungsanfrage abgelehnt"
+    },
+    {
+        "name": "Delete request accepted",
+        "value": "تم قبول طلب الحذف",
+        "valueEn": "Delete request accepted",
+        "valueFr": "Demande de suppression acceptée",
+        "valueTr": "Silme talebi kabul edildi",
+        "valueEs": "Solicitud de eliminación aceptada",
+        "valueRu": "Запрос на удаление принят",
+        "valueDe": "Löschungsanfrage akzeptiert"
+    },
+    {
+        "name": "demande_creer",
+        "value": "طلب_إنشاء",
+        "valueEn": "request_create",
+        "valueFr": "demande_créer",
+        "valueTr": "talep_oluştur",
+        "valueEs": "solicitud_crear",
+        "valueRu": "запрос_создать",
+        "valueDe": "anfrage_erstellen"
+    },
+    {
+        "name": "Edit translation failed",
+        "value": "فشل تعديل الترجمة",
+        "valueEn": "Edit translation failed",
+        "valueFr": "Échec de la modification de la traduction",
+        "valueTr": "Çeviri düzenleme başarısız",
+        "valueEs": "Edición de traducción fallida",
+        "valueRu": "Редактирование перевода не удалось",
+        "valueDe": "Übersetzungsbearbeitung fehlgeschlagen"
+    },
+    {
+        "name": "Edit profile success",
+        "value": "نجح تعديل الملف الشخصي",
+        "valueEn": "Edit profile success",
+        "valueFr": "Modification du profil réussie",
+        "valueTr": "Profil düzenleme başarılı",
+        "valueEs": "Edición de perfil exitosa",
+        "valueRu": "Редактирование профиля успешно",
+        "valueDe": "Profilbearbeitung erfolgreich"
+    },
+    {
+        "name": "Empty comment",
+        "value": "تعليق فارغ",
+        "valueEn": "Empty comment",
+        "valueFr": "Commentaire vide",
+        "valueTr": "Boş yorum",
+        "valueEs": "Comentario vacío",
+        "valueRu": "Пустой комментарий",
+        "valueDe": "Leerer Kommentar"
+    },
+    {
+        "name": "Empty order",
+        "value": "طلب فارغ",
+        "valueEn": "Empty order",
+        "valueFr": "Commande vide",
+        "valueTr": "Boş sipariş",
+        "valueEs": "Pedido vacío",
+        "valueRu": "Пустой заказ",
+        "valueDe": "Leerer Auftrag"
+    },
+    {
+        "name": "Empty Rejection message",
+        "value": "رسالة رفض فارغة",
+        "valueEn": "Empty Rejection message",
+        "valueFr": "Message de rejet vide",
+        "valueTr": "Boş reddetme mesajı",
+        "valueEs": "Mensaje de rechazo vacío",
+        "valueRu": "Пустое сообщение об отклонении",
+        "valueDe": "Leere Ablehnungsnachricht"
+    },
+    {
+        "name": "Error",
+        "value": "خطأ",
+        "valueEn": "Error",
+        "valueFr": "Erreur",
+        "valueTr": "Hata",
+        "valueEs": "Error",
+        "valueRu": "Ошибка",
+        "valueDe": "Fehler"
+    },
+    {
+        "name": "Error approving request:",
+        "value": "خطأ في الموافقة على الطلب:",
+        "valueEn": "Error approving request:",
+        "valueFr": "Erreur lors de l'approbation de la demande:",
+        "valueTr": "Talep onaylama hatası:",
+        "valueEs": "Error aprobando solicitud:",
+        "valueRu": "Ошибка при одобрении запроса:",
+        "valueDe": "Fehler beim Genehmigen der Anfrage:"
+    },
+    {
+        "name": "Error rejecting request:",
+        "value": "خطأ في رفض الطلب:",
+        "valueEn": "Error rejecting request:",
+        "valueFr": "Erreur lors du rejet de la demande:",
+        "valueTr": "Talep reddetme hatası:",
+        "valueEs": "Error rechazando solicitud:",
+        "valueRu": "Ошибка при отклонении запроса:",
+        "valueDe": "Fehler beim Ablehnen der Anfrage:"
+    },
+    {
+        "name": "Error saving profile settings",
+        "value": "خطأ في حفظ إعدادات الملف الشخصي",
+        "valueEn": "Error saving profile settings",
+        "valueFr": "Erreur lors de l'enregistrement des paramètres du profil",
+        "valueTr": "Profil ayarlarını kaydetme hatası",
+        "valueEs": "Error guardando configuración de perfil",
+        "valueRu": "Ошибка при сохранении настроек профиля",
+        "valueDe": "Fehler beim Speichern der Profileinstellungen"
+    },
+    {
+        "name": "Event creation failed",
+        "value": "فشل إنشاء الحدث",
+        "valueEn": "Event creation failed",
+        "valueFr": "Échec de la création de l'événement",
+        "valueTr": "Etkinlik oluşturma başarısız",
+        "valueEs": "Creación de evento fallida",
+        "valueRu": "Не удалось создать событие",
+        "valueDe": "Ereigniserstellung fehlgeschlagen"
+    },
+    {
+        "name": "Event deleted successfully",
+        "value": "تم حذف الحدث بنجاح",
+        "valueEn": "Event deleted successfully",
+        "valueFr": "Événement supprimé avec succès",
+        "valueTr": "Etkinlik başarıyla silindi",
+        "valueEs": "Evento eliminado exitosamente",
+        "valueRu": "Событие успешно удалено",
+        "valueDe": "Ereignis erfolgreich gelöscht"
+    },
+    {
+        "name": "Event deletion failed",
+        "value": "فشل حذف الحدث",
+        "valueEn": "Event deletion failed",
+        "valueFr": "Échec de la suppression de l'événement",
+        "valueTr": "Etkinlik silme başarısız",
+        "valueEs": "Eliminación de evento fallida",
+        "valueRu": "Не удалось удалить событие",
+        "valueDe": "Ereignislöschung fehlgeschlagen"
+    },
+    {
+        "name": "Event not found",
+        "value": "لم يتم العثور على الحدث",
+        "valueEn": "Event not found",
+        "valueFr": "Événement non trouvé",
+        "valueTr": "Etkinlik bulunamadı",
+        "valueEs": "Evento no encontrado",
+        "valueRu": "Событие не найдено",
+        "valueDe": "Ereignis nicht gefunden"
+    },
+    {
+        "name": "Event operation canceled",
+        "value": "تم إلغاء عملية الحدث",
+        "valueEn": "Event operation canceled",
+        "valueFr": "Opération d'événement annulée",
+        "valueTr": "Etkinlik işlemi iptal edildi",
+        "valueEs": "Operación de evento cancelada",
+        "valueRu": "Операция с событием отменена",
+        "valueDe": "Ereignisoperation abgebrochen"
+    },
+    {
+        "name": "Event save failed",
+        "value": "فشل حفظ الحدث",
+        "valueEn": "Event save failed",
+        "valueFr": "Échec de l'enregistrement de l'événement",
+        "valueTr": "Etkinlik kaydetme başarısız",
+        "valueEs": "Guardado de evento fallido",
+        "valueRu": "Не удалось сохранить событие",
+        "valueDe": "Ereignisspeicherung fehlgeschlagen"
+    },
+    {
+        "name": "Event saved successfully",
+        "value": "تم حفظ الحدث بنجاح",
+        "valueEn": "Event saved successfully",
+        "valueFr": "Événement enregistré avec succès",
+        "valueTr": "Etkinlik başarıyla kaydedildi",
+        "valueEs": "Evento guardado exitosamente",
+        "valueRu": "Событие успешно сохранено",
+        "valueDe": "Ereignis erfolgreich gespeichert"
+    },
+    {
+        "name": "Execution time",
+        "value": "وقت التنفيذ",
+        "valueEn": "Execution time",
+        "valueFr": "Temps d'exécution",
+        "valueTr": "Yürütme süresi",
+        "valueEs": "Tiempo de ejecución",
+        "valueRu": "Время выполнения",
+        "valueDe": "Ausführungszeit"
+    },
+    {
+        "name": "exists in the contact list",
+        "value": "موجود في قائمة الاتصال",
+        "valueEn": "exists in the contact list",
+        "valueFr": "existe dans la liste de contacts",
+        "valueTr": "kişi listesinde mevcut",
+        "valueEs": "existe en la lista de contactos",
+        "valueRu": "существует в списке контактов",
+        "valueDe": "existiert in der Kontaktliste"
+    },
+    {
+        "name": "Failed security code",
+        "value": "فشل رمز الأمان",
+        "valueEn": "Failed security code",
+        "valueFr": "Code de sécurité échoué",
+        "valueTr": "Başarısız güvenlik kodu",
+        "valueEs": "Código de seguridad fallido",
+        "valueRu": "Неверный код безопасности",
+        "valueDe": "Fehlgeschlagener Sicherheitscode"
+    },
+    {
+        "name": "Failed to create Plan label.",
+        "value": "فشل إنشاء تسمية الخطة.",
+        "valueEn": "Failed to create Plan label.",
+        "valueFr": "Échec de la création de l'étiquette du plan.",
+        "valueTr": "Plan etiketi oluşturma başarısız.",
+        "valueEs": "Error al crear la etiqueta del plan.",
+        "valueRu": "Не удалось создать метку плана.",
+        "valueDe": "Erstellung der Plan-Bezeichnung fehlgeschlagen."
+    },
+    {
+        "name": "Failed to delete business sector",
+        "value": "فشل حذف القطاع التجاري",
+        "valueEn": "Failed to delete business sector",
+        "valueFr": "Échec de la suppression du secteur d'activité",
+        "valueTr": "İş sektörünü silme başarısız",
+        "valueEs": "Error al eliminar el sector empresarial",
+        "valueRu": "Не удалось удалить бизнес-сектор",
+        "valueDe": "Löschen des Geschäftsbereichs fehlgeschlagen"
+    },
+    {
+        "name": "Failed to reject request",
+        "value": "فشل رفض الطلب",
+        "valueEn": "Failed to reject request",
+        "valueFr": "Échec du rejet de la demande",
+        "valueTr": "İsteği reddetme başarısız",
+        "valueEs": "Error al rechazar la solicitud",
+        "valueRu": "Не удалось отклонить запрос",
+        "valueDe": "Anfrage ablehnen fehlgeschlagen"
+    },
+    {
+        "name": "Failed to save partner payment:",
+        "value": "فشل حفظ دفعة الشريك:",
+        "valueEn": "Failed to save partner payment:",
+        "valueFr": "Échec de l'enregistrement du paiement partenaire:",
+        "valueTr": "İş ortağı ödemesini kaydetme başarısız:",
+        "valueEs": "Error al guardar el pago del socio:",
+        "valueRu": "Не удалось сохранить платеж партнера:",
+        "valueDe": "Partnerzahlung speichern fehlgeschlagen:"
+    },
+    {
+        "name": "Failed to update Plan label.",
+        "value": "فشل تحديث تسمية الخطة.",
+        "valueEn": "Failed to update Plan label.",
+        "valueFr": "Échec de la mise à jour de l'étiquette du plan.",
+        "valueTr": "Plan etiketini güncelleme başarısız.",
+        "valueEs": "Error al actualizar la etiqueta del plan.",
+        "valueRu": "Не удалось обновить метку плана.",
+        "valueDe": "Aktualisierung der Plan-Bezeichnung fehlgeschlagen."
+    },
+    {
+        "name": "Failed to validate instructor request",
+        "value": "فشل التحقق من طلب المدرب",
+        "valueEn": "Failed to validate instructor request",
+        "valueFr": "Échec de la validation de la demande d'instructeur",
+        "valueTr": "Eğitmen talebini doğrulama başarısız",
+        "valueEs": "Error al validar la solicitud de instructor",
+        "valueRu": "Не удалось подтвердить запрос инструктора",
+        "valueDe": "Validierung des Trainerantrags fehlgeschlagen"
+    },
+    {
+        "name": "Faq Created Successfully",
+        "value": "تم إنشاء الأسئلة الشائعة بنجاح",
+        "valueEn": "Faq Created Successfully",
+        "valueFr": "FAQ créée avec succès",
+        "valueTr": "SSS başarıyla oluşturuldu",
+        "valueEs": "FAQ creado exitosamente",
+        "valueRu": "FAQ успешно создан",
+        "valueDe": "FAQ erfolgreich erstellt"
+    },
+    {
+        "name": "Faq Deleted Successfully",
+        "value": "تم حذف الأسئلة الشائعة بنجاح",
+        "valueEn": "Faq Deleted Successfully",
+        "valueFr": "FAQ supprimée avec succès",
+        "valueTr": "SSS başarıyla silindi",
+        "valueEs": "FAQ eliminado exitosamente",
+        "valueRu": "FAQ успешно удален",
+        "valueDe": "FAQ erfolgreich gelöscht"
+    },
+    {
+        "name": "Faq operation canceled",
+        "value": "تم إلغاء عملية الأسئلة الشائعة",
+        "valueEn": "Faq operation canceled",
+        "valueFr": "Opération FAQ annulée",
+        "valueTr": "SSS işlemi iptal edildi",
+        "valueEs": "Operación FAQ cancelada",
+        "valueRu": "Операция с FAQ отменена",
+        "valueDe": "FAQ-Operation abgebrochen"
+    },
+    {
+        "name": "Faq Updated Successfully",
+        "value": "تم تحديث الأسئلة الشائعة بنجاح",
+        "valueEn": "Faq Updated Successfully",
+        "valueFr": "FAQ mise à jour avec succès",
+        "valueTr": "SSS başarıyla güncellendi",
+        "valueEs": "FAQ actualizado exitosamente",
+        "valueRu": "FAQ успешно обновлен",
+        "valueDe": "FAQ erfolgreich aktualisiert"
+    },
+    {
+        "name": "Financial request rejected successfully",
+        "value": "تم رفض الطلب المالي بنجاح",
+        "valueEn": "Financial request rejected successfully",
+        "valueFr": "Demande financière rejetée avec succès",
+        "valueTr": "Finansal talep başarıyla reddedildi",
+        "valueEs": "Solicitud financiera rechazada exitosamente",
+        "valueRu": "Финансовый запрос успешно отклонен",
+        "valueDe": "Finanzanfrage erfolgreich abgelehnt"
+    },
+    {
+        "name": "Financial request sent successfully ,This is your security code",
+        "value": "تم إرسال الطلب المالي بنجاح، هذا هو رمز الأمان الخاص بك",
+        "valueEn": "Financial request sent successfully ,This is your security code",
+        "valueFr": "Demande financière envoyée avec succès, voici votre code de sécurité",
+        "valueTr": "Finansal talep başarıyla gönderildi, bu sizin güvenlik kodunuz",
+        "valueEs": "Solicitud financiera enviada exitosamente, este es su código de seguridad",
+        "valueRu": "Финансовый запрос отправлен успешно, это ваш код безопасности",
+        "valueDe": "Finanzanfrage erfolgreich gesendet, dies ist Ihr Sicherheitscode"
+    },
+    {
+        "name": "First name required",
+        "value": "الاسم الأول مطلوب",
+        "valueEn": "First name required",
+        "valueFr": "Prénom requis",
+        "valueTr": "Ad gerekli",
+        "valueEs": "Nombre requerido",
+        "valueRu": "Требуется имя",
+        "valueDe": "Vorname erforderlich"
+    },
+    {
+        "name": "Front id image",
+        "value": "صورة بطاقة الهوية الأمامية",
+        "valueEn": "Front id image",
+        "valueFr": "Image verso de la carte d'identité",
+        "valueTr": "Ön kimlik resmi",
+        "valueEs": "Imagen de identificación frontal",
+        "valueRu": "Изображение лицевой стороны удостоверения",
+        "valueDe": "Vorderseitenbild des Ausweises"
+    },
+    {
+        "name": "Goals limit ratcheted",
+        "value": "تم تجاوز حد الأهداف",
+        "valueEn": "Goals limit ratcheted",
+        "valueFr": "Limite d'objectifs dépassée",
+        "valueTr": "Hedef limiti aşıldı",
+        "valueEs": "Límite de objetivos superado",
+        "valueRu": "Превышен лимит целей",
+        "valueDe": "Ziel-Limit überschritten"
+    },
+    {
+        "name": "Group Created Successfully!!",
+        "value": "تم إنشاء المجموعة بنجاح!!",
+        "valueEn": "Group Created Successfully!!",
+        "valueFr": "Groupe créé avec succès!!",
+        "valueTr": "Grup başarıyla oluşturuldu!!",
+        "valueEs": "Grupo creado exitosamente!!",
+        "valueRu": "Группа успешно создана!!",
+        "valueDe": "Gruppe erfolgreich erstellt!!"
+    },
+    {
+        "name": "Group Deleted Successfully",
+        "value": "تم حذف المجموعة بنجاح",
+        "valueEn": "Group Deleted Successfully",
+        "valueFr": "Groupe supprimé avec succès",
+        "valueTr": "Grup başarıyla silindi",
+        "valueEs": "Grupo eliminado exitosamente",
+        "valueRu": "Группа успешно удалена",
+        "valueDe": "Gruppe erfolgreich gelöscht"
+    },
+    {
+        "name": "Group operation canceled",
+        "value": "تم إلغاء عملية المجموعة",
+        "valueEn": "Group operation canceled",
+        "valueFr": "Opération de groupe annulée",
+        "valueTr": "Grup işlemi iptal edildi",
+        "valueEs": "Operación de grupo cancelada",
+        "valueRu": "Операция с группой отменена",
+        "valueDe": "Gruppenoperation abgebrochen"
+    },
+    {
+        "name": "Group Updated Successfully",
+        "value": "تم تحديث المجموعة بنجاح",
+        "valueEn": "Group Updated Successfully",
+        "valueFr": "Groupe mis à jour avec succès",
+        "valueTr": "Grup başarıyla güncellendi",
+        "valueEs": "Grupo actualizado exitosamente",
+        "valueRu": "Группа успешно обновлена",
+        "valueDe": "Gruppe erfolgreich aktualisiert"
+    },
+    {
+        "name": "hours",
+        "value": "ساعات",
+        "valueEn": "hours",
+        "valueFr": "heures",
+        "valueTr": "saat",
+        "valueEs": "horas",
+        "valueRu": "часы",
+        "valueDe": "Stunden"
+    },
+    {
+        "name": "I am his sponsor",
+        "value": "أنا راعيه",
+        "valueEn": "I am his sponsor",
+        "valueFr": "Je suis son parrain",
+        "valueTr": "Ben onun sponsorum",
+        "valueEs": "Soy su patrocinador",
+        "valueRu": "Я его спонсор",
+        "valueDe": "Ich bin sein Sponsor"
+    },
+    {
+        "name": "I am his sponsor no commissions",
+        "value": "أنا راعيه بدون عمولات",
+        "valueEn": "I am his sponsor no commissions",
+        "valueFr": "Je suis son parrain sans commissions",
+        "valueTr": "Ben onun sponsorum, komisyon yok",
+        "valueEs": "Soy su patrocinador sin comisiones",
+        "valueRu": "Я его спонсор без комиссий",
+        "valueDe": "Ich bin sein Sponsor, keine Provisionen"
+    },
+    {
+        "name": "Identification request exist",
+        "value": "طلب التحقق من الهوية موجود",
+        "valueEn": "Identification request exist",
+        "valueFr": "Demande d'identification existante",
+        "valueTr": "Kimlik doğrulama talebi mevcut",
+        "valueEs": "Solicitud de identificación existente",
+        "valueRu": "Запрос идентификации существует",
+        "valueDe": "Identifizierungsanfrage vorhanden"
+    },
+    {
+        "name": "Identification request missing information",
+        "value": "طلب التحقق من الهوية ناقص المعلومات",
+        "valueEn": "Identification request missing information",
+        "valueFr": "Demande d'identification manquante d'informations",
+        "valueTr": "Kimlik doğrulama talebinde eksik bilgi",
+        "valueEs": "Solicitud de identificación con información faltante",
+        "valueRu": "Запрос идентификации с отсутствующей информацией",
+        "valueDe": "Identifizierungsanfrage mit fehlenden Informationen"
+    },
+    {
+        "name": "Identification request wrong information",
+        "value": "طلب التحقق من الهوية بمعلومات خاطئة",
+        "valueEn": "Identification request wrong information",
+        "valueFr": "Demande d'identification avec des informations erronées",
+        "valueTr": "Kimlik doğrulama talebinde hatalı bilgi",
+        "valueEs": "Solicitud de identificación con información incorrecta",
+        "valueRu": "Запрос идентификации с неверной информацией",
+        "valueDe": "Identifizierungsanfrage mit falschen Informationen"
+    },
+    {
+        "name": "Identification send request success",
+        "value": "نجح إرسال طلب التحقق من الهوية",
+        "valueEn": "Identification send request success",
+        "valueFr": "Envoi de la demande d'identification réussi",
+        "valueTr": "Kimlik doğrulama talebi gönderme başarılı",
+        "valueEs": "Envío de solicitud de identificación exitoso",
+        "valueRu": "Успешно отправлен запрос идентификации",
+        "valueDe": "Identifizierungsanfrage senden erfolgreich"
+    },
+    {
+        "name": "identification_exist",
+        "value": "التحقق_موجود",
+        "valueEn": "identification_exist",
+        "valueFr": "identification_existante",
+        "valueTr": "kimlik_mevcut",
+        "valueEs": "identificación_existente",
+        "valueRu": "идентификация_существует",
+        "valueDe": "identifizierung_vorhanden"
+    },
+    {
+        "name": "Instructor request is Rejected",
+        "value": "تم رفض طلب المدرب",
+        "valueEn": "Instructor request is Rejected",
+        "valueFr": "La demande d'instructeur est rejetée",
+        "valueTr": "Eğitmen talebi reddedildi",
+        "valueEs": "Solicitud de instructor rechazada",
+        "valueRu": "Запрос инструктора отклонен",
+        "valueDe": "Trainerantrag abgelehnt"
+    },
+    {
+        "name": "Instructor request is validated",
+        "value": "تم اعتماد طلب المدرب",
+        "valueEn": "Instructor request is validated",
+        "valueFr": "La demande d'instructeur est validée",
+        "valueTr": "Eğitmen talebi doğrulandı",
+        "valueEs": "Solicitud de instructor validada",
+        "valueRu": "Запрос инструктора подтвержден",
+        "valueDe": "Trainerantrag validiert"
+    },
+    {
+        "name": "Insufficient BFS 100 balance",
+        "value": "رصيد BFS 100 غير كافٍ",
+        "valueEn": "Insufficient BFS 100 balance",
+        "valueFr": "Solde BFS 100 insuffisant",
+        "valueTr": "Yetersiz BFS 100 bakiyesi",
+        "valueEs": "Saldo BFS 100 insuficiente",
+        "valueRu": "Недостаточный баланс BFS 100",
+        "valueDe": "Unzureichendes BFS 100 Guthaben"
+    },
+    {
+        "name": "International id image",
+        "value": "صورة بطاقة الهوية الدولية",
+        "valueEn": "International id image",
+        "valueFr": "Image de la carte d'identité internationale",
+        "valueTr": "Uluslararası kimlik resmi",
+        "valueEs": "Imagen de identificación internacional",
+        "valueRu": "Изображение международного удостоверения",
+        "valueDe": "Internationales Ausweisbild"
+    },
+    {
+        "name": "Invalid code",
+        "value": "رمز غير صالح",
+        "valueEn": "Invalid code",
+        "valueFr": "Code invalide",
+        "valueTr": "Geçersiz kod",
+        "valueEs": "Código inválido",
+        "valueRu": "Неверный код",
+        "valueDe": "Ungültiger Code"
+    },
+    {
+        "name": "Invalid details financial request",
+        "value": "طلب مالي بتفاصيل غير صالحة",
+        "valueEn": "Invalid details financial request",
+        "valueFr": "Demande financière avec des détails invalides",
+        "valueTr": "Geçersiz ayrıntılı finansal talep",
+        "valueEs": "Solicitud financiera con detalles inválidos",
+        "valueRu": "Финансовый запрос с неверными деталями",
+        "valueDe": "Finanzanfrage mit ungültigen Details"
+    },
+    {
+        "name": "Invalid financial request",
+        "value": "طلب مالي غير صالح",
+        "valueEn": "Invalid financial request",
+        "valueFr": "Demande financière invalide",
+        "valueTr": "Geçersiz finansal talep",
+        "valueEs": "Solicitud financiera inválida",
+        "valueRu": "Неверный финансовый запрос",
+        "valueDe": "Ungültige Finanzanfrage"
+    },
+    {
+        "name": "Invalid OPT code",
+        "value": "رمز OPT غير صالح",
+        "valueEn": "Invalid OPT code",
+        "valueFr": "Code OPT invalide",
+        "valueTr": "Geçersiz OPT kodu",
+        "valueEs": "Código OPT inválido",
+        "valueRu": "Неверный код OPT",
+        "valueDe": "Ungültiger OPT-Code"
+    },
+    {
+        "name": "Invalid response: no selected choices",
+        "value": "رد غير صالح: لم يتم اختيار خيارات",
+        "valueEn": "Invalid response: no selected choices",
+        "valueFr": "Réponse invalide: aucun choix sélectionné",
+        "valueTr": "Geçersiz yanıt: seçili seçenek yok",
+        "valueEs": "Respuesta inválida: sin opciones seleccionadas",
+        "valueRu": "Неверный ответ: нет выбранных вариантов",
+        "valueDe": "Ungültige Antwort: keine Auswahl getroffen"
+    },
+    {
+        "name": "Invalid response: too many selected choices",
+        "value": "رد غير صالح: عدد كبير جدًا من الخيارات المحددة",
+        "valueEn": "Invalid response: too many selected choices",
+        "valueFr": "Réponse invalide: trop de choix sélectionnés",
+        "valueTr": "Geçersiz yanıt: çok fazla seçenek seçildi",
+        "valueEs": "Respuesta inválida: demasiadas opciones seleccionadas",
+        "valueRu": "Неверный ответ: слишком много выбранных вариантов",
+        "valueDe": "Ungültige Antwort: zu viele Auswahlmöglichkeiten gewählt"
+    },
+    {
+        "name": "It was a vip",
+        "value": "كان في أي بي",
+        "valueEn": "It was a vip",
+        "valueFr": "C'était un vip",
+        "valueTr": "Bir vip idi",
+        "valueEs": "Era un vip",
+        "valueRu": "Это был vip",
+        "valueDe": "Es war ein vip"
+    },
+    {
+        "name": "Item Created Successfully",
+        "value": "تم إنشاء العنصر بنجاح",
+        "valueEn": "Item Created Successfully",
+        "valueFr": "Article créé avec succès",
+        "valueTr": "Öğe başarıyla oluşturuldu",
+        "valueEs": "Artículo creado exitosamente",
+        "valueRu": "Товар успешно создан",
+        "valueDe": "Artikel erfolgreich erstellt"
+    },
+    {
+        "name": "Item Deleted Successfully",
+        "value": "تم حذف العنصر بنجاح",
+        "valueEn": "Item Deleted Successfully",
+        "valueFr": "Article supprimé avec succès",
+        "valueTr": "Öğe başarıyla silindi",
+        "valueEs": "Artículo eliminado exitosamente",
+        "valueRu": "Товар успешно удален",
+        "valueDe": "Artikel erfolgreich gelöscht"
+    },
+    {
+        "name": "Item operation canceled",
+        "value": "تم إلغاء عملية العنصر",
+        "valueEn": "Item operation canceled",
+        "valueFr": "Opération d'article annulée",
+        "valueTr": "Öğe işlemi iptal edildi",
+        "valueEs": "Operación de artículo cancelada",
+        "valueRu": "Операция с товаром отменена",
+        "valueDe": "Artikeloperation abgebrochen"
+    },
+    {
+        "name": "Item Updated Successfully",
+        "value": "تم تحديث العنصر بنجاح",
+        "valueEn": "Item Updated Successfully",
+        "valueFr": "Article mis à jour avec succès",
+        "valueTr": "Öğe başarıyla güncellendi",
+        "valueEs": "Artículo actualizado exitosamente",
+        "valueRu": "Товар успешно обновлен",
+        "valueDe": "Artikel erfolgreich aktualisiert"
+    },
+    {
+        "name": "key added successfully",
+        "value": "تمت إضافة المفتاح بنجاح",
+        "valueEn": "key added successfully",
+        "valueFr": "Clé ajoutée avec succès",
+        "valueTr": "Anahtar başarıyla eklendi",
+        "valueEs": "Clave agregada exitosamente",
+        "valueRu": "Ключ успешно добавлен",
+        "valueDe": "Schlüssel erfolgreich hinzugefügt"
+    },
+    {
+        "name": "key exist!",
+        "value": "المفتاح موجود!",
+        "valueEn": "key exist!",
+        "valueFr": "Clé existante!",
+        "valueTr": "Anahtar mevcut!",
+        "valueEs": "¡Clave existente!",
+        "valueRu": "Ключ существует!",
+        "valueDe": "Schlüssel existiert!"
+    },
+    {
+        "name": "Key not confirmed",
+        "value": "لم يتم تأكيد المفتاح",
+        "valueEn": "Key not confirmed",
+        "valueFr": "Clé non confirmée",
+        "valueTr": "Anahtar onaylanmadı",
+        "valueEs": "Clave no confirmada",
+        "valueRu": "Ключ не подтвержден",
+        "valueDe": "Schlüssel nicht bestätigt"
+    },
+    {
+        "name": "Keys to database  failed",
+        "value": "فشل إضافة المفاتيح إلى قاعدة البيانات",
+        "valueEn": "Keys to database  failed",
+        "valueFr": "Échec de l'ajout de clés à la base de données",
+        "valueTr": "Veritabanına anahtar ekleme başarısız",
+        "valueEs": "Falló la operación de claves a base de datos",
+        "valueRu": "Не удалось добавить ключи в базу данных",
+        "valueDe": "Schlüssel zur Datenbankoperation fehlgeschlagen"
+    },
+    {
+        "name": "Keys to database operation started successfully",
+        "value": "بدأت عملية إضافة المفاتيح إلى قاعدة البيانات بنجاح",
+        "valueEn": "Keys to database operation started successfully",
+        "valueFr": "Opération d'ajout de clés à la base de données démarrée avec succès",
+        "valueTr": "Veritabanına anahtar ekleme işlemi başarıyla başladı",
+        "valueEs": "Operación de claves a base de datos iniciada exitosamente",
+        "valueRu": "Операция добавления ключей в базу данных успешно начата",
+        "valueDe": "Schlüssel zur Datenbankoperation erfolgreich gestartet"
+    },
+    {
+        "name": "Last name required",
+        "value": "الاسم الأخير مطلوب",
+        "valueEn": "Last name required",
+        "valueFr": "Nom de famille requis",
+        "valueTr": "Soyadı gerekli",
+        "valueEs": "Apellido requerido",
+        "valueRu": "Требуется фамилия",
+        "valueDe": "Nachname erforderlich"
+    },
+    {
+        "name": "mail_used",
+        "value": "البريد_مستخدم",
+        "valueEn": "mail_used",
+        "valueFr": "mail_utilisé",
+        "valueTr": "posta_kullanılmış",
+        "valueEs": "correo_usado",
+        "valueRu": "почта_использована",
+        "valueDe": "mail_verwendet"
+    },
+    {
+        "name": "Manager promotion failed",
+        "value": "فشل ترقية المدير",
+        "valueEn": "Manager promotion failed",
+        "valueFr": "Promotion de manager échouée",
+        "valueTr": "Yönetici terfisi başarısız",
+        "valueEs": "Promoción de gerente fallida",
+        "valueRu": "Повышение менеджера не удалось",
+        "valueDe": "Manager-Beförderung fehlgeschlagen"
+    },
+    {
+        "name": "Manager promotion to",
+        "value": "ترقية المدير إلى",
+        "valueEn": "Manager promotion to",
+        "valueFr": "Promotion de manager à",
+        "valueTr": "Yönetici terfisi:",
+        "valueEs": "Promoción de gerente a",
+        "valueRu": "Повышение менеджера до",
+        "valueDe": "Manager-Beförderung zu"
+    },
+    {
+        "name": "Many participation to this survey",
+        "value": "كثيرون شاركوا في هذا الاستطلاع",
+        "valueEn": "Many participation to this survey",
+        "valueFr": "Nombreuses participations à ce sondage",
+        "valueTr": "Bu ankete çok katılım",
+        "valueEs": "Mucha participación en esta encuesta",
+        "valueRu": "Много участников этого опроса",
+        "valueDe": "Viele Teilnahmen an dieser Umfrage"
+    },
+    {
+        "name": "Max response cannot be null when using multiple selections",
+        "value": "لا يمكن أن يكون الحد الأقصى للردود فارغًا عند استخدام اختيارات متعددة",
+        "valueEn": "Max response cannot be null when using multiple selections",
+        "valueFr": "La réponse maximale ne peut pas être nulle lors de l'utilisation de sélections multiples",
+        "valueTr": "Çoklu seçim kullanırken maksimum yanıt boş olamaz",
+        "valueEs": "La respuesta máxima no puede ser nula al usar selecciones múltiples",
+        "valueRu": "Максимальный ответ не может быть пустым при использовании множественного выбора",
+        "valueDe": "Maximale Antwort darf nicht null sein, wenn Mehrfachauswahl verwendet wird"
+    },
+    {
+        "name": "Missed disabled comment explanation",
+        "value": "فقدت شرح التعليق المعطل",
+        "valueEn": "Missed disabled comment explanation",
+        "valueFr": "Explication de commentaire désactivé manquante",
+        "valueTr": "Devre dışı bırakılan yorum açıklaması kaçırıldı",
+        "valueEs": "Falta explicación de comentario deshabilitado",
+        "valueRu": "Пропущено объяснение отключенного комментария",
+        "valueDe": "Fehlende Erklärung für deaktivierten Kommentar"
+    },
+    {
+        "name": "Missed disabled like explanation",
+        "value": "فقدت شرح الإعجاب المعطل",
+        "valueEn": "Missed disabled like explanation",
+        "valueFr": "Explication de like désactivé manquante",
+        "valueTr": "Devre dışı bırakılan beğeni açıklaması kaçırıldı",
+        "valueEs": "Falta explicación de me gusta deshabilitado",
+        "valueRu": "Пропущено объяснение отключенного лайка",
+        "valueDe": "Fehlende Erklärung für deaktiviertes Like"
+    },
+    {
+        "name": "Missed disabled result explanation",
+        "value": "فقدت شرح النتيجة المعطلة",
+        "valueEn": "Missed disabled result explanation",
+        "valueFr": "Explication de résultat désactivé manquante",
+        "valueTr": "Devre dışı bırakılan sonuç açıklaması kaçırıldı",
+        "valueEs": "Falta explicación de resultado deshabilitado",
+        "valueRu": "Пропущено объяснение отключенного результата",
+        "valueDe": "Fehlende Erklärung für deaktiviertes Ergebnis"
+    },
+    {
+        "name": "News Created Successfully",
+        "value": "تم إنشاء الخبر بنجاح",
+        "valueEn": "News Created Successfully",
+        "valueFr": "Actualité créée avec succès",
+        "valueTr": "Haber başarıyla oluşturuldu",
+        "valueEs": "Noticia creada exitosamente",
+        "valueRu": "Новость успешно создана",
+        "valueDe": "Nachricht erfolgreich erstellt"
+    },
+    {
+        "name": "News Deleted Successfully",
+        "value": "تم حذف الخبر بنجاح",
+        "valueEn": "News Deleted Successfully",
+        "valueFr": "Actualité supprimée avec succès",
+        "valueTr": "Haber başarıyla silindi",
+        "valueEs": "Noticia eliminada exitosamente",
+        "valueRu": "Новость успешно удалена",
+        "valueDe": "Nachricht erfolgreich gelöscht"
+    },
+    {
+        "name": "News Duplicated Successfully",
+        "value": "تم تكرار الخبر بنجاح",
+        "valueEn": "News Duplicated Successfully",
+        "valueFr": "Actualité dupliquée avec succès",
+        "valueTr": "Haber başarıyla kopyalandı",
+        "valueEs": "Noticia duplicada exitosamente",
+        "valueRu": "Новость успешно дублирована",
+        "valueDe": "Nachricht erfolgreich dupliziert"
+    },
+    {
+        "name": "News Duplication failed",
+        "value": "فشل تكرار الخبر",
+        "valueEn": "News Duplication failed",
+        "valueFr": "Échec de la duplication de l'actualité",
+        "valueTr": "Haber kopyalama başarısız",
+        "valueEs": "Duplicación de noticia fallida",
+        "valueRu": "Не удалось дублировать новость",
+        "valueDe": "Nachrichtenduplizierung fehlgeschlagen"
+    },
+    {
+        "name": "News operation canceled",
+        "value": "تم إلغاء عملية الخبر",
+        "valueEn": "News operation canceled",
+        "valueFr": "Opération d'actualité annulée",
+        "valueTr": "Haber işlemi iptal edildi",
+        "valueEs": "Operación de noticia cancelada",
+        "valueRu": "Операция с новостью отменена",
+        "valueDe": "Nachrichtenoperation abgebrochen"
+    },
+    {
+        "name": "News Updated Successfully",
+        "value": "تم تحديث الخبر بنجاح",
+        "valueEn": "News Updated Successfully",
+        "valueFr": "Actualité mise à jour avec succès",
+        "valueTr": "Haber başarıyla güncellendi",
+        "valueEs": "Noticia actualizada exitosamente",
+        "valueRu": "Новость успешно обновлена",
+        "valueDe": "Nachricht erfolgreich aktualisiert"
+    },
+    {
+        "name": "No Balances",
+        "value": "لا توجد أرصدة",
+        "valueEn": "No Balances",
+        "valueFr": "Aucun solde",
+        "valueTr": "Bakiye yok",
+        "valueEs": "Sin saldos",
+        "valueRu": "Нет балансов",
+        "valueDe": "Keine Guthaben"
+    },
+    {
+        "name": "No coupons selected",
+        "value": "لم يتم اختيار قسائم",
+        "valueEn": "No coupons selected",
+        "valueFr": "Aucun coupon sélectionné",
+        "valueTr": "Kupon seçilmedi",
+        "valueEs": "No se seleccionaron cupones",
+        "valueRu": "Купоны не выбраны",
+        "valueDe": "Keine Gutscheine ausgewählt"
+    },
+    {
+        "name": "No pending orders to review",
+        "value": "لا توجد طلبات معلقة للمراجعة",
+        "valueEn": "No pending orders to review",
+        "valueFr": "Aucune commande en attente à examiner",
+        "valueTr": "İncelenecek bekleyen sipariş yok",
+        "valueEs": "No hay pedidos pendientes para revisar",
+        "valueRu": "Нет ожидающих заказов для проверки",
+        "valueDe": "Keine ausstehenden Bestellungen zur Überprüfung"
+    },
+    {
+        "name": "No rows selected",
+        "value": "لم يتم تحديد صفوف",
+        "valueEn": "No rows selected",
+        "valueFr": "Aucune ligne sélectionnée",
+        "valueTr": "Satır seçilmedi",
+        "valueEs": "No se seleccionaron filas",
+        "valueRu": "Строки не выбраны",
+        "valueDe": "Keine Zeilen ausgewählt"
+    },
+    {
+        "name": "No selected users",
+        "value": "لم يتم اختيار مستخدمين",
+        "valueEn": "No selected users",
+        "valueFr": "Aucun utilisateur sélectionné",
+        "valueTr": "Seçili kullanıcı yok",
+        "valueEs": "No hay usuarios seleccionados",
+        "valueRu": "Пользователи не выбраны",
+        "valueDe": "Keine Benutzer ausgewählt"
+    },
+    {
+        "name": "Not valid Email Format",
+        "value": "تنسيق بريد إلكتروني غير صالح",
+        "valueEn": "Not valid Email Format",
+        "valueFr": "Format d'e-mail non valide",
+        "valueTr": "Geçersiz E-posta Formatı",
+        "valueEs": "Formato de correo no válido",
+        "valueRu": "Неверный формат email",
+        "valueDe": "Ungültiges E-Mail-Format"
+    },
+    {
+        "name": "Note_rejected",
+        "value": "ملاحظة_مرفوضة",
+        "valueEn": "note_rejected",
+        "valueFr": "note_rejetée",
+        "valueTr": "not_reddedildi",
+        "valueEs": "nota_rechazada",
+        "valueRu": "заметка_отклонена",
+        "valueDe": "hinweis_abgelehnt"
+    },
+    {
+        "name": "Notifications setting saved successfully",
+        "value": "تم حفظ إعدادات الإشعارات بنجاح",
+        "valueEn": "Notifications setting saved successfully",
+        "valueFr": "Paramètres de notifications enregistrés avec succès",
+        "valueTr": "Bildirim ayarları başarıyla kaydedildi",
+        "valueEs": "Configuración de notificaciones guardada exitosamente",
+        "valueRu": "Настройки уведомлений успешно сохранены",
+        "valueDe": "Benachrichtigungseinstellungen erfolgreich gespeichert"
+    },
+    {
+        "name": "Notifications setting saving failed",
+        "value": "فشل حفظ إعدادات الإشعارات",
+        "valueEn": "Notifications setting saving failed",
+        "valueFr": "Échec de l'enregistrement des paramètres de notifications",
+        "valueTr": "Bildirim ayarlarını kaydetme başarısız",
+        "valueEs": "Guardado de configuración de notificaciones fallido",
+        "valueRu": "Не удалось сохранить настройки уведомлений",
+        "valueDe": "Speichern der Benachrichtigungseinstellungen fehlgeschlagen"
+    },
+    {
+        "name": "Number updated successfully",
+        "value": "تم تحديث الرقم بنجاح",
+        "valueEn": "Number updated successfully",
+        "valueFr": "Numéro mis à jour avec succès",
+        "valueTr": "Numara başarıyla güncellendi",
+        "valueEs": "Número actualizado exitosamente",
+        "valueRu": "Номер успешно обновлен",
+        "valueDe": "Nummer erfolgreich aktualisiert"
+    },
+    {
+        "name": "Old_Password_invalid",
+        "value": "كلمة_المرور_القديمة_غير_صالحة",
+        "valueEn": "old_password_invalid",
+        "valueFr": "ancien_mot_de_passe_invalide",
+        "valueTr": "eski_şifre_geçersiz",
+        "valueEs": "contraseña_antigua_inválida",
+        "valueRu": "старый_пароль_недействителен",
+        "valueDe": "altes_passwort_ungültig"
+    },
+    {
+        "name": "Only not consumed",
+        "value": "فقط غير المستخدمة",
+        "valueEn": "Only not consumed",
+        "valueFr": "Seulement non consommés",
+        "valueTr": "Sadece kullanılmayan",
+        "valueEs": "Solo no consumidos",
+        "valueRu": "Только неиспользованные",
+        "valueDe": "Nur nicht eingelöste"
+    },
+    {
+        "name": "Only Opened surveys can be duplicated",
+        "value": "يمكن تكرار الاستطلاعات المفتوحة فقط",
+        "valueEn": "Only Opened surveys can be duplicated",
+        "valueFr": "Seuls les sondages ouverts peuvent être dupliqués",
+        "valueTr": "Sadece açık anketler kopyalanabilir",
+        "valueEs": "Solo las encuestas abiertas pueden duplicarse",
+        "valueRu": "Дублировать можно только открытые опросы",
+        "valueDe": "Nur geöffnete Umfragen können dupliziert werden"
+    },
+    {
+        "name": "Operation category Created Successfully",
+        "value": "تم إنشاء فئة العملية بنجاح",
+        "valueEn": "Operation category Created Successfully",
+        "valueFr": "Catégorie d'opération créée avec succès",
+        "valueTr": "İşlem kategorisi başarıyla oluşturuldu",
+        "valueEs": "Categoría de operación creada exitosamente",
+        "valueRu": "Категория операции успешно создана",
+        "valueDe": "Operationskategorie erfolgreich erstellt"
+    },
+    {
+        "name": "Operation category operation canceled",
+        "value": "تم إلغاء عملية فئة العملية",
+        "valueEn": "Operation category operation canceled",
+        "valueFr": "Opération de catégorie d'opération annulée",
+        "valueTr": "İşlem kategorisi işlemi iptal edildi",
+        "valueEs": "Operación de categoría de operación cancelada",
+        "valueRu": "Операция с категорией операции отменена",
+        "valueDe": "Operationskategorie-Operation abgebrochen"
+    },
+    {
+        "name": "Operation category Updated Successfully",
+        "value": "تم تحديث فئة العملية بنجاح",
+        "valueEn": "Operation category Updated Successfully",
+        "valueFr": "Catégorie d'opération mise à jour avec succès",
+        "valueTr": "İşlem kategorisi başarıyla güncellendi",
+        "valueEs": "Categoría de operación actualizada exitosamente",
+        "valueRu": "Категория операции успешно обновлена",
+        "valueDe": "Operationskategorie erfolgreich aktualisiert"
+    },
+    {
+        "name": "Operation operation canceled",
+        "value": "تم إلغاء عملية العملية",
+        "valueEn": "Operation operation canceled",
+        "valueFr": "Opération d'opération annulée",
+        "valueTr": "İşlem operasyonu iptal edildi",
+        "valueEs": "Operación de operación cancelada",
+        "valueRu": "Операция операции отменена",
+        "valueDe": "Operationsoperation abgebrochen"
+    },
+    {
+        "name": "Opt code from your email",
+        "value": "رمز OPT من بريدك الإلكتروني",
+        "valueEn": "Opt code from your email",
+        "valueFr": "Code OPT de votre e-mail",
+        "valueTr": "E-postanızdan OPT kodu",
+        "valueEs": "Código OPT de su correo",
+        "valueRu": "Код OPT из вашего email",
+        "valueDe": "OPT-Code von Ihrer E-Mail"
+    },
+    {
+        "name": "Order",
+        "value": "الطلب",
+        "valueEn": "Order",
+        "valueFr": "Commande",
+        "valueTr": "Sipariş",
+        "valueEs": "Pedido",
+        "valueRu": "Заказ",
+        "valueDe": "Bestellung"
+    },
+    {
+        "name": "Order canceled successfully",
+        "value": "تم إلغاء الطلب بنجاح",
+        "valueEn": "Order canceled successfully",
+        "valueFr": "Commande annulée avec succès",
+        "valueTr": "Sipariş başarıyla iptal edildi",
+        "valueEs": "Pedido cancelado exitosamente",
+        "valueRu": "Заказ успешно отменен",
+        "valueDe": "Bestellung erfolgreich storniert"
+    },
+    {
+        "name": "order failed",
+        "value": "فشل الطلب",
+        "valueEn": "order failed",
+        "valueFr": "commande échouée",
+        "valueTr": "sipariş başarısız",
+        "valueEs": "pedido fallido",
+        "valueRu": "заказ не удался",
+        "valueDe": "Bestellung fehlgeschlagen"
+    },
+    {
+        "name": "Order not found",
+        "value": "لم يتم العثور على الطلب",
+        "valueEn": "Order not found",
+        "valueFr": "Commande non trouvée",
+        "valueTr": "Sipariş bulunamadı",
+        "valueEs": "Pedido no encontrado",
+        "valueRu": "Заказ не найден",
+        "valueDe": "Bestellung nicht gefunden"
+    },
+    {
+        "name": "Ordering Failed",
+        "value": "فشل الطلب",
+        "valueEn": "Ordering Failed",
+        "valueFr": "Commande échouée",
+        "valueTr": "Sipariş verme başarısız",
+        "valueEs": "Pedido fallido",
+        "valueRu": "Оформление заказа не удалось",
+        "valueDe": "Bestellung fehlgeschlagen"
+    },
+    {
+        "name": "Ordering succeeded",
+        "value": "نجح الطلب",
+        "valueEn": "Ordering succeeded",
+        "valueFr": "Commande réussie",
+        "valueTr": "Sipariş verme başarılı",
+        "valueEs": "Pedido exitoso",
+        "valueRu": "Оформление заказа выполнено успешно",
+        "valueDe": "Bestellung erfolgreich"
+    },
+    {
+        "name": "orders simulated successfully",
+        "value": "تمت محاكاة الطلبات بنجاح",
+        "valueEn": "orders simulated successfully",
+        "valueFr": "Commandes simulées avec succès",
+        "valueTr": "Siparişler başarıyla simüle edildi",
+        "valueEs": "Pedidos simulados exitosamente",
+        "valueRu": "Заказы успешно симулированы",
+        "valueDe": "Bestellungen erfolgreich simuliert"
+    },
+    {
+        "name": "orders simulation failed",
+        "value": "فشلت محاكاة الطلبات",
+        "valueEn": "orders simulation failed",
+        "valueFr": "Simulation de commandes échouée",
+        "valueTr": "Sipariş simülasyonu başarısız",
+        "valueEs": "Simulación de pedidos fallida",
+        "valueRu": "Симуляция заказов не удалась",
+        "valueDe": "Bestellungssimulation fehlgeschlagen"
+    },
+    {
+        "name": "Partner payment created successfully",
+        "value": "تم إنشاء دفعة الشريك بنجاح",
+        "valueEn": "Partner payment created successfully",
+        "valueFr": "Paiement partenaire créé avec succès",
+        "valueTr": "İş ortağı ödemesi başarıyla oluşturuldu",
+        "valueEs": "Pago de socio creado exitosamente",
+        "valueRu": "Платеж партнера успешно создан",
+        "valueDe": "Partnerzahlung erfolgreich erstellt"
+    },
+    {
+        "name": "Partner payment not found",
+        "value": "لم يتم العثور على دفعة الشريك",
+        "valueEn": "Partner payment not found",
+        "valueFr": "Paiement partenaire non trouvé",
+        "valueTr": "İş ortağı ödemesi bulunamadı",
+        "valueEs": "Pago de socio no encontrado",
+        "valueRu": "Платеж партнера не найден",
+        "valueDe": "Partnerzahlung nicht gefunden"
+    },
+    {
+        "name": "Partner payment operation canceled",
+        "value": "تم إلغاء عملية دفعة الشريك",
+        "valueEn": "Partner payment operation canceled",
+        "valueFr": "Opération de paiement partenaire annulée",
+        "valueTr": "İş ortağı ödeme işlemi iptal edildi",
+        "valueEs": "Operación de pago de socio cancelada",
+        "valueRu": "Операция с платежом партнера отменена",
+        "valueDe": "Partnerzahlungsoperation abgebrochen"
+    },
+    {
+        "name": "Partner payment updated successfully",
+        "value": "تم تحديث دفعة الشريك بنجاح",
+        "valueEn": "Partner payment updated successfully",
+        "valueFr": "Paiement partenaire mis à jour avec succès",
+        "valueTr": "İş ortağı ödemesi başarıyla güncellendi",
+        "valueEs": "Pago de socio actualizado exitosamente",
+        "valueRu": "Платеж партнера успешно обновлен",
+        "valueDe": "Partnerzahlung erfolgreich aktualisiert"
+    },
+    {
+        "name": "Password updated",
+        "value": "تم تحديث كلمة المرور",
+        "valueEn": "Password updated",
+        "valueFr": "Mot de passe mis à jour",
+        "valueTr": "Şifre güncellendi",
+        "valueEs": "Contraseña actualizada",
+        "valueRu": "Пароль обновлен",
+        "valueDe": "Passwort aktualisiert"
+    },
+    {
+        "name": "Password updated successfully for user",
+        "value": "تم تحديث كلمة المرور بنجاح للمستخدم",
+        "valueEn": "Password updated successfully for user",
+        "valueFr": "Mot de passe mis à jour avec succès pour l'utilisateur",
+        "valueTr": "Kullanıcı için şifre başarıyla güncellendi",
+        "valueEs": "Contraseña actualizada exitosamente para el usuario",
+        "valueRu": "Пароль успешно обновлен для пользователя",
+        "valueDe": "Passwort erfolgreich für Benutzer aktualisiert"
+    },
+    {
+        "name": "Password_not_Confirmed",
+        "value": "كلمة_المرور_غير_مؤكدة",
+        "valueEn": "password_not_confirmed",
+        "valueFr": "mot_de_passe_non_confirmé",
+        "valueTr": "şifre_onaylanmadı",
+        "valueEs": "contraseña_no_confirmada",
+        "valueRu": "пароль_не_подтвержден",
+        "valueDe": "passwort_nicht_bestätigt"
+    },
+    {
+        "name": "Payment rejected successfully",
+        "value": "تم رفض الدفعة بنجاح",
+        "valueEn": "Payment rejected successfully",
+        "valueFr": "Paiement rejeté avec succès",
+        "valueTr": "Ödeme başarıyla reddedildi",
+        "valueEs": "Pago rechazado exitosamente",
+        "valueRu": "Платеж успешно отклонен",
+        "valueDe": "Zahlung erfolgreich abgelehnt"
+    },
+    {
+        "name": "Payment validated successfully",
+        "value": "تم التحقق من الدفعة بنجاح",
+        "valueEn": "Payment validated successfully",
+        "valueFr": "Paiement validé avec succès",
+        "valueTr": "Ödeme başarıyla doğrulandı",
+        "valueEs": "Pago validado exitosamente",
+        "valueRu": "Платеж успешно подтвержден",
+        "valueDe": "Zahlung erfolgreich validiert"
+    },
+    {
+        "name": "Phone number changed",
+        "value": "تم تغيير رقم الهاتف",
+        "valueEn": "Phone number changed",
+        "valueFr": "Numéro de téléphone modifié",
+        "valueTr": "Telefon numarası değiştirildi",
+        "valueEs": "Número de teléfono cambiado",
+        "valueRu": "Номер телефона изменен",
+        "valueDe": "Telefonnummer geändert"
+    },
+    {
+        "name": "Phone Number does not match the provided country",
+        "value": "رقم الهاتف لا يتطابق مع البلد المقدم",
+        "valueEn": "Phone Number does not match the provided country",
+        "valueFr": "Le numéro de téléphone ne correspond pas au pays fourni",
+        "valueTr": "Telefon numarası verilen ülkeyle eşleşmiyor",
+        "valueEs": "El número de teléfono no coincide con el país proporcionado",
+        "valueRu": "Номер телефона не соответствует указанной стране",
+        "valueDe": "Telefonnummer stimmt nicht mit dem angegebenen Land überein"
+    },
+    {
+        "name": "Phone number used",
+        "value": "رقم الهاتف مستخدم",
+        "valueEn": "Phone number used",
+        "valueFr": "Numéro de téléphone utilisé",
+        "valueTr": "Telefon numarası kullanılmış",
+        "valueEs": "Número de teléfono usado",
+        "valueRu": "Номер телефона используется",
+        "valueDe": "Telefonnummer verwendet"
+    },
+    {
+        "name": "Plan label created successfully",
+        "value": "تم إنشاء تسمية الخطة بنجاح",
+        "valueEn": "Plan label created successfully",
+        "valueFr": "Libellé du plan créé avec succès",
+        "valueTr": "Plan etiketi başarıyla oluşturuldu",
+        "valueEs": "Etiqueta del plan creada exitosamente",
+        "valueRu": "Метка плана успешно создана",
+        "valueDe": "Plan-Bezeichnung erfolgreich erstellt"
+    },
+    {
+        "name": "Plan label not found",
+        "value": "لم يتم العثور على تسمية الخطة",
+        "valueEn": "Plan label not found",
+        "valueFr": "Libellé du plan non trouvé",
+        "valueTr": "Plan etiketi bulunamadı",
+        "valueEs": "Etiqueta del plan no encontrada",
+        "valueRu": "Метка плана не найдена",
+        "valueDe": "Plan-Bezeichnung nicht gefunden"
+    },
+    {
+        "name": "Plan label updated successfully",
+        "value": "تم تحديث تسمية الخطة بنجاح",
+        "valueEn": "Plan label updated successfully",
+        "valueFr": "Libellé du plan mis à jour avec succès",
+        "valueTr": "Plan etiketi başarıyla güncellendi",
+        "valueEs": "Etiqueta del plan actualizada exitosamente",
+        "valueRu": "Метка плана успешно обновлена",
+        "valueDe": "Plan-Bezeichnung erfolgreich aktualisiert"
+    },
+    {
+        "name": "Platform change request approved successfully",
+        "value": "تمت الموافقة على طلب تغيير المنصة بنجاح",
+        "valueEn": "Platform change request approved successfully",
+        "valueFr": "Demande de changement de plateforme approuvée avec succès",
+        "valueTr": "Platform değişiklik talebi başarıyla onaylandı",
+        "valueEs": "Solicitud de cambio de plataforma aprobada exitosamente",
+        "valueRu": "Запрос на изменение платформы успешно одобрен",
+        "valueDe": "Plattform-Änderungsanfrage erfolgreich genehmigt"
+    },
+    {
+        "name": "Platform change request rejected successfully",
+        "value": "تم رفض طلب تغيير المنصة بنجاح",
+        "valueEn": "Platform change request rejected successfully",
+        "valueFr": "Demande de changement de plateforme rejetée avec succès",
+        "valueTr": "Platform değişiklik talebi başarıyla reddedildi",
+        "valueEs": "Solicitud de cambio de plataforma rechazada exitosamente",
+        "valueRu": "Запрос на изменение платформы успешно отклонен",
+        "valueDe": "Plattform-Änderungsanfrage erfolgreich abgelehnt"
+    },
+    {
+        "name": "Platform Created Successfully!!",
+        "value": "تم إنشاء المنصة بنجاح!!",
+        "valueEn": "Platform Created Successfully!!",
+        "valueFr": "Plateforme créée avec succès!!",
+        "valueTr": "Platform başarıyla oluşturuldu!!",
+        "valueEs": "Plataforma creada exitosamente!!",
+        "valueRu": "Платформа успешно создана!!",
+        "valueDe": "Plattform erfolgreich erstellt!!"
+    },
+    {
+        "name": "Platform Deleted Successfully",
+        "value": "تم حذف المنصة بنجاح",
+        "valueEn": "Platform Deleted Successfully",
+        "valueFr": "Plateforme supprimée avec succès",
+        "valueTr": "Platform başarıyla silindi",
+        "valueEs": "Plataforma eliminada exitosamente",
+        "valueRu": "Платформа успешно удалена",
+        "valueDe": "Plattform erfolgreich gelöscht"
+    },
+    {
+        "name": "Platform operation canceled",
+        "value": "تم إلغاء عملية المنصة",
+        "valueEn": "Platform operation canceled",
+        "valueFr": "Opération de plateforme annulée",
+        "valueTr": "Platform işlemi iptal edildi",
+        "valueEs": "Operación de plataforma cancelada",
+        "valueRu": "Операция с платформой отменена",
+        "valueDe": "Plattformoperation abgebrochen"
+    },
+    {
+        "name": "Platform type change request approved successfully",
+        "value": "تمت الموافقة على طلب تغيير نوع المنصة بنجاح",
+        "valueEn": "Platform type change request approved successfully",
+        "valueFr": "Demande de changement de type de plateforme approuvée avec succès",
+        "valueTr": "Platform tipi değişiklik talebi başarıyla onaylandı",
+        "valueEs": "Solicitud de cambio de tipo de plataforma aprobada exitosamente",
+        "valueRu": "Запрос на изменение типа платформы успешно одобрен",
+        "valueDe": "Plattformtyp-Änderungsanfrage erfolgreich genehmigt"
+    },
+    {
+        "name": "Platform type change request rejected successfully",
+        "value": "تم رفض طلب تغيير نوع المنصة بنجاح",
+        "valueEn": "Platform type change request rejected successfully",
+        "valueFr": "Demande de changement de type de plateforme rejetée avec succès",
+        "valueTr": "Platform tipi değişiklik talebi başarıyla reddedildi",
+        "valueEs": "Solicitud de cambio de tipo de plataforma rechazada exitosamente",
+        "valueRu": "Запрос на изменение типа платформы успешно отклонен",
+        "valueDe": "Plattformtyp-Änderungsanfrage erfolgreich abgelehnt"
+    },
+    {
+        "name": "Platform Updated Successfully",
+        "value": "تم تحديث المنصة بنجاح",
+        "valueEn": "Platform Updated Successfully",
+        "valueFr": "Plateforme mise à jour avec succès",
+        "valueTr": "Platform başarıyla güncellendi",
+        "valueEs": "Plataforma actualizada exitosamente",
+        "valueRu": "Платформа успешно обновлена",
+        "valueDe": "Plattform erfolgreich aktualisiert"
+    },
+    {
+        "name": "Platform validation request approved successfully",
+        "value": "تمت الموافقة على طلب التحقق من المنصة بنجاح",
+        "valueEn": "Platform validation request approved successfully",
+        "valueFr": "Demande de validation de plateforme approuvée avec succès",
+        "valueTr": "Platform doğrulama talebi başarıyla onaylandı",
+        "valueEs": "Solicitud de validación de plataforma aprobada exitosamente",
+        "valueRu": "Запрос на проверку платформы успешно одобрен",
+        "valueDe": "Plattform-Validierungsanfrage erfolgreich genehmigt"
+    },
+    {
+        "name": "Platform validation request rejected successfully",
+        "value": "تم رفض طلب التحقق من المنصة بنجاح",
+        "valueEn": "Platform validation request rejected successfully",
+        "valueFr": "Demande de validation de plateforme rejetée avec succès",
+        "valueTr": "Platform doğrulama talebi başarıyla reddedildi",
+        "valueEs": "Solicitud de validación de plataforma rechazada exitosamente",
+        "valueRu": "Запрос на проверку платформы успешно отклонен",
+        "valueDe": "Plattform-Validierungsanfrage erfolgreich abgelehnt"
+    },
+    {
+        "name": "Please choose a role",
+        "value": "الرجاء اختيار دور",
+        "valueEn": "Please choose a role",
+        "valueFr": "Veuillez choisir un rôle",
+        "valueTr": "Lütfen bir rol seçin",
+        "valueEs": "Por favor elija un rol",
+        "valueRu": "Пожалуйста, выберите роль",
+        "valueDe": "Bitte wählen Sie eine Rolle"
+    },
+    {
+        "name": "Please fill it",
+        "value": "الرجاء ملئه",
+        "valueEn": "Please fill it",
+        "valueFr": "Veuillez le remplir",
+        "valueTr": "Lütfen doldurun",
+        "valueEs": "Por favor complételo",
+        "valueRu": "Пожалуйста, заполните",
+        "valueDe": "Bitte ausfüllen"
+    },
+    {
+        "name": "Please provide a reason for rejection",
+        "value": "الرجاء تقديم سبب للرفض",
+        "valueEn": "Please provide a reason for rejection",
+        "valueFr": "Veuillez fournir une raison de rejet",
+        "valueTr": "Lütfen bir reddetme nedeni belirtin",
+        "valueEs": "Por favor proporcione un motivo de rechazo",
+        "valueRu": "Пожалуйста, укажите причину отказа",
+        "valueDe": "Bitte geben Sie einen Ablehnungsgrund an"
+    },
+    {
+        "name": "Profile settings saved successfully",
+        "value": "تم حفظ إعدادات الملف الشخصي بنجاح",
+        "valueEn": "Profile settings saved successfully",
+        "valueFr": "Paramètres du profil enregistrés avec succès",
+        "valueTr": "Profil ayarları başarıyla kaydedildi",
+        "valueEs": "Configuración de perfil guardada exitosamente",
+        "valueRu": "Настройки профиля успешно сохранены",
+        "valueDe": "Profileinstellungen erfolgreich gespeichert"
+    },
+    {
+        "name": "purchases left",
+        "value": "مشتريات متبقية",
+        "valueEn": "purchases left",
+        "valueFr": "achats restants",
+        "valueTr": "kalan satın alımlar",
+        "valueEs": "compras restantes",
+        "valueRu": "осталось покупок",
+        "valueDe": "verbleibende Käufe"
+    },
+    {
+        "name": "Question Deleted Successfully",
+        "value": "تم حذف السؤال بنجاح",
+        "valueEn": "Question Deleted Successfully",
+        "valueFr": "Question supprimée avec succès",
+        "valueTr": "Soru başarıyla silindi",
+        "valueEs": "Pregunta eliminada exitosamente",
+        "valueRu": "Вопрос успешно удален",
+        "valueDe": "Frage erfolgreich gelöscht"
+    },
+    {
+        "name": "Question operation canceled",
+        "value": "تم إلغاء عملية السؤال",
+        "valueEn": "Question operation canceled",
+        "valueFr": "Opération de question annulée",
+        "valueTr": "Soru işlemi iptal edildi",
+        "valueEs": "Operación de pregunta cancelada",
+        "valueRu": "Операция с вопросом отменена",
+        "valueDe": "Fragenoperation abgebrochen"
+    },
+    {
+        "name": "Question Updated Successfully",
+        "value": "تم تحديث السؤال بنجاح",
+        "valueEn": "Question Updated Successfully",
+        "valueFr": "Question mise à jour avec succès",
+        "valueTr": "Soru başarıyla güncellendi",
+        "valueEs": "Pregunta actualizada exitosamente",
+        "valueRu": "Вопрос успешно обновлен",
+        "valueDe": "Frage erfolgreich aktualisiert"
+    },
+    {
+        "name": "Recharge balance operation ended with success",
+        "value": "انتهت عملية إعادة شحن الرصيد بنجاح",
+        "valueEn": "Recharge balance operation ended with success",
+        "valueFr": "Opération de recharge de solde terminée avec succès",
+        "valueTr": "Bakiye şarj işlemi başarıyla sona erdi",
+        "valueEs": "Operación de recarga de saldo finalizada con éxito",
+        "valueRu": "Операция пополнения баланса завершилась успешно",
+        "valueDe": "Guthabenaufladeoperation erfolgreich beendet"
+    },
+    {
+        "name": "Recharge balance operation failed",
+        "value": "فشلت عملية إعادة شحن الرصيد",
+        "valueEn": "Recharge balance operation failed",
+        "valueFr": "Échec de l'opération de recharge de solde",
+        "valueTr": "Bakiye şarj işlemi başarısız",
+        "valueEs": "Operación de recarga de saldo fallida",
+        "valueRu": "Операция пополнения баланса не удалась",
+        "valueDe": "Guthabenaufladeoperation fehlgeschlagen"
+    },
+    {
+        "name": "Rejection reason is required",
+        "value": "سبب الرفض مطلوب",
+        "valueEn": "Rejection reason is required",
+        "valueFr": "La raison du rejet est requise",
+        "valueTr": "Reddetme nedeni gereklidir",
+        "valueEs": "Se requiere un motivo de rechazo",
+        "valueRu": "Причина отказа обязательна",
+        "valueDe": "Ablehnungsgrund ist erforderlich"
+    },
+    {
+        "name": "Rejection reason must be at least 10 characters",
+        "value": "يجب أن يكون سبب الرفض 10 أحرف على الأقل",
+        "valueEn": "Rejection reason must be at least 10 characters",
+        "valueFr": "La raison du rejet doit comporter au moins 10 caractères",
+        "valueTr": "Reddetme nedeni en az 10 karakter olmalı",
+        "valueEs": "El motivo de rechazo debe tener al menos 10 caracteres",
+        "valueRu": "Причина отказа должна содержать не менее 10 символов",
+        "valueDe": "Ablehnungsgrund muss mindestens 10 Zeichen lang sein"
+    },
+    {
+        "name": "Rejection reason must not exceed 1000 characters",
+        "value": "يجب ألا يتجاوز سبب الرفض 1000 حرف",
+        "valueEn": "Rejection reason must not exceed 1000 characters",
+        "valueFr": "La raison du rejet ne doit pas dépasser 1000 caractères",
+        "valueTr": "Reddetme nedeni 1000 karakteri geçmemelidir",
+        "valueEs": "El motivo de rechazo no debe exceder los 1000 caracteres",
+        "valueRu": "Причина отказа не должна превышать 1000 символов",
+        "valueDe": "Ablehnungsgrund darf 1000 Zeichen nicht überschreiten"
+    },
+    {
+        "name": "Reserved by other user for",
+        "value": "محجوز بواسطة مستخدم آخر لمدة",
+        "valueEn": "Reserved by other user for",
+        "valueFr": "Réservé par un autre utilisateur pour",
+        "valueTr": "Başka bir kullanıcı tarafından şu kadar süreyle rezerve edildi",
+        "valueEs": "Reservado por otro usuario por",
+        "valueRu": "Зарезервировано другим пользователем на",
+        "valueDe": "Reserviert von anderem Benutzer für"
+    },
+    {
+        "name": "Reserved for",
+        "value": "محجوز لمدة",
+        "valueEn": "Reserved for",
+        "valueFr": "Réservé pour",
+        "valueTr": "Şu kadar süreyle rezerve edildi",
+        "valueEs": "Reservado por",
+        "valueRu": "Зарезервировано на",
+        "valueDe": "Reserviert für"
+    },
+    {
+        "name": "Role Created Successfully",
+        "value": "تم إنشاء الدور بنجاح",
+        "valueEn": "Role Created Successfully",
+        "valueFr": "Rôle créé avec succès",
+        "valueTr": "Rol başarıyla oluşturuldu",
+        "valueEs": "Rol creado exitosamente",
+        "valueRu": "Роль успешно создана",
+        "valueDe": "Rolle erfolgreich erstellt"
+    },
+    {
+        "name": "Role Deleted Successfully",
+        "value": "تم حذف الدور بنجاح",
+        "valueEn": "Role Deleted Successfully",
+        "valueFr": "Rôle supprimé avec succès",
+        "valueTr": "Rol başarıyla silindi",
+        "valueEs": "Rol eliminado exitosamente",
+        "valueRu": "Роль успешно удалена",
+        "valueDe": "Rolle erfolgreich gelöscht"
+    },
+    {
+        "name": "Role operation canceled",
+        "value": "تم إلغاء عملية الدور",
+        "valueEn": "Role operation canceled",
+        "valueFr": "Opération de rôle annulée",
+        "valueTr": "Rol işlemi iptal edildi",
+        "valueEs": "Operación de rol cancelada",
+        "valueRu": "Операция с ролью отменена",
+        "valueDe": "Rollenoperation abgebrochen"
+    },
+    {
+        "name": "Role revoke failed",
+        "value": "فشل إلغاء الدور",
+        "valueEn": "Role revoke failed",
+        "valueFr": "Échec de la révocation du rôle",
+        "valueTr": "Rol iptal etme başarısız",
+        "valueEs": "Revocación de rol fallida",
+        "valueRu": "Не удалось отозвать роль",
+        "valueDe": "Rollenrücknahme fehlgeschlagen"
+    },
+    {
+        "name": "Role revoked",
+        "value": "تم إلغاء الدور",
+        "valueEn": "Role revoked",
+        "valueFr": "Rôle révoqué",
+        "valueTr": "Rol iptal edildi",
+        "valueEs": "Rol revocado",
+        "valueRu": "Роль отозвана",
+        "valueDe": "Rolle widerrufen"
+    },
+    {
+        "name": "Role Updated Successfully",
+        "value": "تم تحديث الدور بنجاح",
+        "valueEn": "Role Updated Successfully",
+        "valueFr": "Rôle mis à jour avec succès",
+        "valueTr": "Rol başarıyla güncellendi",
+        "valueEs": "Rol actualizado exitosamente",
+        "valueRu": "Роль успешно обновлена",
+        "valueDe": "Rolle erfolgreich aktualisiert"
+    },
+    {
+        "name": "Same email Address",
+        "value": "نفس عنوان البريد الإلكتروني",
+        "valueEn": "Same email Address",
+        "valueFr": "Même adresse e-mail",
+        "valueTr": "Aynı e-posta adresi",
+        "valueEs": "Misma dirección de correo",
+        "valueRu": "Тот же email адрес",
+        "valueDe": "Gleiche E-Mail-Adresse"
+    },
+    {
+        "name": "Same phone number",
+        "value": "نفس رقم الهاتف",
+        "valueEn": "Same phone number",
+        "valueFr": "Même numéro de téléphone",
+        "valueTr": "Aynı telefon numarası",
+        "valueEs": "Mismo número de teléfono",
+        "valueRu": "Тот же номер телефона",
+        "valueDe": "Gleiche Telefonnummer"
+    },
+    {
+        "name": "seconds",
+        "value": "ثواني",
+        "valueEn": "seconds",
+        "valueFr": "secondes",
+        "valueTr": "saniye",
+        "valueEs": "segundos",
+        "valueRu": "секунды",
+        "valueDe": "Sekunden"
+    },
+    {
+        "name": "Sending identification request in progress",
+        "value": "جارٍ إرسال طلب التحقق من الهوية",
+        "valueEn": "Sending identification request in progress",
+        "valueFr": "Envoi de la demande d'identification en cours",
+        "valueTr": "Kimlik doğrulama talebi gönderiliyor",
+        "valueEs": "Envío de solicitud de identificación en progreso",
+        "valueRu": "Отправка запроса идентификации в процессе",
+        "valueDe": "Senden der Identifizierungsanfrage im Gange"
+    },
+    {
+        "name": "Setting not found",
+        "value": "لم يتم العثور على الإعداد",
+        "valueEn": "Setting not found",
+        "valueFr": "Paramètre non trouvé",
+        "valueTr": "Ayar bulunamadı",
+        "valueEs": "Configuración no encontrada",
+        "valueRu": "Настройка не найдена",
+        "valueDe": "Einstellung nicht gefunden"
+    },
+    {
+        "name": "Setting param updated successfully",
+        "value": "تم تحديث معلمة الإعداد بنجاح",
+        "valueEn": "Setting param updated successfully",
+        "valueFr": "Paramètre de réglage mis à jour avec succès",
+        "valueTr": "Ayar parametresi başarıyla güncellendi",
+        "valueEs": "Parámetro de configuración actualizado exitosamente",
+        "valueRu": "Параметр настройки успешно обновлен",
+        "valueDe": "Einstellungsparameter erfolgreich aktualisiert"
+    },
+    {
+        "name": "Setting param updating failed",
+        "value": "فشل تحديث معلمة الإعداد",
+        "valueEn": "Setting param updating failed",
+        "valueFr": "Échec de la mise à jour du paramètre de réglage",
+        "valueTr": "Ayar parametresini güncelleme başarısız",
+        "valueEs": "Actualización de parámetro de configuración fallida",
+        "valueRu": "Не удалось обновить параметр настройки",
+        "valueDe": "Aktualisierung des Einstellungsparameters fehlgeschlagen"
+    },
+    {
+        "name": "Short password (8 characters minimum)",
+        "value": "كلمة مرور قصيرة (8 أحرف على الأقل)",
+        "valueEn": "Short password (8 characters minimum)",
+        "valueFr": "Mot de passe court (8 caractères minimum)",
+        "valueTr": "Kısa şifre (en az 8 karakter)",
+        "valueEs": "Contraseña corta (mínimo 8 caracteres)",
+        "valueRu": "Короткий пароль (минимум 8 символов)",
+        "valueDe": "Kurzes Passwort (mindestens 8 Zeichen)"
+    },
+    {
+        "name": "Show canceled requests",
+        "value": "عرض الطلبات الملغاة",
+        "valueEn": "Show canceled requests",
+        "valueFr": "Afficher les demandes annulées",
+        "valueTr": "İptal edilen talepleri göster",
+        "valueEs": "Mostrar solicitudes canceladas",
+        "valueRu": "Показать отмененные запросы",
+        "valueDe": "Abgebrochene Anfragen anzeigen"
+    },
+    {
+        "name": "simulated successfully",
+        "value": "تمت المحاكاة بنجاح",
+        "valueEn": "simulated successfully",
+        "valueFr": "simulé avec succès",
+        "valueTr": "başarıyla simüle edildi",
+        "valueEs": "simulado exitosamente",
+        "valueRu": "успешно симулировано",
+        "valueDe": "erfolgreich simuliert"
+    },
+    {
+        "name": "simulation failed",
+        "value": "فشلت المحاكاة",
+        "valueEn": "simulation failed",
+        "valueFr": "simulation échouée",
+        "valueTr": "simülasyon başarısız",
+        "valueEs": "simulación fallida",
+        "valueRu": "симуляция не удалась",
+        "valueDe": "Simulation fehlgeschlagen"
+    },
+    {
+        "name": "Something goes wrong while archiving survey",
+        "value": "حدث خطأ ما أثناء أرشفة الاستطلاع",
+        "valueEn": "Something goes wrong while archiving survey",
+        "valueFr": "Quelque chose s'est mal passé lors de l'archivage du sondage",
+        "valueTr": "Anket arşivlenirken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al archivar la encuesta",
+        "valueRu": "Что-то пошло не так при архивировании опроса",
+        "valueDe": "Etwas ist beim Archivieren der Umfrage schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while closing Survey",
+        "value": "حدث خطأ ما أثناء إغلاق الاستطلاع",
+        "valueEn": "Something goes wrong while closing Survey",
+        "valueFr": "Quelque chose s'est mal passé lors de la fermeture du sondage",
+        "valueTr": "Anket kapatılırken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al cerrar la encuesta",
+        "valueRu": "Что-то пошло не так при закрытии опроса",
+        "valueDe": "Etwas ist beim Schließen der Umfrage schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while creating Business sector",
+        "value": "حدث خطأ ما أثناء إنشاء القطاع التجاري",
+        "valueEn": "Something goes wrong while creating Business sector",
+        "valueFr": "Quelque chose s'est mal passé lors de la création du secteur d'activité",
+        "valueTr": "İş sektörü oluşturulurken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al crear el sector empresarial",
+        "valueRu": "Что-то пошло не так при создании бизнес-сектора",
+        "valueDe": "Etwas ist beim Erstellen des Geschäftsbereichs schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while creating Choice",
+        "value": "حدث خطأ ما أثناء إنشاء الخيار",
+        "valueEn": "Something goes wrong while creating Choice",
+        "valueFr": "Quelque chose s'est mal passé lors de la création du choix",
+        "valueTr": "Seçenek oluşturulurken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al crear la opción",
+        "valueRu": "Что-то пошло не так при создании выбора",
+        "valueDe": "Etwas ist beim Erstellen der Auswahl schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while creating Condition!!",
+        "value": "حدث خطأ ما أثناء إنشاء الشرط!!",
+        "valueEn": "Something goes wrong while creating Condition!!",
+        "valueFr": "Quelque chose s'est mal passé lors de la création de la condition!!",
+        "valueTr": "Koşul oluşturulurken bir şeyler ters gitti!!",
+        "valueEs": "Algo salió mal al crear la condición!!",
+        "valueRu": "Что-то пошло не так при создании условия!!",
+        "valueDe": "Etwas ist beim Erstellen der Bedingung schief gelaufen!!"
+    },
+    {
+        "name": "Something goes wrong while creating Deal",
+        "value": "حدث خطأ ما أثناء إنشاء الصفقة",
+        "valueEn": "Something goes wrong while creating Deal",
+        "valueFr": "Quelque chose s'est mal passé lors de la création de l'offre",
+        "valueTr": "Anlaşma oluşturulurken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al crear el trato",
+        "valueRu": "Что-то пошло не так при создании сделки",
+        "valueDe": "Etwas ist beim Erstellen des Deals schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while creating Faq",
+        "value": "حدث خطأ ما أثناء إنشاء الأسئلة الشائعة",
+        "valueEn": "Something goes wrong while creating Faq",
+        "valueFr": "Quelque chose s'est mal passé lors de la création de la FAQ",
+        "valueTr": "SSS oluşturulurken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al crear el FAQ",
+        "valueRu": "Что-то пошло не так при создании FAQ",
+        "valueDe": "Etwas ist beim Erstellen der FAQ schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while creating Group!!",
+        "value": "حدث خطأ ما أثناء إنشاء المجموعة!!",
+        "valueEn": "Something goes wrong while creating Group!!",
+        "valueFr": "Quelque chose s'est mal passé lors de la création du groupe!!",
+        "valueTr": "Grup oluşturulurken bir şeyler ters gitti!!",
+        "valueEs": "Algo salió mal al crear el grupo!!",
+        "valueRu": "Что-то пошло не так при создании группы!!",
+        "valueDe": "Etwas ist beim Erstellen der Gruppe schief gelaufen!!"
+    },
+    {
+        "name": "Something goes wrong while creating News",
+        "value": "حدث خطأ ما أثناء إنشاء الخبر",
+        "valueEn": "Something goes wrong while creating News",
+        "valueFr": "Quelque chose s'est mal passé lors de la création de l'actualité",
+        "valueTr": "Haber oluşturulurken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al crear la noticia",
+        "valueRu": "Что-то пошло не так при создании новости",
+        "valueDe": "Etwas ist beim Erstellen der Nachricht schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while creating Operation category",
+        "value": "حدث خطأ ما أثناء إنشاء فئة العملية",
+        "valueEn": "Something goes wrong while creating Operation category",
+        "valueFr": "Quelque chose s'est mal passé lors de la création de la catégorie d'opération",
+        "valueTr": "İşlem kategorisi oluşturulurken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al crear la categoría de operación",
+        "valueRu": "Что-то пошло не так при создании категории операции",
+        "valueDe": "Etwas ist beim Erstellen der Operationskategorie schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while creating Platform!!",
+        "value": "حدث خطأ ما أثناء إنشاء المنصة!!",
+        "valueEn": "Something goes wrong while creating Platform!!",
+        "valueFr": "Quelque chose s'est mal passé lors de la création de la plateforme!!",
+        "valueTr": "Platform oluşturulurken bir şeyler ters gitti!!",
+        "valueEs": "Algo salió mal al crear la plataforma!!",
+        "valueRu": "Что-то пошло не так при создании платформы!!",
+        "valueDe": "Etwas ist beim Erstellen der Plattform schief gelaufen!!"
+    },
+    {
+        "name": "Something goes wrong while creating Role!!",
+        "value": "حدث خطأ ما أثناء إنشاء الدور!!",
+        "valueEn": "Something goes wrong while creating Role!!",
+        "valueFr": "Quelque chose s'est mal passé lors de la création du rôle!!",
+        "valueTr": "Rol oluşturulurken bir şeyler ters gitti!!",
+        "valueEs": "Algo salió mal al crear el rol!!",
+        "valueRu": "Что-то пошло не так при создании роли!!",
+        "valueDe": "Etwas ist beim Erstellen der Rolle schief gelaufen!!"
+    },
+    {
+        "name": "Something goes wrong while creating Survey",
+        "value": "حدث خطأ ما أثناء إنشاء الاستطلاع",
+        "valueEn": "Something goes wrong while creating Survey",
+        "valueFr": "Quelque chose s'est mal passé lors de la création du sondage",
+        "valueTr": "Anket oluşturulurken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al crear la encuesta",
+        "valueRu": "Что-то пошло не так при создании опроса",
+        "valueDe": "Etwas ist beim Erstellen der Umfrage schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while creating Target!!",
+        "value": "حدث خطأ ما أثناء إنشاء الهدف!!",
+        "valueEn": "Something goes wrong while creating Target!!",
+        "valueFr": "Quelque chose s'est mal passé lors de la création de la cible!!",
+        "valueTr": "Hedef oluşturulurken bir şeyler ters gitti!!",
+        "valueEs": "Algo salió mal al crear el objetivo!!",
+        "valueRu": "Что-то пошло не так при создании цели!!",
+        "valueDe": "Etwas ist beim Erstellen des Ziels schief gelaufen!!"
+    },
+    {
+        "name": "Something goes wrong while Disabling Survey",
+        "value": "حدث خطأ ما أثناء تعطيل الاستطلاع",
+        "valueEn": "Something goes wrong while Disabling Survey",
+        "valueFr": "Quelque chose s'est mal passé lors de la désactivation du sondage",
+        "valueTr": "Anket devre dışı bırakılırken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al deshabilitar la encuesta",
+        "valueRu": "Что-то пошло не так при отключении опроса",
+        "valueDe": "Etwas ist beim Deaktivieren der Umfrage schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while Enabling Survey",
+        "value": "حدث خطأ ما أثناء تمكين الاستطلاع",
+        "valueEn": "Something goes wrong while Enabling Survey",
+        "valueFr": "Quelque chose s'est mal passé lors de l'activation du sondage",
+        "valueTr": "Anket etkinleştirilirken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al habilitar la encuesta",
+        "valueRu": "Что-то пошло не так при включении опроса",
+        "valueDe": "Etwas ist beim Aktivieren der Umfrage schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while opening Survey:",
+        "value": "حدث خطأ ما أثناء فتح الاستطلاع:",
+        "valueEn": "Something goes wrong while opening Survey:",
+        "valueFr": "Quelque chose s'est mal passé lors de l'ouverture du sondage:",
+        "valueTr": "Anket açılırken bir şeyler ters gitti:",
+        "valueEs": "Algo salió mal al abrir la encuesta:",
+        "valueRu": "Что-то пошло не так при открытии опроса:",
+        "valueDe": "Etwas ist beim Öffnen der Umfrage schief gelaufen:"
+    },
+    {
+        "name": "Something goes wrong while opening SurveySurvey:",
+        "value": "حدث خطأ ما أثناء فتح الاستطلاع:",
+        "valueEn": "Something goes wrong while opening Survey:",
+        "valueFr": "Quelque chose s'est mal passé lors de l'ouverture du sondage:",
+        "valueTr": "Anket açılırken bir şeyler ters gitti:",
+        "valueEs": "Algo salió mal al abrir la encuesta:",
+        "valueRu": "Что-то пошло не так при открытии опроса:",
+        "valueDe": "Etwas ist beim Öffnen der Umfrage schief gelaufen:"
+    },
+    {
+        "name": "Something goes wrong while participating to this survey",
+        "value": "حدث خطأ ما أثناء المشاركة في هذا الاستطلاع",
+        "valueEn": "Something goes wrong while participating to this survey",
+        "valueFr": "Quelque chose s'est mal passé lors de la participation à ce sondage",
+        "valueTr": "Bu ankete katılırken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al participar en esta encuesta",
+        "valueRu": "Что-то пошло не так при участии в этом опросе",
+        "valueDe": "Etwas ist beim Teilnehmen an dieser Umfrage schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while publishing Survey",
+        "value": "حدث خطأ ما أثناء نشر الاستطلاع",
+        "valueEn": "Something goes wrong while publishing Survey",
+        "valueFr": "Quelque chose s'est mal passé lors de la publication du sondage",
+        "valueTr": "Anket yayınlanırken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al publicar la encuesta",
+        "valueRu": "Что-то пошло не так при публикации опроса",
+        "valueDe": "Etwas ist beim Veröffentlichen der Umfrage schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while un publishing Survey",
+        "value": "حدث خطأ ما أثناء إلغاء نشر الاستطلاع",
+        "valueEn": "Something goes wrong while un publishing Survey",
+        "valueFr": "Quelque chose s'est mal passé lors de l'annulation de la publication du sondage",
+        "valueTr": "Anket yayından kaldırılırken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al despublicar la encuesta",
+        "valueRu": "Что-то пошло не так при снятии опроса с публикации",
+        "valueDe": "Etwas ist beim Zurückziehen der Umfrage schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while updating Business sector",
+        "value": "حدث خطأ ما أثناء تحديث القطاع التجاري",
+        "valueEn": "Something goes wrong while updating Business sector",
+        "valueFr": "Quelque chose s'est mal passé lors de la mise à jour du secteur d'activité",
+        "valueTr": "İş sektörü güncellenirken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al actualizar el sector empresarial",
+        "valueRu": "Что-то пошло не так при обновлении бизнес-сектора",
+        "valueDe": "Etwas ist beim Aktualisieren des Geschäftsbereichs schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while updating Choice",
+        "value": "حدث خطأ ما أثناء تحديث الخيار",
+        "valueEn": "Something goes wrong while updating Choice",
+        "valueFr": "Quelque chose s'est mal passé lors de la mise à jour du choix",
+        "valueTr": "Seçenek güncellenirken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al actualizar la opción",
+        "valueRu": "Что-то пошло не так при обновлении выбора",
+        "valueDe": "Etwas ist beim Aktualisieren der Auswahl schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while updating Condition!!",
+        "value": "حدث خطأ ما أثناء تحديث الشرط!!",
+        "valueEn": "Something goes wrong while updating Condition!!",
+        "valueFr": "Quelque chose s'est mal passé lors de la mise à jour de la condition!!",
+        "valueTr": "Koşul güncellenirken bir şeyler ters gitti!!",
+        "valueEs": "Algo salió mal al actualizar la condición!!",
+        "valueRu": "Что-то пошло не так при обновлении условия!!",
+        "valueDe": "Etwas ist beim Aktualisieren der Bedingung schief gelaufen!!"
+    },
+    {
+        "name": "Something goes wrong while updating Deal",
+        "value": "حدث خطأ ما أثناء تحديث الصفقة",
+        "valueEn": "Something goes wrong while updating Deal",
+        "valueFr": "Quelque chose s'est mal passé lors de la mise à jour de l'offre",
+        "valueTr": "Anlaşma güncellenirken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al actualizar el trato",
+        "valueRu": "Что-то пошло не так при обновлении сделки",
+        "valueDe": "Etwas ist beim Aktualisieren des Deals schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while updating Faq",
+        "value": "حدث خطأ ما أثناء تحديث الأسئلة الشائعة",
+        "valueEn": "Something goes wrong while updating Faq",
+        "valueFr": "Quelque chose s'est mal passé lors de la mise à jour de la FAQ",
+        "valueTr": "SSS güncellenirken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al actualizar el FAQ",
+        "valueRu": "Что-то пошло не так при обновлении FAQ",
+        "valueDe": "Etwas ist beim Aktualisieren der FAQ schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while updating Group!!",
+        "value": "حدث خطأ ما أثناء تحديث المجموعة!!",
+        "valueEn": "Something goes wrong while updating Group!!",
+        "valueFr": "Quelque chose s'est mal passé lors de la mise à jour du groupe!!",
+        "valueTr": "Grup güncellenirken bir şeyler ters gitti!!",
+        "valueEs": "Algo salió mal al actualizar el grupo!!",
+        "valueRu": "Что-то пошло не так при обновлении группы!!",
+        "valueDe": "Etwas ist beim Aktualisieren der Gruppe schief gelaufen!!"
+    },
+    {
+        "name": "Something goes wrong while updating Item",
+        "value": "حدث خطأ ما أثناء تحديث العنصر",
+        "valueEn": "Something goes wrong while updating Item",
+        "valueFr": "Quelque chose s'est mal passé lors de la mise à jour de l'article",
+        "valueTr": "Öğe güncellenirken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al actualizar el artículo",
+        "valueRu": "Что-то пошло не так при обновлении товара",
+        "valueDe": "Etwas ist beim Aktualisieren des Artikels schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while updating News",
+        "value": "حدث خطأ ما أثناء تحديث الخبر",
+        "valueEn": "Something goes wrong while updating News",
+        "valueFr": "Quelque chose s'est mal passé lors de la mise à jour de l'actualité",
+        "valueTr": "Haber güncellenirken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al actualizar la noticia",
+        "valueRu": "Что-то пошло не так при обновлении новости",
+        "valueDe": "Etwas ist beim Aktualisieren der Nachricht schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while updating Operation category",
+        "value": "حدث خطأ ما أثناء تحديث فئة العملية",
+        "valueEn": "Something goes wrong while updating Operation category",
+        "valueFr": "Quelque chose s'est mal passé lors de la mise à jour de la catégorie d'opération",
+        "valueTr": "İşlem kategorisi güncellenirken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al actualizar la categoría de operación",
+        "valueRu": "Что-то пошло не так при обновлении категории операции",
+        "valueDe": "Etwas ist beim Aktualisieren der Operationskategorie schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while updating Platform",
+        "value": "حدث خطأ ما أثناء تحديث المنصة",
+        "valueEn": "Something goes wrong while updating Platform",
+        "valueFr": "Quelque chose s'est mal passé lors de la mise à jour de la plateforme",
+        "valueTr": "Platform güncellenirken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al actualizar la plataforma",
+        "valueRu": "Что-то пошло не так при обновлении платформы",
+        "valueDe": "Etwas ist beim Aktualisieren der Plattform schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while updating Question",
+        "value": "حدث خطأ ما أثناء تحديث السؤال",
+        "valueEn": "Something goes wrong while updating Question",
+        "valueFr": "Quelque chose s'est mal passé lors de la mise à jour de la question",
+        "valueTr": "Soru güncellenirken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al actualizar la pregunta",
+        "valueRu": "Что-то пошло не так при обновлении вопроса",
+        "valueDe": "Etwas ist beim Aktualisieren der Frage schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while updating Role",
+        "value": "حدث خطأ ما أثناء تحديث الدور",
+        "valueEn": "Something goes wrong while updating Role",
+        "valueFr": "Quelque chose s'est mal passé lors de la mise à jour du rôle",
+        "valueTr": "Rol güncellenirken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al actualizar el rol",
+        "valueRu": "Что-то пошло не так при обновлении роли",
+        "valueDe": "Etwas ist beim Aktualisieren der Rolle schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while updating Survey",
+        "value": "حدث خطأ ما أثناء تحديث الاستطلاع",
+        "valueEn": "Something goes wrong while updating Survey",
+        "valueFr": "Quelque chose s'est mal passé lors de la mise à jour du sondage",
+        "valueTr": "Anket güncellenirken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al actualizar la encuesta",
+        "valueRu": "Что-то пошло не так при обновлении опроса",
+        "valueDe": "Etwas ist beim Aktualisieren der Umfrage schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while updating Survey updatable property",
+        "value": "حدث خطأ ما أثناء تحديث خاصية الاستطلاع القابلة للتحديث",
+        "valueEn": "Something goes wrong while updating Survey updatable property",
+        "valueFr": "Quelque chose s'est mal passé lors de la mise à jour de la propriété modifiable du sondage",
+        "valueTr": "Anket güncellenebilir özelliği güncellenirken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al actualizar la propiedad actualizable de la encuesta",
+        "valueRu": "Что-то пошло не так при обновлении обновляемого свойства опроса",
+        "valueDe": "Etwas ist beim Aktualisieren der aktualisierbaren Eigenschaft der Umfrage schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while updating Target",
+        "value": "حدث خطأ ما أثناء تحديث الهدف",
+        "valueEn": "Something goes wrong while updating Target",
+        "valueFr": "Quelque chose s'est mal passé lors de la mise à jour de la cible",
+        "valueTr": "Hedef güncellenirken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al actualizar el objetivo",
+        "valueRu": "Что-то пошло не так при обновлении цели",
+        "valueDe": "Etwas ist beim Aktualisieren des Ziels schief gelaufen"
+    },
+    {
+        "name": "Sponsorship operation completed successfully",
+        "value": "تمت عملية الرعاية بنجاح",
+        "valueEn": "Sponsorship operation completed successfully",
+        "valueFr": "Opération de parrainage terminée avec succès",
+        "valueTr": "Sponsorluk işlemi başarıyla tamamlandı",
+        "valueEs": "Operación de patrocinio completada exitosamente",
+        "valueRu": "Операция спонсорства успешно завершена",
+        "valueDe": "Sponsoring-Operation erfolgreich abgeschlossen"
+    },
+    {
+        "name": "Sponsorship operation failed : you reached the max",
+        "value": "فشلت عملية الرعاية: لقد وصلت إلى الحد الأقصى",
+        "valueEn": "Sponsorship operation failed : you reached the max",
+        "valueFr": "Opération de parrainage échouée : vous avez atteint le maximum",
+        "valueTr": "Sponsorluk işlemi başarısız: maksimuma ulaştınız",
+        "valueEs": "Operación de patrocinio fallida: alcanzó el máximo",
+        "valueRu": "Операция спонсорства не удалась: вы достигли максимума",
+        "valueDe": "Sponsoring-Operation fehlgeschlagen: Sie haben das Maximum erreicht"
+    },
+    {
+        "name": "Sponsorship removing operation completed successfully",
+        "value": "تمت عملية إزالة الرعاية بنجاح",
+        "valueEn": "Sponsorship removing operation completed successfully",
+        "valueFr": "Opération de suppression de parrainage terminée avec succès",
+        "valueTr": "Sponsorluk kaldırma işlemi başarıyla tamamlandı",
+        "valueEs": "Operación de eliminación de patrocinio completada exitosamente",
+        "valueRu": "Операция удаления спонсорства успешно завершена",
+        "valueDe": "Sponsoring-Entfernungsoperation erfolgreich abgeschlossen"
+    },
+    {
+        "name": "Status update failed",
+        "value": "فشل تحديث الحالة",
+        "valueEn": "Status update failed",
+        "valueFr": "Échec de la mise à jour du statut",
+        "valueTr": "Durum güncelleme başarısız",
+        "valueEs": "Actualización de estado fallida",
+        "valueRu": "Не удалось обновить статус",
+        "valueDe": "Statusaktualisierung fehlgeschlagen"
+    },
+    {
+        "name": "Status update succeeded",
+        "value": "نجح تحديث الحالة",
+        "valueEn": "Status update succeeded",
+        "valueFr": "Mise à jour du statut réussie",
+        "valueTr": "Durum güncelleme başarılı",
+        "valueEs": "Actualización de estado exitosa",
+        "valueRu": "Обновление статуса выполнено успешно",
+        "valueDe": "Statusaktualisierung erfolgreich"
+    },
+    {
+        "name": "Success CASH to BFS exchange",
+        "value": "نجاح تحويل النقد إلى BFS",
+        "valueEn": "Success CASH to BFS exchange",
+        "valueFr": "Succès de l'échange CASH vers BFS",
+        "valueTr": "Nakit'ten BFS'ye başarılı dönüşüm",
+        "valueEs": "Éxito en el intercambio de EFECTIVO a BFS",
+        "valueRu": "Успешный обмен CASH на BFS",
+        "valueDe": "Erfolgreicher Bargeld-zu-BFS-Austausch"
+    },
+    {
+        "name": "Success send req to public user",
+        "value": "نجاح إرسال طلب إلى مستخدم عام",
+        "valueEn": "Success send req to public user",
+        "valueFr": "Succès de l'envoi de la demande à l'utilisateur public",
+        "valueTr": "Genel kullanıcıya istek gönderme başarılı",
+        "valueEs": "Éxito al enviar solicitud a usuario público",
+        "valueRu": "Успешно отправлен запрос публичному пользователю",
+        "valueDe": "Erfolgreiche Anfrage an öffentlichen Benutzer gesendet"
+    },
+    {
+        "name": "Survey archived Successfully",
+        "value": "تمت أرشفة الاستطلاع بنجاح",
+        "valueEn": "Survey archived Successfully",
+        "valueFr": "Sondage archivé avec succès",
+        "valueTr": "Anket başarıyla arşivlendi",
+        "valueEs": "Encuesta archivada exitosamente",
+        "valueRu": "Опрос успешно архивирован",
+        "valueDe": "Umfrage erfolgreich archiviert"
+    },
+    {
+        "name": "Survey closed Successfully",
+        "value": "تم إغلاق الاستطلاع بنجاح",
+        "valueEn": "Survey closed Successfully",
+        "valueFr": "Sondage fermé avec succès",
+        "valueTr": "Anket başarıyla kapatıldı",
+        "valueEs": "Encuesta cerrada exitosamente",
+        "valueRu": "Опрос успешно закрыт",
+        "valueDe": "Umfrage erfolgreich geschlossen"
+    },
+    {
+        "name": "Survey Created Successfully",
+        "value": "تم إنشاء الاستطلاع بنجاح",
+        "valueEn": "Survey Created Successfully",
+        "valueFr": "Sondage créé avec succès",
+        "valueTr": "Anket başarıyla oluşturuldu",
+        "valueEs": "Encuesta creada exitosamente",
+        "valueRu": "Опрос успешно создан",
+        "valueDe": "Umfrage erfolgreich erstellt"
+    },
+    {
+        "name": "Survey Disabled Successfully",
+        "value": "تم تعطيل الاستطلاع بنجاح",
+        "valueEn": "Survey Disabled Successfully",
+        "valueFr": "Sondage désactivé avec succès",
+        "valueTr": "Anket başarıyla devre dışı bırakıldı",
+        "valueEs": "Encuesta deshabilitada exitosamente",
+        "valueRu": "Опрос успешно отключен",
+        "valueDe": "Umfrage erfolgreich deaktiviert"
+    },
+    {
+        "name": "Survey duplicated Successfully",
+        "value": "تم تكرار الاستطلاع بنجاح",
+        "valueEn": "Survey duplicated Successfully",
+        "valueFr": "Sondage dupliqué avec succès",
+        "valueTr": "Anket başarıyla kopyalandı",
+        "valueEs": "Encuesta duplicada exitosamente",
+        "valueRu": "Опрос успешно дублирован",
+        "valueDe": "Umfrage erfolgreich dupliziert"
+    },
+    {
+        "name": "Survey duplication failed",
+        "value": "فشل تكرار الاستطلاع",
+        "valueEn": "Survey duplication failed",
+        "valueFr": "Échec de la duplication du sondage",
+        "valueTr": "Anket kopyalama başarısız",
+        "valueEs": "Duplicación de encuesta fallida",
+        "valueRu": "Не удалось дублировать опрос",
+        "valueDe": "Umfragenduplizierung fehlgeschlagen"
+    },
+    {
+        "name": "Survey Enabled Successfully",
+        "value": "تم تمكين الاستطلاع بنجاح",
+        "valueEn": "Survey Enabled Successfully",
+        "valueFr": "Sondage activé avec succès",
+        "valueTr": "Anket başarıyla etkinleştirildi",
+        "valueEs": "Encuesta habilitada exitosamente",
+        "valueRu": "Опрос успешно включен",
+        "valueDe": "Umfrage erfolgreich aktiviert"
+    },
+    {
+        "name": "Survey Opened Successfully",
+        "value": "تم فتح الاستطلاع بنجاح",
+        "valueEn": "Survey Opened Successfully",
+        "valueFr": "Sondage ouvert avec succès",
+        "valueTr": "Anket başarıyla açıldı",
+        "valueEs": "Encuesta abierta exitosamente",
+        "valueRu": "Опрос успешно открыт",
+        "valueDe": "Umfrage erfolgreich geöffnet"
+    },
+    {
+        "name": "Survey operation canceled",
+        "value": "تم إلغاء عملية الاستطلاع",
+        "valueEn": "Survey operation canceled",
+        "valueFr": "Opération de sondage annulée",
+        "valueTr": "Anket işlemi iptal edildi",
+        "valueEs": "Operación de encuesta cancelada",
+        "valueRu": "Операция с опросом отменена",
+        "valueDe": "Umfrageoperation abgebrochen"
+    },
+    {
+        "name": "Survey published Successfully",
+        "value": "تم نشر الاستطلاع بنجاح",
+        "valueEn": "Survey published Successfully",
+        "valueFr": "Sondage publié avec succès",
+        "valueTr": "Anket başarıyla yayınlandı",
+        "valueEs": "Encuesta publicada exitosamente",
+        "valueRu": "Опрос успешно опубликован",
+        "valueDe": "Umfrage erfolgreich veröffentlicht"
+    },
+    {
+        "name": "Survey un published Successfully",
+        "value": "تم إلغاء نشر الاستطلاع بنجاح",
+        "valueEn": "Survey un published Successfully",
+        "valueFr": "Sondage dépublié avec succès",
+        "valueTr": "Anket yayından başarıyla kaldırıldı",
+        "valueEs": "Encuesta despublicada exitosamente",
+        "valueRu": "Опрос успешно снят с публикации",
+        "valueDe": "Umfrage erfolgreich zurückgezogen"
+    },
+    {
+        "name": "Survey updated Successfully",
+        "value": "تم تحديث الاستطلاع بنجاح",
+        "valueEn": "Survey updated Successfully",
+        "valueFr": "Sondage mis à jour avec succès",
+        "valueTr": "Anket başarıyla güncellendi",
+        "valueEs": "Encuesta actualizada exitosamente",
+        "valueRu": "Опрос успешно обновлен",
+        "valueDe": "Umfrage erfolgreich aktualisiert"
+    },
+    {
+        "name": "Target Created Successfully",
+        "value": "تم إنشاء الهدف بنجاح",
+        "valueEn": "Target Created Successfully",
+        "valueFr": "Cible créée avec succès",
+        "valueTr": "Hedef başarıyla oluşturuldu",
+        "valueEs": "Objetivo creado exitosamente",
+        "valueRu": "Цель успешно создана",
+        "valueDe": "Ziel erfolgreich erstellt"
+    },
+    {
+        "name": "Target Deleted Successfully",
+        "value": "تم حذف الهدف بنجاح",
+        "valueEn": "Target Deleted Successfully",
+        "valueFr": "Cible supprimée avec succès",
+        "valueTr": "Hedef başarıyla silindi",
+        "valueEs": "Objetivo eliminado exitosamente",
+        "valueRu": "Цель успешно удалена",
+        "valueDe": "Ziel erfolgreich gelöscht"
+    },
+    {
+        "name": "Target operation canceled",
+        "value": "تم إلغاء عملية الهدف",
+        "valueEn": "Target operation canceled",
+        "valueFr": "Opération de cible annulée",
+        "valueTr": "Hedef işlemi iptal edildi",
+        "valueEs": "Operación de objetivo cancelada",
+        "valueRu": "Операция с целью отменена",
+        "valueDe": "Zieloperation abgebrochen"
+    },
+    {
+        "name": "Target Updated Successfully",
+        "value": "تم تحديث الهدف بنجاح",
+        "valueEn": "Target Updated Successfully",
+        "valueFr": "Cible mise à jour avec succès",
+        "valueTr": "Hedef başarıyla güncellendi",
+        "valueEs": "Objetivo actualizado exitosamente",
+        "valueRu": "Цель успешно обновлена",
+        "valueDe": "Ziel erfolgreich aktualisiert"
+    },
+    {
+        "name": "This contact number already exists",
+        "value": "رقم الاتصال هذا موجود بالفعل",
+        "valueEn": "This contact number already exists",
+        "valueFr": "Ce numéro de contact existe déjà",
+        "valueTr": "Bu iletişim numarası zaten mevcut",
+        "valueEs": "Este número de contacto ya existe",
+        "valueRu": "Этот контактный номер уже существует",
+        "valueDe": "Diese Kontaktnummer existiert bereits"
+    },
+    {
+        "name": "This Deal cant be Deleted !",
+        "value": "لا يمكن حذف هذه الصفقة!",
+        "valueEn": "This Deal cant be Deleted !",
+        "valueFr": "Cette offre ne peut pas être supprimée !",
+        "valueTr": "Bu Anlaşma Silinemez!",
+        "valueEs": "¡Este trato no se puede eliminar!",
+        "valueRu": "Эту сделку нельзя удалить!",
+        "valueDe": "Dieser Deal kann nicht gelöscht werden!"
+    },
+    {
+        "name": "This is the pin code",
+        "value": "هذا هو رمز PIN",
+        "valueEn": "This is the pin code",
+        "valueFr": "Voici le code PIN",
+        "valueTr": "Bu pin kodu",
+        "valueEs": "Este es el código PIN",
+        "valueRu": "Это ПИН-код",
+        "valueDe": "Dies ist der PIN-Code"
+    },
+    {
+        "name": "This request has already been processed",
+        "value": "تمت معالجة هذا الطلب بالفعل",
+        "valueEn": "This request has already been processed",
+        "valueFr": "Cette demande a déjà été traitée",
+        "valueTr": "Bu istek zaten işlendi",
+        "valueEs": "Esta solicitud ya ha sido procesada",
+        "valueRu": "Этот запрос уже обработан",
+        "valueDe": "Diese Anfrage wurde bereits bearbeitet"
+    },
+    {
+        "name": "This Role cant be Deleted !",
+        "value": "لا يمكن حذف هذا الدور!",
+        "valueEn": "This Role cant be Deleted !",
+        "valueFr": "Ce rôle ne peut pas être supprimé !",
+        "valueTr": "Bu Rol Silinemez!",
+        "valueEs": "¡Este rol no se puede eliminar!",
+        "valueRu": "Эту роль нельзя удалить!",
+        "valueDe": "Diese Rolle kann nicht gelöscht werden!"
+    },
+    {
+        "name": "Translation item deleted",
+        "value": "تم حذف عنصر الترجمة",
+        "valueEn": "Translation item deleted",
+        "valueFr": "Élément de traduction supprimé",
+        "valueTr": "Çeviri öğesi silindi",
+        "valueEs": "Elemento de traducción eliminado",
+        "valueRu": "Элемент перевода удален",
+        "valueDe": "Übersetzungselement gelöscht"
+    },
+    {
+        "name": "Translation merge operation failed",
+        "value": "فشلت عملية دمج الترجمة",
+        "valueEn": "Translation merge operation failed",
+        "valueFr": "Opération de fusion de traduction échouée",
+        "valueTr": "Çeviri birleştirme işlemi başarısız",
+        "valueEs": "Operación de fusión de traducción fallida",
+        "valueRu": "Операция объединения переводов не удалась",
+        "valueDe": "Übersetzungszusammenführungsoperation fehlgeschlagen"
+    },
+    {
+        "name": "Translation merge operation started successfully",
+        "value": "بدأت عملية دمج الترجمة بنجاح",
+        "valueEn": "Translation merge operation started successfully",
+        "valueFr": "Opération de fusion de traduction démarrée avec succès",
+        "valueTr": "Çeviri birleştirme işlemi başarıyla başladı",
+        "valueEs": "Operación de fusión de traducción iniciada exitosamente",
+        "valueRu": "Операция объединения переводов успешно начата",
+        "valueDe": "Übersetzungszusammenführungsoperation erfolgreich gestartet"
+    },
+    {
+        "name": "Translation update Failed",
+        "value": "فشل تحديث الترجمة",
+        "valueEn": "Translation update Failed",
+        "valueFr": "Échec de la mise à jour de la traduction",
+        "valueTr": "Çeviri güncelleme başarısız",
+        "valueEs": "Actualización de traducción fallida",
+        "valueRu": "Обновление перевода не удалось",
+        "valueDe": "Übersetzungsaktualisierung fehlgeschlagen"
+    },
+    {
+        "name": "Translation updated Successfully",
+        "value": "تم تحديث الترجمة بنجاح",
+        "valueEn": "Translation updated Successfully",
+        "valueFr": "Traduction mise à jour avec succès",
+        "valueTr": "Çeviri başarıyla güncellendi",
+        "valueEs": "Traducción actualizada exitosamente",
+        "valueRu": "Перевод успешно обновлен",
+        "valueDe": "Übersetzung erfolgreich aktualisiert"
+    },
+    {
+        "name": "User created successfully",
+        "value": "تم إنشاء المستخدم بنجاح",
+        "valueEn": "User created successfully",
+        "valueFr": "Utilisateur créé avec succès",
+        "valueTr": "Kullanıcı başarıyla oluşturuldu",
+        "valueEs": "Usuario creado exitosamente",
+        "valueRu": "Пользователь успешно создан",
+        "valueDe": "Benutzer erfolgreich erstellt"
+    },
+    {
+        "name": "User creation failed",
+        "value": "فشل إنشاء المستخدم",
+        "valueEn": "User creation failed",
+        "valueFr": "Échec de la création de l'utilisateur",
+        "valueTr": "Kullanıcı oluşturma başarısız",
+        "valueEs": "Creación de usuario fallida",
+        "valueRu": "Не удалось создать пользователя",
+        "valueDe": "Benutzererstellung fehlgeschlagen"
+    },
+    {
+        "name": "User deleted successfully",
+        "value": "تم حذف المستخدم بنجاح",
+        "valueEn": "User deleted successfully",
+        "valueFr": "Utilisateur supprimé avec succès",
+        "valueTr": "Kullanıcı başarıyla silindi",
+        "valueEs": "Usuario eliminado exitosamente",
+        "valueRu": "Пользователь успешно удален",
+        "valueDe": "Benutzer erfolgreich gelöscht"
+    },
+    {
+        "name": "User email change completed successfully",
+        "value": "تم تغيير بريد المستخدم بنجاح",
+        "valueEn": "User email change completed successfully",
+        "valueFr": "Changement d'e-mail utilisateur terminé avec succès",
+        "valueTr": "Kullanıcı e-posta değişikliği başarıyla tamamlandı",
+        "valueEs": "Cambio de correo de usuario completado exitosamente",
+        "valueRu": "Изменение email пользователя успешно завершено",
+        "valueDe": "Benutzer-E-Mail-Änderung erfolgreich abgeschlossen"
+    },
+    {
+        "name": "User identification request approved",
+        "value": "تمت الموافقة على طلب التحقق من هوية المستخدم",
+        "valueEn": "User identification request approved",
+        "valueFr": "Demande d'identification de l'utilisateur approuvée",
+        "valueTr": "Kullanıcı kimlik doğrulama talebi onaylandı",
+        "valueEs": "Solicitud de identificación de usuario aprobada",
+        "valueRu": "Запрос идентификации пользователя одобрен",
+        "valueDe": "Benutzeridentifizierungsanfrage genehmigt"
+    },
+    {
+        "name": "User identification request rejected",
+        "value": "تم رفض طلب التحقق من هوية المستخدم",
+        "valueEn": "User identification request rejected",
+        "valueFr": "Demande d'identification de l'utilisateur rejetée",
+        "valueTr": "Kullanıcı kimlik doğrulama talebi reddedildi",
+        "valueEs": "Solicitud de identificación de usuario rechazada",
+        "valueRu": "Запрос идентификации пользователя отклонен",
+        "valueDe": "Benutzeridentifizierungsanfrage abgelehnt"
+    },
+    {
+        "name": "User not found",
+        "value": "لم يتم العثور على المستخدم",
+        "valueEn": "User not found",
+        "valueFr": "Utilisateur non trouvé",
+        "valueTr": "Kullanıcı bulunamadı",
+        "valueEs": "Usuario no encontrado",
+        "valueRu": "Пользователь не найден",
+        "valueDe": "Benutzer nicht gefunden"
+    },
+    {
+        "name": "User role update failed",
+        "value": "فشل تحديث دور المستخدم",
+        "valueEn": "User role update failed",
+        "valueFr": "Échec de la mise à jour du rôle de l'utilisateur",
+        "valueTr": "Kullanıcı rol güncelleme başarısız",
+        "valueEs": "Actualización de rol de usuario fallida",
+        "valueRu": "Не удалось обновить роль пользователя",
+        "valueDe": "Benutzerrollenaktualisierung fehlgeschlagen"
+    },
+    {
+        "name": "User role updated successfully",
+        "value": "تم تحديث دور المستخدم بنجاح",
+        "valueEn": "User role updated successfully",
+        "valueFr": "Rôle de l'utilisateur mis à jour avec succès",
+        "valueTr": "Kullanıcı rolü başarıyla güncellendi",
+        "valueEs": "Rol de usuario actualizado exitosamente",
+        "valueRu": "Роль пользователя успешно обновлена",
+        "valueDe": "Benutzerrolle erfolgreich aktualisiert"
+    },
+    {
+        "name": "User updated",
+        "value": "تم تحديث المستخدم",
+        "valueEn": "User updated",
+        "valueFr": "Utilisateur mis à jour",
+        "valueTr": "Kullanıcı güncellendi",
+        "valueEs": "Usuario actualizado",
+        "valueRu": "Пользователь обновлен",
+        "valueDe": "Benutzer aktualisiert"
+    },
+    {
+        "name": "Using a bad Coupon pin or a consumed one",
+        "value": "استخدام رقم PIN سيء للقسيمة أو قسيمة مستخدمة",
+        "valueEn": "Using a bad Coupon pin or a consumed one",
+        "valueFr": "Utilisation d'un mauvais code PIN de coupon ou d'un coupon consommé",
+        "valueTr": "Kötü bir kupon pini veya kullanılmış bir kupon kullanma",
+        "valueEs": "Usando un PIN de cupón incorrecto o uno consumido",
+        "valueRu": "Использование плохого ПИН-кода купона или использованного купона",
+        "valueDe": "Verwendung eines schlechten Gutschein-PINs oder eines eingelösten"
+    },
+    {
+        "name": "Valid code",
+        "value": "رمز صالح",
+        "valueEn": "Valid code",
+        "valueFr": "Code valide",
+        "valueTr": "Geçerli kod",
+        "valueEs": "Código válido",
+        "valueRu": "Действительный код",
+        "valueDe": "Gültiger Code"
+    },
+    {
+        "name": "We sent an opt code to your email",
+        "value": "أرسلنا رمز OPT إلى بريدك الإلكتروني",
+        "valueEn": "We sent an opt code to your email",
+        "valueFr": "Nous avons envoyé un code OPT à votre e-mail",
+        "valueTr": "E-postanıza bir OPT kodu gönderdik",
+        "valueEs": "Enviamos un código OPT a su correo",
+        "valueRu": "Мы отправили код OPT на ваш email",
+        "valueDe": "Wir haben einen OPT-Code an Ihre E-Mail gesendet"
+    },
+    {
+        "name": "We_will_send",
+        "value": "سنرسل",
+        "valueEn": "we_will_send",
+        "valueFr": "nous_enverrons",
+        "valueTr": "göndereceğiz",
+        "valueEs": "enviaremos",
+        "valueRu": "мы_отправим",
+        "valueDe": "wir_werden_senden"
+    },
+    {
+        "name": "We_will_sendWithMail",
+        "value": "سنرسل_بالبريد",
+        "valueEn": "we_will_send_with_mail",
+        "valueFr": "nous_enverrons_par_mail",
+        "valueTr": "posta_ile_göndereceğiz",
+        "valueEs": "enviaremos_con_correo",
+        "valueRu": "мы_отправим_почтой",
+        "valueDe": "wir_werden_mit_mail_senden"
+    },
+    {
+        "name": "Wrong wintered amount",
+        "value": "مبلغ غير صحيح",
+        "valueEn": "Wrong entered amount",
+        "valueFr": "Montant saisi incorrect",
+        "valueTr": "Yanlış girilen tutar",
+        "valueEs": "Monto ingresado incorrecto",
+        "valueRu": "Неверная введенная сумма",
+        "valueDe": "Falscher eingegebener Betrag"
+    },
+    {
+        "name": "You are not allowed to edit this user contact",
+        "value": "غير مسموح لك بتحرير جهة اتصال هذا المستخدم",
+        "valueEn": "You are not allowed to edit this user contact",
+        "valueFr": "Vous n'êtes pas autorisé à modifier ce contact utilisateur",
+        "valueTr": "Bu kullanıcı kişisini düzenlemenize izin verilmiyor",
+        "valueEs": "No tiene permiso para editar este contacto de usuario",
+        "valueRu": "Вам не разрешено редактировать контакт этого пользователя",
+        "valueDe": "Sie dürfen diesen Benutzerkontakt nicht bearbeiten"
+    },
+    {
+        "name": "You cant update your profile when you have an identification request in progress",
+        "value": "لا يمكنك تحديث ملفك الشخصي عندما يكون لديك طلب تحقق من الهوية قيد المعالجة",
+        "valueEn": "You can't update your profile when you have an identification request in progress",
+        "valueFr": "Vous ne pouvez pas mettre à jour votre profil lorsque vous avez une demande d'identification en cours",
+        "valueTr": "Devam eden bir kimlik doğrulama talebiniz varken profilini güncelleyemezsin",
+        "valueEs": "No puede actualizar su perfil cuando tiene una solicitud de identificación en curso",
+        "valueRu": "Вы не можете обновить свой профиль, когда у вас есть запрос идентификации в процессе",
+        "valueDe": "Sie können Ihr Profil nicht aktualisieren, wenn eine Identifizierungsanfrage in Bearbeitung ist"
+    },
+    {
+        "name": "You chant change the password of the current user",
+        "value": "لا يمكنك تغيير كلمة مرور المستخدم الحالي",
+        "valueEn": "You can't change the password of the current user",
+        "valueFr": "Vous ne pouvez pas changer le mot de passe de l'utilisateur actuel",
+        "valueTr": "Mevcut kullanıcının şifresini değiştiremezsiniz",
+        "valueEs": "No puede cambiar la contraseña del usuario actual",
+        "valueRu": "Вы не можете изменить пароль текущего пользователя",
+        "valueDe": "Sie können das Passwort des aktuellen Benutzers nicht ändern"
+    },
+    {
+        "name": "You do not have permission to access this page",
+        "value": "ليس لديك إذن للوصول إلى هذه الصفحة",
+        "valueEn": "You do not have permission to access this page",
+        "valueFr": "Vous n'avez pas la permission d'accéder à cette page",
+        "valueTr": "Bu sayfaya erişim izniniz yok",
+        "valueEs": "No tiene permiso para acceder a esta página",
+        "valueRu": "У вас нет разрешения на доступ к этой странице",
+        "valueDe": "Sie haben keine Berechtigung, auf diese Seite zuzugreifen"
+    },
+    {
+        "name": "You have one committed investor request under reviewing",
+        "value": "لديك طلب مستثمر ملتزم قيد المراجعة",
+        "valueEn": "You have one committed investor request under reviewing",
+        "valueFr": "Vous avez une demande d'investisseur engagé en cours d'examen",
+        "valueTr": "İncelenmekte olan bir taahhütlü yatırımcı talebiniz var",
+        "valueEs": "Tiene una solicitud de inversor comprometido en revisión",
+        "valueRu": "У вас есть один запрос обязанного инвестора на рассмотрении",
+        "valueDe": "Sie haben einen verpflichteten Investorantrag in Überprüfung"
+    },
+    {
+        "name": "You have one instructor request under reviewing",
+        "value": "لديك طلب مدرب قيد المراجعة",
+        "valueEn": "You have one instructor request under reviewing",
+        "valueFr": "Vous avez une demande d'instructeur en cours d'examen",
+        "valueTr": "İncelenmekte olan bir eğitmen talebiniz var",
+        "valueEs": "Tiene una solicitud de instructor en revisión",
+        "valueRu": "У вас есть один запрос инструктора на рассмотрении",
+        "valueDe": "Sie haben einen Trainerantrag in Überprüfung"
+    },
+    {
+        "name": "You just participated successfully to this survey",
+        "value": "لقد شاركت بنجاح في هذا الاستطلاع",
+        "valueEn": "You just participated successfully to this survey",
+        "valueFr": "Vous venez de participer avec succès à ce sondage",
+        "valueTr": "Bu ankete başarıyla katıldınız",
+        "valueEs": "Acaba de participar exitosamente en esta encuesta",
+        "valueRu": "Вы только что успешно участвовали в этом опросе",
+        "valueDe": "Sie haben gerade erfolgreich an dieser Umfrage teilgenommen"
+    },
+    {
+        "name": "Your committed investor request is sent",
+        "value": "تم إرسال طلب المستثمر الملتزم الخاص بك",
+        "valueEn": "Your committed investor request is sent",
+        "valueFr": "Votre demande d'investisseur engagé est envoyée",
+        "valueTr": "Taahhütlü yatırımcı talebiniz gönderildi",
+        "valueEs": "Su solicitud de inversor comprometido ha sido enviada",
+        "valueRu": "Ваш запрос обязанного инвестора отправлен",
+        "valueDe": "Ihr verpflichteter Investorantrag wurde gesendet"
+    },
+    {
+        "name": "Your instructor request is sent",
+        "value": "تم إرسال طلب المدرب الخاص بك",
+        "valueEn": "Your instructor request is sent",
+        "valueFr": "Votre demande d'instructeur est envoyée",
+        "valueTr": "Eğitmen talebiniz gönderildi",
+        "valueEs": "Su solicitud de instructor ha sido enviada",
+        "valueRu": "Ваш запрос инструктора отправлен",
+        "valueDe": "Ihr Trainerantrag wurde gesendet"
+    },
+    {
+        "name": "Actually is vip",
+        "value": "في الواقع هو في أي بي",
+        "valueEn": "Actually is vip",
+        "valueFr": "En fait est vip",
+        "valueTr": "Aslında vip",
+        "valueEs": "En realidad es vip",
+        "valueRu": "На самом деле является vip",
+        "valueDe": "Eigentlich ist vip"
+    },
+    {
+        "name": "Business sector operation canceled",
+        "value": "تم إلغاء عملية القطاع التجاري",
+        "valueEn": "Business sector operation canceled",
+        "valueFr": "Opération de secteur d'activité annulée",
+        "valueTr": "İş sektörü işlemi iptal edildi",
+        "valueEs": "Operación de sector empresarial cancelada",
+        "valueRu": "Операция с бизнес-сектором отменена",
+        "valueDe": "Geschäftsbereichsoperation abgebrochen"
+    },
+    {
+        "name": "Choice operation canceled",
+        "value": "تم إلغاء عملية الخيار",
+        "valueEn": "Choice operation canceled",
+        "valueFr": "Opération de choix annulée",
+        "valueTr": "Seçenek işlemi iptal edildi",
+        "valueEs": "Operación de opción cancelada",
+        "valueRu": "Операция с выбором отменена",
+        "valueDe": "Auswahloperation abgebrochen"
+    },
+    {
+        "name": "Condition operation canceled",
+        "value": "تم إلغاء عملية الشرط",
+        "valueEn": "Condition operation canceled",
+        "valueFr": "Opération de condition annulée",
+        "valueTr": "Koşul işlemi iptal edildi",
+        "valueEs": "Operación de condición cancelada",
+        "valueRu": "Операция с условием отменена",
+        "valueDe": "Bedingungsoperation abgebrochen"
+    },
+    {
+        "name": "Coupons operation canceled",
+        "value": "تم إلغاء عملية القسائم",
+        "valueEn": "Coupons operation canceled",
+        "valueFr": "Opération de coupons annulée",
+        "valueTr": "Kupon işlemi iptal edildi",
+        "valueEs": "Operación de cupones cancelada",
+        "valueRu": "Операция с купонами отменена",
+        "valueDe": "Gutscheinoperation abgebrochen"
+    },
+    {
+        "name": "Deal operation canceled",
+        "value": "تم إلغاء عملية الصفقة",
+        "valueEn": "Deal operation canceled",
+        "valueFr": "Opération d'offre annulée",
+        "valueTr": "Anlaşma işlemi iptal edildi",
+        "valueEs": "Operación de trato cancelada",
+        "valueRu": "Операция со сделкой отменена",
+        "valueDe": "Deal-Operation abgebrochen"
+    },
+    {
+        "name": "Create request",
+        "value": "إنشاء طلب",
+        "valueEn": "Create request",
+        "valueFr": "Créer une demande",
+        "valueTr": "Talep oluştur",
+        "valueEs": "Crear solicitud",
+        "valueRu": "Создать запрос",
+        "valueDe": "Anfrage erstellen"
+    },
+    {
+        "name": "Group Created Successfully",
+        "value": "تم إنشاء المجموعة بنجاح",
+        "valueEn": "Group Created Successfully",
+        "valueFr": "Groupe créé avec succès",
+        "valueTr": "Grup başarıyla oluşturuldu",
+        "valueEs": "Grupo creado exitosamente",
+        "valueRu": "Группа успешно создана",
+        "valueDe": "Gruppe erfolgreich erstellt"
+    },
+    {
+        "name": "Platform Created Successfully",
+        "value": "تم إنشاء المنصة بنجاح",
+        "valueEn": "Platform Created Successfully",
+        "valueFr": "Plateforme créée avec succès",
+        "valueTr": "Platform başarıyla oluşturuldu",
+        "valueEs": "Plataforma creada exitosamente",
+        "valueRu": "Платформа успешно создана",
+        "valueDe": "Plattform erfolgreich erstellt"
+    },
+    {
+        "name": "Something goes wrong while creating Condition",
+        "value": "حدث خطأ ما أثناء إنشاء الشرط",
+        "valueEn": "Something goes wrong while creating Condition",
+        "valueFr": "Quelque chose s'est mal passé lors de la création de la condition",
+        "valueTr": "Koşul oluşturulurken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al crear la condición",
+        "valueRu": "Что-то пошло не так при создании условия",
+        "valueDe": "Etwas ist beim Erstellen der Bedingung schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while creating Group",
+        "value": "حدث خطأ ما أثناء إنشاء المجموعة",
+        "valueEn": "Something goes wrong while creating Group",
+        "valueFr": "Quelque chose s'est mal passé lors de la création du groupe",
+        "valueTr": "Grup oluşturulurken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al crear el grupo",
+        "valueRu": "Что-то пошло не так при создании группы",
+        "valueDe": "Etwas ist beim Erstellen der Gruppe schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while creating Platform",
+        "value": "حدث خطأ ما أثناء إنشاء المنصة",
+        "valueEn": "Something goes wrong while creating Platform",
+        "valueFr": "Quelque chose s'est mal passé lors de la création de la plateforme",
+        "valueTr": "Platform oluşturulurken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al crear la plataforma",
+        "valueRu": "Что-то пошло не так при создании платформы",
+        "valueDe": "Etwas ist beim Erstellen der Plattform schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while creating Role",
+        "value": "حدث خطأ ما أثناء إنشاء الدور",
+        "valueEn": "Something goes wrong while creating Role",
+        "valueFr": "Quelque chose s'est mal passé lors de la création du rôle",
+        "valueTr": "Rol oluşturulurken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al crear el rol",
+        "valueRu": "Что-то пошло не так при создании роли",
+        "valueDe": "Etwas ist beim Erstellen der Rolle schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while creating Target",
+        "value": "حدث خطأ ما أثناء إنشاء الهدف",
+        "valueEn": "Something goes wrong while creating Target",
+        "valueFr": "Quelque chose s'est mal passé lors de la création de la cible",
+        "valueTr": "Hedef oluşturulurken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al crear el objetivo",
+        "valueRu": "Что-то пошло не так при создании цели",
+        "valueDe": "Etwas ist beim Erstellen des Ziels schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while updating Condition",
+        "value": "حدث خطأ ما أثناء تحديث الشرط",
+        "valueEn": "Something goes wrong while updating Condition",
+        "valueFr": "Quelque chose s'est mal passé lors de la mise à jour de la condition",
+        "valueTr": "Koşul güncellenirken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al actualizar la condición",
+        "valueRu": "Что-то пошло не так при обновлении условия",
+        "valueDe": "Etwas ist beim Aktualisieren der Bedingung schief gelaufen"
+    },
+    {
+        "name": "Something goes wrong while updating Group",
+        "value": "حدث خطأ ما أثناء تحديث المجموعة",
+        "valueEn": "Something goes wrong while updating Group",
+        "valueFr": "Quelque chose s'est mal passé lors de la mise à jour du groupe",
+        "valueTr": "Grup güncellenirken bir şeyler ters gitti",
+        "valueEs": "Algo salió mal al actualizar el grupo",
+        "valueRu": "Что-то пошло не так при обновлении группы",
+        "valueDe": "Etwas ist beim Aktualisieren der Gruppe schief gelaufen"
+    }
+]

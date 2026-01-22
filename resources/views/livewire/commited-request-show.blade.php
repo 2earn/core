@@ -58,7 +58,7 @@
                     @forelse($commitedInvestorsRequests as $commitedRequest)
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             {{$commitedRequest->request_date}} <span
-                                class="badge {{$commitedRequest->status==\Core\Enum\RequestStatus::Rejected->value?'bg-warning':'bg-success'}} ">{{__(\Core\Enum\RequestStatus::tryFrom($commitedRequest->status)->name)}}</span>
+                                class="badge {{$commitedRequest->status==\App\Enums\RequestStatus::Rejected->value?'bg-warning':'bg-success'}} ">{{__(\App\Enums\RequestStatus::tryFrom($commitedRequest->status)->name)}}</span>
                         </li>
                     @empty
                     @endforelse

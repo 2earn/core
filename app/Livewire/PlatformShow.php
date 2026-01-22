@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\EntityRole;
 use App\Services\Platform\PlatformService;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
@@ -35,6 +36,13 @@ class PlatformShow extends Component
         if (!$platform) {
             abort(404);
         }
+
+        // Load EntityRoles for the platform
+        $platform->entityRoles = EntityRole::where('roleable_type', 'App\Models\Platform')
+            ->where('roleable_id', $platform->id)
+            ->with('user')
+            ->get()
+            ->keyBy('name');
 
         return view('livewire.platform-show', ['platform' => $platform])->extends('layouts.master')->section('content');
     }

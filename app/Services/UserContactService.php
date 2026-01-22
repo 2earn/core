@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use Core\Models\UserContactNumber;
+use App\Models\UserContactNumber;
 use Illuminate\Support\Collection;
 
 class UserContactService
@@ -47,10 +47,8 @@ class UserContactService
      */
     public function setActiveNumber(int $userId, int $contactId): bool
     {
-        // Deactivate all numbers for the user
         UserContactNumber::where('idUser', $userId)->update(['active' => 0]);
 
-        // Activate the specified number
         return UserContactNumber::where('id', $contactId)
             ->where('idUser', $userId)
             ->update(['active' => 1]) > 0;

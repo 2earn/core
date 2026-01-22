@@ -5,7 +5,7 @@ namespace App\DAL;
 use App\Models\TreeBalances;
 use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
-use Core\Interfaces\IUserBalancesRepository;
+use App\Interfaces\IUserBalancesRepository;
 use phpDocumentor\Reflection\Types\Collection;
 
 class  UserBalancesRepository implements IUserBalancesRepository

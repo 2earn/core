@@ -2,9 +2,8 @@
 
 namespace App\Livewire;
 
-use App\Models\Survey;
 use App\Models\User;
-use Core\Enum\StatusSurvey;
+use App\Services\SurveyService;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -18,6 +17,13 @@ class SurveyArchive extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    protected SurveyService $surveyService;
+
+    public function boot(SurveyService $surveyService)
+    {
+        $this->surveyService = $surveyService;
+    }
+
     public function mount()
     {
         $this->currentRouteName = Route::currentRouteName();
@@ -30,29 +36,10 @@ class SurveyArchive extends Component
 
     public function getArchivedSurveys()
     {
-        $archivedSurveys = [];
-        $surveysQuery = Survey::where('status', '=', StatusSurvey::ARCHIVED->value);
-
-        if (User::isSuperAdmin()) {
-
-            if (!is_null($this->search) && !empty($this->search)) {
-                $surveysQuery = $surveysQuery->where('name', 'like', '%' . $this->search . '%');
-            }
-
-        } else {
-            if (!is_null($this->search) && !empty($this->search)) {
-                $surveysQuery = $surveysQuery
-                    ->where('name', 'like', '%' . $this->search . '%');
-            }
-        }
-
-        $surveys = $surveysQuery->get();
-        foreach ($surveys as $survey) {
-            if ($survey->canShowAfterArchiving()) {
-                $archivedSurveys[] = $survey;
-            }
-        }
-        return $archivedSurveys;
+        return $this->surveyService->getArchivedSurveys(
+            $this->search,
+            User::isSuperAdmin()
+        );
     }
 
     public function render()

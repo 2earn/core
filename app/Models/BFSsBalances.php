@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Livewire\PlatformIndex;
 use App\Services\Balances\Balances;
-use Core\Models\Platform;
+use App\Models\Platform;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasAuditing;

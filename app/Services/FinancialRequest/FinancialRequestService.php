@@ -2,8 +2,8 @@
 
 namespace App\Services\FinancialRequest;
 
-use Core\Models\detail_financial_request;
-use Core\Models\FinancialRequest;
+use App\Models\detail_financial_request;
+use App\Models\FinancialRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -258,7 +258,6 @@ class FinancialRequestService
         try {
             DB::beginTransaction();
 
-            // Update user's response to rejected
             detail_financial_request::where('numeroRequest', '=', $numeroReq)
                 ->where('idUser', '=', $rejectingUserId)
                 ->update([
@@ -266,12 +265,10 @@ class FinancialRequestService
                     'dateResponse' => date(config('app.date_format'))
                 ]);
 
-            // Check if any pending responses remain
             $remainingPending = detail_financial_request::where('numeroRequest', '=', $numeroReq)
                 ->where('response', '=', null)
                 ->count();
 
-            // If no pending responses remain, mark main request as refused
             if ($remainingPending == 0) {
                 FinancialRequest::where('numeroReq', '=', $numeroReq)
                     ->update([

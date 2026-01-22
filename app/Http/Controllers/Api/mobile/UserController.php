@@ -14,7 +14,6 @@ class UserController extends Controller
 {
     private const LOG_PREFIX = '[UserMobileController] ';
 
-
     public function getUser(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [

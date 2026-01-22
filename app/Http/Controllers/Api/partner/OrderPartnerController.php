@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\partner;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Services\Orders\OrderService;
-use Core\Enum\OrderEnum;
+use App\Enums\OrderEnum;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -73,9 +73,6 @@ class OrderPartnerController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created order.
-     */
     public function store(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
@@ -113,9 +110,6 @@ class OrderPartnerController extends Controller
         return response()->json($order, Response::HTTP_CREATED);
     }
 
-    /**
-     * Display the specified order.
-     */
     public function show(Request $request, $orderId): JsonResponse
     {
         $validator = Validator::make($request->all(), [
@@ -147,9 +141,6 @@ class OrderPartnerController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified order.
-     */
     public function update(Request $request, $orderId): JsonResponse
     {
         $validator = Validator::make($request->all() + ['order_id' => $orderId], [
@@ -200,6 +191,7 @@ class OrderPartnerController extends Controller
         $order->update($data);
         return response()->json([
             'status' => true,
+            'message' => 'Order updated successfully',
             'data' => $order
         ]);
     }

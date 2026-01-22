@@ -3,8 +3,6 @@
 namespace App\Livewire;
 
 use App\Models\User;
-use Carbon\Carbon;
-use Core\Enum\StatusRequest;
 use Livewire\Component;
 
 class IdentityCards extends Component
@@ -25,19 +23,16 @@ class IdentityCards extends Component
             abort(404);
         }
 
-        // Get user data
         $this->user = User::where('idUser', $theId)->first();
 
         if (!$this->user) {
             abort(404);
         }
 
-        // Get identity images
         $this->userNationalFrontImage = User::getNationalFrontImage($theId);
         $this->userNationalBackImage = User::getNationalBackImage($theId);
         $this->userInternationalImage = User::getInternational($theId);
 
-        // Check expiry dates
         if (!is_null($this->user->expiryDate)) {
             $daysNumber = getDiffOnDays($this->user->expiryDate);
             $this->lessThanSixMonths = $daysNumber < 180;

@@ -2,9 +2,9 @@
 
 namespace App\Services\Coupon;
 
+use App\Enums\CouponStatusEnum;
 use App\Models\BalanceInjectorCoupon;
 use App\Models\Coupon;
-use Core\Enum\CouponStatusEnum;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
@@ -206,12 +206,27 @@ class CouponService
     public function deleteMultipleByIds(array $ids): int
     {
         try {
-            return BalanceInjectorCoupon::whereIn('id', $ids)
+            return Coupon::whereIn('id', $ids)
                 ->where('consumed', 0)
                 ->delete();
         } catch (\Exception $e) {
             Log::error('Error deleting multiple coupons: ' . $e->getMessage(), ['ids' => $ids]);
             throw $e;
+        }
+    }
+
+    /**
+     * Get all coupons ordered by ID descending
+     *
+     * @return Collection
+     */
+    public function getAllCouponsOrdered(): Collection
+    {
+        try {
+            return Coupon::orderBy('id', 'desc')->get();
+        } catch (\Exception $e) {
+            Log::error('Error fetching all ordered coupons: ' . $e->getMessage());
+            return new Collection();
         }
     }
 
@@ -241,6 +256,29 @@ class CouponService
         }
 
         return $query->orderBy('purchase_date', 'desc')->paginate($perPage);
+    }
+
+    /**
+     * Get purchased coupons for a user by status
+     *
+     * @param int $userId
+     * @param int $status
+     * @return Collection
+     */
+    public function getPurchasedCouponsByStatus(int $userId, int $status): Collection
+    {
+        try {
+            return Coupon::where('user_id', $userId)
+                ->where('status', $status)
+                ->orderBy('id', 'desc')
+                ->get();
+        } catch (\Exception $e) {
+            Log::error('Error fetching purchased coupons by status: ' . $e->getMessage(), [
+                'user_id' => $userId,
+                'status' => $status
+            ]);
+            return new Collection();
+        }
     }
 
     /**
@@ -280,6 +318,87 @@ class CouponService
     public function getBySn(string $sn): Coupon
     {
         return Coupon::where('sn', $sn)->firstOrFail();
+    }
+
+    /**
+     * Find a coupon by ID
+     *
+     * @param int $id
+     * @return Coupon|null
+     */
+    public function findCouponById(int $id): ?Coupon
+    {
+        return Coupon::find($id);
+    }
+
+    /**
+     * Update a coupon
+     *
+     * @param Coupon $coupon
+     * @param array $data
+     * @return bool
+     */
+    public function updateCoupon(Coupon $coupon, array $data): bool
+    {
+        return $coupon->update($data);
+    }
+
+    /**
+     * Get available coupons for a platform
+     *
+     * @param int $platformId
+     * @param int $userId
+     * @return Collection
+     */
+    public function getAvailableCouponsForPlatform(int $platformId, int $userId): Collection
+    {
+        return Coupon::where(function ($query) use ($userId) {
+            $query
+                ->orWhere('status', CouponStatusEnum::available->value)
+                ->orWhere(function ($subQueryReservedForOther) {
+                    $subQueryReservedForOther->where('status', CouponStatusEnum::reserved->value)
+                        ->where('reserved_until', '<', now());
+                })
+                ->orWhere(function ($subQueryReservedForUser) use ($userId) {
+                    $subQueryReservedForUser->where('status', CouponStatusEnum::reserved->value)
+                        ->where('reserved_until', '>=', now())
+                        ->where('user_id', $userId);
+                });
+        })
+            ->where('platform_id', $platformId)
+            ->orderBy('value', 'desc')
+            ->get();
+    }
+
+    /**
+     * Create multiple coupons (bulk creation)
+     *
+     * @param array $pins Array of PIN codes
+     * @param array $sns Array of serial numbers
+     * @param array $couponData Base coupon data (attachment_date, value, platform_id, consumed)
+     * @return int Number of coupons created
+     * @throws \Exception
+     */
+    public function createMultipleCoupons(array $pins, array $sns, array $couponData): int
+    {
+        try {
+            $createdCount = 0;
+
+            foreach ($pins as $key => $pin) {
+                $couponData['pin'] = $pin;
+                $couponData['sn'] = $sns[$key];
+                Coupon::create($couponData);
+                $createdCount++;
+            }
+
+            return $createdCount;
+        } catch (\Exception $e) {
+            Log::error('Error creating multiple coupons: ' . $e->getMessage(), [
+                'pins_count' => count($pins),
+                'sns_count' => count($sns)
+            ]);
+            throw $e;
+        }
     }
 }
 

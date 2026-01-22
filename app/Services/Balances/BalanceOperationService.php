@@ -2,7 +2,7 @@
 
 namespace App\Services\Balances;
 
-use Core\Models\BalanceOperation;
+use App\Models\BalanceOperation;
 use App\Models\OperationCategory;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 

@@ -1,7 +1,7 @@
 <?php
 namespace App\DAL;
 
-use Core\Interfaces\ITransaction;
+use App\Interfaces\ITransaction;
 use Illuminate\Support\Facades\DB;
 
 class  Transaction implements ITransaction

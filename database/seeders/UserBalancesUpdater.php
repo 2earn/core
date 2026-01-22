@@ -2,13 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\BFSsBalances;
+use App\Enums\BalanceEnum;
+use App\Enums\StatusRequest;
 use App\Models\User;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Models\UserCurrentBalanceVertical;
 use App\Services\Balances\Balances;
-use Core\Enum\BalanceEnum;
-use Core\Enum\StatusRequest;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 

@@ -2,8 +2,8 @@
 
 namespace App\Services\InstructorRequest;
 
+use App\Enums\BeInstructorRequestStatus;
 use App\Models\InstructorRequest;
-use Core\Enum\BeInstructorRequestStatus;
 use Illuminate\Support\Facades\Log;
 
 class InstructorRequestService

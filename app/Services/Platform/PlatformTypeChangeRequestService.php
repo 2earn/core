@@ -3,7 +3,7 @@
 namespace App\Services\Platform;
 
 use App\Models\PlatformTypeChangeRequest;
-use Core\Models\Platform;
+use App\Models\Platform;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -93,13 +93,11 @@ class PlatformTypeChangeRequestService
             throw new \Exception('This request has already been processed');
         }
 
-        // Update platform type
         $platform = $request->platform;
         $platform->type = $request->new_type;
         $platform->updated_by = $reviewedBy;
         $platform->save();
 
-        // Update request status
         $request->status = PlatformTypeChangeRequest::STATUS_APPROVED;
         $request->reviewed_by = $reviewedBy;
         $request->reviewed_at = now();
@@ -125,7 +123,6 @@ class PlatformTypeChangeRequestService
             throw new \Exception('This request has already been processed');
         }
 
-        // Update request status
         $request->status = PlatformTypeChangeRequest::STATUS_REJECTED;
         $request->rejection_reason = $rejectionReason;
         $request->reviewed_by = $reviewedBy;
@@ -147,7 +144,6 @@ class PlatformTypeChangeRequestService
     {
         $query = PlatformTypeChangeRequest::with(['platform', 'requestedBy', 'reviewedBy']);
 
-        // Apply search filter
         if ($search) {
             $query->whereHas('platform', function ($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%')
@@ -155,7 +151,6 @@ class PlatformTypeChangeRequestService
             });
         }
 
-        // Apply status filter
         if ($statusFilter && $statusFilter !== 'all') {
             $query->where('status', $statusFilter);
         }

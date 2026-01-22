@@ -2,15 +2,15 @@
 
 namespace App\Livewire;
 
+use App\Enums\ExchangeTypeEnum;
+use App\Enums\TypeEventNotificationEnum;
+use App\Enums\TypeNotificationEnum;
 use App\Models\BFSsBalances;
 use App\Models\User;
 use App\Services\Balances\Balances;
-use Core\Enum\ExchangeTypeEnum;
-use Core\Enum\TypeEventNotificationEnum;
-use Core\Enum\TypeNotificationEnum;
-use Core\Services\settingsManager;
+use App\Services\Settings\SettingService;
+use App\Services\settingsManager;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 
@@ -31,7 +31,7 @@ class CashToBfs extends Component
         'ExchangeCashToBFS' => 'ExchangeCashToBFS',
     ];
 
-    public function mount($filter, Request $request)
+    public function mount($filter, Request $request, SettingService $settingService)
     {
         $this->filter = is_null($filter) ? 1 : $filter;
         $val = $request->input('montant');
@@ -49,9 +49,8 @@ class CashToBfs extends Component
         if ($show != null) {
             $this->showCanceled = $show;
         }
-        $seting = DB::table('settings')->where("idSETTINGS", "=", "13")->first();
 
-        $this->prix_sms = $seting->DecimalValue ?? 1.5;
+        $this->prix_sms = $settingService->getDecimalValue(13) ?? 1.5;
     }
 
     public function ExchangeCashToBFS($code, settingsManager $settingsManager)

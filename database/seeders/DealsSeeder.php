@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Setting;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class DealsSeeder extends Seeder
 {
@@ -22,12 +22,10 @@ class DealsSeeder extends Seeder
         ];
 
         foreach ($settings as $setting) {
-            if (!DB::table('settings')->where("ParameterName", "=", 'DEALS_' . $setting['name'])->exists()) {
-                DB::table('settings')->insert([
-                    'ParameterName' => 'DEALS_' . $setting['name'],
-                    'DecimalValue' => $setting['value'],
-                ]);
-            }
+            Setting::updateOrCreate(
+                ['ParameterName' => 'DEALS_' . $setting['name']],
+                ['DecimalValue' => $setting['value']]
+            );
         }
     }
 }

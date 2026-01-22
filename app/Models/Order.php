@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Traits\HasAuditing;
-use Core\Enum\OrderEnum;
+use App\Enums\OrderEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -59,7 +59,7 @@ class Order extends Model
 
     public function platform()
     {
-        return $this->belongsTo(\Core\Models\Platform::class, 'platform_id', 'id');
+        return $this->belongsTo(\App\Models\Platform::class, 'platform_id', 'id');
     }
 
     public function updateStatus(OrderEnum $newStatus)

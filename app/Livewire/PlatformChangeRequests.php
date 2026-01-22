@@ -2,9 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Models\EntityRole;
 use App\Models\PlatformChangeRequest;
 use App\Services\Platform\PlatformChangeRequestService;
-use Core\Models\Platform;
+use App\Models\Platform;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -196,9 +197,6 @@ class PlatformChangeRequests extends Component
             'type' => 'Type',
             'show_profile' => 'Show Profile',
             'image_link' => 'Image Link',
-            'owner_id' => 'Owner',
-            'marketing_manager_id' => 'Marketing Manager',
-            'financial_manager_id' => 'Financial Manager',
             'business_sector_id' => 'Business Sector',
         ];
 
@@ -212,6 +210,17 @@ class PlatformChangeRequests extends Component
             $this->search,
             $this->perPage
         );
+
+        // Load EntityRoles for each platform
+        foreach ($requests as $request) {
+            if ($request->platform) {
+                $request->platform->ownerRole = EntityRole::where('roleable_type', 'App\Models\Platform')
+                    ->where('roleable_id', $request->platform->id)
+                    ->where('name', 'owner')
+                    ->with('user')
+                    ->first();
+            }
+        }
 
         return view('livewire.platform-change-requests', [
             'requests' => $requests

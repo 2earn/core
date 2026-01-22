@@ -10,8 +10,8 @@
             <div class="row">
                 @include('layouts.flash-messages')
             </div>
-                @include('livewire.survey-item', ['survey' => $survey])
-            @if($survey->status==\Core\Enum\StatusSurvey::OPEN->value)
+            @include('livewire.survey-item', ['survey' => $survey])
+            @if($survey->status==\App\Enums\StatusSurvey::OPEN->value)
                 @vite('resources/js/surveys.js')
             @endif
         </div>

@@ -16,7 +16,6 @@ class AddAuditingFieldsToFillable extends Command
 
         $directories = [
             'App\Models' => app_path('Models'),
-            'Core\Models' => base_path('Core/Models'),
         ];
 
         $totalUpdated = 0;
@@ -44,13 +43,11 @@ class AddAuditingFieldsToFillable extends Command
                     continue;
                 }
 
-                // Skip if doesn't have HasAuditing trait
                 if (!str_contains($content, 'use HasAuditing') && !str_contains($content, 'HasAuditing;')) {
                     $skipped++;
                     continue;
                 }
 
-                // Check if already has created_by and updated_by in fillable
                 if (str_contains($content, "'created_by'") && str_contains($content, "'updated_by'")) {
                     $this->line("⏭️  Skipping {$file->getFilename()} - Already has auditing fields in fillable");
                     $skipped++;
@@ -111,7 +108,7 @@ class AddAuditingFieldsToFillable extends Command
 
     protected function addAuditingFieldsToFillable(string $content, string $filename): string
     {
-        // Find the fillable array
+
         $pattern = '/(protected\s+\$fillable\s*=\s*\[)(.*?)(\];)/s';
 
         if (!preg_match($pattern, $content, $matches)) {
@@ -120,18 +117,14 @@ class AddAuditingFieldsToFillable extends Command
 
         $fillableContent = $matches[2];
 
-        // Check if created_by already exists
         if (str_contains($fillableContent, "'created_by'") || str_contains($fillableContent, '"created_by"')) {
             return $content;
         }
 
-        // Add created_by and updated_by at the end of the array
         $newFillableContent = rtrim($fillableContent);
 
-        // Remove trailing comma and whitespace if exists
         $newFillableContent = rtrim($newFillableContent, ",\n\r\t ");
 
-        // Add the new fields
         $newFillableContent .= ",\n        'created_by',\n        'updated_by',\n    ";
 
         $newContent = str_replace(

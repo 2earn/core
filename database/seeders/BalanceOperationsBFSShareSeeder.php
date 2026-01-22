@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Core\Models\BalanceOperation;
+use App\Models\BalanceOperation;
+use App\Models\Setting;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class BalanceOperationsBFSShareSeeder extends Seeder
 {
@@ -29,13 +29,15 @@ class BalanceOperationsBFSShareSeeder extends Seeder
             BalanceOperation::create(array_merge($operation, ['created_at' => now(), 'updated_at' => now()]));
         }
 
-        if (!DB::table('settings')->where("ParameterName", "=", 'MIN_BFSS_TO_GET_ACTION')->exists()) {
-            DB::table('settings')->insert(['ParameterName' => 'MIN_BFSS_TO_GET_ACTION', 'IntegerValue' => 800]);
-        }
+        Setting::updateOrCreate(
+            ['ParameterName' => 'MIN_BFSS_TO_GET_ACTION'],
+            ['IntegerValue' => 800]
+        );
 
-        if (!DB::table('settings')->where("ParameterName", "=", 'MIN_BFSS_TO_GET_DISCOUNT')->exists()) {
-            DB::table('settings')->insert(['ParameterName' => 'MIN_BFSS_TO_GET_DISCOUNT', 'IntegerValue' => 800]);
-        }
+        Setting::updateOrCreate(
+            ['ParameterName' => 'MIN_BFSS_TO_GET_DISCOUNT'],
+            ['IntegerValue' => 800]
+        );
 
     }
 }

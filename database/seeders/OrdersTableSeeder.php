@@ -6,7 +6,7 @@ use App\Models\Item;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Services\Orders\Ordering;
-use Core\Enum\OrderEnum;
+use App\Enums\OrderEnum;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 

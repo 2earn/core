@@ -2,12 +2,12 @@
 
 namespace App\Livewire;
 
+use App\Enums\DealStatus;
+use App\Enums\DealTypeEnum;
+use App\Enums\PlatformType;
 use App\Models\BusinessSector;
 use App\Models\Item;
-use Core\Enum\DealStatus;
-use Core\Enum\DealTypeEnum;
-use Core\Enum\PlatformType;
-use Core\Models\Platform;
+use App\Models\Platform;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -82,7 +82,7 @@ class PlatformCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Platform operation cancelled'));
+        return redirect()->route('platform_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Platform operation canceled'));
     }
 
     public function edit($idPlatform)

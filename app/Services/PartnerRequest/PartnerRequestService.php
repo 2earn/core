@@ -2,8 +2,8 @@
 
 namespace App\Services\PartnerRequest;
 
+use App\Enums\BePartnerRequestStatus;
 use App\Models\PartnerRequest;
-use Core\Enum\BePartnerRequestStatus;
 use Illuminate\Support\Facades\Log;
 
 class PartnerRequestService
@@ -68,7 +68,7 @@ class PartnerRequestService
      * @param int $userId
      * @return bool
      */
-    public function hasInProgressRequest(int $userId): bool
+    public function hasInProgressRequest($userId): bool
     {
         try {
             return PartnerRequest::where('user_id', $userId)

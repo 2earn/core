@@ -7,25 +7,11 @@ use Illuminate\Support\Facades\File;
 
 class FindModelsForAudit extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
+
     protected $signature = 'auditing:find-models {--missing : Show only models missing the trait}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Find all models and check which ones have the HasAuditing trait';
 
-    /**
-     * Tables that need auditing
-     *
-     * @var array
-     */
     protected $auditingTables = [
         'user_contacts' => 'UserContact',
         'vip' => 'vip',
@@ -43,16 +29,13 @@ class FindModelsForAudit extends Command
         'representatives' => null,
         'pool' => 'Pool',
         'platforms' => 'Platform',
-        'metta_users' => 'metta_user',
+        'metta_users' => 'MettaUser',
         'financial_request' => 'FinancialRequest',
         'detail_financial_request' => 'detail_financial_request',
         'countries' => 'countrie',
         'balance_operations' => 'BalanceOperation',
     ];
 
-    /**
-     * Execute the console command.
-     */
     public function handle()
     {
         $this->info('=== Scanning Models for HasAuditing Trait ===');
@@ -60,35 +43,22 @@ class FindModelsForAudit extends Command
 
         $results = [
             'app' => $this->scanDirectory(app_path('Models'), 'App\\Models'),
-            'core' => $this->scanDirectory(base_path('Core/Models'), 'Core\\Models'),
         ];
 
         $showMissingOnly = $this->option('missing');
 
-        // Display App\Models
         $this->info('📁 App\Models Directory:');
         $this->displayResults($results['app'], $showMissingOnly);
         $this->newLine();
 
-        // Display Core\Models
-        $this->info('📁 Core\Models Directory:');
-        $this->displayResults($results['core'], $showMissingOnly);
-        $this->newLine();
-
-        // Summary
         $totalApp = count($results['app']);
         $withTraitApp = count(array_filter($results['app'], fn($r) => $r['has_trait']));
-        $totalCore = count($results['core']);
-        $withTraitCore = count(array_filter($results['core'], fn($r) => $r['has_trait']));
 
         $this->info('📊 Summary:');
         $this->line("  App\\Models: {$withTraitApp}/{$totalApp} models have HasAuditing trait");
-        $this->line("  Core\\Models: {$withTraitCore}/{$totalCore} models have HasAuditing trait");
-        $this->line("  Total: " . ($withTraitApp + $withTraitCore) . "/" . ($totalApp + $totalCore) . " models");
 
         $this->newLine();
 
-        // Show tables without models
         $this->info('📋 Tables Without Models:');
         $missingModels = array_filter($this->auditingTables, fn($model) => $model === null);
         if (!empty($missingModels)) {
@@ -106,13 +76,6 @@ class FindModelsForAudit extends Command
         return 0;
     }
 
-    /**
-     * Scan a directory for models
-     *
-     * @param string $path
-     * @param string $namespace
-     * @return array
-     */
     protected function scanDirectory($path, $namespace)
     {
         $results = [];
@@ -129,11 +92,10 @@ class FindModelsForAudit extends Command
             $className = $namespace . '\\' . $modelName;
 
             try {
-                // Suppress errors during class loading
+
                 if (@class_exists($className, false) || @class_exists($className)) {
                     $reflection = new \ReflectionClass($className);
 
-                    // Check if it's actually a model
                     if (!$reflection->isSubclassOf('Illuminate\Database\Eloquent\Model')) {
                         continue;
                     }
@@ -150,7 +112,7 @@ class FindModelsForAudit extends Command
                     ];
                 }
             } catch (\Throwable $e) {
-                // Skip problematic classes silently
+
                 continue;
             }
         }
@@ -158,12 +120,6 @@ class FindModelsForAudit extends Command
         return $results;
     }
 
-    /**
-     * Get all traits used by a class including parent classes
-     *
-     * @param \ReflectionClass $class
-     * @return array
-     */
     protected function getAllTraits(\ReflectionClass $class)
     {
         $traits = [];
@@ -175,12 +131,6 @@ class FindModelsForAudit extends Command
         return array_unique($traits);
     }
 
-    /**
-     * Check if timestamps are enabled in the model
-     *
-     * @param \ReflectionClass $reflection
-     * @return string
-     */
     protected function checkTimestamps(\ReflectionClass $reflection)
     {
         try {
@@ -192,18 +142,12 @@ class FindModelsForAudit extends Command
                 return $value ? 'enabled' : 'disabled';
             }
         } catch (\Throwable $e) {
-            // Could not determine
+
         }
 
         return 'unknown';
     }
 
-    /**
-     * Display results in a formatted way
-     *
-     * @param array $results
-     * @param bool $showMissingOnly
-     */
     protected function displayResults($results, $showMissingOnly)
     {
         if (empty($results)) {

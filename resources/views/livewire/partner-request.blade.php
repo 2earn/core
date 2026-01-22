@@ -43,13 +43,13 @@
                                         <h5 class="card-title mb-0">
                                             <strong>{{ $request->company_name ?? 'N/A' }}</strong>
                                         </h5>
-                                        @if($request->status == \Core\Enum\BePartnerRequestStatus::InProgress->value)
+                                        @if($request->status == \App\Enums\BePartnerRequestStatus::InProgress->value)
                                             <span class="badge bg-warning">{{ __('In Progress') }}</span>
-                                        @elseif($request->status == \Core\Enum\BePartnerRequestStatus::Validated->value)
+                                        @elseif($request->status == \App\Enums\BePartnerRequestStatus::Validated->value)
                                             <span class="badge bg-success">{{ __('Validated') }}</span>
-                                        @elseif($request->status == \Core\Enum\BePartnerRequestStatus::Validated2earn->value)
+                                        @elseif($request->status == \App\Enums\BePartnerRequestStatus::Validated2earn->value)
                                             <span class="badge bg-info">{{ __('Validated 2earn') }}</span>
-                                        @elseif($request->status == \Core\Enum\BePartnerRequestStatus::Rejected->value)
+                                        @elseif($request->status == \App\Enums\BePartnerRequestStatus::Rejected->value)
                                             <span class="badge bg-danger">{{ __('Rejected') }}</span>
                                         @endif
                                     </div>
@@ -71,7 +71,8 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <a href="{{ $request->platform_url }}" target="_blank" class="btn btn-sm btn-info w-100 mb-2">
+                                        <a href="{{ $request->platform_url }}" target="_blank"
+                                           class="btn btn-sm btn-info w-100 mb-2">
                                             <i class="fas fa-link"></i> {{ __('Visit Platform') }}
                                         </a>
                                     </div>

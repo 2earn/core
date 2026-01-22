@@ -2,14 +2,13 @@
 
 namespace App\Livewire;
 
-use App\Models\Coupon;
-use App\Models\Item;
-use App\Models\Order;
+use App\Enums\CouponStatusEnum;
+use App\Enums\OrderEnum;
 use App\Services\Coupon\CouponService;
+use App\Services\Items\ItemService;
 use App\Services\Orders\Ordering;
-use Core\Enum\CouponStatusEnum;
-use Core\Enum\OrderEnum;
-use Core\Models\Platform;
+use App\Services\Orders\OrderService;
+use App\Services\Platform\PlatformService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +17,12 @@ use Livewire\Component;
 class CouponBuy extends Component
 {
     const DELAY_FOR_COUPONS_SIMULATION = 5;
+
+    protected CouponService $couponService;
+    protected PlatformService $platformService;
+    protected OrderService $orderService;
+    protected ItemService $itemService;
+
     public $amount = 0;
     public $displayedAmount;
     public $coupons;
@@ -43,14 +48,24 @@ class CouponBuy extends Component
         'consumeCoupon' => 'consumeCoupon'
     ];
 
+    public function boot(
+        CouponService $couponService,
+        PlatformService $platformService,
+        OrderService $orderService,
+        ItemService $itemService
+    ) {
+        $this->couponService = $couponService;
+        $this->platformService = $platformService;
+        $this->orderService = $orderService;
+        $this->itemService = $itemService;
+    }
 
     public function mount()
     {
         $this->idPlatform = Route::current()->parameter('id');
         $this->amount = 0;
 
-        $couponService = app(CouponService::class);
-        $this->maxAmount = $couponService->getMaxAvailableAmount(
+        $this->maxAmount = $this->couponService->getMaxAvailableAmount(
             $this->idPlatform
         );
 
@@ -60,9 +75,9 @@ class CouponBuy extends Component
 
     public function consumeCoupon($id)
     {
-        $couponToUpdate = Coupon::find($id);
-        if (!$couponToUpdate->consumed) {
-            $couponToUpdate->update([
+        $couponToUpdate = $this->couponService->findCouponById($id);
+        if ($couponToUpdate && !$couponToUpdate->consumed) {
+            $this->couponService->updateCoupon($couponToUpdate, [
                 'user_id' => auth()->user()->id,
                 'consumption_date' => now(),
                 'status' => CouponStatusEnum::consumed->value,
@@ -79,15 +94,15 @@ class CouponBuy extends Component
     public function CancelPurchase()
     {
         foreach ($this->preSumulationResult['coupons'] as $coupon) {
-            $coupon->update([
+            $this->couponService->updateCoupon($coupon, [
                 'status' => CouponStatusEnum::available->value,
-                'user_id', null
+                'user_id' => null
             ]);
         }
         foreach ($this->result['coupons'] as $coupon) {
-            $coupon->update([
+            $this->couponService->updateCoupon($coupon, [
                 'status' => CouponStatusEnum::available->value,
-                'user_id', null
+                'user_id' => null
             ]);
         }
         $this->redirect(route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform]));
@@ -139,12 +154,14 @@ class CouponBuy extends Component
 
     public function BuyCoupon($cpns)
     {
-        $platform = Platform::find($this->idPlatform);
-        $order = Order::create(['user_id' => auth()->user()->id,
+        $platform = $this->platformService->getById($this->idPlatform);
+        $order = $this->orderService->createOrder([
+            'user_id' => auth()->user()->id,
             'platform_id' => $this->idPlatform,
             'note' => 'Coupons buy from' . ' :' . $this->idPlatform . '-' . $platform->name
         ]);
-        $coupon = Item::where('ref', '#0001')->where('platform_id', $this->idPlatform)->first();
+
+        $coupon = $this->itemService->findByRefAndPlatform('#0001', $this->idPlatform);
 
         $total_amount = $unit_price = 0;
         $note = [];
@@ -161,6 +178,7 @@ class CouponBuy extends Component
             'note' => implode(",", $note),
             'item_id' => $coupon->id,
         ]);
+
         DB::beginTransaction();
         try {
             $order->updateStatus(OrderEnum::Ready);
@@ -176,11 +194,12 @@ class CouponBuy extends Component
                 DB::commit();
                 return redirect()->route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform])->with('danger', trans('Coupons order failed'));
             }
+
             $this->coupons = [];
             foreach ($note as $sn) {
-                $coupon = Coupon::where('sn', $sn)->first();
+                $coupon = $this->couponService->getBySn($sn);
                 if (!$coupon->consumed) {
-                    $coupon->update([
+                    $this->couponService->updateCoupon($coupon, [
                         'user_id' => auth()->user()->id,
                         'purchase_date' => now(),
                         'status' => CouponStatusEnum::purchased->value
@@ -188,12 +207,13 @@ class CouponBuy extends Component
                 }
                 $this->coupons[] = $coupon;
             }
+
             $this->displayedAmount = $total_amount;
             $this->buyed = true;
             $this->linkOrder = route('orders_detail', ['locale' => app()->getLocale(), 'id' => $order->id]);
             $this->order = $order;
             DB::commit();
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             DB::rollBack();
             $order->updateStatus(OrderEnum::Failed);
             Log::error($exception->getMessage());
@@ -202,28 +222,14 @@ class CouponBuy extends Component
 
     public function getCouponsForAmount($amount): array
     {
-
-        $availableCoupons = Coupon::where(function ($query) {
-
-            $query
-                ->orWhere('status', CouponStatusEnum::available->value)
-                ->orWhere(function ($subQueryReservedForOther) {
-                    $subQueryReservedForOther->where('status', CouponStatusEnum::reserved->value)
-                        ->where('reserved_until', '<', now());
-                })
-                ->orWhere(function ($subQueryReservedForUser) {
-                    $subQueryReservedForUser->where('status', CouponStatusEnum::reserved->value)
-                        ->where('reserved_until', '>=', now())
-                        ->where('user_id', auth()->user()->id);
-                });
-        })
-            ->where('platform_id', $this->idPlatform)
-            ->orderBy('value', 'desc')
-            ->get();
-
+        $availableCoupons = $this->couponService->getAvailableCouponsForPlatform(
+            $this->idPlatform,
+            auth()->user()->id
+        );
 
         $selectedCoupons = [];
         $total = 0;
+        $lastValue = 0;
 
         if ($availableCoupons->count() == 0) {
             $lastValue = 0;
@@ -232,7 +238,7 @@ class CouponBuy extends Component
         foreach ($availableCoupons as $coupon) {
             $lastValue = $coupon->value;
             if ($total + $coupon->value <= $amount) {
-                $coupon->update([
+                $this->couponService->updateCoupon($coupon, [
                     'status' => CouponStatusEnum::reserved->value,
                     'user_id' => auth()->user()->id,
                     'reserved_until' => now()->addMinutes($this->time)
@@ -251,7 +257,7 @@ class CouponBuy extends Component
 
     public function render()
     {
-        $params = ['platform' => Platform::find($this->idPlatform)];
+        $params = ['platform' => $this->platformService->getById($this->idPlatform)];
         return view('livewire.coupon-buy', $params)->extends('layouts.master')->section('content');
     }
 }

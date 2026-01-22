@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Setting;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class CouponSettingSeeder extends Seeder
 {
@@ -14,13 +14,9 @@ class CouponSettingSeeder extends Seeder
      */
     public function run()
     {
-
-        if (!DB::table('settings')->where("ParameterName", "=", 'DELAY_FOR_COUPONS_SIMULATION')->exists()) {
-            DB::table('settings')->insert([
-                'ParameterName' => 'DELAY_FOR_COUPONS_SIMULATION',
-                'IntegerValue' => 10,
-            ]);
-        }
-
+        Setting::updateOrCreate(
+            ['ParameterName' => 'DELAY_FOR_COUPONS_SIMULATION'],
+            ['IntegerValue' => 10]
+        );
     }
 }

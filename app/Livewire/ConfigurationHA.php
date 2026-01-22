@@ -2,18 +2,19 @@
 
 namespace App\Livewire;
 
-use Core\Models\action_historys;
-use Core\Models\Amount;
-use Core\Models\balanceoperation;
-use Core\Models\Setting;
-use Core\Services\settingsManager;
-use Illuminate\Support\Facades\Log;
+use App\Services\ActionHistorysService;
+use App\Services\AmountService;
+use App\Services\settingsManager;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class ConfigurationHA extends Component
 {
     use WithPagination;
+
+    protected ActionHistorysService $actionHistorysService;
+    protected AmountService $amountService;
+
     public $allAmounts;
     public int $idSetting;
     public string $parameterName;
@@ -33,6 +34,12 @@ class ConfigurationHA extends Component
         'saveHA' => 'saveHA'
     ];
 
+    public function boot(ActionHistorysService $actionHistorysService, AmountService $amountService)
+    {
+        $this->actionHistorysService = $actionHistorysService;
+        $this->amountService = $amountService;
+    }
+
     public function updatingSearch()
     {
         $this->resetPage();
@@ -46,7 +53,7 @@ class ConfigurationHA extends Component
 
     public function initHAFunction($id)
     {
-        $action = action_historys::find($id);
+        $action = $this->actionHistorysService->getById($id);
         if (!$action) return;
         $this->idHA = $action->id;
         $this->titleHA = $action->title;
@@ -55,30 +62,26 @@ class ConfigurationHA extends Component
     }
     public function saveHA($list)
     {
-        try {
-            $lis = [];
-            $lists = "";
-            $this->list_reponceHA = $list;
-            foreach (json_decode($this->list_reponceHA) as $l) {
-                $lists = $lists . "," . $l->value;
-                $lis[] = $l->value;
-            }
-        }catch (\Exception $exception){
-            Log::error($exception->getMessage());
-            return redirect()->route('configuration_ha', app()->getLocale())->with('danger', trans('Setting param updating failed'));
+        $lis = [];
+        $lists = "";
+        $this->list_reponceHA = $list;
+
+        foreach (json_decode($this->list_reponceHA) as $l) {
+            $lists = $lists . "," . $l->value;
+            $lis[] = $l->value;
         }
-        return redirect()->route('configuration_ha', app()->getLocale())->with('success', trans('Setting param updated successfully'));
+
+        // TODO: Add actual update logic using ActionHistorysService
+        // $success = $this->actionHistorysService->update($this->idHA, ['list_reponce' => $lists]);
+
+        return redirect()->route('configuration_ha', app()->getLocale())
+            ->with('success', trans('Setting param updated successfully'));
     }
 
     public function render()
     {
-        $this->allAmounts = Amount::all();
-
-        $actionHistories = action_historys::query()
-            ->when($this->search, function ($query) {
-                $query->where('title', 'like', '%' . $this->search . '%');
-            })
-            ->paginate(10);
+        $this->allAmounts = $this->amountService->getAll();
+        $actionHistories = $this->actionHistorysService->getPaginated($this->search, 10);
 
         return view('livewire.configuration-ha', [
             'actionHistories' => $actionHistories

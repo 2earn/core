@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-12 card shadow-sm">
             <div class="card-body p-0">
-                <div class="card-header py-4">
+                <div class="card-header py-1">
                     <div class="row align-items-center g-3">
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <form class="items-center">
@@ -149,19 +149,19 @@
                         <div class="d-flex gap-2 flex-wrap justify-content-end border-top pt-3">
                             <a href="{{route('business_sector_show',['locale'=> app()->getLocale(),'id'=>$business_sector->id])}}"
                                title="{{__('Show busines sector')}}"
-                               class="btn btn-outline-success btn-sm">
+                               class="btn btn-success btn-sm">
                                 <i class="ri-eye-line align-middle me-1"></i>
                                 {{__('Show')}}
                             </a>
                             <a href="{{route('business_sector_create_update',['locale'=> app()->getLocale(),'id'=>$business_sector->id])}}"
                                title="{{__('Edit business sector')}}"
-                               class="btn btn-outline-primary btn-sm">
+                               class="btn btn-primary btn-sm">
                                 <i class="ri-edit-line align-middle me-1"></i>
                                 {{__('Edit')}}
                             </a>
                             <button wire:click="deleteBusinessSector('{{$business_sector->id}}')"
                                     title="{{__('Delete business_sector')}}"
-                                    class="btn btn-outline-danger btn-sm">
+                                    class="btn btn-danger btn-sm">
                                 <i class="ri-delete-bin-line align-middle me-1"></i>
                                 {{__('Delete')}}
                                 <div wire:loading

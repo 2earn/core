@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use App\Models\vip;
 use App\Services\Settings\SettingService;
-use Core\Services\BalancesManager;
+use App\Services\BalancesManager;
 use Livewire\Component;
 
 class BuyShares extends Component

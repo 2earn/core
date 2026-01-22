@@ -73,7 +73,7 @@
                             <div>
                                 <p class="text-muted mb-1 small">{{__('Platform Type')}}</p>
                                 <span class="badge bg-info-subtle text-info fs-6 px-3 py-2">
-                                        {{__('Type')}} {{__(\Core\Enum\PlatformType::from($request->platform->type)->name) ?? 'N/A'}}
+                                        {{__('Type')}} {{__(\App\Enums\PlatformType::from($request->platform->type)->name) ?? 'N/A'}}
                                     </span>
                             </div>
                         </div>
@@ -124,13 +124,19 @@
 
 
                     <div class="row mt-3 pt-3 border-top">
-                        <div class="col-md-6">
-                            <small class="text-muted">
-                                <i class="ri-user-line me-1"></i>
-                                <strong>{{__('Owner')}}:</strong>
-                                {{getUserDisplayedNameFromId($request->platform->owner_id) ?? 'N/A'}}
-                            </small>
-                        </div>
+                        @if(isset($request->platform?->ownerRole))
+                            <div class="col-md-6">
+                                <small class="text-muted">
+                                    <i class="ri-user-line me-1"></i>
+                                    <strong>{{__('Owner')}}:</strong>
+                                    @if($request->platform->ownerRole->user)
+                                        {{$request->platform->ownerRole->user->name ?? getUserDisplayedNameFromId($request->platform->ownerRole->user_id)}}
+                                    @else
+                                        {{getUserDisplayedNameFromId($request->platform->ownerRole->user_id) ?? 'N/A'}}
+                                    @endif
+                                </small>
+                            </div>
+                        @endif
                         <div class="col-md-6 text-md-end">
                             <small class="text-muted">
                                 <i class="ri-time-line me-1"></i>

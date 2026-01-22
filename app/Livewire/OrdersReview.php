@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
-use App\Models\Order;
+use App\Services\Orders\OrderService;
 use App\Services\Orders\Ordering;
-use Core\Enum\OrderEnum;
+use App\Enums\OrderEnum;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
@@ -14,6 +14,13 @@ class OrdersReview extends Component
     public $orderIds = '';
     public $currentRouteName;
 
+    protected OrderService $orderService;
+
+    public function boot(OrderService $orderService)
+    {
+        $this->orderService = $orderService;
+    }
+
     public function mount($orderIds = '')
     {
         $this->currentRouteName = Route::currentRouteName();
@@ -21,19 +28,19 @@ class OrdersReview extends Component
 
         if ($orderIds) {
             $ids = explode(',', $orderIds);
-            $this->orders = Order::with(['orderDetails.item.deal.platform', 'platform', 'user'])
-                ->whereIn('id', $ids)
-                ->where('user_id', auth()->user()->id)
-                ->whereIn('status', [OrderEnum::Ready, OrderEnum::Simulated, OrderEnum::Failed])
-                ->get();
+            $this->orders = $this->orderService->getOrdersByIdsForUser(
+                auth()->user()->id,
+                $ids,
+                [OrderEnum::Ready, OrderEnum::Simulated, OrderEnum::Failed]
+            );
         }
     }
 
     public function simulateOrder($orderId)
     {
-        $order = Order::find($orderId);
+        $order = $this->orderService->findOrderForUser($orderId, auth()->user()->id);
 
-        if (!$order || $order->user_id !== auth()->user()->id) {
+        if (!$order) {
             session()->flash('error', trans('Order not found'));
             return;
         }
@@ -47,7 +54,6 @@ class OrdersReview extends Component
             session()->flash('error', trans('Order') . ' #' . $order->id . ' ' . trans('simulation failed'));
         }
 
-        // Refresh orders
         $this->mount($this->orderIds);
     }
 
@@ -77,7 +83,6 @@ class OrdersReview extends Component
             session()->flash('error', $failedCount . ' ' . trans('orders simulation failed'));
         }
 
-        // Refresh orders
         $this->mount($this->orderIds);
     }
 

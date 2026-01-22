@@ -2,10 +2,10 @@
 
 namespace App\Livewire;
 
-use App\Models\Survey;
-use App\Models\SurveyQuestion;
-use App\Models\TranslaleModel;
-use Core\Enum\Selection;
+use App\Enums\Selection;
+use App\Services\SurveyQuestionService;
+use App\Services\SurveyService;
+use App\Services\TranslaleModelService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -32,6 +32,20 @@ class SurveyQuestionCreateUpdate extends Component
         'selection' => 'required'
     ];
 
+    protected SurveyQuestionService $questionService;
+    protected TranslaleModelService $translationService;
+    protected SurveyService $surveyService;
+
+    public function boot(
+        SurveyQuestionService $questionService,
+        TranslaleModelService $translationService,
+        SurveyService $surveyService
+    ) {
+        $this->questionService = $questionService;
+        $this->translationService = $translationService;
+        $this->surveyService = $surveyService;
+    }
+
     public function mount(Request $request)
     {
         $idQuestion = $request->input('IdQuestion');
@@ -50,12 +64,12 @@ class SurveyQuestionCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('warning', Lang::get('Question operation cancelled'));
+        return redirect()->route('surveys_show', ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey])->with('warning', Lang::get('Question operation canceled'));
     }
 
     public function edit($idQuestion)
     {
-        $question = SurveyQuestion::findOrFail($idQuestion);
+        $question = $this->questionService->findOrFail($idQuestion);
         $this->idQuestion = $idQuestion;
         $this->content = $question->content;
         $this->selection = $question->selection;
@@ -69,28 +83,22 @@ class SurveyQuestionCreateUpdate extends Component
         $this->validate();
         try {
             $this->validateMultiselection();
-            $old = SurveyQuestion::where('id', $this->idQuestion)->first();
-            SurveyQuestion::where('id', $this->idQuestion)
-                ->update([
-                    'content' => $this->content,
-                    'selection' => $this->selection,
-                    'maxResponse' => $this->maxResponse != "" ? $this->maxResponse : 0,
-                ]);
-            $new = SurveyQuestion::where('id', $this->idQuestion)->first();
+            $old = $this->questionService->getById($this->idQuestion);
 
+            $this->questionService->update($this->idQuestion, [
+                'content' => $this->content,
+                'selection' => $this->selection,
+                'maxResponse' => $this->maxResponse != "" ? $this->maxResponse : 0,
+            ]);
 
-            $translationModel = TranslaleModel::where('name', TranslaleModel::getTranslateName(SurveyQuestion::find($this->idQuestion), 'content'))->first();
+            $new = $this->questionService->getById($this->idQuestion);
+
+            $question = $this->questionService->getById($this->idQuestion);
+            $translationName = $this->translationService->getTranslateName($question, 'content');
+            $translationModel = $this->translationService->getByName($translationName);
+
             if ($new->content != $old->content && !is_null($translationModel)) {
-                $translationModel->update(
-                    [
-                        'value' => $this->content . ' AR',
-                        'valueFr' => $this->content . ' FR',
-                        'valueEn' => $this->content . ' EN',
-                        'valueTr' => $this->content . ' TR',
-                        'valueEs' => $this->content . ' ES',
-                        'valueRu' => $this->content . ' Ru',
-                        'valueDe' => $this->content . ' De'
-                    ]);
+                $this->translationService->updateTranslation($translationModel, $this->content);
             }
 
         } catch (\Exception $exception) {
@@ -113,7 +121,7 @@ class SurveyQuestionCreateUpdate extends Component
         $this->validate();
         try {
             $this->validateMultiselection();
-            $surveyQuestion = SurveyQuestion::create([
+            $surveyQuestion = $this->questionService->create([
                 'content' => $this->content,
                 'selection' => $this->selection,
                 'maxResponse' => $this->maxResponse != "" ? $this->maxResponse : 0,
@@ -130,7 +138,7 @@ class SurveyQuestionCreateUpdate extends Component
 
     public function render()
     {
-        $params ['survey'] = Survey::findOrFail($this->idSurvey);
+        $params['survey'] = $this->surveyService->findOrFail($this->idSurvey);
         return view('livewire.survey-question-create-update', $params)->extends('layouts.master')->section('content');
     }
 }

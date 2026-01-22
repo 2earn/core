@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Api\partner;
 use App\Http\Controllers\Controller;
 use App\Models\PartnerPayment;
 use App\Services\PartnerPayment\PartnerPaymentService;
-use Core\Models\FinancialRequest;
+use App\Services\EntityRole\EntityRoleService;
+use App\Models\FinancialRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,19 +19,15 @@ class PartnerPaymentController extends Controller
     private const LOG_PREFIX = '[PartnerPaymentController] ';
 
     protected $partnerPaymentService;
+    protected $entityRoleService;
 
-    public function __construct(PartnerPaymentService $partnerPaymentService)
+    public function __construct(PartnerPaymentService $partnerPaymentService, EntityRoleService $entityRoleService)
     {
         $this->middleware('check.url');
         $this->partnerPaymentService = $partnerPaymentService;
+        $this->entityRoleService = $entityRoleService;
     }
 
-    /**
-     * Get partner payments list with filtering
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function index(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
@@ -145,13 +142,6 @@ class PartnerPaymentController extends Controller
         }
     }
 
-    /**
-     * Get a single partner payment by ID
-     *
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
-     */
     public function show(Request $request, int $id): JsonResponse
     {
         $validator = Validator::make($request->all(), [
@@ -211,7 +201,6 @@ class PartnerPaymentController extends Controller
         }
     }
 
-
     public function createDemand(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
@@ -241,7 +230,6 @@ class PartnerPaymentController extends Controller
                     'message' => 'User is not a platform partner'
                 ], Response::HTTP_FORBIDDEN);
             }
-
 
             DB::beginTransaction();
 
@@ -285,12 +273,6 @@ class PartnerPaymentController extends Controller
         }
     }
 
-    /**
-     * Get payment statistics for a partner
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function statistics(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
@@ -369,28 +351,11 @@ class PartnerPaymentController extends Controller
         }
     }
 
-    /**
-     * Verify if user is a platform partner
-     *
-     * @param int $userId
-     * @return bool
-     */
     private function verifyUserIsPartner(int $userId): bool
     {
-        return DB::table('platforms')
-            ->where(function ($query) use ($userId) {
-                $query->where('financial_manager_id', $userId)
-                    ->orWhere('marketing_manager_id', $userId)
-                    ->orWhere('owner_id', $userId);
-            })
-            ->exists();
+        return $this->entityRoleService->userHasPlatformRole($userId);
     }
 
-    /**
-     * Generate a security code for financial request
-     *
-     * @return string
-     */
     private function generateSecurityCode(): string
     {
         return strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 8));

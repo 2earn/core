@@ -109,7 +109,6 @@ class PlatformChangeRequestService
 
         $platform = $request->platform;
 
-        // Apply the changes to the platform
         foreach ($request->changes as $field => $change) {
             $platform->{$field} = $change['new'];
         }
@@ -117,7 +116,6 @@ class PlatformChangeRequestService
         $platform->updated_by = $reviewedBy;
         $platform->save();
 
-        // Update request status
         $request->status = PlatformChangeRequest::STATUS_APPROVED;
         $request->reviewed_by = $reviewedBy;
         $request->reviewed_at = now();
@@ -163,7 +161,6 @@ class PlatformChangeRequestService
     {
         $query = PlatformChangeRequest::with(['platform', 'requestedBy', 'reviewedBy']);
 
-        // Apply search filter
         if ($search) {
             $query->whereHas('platform', function ($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%')
@@ -171,7 +168,6 @@ class PlatformChangeRequestService
             });
         }
 
-        // Apply status filter
         if ($statusFilter && $statusFilter !== 'all') {
             $query->where('status', $statusFilter);
         }
@@ -222,7 +218,7 @@ class PlatformChangeRequestService
         $changeRequest = $this->findRequest($requestId);
 
         if (!$changeRequest->canBeCancelled()) {
-            throw new \Exception('Only pending change requests can be cancelled. Current status: ' . $changeRequest->status);
+            throw new \Exception('Only pending change requests can be canceled. Current status: ' . $changeRequest->status);
         }
 
         $changeRequest->status = PlatformChangeRequest::STATUS_CANCELLED;

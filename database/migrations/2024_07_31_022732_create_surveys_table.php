@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->string('name');
             $table->boolean('enabled')->default(false);
             $table->boolean('published')->default(false);
-            $table->string('status')->default(\Core\Enum\StatusSurvey::NEW->value);
+            $table->string('status')->default(\App\Enums\StatusSurvey::NEW->value);
             $table->boolean('updatable')->default(false);
 
             $table->dateTime('startDate')->nullable();

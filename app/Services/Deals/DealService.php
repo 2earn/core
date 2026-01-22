@@ -16,7 +16,7 @@ class DealService
      * Get deals for a partner user with filters
      *
      * @param int $userId
-     * @param int|null $platformId
+     * @param array|null $platformIds
      * @param string|null $search
      * @param int|null $page
      * @param int $perPage
@@ -24,7 +24,7 @@ class DealService
      */
     public function getPartnerDeals(
         int     $userId,
-        ?int    $platformId = null,
+        ?array  $platformIds = null,
         ?string $search = null,
         ?int    $page = null,
         int     $perPage = 5
@@ -41,15 +41,13 @@ class DealService
             });
         }
 
-        $query->whereHas('platform', function ($query) use ($userId, $platformId) {
-            $query->where(function ($q) use ($userId) {
-                $q->where('marketing_manager_id', $userId)
-                    ->orWhere('financial_manager_id', $userId)
-                    ->orWhere('owner_id', $userId);
+        $query->whereHas('platform', function ($query) use ($userId, $platformIds) {
+            $query->whereHas('roles', function ($roleQuery) use ($userId) {
+                $roleQuery->where('user_id', $userId);
             });
 
-            if ($platformId) {
-                $query->where('platform_id', $platformId);
+            if ($platformIds && !empty($platformIds)) {
+                $query->whereIn('id', $platformIds);
             }
         });
 
@@ -62,13 +60,13 @@ class DealService
      * Get total count of deals for a partner user
      *
      * @param int $userId
-     * @param int|null $platformId
+     * @param array|null $platformIds
      * @param string|null $search
      * @return int
      */
     public function getPartnerDealsCount(
         int     $userId,
-        ?int    $platformId = null,
+        ?array  $platformIds = null,
         ?string $search = null
     ): int
     {
@@ -83,15 +81,13 @@ class DealService
             });
         }
 
-        $query->whereHas('platform', function ($query) use ($userId, $platformId) {
-            $query->where(function ($q) use ($userId) {
-                $q->where('marketing_manager_id', $userId)
-                    ->orWhere('financial_manager_id', $userId)
-                    ->orWhere('owner_id', $userId);
+        $query->whereHas('platform', function ($query) use ($userId, $platformIds) {
+            $query->whereHas('roles', function ($roleQuery) use ($userId) {
+                $roleQuery->where('user_id', $userId);
             });
 
-            if ($platformId) {
-                $query->where('platform_id', $platformId);
+            if ($platformIds && !empty($platformIds)) {
+                $query->whereIn('id', $platformIds);
             }
         });
 
@@ -110,10 +106,8 @@ class DealService
         return Deal::with('platform')
             ->where('id', $dealId)
             ->whereHas('platform', function ($query) use ($userId) {
-                $query->where(function ($q) use ($userId) {
-                    $q->where('marketing_manager_id', $userId)
-                        ->orWhere('financial_manager_id', $userId)
-                        ->orWhere('owner_id', $userId);
+                $query->whereHas('roles', function ($roleQuery) use ($userId) {
+                    $roleQuery->where('user_id', $userId);
                 });
             })
             ->first();
@@ -227,10 +221,8 @@ class DealService
     public function userHasPermission(Deal $deal, int $userId): bool
     {
         return $deal->platform()
-            ->where(function ($query) use ($userId) {
-                $query->where('marketing_manager_id', $userId)
-                    ->orWhere('financial_manager_id', $userId)
-                    ->orWhere('owner_id', $userId);
+            ->whereHas('roles', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
             })
             ->exists();
     }
@@ -310,12 +302,12 @@ class DealService
         $query = Deal::query();
 
         if ($isSuperAdmin) {
-            $query->whereNot('status', \Core\Enum\DealStatus::Archived->value);
+            $query->whereNot('status', \App\Enums\DealStatus::Archived->value);
         } else {
             $query->whereHas('platform', function ($query) use ($userId) {
-                $query->where('financial_manager_id', '=', $userId)
-                    ->orWhere('owner_id', '=', $userId)
-                    ->orWhere('marketing_manager_id', '=', $userId);
+                $query->whereHas('roles', function ($roleQuery) use ($userId) {
+                    $roleQuery->where('user_id', $userId);
+                });
             });
         }
 
@@ -442,7 +434,7 @@ class DealService
      */
     public function getArchivedDeals(?string $search = null, bool $isSuperAdmin = false): Collection
     {
-        $query = Deal::where('status', '=', \Core\Enum\DealStatus::Archived->value);
+        $query = Deal::where('status', '=', \App\Enums\DealStatus::Archived->value);
 
         if (!is_null($search) && !empty($search)) {
             $query->where('name', 'like', '%' . $search . '%');
@@ -452,12 +444,12 @@ class DealService
     }
 
     /**
-     * Get dashboard indicators and progress for deals
+     * Get dashboard indicators for partner deals
      *
      * @param int $userId
      * @param string|null $startDate
      * @param string|null $endDate
-     * @param int|null $platformId
+     * @param array|null $platformIds
      * @param int|null $dealId
      * @return array
      */
@@ -465,16 +457,14 @@ class DealService
         int     $userId,
         ?string $startDate = null,
         ?string $endDate = null,
-        ?int    $platformId = null,
+        ?array  $platformIds = null,
         ?int    $dealId = null
     ): array
     {
         $query = Deal::query()
             ->whereHas('platform', function ($query) use ($userId) {
-                $query->where(function ($q) use ($userId) {
-                    $q->where('marketing_manager_id', $userId)
-                        ->orWhere('financial_manager_id', $userId)
-                        ->orWhere('owner_id', $userId);
+                $query->whereHas('roles', function ($roleQuery) use ($userId) {
+                    $roleQuery->where('user_id', $userId);
                 });
             });
 
@@ -486,8 +476,8 @@ class DealService
             $query->where('end_date', '<=', $endDate);
         }
 
-        if ($platformId) {
-            $query->where('platform_id', $platformId);
+        if ($platformIds && !empty($platformIds)) {
+            $query->whereIn('platform_id', $platformIds);
         }
 
         if ($dealId) {
@@ -513,7 +503,7 @@ class DealService
             ->count();
 
         $activeDealsCount = (clone $baseQuery)
-            ->where('status', \Core\Enum\DealStatus::Opened->value)
+            ->where('status', \App\Enums\DealStatus::Opened->value)
             ->count();
 
         $totalRevenue = (clone $baseQuery)
@@ -632,6 +622,7 @@ class DealService
         if (!is_null($startDate) && !is_null($endDate)) {
             $query = $query->whereBetween('orders.payment_datetime', [$startDate, $endDate]);
         }
+        $query = $query->whereNotNull('orders.payment_datetime');
         $query = $query->select(
             DB::raw("items.deal_id"),
             DB::raw("DATE_FORMAT(orders.payment_datetime, '$dateFormat') as date_group"),
@@ -706,17 +697,14 @@ class DealService
         $endDate = \Carbon\Carbon::parse($dealEndDate);
         $currentDate = \Carbon\Carbon::now();
 
-        // If current date is before start date
         if ($currentDate->lt($startDate)) {
             return 0;
         }
 
-        // If current date is after end date
         if ($currentDate->gt($endDate)) {
             return 100;
         }
 
-        // Calculate percentage of time elapsed
         $totalDuration = $startDate->diffInDays($endDate);
         $elapsedDuration = $startDate->diffInDays($currentDate);
 
@@ -746,10 +734,8 @@ class DealService
 
         if (!$isSuperAdmin) {
             $query->whereHas('platform', function ($q) use ($userId) {
-                $q->where(function ($q2) use ($userId) {
-                    $q2->where('financial_manager_id', $userId)
-                       ->orWhere('owner_id', $userId)
-                       ->orWhere('marketing_manager_id', $userId);
+                $q->whereHas('roles', function ($roleQuery) use ($userId) {
+                    $roleQuery->where('user_id', $userId);
                 });
             });
         }
@@ -761,5 +747,52 @@ class DealService
         return $query->where('status', '!=', 4)
             ->orderBy('created_at', 'desc')
             ->get(['id', 'name', 'platform_id', 'status']);
+    }
+
+    /**
+     * Find a deal by ID
+     *
+     * @param int $id
+     * @return Deal|null
+     */
+    public function findById(int $id): ?Deal
+    {
+        return Deal::find($id);
+    }
+
+    /**
+     * Delete a deal
+     *
+     * @param int $id
+     * @return bool
+     * @throws \Exception
+     */
+    public function delete(int $id): bool
+    {
+        $deal = Deal::findOrFail($id);
+        return $deal->delete();
+    }
+
+    /**
+     * Get deals with user purchase history
+     *
+     * @param int $userId
+     * @return Collection
+     */
+    public function getDealsWithUserPurchases(int $userId): Collection
+    {
+        try {
+            return Deal::with('items')
+                ->whereHas('items.orderDetails.order', function ($query) use ($userId) {
+                    $query->where('user_id', $userId);
+                })
+                ->distinct()
+                ->get();
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Error fetching deals with user purchases: ' . $e->getMessage(), [
+                'user_id' => $userId
+            ]);
+            return new Collection();
+        }
     }
 }

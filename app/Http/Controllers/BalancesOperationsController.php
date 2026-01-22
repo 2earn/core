@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\OperationCategory;
-use Core\Models\BalanceOperation;
+use App\Models\BalanceOperation;
 use Illuminate\Support\Facades\DB;
 
 class BalancesOperationsController extends Controller

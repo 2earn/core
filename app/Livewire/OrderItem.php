@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Enums\CommissionTypeEnum;
 use App\Models\BFSsBalances;
 use App\Models\CashBalances;
 use App\Models\CommissionBreakDown;
@@ -9,7 +10,6 @@ use App\Models\DiscountBalances;
 use App\Models\Order;
 use App\Models\OrderDeal;
 use App\Services\Orders\OrderingSimulation;
-use Core\Enum\CommissionTypeEnum;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;

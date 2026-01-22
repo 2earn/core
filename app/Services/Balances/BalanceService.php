@@ -2,7 +2,7 @@
 
 namespace App\Services\Balances;
 
-use Core\Enum\BalanceEnum;
+use App\Enums\BalanceEnum;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 

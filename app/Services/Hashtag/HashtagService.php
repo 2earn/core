@@ -78,7 +78,6 @@ class HashtagService
     public function createHashtag(array $data): ?Hashtag
     {
         try {
-            // Generate slug if not provided
             if (empty($data['slug']) && !empty($data['name'])) {
                 $data['slug'] = Str::slug($data['name']);
             }
@@ -102,7 +101,6 @@ class HashtagService
         try {
             $hashtag = Hashtag::findOrFail($id);
 
-            // Generate slug if name is updated
             if (!empty($data['name']) && empty($data['slug'])) {
                 $data['slug'] = Str::slug($data['name']);
             }
@@ -167,6 +165,67 @@ class HashtagService
         } catch (\Exception $e) {
             Log::error('Error fetching hashtag by slug: ' . $e->getMessage());
             return null;
+        }
+    }
+
+    /**
+     * Get all hashtags
+     *
+     * @return EloquentCollection
+     */
+    public function getAll(): EloquentCollection
+    {
+        try {
+            return Hashtag::all();
+        } catch (\Exception $e) {
+            Log::error('Error fetching all hashtags: ' . $e->getMessage());
+            return new EloquentCollection();
+        }
+    }
+
+    /**
+     * Find hashtag by ID or fail
+     *
+     * @param int $id
+     * @return Hashtag
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function findByIdOrFail(int $id): Hashtag
+    {
+        return Hashtag::findOrFail($id);
+    }
+
+    /**
+     * Create a new hashtag
+     *
+     * @param array $data
+     * @return Hashtag|null
+     */
+    public function create(array $data): ?Hashtag
+    {
+        try {
+            return Hashtag::create($data);
+        } catch (\Exception $e) {
+            Log::error('Error creating hashtag: ' . $e->getMessage(), ['data' => $data]);
+            return null;
+        }
+    }
+
+    /**
+     * Update a hashtag
+     *
+     * @param int $id
+     * @param array $data
+     * @return bool
+     */
+    public function update(int $id, array $data): bool
+    {
+        try {
+            $hashtag = Hashtag::findOrFail($id);
+            return $hashtag->update($data);
+        } catch (\Exception $e) {
+            Log::error('Error updating hashtag: ' . $e->getMessage(), ['id' => $id, 'data' => $data]);
+            return false;
         }
     }
 }

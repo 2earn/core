@@ -32,7 +32,8 @@ class DealPartnerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|integer|exists:users,id',
-            'platform_id' => 'nullable|integer|exists:platforms,id',
+            'platform_ids' => 'nullable|array',
+            'platform_ids.*' => 'integer|exists:platforms,id',
             'page' => 'nullable|integer|min:1',
             'limit' => 'nullable|integer|min:1',
             'search' => 'nullable|string|max:255'
@@ -48,20 +49,20 @@ class DealPartnerController extends Controller
         }
 
         $userId = $request->input('user_id');
-        $platformId = $request->input('platform_id');
+        $platformIds = $request->input('platform_ids');
         $page = $request->input('page');
         $limit = $request->input('limit') ?? 8;
         $search = $request->input('search');
 
         $deals = $this->dealService->getPartnerDeals(
             $userId,
-            $platformId,
+            $platformIds,
             $search,
             $page,
             $limit
         );
 
-        $totalCount = $this->dealService->getPartnerDealsCount($userId, $platformId, $search);
+        $totalCount = $this->dealService->getPartnerDealsCount($userId, $platformIds, $search);
 
         $this->dealService->enrichDealsWithRequests($deals);
 
@@ -79,7 +80,6 @@ class DealPartnerController extends Controller
         $validatedData['created_by_id'] = $request->input('user_id');
         $validatedData['validated'] = false;
         $validatedData['current_turnover'] = $request->input('current_turnover', 0);
-
 
         try {
             DB::beginTransaction();
@@ -147,7 +147,6 @@ class DealPartnerController extends Controller
                 'message' => 'Deal not found'
             ], Response::HTTP_NOT_FOUND);
         }
-
 
         if ($deal->validated) {
             Log::warning(self::LOG_PREFIX . 'Deal is already validated', [
@@ -233,7 +232,6 @@ class DealPartnerController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        // Get deal using the service
         $deal = $this->dealService->getPartnerDealById($dealId, $userId);
 
         if (!$deal) {
@@ -244,7 +242,6 @@ class DealPartnerController extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
 
-        // Get change requests using the service
         $changeRequests = $this->dealService->getDealChangeRequests($dealId);
         $validationRequests = $this->dealService->getDealValidationRequests($dealId);
 
@@ -261,7 +258,6 @@ class DealPartnerController extends Controller
     public function update(UpdateDealRequest $request, Deal $deal)
     {
         $validatedData = $request->validated();
-
 
         if (array_key_exists('current_turnover', $validatedData)) {
             $validatedData['current_turnover'] = $validatedData['current_turnover'] ?? 0;
@@ -378,7 +374,7 @@ class DealPartnerController extends Controller
         }
 
         if (!$validationRequest->canBeCancelled()) {
-            Log::warning(self::LOG_PREFIX . 'Validation request cannot be cancelled', [
+            Log::warning(self::LOG_PREFIX . 'Validation request cannot be canceled', [
                 'validation_request_id' => $validationRequestId,
                 'current_status' => $validationRequest->status
             ]);
@@ -391,7 +387,7 @@ class DealPartnerController extends Controller
         $validationRequest->status = DealValidationRequest::STATUS_CANCELLED;
         $validationRequest->save();
 
-        Log::info(self::LOG_PREFIX . 'Validation request cancelled', [
+        Log::info(self::LOG_PREFIX . 'Validation request canceled', [
             'validation_request_id' => $validationRequestId,
             'deal_id' => $validationRequest->deal_id
         ]);
@@ -431,7 +427,7 @@ class DealPartnerController extends Controller
         }
 
         if (!$changeRequest->canBeCancelled()) {
-            Log::warning(self::LOG_PREFIX . 'Change request cannot be cancelled', [
+            Log::warning(self::LOG_PREFIX . 'Change request cannot be canceled', [
                 'change_request_id' => $changeRequestId,
                 'current_status' => $changeRequest->status
             ]);
@@ -444,7 +440,7 @@ class DealPartnerController extends Controller
         $changeRequest->status = DealChangeRequest::STATUS_CANCELLED;
         $changeRequest->save();
 
-        Log::info(self::LOG_PREFIX . 'Change request cancelled', [
+        Log::info(self::LOG_PREFIX . 'Change request canceled', [
             'change_request_id' => $changeRequestId,
             'deal_id' => $changeRequest->deal_id
         ]);
@@ -462,7 +458,8 @@ class DealPartnerController extends Controller
             'user_id' => 'required|integer|exists:users,id',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
-            'platform_id' => 'nullable|integer|exists:platforms,id',
+            'platform_ids' => 'nullable|array',
+            'platform_ids.*' => 'integer|exists:platforms,id',
             'deal_id' => 'nullable|integer|exists:deals,id'
         ]);
 
@@ -478,7 +475,7 @@ class DealPartnerController extends Controller
         $userId = $request->input('user_id');
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
-        $platformId = $request->input('platform_id');
+        $platformIds = $request->input('platform_ids');
         $dealId = $request->input('deal_id');
 
         try {
@@ -486,7 +483,7 @@ class DealPartnerController extends Controller
                 $userId,
                 $startDate,
                 $endDate,
-                $platformId,
+                $platformIds,
                 $dealId
             );
 
@@ -495,7 +492,7 @@ class DealPartnerController extends Controller
                 'filters' => [
                     'start_date' => $startDate,
                     'end_date' => $endDate,
-                    'platform_id' => $platformId,
+                    'platform_ids' => $platformIds,
                     'deal_id' => $dealId
                 ]
             ]);

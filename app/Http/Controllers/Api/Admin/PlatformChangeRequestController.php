@@ -5,17 +5,13 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\PlatformChangeRequest;
 use App\Services\Platform\PlatformChangeRequestService;
-use Core\Models\Platform;
+use App\Models\Platform;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
-/**
- * Controller for managing platform change request approvals
- * This should be accessible only to admin users
- */
 class PlatformChangeRequestController extends Controller
 {
     private const LOG_PREFIX = '[PlatformChangeRequestController] ';
@@ -27,9 +23,6 @@ class PlatformChangeRequestController extends Controller
         $this->changeRequestService = $changeRequestService;
     }
 
-    /**
-     * Get all pending change requests
-     */
     public function pending(Request $request)
     {
         $page = $request->input('page', 1);
@@ -54,9 +47,6 @@ class PlatformChangeRequestController extends Controller
         ]);
     }
 
-    /**
-     * Get all change requests (with filtering)
-     */
     public function index(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -98,9 +88,6 @@ class PlatformChangeRequestController extends Controller
         ]);
     }
 
-    /**
-     * Get a specific change request
-     */
     public function show($id)
     {
         $changeRequest = $this->changeRequestService->getChangeRequestById($id);
@@ -118,9 +105,6 @@ class PlatformChangeRequestController extends Controller
         ]);
     }
 
-    /**
-     * Get statistics about change requests
-     */
     public function statistics()
     {
         $stats = $this->changeRequestService->getStatistics();

@@ -22,12 +22,10 @@ class ItemService
     {
         $query = Item::query();
 
-        // Apply search filter
         if (!is_null($search) && !empty($search)) {
             $query->where('name', 'like', '%' . $search . '%');
         }
 
-        // Order by created date descending
         $query->orderBy('created_at', 'desc');
 
         return $query->paginate($perPage);
@@ -92,13 +90,11 @@ class ItemService
             return;
         }
 
-        // Delete existing image if present
         if (!is_null($item->thumbnailsImage)) {
             Storage::disk('public2')->delete($item->thumbnailsImage->url);
             $item->thumbnailsImage()->delete();
         }
 
-        // Store new image
         $imagePath = $image->store('business-sectors/' . Item::IMAGE_TYPE_THUMBNAILS, 'public2');
         $item->thumbnailsImage()->create([
             'url' => $imagePath,
@@ -139,6 +135,19 @@ class ItemService
     }
 
     /**
+     * Get all items for a specific deal with complete details
+     *
+     * @param int $dealId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getItemsForDeal(int $dealId)
+    {
+        return Item::where('deal_id', $dealId)
+            ->where('ref', '!=', '#0001')
+            ->get();
+    }
+
+    /**
      * Aggregate top-selling items from a query builder
      *
      * @param Builder $query Query builder with order_details joined to orders and items
@@ -166,5 +175,67 @@ class ItemService
             });
 
         return $topProducts->toArray();
+    }
+
+    /**
+     * Bulk update items to assign them to a deal
+     *
+     * @param array $itemIds Array of item IDs to update
+     * @param int $dealId Deal ID to assign to the items
+     * @return int Number of items updated
+     */
+    public function bulkUpdateDeal(array $itemIds, int $dealId): int
+    {
+        return Item::whereIn('id', $itemIds)->update(['deal_id' => $dealId]);
+    }
+
+    /**
+     * Bulk remove items from a deal
+     *
+     * @param array $itemIds Array of item IDs to remove from the deal
+     * @param int $dealId Deal ID to verify items belong to
+     * @return int Number of items removed
+     */
+    public function bulkRemoveFromDeal(array $itemIds, int $dealId): int
+    {
+        return Item::whereIn('id', $itemIds)
+            ->where('deal_id', $dealId)
+            ->update(['deal_id' => null]);
+    }
+
+    /**
+     * Find item by ref and platform_id
+     *
+     * @param string $ref
+     * @param int $platformId
+     * @return Item|null
+     */
+    public function findByRefAndPlatform(string $ref, int $platformId): ?Item
+    {
+        return Item::where('ref', $ref)
+            ->where('platform_id', $platformId)
+            ->first();
+    }
+
+    /**
+     * Get items with user purchase history
+     *
+     * @param int $userId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getItemsWithUserPurchases(int $userId): \Illuminate\Database\Eloquent\Collection
+    {
+        try {
+            return Item::whereHas('OrderDetails.order', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+                ->distinct()
+                ->get();
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Error fetching items with user purchases: ' . $e->getMessage(), [
+                'user_id' => $userId
+            ]);
+            return new \Illuminate\Database\Eloquent\Collection();
+        }
     }
 }

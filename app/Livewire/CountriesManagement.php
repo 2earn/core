@@ -3,8 +3,8 @@
 namespace App\Livewire;
 
 
-use Core\Enum\LanguageEnum;
-use Core\Services\settingsManager;
+use App\Enums\LanguageEnum;
+use App\Services\settingsManager;
 use Livewire\Component;
 
 class CountriesManagement extends Component
@@ -30,12 +30,12 @@ class CountriesManagement extends Component
     public function initCountrie($id, settingsManager $settingsManager)
     {
         $this->idL = $id;
-        $countrie = $settingsManager->getCountrieById($id);
-        if (!$countrie) return;
-        $this->name = $countrie->name;
-        $this->phonecode = $countrie->phonecode;
-        $this->langue = $countrie->langage;
-        $this->ISO = $countrie->apha2;
+        $countries = $settingsManager->getCountrieById($id);
+        if (!$countries) return;
+        $this->name = $countries->name;
+        $this->phonecode = $countries->phonecode;
+        $this->langue = $countries->langage;
+        $this->ISO = $countries->apha2;
     }
 
 

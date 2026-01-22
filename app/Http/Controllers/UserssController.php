@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\BalanceEnum;
 use App\Services\Balances\BalanceService;
 use App\Services\Balances\BalanceTreeService;
-use Core\Enum\BalanceEnum;
-use Core\Services\settingsManager;
+use App\Services\settingsManager;
 use Illuminate\Support\Facades\DB;
 
 class UserssController extends Controller

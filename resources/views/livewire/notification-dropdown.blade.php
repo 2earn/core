@@ -5,14 +5,7 @@
             aria-expanded="false" wire:ignore.self
             data-bs-auto-close="outside"
     >
-        <i class='bx bx-bell fs-22'></i>
-        @if($unreadNotificationsNumber > 0)
-            <span class="start-100 translate-middle badge rounded-pill bg-danger fs-10 px-1 number-notif"
-                  id="notif-counter">
-                {{$unreadNotificationsNumber > 99 ? '99+' : $unreadNotificationsNumber}}
-                <span class="visually-hidden">{{__('unread messages')}}</span>
-            </span>
-        @endif
+        <i class='bx bx-bell fs-22 @if($unreadNotificationsNumber > 0) text-danger @endif'></i>
     </button>
     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0 shadow-lg border-0" wire:ignore.self
          id="notification-dropdown"

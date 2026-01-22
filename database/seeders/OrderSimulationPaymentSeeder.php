@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Order;
-use Core\Enum\OrderEnum;
+use App\Enums\OrderEnum;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 

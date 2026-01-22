@@ -15,7 +15,6 @@ class VerifyAuditing extends Command
         $this->info('=== Verifying Auditing System ===');
         $this->newLine();
 
-        // Test 1: Check trait
         $this->info('Test 1: Checking if HasAuditing trait exists');
         if (trait_exists(\App\Traits\HasAuditing::class)) {
             $this->line('✅ HasAuditing trait found');
@@ -24,7 +23,6 @@ class VerifyAuditing extends Command
         }
         $this->newLine();
 
-        // Test 2: Check a few models
         $this->info('Test 2: Checking models for HasAuditing trait');
         $modelsToCheck = ['Deal', 'Order', 'Item', 'News', 'Survey', 'Event', 'User'];
         foreach ($modelsToCheck as $model) {
@@ -41,7 +39,6 @@ class VerifyAuditing extends Command
         }
         $this->newLine();
 
-        // Test 3: Check database columns
         $this->info('Test 3: Checking database columns');
         $tablesToCheck = ['deals', 'orders', 'items', 'news', 'surveys', 'events'];
         foreach ($tablesToCheck as $table) {
@@ -63,12 +60,10 @@ class VerifyAuditing extends Command
         }
         $this->newLine();
 
-        // Test 4: Count all models
         $this->info('Test 4: Scanning all models');
 
         $directories = [
             'App\Models' => app_path('Models'),
-            'Core\Models' => base_path('Core/Models'),
         ];
 
         $totalWithTrait = 0;
@@ -88,11 +83,10 @@ class VerifyAuditing extends Command
                 $className = str_replace('/', '\\', $namespace) . "\\{$filename}";
 
                 try {
-                    // Suppress errors during class loading
+
                     if (@class_exists($className, false) || @class_exists($className)) {
                         $reflection = new \ReflectionClass($className);
 
-                        // Check if it's actually a model
                         if (!$reflection->isSubclassOf('Illuminate\Database\Eloquent\Model')) {
                             continue;
                         }
@@ -106,7 +100,7 @@ class VerifyAuditing extends Command
                         }
                     }
                 } catch (\Throwable $e) {
-                    // Skip problematic classes silently
+
                     continue;
                 }
             }

@@ -2,37 +2,49 @@
 
 namespace App\Livewire;
 
-use App\Models\CommittedInvestorRequest;
+use App\Enums\RequestStatus;
 use App\Models\User;
-use Core\Enum\RequestStatus;
+use App\Services\CommittedInvestor\CommittedInvestorRequestService;
+use App\Services\UserService;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
 class CommitedRequestShow extends Component
 {
+    protected CommittedInvestorRequestService $committedInvestorRequestService;
+    protected UserService $userService;
+
     public $rejectOpened = false;
     public $note;
     public $note_message;
     public $userProfileImage;
     public $CommitedRequestId;
 
+    public function boot(CommittedInvestorRequestService $committedInvestorRequestService, UserService $userService)
+    {
+        $this->committedInvestorRequestService = $committedInvestorRequestService;
+        $this->userService = $userService;
+    }
+
     public function mount()
     {
         $this->CommitedRequestId = Route::current()->parameter('id');
-        $committedInvestorRequest = CommittedInvestorRequest::find($this->CommitedRequestId);
+        $committedInvestorRequest = $this->committedInvestorRequestService->getCommittedInvestorRequestById($this->CommitedRequestId);
         $this->userProfileImage = User::getUserProfileImage($committedInvestorRequest->user->idUser);
     }
 
     public function validateRequest()
     {
-        $committedInvestorRequest = CommittedInvestorRequest::find($this->CommitedRequestId);
-        $committedInvestorRequest->update(
+        $committedInvestorRequest = $this->committedInvestorRequestService->getCommittedInvestorRequestById($this->CommitedRequestId);
+        $this->committedInvestorRequestService->updateCommittedInvestorRequest(
+            $this->CommitedRequestId,
             [
                 'status' => RequestStatus::Validated->value,
                 'examination_date' => now(),
                 'examiner_id' => auth()->user()->id,
-            ]);
-        User::find($committedInvestorRequest->user_id)->update(['commited_investor' => true]);
+            ]
+        );
+        $this->userService->updateById($committedInvestorRequest->user_id, ['commited_investor' => true]);
         return redirect()->route('requests_commited_investors', app()->getLocale())->with('success', trans('Committed investor request is validated'));
     }
 
@@ -44,8 +56,8 @@ class CommitedRequestShow extends Component
     public function rejectRequest()
     {
         if (!empty($this->note) && !is_null($this->note)) {
-            $committedInvestorRequest = CommittedInvestorRequest::find($this->CommitedRequestId);
-            $committedInvestorRequest->update(
+            $this->committedInvestorRequestService->updateCommittedInvestorRequest(
+                $this->CommitedRequestId,
                 [
                     'status' => RequestStatus::Rejected->value,
                     'examination_date' => now(),
@@ -62,10 +74,9 @@ class CommitedRequestShow extends Component
 
     public function render()
     {
-
         $params = [
-            'commitedInvestorsRequests' => CommittedInvestorRequest::where('user_id', auth()->user()->id)->get(),
-            'commitedInvestorsRequest' => CommittedInvestorRequest::find($this->CommitedRequestId)
+            'commitedInvestorsRequests' => $this->committedInvestorRequestService->getUserCommittedInvestorRequests(auth()->user()->id),
+            'commitedInvestorsRequest' => $this->committedInvestorRequestService->getCommittedInvestorRequestById($this->CommitedRequestId)
         ];
         return view('livewire.commited-request-show', $params)->extends('layouts.master')->section('content');
     }

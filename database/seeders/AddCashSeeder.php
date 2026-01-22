@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Enums\BalanceOperationsEnum;
 use App\Models\CashBalances;
 use App\Services\Balances\Balances;
-use Core\Enum\BalanceOperationsEnum;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
 
@@ -15,7 +15,7 @@ class AddCashSeeder extends Seeder
     public function run()
     {
         if (!App::isProduction()) {
-            $value = 100000;
+            $value = 20000;
             $balances = new Balances();
             foreach (self::USERS_IDS as $idUser) {
                 $userCurrentBalancehorisontal = Balances::getStoredUserBalances($idUser);

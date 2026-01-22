@@ -1,1 +1,2 @@
-<span class="text-info btn btn-soft-primary" title="{{$status}}">{{__(\Core\Enum\StatusRequest::from($status)->name)}}</span>
+<span class="text-info btn btn-soft-primary"
+      title="{{$status}}">{{__(\App\Enums\StatusRequest::from($status)->name)}}</span>

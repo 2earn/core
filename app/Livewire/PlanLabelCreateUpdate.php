@@ -72,7 +72,7 @@ class PlanLabelCreateUpdate extends Component
         $formula = $this->PlanLabelService->getPlanLabelById($id);
 
         if (!$formula) {
-            session()->flash('error', Lang::get('Plan label not found.'));
+            session()->flash('error', Lang::get('Plan label not found'));
             return redirect()->route('plan_label_index', ['locale' => app()->getLocale()]);
         }
 
@@ -112,7 +112,7 @@ class PlanLabelCreateUpdate extends Component
                     $this->handleIconImageUpload($formula);
                 }
 
-                session()->flash('success', Lang::get('Plan label updated successfully.') . ' : ' . $this->name);
+                session()->flash('success', Lang::get('Plan label updated successfully') . ' : ' . $this->name);
                 return redirect()->route('plan_label_index', ['locale' => app()->getLocale()]);
             } else {
                 session()->flash('error', Lang::get('Failed to update Plan label.'));
@@ -125,7 +125,7 @@ class PlanLabelCreateUpdate extends Component
                     $this->handleIconImageUpload($formula);
                 }
 
-                session()->flash('success', Lang::get('Plan label created successfully.'));
+                session()->flash('success', Lang::get('Plan label created successfully'));
                 return redirect()->route('plan_label_index', ['locale' => app()->getLocale()]);
             } else {
                 session()->flash('error', Lang::get('Failed to create Plan label.'));

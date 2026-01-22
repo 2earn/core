@@ -1,7 +1,7 @@
 @php
-          $balanceModel=\App\Models\DiscountBalances::find($balance->id);
-          $bfsModel=\App\Models\BFSsBalances::where('reference',$balanceModel->reference)
-          ->where('balance_operation_id',\Core\Enum\BalanceOperationsEnum::OLD_ID_13->value)->first();
+    $balanceModel=\App\Models\DiscountBalances::find($balance->id);
+    $bfsModel=\App\Models\BFSsBalances::where('reference',$balanceModel->reference)
+    ->where('balance_operation_id',\App\Enums\BalanceOperationsEnum::OLD_ID_13->value)->first();
 @endphp
 
 @if(!is_null($bfsModel))

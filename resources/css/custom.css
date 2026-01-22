@@ -40,56 +40,45 @@
     line-height: 1;
 }
 
-/* News Item Card Styles */
-.news-item {
-    background: linear-gradient(135deg, #f5fbff 0%, #e8f6fb 75%);
-    border-left: 4px solid #b3d9f2;
+/* Unified Item Card Styles - Same background, different accents */
+.news-item,
+.event-item,
+.survey-item {
     transition: all 0.3s ease;
+    border-radius: 0.5rem;
+}
+
+/* News Item - Blue accent */
+.news-item {
+    border-left: 5px solid #0d6efd;
 }
 
 .news-item:hover {
-    box-shadow: 0 8px 16px rgba(179, 217, 242, 0.3);
+    box-shadow: 0 8px 16px rgba(13, 110, 253, 0.25);
     transform: translateY(-2px);
+    border-left-color: #0a58ca;
 }
 
-
-/* Event Item Card Styles */
+/* Event Item - Red/Pink accent */
 .event-item {
-    background: linear-gradient(135deg, #ffebee 0%, #fce4ec 75%);
-    border-left: 4px solid #ef9a9a;
-    transition: all 0.3s ease;
+    border-left: 5px solid #dc3545;
 }
 
 .event-item:hover {
-    box-shadow: 0 8px 16px rgba(239, 154, 154, 0.3);
+    box-shadow: 0 8px 16px rgba(220, 53, 69, 0.25);
     transform: translateY(-2px);
+    border-left-color: #b02a37;
 }
 
-
-/* Survey Item Card Styles */
+/* Survey Item - Orange/Amber accent */
 .survey-item {
-    background: linear-gradient(135deg, #fffbf5 0%, #fef6ed 75%);
-    border-left: 4px solid #e8d4b8;
-    transition: all 0.3s ease;
+    border-left: 5px solid #fd7e14;
 }
 
 .survey-item:hover {
-    box-shadow: 0 8px 16px rgba(232, 212, 184, 0.3);
+    box-shadow: 0 8px 16px rgba(253, 126, 20, 0.25);
     transform: translateY(-2px);
-}
-
-.survey-item .card-header, .news-item .card-header, .event-item .card-header {
-    background-color: transparent !important;
-    border-bottom: 1px solid rgba(255, 152, 0, 0.2);
-}
-
-.survey-item .card-body, .news-item .card-body, .event-item .card-body {
-    background-color: transparent !important;
-}
-
-.survey-item .card-footer, .news-item .card-footer, .event-item .card-footer {
-    background-color: transparent !important;
-    border-top: 1px solid rgba(255, 152, 0, 0.2);
+    border-left-color: #ca6510;
 }
 
 
@@ -689,5 +678,150 @@ div.dt-processing {
 
 .btn-view-all-sectors:hover i.arrow-icon {
     transform: translateX(5px);
+}
+
+.btn-flash-gold {
+    color: #2c2418 !important;
+    border: 2px solid #D4A853 !important;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    transform: translateZ(0);
+    transition: all 0.3s ease;
+    direction: rtl;
+}
+
+.btn-flash-gold:hover {
+    transform: scale(1.08) translateZ(0);
+    color: #2c2418 !important;
+}
+
+
+@keyframes goldPulse {
+    0%, 100% {
+        transform: scale(1) translateZ(0);
+    }
+    50% {
+        transform: scale(1.03) translateZ(0);
+    }
+}
+
+@keyframes goldGlow {
+    0%, 100% {
+        filter: brightness(1) drop-shadow(0 0 6px rgba(212, 168, 83, 0.6));
+    }
+    50% {
+        filter: brightness(1.1) drop-shadow(0 0 12px rgba(212, 168, 83, 0.8));
+    }
+}
+
+@keyframes flashBlink {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.1);
+    }
+}
+
+@keyframes arrowSlide {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+}
+
+.flash-icon-animate {
+    animation: flashBlink 1s infinite;
+}
+
+.flash-arrow-animate {
+    animation: arrowSlide 1s infinite;
+}
+
+/* Flash Gift & Gain Buttons - Small Size */
+.btn-flash-gift,
+.btn-flash-gain {
+    border-radius: 8px;
+    padding: 0.4rem 0.85rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    position: relative;
+}
+
+.btn-flash-gift {
+    background: linear-gradient(135deg, #E8C876 0%, #D4A853 50%, #C49A47 100%);
+    border: 2px solid #D4A853;
+    color: #2c2418;
+    box-shadow: 0 2px 8px rgba(212, 168, 83, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+.btn-flash-gift:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 6px 16px rgba(212, 168, 83, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    filter: brightness(1.08) saturate(1.1);
+    color: #2c2418;
+}
+
+.btn-flash-gift:active {
+    transform: scale(0.97);
+    box-shadow: 0 1px 4px rgba(212, 168, 83, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.btn-flash-gift:hover .flash-gift-icon {
+    transform: rotate(-15deg) scale(1.1);
+}
+
+.btn-flash-gain {
+    background: linear-gradient(135deg, #C8A458 0%, #B88A3F 50%, #A67B35 100%);
+    border: 2px solid #B88A3F;
+    color: #2c2418;
+    box-shadow: 0 2px 8px rgba(184, 138, 63, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.btn-flash-gain:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 6px 16px rgba(184, 138, 63, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    filter: brightness(1.08) saturate(1.1);
+    color: #2c2418;
+}
+
+.btn-flash-gain:active {
+    transform: scale(0.97);
+    box-shadow: 0 1px 4px rgba(184, 138, 63, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.btn-flash-gain:hover .flash-gain-icon {
+    transform: rotate(180deg) scale(1.1);
+}
+
+.flash-gift-icon,
+.flash-gain-icon {
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
+}
+
+.flash-value-badge {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3));
+    color: #2c2418;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border: 1.5px solid rgba(44, 36, 24, 0.15);
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5), 0 2px 4px rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.3px;
+    display: inline-block;
+    min-width: 35px;
+    text-align: center;
+    border-radius: 50rem;
 }
 

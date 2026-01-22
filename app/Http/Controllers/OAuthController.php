@@ -8,6 +8,7 @@ use Firebase\JWT\Key;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class OAuthController extends Controller
 {
@@ -15,17 +16,23 @@ class OAuthController extends Controller
     {
         $code = $request->input('code');
         $state = $request->input('state');
-
+ 
         $response = Http::asForm()
             ->withOptions(['verify' => false])
-            ->withBasicAuth(config('services.auth_2earn.client_id'), config('services.auth_2earn.secret'))
-            ->post(config('services.auth_2earn.token'), ['grant_type' => 'authorization_code', 'code' => $code, 'redirect_uri' => config('services.auth_2earn.redirect')]);
+            ->post(config('services.auth_2earn.token'), [
+                'grant_type' => 'authorization_code',
+                'client_id' => config('services.auth_2earn.client_id'),
+                'client_secret' => config('services.auth_2earn.secret'),
+                'code' => $code,
+                'redirect_uri' => config('services.auth_2earn.redirect'),
+            ]);
+
+        Log::info('Http', ['client_id' => config('services.auth_2earn.client_id'), 'secret' => config('services.auth_2earn.secret')]);
+        Log::info('OAuth token response', ['response' => $response->body()]);
 
         if (!$response->ok()) {
-            return response()->json([
-                'error' => 'unauthorized',
-                'message' => trans('Error while retrieving the token') . ' Details: ' . $response->body()
-            ], 401);
+            Log::alert('OAuth token retrieval failed', ['response' => $response->body()]);
+            return response()->json(['error' => 'unauthorized', 'message' => trans('Error while retrieving the token')], 401);
         }
 
         session(['token_responce' => $response->json()]);
@@ -34,6 +41,7 @@ class OAuthController extends Controller
         $idToken = $data['id_token'] ?? null;
 
         if (!$idToken) {
+            Log::alert('ID Token missing in OAuth response', ['response' => $response->body()]);
             return response()->json(['error' => 'invalid_id_token', 'message' => trans('ID Token missing from the response')], 401);
         }
 
@@ -42,6 +50,7 @@ class OAuthController extends Controller
         try {
             $decoded = JWT::decode($idToken, new Key($publicKey, 'RS256'));
         } catch (\Exception $e) {
+            Log::alert('ID Token decoding failed', ['error' => $e->getMessage()]);
             return response()->json([
                 'error' => 'invalid_token',
                 'message' => trans('Invalid token') . ': ' . $e->getMessage()

@@ -2,8 +2,8 @@
 
 namespace App\DAL;
 
-use Core\Interfaces\IUserContactNumberRepository;
-use Core\Models\UserContactNumber;
+use App\Interfaces\IUserContactNumberRepository;
+use App\Models\UserContactNumber;
 use Illuminate\Support\Facades\DB;
 
 class UserContactNumberRepository implements IUserContactNumberRepository

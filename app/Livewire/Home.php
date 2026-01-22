@@ -3,13 +3,11 @@
 namespace App\Livewire;
 
 
-use App\Models\vip as Vip;
 use App\Services\Settings\SettingService;
-use Core\Services\BalancesManager;
-use Core\Services\settingsManager as SettingsManager;
-use DateInterval;
-use DateTime;
-use Illuminate\Support\Facades\DB;
+use App\Services\BalancesManager;
+use App\Services\settingsManager as SettingsManager;
+use App\Services\VipService;
+use App\Services\MettaUsersService;
 use Illuminate\View\View;
 use Livewire\Component;
 
@@ -21,6 +19,8 @@ class Home extends Component
     private SettingsManager $settingsManager;
     private BalancesManager $balancesManager;
     private SettingService $settingService;
+    private VipService $vipService;
+    private MettaUsersService $mettaUsersService;
     public $ammount;
     public $ammountReal;
     public $action;
@@ -48,11 +48,19 @@ class Home extends Component
     ];
 
 
-    public function mount(SettingsManager $settingsManager, BalancesManager $balancesManager, SettingService $settingService)
+    public function mount(
+        SettingsManager $settingsManager,
+        BalancesManager $balancesManager,
+        SettingService $settingService,
+        VipService $vipService,
+        MettaUsersService $mettaUsersService
+    )
     {
         $this->settingsManager = $settingsManager;
         $this->balancesManager = $balancesManager;
         $this->settingService = $settingService;
+        $this->vipService = $vipService;
+        $this->mettaUsersService = $mettaUsersService;
     }
 
     public function getIp(): ?string
@@ -81,7 +89,7 @@ class Home extends Component
 
         delUsertransaction($user->idUser);
 
-        $userMetaInfo = collect(DB::table('metta_users')->where('idUser', $user->idUser)->first());
+        $userMetaInfo = $this->mettaUsersService->getMettaUserInfo($user->idUser);
 
         $actualActionValue = actualActionValue(getSelledActions(true), false);
 
@@ -89,8 +97,7 @@ class Home extends Component
             'usermetta_info' => $userMetaInfo,
         ];
 
-        $this->vip = Vip::where('idUser', '=', $user->idUser)
-            ->where('closed', '=', false)->first();
+        $this->vip = $this->vipService->getActiveVipByUserId($user->idUser);
 
         if ($this->vip) {
             $vipIntegerValues = $this->settingService->getIntegerValues(['20', '18']);
@@ -98,36 +105,24 @@ class Home extends Component
             $totalActions = $vipIntegerValues['18'] ?? 0;
             $flashCoefficient = $this->settingService->getDecimalValue('21') ?? 0.0;
 
-            $this->actions = find_actions(
-                $this->vip->solde,
+            $vipCalculations = $this->vipService->getVipCalculations(
+                $this->vip,
                 $totalActions,
                 $maxBonus,
                 $flashCoefficient,
-                $this->vip->flashCoefficient
+                $actualActionValue
             );
 
-            $this->benefices = (
-                $this->vip->solde -
-                find_actions($this->vip->solde, $totalActions, $maxBonus, $flashCoefficient, $this->vip->flashCoefficient)
-            ) * $actualActionValue;
+            $this->actions = $vipCalculations['actions'];
+            $this->benefices = $vipCalculations['benefits'];
+            $this->cout = $vipCalculations['cost'];
 
-            $this->cout = formatSolde(
-                $this->actions * $actualActionValue /
-                (($this->actions * $this->vip->flashCoefficient) + getGiftedActions($this->actions)),
-                2
-            );
-
-            $this->flashTimes = $this->vip->flashCoefficient;
-            $this->flashPeriod = $this->vip->flashDeadline;
-            $this->flashDate = $this->vip->dateFNS;
-            $this->flashMinShares = $this->vip->flashMinAmount;
-
-            $currentDateTime = new DateTime();
-            $flashWindowEnd = (new DateTime($this->flashDate))
-                ->add(new DateInterval('PT' . $this->flashPeriod . 'H'));
-
-            $this->flashDate = $flashWindowEnd->format('F j, Y G:i:s');
-            $this->flash = $currentDateTime < $flashWindowEnd;
+            $flashStatus = $vipCalculations['flashStatus'];
+            $this->flashTimes = $flashStatus['flashTimes'];
+            $this->flashPeriod = $flashStatus['flashPeriod'];
+            $this->flashDate = $flashStatus['flashEndDate'];
+            $this->flashMinShares = $flashStatus['flashMinShares'];
+            $this->flash = $flashStatus['isFlashActive'];
         }
 
         return view('livewire.home', $params)->extends('layouts.master')->section('content');

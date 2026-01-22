@@ -2,21 +2,24 @@
 
 namespace App\Livewire;
 
-use Illuminate\Support\Facades\DB;
+use App\Services\Settings\SettingService;
 use Livewire\Component;
 
 class StaticNews extends Component
 {
     public $enableStaticNews = 0;
 
+    protected SettingService $settingService;
+
+    public function boot(SettingService $settingService)
+    {
+        $this->settingService = $settingService;
+    }
+
     public function render()
     {
-        $param = DB::table('settings')->where("ParameterName", "=", "ENABLE_STATIC_NEWS")->first();
+        $this->enableStaticNews = $this->settingService->getIntegerByParameterName('ENABLE_STATIC_NEWS') ?? 0;
 
-        if (!is_null($param)) {
-            $this->enableStaticNews = $param->IntegerValue;
-        }
-            return view('livewire.static-news');
-
+        return view('livewire.static-news');
     }
 }

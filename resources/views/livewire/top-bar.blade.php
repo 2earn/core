@@ -1,4 +1,4 @@
-<div class="container mb-1">
+<div class="container mt-3">
     <div class="row">
         <header class="col-12" id="page-topbar">
             <div class="layout-width">
@@ -106,34 +106,18 @@
                         <div class="dropdown ms-sm-3 header-item topbar-user">
                             <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
-                        <span class="d-flex align-items-center">
+                        <span class="d-flex align-items-center user-entete">
                             <img class="rounded-circle header-profile-user mx-2"
                                  src="{{ URL::asset($userProfileImage) }}" alt="{{ getUserDisplayedName() }}">
-                            <span class="text-center ms-xl-2">
-                                <span class="d-none d-xl-inline-block mx-2 fw-medium user-name-text"
-                                      title="{{$userStatus}}">
+                            <p class="text-center">
+                                <span class="d-none d-xl-inline-block"
+                                      title="{{$userStatus}} - {{__($userRole)}}">
                                     {{getUserDisplayedName()}} </span>
-                                 <span
-                                     class="d-none d-xl-block badge bg-light line-highlight @if($user->status==1) text-success  @else text-muted @endif mb-0">
-                                        <span class="mb-5">{{__($userRole)}}</span>
-                                        @if($userStatus==2)
-                                         <i class="mdi mdi-22px mdi-account-check text-success validated-user"
-                                            title="{{__('National identified')}}"></i>
-                                     @elseif($userStatus==1)
-                                         <i class="mdi mdi-22px mdi-account-alert text-warning validated-user"
-                                            title="{{__('National identification request in process')}}"></i>
-                                     @elseif($userStatus==5)
-                                         <i class="mdi mdi-22px mdi-account-alert text-warning validated-user"
-                                            title="{{__('International identification request in process')}}"></i>
-                                     @elseif($userStatus==6)
-                                         <i class="mdi mdi-22px mdi-account-alert text-warning validated-user"
-                                            title="{{__('Global identification request in process')}}"></i>
-                                     @elseif($userStatus==4)
-                                         <i class="mdi mdi-22px mdi-account-check text-info validated-user"
-                                            title="{{__('International identified')}}"></i>
-                                     @endif
-                                 </span>
-                            </span>
+                                          @if($validationStatus['show'])
+                                    <i class="{{ $validationStatus['icon'] }} {{ $validationStatus['color'] }} validated-user"
+                                       title="{{ $validationStatus['title'] }}"></i>
+                                @endif
+                            </p>
                         </span>
                             </button>
                             <div class="dropdown-menu dropdown-menu-end">

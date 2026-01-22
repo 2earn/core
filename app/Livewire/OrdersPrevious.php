@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\Order;
+use App\Services\Orders\OrderService;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -18,6 +18,12 @@ class OrdersPrevious extends Component
     public $currentRouteName;
     protected $paginationTheme = 'bootstrap';
 
+    protected OrderService $orderService;
+
+    public function boot(OrderService $orderService)
+    {
+        $this->orderService = $orderService;
+    }
 
     public function mount()
     {
@@ -34,11 +40,11 @@ class OrdersPrevious extends Component
 
     public function render()
     {
-        if (!is_null($this->search) && !empty($this->search)) {
-            $params['orders'] = Order::where('user_id',auth()->user()->id)->orderBy('created_at', 'desc')->paginate(self::PAGE_SIZE);
-        } else {
-            $params['orders'] = Order::where('user_id',auth()->user()->id)->orderBy('created_at', 'desc')->paginate(self::PAGE_SIZE);
-        }
+        $params['orders'] = $this->orderService->getUserOrdersPaginated(
+            auth()->user()->id,
+            self::PAGE_SIZE,
+            $this->search
+        );
         return view('livewire.orders-previous', $params)->extends('layouts.master')->section('content');
     }
-    }
+}

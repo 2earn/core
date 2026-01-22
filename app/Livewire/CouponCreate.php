@@ -2,16 +2,17 @@
 
 namespace App\Livewire;
 
-
-use App\Models\Coupon;
-use Core\Enum\DealTypeEnum;
-use Livewire\Component;
-use Core\Models\Platform;
+use App\Services\Coupon\CouponService;
+use App\Services\Platform\PlatformService;
 use Illuminate\Support\Facades\Lang;
+use Livewire\Component;
 
 class CouponCreate extends Component
 {
     const INDEX_ROUTE_NAME = 'coupon_index';
+
+    protected CouponService $couponService;
+    protected PlatformService $platformService;
 
     public $pins;
     public $sn;
@@ -28,11 +29,16 @@ class CouponCreate extends Component
         'value' => 'required|numeric|min:0.01',
 
     ];
+
+    public function boot(CouponService $couponService, PlatformService $platformService)
+    {
+        $this->couponService = $couponService;
+        $this->platformService = $platformService;
+    }
+
     public function mount()
     {
-        $platforms = Platform::whereHas('deals', function ($query) {
-            $query->where('type', DealTypeEnum::coupons->value);
-        })->get();
+        $platforms = $this->platformService->getPlatformsWithCouponDeals();
 
         $selectPlatforms = [];
         foreach ($platforms as $platform) {
@@ -44,10 +50,10 @@ class CouponCreate extends Component
 
     public function store()
     {
-
         $this->validate();
+
         try {
-            $coupon = [
+            $couponData = [
                 'attachment_date' => $this->attachment_date,
                 'value' => $this->value,
                 'platform_id' => $this->platform_id,
@@ -56,20 +62,20 @@ class CouponCreate extends Component
 
             $pins = explode(',', $this->pins);
             $sns = explode(',', $this->sn);
-            foreach ($pins as $key => $pin) {
-                $coupon['pin'] = $pin;
-                $coupon['sn'] = $sns[$key];
-                Coupon::create($coupon);
-            }
-            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Coupons created Successfully'));
+
+            $createdCount = $this->couponService->createMultipleCoupons($pins, $sns, $couponData);
+
+            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])
+                ->with('success', Lang::get('Coupons created Successfully') . " ({$createdCount})");
         } catch (\Exception $exception) {
-            return redirect()->route('coupon_create', ['locale' => app()->getLocale()])->with('danger', Lang::get('Coupons creation Failed') . ' ' . $exception->getMessage());
+            return redirect()->route('coupon_create', ['locale' => app()->getLocale()])
+                ->with('danger', Lang::get('Coupons creation Failed') . ' ' . $exception->getMessage());
         }
     }
 
     public function cancel()
     {
-        return redirect()->route('coupon_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Coupons operation cancelled'));
+        return redirect()->route('coupon_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Coupons operation canceled'));
     }
 
     public function render()

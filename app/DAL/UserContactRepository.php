@@ -1,6 +1,6 @@
 <?php
 namespace App\DAL;
-use Core\Interfaces\IUserContactRepository;
+use App\Interfaces\IUserContactRepository;
 use Illuminate\Support\Facades\DB;
 
 class  UserContactRepository implements IUserContactRepository

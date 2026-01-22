@@ -2,8 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Enums\BalanceEnum;
 use App\Models\BalanceInjectorCoupon;
-use Core\Enum\BalanceEnum;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -68,7 +68,7 @@ class CouponInjectorCreate extends Component
 
     public function cancel()
     {
-        return redirect()->route('coupon_injector_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Coupons operation cancelled'));
+        return redirect()->route('coupon_injector_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Coupons operation canceled'));
     }
 
     public function render()

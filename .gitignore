@@ -3,6 +3,10 @@ node_modules/
 npm-debug.log
 yarn-error.log
 
+# Vite
+.vite/
+node_modules/.vite/
+
 # Laravel 4 specific
 bootstrap/compiled.php
 app/storage/

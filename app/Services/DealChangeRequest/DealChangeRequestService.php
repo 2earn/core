@@ -26,7 +26,6 @@ class DealChangeRequestService
         try {
             $query = DealChangeRequest::with(['deal.platform', 'requestedBy', 'reviewedBy']);
 
-            // Apply search filter
             if (!is_null($search) && $search !== '') {
                 $query->whereHas('deal', function ($q) use ($search) {
                     $q->where('name', 'like', '%' . $search . '%')
@@ -34,7 +33,6 @@ class DealChangeRequestService
                 });
             }
 
-            // Apply status filter
             if ($statusFilter !== 'all') {
                 $query->where('status', $statusFilter);
             }

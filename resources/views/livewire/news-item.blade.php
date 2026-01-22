@@ -3,9 +3,14 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-12">
-                    <h5 class="mb-2 text-info">
-                        {{\App\Models\TranslaleModel::getTranslation($news,'title',$news->title)}}
-                    </h5>
+                    <div class="d-flex align-items-start gap-2">
+                        <span class="badge bg-primary" style="font-size: 0.875rem; padding: 0.35rem 0.65rem;">
+                            <i class="ri-newspaper-line"></i> {{__('News')}}
+                        </span>
+                        <h5 class="mb-2 text-info flex-grow-1">
+                            {{\App\Models\TranslaleModel::getTranslation($news,'title',$news->title)}}
+                        </h5>
+                    </div>
                     @if(\App\Models\User::isSuperAdmin())
                         <p class="mx-2">
                             <a class="link-info float-end"

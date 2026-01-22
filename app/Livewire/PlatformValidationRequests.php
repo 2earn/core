@@ -2,9 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Models\EntityRole;
 use App\Models\PlatformValidationRequest;
 use App\Services\Platform\PlatformValidationRequestService;
-use Core\Models\Platform;
+use App\Models\Platform;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -162,6 +163,17 @@ class PlatformValidationRequests extends Component
             $this->search,
             $this->perPage
         );
+
+        // Load EntityRoles for each platform
+        foreach ($requests as $request) {
+            if ($request->platform) {
+                $request->platform->ownerRole = EntityRole::where('roleable_type', 'App\Models\Platform')
+                    ->where('roleable_id', $request->platform->id)
+                    ->where('name', 'owner')
+                    ->with('user')
+                    ->first();
+            }
+        }
 
         return view('livewire.platform-validation-requests', [
             'requests' => $requests

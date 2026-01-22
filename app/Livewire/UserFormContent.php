@@ -2,15 +2,16 @@
 
 namespace App\Livewire;
 
+use App\Enums\StatusRequest;
+use App\Enums\TypeEventNotificationEnum;
+use App\Enums\TypeNotificationEnum;
 use App\Http\Traits\earnLog;
 use App\Http\Traits\earnTrait;
 use App\Models\User;
+use App\Services\UserService;
 use Carbon\Carbon;
-use Core\Enum\StatusRequest;
-use Core\Enum\TypeEventNotificationEnum;
-use Core\Enum\TypeNotificationEnum;
-use Core\Models\metta_user;
-use Core\Services\settingsManager;
+use App\Models\MettaUser;
+use App\Services\settingsManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -23,6 +24,8 @@ class UserFormContent extends Component
     use WithFileUploads;
     use earnTrait;
     use earnLog;
+
+    protected UserService $userService;
 
     public $nbrChild = 9;
     public $photoFront;
@@ -53,6 +56,11 @@ class UserFormContent extends Component
         'saveUser' => 'saveUser',
         'sendVerificationMail' => 'sendVerificationMail',
     ];
+
+    public function boot(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
 
     public function mount(settingsManager $settingManager,Request $request)
     {
@@ -95,7 +103,7 @@ class UserFormContent extends Component
             $usermetta_info->put('childrenCount', 0);
         }
 
-        $user = DB::table('users')->where('idUser', $userAuth->idUser)->first();
+        $user = $this->userService->findByIdUser($userAuth->idUser);
         $this->countryUser = Lang::get($settingManager->getCountrieById($user->idCountry)->name);
         $this->usermetta_info = $usermetta_info;
         $this->user = collect($user);
@@ -109,7 +117,7 @@ class UserFormContent extends Component
     {
         $canModify = true;
         $us = User::find($this->user['id']);
-        $um = metta_user::find($this->usermetta_info['id']);
+        $um = MettaUser::find($this->usermetta_info['id']);
 
         if ($this->paramIdUser == "" && $us->hasIdentificationRequest()) {
             $canModify = false;
@@ -156,7 +164,7 @@ class UserFormContent extends Component
         }
 
         $um->save();
-        $um = metta_user::find($this->usermetta_info['id']);
+        $um = MettaUser::find($this->usermetta_info['id']);
 
         // Save is_public setting
         $us->is_public = $this->user['is_public'];
@@ -173,7 +181,7 @@ class UserFormContent extends Component
         }
 
         if ($this->paramIdUser == "")
-            return redirect()->route('user_form', app()->getLocale())->with('success', Lang::get('Edit_profil_succes'));
+            return redirect()->route('user_form', app()->getLocale())->with('success', Lang::get('Edit profile success'));
         else {
             $settingsManager->validateIdentity($us->idUser);
             return redirect()->route('requests_identification', app()->getLocale());

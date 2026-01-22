@@ -6,8 +6,8 @@ namespace App\Livewire;
 use App\Models\BFSsBalances;
 use App\Services\Balances\Balances;
 use App\Services\FinancialRequest\FinancialRequestService;
-use Core\Services\BalancesManager;
-use Core\Services\settingsManager;
+use App\Services\BalancesManager;
+use App\Services\settingsManager;
 use Illuminate\Http\Request;
 use Livewire\Component;
 
@@ -57,7 +57,7 @@ class FinancialTransaction extends Component
     {
         $this->showCanceled = $val;
         $this->fromTab = 'fromRequestOut';
-        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'ShowCancel' => $val])->with('info', trans('Show cancelled requests'));
+        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'ShowCancel' => $val])->with('info', trans('Show canceled requests'));
     }
 
     public function redirectToTransferCash($mnt, $req)

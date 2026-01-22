@@ -9,7 +9,7 @@ use App\Services\Platform\PlatformChangeRequestService;
 use App\Services\Platform\PlatformService;
 use App\Services\Platform\PlatformTypeChangeRequestService;
 use App\Services\Platform\PlatformValidationRequestService;
-use Core\Models\Platform;
+use App\Models\Platform;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -74,7 +74,7 @@ class PlatformPartnerController extends Controller
         }]);
 
         $platforms->each(function ($platform) {
-            // Use services to get counts
+
             $platform->type_change_requests_count = $this->platformTypeChangeRequestService
                 ->getFilteredQuery(null, null)
                 ->where('platform_id', $platform->id)
@@ -90,7 +90,6 @@ class PlatformPartnerController extends Controller
                 ->where('platform_id', $platform->id)
                 ->count();
 
-            // Get recent requests using services
             $platform->typeChangeRequests = $this->platformTypeChangeRequestService
                 ->getFilteredQuery(null, null)
                 ->where('platform_id', $platform->id)
@@ -113,7 +112,6 @@ class PlatformPartnerController extends Controller
                 ->get();
         });
 
-
         return response()->json([
             'status' => true,
             'data' => $platforms,
@@ -130,10 +128,7 @@ class PlatformPartnerController extends Controller
             'link' => 'sometimes|url',
             'show_profile' => 'boolean',
             'image_link' => 'nullable|string',
-            'owner_id' => 'required|exists:users,id',
             'created_by' => 'required|exists:users,id',
-            'marketing_manager_id' => 'nullable|exists:users,id',
-            'financial_manager_id' => 'nullable|exists:users,id',
             'business_sector_id' => 'nullable|exists:business_sectors,id'
         ]);
 
@@ -176,7 +171,7 @@ class PlatformPartnerController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'owner_id' => 'required|exists:users,id',
+            'requested_by' => 'required|exists:users,id',
             'platform_id' => 'required|exists:platforms,id'
         ]);
 
@@ -192,10 +187,9 @@ class PlatformPartnerController extends Controller
         $data = $validator->validated();
         $data['enabled'] = false;
 
-
         $validationRequest = $this->platformValidationRequestService->createRequest(
             $data['platform_id'],
-            $data['owner_id']
+            $data['requested_by']
         );
 
         Log::info(self::LOG_PREFIX . 'Validation request created', [
@@ -230,7 +224,7 @@ class PlatformPartnerController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $platform = $this->platformService->getPlatformForPartner($platformId, $userId);
+        $platform = $this->platformService->getPlatformForPartner(intval($platformId), $userId);
         if (!$platform) {
             Log::error(self::LOG_PREFIX . 'Platform not found', ['platform_id' => $platformId, 'user_id' => $userId]);
             return response()->json([
@@ -239,7 +233,6 @@ class PlatformPartnerController extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
 
-        // Use services to get requests
         $typeChangeRequests = $this->platformTypeChangeRequestService
             ->getFilteredQuery(null, null)
             ->where('platform_id', $platformId)
@@ -279,9 +272,6 @@ class PlatformPartnerController extends Controller
             'show_profile' => 'sometimes|boolean',
             'image_link' => 'nullable|string',
             'updated_by' => 'required|exists:users,id',
-            'owner_id' => 'sometimes|exists:users,id',
-            'marketing_manager_id' => 'nullable|exists:users,id',
-            'financial_manager_id' => 'nullable|exists:users,id',
             'business_sector_id' => 'nullable|exists:business_sectors,id'
         ]);
 
@@ -298,7 +288,6 @@ class PlatformPartnerController extends Controller
         $updatedBy = $validatedData['updated_by'];
         unset($validatedData['updated_by']);
 
-        // Filter out only the fields that are actually changing
         $changes = [];
         foreach ($validatedData as $field => $value) {
             if ($platform->{$field} != $value) {
@@ -309,15 +298,20 @@ class PlatformPartnerController extends Controller
             }
         }
 
-        // If no changes, return early
         if (empty($changes)) {
+            Log::warning(self::LOG_PREFIX . 'No changes detected in platform update', [
+                'platform_id' => $platform->id,
+                'requested_by' => $updatedBy
+            ]);
             return response()->json([
                 'status' => 'Failed',
-                'message' => 'No changes detected'
+                'message' => 'No changes detected',
+                'errors' => [
+                    'update' => ['No changes were made to the platform. Please modify at least one field.']
+                ]
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        // Create a change request
         $changeRequest = $this->platformChangeRequestService->createRequest(
             $platform->id,
             $changes,
@@ -465,14 +459,14 @@ class PlatformPartnerController extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
 
-        Log::info(self::LOG_PREFIX . 'Validation request cancelled', [
+        Log::info(self::LOG_PREFIX . 'Validation request canceled', [
             'validation_request_id' => $validationRequestId,
             'platform_id' => $validationRequest->platform_id,
         ]);
 
         return response()->json([
             'status' => true,
-            'message' => 'Validation request cancelled successfully',
+            'message' => 'Validation request canceled successfully',
             'data' => $validationRequest
         ], Response::HTTP_OK);
     }
@@ -503,7 +497,7 @@ class PlatformPartnerController extends Controller
                 'message' => 'Change request not found'
             ], Response::HTTP_NOT_FOUND);
         } catch (\Exception $e) {
-            Log::warning(self::LOG_PREFIX . 'Change request cannot be cancelled', [
+            Log::warning(self::LOG_PREFIX . 'Change request cannot be canceled', [
                 'change_request_id' => $changeRequestId,
                 'error' => $e->getMessage()
             ]);
@@ -513,25 +507,18 @@ class PlatformPartnerController extends Controller
             ], Response::HTTP_FORBIDDEN);
         }
 
-
-        Log::info(self::LOG_PREFIX . 'Change request cancelled', [
+        Log::info(self::LOG_PREFIX . 'Change request canceled', [
             'change_request_id' => $changeRequestId,
             'platform_id' => $changeRequest->platform_id
         ]);
 
         return response()->json([
             'status' => true,
-            'message' => 'Change request cancelled successfully',
+            'message' => 'Change request canceled successfully',
             'data' => $changeRequest
         ], Response::HTTP_OK);
     }
 
-    /**
-     * Get top-selling platforms chart data
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function getTopSellingPlatforms(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [

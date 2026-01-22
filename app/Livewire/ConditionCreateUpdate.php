@@ -3,15 +3,18 @@
 namespace App\Livewire;
 
 use App\Models\Condition;
-use App\Models\Target;
+use App\Services\Targeting\ConditionService;
+use App\Services\Targeting\TargetService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
 class ConditionCreateUpdate extends Component
 {
+    protected ConditionService $conditionService;
+    protected TargetService $targetService;
+
     public $idTarget, $idGroup, $idCondition;
     public $operand, $operator, $value;
     public $operands, $operators;
@@ -24,6 +27,12 @@ class ConditionCreateUpdate extends Component
         'operator' => 'required',
         'value' => 'required'
     ];
+
+    public function boot(ConditionService $conditionService, TargetService $targetService)
+    {
+        $this->conditionService = $conditionService;
+        $this->targetService = $targetService;
+    }
 
     public function mount(Request $request)
     {
@@ -46,7 +55,7 @@ class ConditionCreateUpdate extends Component
 
     public function edit($idCondition)
     {
-        $question = Condition::findOrFail($idCondition);
+        $question = $this->conditionService->getByIdOrFail($idCondition);
         $this->idCondition = $idCondition;
         $this->operand = $question->operand;
         $this->operator = $question->operator;
@@ -56,23 +65,29 @@ class ConditionCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('warning', Lang::get('Condition operation cancelled'));
+        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('warning', Lang::get('Condition operation canceled'));
     }
 
     public function updateCondition()
     {
         $this->validate();
 
-        try {
-            Condition::where('id', $this->idCondition)
-                ->update(['operand' => $this->operand, 'operator' => $this->operator, 'value' => $this->value]);
-        } catch (\Exception $exception) {
-            $this->cancel();
-            Log::error($exception->getMessage());
-            return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('danger', Lang::get('Something goes wrong while updating Condition!!') );
-        }
-        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Condition Updated Successfully'));
+        $success = $this->conditionService->update(
+            $this->idCondition,
+            [
+                'operand' => $this->operand,
+                'operator' => $this->operator,
+                'value' => $this->value
+            ]
+        );
 
+        if (!$success) {
+            return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])
+                ->with('danger', Lang::get('Something goes wrong while updating Condition!!'));
+        }
+
+        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])
+            ->with('success', Lang::get('Condition Updated Successfully'));
     }
 
     public function store()
@@ -85,21 +100,24 @@ class ConditionCreateUpdate extends Component
         } else {
             $condition['target_id'] = $this->idTarget;
         }
-        try {
-            Condition::create($condition);
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('danger', Lang::get('Something goes wrong while creating Condition!!') );
+
+        $result = $this->conditionService->create($condition);
+
+        if (!$result) {
+            return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])
+                ->with('danger', Lang::get('Something goes wrong while creating Condition!!'));
         }
-        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])->with('success', Lang::get('Condition Created Successfully'));
+
+        return redirect()->route('target_show', ['locale' => app()->getLocale(), 'idTarget' => $this->idTarget])
+            ->with('success', Lang::get('Condition Created Successfully'));
     }
 
 
     public function render()
     {
-        $this->operators = Condition::$operators;
-        $this->operands = Condition::operands();
-        $params = ['target' => Target::find($this->idTarget)];
+        $this->operators = $this->conditionService->getOperators();
+        $this->operands = $this->conditionService->getOperands();
+        $params = ['target' => $this->targetService->getById($this->idTarget)];
         return view('livewire.condition-create-update', $params)->extends('layouts.master')->section('content');
     }
 }

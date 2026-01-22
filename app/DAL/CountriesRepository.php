@@ -2,8 +2,8 @@
 
 namespace App\DAL;
 
-use Core\Interfaces\ICountriesRepository;
-use Core\Models\countrie;
+use App\Interfaces\ICountriesRepository;
+use App\Models\countrie;
 use Illuminate\Support\Facades\DB;
 
 class  CountriesRepository implements ICountriesRepository

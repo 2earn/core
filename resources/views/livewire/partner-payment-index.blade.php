@@ -137,7 +137,7 @@
     <div class="row">
         <div class="col-12 card shadow-sm">
             <div class="card-body p-0">
-                <div class="card-header py-4">
+                <div class="card-header py-1">
                     <div class="row align-items-center g-3">
                         <!-- Search -->
                         <div class="col-sm-12 col-md-4">
@@ -183,7 +183,7 @@
                         </div>
 
                         <!-- Create Button -->
-                        @if(\Core\Models\Platform::havePartnerSpecialRole(auth()->user()->id) && !\App\Models\User::isSuperAdmin())
+                        @if(\App\Models\Platform::havePartnerSpecialRole(auth()->user()->id) && !\App\Models\User::isSuperAdmin())
                             <div class="col-sm-6 col-md-2 text-end">
                                 <a href="{{route('partner_payment_manage', app()->getLocale())}}"
                                    class="btn btn-info waves-effect waves-light w-100">
@@ -276,7 +276,7 @@
                                             <i class="ri-eye-line me-1"></i>
                                             {{__('View')}}
                                         </a>
-                                        @if(\Core\Models\Platform::havePartnerSpecialRole(auth()->user()->id) && !$payment->isValidated() && !$payment->isRejected())
+                                        @if(\App\Models\Platform::havePartnerSpecialRole(auth()->user()->id) && !$payment->isValidated() && !$payment->isRejected())
                                             <a href="{{route('partner_payment_manage', ['locale' => app()->getLocale(), 'id' => $payment->id])}}"
                                                class="btn btn-sm btn-warning flex-grow-1" title="{{__('Edit')}}">
                                                 <i class="ri-edit-line me-1"></i>

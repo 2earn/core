@@ -5,8 +5,9 @@ namespace App\Livewire;
 use App\Models\PartnerPayment;
 use App\Models\User;
 use App\Services\PartnerPayment\PartnerPaymentService;
-use Core\Models\FinancialRequest;
-use Core\Models\Platform;
+use App\Services\EntityRole\EntityRoleService;
+use App\Models\FinancialRequest;
+use App\Models\Platform;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -25,6 +26,7 @@ class PartnerPaymentManage extends Component
     public $searchDemand = '';
 
     protected PartnerPaymentService $partnerPaymentService;
+    protected EntityRoleService $entityRoleService;
 
 
     protected function rules()
@@ -37,15 +39,7 @@ class PartnerPaymentManage extends Component
                 'required',
                 'exists:users,id',
                 function ($attribute, $value, $fail) {
-                    $isPlatformPartner = \DB::table('platforms')
-                        ->where(function ($query) use ($value) {
-                            $query->where('financial_manager_id', $value)
-                                ->orWhere('marketing_manager_id', $value)
-                                ->orWhere('owner_id', $value);
-                        })
-                        ->exists();
-
-                    if (!$isPlatformPartner) {
+                    if (!$this->entityRoleService->userHasPlatformRole($value)) {
                         $fail('The selected partner must be a platform manager or owner.');
                     }
                 },
@@ -62,9 +56,10 @@ class PartnerPaymentManage extends Component
         'partner_id.exists' => 'Selected partner does not exist',
     ];
 
-    public function boot(PartnerPaymentService $partnerPaymentService)
+    public function boot(PartnerPaymentService $partnerPaymentService, EntityRoleService $entityRoleService)
     {
         $this->partnerPaymentService = $partnerPaymentService;
+        $this->entityRoleService = $entityRoleService;
     }
 
     public function mount(Request $request)
@@ -111,7 +106,7 @@ class PartnerPaymentManage extends Component
     public function cancel()
     {
         return redirect()->route('partner_payment_index', ['locale' => app()->getLocale()])
-            ->with('warning', Lang::get('Partner payment operation cancelled'));
+            ->with('warning', Lang::get('Partner payment operation canceled'));
     }
 
     public function save()
@@ -152,19 +147,7 @@ class PartnerPaymentManage extends Component
             return [];
         }
 
-        $partnerIds = \DB::table('platforms')
-            ->select('financial_manager_id', 'marketing_manager_id', 'owner_id')
-            ->get()
-            ->flatMap(function ($platform) {
-                return [
-                    $platform->financial_manager_id,
-                    $platform->marketing_manager_id,
-                    $platform->owner_id
-                ];
-            })
-            ->filter()
-            ->unique()
-            ->values();
+        $partnerIds = $this->entityRoleService->getAllPlatformPartnerUserIds();
 
         return User::whereIn('id', $partnerIds)
             ->where(function ($query) {

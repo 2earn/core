@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Enums\DealStatus;
 use App\Services\Deals\DealService;
 use App\Services\Platform\PlatformService;
-use Core\Enum\DealStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -125,7 +125,7 @@ class DealsCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale(), 'id' => $this->idDeal])->with('warning', Lang::get('Deal operation cancelled'));
+        return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale(), 'id' => $this->idDeal])->with('warning', Lang::get('Deal operation canceled'));
     }
 
     public function updateDeal()

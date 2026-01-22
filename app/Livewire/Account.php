@@ -2,22 +2,19 @@
 
 namespace App\Livewire;
 
+use App\Enums\StatusRequest;
+use App\Enums\TypeEventNotificationEnum;
+use App\Enums\TypeNotificationEnum;
 use App\Http\Traits\earnLog;
 use App\Http\Traits\earnTrait;
 use App\Models\User;
+use App\Services\UserService;
 use Carbon\Carbon;
-use Core\Enum\BalanceEnum;
-use Core\Enum\NotificationSettingEnum;
-use Core\Enum\StatusRequest;
-use Core\Enum\TypeEventNotificationEnum;
-use Core\Enum\TypeNotificationEnum;
-use Core\Models\identificationuserrequest;
-use Core\Models\metta_user;
-use Core\Models\UserNotificationSettings;
-use Core\Services\settingsManager;
+use App\Models\identificationuserrequest;
+use App\Models\MettaUser;
+use App\Services\settingsManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -28,6 +25,8 @@ class Account extends Component
     use WithFileUploads;
     use earnTrait;
     use earnLog;
+
+    protected UserService $userService;
 
 
     public $nbrChild = 9;
@@ -69,6 +68,10 @@ class Account extends Component
         'saveProfileSettings' => 'saveProfileSettings',
     ];
 
+    public function boot(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
 
     public function mount(settingsManager $settingManager)
     {
@@ -92,7 +95,7 @@ class Account extends Component
 
     public function SaveChangeEdit()
     {
-        $um = metta_user::find($this->usermetta_info['id']);
+        $um = MettaUser::find($this->usermetta_info['id']);
         $um->enLastName = $this->usermetta_info['enLastName'];
         $um->enFirstName = $this->usermetta_info['enFirstName'];
         $um->birthday = $this->usermetta_info['birthday'];
@@ -104,7 +107,7 @@ class Account extends Component
         if (!is_null($this->photoBack) && gettype($this->photoBack) == "object") {
             $this->photoBack->storeAs('profiles', 'back-id-image' . $um->idUser . '.png', 'public2');
         }
-        return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Edit_profil_succes'));
+        return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Edit profile success'));
     }
 
     public function saveProfileSettings()
@@ -190,7 +193,7 @@ class Account extends Component
     {
         $canModify = true;
         $us = User::find($this->user['id']);
-        $um = metta_user::find($this->usermetta_info['id']);
+        $um = MettaUser::find($this->usermetta_info['id']);
 
         if ($this->paramIdUser == "" && $us->hasIdentificationRequest()) {
             $canModify = false;
@@ -232,7 +235,7 @@ class Account extends Component
             $us->status = StatusRequest::InProgressNational->value;
         }
         $um->save();
-        $um = metta_user::find($this->usermetta_info['id']);
+        $um = MettaUser::find($this->usermetta_info['id']);
         $us->is_public = $this->user['is_public'];
         $us->save();
         $us = User::find($this->user['id']);
@@ -247,7 +250,7 @@ class Account extends Component
         }
 
         if ($this->paramIdUser == "")
-            return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Edit_profil_succes'));
+            return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Edit profile success'));
         else {
             $settingsManager->validateIdentity($us->idUser);
             return redirect()->route('requests_identification', app()->getLocale());
@@ -362,7 +365,7 @@ class Account extends Component
         if (is_null($usermetta_info->get('childrenCount'))) {
             $usermetta_info->put('childrenCount', 0);
         }
-        $user = DB::table('users')->where('idUser', $userAuth->idUser)->first();
+        $user = $this->userService->findByIdUser($userAuth->idUser);
         $this->countryUser = Lang::get($settingsManager->getCountrieById($user->idCountry)->name);
         $this->usermetta_info = $usermetta_info;
         $this->user = collect($user);

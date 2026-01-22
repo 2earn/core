@@ -24,6 +24,33 @@ export default defineConfig({
             }
         }
     },
+    server: {
+        warmup: {
+            clientFiles: [
+                'resources/js/app.js',
+                'resources/js/appWithoutNav.js',
+                'resources/css/tailwind.css',
+            ]
+        }
+    },
+    optimizeDeps: {
+        include: [
+            'jquery',
+            'bootstrap',
+            'sweetalert2',
+            'datatables.net',
+            'datatables.net-bs5',
+            'apexcharts',
+            'moment',
+            'select2',
+            'intl-tel-input',
+            'flatpickr',
+            'simplebar',
+            'sortablejs',
+            'swiper'
+        ],
+        force: false
+    },
     build: {
         chunkSizeWarningLimit: 5120,
         manifest: "manifest.json",
@@ -31,6 +58,8 @@ export default defineConfig({
         rtl: true,
         cssCodeSplit: true,
         sourcemap: false,
+        minify: 'esbuild',
+        target: 'es2015',
         rollupOptions: {
             output: {
                 assetFileNames: (assetInfo) => {
@@ -45,6 +74,24 @@ export default defineConfig({
                 },
                 chunkFileNames: 'assets/js/[name]-[hash]-' + rands + '.min.js',
                 entryFileNames: 'assets/js/[name]-[hash]-' + rands + '.min.js',
+                manualChunks: {
+                    'vendor': [
+                        'jquery',
+                        'bootstrap',
+                        'moment'
+                    ],
+                    'datatables': [
+                        'datatables.net',
+                        'datatables.net-bs5',
+                        'datatables.net-buttons',
+                        'datatables.net-responsive-bs5'
+                    ],
+                    'charts': [
+                        'apexcharts',
+                        'chart.js',
+                        'echarts'
+                    ]
+                }
             },
         },
     },
@@ -159,10 +206,13 @@ export default defineConfig({
         }),
         {
             name: 'copy-specific-packages',
-            async buildStart() {
-                // Copy assets during dev mode
+            async closeBundle() {
+                // Use closeBundle instead of buildStart to avoid duplicate work
+                // Copy assets only once at the end of the build
                 try {
                     await fs.ensureDir(folder.dist_assets);
+
+                    // Copy assets in parallel for better performance
                     await Promise.all([
                         fs.copy(folder.src_assets + 'fonts', folder.dist_assets + 'fonts'),
                         fs.copy(folder.src_assets + 'images', folder.dist_assets + 'images'),
@@ -173,21 +223,6 @@ export default defineConfig({
                         fs.copy(folder.src_assets + 'webfonts', folder.dist_assets + 'webfonts'),
                     ]);
                     console.log('✓ Static assets copied successfully');
-                } catch (error) {
-                    console.error('Error copying assets during buildStart:', error);
-                }
-            },
-            async writeBundle() {
-                try {
-                    await Promise.all([
-                        fs.copy(folder.src_assets + 'fonts', folder.dist_assets + 'fonts'),
-                        fs.copy(folder.src_assets + 'images', folder.dist_assets + 'images'),
-                        fs.copy(folder.src_assets + 'json', folder.dist_assets + 'json'),
-                        fs.copy(folder.src_assets + 'img', folder.dist_assets + 'img'),
-                        fs.copy(folder.src_assets + 'icons', folder.dist_assets + 'icons'),
-                        fs.copy(folder.src_assets + 'fontawesome', folder.dist_assets + 'fontawesome'),
-                        fs.copy(folder.src_assets + 'webfonts', folder.dist_assets + 'webfonts'),
-                    ]);
                 } catch (error) {
                     console.error('Error copying assets:', error);
                 }

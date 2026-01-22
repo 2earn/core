@@ -7,7 +7,7 @@ use App\Http\Requests\Api\Partner\AddRoleRequest;
 use App\Http\Requests\Api\Partner\GetPartnerPlatformsRequest;
 use App\Models\AssignPlatformRole;
 use App\Models\User;
-use Core\Models\Platform;
+use App\Models\Platform;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -42,7 +42,6 @@ class UserPartnerController extends Controller
                     'updated_by' => auth()->id(),
                 ]
             );
-
 
             Log::info(self::LOG_PREFIX . 'Role assign request sent successfully, waiting for approval', [
                 'assignment_id' => $assignPlatformRole->id,
@@ -81,38 +80,23 @@ class UserPartnerController extends Controller
         }
     }
 
-    /**
-     * Get all platforms where the user has a role (owner, marketing, or financial)
-     *
-     * @param GetPartnerPlatformsRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function getPartnerPlatforms(GetPartnerPlatformsRequest $request)
     {
         $validated = $request->validated();
         $userId = $validated['user_id'];
 
         try {
-            // Get platforms where the user is owner, marketing manager, or financial manager
-            $platforms = Platform::where(function ($query) use ($userId) {
-                $query->where('owner_id', $userId)
-                    ->orWhere('marketing_manager_id', $userId)
-                    ->orWhere('financial_manager_id', $userId);
+
+            $platforms = Platform::whereHas('roles', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
             })
-            ->with(['businessSector', 'logoImage'])
+            ->with(['businessSector', 'logoImage', 'roles' => function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            }])
             ->get()
             ->map(function ($platform) use ($userId) {
-                // Determine the user's role(s) on this platform
-                $roles = [];
-                if ($platform->owner_id == $userId) {
-                    $roles[] = 'owner';
-                }
-                if ($platform->marketing_manager_id == $userId) {
-                    $roles[] = 'marketing';
-                }
-                if ($platform->financial_manager_id == $userId) {
-                    $roles[] = 'financial';
-                }
+
+                $roles = $platform->roles->pluck('name')->toArray();
 
                 return [
                     'id' => $platform->id,
@@ -165,6 +149,4 @@ class UserPartnerController extends Controller
         }
     }
 }
-
-
 

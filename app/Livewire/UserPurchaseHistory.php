@@ -2,13 +2,12 @@
 
 namespace App\Livewire;
 
-use App\Models\BusinessSector;
-use App\Models\Deal;
-use App\Models\Item;
-use App\Models\Order;
+use App\Services\BusinessSector\BusinessSectorService;
+use App\Services\Deals\DealService;
+use App\Services\Items\ItemService;
 use App\Services\Orders\OrderService;
-use Core\Enum\OrderEnum;
-use Core\Models\Platform;
+use App\Services\Platform\PlatformService;
+use App\Enums\OrderEnum;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -31,43 +30,41 @@ class UserPurchaseHistory extends Component
         'refreshOrders' => 'resetFilters'
     ];
 
+    protected BusinessSectorService $businessSectorService;
+    protected PlatformService $platformService;
+    protected DealService $dealService;
+    protected ItemService $itemService;
+    protected OrderService $orderService;
+
+    public function boot(
+        BusinessSectorService $businessSectorService,
+        PlatformService $platformService,
+        DealService $dealService,
+        ItemService $itemService,
+        OrderService $orderService
+    ) {
+        $this->businessSectorService = $businessSectorService;
+        $this->platformService = $platformService;
+        $this->dealService = $dealService;
+        $this->itemService = $itemService;
+        $this->orderService = $orderService;
+    }
+
     public function mount()
     {
         $this->currentRouteName = Route::currentRouteName();
         $userId = auth()->user()->id;
 
-        $this->allSectors = BusinessSector::whereHas('platforms.items.orderDetails.order', function ($query) use ($userId) {
-            $query->where('user_id', $userId);
-        })
-            ->distinct()
-            ->get();
-
-        $this->allPlatforms = Platform::whereHas('items.orderDetails.order', function ($query) use ($userId) {
-            $query->where('user_id', $userId);
-        })
-            ->distinct()
-            ->get();
-
-        $this->allDeals = Deal::with('items')
-            ->whereHas('items.orderDetails.order', function ($query) use ($userId) {
-                $query->where('user_id', $userId);
-            })
-            ->distinct()
-            ->get();
-
-        $this->allItems = Item::whereHas('OrderDetails.order', function ($query) use ($userId) {
-            $query->where('user_id', $userId);
-        })
-            ->distinct()
-            ->get();
-
+        $this->allSectors = $this->businessSectorService->getSectorsWithUserPurchases($userId);
+        $this->allPlatforms = $this->platformService->getPlatformsWithUserPurchases($userId);
+        $this->allDeals = $this->dealService->getDealsWithUserPurchases($userId);
+        $this->allItems = $this->itemService->getItemsWithUserPurchases($userId);
         $this->allStatuses = OrderEnum::cases();
     }
 
     public function prepareQuery()
     {
-        $orderService = app(OrderService::class);
-        return $orderService->getUserPurchaseHistoryQuery(
+        return $this->orderService->getUserPurchaseHistoryQuery(
             auth()->user()->id,
             $this->selectedStatuses,
             $this->selectedPlatformIds,
@@ -84,7 +81,6 @@ class UserPurchaseHistory extends Component
 
     public function updated($propertyName)
     {
-        // Reset to first page when filters change
         if (in_array($propertyName, ['selectedSectorsIds', 'selectedStatuses', 'selectedDealIds', 'selectedPlatformIds', 'selectedItemsIds'])) {
             $this->resetPage();
         }

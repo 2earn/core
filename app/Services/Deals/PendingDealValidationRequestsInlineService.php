@@ -92,13 +92,11 @@ class PendingDealValidationRequestsInlineService
             throw new \Exception('This request has already been processed');
         }
 
-        // Validate the deal
         $deal = $request->deal;
         $deal->validated = true;
         $deal->updated_by = $reviewedBy;
         $deal->save();
 
-        // Update request status
         $request->status = 'approved';
         $request->reviewed_by = $reviewedBy;
         $request->reviewed_at = now();
@@ -124,7 +122,6 @@ class PendingDealValidationRequestsInlineService
             throw new \Exception('This request has already been processed');
         }
 
-        // Update request status
         $request->status = 'rejected';
         $request->rejection_reason = $rejectionReason;
         $request->reviewed_by = $reviewedBy;
@@ -152,12 +149,10 @@ class PendingDealValidationRequestsInlineService
         $query = DealValidationRequest::with(['deal.platform', 'requestedBy'])
             ->orderBy('created_at', 'desc');
 
-        // Apply status filter
         if ($statusFilter && $statusFilter !== 'all') {
             $query->where('status', $statusFilter);
         }
 
-        // Apply search filter
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->whereHas('deal', function ($subQ) use ($search) {
@@ -169,12 +164,11 @@ class PendingDealValidationRequestsInlineService
             });
         }
 
-        // Only show requests for platforms the user manages (if not super admin)
         if (!$isSuperAdmin && $userId) {
             $query->whereHas('deal.platform', function ($q) use ($userId) {
-                $q->where('financial_manager_id', $userId)
-                    ->orWhere('marketing_manager_id', $userId)
-                    ->orWhere('owner_id', $userId);
+                $q->whereHas('roles', function ($roleQuery) use ($userId) {
+                    $roleQuery->where('user_id', $userId);
+                });
             });
         }
 

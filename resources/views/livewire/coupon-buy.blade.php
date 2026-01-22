@@ -6,7 +6,7 @@
             @endslot
         @endcomponent
         <div class="row">
-                @include('layouts.flash-messages')
+            @include('layouts.flash-messages')
         </div>
         <div class="card">
             <div class="card-body">
@@ -33,7 +33,7 @@
                                      alt="{{$platform->name}}"
                                      class="img-thumbnail" style="height: 90px; object-fit: contain;">
                             @else
-                                <img src="{{Vite::asset(\Core\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO)}}"
+                                <img src="{{Vite::asset(\App\Models\Platform::DEFAULT_IMAGE_TYPE_LOGO)}}"
                                      alt="{{$platform->name}}"
                                      class="img-thumbnail" style="height: 90px; object-fit: contain;">
                             @endif
@@ -41,11 +41,14 @@
                     </div>
                     @if(!$buyed)
                         <div class="col-lg-12">
-                            <div class="alert alert-warning alert-border-left alert-dismissible fade show mb-3" role="alert">
+                            <div class="alert alert-warning alert-border-left alert-dismissible fade show mb-3"
+                                 role="alert">
                                 <i class="ri-time-line me-2 align-middle fs-16"></i>
                                 <strong>{{__('Notes')}}: </strong>
-                                {{__('This simulation is available only for')}} <span class="badge bg-warning text-dark">{{$time}} {{__('minutes_')}}</span>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                {{__('This simulation is available only for')}} <span
+                                    class="badge bg-warning text-dark">{{$time}} {{__('minutes_')}}</span>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
                             </div>
                         </div>
                     @endif
@@ -99,16 +102,19 @@
                                         <p class="mb-0 mt-1">
                                             {{__('Depending on coupon availability, you can choose to purchase for')}}
                                             @if($amount>0 && ($lastValue+$amount<=$maxAmount))
-                                                <span class="badge bg-info-subtle text-info">{{$amount}} {{config('app.currency')}}</span>
+                                                <span
+                                                    class="badge bg-info-subtle text-info">{{$amount}} {{config('app.currency')}}</span>
                                             @endif
                                             @if($amount>0 && ($lastValue+$amount<=$maxAmount))
                                                 {{__('or')}}
                                             @endif
-                                            <span class="badge bg-info-subtle text-info">{{$lastValue+$amount}} {{config('app.currency')}}</span>
+                                            <span
+                                                class="badge bg-info-subtle text-info">{{$lastValue+$amount}} {{config('app.currency')}}</span>
                                             {{__('as a coupon with the exact requested value is not available')}}
                                         </p>
                                     </div>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
                                 </div>
                             </div>
                             <div class="col-lg-12 mb-3 text-end">
@@ -122,7 +128,7 @@
                 </div>
                 <div class="row mt-3">
                     @if(!$buyed && $preSumulationResult && $amount>0   && ($lastValue+$amount<=$maxAmount))
-                        <div class="col-lg-6 mb-3">
+                        <div class="col-lg-12 mb-3">
                             <div class="card shadow-sm h-100">
                                 <div class="card-header bg-success-subtle">
                                     <h5 class="card-title mb-0 text-success">
@@ -157,11 +163,11 @@
                                                         <span
                                                             class="badge bg-info-subtle text-info"
                                                             @if(\App\Models\User::isSuperAdmin())
-                                                                title="{{$coupon->reserved_until}} - {{__(\Core\Enum\CouponStatusEnum::tryFrom($coupon->status)->name)}}"
+                                                                title="{{$coupon->reserved_until}} - {{__(\App\Enums\CouponStatusEnum::tryFrom($coupon->status)->name)}}"
                                                             @endif
                                                         >
                                                         @if(!is_array($coupon))
-                                                                {{$coupon->sn}}
+                                                                <span title="{{$coupon->platform()->first()->name}}">    {{$coupon->sn}}</span>
                                                             @endif
                                                         </span>
                                                     </td>
@@ -178,15 +184,17 @@
                                                     </td>
                                                     <td>
                                                         <span class="badge bg-danger-subtle text-danger">
-                                                            {{__(\Core\Enum\CouponStatusEnum::tryFrom($coupon->status)->name)}}
+                                                            {{__(\App\Enums\CouponStatusEnum::tryFrom($coupon->status)->name)}}
                                                         </span>
-                                                        @if($coupon->status==\Core\Enum\CouponStatusEnum::reserved->value)
-                                                            <small class="text-muted d-block mt-1">{{$coupon->reserved_until}}</small>
+                                                        @if($coupon->status==\App\Enums\CouponStatusEnum::reserved->value)
+                                                            <small
+                                                                class="text-muted d-block mt-1">{{$coupon->reserved_until}}</small>
                                                         @endif
                                                     </td>
                                                     <td class="text-end">
                                                         @if(!is_array($coupon))
-                                                            <strong class="text-dark">{{$coupon->value}} {{config('app.currency')}}</strong>
+                                                            <strong
+                                                                class="text-dark">{{$coupon->value}} {{config('app.currency')}}</strong>
                                                         @endif
                                                     </td>
                                                 </tr>
@@ -196,7 +204,8 @@
                                             <tr>
                                                 <td colspan="4" class="fw-semibold">{{__('Total')}}</td>
                                                 <td class="text-end">
-                                                    <span class="badge bg-success fs-14">{{$amount}} {{config('app.currency')}}</span>
+                                                    <span
+                                                        class="badge bg-success fs-14">{{$amount}} {{config('app.currency')}}</span>
                                                 </td>
                                             </tr>
                                             </tfoot>
@@ -208,7 +217,7 @@
                         </div>
                     @endif
                     @if(!$buyed && $result  && $lastValue+$amount>0 && !$equal)
-                        <div class="col-lg-6 mb-3">
+                        <div class="col-lg-12 mb-3">
                             <div class="card shadow-sm h-100">
                                 <div class="card-header bg-warning-subtle">
                                     <h5 class="card-title mb-0 text-warning">
@@ -242,11 +251,11 @@
                                                         <span
                                                             class="badge bg-info-subtle text-info"
                                                             @if(\App\Models\User::isSuperAdmin())
-                                                                title="{{$coupon->reserved_until}} _ {{__(\Core\Enum\CouponStatusEnum::tryFrom($coupon->status)->name)}}"
+                                                                title="{{$coupon->reserved_until}} _ {{__(\App\Enums\CouponStatusEnum::tryFrom($coupon->status)->name)}}"
                                                             @endif
                                                         >
                                                         @if(!is_array($coupon))
-                                                                {{$coupon->sn}}
+                                                                <span title="{{$coupon->platform()->first()->name}}">    {{$coupon->sn}}</span>
                                                             @endif
                                                         </span>
                                                     </td>
@@ -263,15 +272,17 @@
                                                     </td>
                                                     <td>
                                                         <span class="badge bg-info-subtle text-info">
-                                                            {{__(\Core\Enum\CouponStatusEnum::tryFrom($coupon->status)->name)}}
+                                                            {{__(\App\Enums\CouponStatusEnum::tryFrom($coupon->status)->name)}}
                                                         </span>
-                                                        @if($coupon->status==\Core\Enum\CouponStatusEnum::reserved->value)
-                                                            <small class="text-muted d-block mt-1">{{$coupon->reserved_until}}</small>
+                                                        @if($coupon->status==\App\Enums\CouponStatusEnum::reserved->value)
+                                                            <small
+                                                                class="text-muted d-block mt-1">{{$coupon->reserved_until}}</small>
                                                         @endif
                                                     </td>
                                                     <td class="text-end">
                                                         @if(!is_array($coupon))
-                                                            <strong class="text-dark">{{$coupon->value}} {{config('app.currency')}}</strong>
+                                                            <strong
+                                                                class="text-dark">{{$coupon->value}} {{config('app.currency')}}</strong>
                                                         @endif
                                                     </td>
                                                 </tr>
@@ -282,7 +293,8 @@
                                                 <tr>
                                                     <td colspan="4" class="fw-semibold">{{__('Total')}}</td>
                                                     <td class="text-end">
-                                                        <span class="badge bg-success fs-14">{{$lastValue+$amount}} {{config('app.currency')}}</span>
+                                                        <span
+                                                            class="badge bg-success fs-14">{{$lastValue+$amount}} {{config('app.currency')}}</span>
                                                     </td>
                                                 </tr>
                                                 </tfoot>
@@ -327,11 +339,11 @@
                                                         <span
                                                             class="badge bg-info-subtle text-info"
                                                             @if(\App\Models\User::isSuperAdmin())
-                                                                title="{{$coupon->reserved_until}} _ {{__(\Core\Enum\CouponStatusEnum::tryFrom($coupon->status)->name)}}"
+                                                                title="{{$coupon->reserved_until}} _ {{__(\App\Enums\CouponStatusEnum::tryFrom($coupon->status)->name)}}"
                                                             @endif
                                                         >
                                                         @if(!is_array($coupon))
-                                                                {{$coupon->sn}}
+                                                                <span title="{{$coupon->platform()->first()->name}}">    {{$coupon->sn}}</span>
                                                             @endif
                                                         </span>
                                                     </td>
@@ -348,12 +360,13 @@
                                                     </td>
                                                     <td>
                                                         <span class="badge bg-info-subtle text-info">
-                                                            {{__(\Core\Enum\CouponStatusEnum::tryFrom($coupon->status)->name)}}
+                                                            {{__(\App\Enums\CouponStatusEnum::tryFrom($coupon->status)->name)}}
                                                         </span>
                                                     </td>
                                                     <td class="text-end">
                                                         @if(!is_array($coupon))
-                                                            <strong class="text-dark">{{$coupon->value}} {{config('app.currency')}}</strong>
+                                                            <strong
+                                                                class="text-dark">{{$coupon->value}} {{config('app.currency')}}</strong>
                                                         @endif
                                                     </td>
                                                     @if($buyed)
@@ -398,15 +411,18 @@
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             <strong>{{__('Order Total')}}</strong>
-                                            <span class="badge bg-secondary fs-14">{{$order->deal_amount_before_discount}} {{config('app.currency')}}</span>
+                                            <span
+                                                class="badge bg-secondary fs-14">{{$order->deal_amount_before_discount}} {{config('app.currency')}}</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             <strong>{{__('Discount')}}</strong>
-                                            <span class="badge bg-danger fs-14">-{{$order->total_final_discount}} {{config('app.currency')}}</span>
+                                            <span
+                                                class="badge bg-danger fs-14">-{{$order->total_final_discount}} {{config('app.currency')}}</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             <strong>{{__('Amount after discount')}}</strong>
-                                            <span class="badge bg-primary fs-14">{{$order->amount_after_discount}} {{config('app.currency')}}</span>
+                                            <span
+                                                class="badge bg-primary fs-14">{{$order->amount_after_discount}} {{config('app.currency')}}</span>
                                         </li>
                                         <li class="list-group-item d-flex logoTopBFSLabel justify-content-between align-items-center">
                                             <strong>{{__('Paid with BFSs')}}</strong>

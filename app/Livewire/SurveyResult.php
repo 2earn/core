@@ -2,11 +2,11 @@
 
 namespace App\Livewire;
 
-use App\Models\Survey;
-use App\Models\SurveyQuestion;
-use App\Models\SurveyResponse;
-use App\Models\SurveyResponseItem;
-use App\Models\TranslaleModel;
+use App\Services\SurveyResponseItemService;
+use App\Services\SurveyResponseService;
+use App\Services\SurveyQuestionService;
+use App\Services\SurveyService;
+use App\Services\TranslaleModelService;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
@@ -17,6 +17,26 @@ class SurveyResult extends Component
     public $currentRouteName;
     public $showDetail;
 
+    protected SurveyService $surveyService;
+    protected SurveyQuestionService $questionService;
+    protected SurveyResponseService $responseService;
+    protected SurveyResponseItemService $responseItemService;
+    protected TranslaleModelService $translationService;
+
+    public function boot(
+        SurveyService $surveyService,
+        SurveyQuestionService $questionService,
+        SurveyResponseService $responseService,
+        SurveyResponseItemService $responseItemService,
+        TranslaleModelService $translationService
+    ) {
+        $this->surveyService = $surveyService;
+        $this->questionService = $questionService;
+        $this->responseService = $responseService;
+        $this->responseItemService = $responseItemService;
+        $this->translationService = $translationService;
+    }
+
     public function mount($idSurvey, $showDetail = false)
     {
         $this->idSurvey = $idSurvey;
@@ -26,21 +46,26 @@ class SurveyResult extends Component
 
     public function render()
     {
-        $params ['survey'] = Survey::findOrFail($this->idSurvey);
-        $params ['question'] = SurveyQuestion::find($params ['survey']->question?->id);
-        $params ['responses'] = $params ['question']?->serveyQuestionChoice()->get();
-        $participation = SurveyResponse::where('survey_id', $this->idSurvey)->count();
+        $params['survey'] = $this->surveyService->findOrFail($this->idSurvey);
+        $params['question'] = $this->questionService->getById($params['survey']->question?->id);
+        $params['responses'] = $params['question']?->serveyQuestionChoice()->get();
+        $participation = $this->responseService->countBySurvey($this->idSurvey);
         $stats = [];
         $totalChoosen = 0;
         $totalParticipation = 0;
-        $totalChoiceChoosen = SurveyResponseItem::where('surveyQuestion_id', $params ['survey']->question?->id)->count();
-        if (!is_null($params ['responses'])) {
-            foreach ($params ['responses'] as $response) {
-                $choosen = SurveyResponseItem::where('surveyQuestion_id', $params ['survey']->question->id)
-                    ->where('surveyQuestionChoice_id', $response->id)->count();
+        $totalChoiceChoosen = $this->responseItemService->countByQuestion(
+            $params['survey']->question?->id ?? 0
+        );
+
+        if (!is_null($params['responses'])) {
+            foreach ($params['responses'] as $response) {
+                $choosen = $this->responseItemService->countByQuestionAndChoice(
+                    $params['survey']->question->id,
+                    $response->id
+                );
 
                 $stats[$response->id] = [
-                    'title' => TranslaleModel::getTranslation($response, 'title', $response->title),
+                    'title' => $this->translationService->getTranslation($response, 'title', $response->title),
                     'choosen' => $choosen . ' / ' . $participation,
                     'choosenK' => $choosen . ' / ' . $totalChoiceChoosen,
                     'persontage' => $participation > 0 ? (($choosen / $participation) * 100) : 0,

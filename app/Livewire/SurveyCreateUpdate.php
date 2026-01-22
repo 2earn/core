@@ -2,10 +2,10 @@
 
 namespace App\Livewire;
 
-use App\Models\Survey;
+use App\Enums\TargetType;
 use App\Models\Target;
 use App\Models\TranslaleModel;
-use Core\Enum\TargetType;
+use App\Services\SurveyService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -56,6 +56,13 @@ class SurveyCreateUpdate extends Component
     protected $rules = ['name' => 'required', 'description' => 'required'];
 
     public $targetTypes;
+
+    protected SurveyService $surveyService;
+
+    public function boot(SurveyService $surveyService)
+    {
+        $this->surveyService = $surveyService;
+    }
 
     public function mount(Request $request)
     {
@@ -108,7 +115,7 @@ class SurveyCreateUpdate extends Component
         $this->validate();
         try {
             $this->validateDisabled();
-            $survey = Survey::create([
+            $survey = $this->surveyService->create([
                 'name' => $this->name,
                 'description' => $this->description,
                 'enabled' => $this->enabled ? 1 : 0,
@@ -133,8 +140,7 @@ class SurveyCreateUpdate extends Component
 
 
             if (!is_null($this->target)) {
-                $survey->targets()->detach();
-                $survey->targets()->attach([$this->target]);
+                $this->surveyService->attachTargets($survey, [$this->target]);
             }
 
             createTranslaleModel($survey, 'name', $this->name);
@@ -152,7 +158,7 @@ class SurveyCreateUpdate extends Component
 
     public function edit($id)
     {
-        $survey = Survey::findOrFail($id);
+        $survey = $this->surveyService->findOrFail($id);
         $this->name = $survey->name;
         $this->description = $survey->description;
         $this->idSurvey = $survey->id;
@@ -183,7 +189,7 @@ class SurveyCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('surveys_index', app()->getLocale())->with('warning', Lang::get('Survey operation cancelled'));
+        return redirect()->route('surveys_index', app()->getLocale())->with('warning', Lang::get('Survey operation canceled'));
     }
 
     public function updateSurvey()
@@ -220,12 +226,11 @@ class SurveyCreateUpdate extends Component
             if (!is_null($this->endDate)) {
                 $paramsToUpdate['endDate'] = getValidCurrentDateTime($this->endDate);
             }
-            Survey::where('id', $this->idSurvey)
-                ->update($paramsToUpdate);
+            $this->surveyService->updateById($this->idSurvey, $paramsToUpdate);
+
             if (!is_null($this->target)) {
-                $survey = Survey::find($this->idSurvey);
-                $survey->targets()->detach();
-                $survey->targets()->attach([$this->target]);
+                $survey = $this->surveyService->getById($this->idSurvey);
+                $this->surveyService->attachTargets($survey, [$this->target]);
             }
 
 

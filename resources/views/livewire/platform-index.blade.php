@@ -147,7 +147,6 @@
                 <div class="row g-3 align-items-center">
                     <div class="col-12">
                         <div class="position-relative">
-                            <i class="ri-search-line position-absolute top-50 start-0 translate-middle-y ms-3 text-muted fs-5"></i>
                             <input type="text"
                                    class="form-control form-control ps-5 pe-3 border-0 bg-light"
                                    wire:model.live.debounce.300ms="search"
@@ -249,7 +248,7 @@
                             <div class="col-sm-6 col-md-4 col-lg-4">
                                 <div class="rounded">
                                     <p class="text-muted mb-1 fs-6">{{__('Type')}}</p>
-                                    <h6 class="mb-0">{{__(\Core\Enum\PlatformType::tryFrom($platform->type)->name) ?? 'N/A'}}</h6>
+                                    <h6 class="mb-0">{{__(\App\Enums\PlatformType::tryFrom($platform->type)->name) ?? 'N/A'}}</h6>
                                 </div>
                             </div>
                             <div class="col-sm-6 col-md-4 col-lg-4">
@@ -301,9 +300,9 @@
                                                 <small class="mb-0">
                                                     <i class="ri-arrow-left-right-line me-1"></i>
                                                     <strong>{{__('Type Change')}}: </strong>
-                                                    {{__(\Core\Enum\PlatformType::tryFrom($platform->pendingTypeChangeRequest->old_type)->name)}}
+                                                    {{__(\App\Enums\PlatformType::tryFrom($platform->pendingTypeChangeRequest->old_type)->name)}}
                                                     <i class="ri-arrow-right-s-line"></i>
-                                                    {{__(\Core\Enum\PlatformType::tryFrom($platform->pendingTypeChangeRequest->new_type)->name)}}
+                                                    {{__(\App\Enums\PlatformType::tryFrom($platform->pendingTypeChangeRequest->new_type)->name)}}
                                                 </small>
                                             </div>
                                             <a href="{{route('platform_type_change_requests', app()->getLocale())}}"
@@ -355,6 +354,10 @@
                                     {{__('Create Item')}}
                                 </a>
                             @endif
+                            <a href="{{route('platform_roles', ['locale' => app()->getLocale(), 'platformId' => $platform->id])}}"
+                               class="btn btn-soft-primary btn-sm">
+                                <i class="ri-shield-user-line align-middle me-1"></i>{{__('Manage Roles')}}
+                            </a>
                             <a href="{{route('platform_create_update', ['locale' => app()->getLocale(), 'id' => $platform->id])}}"
                                class="btn btn-soft-info btn-sm">
                                 <i class="ri-pencil-line align-middle me-1"></i>{{__('Edit')}}
@@ -426,13 +429,15 @@
                     cancelButtonText: '{{__('Cancel')}}'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                    @this.call('delete', id)
+                        @this.
+                        call('delete', id)
                         ;
                     }
                 });
             } else {
                 if (confirm('{{__('Are you sure to delete this platform')}}? ' + name)) {
-                @this.call('delete', id)
+                    @this.
+                    call('delete', id)
                     ;
                 }
             }

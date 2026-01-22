@@ -2,11 +2,11 @@
 
 namespace App\Livewire;
 
-use App\Models\Survey;
-use App\Models\SurveyResponse;
-use App\Models\SurveyResponseItem;
+use App\Enums\Selection;
 use App\Notifications\SurveyParticipation;
-use Core\Enum\Selection;
+use App\Services\SurveyResponseItemService;
+use App\Services\SurveyResponseService;
+use App\Services\SurveyService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
@@ -25,12 +25,26 @@ class SurveyParicipate extends Component
     public $oldReponses = null;
     public $showDetail;
 
+    protected SurveyService $surveyService;
+    protected SurveyResponseService $surveyResponseService;
+    protected SurveyResponseItemService $surveyResponseItemService;
+
+    public function boot(
+        SurveyService $surveyService,
+        SurveyResponseService $surveyResponseService,
+        SurveyResponseItemService $surveyResponseItemService
+    ) {
+        $this->surveyService = $surveyService;
+        $this->surveyResponseService = $surveyResponseService;
+        $this->surveyResponseItemService = $surveyResponseItemService;
+    }
+
     public function mount($idSurvey, $showDetail = false)
     {
         $this->idSurvey = $idSurvey;
         $this->currentRouteName = Route::currentRouteName();
         $this->routeRedirectionParams = ['locale' => app()->getLocale(), 'idSurvey' => $this->idSurvey];
-        $survey = Survey::findOrFail($this->idSurvey);
+        $survey = $this->surveyService->findOrFail($this->idSurvey);
         if ($survey->question?->selection == Selection::MULTIPLE->value) {
             $this->responces = [];
         }
@@ -40,9 +54,16 @@ class SurveyParicipate extends Component
 
     public function initializeResponse($survey)
     {
-        $this->oldReponses = SurveyResponse::where('user_id', auth()->user()->id)->where('survey_id', $this->idSurvey)->first();
+        $this->oldReponses = $this->surveyResponseService->getByUserAndSurvey(
+            auth()->user()->id,
+            $this->idSurvey
+        );
+
         if (!is_null($this->oldReponses)) {
-            $this->oldSurveyResponses = SurveyResponseItem::where('surveyResponse_id', $this->oldReponses->id)->get();
+            $this->oldSurveyResponses = $this->surveyResponseItemService->getBySurveyResponse(
+                $this->oldReponses->id
+            );
+
             foreach ($survey->question->serveyQuestionChoice as $choice) {
                 foreach ($this->oldSurveyResponses as $responce) {
                     if ($survey->question->id == $responce->surveyQuestion_id && $choice->id == $responce->surveyQuestionChoice_id) {
@@ -75,19 +96,19 @@ class SurveyParicipate extends Component
     public function createNewParicipationAndCheckLimits()
     {
         $surveyResponseParams = ['survey_id' => $this->idSurvey, 'user_id' => auth()->user()->id];
-        $survey = Survey::findOrFail($this->idSurvey);
+        $survey = $this->surveyService->findOrFail($this->idSurvey);
 
         if ($survey->getChronoAttchivement() == 100) {
-            Survey::close($survey->id);
+            $this->surveyService->close($survey->id);
             throw new \Exception(Lang::get('Date limit ratcheted'));
         }
 
-        $surveyResponse = SurveyResponse::create($surveyResponseParams);
+        $surveyResponse = $this->surveyResponseService->create($surveyResponseParams);
 
         if (!is_null($survey->goals)) {
-            if (SurveyResponse::where('survey_id', $this->idSurvey)->count() >= $survey->goals) {
-                Survey::close($survey->id);
-                throw new \Exception(Lang::get('Gools limit ratcheted'));
+            if ($this->surveyResponseService->countBySurvey($this->idSurvey) >= $survey->goals) {
+                $this->surveyService->close($survey->id);
+                throw new \Exception(Lang::get('Goals limit ratcheted'));
             }
         }
 
@@ -97,7 +118,7 @@ class SurveyParicipate extends Component
     public function participate()
     {
         try {
-            $survey = Survey::findOrFail($this->idSurvey);
+            $survey = $this->surveyService->findOrFail($this->idSurvey);
             $question = $survey->question;
             $this->checkParticipation($survey, $question);
 
@@ -106,35 +127,54 @@ class SurveyParicipate extends Component
             } else {
                 $surveyResponse = $this->createNewParicipationAndCheckLimits();
             }
+
             if (!$this->particiapetionProcess) {
                 $this->particiapetionProcess = true;
-                if (SurveyResponseItem::where('surveyResponse_id', $surveyResponse->id)->where('surveyQuestion_id', $survey->question->id)->count() > 1) {
-                    return redirect()->route('surveys_participate', $this->routeRedirectionParams)->with('danger', Lang::get('Many participation to this survey'));
+
+                if ($this->surveyResponseItemService->countByResponseAndQuestion(
+                    $surveyResponse->id,
+                    $survey->question->id
+                ) > 1) {
+                    return redirect()->route('surveys_participate', $this->routeRedirectionParams)
+                        ->with('danger', Lang::get('Many participation to this survey'));
                 }
-                SurveyResponseItem::where('surveyResponse_id', $surveyResponse->id)->where('surveyQuestion_id', $survey->question->id)->delete();
+
+                $this->surveyResponseItemService->deleteByResponseAndQuestion(
+                    $surveyResponse->id,
+                    $survey->question->id
+                );
+
                 if ($question->selection == Selection::MULTIPLE->value) {
-                    foreach ($this->responces as $responceItem) {
-                        $surveyResponseItemParams = ['surveyResponse_id' => $surveyResponse->id, 'surveyQuestion_id' => $survey->question->id, 'surveyQuestionChoice_id' => $responceItem];
-                        SurveyResponseItem::create($surveyResponseItemParams);
-                    }
+                    $this->surveyResponseItemService->createMultiple(
+                        $surveyResponse->id,
+                        $survey->question->id,
+                        $this->responces
+                    );
                 } else {
-                    $surveyResponseItemParams = ['surveyResponse_id' => $surveyResponse->id, 'surveyQuestion_id' => $survey->question->id, 'surveyQuestionChoice_id' => $this->responces];
-                    SurveyResponseItem::create($surveyResponseItemParams);
+                    $this->surveyResponseItemService->create([
+                        'surveyResponse_id' => $surveyResponse->id,
+                        'surveyQuestion_id' => $survey->question->id,
+                        'surveyQuestionChoice_id' => $this->responces
+                    ]);
                 }
+
                 $this->particiapetionProcess = false;
             }
+
             Auth::user()->notify(new SurveyParticipation($survey));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect()->route('surveys_participate', $this->routeRedirectionParams)->with('danger', Lang::get('Something goes wrong while participating to this survey'));
+            return redirect()->route('surveys_participate', $this->routeRedirectionParams)
+                ->with('danger', Lang::get('Something goes wrong while participating to this survey'));
         }
 
-        return redirect()->route('surveys_show', $this->routeRedirectionParams)->with('success', Lang::get('You just participated successfully to this survey'));
+        return redirect()->route('surveys_show', $this->routeRedirectionParams)
+            ->with('success', Lang::get('You just participated successfully to this survey'));
     }
 
     public function render()
     {
-        $params['survey'] = Survey::findOrFail($this->idSurvey);
+        $params['survey'] = $this->surveyService->findOrFail($this->idSurvey);
         return view('livewire.survey-paricipate', $params)->extends('layouts.master')->section('content');
     }
 }

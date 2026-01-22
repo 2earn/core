@@ -45,7 +45,7 @@ class OperationCategoryCreateUpdate extends Component
 
     public function cancel()
     {
-        return redirect()->route('balances_categories_index', ['locale' => app()->getLocale(), 'idCategory' => $this->idCategory])->with('warning', Lang::get('Operation category operation cancelled'));
+        return redirect()->route('balances_categories_index', ['locale' => app()->getLocale(), 'idCategory' => $this->idCategory])->with('warning', Lang::get('Operation category operation canceled'));
     }
 
     public function updateCategory()

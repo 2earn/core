@@ -111,13 +111,11 @@ class PlatformValidationRequestService
             throw new \Exception('This request has already been processed');
         }
 
-        // Enable the platform
         $platform = $request->platform;
         $platform->enabled = true;
         $platform->updated_by = $reviewedBy;
         $platform->save();
 
-        // Update request status
         $request->status = PlatformValidationRequest::STATUS_APPROVED;
         $request->reviewed_by = $reviewedBy;
         $request->reviewed_at = now();
@@ -166,7 +164,7 @@ class PlatformValidationRequestService
         $request = $this->findRequest($requestId);
 
         if ($request->status !== PlatformValidationRequest::STATUS_PENDING) {
-            throw new \Exception('Only pending requests can be cancelled');
+            throw new \Exception('Only pending requests can be canceled');
         }
 
         $request->status = PlatformValidationRequest::STATUS_CANCELLED;
@@ -189,7 +187,6 @@ class PlatformValidationRequestService
     {
         $query = PlatformValidationRequest::with(['platform', 'requestedBy', 'reviewedBy']);
 
-        // Apply search filter
         if ($search) {
             $query->whereHas('platform', function ($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%')
@@ -197,7 +194,6 @@ class PlatformValidationRequestService
             });
         }
 
-        // Apply status filter
         if ($statusFilter && $statusFilter !== 'all') {
             $query->where('status', $statusFilter);
         }
