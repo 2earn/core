@@ -15,14 +15,6 @@
         @include('layouts.flash-messages')
         <div class="col-12 card shadow-sm border-0">
             <div class="card-body">
-<<<<<<< HEAD
-                <div class="d-flex align-items-center">
-                    <i class="ri-shield-user-line fs-4 text-primary me-2"></i>
-                    <div>
-                        <h5 class="card-title mb-0">{{ __('Entity Roles for') }}:
-                            <strong>{{ $partner->name }}</strong></h5>
-                        <small class="text-muted">{{ __('Manage roles and assign users') }}</small>
-=======
                 <div class="d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center">
                         <i class="ri-shield-user-line fs-4 text-primary me-2"></i>
@@ -37,7 +29,6 @@
                            class="btn btn-outline-primary btn-sm">
                             <i class="ri-file-list-3-line me-1"></i>{{ __('Partner Role Requests') }}
                         </a>
->>>>>>> a0ca8bd14039262ce34260e1f62943e751b132cb
                     </div>
                 </div>
             </div>
@@ -295,11 +286,7 @@
                                                 <small>{{ $role->created_at->format(config('app.date_format')) }}</small>
                                                 @if($role->creator)
                                                     <br><small
-<<<<<<< HEAD
-                                                        class="text-muted">{{ __('by') }} {{ $role->creator->name }}</small>
-=======
                                                         class="text-muted">{{ __('by') }} {{ getUserDisplayedNameFromId($role->creator->id) }}</small>
->>>>>>> a0ca8bd14039262ce34260e1f62943e751b132cb
                                                 @endif
                                             </div>
                                         </div>
@@ -399,11 +386,7 @@
                 </div>
             @endif
         </div>
-<<<<<<< HEAD
-        <div class="col-12">
-=======
         <div class="col-12 mb-2">
->>>>>>> a0ca8bd14039262ce34260e1f62943e751b132cb
             <a href="{{ route('partner_index', app()->getLocale()) }}" class="btn btn-secondary">
                 <i class="ri-arrow-left-line me-1"></i>{{ __('Back to Partners') }}
             </a>
