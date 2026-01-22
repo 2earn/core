@@ -32,6 +32,7 @@ class OAuthController extends Controller
         Log::info('OAuth token response', ['response' => $response->body()]);
 
         if (!$response->ok()) {
+            Log::alert('OAuth token retrieval failed', ['response' => $response->body()]);
             return response()->json([
                 'error'   => 'unauthorized',
                 'message' => 'Error while retrieving the token',
@@ -58,11 +59,11 @@ class OAuthController extends Controller
             $user = User::where('id', $user_id)->first();
 
             if (!$user) {
-                return redirect('/login')->with('error', 'User not found');
+                return redirect()->route('login', ['locale' => app()->getLocale()])->with('error', 'User not found');
             }
 
             Auth::login($user);
-            return redirect('/home');
+            return redirect()->route('main', ['locale' => app()->getLocale()]);
 
         } catch (\Exception $e) {
             Log::error('JWT Decode Error: ' . $e->getMessage());
