@@ -15,55 +15,57 @@ class OAuthController extends Controller
     public function callback(Request $request)
     {
         $code = $request->input('code');
-        $state = $request->input('state');
- 
+
+        // On envoie tout dans le corps (Body) pour éviter les blocages de Headers sur Plesk
         $response = Http::asForm()
             ->withOptions(['verify' => false])
             ->post(config('services.auth_2earn.token'), [
-                'grant_type' => 'authorization_code',
-                'client_id' => config('services.auth_2earn.client_id'),
+                'grant_type'    => 'authorization_code',
+                'client_id'     => config('services.auth_2earn.client_id'),
                 'client_secret' => config('services.auth_2earn.secret'),
-                'code' => $code,
-                'redirect_uri' => config('services.auth_2earn.redirect'),
+                'code'          => $code,
+                'redirect_uri'  => config('services.auth_2earn.redirect'),
             ]);
 
-        Log::info('Http', ['client_id' => config('services.auth_2earn.client_id'), 'secret' => config('services.auth_2earn.secret')]);
-        Log::info('OAuth token response', ['response' => $response->body()]);
+        Log::info('OAuth token response:', ['body' => $response->body()]);
 
         if (!$response->ok()) {
-            Log::alert('OAuth token retrieval failed', ['response' => $response->body()]);
-            return response()->json(['error' => 'unauthorized', 'message' => trans('Error while retrieving the token')], 401);
+            return response()->json([
+                'error'   => 'unauthorized',
+                'message' => 'Error while retrieving the token',
+                'details' => $response->json()
+            ], 401);
         }
 
-        session(['token_responce' => $response->json()]);
-
         $data = $response->json();
+        session(['token_responce' => $data]);
+
         $idToken = $data['id_token'] ?? null;
 
         if (!$idToken) {
             Log::alert('ID Token missing in OAuth response', ['response' => $response->body()]);
-            return response()->json(['error' => 'invalid_id_token', 'message' => trans('ID Token missing from the response')], 401);
+            return response()->json(['error' => 'invalid_id_token', 'message' => 'ID Token missing from the response'], 401);
         }
 
         $publicKey = file_get_contents(storage_path(config('services.auth_2earn.public_key_path')));
 
         try {
             $decoded = JWT::decode($idToken, new Key($publicKey, 'RS256'));
-        } catch (\Exception $e) {
-            Log::alert('ID Token decoding failed', ['error' => $e->getMessage()]);
-            return response()->json([
-                'error' => 'invalid_token',
-                'message' => trans('Invalid token') . ': ' . $e->getMessage()
-            ], 401);
-        }
+            $user_id = $decoded->sub;
 
-        $user = User::find($decoded->sub);
-        if ($user) {
+            $user = User::where('id', $user_id)->first();
+
+            if (!$user) {
+                // Création ou logique de récupération utilisateur
+                return redirect('/login')->with('error', 'User not found');
+            }
+
             Auth::login($user);
-        } else {
-            abort(401, trans('User not found'));
-        }
+            return redirect('/home');
 
-        return redirect('/home');
+        } catch (\Exception $e) {
+            Log::error('JWT Decode Error: ' . $e->getMessage());
+            return response()->json(['error' => 'token_error', 'message' => $e->getMessage()], 401);
+        }
     }
 }
