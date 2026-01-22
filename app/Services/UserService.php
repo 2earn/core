@@ -292,8 +292,6 @@ class UserService
             ->limit($limit)
             ->get();
     }
-<<<<<<< HEAD
-=======
 
     /**
      * Get user by ID with entity roles
@@ -308,7 +306,6 @@ class UserService
                   ->with('roleable:id,name');
         }])->find($userId);
     }
->>>>>>> a0ca8bd14039262ce34260e1f62943e751b132cb
 }
 
 
