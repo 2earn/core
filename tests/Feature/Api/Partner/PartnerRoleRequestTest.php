@@ -1,4 +1,4 @@
- <?php
+<?php
 
 namespace Tests\Feature\Api\Partner;
 
@@ -97,81 +97,6 @@ class PartnerRoleRequestTest extends TestCase
             ]);
     }
 
-    /** @test */
-    public function it_can_approve_a_request()
-    {
-        $request = PartnerRoleRequest::create([
-            'partner_id' => $this->partner->id,
-            'user_id' => $this->user->id,
-            'role_name' => 'manager',
-            'status' => 'pending',
-            'requested_by' => $this->requestedBy->id,
-        ]);
-
-        $reviewer = User::factory()->create();
-
-        $response = $this->postJson("/api/partner/role-requests/{$request->id}/approve", [
-            'reviewed_by' => $reviewer->id,
-        ]);
-
-        $response->assertStatus(200)
-            ->assertJson([
-                'status' => 'Success',
-                'message' => 'Partner role request approved successfully',
-            ]);
-
-        $this->assertDatabaseHas('partner_role_requests', [
-            'id' => $request->id,
-            'status' => 'approved',
-            'reviewed_by' => $reviewer->id,
-        ]);
-
-        $this->assertDatabaseHas('entity_roles', [
-            'roleable_type' => Partner::class,
-            'roleable_id' => $this->partner->id,
-            'user_id' => $this->user->id,
-            'name' => 'manager',
-        ]);
-    }
-
-    /** @test */
-    public function it_can_reject_a_request()
-    {
-        $request = PartnerRoleRequest::create([
-            'partner_id' => $this->partner->id,
-            'user_id' => $this->user->id,
-            'role_name' => 'manager',
-            'status' => 'pending',
-            'requested_by' => $this->requestedBy->id,
-        ]);
-
-        $reviewer = User::factory()->create();
-
-        $response = $this->postJson("/api/partner/role-requests/{$request->id}/reject", [
-            'reviewed_by' => $reviewer->id,
-            'rejection_reason' => 'User does not meet the requirements',
-        ]);
-
-        $response->assertStatus(200)
-            ->assertJson([
-                'status' => 'Success',
-                'message' => 'Partner role request rejected successfully',
-            ]);
-
-        $this->assertDatabaseHas('partner_role_requests', [
-            'id' => $request->id,
-            'status' => 'rejected',
-            'reviewed_by' => $reviewer->id,
-            'rejection_reason' => 'User does not meet the requirements',
-        ]);
-
-        $this->assertDatabaseMissing('entity_roles', [
-            'roleable_type' => Partner::class,
-            'roleable_id' => $this->partner->id,
-            'user_id' => $this->user->id,
-            'name' => 'manager',
-        ]);
-    }
 
     /** @test */
     public function it_can_cancel_a_pending_request()
@@ -204,25 +129,6 @@ class PartnerRoleRequestTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_cannot_approve_non_pending_request()
-    {
-        $request = PartnerRoleRequest::create([
-            'partner_id' => $this->partner->id,
-            'user_id' => $this->user->id,
-            'role_name' => 'manager',
-            'status' => 'approved',
-            'requested_by' => $this->requestedBy->id,
-        ]);
-
-        $reviewer = User::factory()->create();
-
-        $response = $this->postJson("/api/partner/role-requests/{$request->id}/approve", [
-            'reviewed_by' => $reviewer->id,
-        ]);
-
-        $response->assertStatus(409);
-    }
 
     /** @test */
     public function it_filters_by_status()

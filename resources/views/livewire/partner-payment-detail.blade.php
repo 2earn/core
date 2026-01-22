@@ -20,9 +20,9 @@
             <!-- Payment Information Card -->
             <div class="col-xl-8">
                 <div class="card shadow-sm">
-                    <div class="card-header bg-primary text-white">
+                    <div class="card-header bg-primary">
                         <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-title mb-0 text-white">
+                            <h5 class="card-title mb-0 ">
                                 <i class="ri-money-dollar-circle-line me-2"></i>
                                 {{__('Payment')}} #{{$payment->id}}
                             </h5>

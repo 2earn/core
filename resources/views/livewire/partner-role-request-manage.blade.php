@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container">
     @section('title')
         {{ __('Partner Role Requests') }}
     @endsection
@@ -8,7 +8,7 @@
             {{ __('Partner Role Requests Management') }}
         @endslot
         @slot('li_1')
-            {{ __('Partner') }}
+            <a href="{{ route('partner_index', app()->getLocale()) }}">{{ __('Partner') }}</a>
         @endslot
     @endcomponent
 
@@ -122,8 +122,8 @@
     <div class="row">
         <div class="col-12">
             <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="card-title mb-0 text-white">
+                <div class="card-header bg-primary">
+                    <h5 class="card-title mb-0 ">
                         <i class="ri-user-settings-line me-2"></i>
                         {{ __('Partner Role Requests') }}
                     </h5>

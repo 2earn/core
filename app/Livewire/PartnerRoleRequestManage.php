@@ -47,37 +47,6 @@ class PartnerRoleRequestManage extends Component
         $this->resetPage();
     }
 
-    public function render()
-    {
-        $query = PartnerRoleRequest::with(['partner', 'user', 'requestedBy', 'reviewedBy', 'cancelledBy'])
-            ->orderBy('created_at', 'desc');
-
-        if ($this->statusFilter !== 'all') {
-            $query->where('status', $this->statusFilter);
-        }
-
-        if (!empty($this->searchUser)) {
-            $query->whereHas('user', function ($q) {
-                $q->where('name', 'like', '%' . $this->searchUser . '%')
-                  ->orWhere('email', 'like', '%' . $this->searchUser . '%');
-            });
-        }
-
-        $requests = $query->paginate(15);
-
-        $statistics = [
-            'total' => PartnerRoleRequest::count(),
-            'pending' => PartnerRoleRequest::pending()->count(),
-            'approved' => PartnerRoleRequest::approved()->count(),
-            'rejected' => PartnerRoleRequest::rejected()->count(),
-        ];
-
-        return view('livewire.partner-role-request-manage', [
-            'requests' => $requests,
-            'statistics' => $statistics,
-        ]);
-    }
-
     public function openApproveModal($requestId)
     {
         $this->selectedRequest = PartnerRoleRequest::with(['partner', 'user', 'requestedBy'])->find($requestId);
@@ -238,4 +207,37 @@ class PartnerRoleRequestManage extends Component
             default => 'bg-gray-100 text-gray-800',
         };
     }
+
+
+    public function render()
+    {
+        $query = PartnerRoleRequest::with(['partner', 'user', 'requestedBy', 'reviewedBy', 'cancelledBy'])
+            ->orderBy('created_at', 'desc');
+
+        if ($this->statusFilter !== 'all') {
+            $query->where('status', $this->statusFilter);
+        }
+
+        if (!empty($this->searchUser)) {
+            $query->whereHas('user', function ($q) {
+                $q->where('name', 'like', '%' . $this->searchUser . '%')
+                    ->orWhere('email', 'like', '%' . $this->searchUser . '%');
+            });
+        }
+
+        $requests = $query->paginate(15);
+
+        $statistics = [
+            'total' => PartnerRoleRequest::count(),
+            'pending' => PartnerRoleRequest::pending()->count(),
+            'approved' => PartnerRoleRequest::approved()->count(),
+            'rejected' => PartnerRoleRequest::rejected()->count(),
+        ];
+
+        return view('livewire.partner-role-request-manage', [
+            'requests' => $requests,
+            'statistics' => $statistics,
+        ])->extends('layouts.master')->section('content');
+    }
+
 }
