@@ -17,8 +17,8 @@
 
     <div class="row justify-content-center">
             <div class="col-12 card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="card-title mb-0 text-white">
+                <div class="card-header bg-primary">
+                    <h5 class="card-title mb-0 ">
                         <i class="ri-money-dollar-circle-line me-2"></i>
                         {{ $update ? __('Edit Payment Information') : __('New Payment Information') }}
                     </h5>

@@ -15,12 +15,20 @@
         @include('layouts.flash-messages')
         <div class="col-12 card shadow-sm border-0">
             <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <i class="ri-shield-user-line fs-4 text-primary me-2"></i>
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <i class="ri-shield-user-line fs-4 text-primary me-2"></i>
+                        <div>
+                            <h5 class="card-title mb-0">{{ __('Entity Roles for') }}:
+                                <strong>{{ $partner->name }}</strong></h5>
+                            <small class="text-muted">{{ __('Manage roles and assign users') }}</small>
+                        </div>
+                    </div>
                     <div>
-                        <h5 class="card-title mb-0">{{ __('Entity Roles for') }}:
-                            <strong>{{ $partner->name }}</strong></h5>
-                        <small class="text-muted">{{ __('Manage roles and assign users') }}</small>
+                        <a href="{{ route('partner_role_requests', app()->getLocale()) }}"
+                           class="btn btn-outline-primary btn-sm">
+                            <i class="ri-file-list-3-line me-1"></i>{{ __('Partner Role Requests') }}
+                        </a>
                     </div>
                 </div>
             </div>
@@ -278,7 +286,7 @@
                                                 <small>{{ $role->created_at->format(config('app.date_format')) }}</small>
                                                 @if($role->creator)
                                                     <br><small
-                                                        class="text-muted">{{ __('by') }} {{ $role->creator->name }}</small>
+                                                        class="text-muted">{{ __('by') }} {{ getUserDisplayedNameFromId($role->creator->id) }}</small>
                                                 @endif
                                             </div>
                                         </div>
@@ -378,7 +386,7 @@
                 </div>
             @endif
         </div>
-        <div class="col-12">
+        <div class="col-12 mb-2">
             <a href="{{ route('partner_index', app()->getLocale()) }}" class="btn btn-secondary">
                 <i class="ri-arrow-left-line me-1"></i>{{ __('Back to Partners') }}
             </a>
