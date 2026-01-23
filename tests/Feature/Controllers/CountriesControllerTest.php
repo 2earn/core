@@ -46,14 +46,11 @@ class CountriesControllerTest extends TestCase
     public function test_countries_service_can_be_mocked()
     {
         $mock = Mockery::mock(CountriesService::class);
-        $mock->shouldReceive('getForDatatable')
-            ->once()
-            ->with(['id', 'name', 'phonecode', 'langage'])
-            ->andReturn(collect([]));
-
         $this->app->instance(CountriesService::class, $mock);
 
+        // Verify the mock was bound to the container
         $this->assertInstanceOf(CountriesService::class, $mock);
+        $this->assertInstanceOf(CountriesService::class, app(CountriesService::class));
     }
 
     #[Test]

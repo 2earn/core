@@ -3,6 +3,7 @@
 namespace Tests\Feature\Api\Partner;
 
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\PartnerRoleRequest;
 use App\Models\Partner;
 use App\Models\User;
@@ -25,8 +26,7 @@ class PartnerRoleRequestTest extends TestCase
         $this->requestedBy = User::factory()->create();
     }
 
-    /** @test */
-    public function it_can_create_a_partner_role_request()
+    #[Test]`n    public function it_can_create_a_partner_role_request()
     {
         $response = $this->postJson('/api/partner/role-requests', [
             'partner_id' => $this->partner->id,
@@ -50,8 +50,7 @@ class PartnerRoleRequestTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_prevents_duplicate_pending_requests()
+    #[Test]`n    public function it_prevents_duplicate_pending_requests()
     {
         PartnerRoleRequest::create([
             'partner_id' => $this->partner->id,
@@ -75,8 +74,7 @@ class PartnerRoleRequestTest extends TestCase
             ]);
     }
 
-    /** @test */
-    public function it_can_list_partner_role_requests()
+    #[Test]`n    public function it_can_list_partner_role_requests()
     {
         PartnerRoleRequest::factory()->count(5)->create([
             'partner_id' => $this->partner->id,
@@ -97,8 +95,7 @@ class PartnerRoleRequestTest extends TestCase
     }
 
 
-    /** @test */
-    public function it_can_cancel_a_pending_request()
+    #[Test]`n    public function it_can_cancel_a_pending_request()
     {
         $request = PartnerRoleRequest::create([
             'partner_id' => $this->partner->id,
@@ -129,8 +126,7 @@ class PartnerRoleRequestTest extends TestCase
     }
 
 
-    /** @test */
-    public function it_filters_by_status()
+    #[Test]`n    public function it_filters_by_status()
     {
         PartnerRoleRequest::create([
             'partner_id' => $this->partner->id,
