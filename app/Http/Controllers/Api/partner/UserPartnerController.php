@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\partner;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Partner\AddRoleRequest;
 use App\Http\Requests\Api\Partner\UpdateRoleRequest;
+use App\Http\Requests\Api\Partner\DeleteRoleRequest;
 use App\Http\Requests\Api\Partner\GetPartnerPlatformsRequest;
 use App\Models\AssignPlatformRole;
 use App\Models\User;
@@ -266,6 +267,64 @@ class UserPartnerController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Failed to update role: ' . $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function deleteRole(DeleteRoleRequest $request)
+    {
+        $validated = $request->validated();
+
+        try {
+            // Get the existing role
+            $existingRole = $this->entityRoleService->getRoleById($validated['role_id']);
+
+            if (!$existingRole) {
+                Log::warning(self::LOG_PREFIX . 'Role not found', [
+                    'role_id' => $validated['role_id']
+                ]);
+
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Role not found'
+                ], Response::HTTP_NOT_FOUND);
+            }
+
+            // Store role info for logging before deletion
+            $roleInfo = [
+                'id' => $existingRole->id,
+                'name' => $existingRole->name,
+                'user_id' => $existingRole->user_id,
+                'platform_id' => $existingRole->roleable_id,
+                'platform_name' => $existingRole->roleable->name ?? null
+            ];
+
+            // Delete the role using EntityRoleService
+            $this->entityRoleService->deleteRole($validated['role_id']);
+
+            Log::info(self::LOG_PREFIX . 'Role deleted successfully', [
+                'role_info' => $roleInfo,
+                'deleted_by' => auth()->id() ?? 'system'
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Role deleted successfully',
+                'data' => [
+                    'deleted_role' => $roleInfo
+                ]
+            ], Response::HTTP_OK);
+
+        } catch (\Throwable $e) {
+            Log::error(self::LOG_PREFIX . 'Failed to delete role', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'payload' => $validated
+            ]);
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to delete role: ' . $e->getMessage()
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

@@ -31,7 +31,7 @@ class UserPartnerControllerTest extends TestCase
             'role' => 'admin'
         ];
 
-        $response = $this->postJson($this->baseUrl . '/users/add-role', $data);
+        $response = $this->postJson($this->baseUrl . '/users/platforms/add-role', $data);
 
         $response->assertStatus(201)
                  ->assertJsonStructure([
@@ -78,11 +78,11 @@ class UserPartnerControllerTest extends TestCase
             'role' => 'manager'
         ];
 
-        $firstResponse = $this->postJson($this->baseUrl . '/users/add-role', $data);
+        $firstResponse = $this->postJson($this->baseUrl . '/users/platforms/add-role', $data);
         $firstResponse->assertStatus(201);
 
         // Try to add the same role again
-        $secondResponse = $this->postJson($this->baseUrl . '/users/add-role', $data);
+        $secondResponse = $this->postJson($this->baseUrl . '/users/platforms/add-role', $data);
 
         $secondResponse->assertStatus(409)
                       ->assertJsonStructure([
@@ -107,7 +107,7 @@ class UserPartnerControllerTest extends TestCase
             'role' => 'owner'
         ];
 
-        $firstResponse = $this->postJson($this->baseUrl . '/users/add-role', $firstRole);
+        $firstResponse = $this->postJson($this->baseUrl . '/users/platforms/add-role', $firstRole);
         $firstResponse->assertStatus(201);
 
         // Add second different role to same user on same platform
@@ -117,7 +117,7 @@ class UserPartnerControllerTest extends TestCase
             'role' => 'manager'
         ];
 
-        $secondResponse = $this->postJson($this->baseUrl . '/users/add-role', $secondRole);
+        $secondResponse = $this->postJson($this->baseUrl . '/users/platforms/add-role', $secondRole);
         $secondResponse->assertStatus(201);
 
         // Verify both roles exist in database
@@ -137,7 +137,7 @@ class UserPartnerControllerTest extends TestCase
     public function test_add_role_fails_with_invalid_data()
     {
         $data = ['user_id' => $this->user->id];
-        $response = $this->postJson($this->baseUrl . '/users/add-role', $data);
+        $response = $this->postJson($this->baseUrl . '/users/platforms/add-role', $data);
         $response->assertStatus(422);
     }
 
@@ -163,7 +163,7 @@ class UserPartnerControllerTest extends TestCase
             'role' => 'admin'
         ];
 
-        $addResponse = $this->postJson($this->baseUrl . '/users/add-role', $data);
+        $addResponse = $this->postJson($this->baseUrl . '/users/platforms/add-role', $data);
         $addResponse->assertStatus(201);
 
         $roleId = $addResponse->json('data.role.id');
@@ -174,7 +174,7 @@ class UserPartnerControllerTest extends TestCase
             'role_name' => 'super_admin'
         ];
 
-        $response = $this->postJson($this->baseUrl . '/users/update-role', $updateData);
+        $response = $this->postJson($this->baseUrl . '/users/platforms/update-role', $updateData);
 
         $response->assertStatus(200)
                  ->assertJsonStructure([
@@ -225,7 +225,7 @@ class UserPartnerControllerTest extends TestCase
             'role_name' => 'new_role'
         ];
 
-        $response = $this->postJson($this->baseUrl . '/users/update-role', $updateData);
+        $response = $this->postJson($this->baseUrl . '/users/platforms/update-role', $updateData);
 
         $response->assertStatus(422)
                  ->assertJson([
@@ -243,7 +243,7 @@ class UserPartnerControllerTest extends TestCase
             'role' => 'admin'
         ];
 
-        $addResponse = $this->postJson($this->baseUrl . '/users/add-role', $data);
+        $addResponse = $this->postJson($this->baseUrl . '/users/platforms/add-role', $data);
         $roleId = $addResponse->json('data.role.id');
 
         // Try to update without role_name
@@ -251,7 +251,7 @@ class UserPartnerControllerTest extends TestCase
             'role_id' => $roleId
         ];
 
-        $response = $this->postJson($this->baseUrl . '/users/update-role', $updateData);
+        $response = $this->postJson($this->baseUrl . '/users/platforms/update-role', $updateData);
 
         $response->assertStatus(422)
                  ->assertJson([
@@ -266,7 +266,80 @@ class UserPartnerControllerTest extends TestCase
             'role_name' => 'new_role'
         ];
 
-        $response = $this->postJson($this->baseUrl . '/users/update-role', $updateData);
+        $response = $this->postJson($this->baseUrl . '/users/platforms/update-role', $updateData);
+
+        $response->assertStatus(422)
+                 ->assertJson([
+                     'status' => false,
+                     'message' => 'Validation failed'
+                 ]);
+    }
+
+    public function test_can_delete_role()
+    {
+        // First, add a role
+        $data = [
+            'user_id' => $this->user->id,
+            'platform_id' => $this->platform->id,
+            'role' => 'admin'
+        ];
+
+        $addResponse = $this->postJson($this->baseUrl . '/users/platforms/add-role', $data);
+        $addResponse->assertStatus(201);
+
+        $roleId = $addResponse->json('data.role.id');
+
+        // Delete the role
+        $deleteData = [
+            'role_id' => $roleId
+        ];
+
+        $response = $this->postJson($this->baseUrl . '/users/platforms/delete-role', $deleteData);
+
+        $response->assertStatus(200)
+                 ->assertJsonStructure([
+                     'status',
+                     'message',
+                     'data' => [
+                         'deleted_role' => [
+                             'id',
+                             'name',
+                             'user_id',
+                             'platform_id'
+                         ]
+                     ]
+                 ])
+                 ->assertJson([
+                     'status' => true,
+                     'message' => 'Role deleted successfully'
+                 ]);
+
+        // Verify the role was actually deleted from the database
+        $this->assertDatabaseMissing('entity_roles', [
+            'id' => $roleId
+        ]);
+    }
+
+    public function test_delete_role_fails_with_invalid_role_id()
+    {
+        $deleteData = [
+            'role_id' => 99999
+        ];
+
+        $response = $this->postJson($this->baseUrl . '/users/platforms/delete-role', $deleteData);
+
+        $response->assertStatus(422)
+                 ->assertJson([
+                     'status' => false,
+                     'message' => 'Validation failed'
+                 ]);
+    }
+
+    public function test_delete_role_fails_without_role_id()
+    {
+        $deleteData = [];
+
+        $response = $this->postJson($this->baseUrl . '/users/platforms/delete-role', $deleteData);
 
         $response->assertStatus(422)
                  ->assertJson([
@@ -275,3 +348,4 @@ class UserPartnerControllerTest extends TestCase
                  ]);
     }
 }
+
