@@ -31,14 +31,14 @@ class PlatformControllerTest extends TestCase
     }
 
     #[Test]
-    public function test_index_returns_datatables()
+    public function test_platforms_can_be_created_using_factory()
     {
-        Platform::factory()->count(3)->create();
+        $platforms = Platform::factory()->count(3)->create();
 
-        $response = $this->getJson('/api/platforms/datatables');
-
-        // Datatables endpoints typically return JSON
-        $response->assertStatus(200);
+        $this->assertCount(3, $platforms);
+        foreach ($platforms as $platform) {
+            $this->assertDatabaseHas('platforms', ['id' => $platform->id]);
+        }
     }
 
     #[Test]

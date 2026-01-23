@@ -54,7 +54,8 @@ class PostControllerTest extends TestCase
     public function test_user_has_email_attribute()
     {
         $this->assertNotNull($this->user);
-        $this->assertObjectHasProperty('email', $this->user);
+        $this->assertNotNull($this->user->email);
+        $this->assertTrue(isset($this->user->email));
     }
 
     #[Test]
