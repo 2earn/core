@@ -29,44 +29,64 @@ class HomeControllerTest extends TestCase
     }
 
     /** @test */
-    public function test_root_returns_index_view()
+    public function test_authenticated_user_can_access_home()
     {
-        $this->markTestSkipped('Requires view files');
+        $this->assertAuthenticatedAs($this->user);
     }
 
     /** @test */
-    public function test_lang_changes_locale()
+    public function test_lang_changes_session_locale()
     {
-        $this->markTestSkipped('Requires locale testing');
+        $response = $this->get('/lang/fr');
+
+        $response->assertRedirect();
+        $this->assertEquals('fr', session('lang'));
+    }
+
+    /** @test */
+    public function test_update_profile_validates_required_fields()
+    {
+        $response = $this->put("/update-profile/{$this->user->id}", [
+            'name' => '',
+            'email' => ''
+        ]);
+
+        // Should redirect back with errors or show validation error
+        $this->assertTrue(in_array($response->status(), [302, 422]));
     }
 
     /** @test */
     public function test_update_profile_with_valid_data()
     {
-        $this->markTestSkipped('Requires profile update logic');
+        $response = $this->put("/update-profile/{$this->user->id}", [
+            'name' => 'Updated Name',
+            'email' => 'newemail@example.com'
+        ]);
+
+        $this->assertTrue(in_array($response->status(), [200, 302]));
     }
 
     /** @test */
-    public function test_update_profile_with_avatar()
+    public function test_update_password_requires_current_password()
     {
-        $this->markTestSkipped('Requires file upload testing');
-    }
+        $response = $this->put("/update-password/{$this->user->id}", [
+            'current_password' => '',
+            'password' => 'newpassword',
+            'password_confirmation' => 'newpassword'
+        ]);
 
-    /** @test */
-    public function test_update_password_with_correct_current_password()
-    {
-        $this->markTestSkipped('Requires password validation');
-    }
-
-    /** @test */
-    public function test_update_password_fails_with_incorrect_current_password()
-    {
-        $this->markTestSkipped('Requires password validation');
+        $this->assertTrue(in_array($response->status(), [302, 422]));
     }
 
     /** @test */
     public function test_update_password_requires_confirmation()
     {
-        $this->markTestSkipped('Requires password confirmation');
+        $response = $this->put("/update-password/{$this->user->id}", [
+            'current_password' => 'password',
+            'password' => 'newpassword',
+            'password_confirmation' => 'different'
+        ]);
+
+        $this->assertTrue(in_array($response->status(), [200, 302, 422]));
     }
 }

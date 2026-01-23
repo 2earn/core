@@ -66,6 +66,45 @@ class ApiControllerTest extends TestCase
     }
 
     /**
+     * Test: User is authenticated
+     *
+     * @test
+     * @return void
+     */
+    public function test_user_is_authenticated()
+    {
+        $this->assertAuthenticatedAs($this->user);
+        $this->assertInstanceOf(User::class, $this->user);
+    }
+
+    /**
+     * Test: Services can be mocked
+     *
+     * @test
+     * @return void
+     */
+    public function test_services_can_be_mocked()
+    {
+        $this->assertInstanceOf(\Mockery\MockInterface::class, $this->balancesManager);
+        $this->assertInstanceOf(\Mockery\MockInterface::class, $this->settingService);
+        $this->assertInstanceOf(\Mockery\MockInterface::class, $this->vipService);
+    }
+
+    /**
+     * Test: User factory creates valid user
+     *
+     * @test
+     * @return void
+     */
+    public function test_user_factory_creates_valid_user()
+    {
+        $newUser = User::factory()->create();
+
+        $this->assertNotNull($newUser->id);
+        $this->assertDatabaseHas('users', ['id' => $newUser->id]);
+    }
+
+    /**
      * Test: Buy action with valid data
      *
      * @test

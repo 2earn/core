@@ -29,26 +29,24 @@ class ContactsControllerTest extends TestCase
     }
 
     /** @test */
-    public function test_index_method_exists()
+    public function test_user_is_authenticated()
     {
-        $this->markTestSkipped('Controller methods not yet implemented');
+        $this->assertAuthenticatedAs($this->user);
     }
 
     /** @test */
-    public function test_store_method_exists()
+    public function test_controller_methods_exist()
     {
-        $this->markTestSkipped('Controller methods not yet implemented');
+        $this->assertTrue(method_exists(\App\Http\Controllers\ContactsController::class, 'index'));
+        $this->assertTrue(method_exists(\App\Http\Controllers\ContactsController::class, 'store'));
+        $this->assertTrue(method_exists(\App\Http\Controllers\ContactsController::class, 'update'));
+        $this->assertTrue(method_exists(\App\Http\Controllers\ContactsController::class, 'destroy'));
     }
 
     /** @test */
-    public function test_update_method_exists()
+    public function test_user_instance_is_valid()
     {
-        $this->markTestSkipped('Controller methods not yet implemented');
-    }
-
-    /** @test */
-    public function test_destroy_method_exists()
-    {
-        $this->markTestSkipped('Controller methods not yet implemented');
+        $this->assertInstanceOf(User::class, $this->user);
+        $this->assertNotNull($this->user->id);
     }
 }

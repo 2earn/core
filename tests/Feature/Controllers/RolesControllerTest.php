@@ -1,7 +1,7 @@
 <?php
 /**
  * Test Suite for RolesController
- * 
+ *
  * @package Tests\Feature\Controllers
  * @see App\Http\Controllers\RolesController
  * @author 2earn Development Team
@@ -25,21 +25,28 @@ class RolesControllerTest extends TestCase
     /** @test */
     public function test_index_returns_datatables()
     {
-        $this->markTestSkipped('Requires Role model');
+        Role::create(['name' => 'test-role', 'guard_name' => 'web']);
+
+        $response = $this->getJson('/api/roles/datatables');
+
+        $response->assertStatus(200);
     }
     /** @test */
-    public function test_datatables_includes_action_column()
+    public function test_role_can_be_created()
     {
-        $this->markTestSkipped('Requires view components');
+        $role = Role::create(['name' => 'admin', 'guard_name' => 'web']);
+
+        $this->assertDatabaseHas('roles', [
+            'name' => 'admin',
+            'guard_name' => 'web'
+        ]);
     }
     /** @test */
-    public function test_datatables_formats_timestamps()
+    public function test_role_has_timestamps()
     {
-        $this->markTestSkipped('Requires timestamp formatting');
-    }
-    /** @test */
-    public function test_datatables_returns_all_roles()
-    {
-        $this->markTestSkipped('Requires role data');
+        $role = Role::create(['name' => 'editor', 'guard_name' => 'web']);
+
+        $this->assertNotNull($role->created_at);
+        $this->assertNotNull($role->updated_at);
     }
 }

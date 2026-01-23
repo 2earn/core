@@ -28,6 +28,19 @@ class OAuthControllerTest extends TestCase
     }
 
     /** @test */
+    public function test_user_factory_creates_valid_user()
+    {
+        $this->assertInstanceOf(User::class, $this->user);
+        $this->assertNotNull($this->user->id);
+    }
+
+    /** @test */
+    public function test_controller_has_callback_method()
+    {
+        $this->assertTrue(method_exists(\App\Http\Controllers\OAuthController::class, 'callback'));
+    }
+
+    /** @test */
     public function test_callback_with_valid_code()
     {
         $this->markTestSkipped('Requires OAuth configuration');

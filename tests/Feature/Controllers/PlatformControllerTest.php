@@ -32,30 +32,32 @@ class PlatformControllerTest extends TestCase
     /** @test */
     public function test_index_returns_datatables()
     {
-        $this->markTestSkipped('Requires Platform model');
+        Platform::factory()->count(3)->create();
+
+        $response = $this->getJson('/api/platforms/datatables');
+
+        // Datatables endpoints typically return JSON
+        $response->assertStatus(200);
     }
 
     /** @test */
-    public function test_datatables_includes_platform_type()
+    public function test_platforms_can_be_created()
     {
-        $this->markTestSkipped('Requires PlatformType enum');
+        $platform = Platform::factory()->create();
+
+        $this->assertDatabaseHas('platforms', [
+            'id' => $platform->id,
+            'name' => $platform->name
+        ]);
     }
 
     /** @test */
-    public function test_datatables_includes_business_sector()
+    public function test_platform_has_required_attributes()
     {
-        $this->markTestSkipped('Requires BusinessSector model');
-    }
+        $platform = Platform::factory()->create();
 
-    /** @test */
-    public function test_datatables_includes_action_column()
-    {
-        $this->markTestSkipped('Requires view components');
-    }
-
-    /** @test */
-    public function test_datatables_formats_dates()
-    {
-        $this->markTestSkipped('Requires date formatting test');
+        $this->assertNotNull($platform->id);
+        $this->assertNotNull($platform->name);
+        $this->assertNotNull($platform->created_at);
     }
 }
