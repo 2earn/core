@@ -157,6 +157,7 @@ Route::prefix('/partner/')->name('api_partner_')
             });
 
             Route::prefix('items')->name('items_')->group(function () {
+                Route::get('/', [ItemsPartnerController::class, 'listItems'])->name('list');
                 Route::post('/', [ItemsPartnerController::class, 'store'])->name('store');
                 Route::put('/{id}', [ItemsPartnerController::class, 'update'])->name('update');
                 Route::get('/deal/{dealId}', [ItemsPartnerController::class, 'listItemsForDeal'])->name('list_by_deal');

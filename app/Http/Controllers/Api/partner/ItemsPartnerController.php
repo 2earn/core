@@ -168,6 +168,96 @@ class ItemsPartnerController extends Controller
         ], Response::HTTP_OK);
     }
 
+    public function listItems(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'platform_id' => 'required|integer|exists:platforms,id',
+            'search' => 'nullable|string|max:255',
+            'page' => 'nullable|integer|min:1',
+            'per_page' => 'nullable|integer|min:1|max:100',
+        ]);
+
+        if ($validator->fails()) {
+            Log::error(self::LOG_PREFIX . 'Validation failed', ['errors' => $validator->errors()]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $platformId = $request->input('platform_id');
+        $search = $request->input('search');
+        $perPage = $request->input('per_page', 15);
+
+        try {
+            // Get items for the platform with deal information using ItemService
+            $items = $this->itemService->getItemsByPlatform($platformId, $search, $perPage);
+
+            $products = $items->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'name' => $item->name,
+                    'ref' => $item->ref,
+                    'price' => $item->price,
+                    'discount' => $item->discount,
+                    'discount_2earn' => $item->discount_2earn,
+                    'photo_link' => $item->photo_link,
+                    'description' => $item->description,
+                    'stock' => $item->stock,
+                    'platform_id' => $item->platform_id,
+                    'platform_name' => $item->platform?->name,
+                    'is_assigned_to_deal' => !is_null($item->deal_id),
+                    'deal' => $item->deal ? [
+                        'id' => $item->deal->id,
+                        'name' => $item->deal->name,
+                        'validated' => $item->deal->validated,
+                    ] : null,
+                    'created_at' => $item->created_at,
+                    'updated_at' => $item->updated_at,
+                ];
+            });
+
+            Log::info(self::LOG_PREFIX . 'Items retrieved for platform', [
+                'platform_id' => $platformId,
+                'search' => $search,
+                'count' => $items->count(),
+                'total' => $items->total()
+            ]);
+
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'Items retrieved successfully',
+                'data' => [
+                    'platform_id' => $platformId,
+                    'search' => $search,
+                    'items' => $products,
+                    'pagination' => [
+                        'current_page' => $items->currentPage(),
+                        'per_page' => $items->perPage(),
+                        'total' => $items->total(),
+                        'last_page' => $items->lastPage(),
+                        'from' => $items->firstItem(),
+                        'to' => $items->lastItem(),
+                    ]
+                ]
+            ], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Failed to retrieve items', [
+                'platform_id' => $platformId,
+                'search' => $search,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Failed to retrieve items',
+                'error' => $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public function addItemsToDeal(Request $request)
     {
         $validator = Validator::make($request->all(), [

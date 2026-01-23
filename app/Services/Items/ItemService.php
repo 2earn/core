@@ -32,6 +32,32 @@ class ItemService
     }
 
     /**
+     * Get items by platform with optional search filter
+     *
+     * @param int $platformId
+     * @param string|null $search
+     * @param int $perPage
+     * @return LengthAwarePaginator
+     */
+    public function getItemsByPlatform(int $platformId, ?string $search = null, int $perPage = 15): LengthAwarePaginator
+    {
+        $query = Item::where('platform_id', $platformId)
+            ->with(['deal:id,name,validated', 'platform:id,name']);
+
+        if (!is_null($search) && !empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                  ->orWhere('ref', 'like', '%' . $search . '%')
+                  ->orWhere('description', 'like', '%' . $search . '%');
+            });
+        }
+
+        $query->orderBy('created_at', 'desc');
+
+        return $query->paginate($perPage);
+    }
+
+    /**
      * Find an item by ID
      *
      * @param int $id
