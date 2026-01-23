@@ -44,13 +44,13 @@ Host: your-domain.com
         "roles": [
             {
                 "id": 1,
-                "role_id": 2,
+                "name": "owner",
                 "user_id": 5,
                 "created_at": "2026-01-15T10:30:00.000000Z"
             },
             {
                 "id": 2,
-                "role_id": 3,
+                "name": "manager",
                 "user_id": 8,
                 "created_at": "2026-01-18T14:20:00.000000Z"
             }
@@ -107,7 +107,7 @@ Host: your-domain.com
 | Field | Type | Description |
 |-------|------|-------------|
 | id | integer | The entity role ID |
-| role_id | integer | The ID of the associated role |
+| name | string | The role name (e.g., 'owner', 'manager', 'staff') |
 | user_id | integer | The ID of the user assigned to this role |
 | created_at | datetime | When this role assignment was created |
 

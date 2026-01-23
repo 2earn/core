@@ -195,7 +195,8 @@ Route::prefix('/partner/')->name('api_partner_')
             });
 
             Route::get('/plan-label', [PlanLabelPartnerController::class, 'index'])->name('deals_plan_label_index');
-            Route::post('/users/add-role', [UserPartnerController::class, 'addRole'])->name('users_add_role');
+            Route::post('/users/platforms/add-role', [UserPartnerController::class, 'addRole'])->name('users_platforms_add_role');
+            Route::post('/users/platforms/update-role', [UserPartnerController::class, 'updateRole'])->name('users_platforms_update_role');
             Route::get('/users/platforms', [UserPartnerController::class, 'getPartnerPlatforms'])->name('users_platforms');
             Route::get('/user', [UserController::class, 'getUser'])->name('get_user');
         });
