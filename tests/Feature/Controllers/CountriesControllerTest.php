@@ -12,6 +12,7 @@
 namespace Tests\Feature\Controllers;
 
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
 use App\Services\CountriesService;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -32,7 +33,7 @@ class CountriesControllerTest extends TestCase
         $this->countriesService = Mockery::mock(CountriesService::class);
     }
 
-    /** @test */
+    #[Test]
     public function test_index_returns_json_response()
     {
         $response = $this->getJson('/api/countries/datatables');
@@ -41,7 +42,7 @@ class CountriesControllerTest extends TestCase
         $this->assertTrue(in_array($response->status(), [200, 500])); // 500 if table doesn't exist
     }
 
-    /** @test */
+    #[Test]
     public function test_countries_service_can_be_mocked()
     {
         $mock = Mockery::mock(CountriesService::class);
@@ -55,7 +56,7 @@ class CountriesControllerTest extends TestCase
         $this->assertInstanceOf(CountriesService::class, $mock);
     }
 
-    /** @test */
+    #[Test]
     public function test_user_is_authenticated()
     {
         $this->assertAuthenticatedAs($this->user);

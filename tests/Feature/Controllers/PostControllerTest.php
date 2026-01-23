@@ -12,6 +12,7 @@
 namespace Tests\Feature\Controllers;
 
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -28,13 +29,13 @@ class PostControllerTest extends TestCase
         $this->actingAs($this->user);
     }
 
-    /** @test */
+    #[Test]
     public function test_user_is_authenticated()
     {
         $this->assertAuthenticatedAs($this->user);
     }
 
-    /** @test */
+    #[Test]
     public function test_controller_methods_exist()
     {
         $this->assertTrue(method_exists(\App\Http\Controllers\PostController::class, 'verifyMail'));
@@ -42,21 +43,21 @@ class PostControllerTest extends TestCase
         $this->assertTrue(method_exists(\App\Http\Controllers\PostController::class, 'getMember'));
     }
 
-    /** @test */
+    #[Test]
     public function test_verify_mail_endpoint_responds()
     {
         $response = $this->postJson('/api/verify-mail', ['mail' => 'test@example.com']);
         $this->assertTrue(in_array($response->status(), [200, 404, 500]));
     }
 
-    /** @test */
+    #[Test]
     public function test_user_has_email_attribute()
     {
         $this->assertNotNull($this->user);
         $this->assertObjectHasProperty('email', $this->user);
     }
 
-    /** @test */
+    #[Test]
     public function test_user_instance_is_valid()
     {
         $this->assertInstanceOf(User::class, $this->user);

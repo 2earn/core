@@ -12,6 +12,7 @@
 namespace Tests\Feature\Controllers;
 
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
 use App\Services\settingsManager;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -32,25 +33,25 @@ class NotificationsControllerTest extends TestCase
         $this->settingsManager = Mockery::mock(settingsManager::class);
     }
 
-    /** @test */
+    #[Test]
     public function test_user_is_authenticated()
     {
         $this->assertAuthenticatedAs($this->user);
     }
 
-    /** @test */
+    #[Test]
     public function test_settings_manager_can_be_mocked()
     {
         $this->assertInstanceOf(\Mockery\MockInterface::class, $this->settingsManager);
     }
 
-    /** @test */
+    #[Test]
     public function test_controller_has_index_method()
     {
         $this->assertTrue(method_exists(\App\Http\Controllers\NotificationsController::class, 'index'));
     }
 
-    /** @test */
+    #[Test]
     public function test_user_factory_creates_valid_user()
     {
         $this->assertInstanceOf(User::class, $this->user);

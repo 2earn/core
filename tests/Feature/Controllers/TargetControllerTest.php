@@ -12,6 +12,7 @@
 namespace Tests\Feature\Controllers;
 
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
 use App\Models\Target;
 use App\Services\Targeting\Targeting;
@@ -30,26 +31,26 @@ class TargetControllerTest extends TestCase
         $this->actingAs($this->user);
     }
 
-    /** @test */
+    #[Test]
     public function test_user_is_authenticated()
     {
         $this->assertAuthenticatedAs($this->user);
     }
 
-    /** @test */
+    #[Test]
     public function test_controller_has_get_target_data_method()
     {
         $this->assertTrue(method_exists(\App\Http\Controllers\TargetController::class, 'getTargetData'));
     }
 
-    /** @test */
+    #[Test]
     public function test_user_factory_creates_valid_user()
     {
         $this->assertInstanceOf(User::class, $this->user);
         $this->assertNotNull($this->user->id);
     }
 
-    /** @test */
+    #[Test]
     public function test_target_class_exists()
     {
         $this->assertTrue(class_exists(Target::class));

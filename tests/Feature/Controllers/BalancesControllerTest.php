@@ -9,6 +9,7 @@
  */
 namespace Tests\Feature\Controllers;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 class BalancesControllerTest extends TestCase
@@ -23,13 +24,13 @@ class BalancesControllerTest extends TestCase
         $this->recipient = User::factory()->create();
         $this->actingAs($this->user);
     }
-    /** @test */
+    #[Test]
     public function test_user_is_authenticated()
     {
         $this->assertAuthenticatedAs($this->user);
         $this->assertInstanceOf(User::class, $this->user);
     }
-    /** @test */
+    #[Test]
     public function test_add_cash_validates_amount()
     {
         $response = $this->postJson('/api/balances/add-cash', [
@@ -40,7 +41,7 @@ class BalancesControllerTest extends TestCase
         // Should return error for negative amount or insufficient balance
         $this->assertTrue(in_array($response->status(), [400, 422, 500]));
     }
-    /** @test */
+    #[Test]
     public function test_add_cash_requires_recipient()
     {
         $response = $this->postJson('/api/balances/add-cash', [
@@ -50,7 +51,7 @@ class BalancesControllerTest extends TestCase
 
         $this->assertTrue(in_array($response->status(), [400, 422, 500]));
     }
-    /** @test */
+    #[Test]
     public function test_recipient_user_exists()
     {
         $this->assertInstanceOf(User::class, $this->recipient);

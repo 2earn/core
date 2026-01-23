@@ -12,6 +12,7 @@
 namespace Tests\Feature\Controllers;
 
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
 use App\Models\BalanceInjectorCoupon;
 use App\Models\Coupon;
@@ -30,13 +31,13 @@ class VoucherControllerTest extends TestCase
         $this->actingAs($this->user);
     }
 
-    /** @test */
+    #[Test]
     public function test_authenticated_user_can_access_vouchers()
     {
         $this->assertAuthenticatedAs($this->user);
     }
 
-    /** @test */
+    #[Test]
     public function test_delete_with_empty_ids_returns_error()
     {
         $response = $this->postJson('/api/vouchers/delete-injector-coupon', [
@@ -46,7 +47,7 @@ class VoucherControllerTest extends TestCase
         $this->assertTrue(in_array($response->status(), [400, 404, 500]));
     }
 
-    /** @test */
+    #[Test]
     public function test_delete_request_accepts_ids_array()
     {
         $response = $this->postJson('/api/vouchers/delete-injector-coupon', [
@@ -57,7 +58,7 @@ class VoucherControllerTest extends TestCase
         $this->assertNotNull($response->status());
     }
 
-    /** @test */
+    #[Test]
     public function test_user_has_required_attributes()
     {
         $this->assertNotNull($this->user->id);

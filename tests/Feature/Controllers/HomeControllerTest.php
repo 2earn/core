@@ -12,6 +12,7 @@
 namespace Tests\Feature\Controllers;
 
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -28,13 +29,13 @@ class HomeControllerTest extends TestCase
         $this->actingAs($this->user);
     }
 
-    /** @test */
+    #[Test]
     public function test_authenticated_user_can_access_home()
     {
         $this->assertAuthenticatedAs($this->user);
     }
 
-    /** @test */
+    #[Test]
     public function test_lang_changes_session_locale()
     {
         $response = $this->get('/lang/fr');
@@ -43,7 +44,7 @@ class HomeControllerTest extends TestCase
         $this->assertEquals('fr', session('lang'));
     }
 
-    /** @test */
+    #[Test]
     public function test_update_profile_validates_required_fields()
     {
         $response = $this->put("/update-profile/{$this->user->id}", [
@@ -55,7 +56,7 @@ class HomeControllerTest extends TestCase
         $this->assertTrue(in_array($response->status(), [302, 422]));
     }
 
-    /** @test */
+    #[Test]
     public function test_update_profile_with_valid_data()
     {
         $response = $this->put("/update-profile/{$this->user->id}", [
@@ -66,7 +67,7 @@ class HomeControllerTest extends TestCase
         $this->assertTrue(in_array($response->status(), [200, 302]));
     }
 
-    /** @test */
+    #[Test]
     public function test_update_password_requires_current_password()
     {
         $response = $this->put("/update-password/{$this->user->id}", [
@@ -78,7 +79,7 @@ class HomeControllerTest extends TestCase
         $this->assertTrue(in_array($response->status(), [302, 422]));
     }
 
-    /** @test */
+    #[Test]
     public function test_update_password_requires_confirmation()
     {
         $response = $this->put("/update-password/{$this->user->id}", [

@@ -12,6 +12,7 @@
 namespace Tests\Feature\Controllers;
 
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
 use App\Services\Balances\BalanceService;
 use App\Services\Balances\BalanceTreeService;
@@ -35,20 +36,20 @@ class UserssControllerTest extends TestCase
         $this->treeService = Mockery::mock(BalanceTreeService::class);
     }
 
-    /** @test */
+    #[Test]
     public function test_user_is_authenticated()
     {
         $this->assertAuthenticatedAs($this->user);
     }
 
-    /** @test */
+    #[Test]
     public function test_services_can_be_mocked()
     {
         $this->assertInstanceOf(\Mockery\MockInterface::class, $this->balanceService);
         $this->assertInstanceOf(\Mockery\MockInterface::class, $this->treeService);
     }
 
-    /** @test */
+    #[Test]
     public function test_controller_methods_exist()
     {
         $this->assertTrue(method_exists(\App\Http\Controllers\UserssController::class, 'invitations'));
@@ -57,7 +58,7 @@ class UserssControllerTest extends TestCase
         $this->assertTrue(method_exists(\App\Http\Controllers\UserssController::class, 'getSmsUser'));
     }
 
-    /** @test */
+    #[Test]
     public function test_user_factory_creates_valid_user()
     {
         $this->assertInstanceOf(User::class, $this->user);

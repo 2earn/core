@@ -12,6 +12,7 @@
 namespace Tests\Feature\Controllers;
 
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
 use App\Models\Platform;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -29,7 +30,7 @@ class PlatformControllerTest extends TestCase
         $this->actingAs($this->user);
     }
 
-    /** @test */
+    #[Test]
     public function test_index_returns_datatables()
     {
         Platform::factory()->count(3)->create();
@@ -40,7 +41,7 @@ class PlatformControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /** @test */
+    #[Test]
     public function test_platforms_can_be_created()
     {
         $platform = Platform::factory()->create();
@@ -51,7 +52,7 @@ class PlatformControllerTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function test_platform_has_required_attributes()
     {
         $platform = Platform::factory()->create();

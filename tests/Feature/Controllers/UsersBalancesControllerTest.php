@@ -12,6 +12,7 @@
 namespace Tests\Feature\Controllers;
 
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
 use App\Services\Balances\BalanceService;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -32,19 +33,19 @@ class UsersBalancesControllerTest extends TestCase
         $this->balanceService = Mockery::mock(BalanceService::class);
     }
 
-    /** @test */
+    #[Test]
     public function test_user_is_authenticated()
     {
         $this->assertAuthenticatedAs($this->user);
     }
 
-    /** @test */
+    #[Test]
     public function test_balance_service_can_be_mocked()
     {
         $this->assertInstanceOf(\Mockery\MockInterface::class, $this->balanceService);
     }
 
-    /** @test */
+    #[Test]
     public function test_controller_methods_exist()
     {
         $this->assertTrue(method_exists(\App\Http\Controllers\UsersBalancesController::class, 'index'));
@@ -52,7 +53,7 @@ class UsersBalancesControllerTest extends TestCase
         $this->assertTrue(method_exists(\App\Http\Controllers\UsersBalancesController::class, 'getUserCashBalance'));
     }
 
-    /** @test */
+    #[Test]
     public function test_user_factory_creates_valid_user()
     {
         $this->assertInstanceOf(User::class, $this->user);

@@ -9,6 +9,7 @@
  */
 namespace Tests\Feature\Controllers;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -22,7 +23,7 @@ class RolesControllerTest extends TestCase
         $this->user = User::factory()->create();
         $this->actingAs($this->user);
     }
-    /** @test */
+    #[Test]
     public function test_index_returns_datatables()
     {
         Role::create(['name' => 'test-role', 'guard_name' => 'web']);
@@ -31,7 +32,7 @@ class RolesControllerTest extends TestCase
 
         $response->assertStatus(200);
     }
-    /** @test */
+    #[Test]
     public function test_role_can_be_created()
     {
         $role = Role::create(['name' => 'admin', 'guard_name' => 'web']);
@@ -41,7 +42,7 @@ class RolesControllerTest extends TestCase
             'guard_name' => 'web'
         ]);
     }
-    /** @test */
+    #[Test]
     public function test_role_has_timestamps()
     {
         $role = Role::create(['name' => 'editor', 'guard_name' => 'web']);

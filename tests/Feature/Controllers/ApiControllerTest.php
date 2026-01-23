@@ -27,6 +27,7 @@
 namespace Tests\Feature\Controllers;
 
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use App\Http\Controllers\ApiController;
 use App\Models\User;
 use App\Services\BalancesManager;
@@ -68,9 +69,10 @@ class ApiControllerTest extends TestCase
     /**
      * Test: User is authenticated
      *
-     * @test
+     *
      * @return void
      */
+    #[Test]
     public function test_user_is_authenticated()
     {
         $this->assertAuthenticatedAs($this->user);
@@ -80,9 +82,10 @@ class ApiControllerTest extends TestCase
     /**
      * Test: Services can be mocked
      *
-     * @test
+     *
      * @return void
      */
+    #[Test]
     public function test_services_can_be_mocked()
     {
         $this->assertInstanceOf(\Mockery\MockInterface::class, $this->balancesManager);
@@ -93,9 +96,10 @@ class ApiControllerTest extends TestCase
     /**
      * Test: User factory creates valid user
      *
-     * @test
+     *
      * @return void
      */
+    #[Test]
     public function test_user_factory_creates_valid_user()
     {
         $newUser = User::factory()->create();
@@ -107,9 +111,10 @@ class ApiControllerTest extends TestCase
     /**
      * Test: Buy action with valid data
      *
-     * @test
+     *
      * @return void
      */
+    #[Test]
     public function test_buy_action_with_valid_data()
     {
         $this->markTestSkipped('Complex integration test - requires full database setup');
@@ -124,9 +129,10 @@ class ApiControllerTest extends TestCase
     /**
      * Test: Buy action with insufficient balance
      *
-     * @test
+     *
      * @return void
      */
+    #[Test]
     public function test_buy_action_fails_with_insufficient_balance()
     {
         $this->markTestSkipped('Requires full balance system setup');
@@ -139,9 +145,10 @@ class ApiControllerTest extends TestCase
     /**
      * Test: Buy action for another user
      *
-     * @test
+     *
      * @return void
      */
+    #[Test]
     public function test_buy_action_for_other_user()
     {
         $this->markTestSkipped('Requires phone verification system');
@@ -155,9 +162,10 @@ class ApiControllerTest extends TestCase
     /**
      * Test: Flash sale gift calculation
      *
-     * @test
+     *
      * @return void
      */
+    #[Test]
     public function test_flash_sale_gift_calculation()
     {
         $this->markTestSkipped('Requires VIP and flash sale configuration');
@@ -171,9 +179,10 @@ class ApiControllerTest extends TestCase
     /**
      * Test: Gift actions calculation
      *
-     * @test
+     *
      * @return void
      */
+    #[Test]
     public function test_regular_gift_actions_calculation()
     {
         $this->markTestSkipped('Requires gift calculation system');
@@ -186,9 +195,10 @@ class ApiControllerTest extends TestCase
     /**
      * Test: Sponsorship proactive check
      *
-     * @test
+     *
      * @return void
      */
+    #[Test]
     public function test_proactive_sponsorship_is_applied()
     {
         $this->markTestSkipped('Requires sponsorship system');

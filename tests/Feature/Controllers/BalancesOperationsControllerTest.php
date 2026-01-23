@@ -12,6 +12,7 @@
 namespace Tests\Feature\Controllers;
 
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
 use App\Models\BalanceOperation;
 use App\Models\OperationCategory;
@@ -30,20 +31,20 @@ class BalancesOperationsControllerTest extends TestCase
         $this->actingAs($this->user);
     }
 
-    /** @test */
+    #[Test]
     public function test_user_is_authenticated()
     {
         $this->assertAuthenticatedAs($this->user);
     }
 
-    /** @test */
+    #[Test]
     public function test_controller_methods_exist()
     {
         $this->assertTrue(method_exists(\App\Http\Controllers\BalancesOperationsController::class, 'index'));
         $this->assertTrue(method_exists(\App\Http\Controllers\BalancesOperationsController::class, 'getCategories'));
     }
 
-    /** @test */
+    #[Test]
     public function test_user_factory_works()
     {
         $this->assertInstanceOf(User::class, $this->user);

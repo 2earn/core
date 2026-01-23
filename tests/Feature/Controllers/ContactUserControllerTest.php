@@ -12,6 +12,7 @@
 namespace Tests\Feature\Controllers;
 
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
 use App\Models\ContactUser;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -29,13 +30,13 @@ class ContactUserControllerTest extends TestCase
         $this->actingAs($this->user);
     }
 
-    /** @test */
+    #[Test]
     public function test_user_is_authenticated()
     {
         $this->assertAuthenticatedAs($this->user);
     }
 
-    /** @test */
+    #[Test]
     public function test_controller_methods_exist()
     {
         $this->assertTrue(method_exists(\App\Http\Controllers\ContactUserController::class, 'index'));
@@ -44,7 +45,7 @@ class ContactUserControllerTest extends TestCase
         $this->assertTrue(method_exists(\App\Http\Controllers\ContactUserController::class, 'destroy'));
     }
 
-    /** @test */
+    #[Test]
     public function test_user_instance_is_valid()
     {
         $this->assertInstanceOf(User::class, $this->user);

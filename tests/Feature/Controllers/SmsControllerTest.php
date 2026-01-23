@@ -12,6 +12,7 @@
 namespace Tests\Feature\Controllers;
 
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
 use App\Services\sms\SmsService;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -32,19 +33,19 @@ class SmsControllerTest extends TestCase
         $this->smsService = Mockery::mock(SmsService::class);
     }
 
-    /** @test */
+    #[Test]
     public function test_user_is_authenticated()
     {
         $this->assertAuthenticatedAs($this->user);
     }
 
-    /** @test */
+    #[Test]
     public function test_sms_service_can_be_mocked()
     {
         $this->assertInstanceOf(\Mockery\MockInterface::class, $this->smsService);
     }
 
-    /** @test */
+    #[Test]
     public function test_controller_methods_exist()
     {
         $this->assertTrue(method_exists(\App\Http\Controllers\SmsController::class, 'index'));
@@ -53,7 +54,7 @@ class SmsControllerTest extends TestCase
         $this->assertTrue(method_exists(\App\Http\Controllers\SmsController::class, 'getStatistics'));
     }
 
-    /** @test */
+    #[Test]
     public function test_user_factory_creates_valid_user()
     {
         $this->assertInstanceOf(User::class, $this->user);

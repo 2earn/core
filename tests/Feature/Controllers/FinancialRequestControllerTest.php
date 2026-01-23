@@ -12,6 +12,7 @@
 namespace Tests\Feature\Controllers;
 
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
 use App\Services\FinancialRequest\FinancialRequestService;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -32,26 +33,26 @@ class FinancialRequestControllerTest extends TestCase
         $this->financialRequestService = Mockery::mock(FinancialRequestService::class);
     }
 
-    /** @test */
+    #[Test]
     public function test_user_is_authenticated()
     {
         $this->assertAuthenticatedAs($this->user);
     }
 
-    /** @test */
+    #[Test]
     public function test_financial_request_service_can_be_mocked()
     {
         $this->assertInstanceOf(\Mockery\MockInterface::class, $this->financialRequestService);
     }
 
-    /** @test */
+    #[Test]
     public function test_controller_methods_exist()
     {
         $this->assertTrue(method_exists(\App\Http\Controllers\FinancialRequestController::class, 'resetOutGoingNotification'));
         $this->assertTrue(method_exists(\App\Http\Controllers\FinancialRequestController::class, 'resetInComingNotification'));
     }
 
-    /** @test */
+    #[Test]
     public function test_user_instance_is_valid()
     {
         $this->assertInstanceOf(User::class, $this->user);

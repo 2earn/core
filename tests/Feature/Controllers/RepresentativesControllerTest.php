@@ -12,6 +12,7 @@
 namespace Tests\Feature\Controllers;
 
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
 use App\Services\RepresentativesService;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -32,25 +33,25 @@ class RepresentativesControllerTest extends TestCase
         $this->representativesService = Mockery::mock(RepresentativesService::class);
     }
 
-    /** @test */
+    #[Test]
     public function test_user_is_authenticated()
     {
         $this->assertAuthenticatedAs($this->user);
     }
 
-    /** @test */
+    #[Test]
     public function test_representatives_service_can_be_mocked()
     {
         $this->assertInstanceOf(\Mockery\MockInterface::class, $this->representativesService);
     }
 
-    /** @test */
+    #[Test]
     public function test_controller_has_index_method()
     {
         $this->assertTrue(method_exists(\App\Http\Controllers\RepresentativesController::class, 'index'));
     }
 
-    /** @test */
+    #[Test]
     public function test_user_instance_is_valid()
     {
         $this->assertInstanceOf(User::class, $this->user);
