@@ -711,4 +711,168 @@ class PlatformPartnerControllerTest extends TestCase
         // Assert - Invalid IP may result in 403 or 404 depending on middleware configuration
         $this->assertContains($response->status(), [403, 404]);
     }
+
+    /**
+     * Test: GET /api/partner/platforms/{platformId}/roles - Get platform roles successfully
+     */
+    public function test_can_get_platform_roles()
+    {
+        // Arrange - Create platform with roles
+        $platform = Platform::factory()->create([
+            'created_by' => $this->user->id,
+            'enabled' => true
+        ]);
+
+        // Give the test user access to the platform
+        $testUserRole = new EntityRole([
+            'name' => 'owner',
+            'user_id' => $this->user->id,
+            'created_by' => $this->user->id
+        ]);
+        $platform->roles()->save($testUserRole);
+
+        // Create entity roles for other users on the platform
+        $user1 = User::factory()->create();
+        $user2 = User::factory()->create();
+
+        $role1 = new EntityRole([
+            'name' => 'manager',
+            'user_id' => $user1->id,
+            'created_by' => $this->user->id
+        ]);
+        $platform->roles()->save($role1);
+
+        $role2 = new EntityRole([
+            'name' => 'staff',
+            'user_id' => $user2->id,
+            'created_by' => $this->user->id
+        ]);
+        $platform->roles()->save($role2);
+
+        // Act
+        $response = $this->getJson($this->baseUrl . '/' . $platform->id . '/roles?user_id=' . $this->user->id);
+
+        // Assert
+        $response->assertStatus(200)
+            ->assertJson([
+                'status' => true,
+                'message' => 'Platform roles retrieved successfully'
+            ])
+            ->assertJsonStructure([
+                'status',
+                'message',
+                'data' => [
+                    'platform_id',
+                    'platform_name',
+                    'roles' => [
+                        '*' => [
+                            'id',
+                            'user_id',
+                            'created_at'
+                        ]
+                    ]
+                ]
+            ]);
+
+        $responseData = $response->json('data');
+        $this->assertEquals($platform->id, $responseData['platform_id']);
+        $this->assertEquals($platform->name, $responseData['platform_name']);
+        $this->assertCount(3, $responseData['roles']); // Including the test user's role
+    }
+
+    /**
+     * Test: GET /api/partner/platforms/{platformId}/roles - Returns roles including the requester
+     */
+    public function test_can_get_platform_with_no_roles()
+    {
+        // Arrange - Create platform with only the test user's role
+        $platform = Platform::factory()->create([
+            'created_by' => $this->user->id,
+            'enabled' => true
+        ]);
+
+        // Give the test user access to the platform
+        $testUserRole = new EntityRole([
+            'name' => 'owner',
+            'user_id' => $this->user->id,
+            'created_by' => $this->user->id
+        ]);
+        $platform->roles()->save($testUserRole);
+
+        // Act
+        $response = $this->getJson($this->baseUrl . '/' . $platform->id . '/roles?user_id=' . $this->user->id);
+
+        // Assert
+        $response->assertStatus(200)
+            ->assertJson([
+                'status' => true,
+                'message' => 'Platform roles retrieved successfully'
+            ]);
+
+        $responseData = $response->json('data');
+        $this->assertCount(1, $responseData['roles']); // Only the test user's role
+    }
+
+    /**
+     * Test: GET /api/partner/platforms/{platformId}/roles - Validation error without user_id
+     */
+    public function test_get_platform_roles_requires_user_id()
+    {
+        // Arrange
+        $platform = Platform::factory()->create([
+            'created_by' => $this->user->id
+        ]);
+
+        // Act
+        $response = $this->getJson($this->baseUrl . '/' . $platform->id . '/roles');
+
+        // Assert
+        $response->assertStatus(422)
+            ->assertJson([
+                'status' => 'Failed',
+                'message' => 'Validation failed'
+            ])
+            ->assertJsonValidationErrors(['user_id']);
+    }
+
+    /**
+     * Test: GET /api/partner/platforms/{platformId}/roles - Platform not found
+     */
+    public function test_get_roles_for_nonexistent_platform()
+    {
+        // Act
+        $response = $this->getJson($this->baseUrl . '/99999/roles?user_id=' . $this->user->id);
+
+        // Assert
+        $response->assertStatus(422)
+            ->assertJson([
+                'status' => 'Failed',
+                'message' => 'Validation failed'
+            ])
+            ->assertJsonValidationErrors(['platform_id']);
+    }
+
+    /**
+     * Test: GET /api/partner/platforms/{platformId}/roles - Unauthorized access to other user's platform
+     */
+    public function test_cannot_get_roles_for_other_users_platform()
+    {
+        // Arrange
+        $otherUser = User::factory()->create();
+        $platform = Platform::factory()->create([
+            'created_by' => $otherUser->id
+        ]);
+
+        // Act
+        $response = $this->getJson($this->baseUrl . '/' . $platform->id . '/roles?user_id=' . $this->user->id);
+
+        // Assert
+        $response->assertStatus(404)
+            ->assertJson([
+                'status' => 'Failed',
+                'message' => 'Platform not found or unauthorized access'
+            ]);
+    }
 }
+
+
