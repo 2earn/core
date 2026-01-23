@@ -124,12 +124,13 @@ Route::prefix('/partner/')->name('api_partner_')
         Route::middleware(['check.url'])->group(function () {
 
             Route::prefix('platforms')->name('platform_')->group(function () {
-                Route::apiResource('/platforms', PlatformPartnerController::class)->except('destroy');
+                Route::get('/top-selling', [PlatformPartnerController::class, 'getTopSellingPlatforms'])->name('top_selling');
+                Route::get('/platforms/{platformId}/roles', [PlatformPartnerController::class, 'getRoles'])->name('roles');
                 Route::post('/change', [PlatformPartnerController::class, 'changePlatformType'])->name('change_type');
                 Route::post('/validate', [PlatformPartnerController::class, 'validateRequest'])->name('validate_request');
                 Route::post('/validation/cancel', [PlatformPartnerController::class, 'cancelValidationRequest'])->name('validation_cancel');
                 Route::post('/change/cancel', [PlatformPartnerController::class, 'cancelChangeRequest'])->name('change_cancel');
-                Route::get('/top-selling', [PlatformPartnerController::class, 'getTopSellingPlatforms'])->name('top_selling');
+                Route::apiResource('/platforms', PlatformPartnerController::class)->except('destroy');
             });
 
             Route::prefix('deals')->name('deals_')->group(function () {

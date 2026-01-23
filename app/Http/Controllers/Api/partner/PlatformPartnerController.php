@@ -583,4 +583,69 @@ class PlatformPartnerController extends Controller
         }
     }
 
+    public function getRoles(Request $request, $platformId): JsonResponse
+    {
+        $validator = Validator::make(array_merge($request->all(), ['platform_id' => $platformId]), [
+            'platform_id' => 'required|integer|exists:platforms,id',
+            'user_id' => 'required|integer|exists:users,id',
+        ]);
+
+        if ($validator->fails()) {
+            Log::error(self::LOG_PREFIX . 'Validation failed for platform roles', [
+                'errors' => $validator->errors()
+            ]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $userId = $request->input('user_id');
+        try {
+            $platform = $this->platformService->getPlatformForPartner((int)$platformId, $userId);
+
+            if (!$platform) {
+                Log::error(self::LOG_PREFIX . 'Platform not found or unauthorized', [
+                    'platform_id' => $platformId,
+                    'user_id' => $userId
+                ]);
+                return response()->json([
+                    'status' => 'Failed',
+                    'message' => 'Platform not found or unauthorized access'
+                ], Response::HTTP_NOT_FOUND);
+            }
+
+            $roles = $platform->roles()->get(['id', 'name', 'user_id', 'created_at']);
+
+            Log::info(self::LOG_PREFIX . 'Platform roles retrieved successfully', [
+                'platform_id' => $platformId,
+                'user_id' => $userId,
+                'roles_count' => $roles->count()
+            ]);
+            return response()->json([
+                'status' => true,
+                'message' => 'Platform roles retrieved successfully',
+                'data' => [
+                    'platform_id' => $platform->id,
+                    'platform_name' => $platform->name,
+                    'roles' => $roles
+                ]
+            ], Response::HTTP_OK);
+
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error retrieving platform roles: ' . $e->getMessage(), [
+                'platform_id' => $platformId,
+                'user_id' => $userId,
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Error retrieving platform roles',
+                'error' => $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
