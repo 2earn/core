@@ -264,6 +264,23 @@ The endpoint has comprehensive test coverage including:
 - Validates deal object presence/absence
 - Tests both assigned and unassigned scenarios
 
+✅ **test_can_search_items_by_name**
+- Tests search functionality by item name
+- Validates partial matching and case-insensitive search
+- Verifies only matching items are returned
+
+✅ **test_can_search_items_by_ref**
+- Tests search by item reference/SKU
+- Ensures exact and partial ref matching works
+
+✅ **test_can_search_items_by_description**
+- Tests search in item descriptions
+- Validates multi-field search capability
+
+✅ **test_search_returns_empty_when_no_matches**
+- Tests edge case when no items match search
+- Verifies empty result handling
+
 ✅ **test_list_items_fails_without_platform_id**
 - Ensures validation works for missing parameters
 

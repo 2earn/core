@@ -86,6 +86,23 @@ const unassigned = items.filter(item => !item.is_assigned_to_deal);
 const inDeals = items.filter(item => item.is_assigned_to_deal);
 ```
 
+### Search Items
+```javascript
+// Search by name, ref, or description
+const searchResponse = await fetch('/api/partner/items?platform_id=1&search=Red');
+const searchData = await searchResponse.json();
+console.log(`Found ${searchData.data.items.length} items`);
+```
+
+### Find Item by SKU
+```javascript
+const skuResponse = await fetch('/api/partner/items?platform_id=1&search=SKU-123');
+const skuData = await skuResponse.json();
+if (skuData.data.items.length > 0) {
+    console.log('Item found:', skuData.data.items[0].name);
+}
+```
+
 ## ⚠️ Common Errors
 
 ### Missing platform_id
