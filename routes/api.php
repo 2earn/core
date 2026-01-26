@@ -198,10 +198,12 @@ Route::prefix('/partner/')->name('api_partner_')
             Route::get('/plan-label', [PlanLabelPartnerController::class, 'index'])->name('deals_plan_label_index');
 
             Route::prefix('users')->name('users_')->group(function () {
-                Route::post('/platforms/add-role', [UserPartnerController::class, 'addRole'])->name('platforms_add_role');
-                Route::post('/platforms/update-role', [UserPartnerController::class, 'updateRole'])->name('platforms_update_role');
-                Route::post('/platforms/delete-role', [UserPartnerController::class, 'deleteRole'])->name('platforms_delete_role');
-                Route::get('/platforms', [UserPartnerController::class, 'getPartnerPlatforms'])->name('platforms');
+                Route::prefix('platforms')->name('platforms_')->group(function () {
+                    Route::post('/add-role', [UserPartnerController::class, 'addRole'])->name('add_role');
+                    Route::post('/update-role', [UserPartnerController::class, 'updateRole'])->name('update_role');
+                    Route::post('/delete-role', [UserPartnerController::class, 'deleteRole'])->name('delete_role');
+                    Route::get('/', [UserPartnerController::class, 'getPartnerPlatforms'])->name('platforms');
+                });
                 Route::get('/', [UserController::class, 'getUser'])->name('get_user');
             });
         });
