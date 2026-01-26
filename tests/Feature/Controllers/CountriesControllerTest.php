@@ -36,7 +36,12 @@ class CountriesControllerTest extends TestCase
     #[Test]
     public function test_index_returns_json_response()
     {
-        $response = $this->getJson('/api/countries/datatables');
+        // Create a Sanctum token for the user
+        $token = $this->user->createToken('test-token')->plainTextToken;
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->getJson('/api/v1/countries');
 
         // Should return a successful response
         $this->assertTrue(in_array($response->status(), [200, 500])); // 500 if table doesn't exist
