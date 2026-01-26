@@ -61,11 +61,6 @@ class UsersList extends Component
 
     }
 
-    public function getUsers()
-    {
-
-    }
-
     public function render()
     {
         $userService = app(UserService::class);
