@@ -60,6 +60,28 @@ class EntityRoleService
     }
 
     /**
+     * Get entity roles for a platform keyed by name
+     *
+     * @param int $platformId Platform ID
+     * @return \Illuminate\Support\Collection Collection of roles keyed by name
+     */
+    public function getEntityRolesKeyedByName(int $platformId): \Illuminate\Support\Collection
+    {
+        try {
+            return EntityRole::where('roleable_type', 'App\Models\Platform')
+                ->where('roleable_id', $platformId)
+                ->with('user')
+                ->get()
+                ->keyBy('name');
+        } catch (\Exception $e) {
+            Log::error('Error fetching entity roles keyed by name: ' . $e->getMessage(), [
+                'platform_id' => $platformId
+            ]);
+            return collect();
+        }
+    }
+
+    /**
      * Get roles for a specific partner
      */
     public function getRolesForPartner($partnerId, $paginate = false, $perPage = 10)

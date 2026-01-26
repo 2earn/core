@@ -24,6 +24,22 @@ class BusinessSectorService
     }
 
     /**
+     * Get all business sectors ordered by name
+     *
+     * @param string $direction Sort direction (asc or desc)
+     * @return Collection
+     */
+    public function getAllOrderedByName(string $direction = 'asc'): Collection
+    {
+        try {
+            return BusinessSector::orderBy('name', $direction)->get();
+        } catch (\Exception $e) {
+            Log::error('Error fetching ordered business sectors: ' . $e->getMessage());
+            return new Collection();
+        }
+    }
+
+    /**
      * Get business sectors with filters, pagination and relations
      *
      * @param array $params
