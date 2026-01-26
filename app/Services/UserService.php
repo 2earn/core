@@ -823,6 +823,45 @@ class UserService
             ];
         }
     }
+
+    /**
+     * Save identification status update
+     *
+     * @param string $idUser User's business ID
+     * @param bool $idenNotif Identification notification preference
+     * @return array Result array with success status and message
+     */
+    public function saveIdentificationStatus(string $idUser, bool $idenNotif): array
+    {
+        try {
+            $updated = User::where('idUser', $idUser)->update([
+                'status' => -1,
+                'asked_at' => date(config('app.date_format')),
+                'iden_notif' => $idenNotif
+            ]);
+
+            if (!$updated) {
+                return [
+                    'success' => false,
+                    'message' => 'Failed to update identification status'
+                ];
+            }
+
+            return [
+                'success' => true,
+                'message' => 'Identification send request success'
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error saving identification status: ' . $exception->getMessage(), [
+                'idUser' => $idUser
+            ]);
+            return [
+                'success' => false,
+                'message' => 'Error saving identification status'
+            ];
+        }
+    }
 }
 
 

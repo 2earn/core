@@ -158,10 +158,20 @@ class IdentificationCheck extends Component
     public function save(settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
-        if (!$userAuth)
+        if (!$userAuth) {
             dd('not found page');
-        User::where('idUser', $userAuth->idUser)->update(['status' => -1, 'asked_at' => date(config('app.date_format')), 'iden_notif' => $this->notify]);
-        return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Identification send request success'));
+        }
+
+        // Save identification status using service
+        $result = $this->userService->saveIdentificationStatus($userAuth->idUser, $this->notify);
+
+        if (!$result['success']) {
+            return redirect()->route('account', app()->getLocale())
+                ->with('danger', Lang::get($result['message']));
+        }
+
+        return redirect()->route('account', app()->getLocale())
+            ->with('success', Lang::get($result['message']));
     }
 
 
