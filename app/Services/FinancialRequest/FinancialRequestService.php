@@ -328,6 +328,99 @@ class FinancialRequestService
     }
 
 
+    /**
+     * Confirm a financial request with validation and balance operations
+     *
+     * @param int $val The confirmation type (2 = from BFS)
+     * @param string $num The request number
+     * @param string $secCode The security code
+     * @param int $userId The user ID confirming the request
+     * @param \App\Services\UserBalancesHelper $userBalancesHelper
+     * @return array ['success' => bool, 'message' => string, 'redirect' => string|null, 'redirectParams' => array]
+     * @throws \Exception
+     */
+    public function confirmFinancialRequest(
+        int $val,
+        string $num,
+        string $secCode,
+        int $userId,
+        \App\Services\UserBalancesHelper $userBalancesHelper
+    ): array
+    {
+        $financialRequest = $this->getByNumeroReq($num);
+
+        // Validate financial request exists and is open
+        if (!$financialRequest || $financialRequest->status != 0) {
+            return [
+                'success' => false,
+                'message' => \Illuminate\Support\Facades\Lang::get('Invalid financial request'),
+                'type' => 'danger',
+                'redirect' => 'accept_financial_request',
+                'redirectParams' => ['numeroReq' => $num]
+            ];
+        }
+
+        // Validate security code
+        if ($financialRequest->securityCode == "" || $financialRequest->securityCode != $secCode) {
+            return [
+                'success' => false,
+                'message' => \Illuminate\Support\Facades\Lang::get('Failed security code'),
+                'type' => 'danger',
+                'redirect' => 'accept_financial_request',
+                'redirectParams' => ['numeroReq' => $num]
+            ];
+        }
+
+        $param = ['montant' => $financialRequest->amount, 'recipient' => $financialRequest->idSender];
+        $userCurrentBalancehorisontal = \App\Services\Balances\Balances::getStoredUserBalances($userId);
+        $bfs100 = $userCurrentBalancehorisontal->getBfssBalance(\App\Models\BFSsBalances::BFS_100);
+        $financialRequestAmount = floatval($financialRequest->amount);
+
+        // If confirming from BFS (val == 2), check BFS balance
+        if ($val == 2) {
+            if ($bfs100 < $financialRequestAmount) {
+                $montant = $financialRequestAmount - $bfs100;
+                return [
+                    'success' => false,
+                    'message' => trans('Insufficient BFS 100 balance') . ' : ' . $bfs100 . ' > ' . $montant,
+                    'type' => 'warning',
+                    'redirect' => 'financial_transaction',
+                    'redirectParams' => ['filter' => 5, 'FinRequestN' => $financialRequest->numeroReq]
+                ];
+            }
+
+            // Add balance operation
+            $userBalancesHelper->AddBalanceByEvent(
+                \App\Enums\EventBalanceOperationEnum::SendToPublicFromBFS,
+                $userId,
+                $param
+            );
+        }
+
+        // Verify detail request exists
+        $detailRequst = $this->getDetailRequest($num, $userId);
+        if (!$detailRequst) {
+            return [
+                'success' => false,
+                'message' => \Illuminate\Support\Facades\Lang::get('Invalid financial request'),
+                'type' => 'danger',
+                'redirect' => 'accept_financial_request',
+                'redirectParams' => ['numeroReq' => $num]
+            ];
+        }
+
+        // Accept the financial request
+        $this->acceptFinancialRequest($num, $userId);
+
+        return [
+            'success' => true,
+            'message' => \Illuminate\Support\Facades\Lang::get('accepted Request'),
+            'type' => 'success',
+            'redirect' => 'financial_transaction',
+            'redirectParams' => ['filter' => 5]
+        ];
+    }
+
     public function createFinancialRequest($idUser, $amount, $selectedUsers, $securityCode)
     {
 
