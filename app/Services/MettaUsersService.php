@@ -283,6 +283,68 @@ class MettaUsersService
             ];
         }
     }
+
+    /**
+     * Calculate profile completeness percentage and validation errors
+     *
+     * @param Collection $mettaUserInfo Metta user information
+     * @param array|Collection $userInfo User information (must have 'email' key)
+     * @param string $idUser User's business ID
+     * @return array ['percentComplete' => int, 'errors' => array]
+     */
+    public function calculateProfileCompleteness($mettaUserInfo, $userInfo, string $idUser): array
+    {
+        $errors = [];
+        $percentComplete = 0;
+
+        // Check first and last names (20%)
+        if (isset($mettaUserInfo['enFirstName']) && trim($mettaUserInfo['enFirstName']) != ""
+            && isset($mettaUserInfo['enLastName']) && trim($mettaUserInfo['enLastName']) != "") {
+            $percentComplete += 20;
+        }
+
+        if (!isset($mettaUserInfo['enFirstName']) || trim($mettaUserInfo['enFirstName']) == "") {
+            $errors[] = getProfileMsgErreur('enFirstName');
+        }
+        if (!isset($mettaUserInfo['enLastName']) || trim($mettaUserInfo['enLastName']) == "") {
+            $errors[] = getProfileMsgErreur('enLastName');
+        }
+
+        // Check birthday (20%)
+        if (isset($mettaUserInfo['birthday'])) {
+            $percentComplete += 20;
+        } else {
+            $errors[] = getProfileMsgErreur('birthday');
+        }
+
+        // Check national ID (20%)
+        if (isset($mettaUserInfo['nationalID']) && trim($mettaUserInfo['nationalID']) != "") {
+            $percentComplete += 20;
+        } else {
+            $errors[] = getProfileMsgErreur('nationalID');
+        }
+
+        // Check national ID images (20%)
+        if (User::getNationalFrontImage($idUser) != User::DEFAULT_NATIONAL_FRONT_URL
+            && User::getNationalBackImage($idUser) != User::DEFAULT_NATIONAL_BACK_URL) {
+            $percentComplete += 20;
+        } else {
+            $errors[] = getProfileMsgErreur('photoIdentite');
+        }
+
+        // Check email (20%)
+        $email = is_array($userInfo) ? ($userInfo['email'] ?? null) : $userInfo->get('email');
+        if (isset($email) && trim($email) != "") {
+            $percentComplete += 20;
+        } else {
+            $errors[] = getProfileMsgErreur('email');
+        }
+
+        return [
+            'percentComplete' => $percentComplete,
+            'errors' => $errors
+        ];
+    }
 }
 
 

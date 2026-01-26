@@ -306,6 +306,158 @@ class UserService
                   ->with('roleable:id,name');
         }])->find($userId);
     }
+
+    /**
+     * Save user profile settings (profile image and visibility)
+     *
+     * @param int $userId User ID
+     * @param bool $isPublic Profile visibility setting
+     * @param mixed|null $imageProfil Uploaded profile image file
+     * @return array Result array with success status and message
+     */
+    public function saveProfileSettings(int $userId, bool $isPublic, $imageProfil = null): array
+    {
+        try {
+            $user = User::find($userId);
+
+            if (!$user) {
+                return [
+                    'success' => false,
+                    'message' => 'User not found'
+                ];
+            }
+
+            // Handle profile image upload if provided
+            if (!is_null($imageProfil)) {
+                User::saveProfileImage($user->idUser, $imageProfil);
+            }
+
+            // Update visibility setting
+            $user->is_public = $isPublic;
+            $user->save();
+
+            return [
+                'success' => true,
+                'message' => 'Profile settings saved successfully',
+                'userProfileImage' => User::getUserProfileImage($user->idUser)
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error saving profile settings: ' . $exception->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Error saving profile settings'
+            ];
+        }
+    }
+
+    /**
+     * Save complete user profile including metta user data
+     *
+     * @param int $userId User ID
+     * @param int $mettaUserId Metta User ID
+     * @param array $mettaUserData Metta user data to update
+     * @param int $nbrChild Number of children
+     * @param bool $isPublic Profile visibility
+     * @param string $paramIdUser Parameter ID user for admin validation
+     * @param mixed|null $imageProfil Profile image to upload
+     * @return array Result array with success status, message, redirect route and user
+     */
+    public function saveUserProfile(
+        int $userId,
+        int $mettaUserId,
+        array $mettaUserData,
+        int $nbrChild,
+        bool $isPublic,
+        string $paramIdUser = "",
+        $imageProfil = null
+    ): array
+    {
+        try {
+            $user = User::find($userId);
+            $mettaUser = \App\Models\MettaUser::find($mettaUserId);
+
+            if (!$user || !$mettaUser) {
+                return [
+                    'success' => false,
+                    'message' => 'User or Metta User not found',
+                    'redirectRoute' => 'account'
+                ];
+            }
+
+            // Check if user can modify their profile
+            if ($paramIdUser == "" && $user->hasIdentificationRequest()) {
+                return [
+                    'success' => false,
+                    'message' => 'You cant update your profile when you have an identifiaction request in progress',
+                    'redirectRoute' => 'account',
+                    'flashType' => 'info'
+                ];
+            }
+
+            // Update metta user profile data
+            $mettaUser->arLastName = $mettaUserData['arLastName'] ?? $mettaUser->arLastName;
+            $mettaUser->arFirstName = $mettaUserData['arFirstName'] ?? $mettaUser->arFirstName;
+            $mettaUser->enLastName = $mettaUserData['enLastName'] ?? $mettaUser->enLastName;
+            $mettaUser->enFirstName = $mettaUserData['enFirstName'] ?? $mettaUser->enFirstName;
+
+            if (!empty($mettaUserData['birthday'])) {
+                $mettaUser->birthday = $mettaUserData['birthday'];
+            } else {
+                $mettaUser->birthday = null;
+            }
+
+            $mettaUser->adresse = $mettaUserData['adresse'] ?? $mettaUser->adresse;
+            $mettaUser->nationalID = $mettaUserData['nationalID'] ?? $mettaUser->nationalID;
+
+            // Validate and set children count
+            $nbrChild = max(0, min(20, $nbrChild));
+            $mettaUser->childrenCount = $nbrChild;
+
+            // Set state
+            if (!empty($mettaUserData['idState'])) {
+                $mettaUser->idState = $mettaUserData['idState'];
+            } else {
+                $mettaUser->idState = null;
+            }
+
+            $mettaUser->gender = $mettaUserData['gender'] ?? $mettaUser->gender;
+            $mettaUser->personaltitle = $mettaUserData['personaltitle'] ?? $mettaUser->personaltitle;
+            $mettaUser->idLanguage = $mettaUserData['idLanguage'] ?? $mettaUser->idLanguage;
+
+            // Update user status if admin is validating
+            if ($paramIdUser != "") {
+                $user->status = \App\Enums\StatusRequest::InProgressNational->value;
+            }
+
+            $mettaUser->save();
+
+            // Update user visibility
+            $user->is_public = $isPublic;
+            $user->save();
+
+            // Handle profile image upload
+            if (!is_null($imageProfil)) {
+                User::saveProfileImage($user->idUser, $imageProfil);
+            }
+
+            return [
+                'success' => true,
+                'message' => 'Edit profile success',
+                'redirectRoute' => $paramIdUser == "" ? 'account' : 'requests_identification',
+                'user' => $user,
+                'shouldValidateIdentity' => $paramIdUser != ""
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error saving user profile: ' . $exception->getMessage());
+            return [
+                'success' => false,
+                'message' => $exception->getMessage(),
+                'redirectRoute' => 'account'
+            ];
+        }
+    }
 }
 
 

@@ -9,6 +9,7 @@ use App\Http\Traits\earnLog;
 use App\Http\Traits\earnTrait;
 use App\Models\User;
 use App\Services\MettaUsersService;
+use App\Services\UserContactService;
 use App\Services\UserService;
 use Carbon\Carbon;
 use App\Models\identificationuserrequest;
@@ -28,6 +29,7 @@ class Account extends Component
     use earnLog;
     protected UserService $userService;
     protected MettaUsersService $mettaUsersService;
+    protected UserContactService $userContactService;
     public $nbrChild = 9;
     public $photoFront;
     public $noteReject;
@@ -67,10 +69,11 @@ class Account extends Component
         'saveProfileSettings' => 'saveProfileSettings',
     ];
 
-    public function boot(UserService $userService, MettaUsersService $mettaUsersService)
+    public function boot(UserService $userService, MettaUsersService $mettaUsersService, UserContactService $userContactService)
     {
         $this->userService = $userService;
         $this->mettaUsersService = $mettaUsersService;
+        $this->userContactService = $userContactService;
     }
 
     public function mount(settingsManager $settingManager)
@@ -123,149 +126,74 @@ class Account extends Component
 
     public function saveProfileSettings()
     {
-        try {
-            $user = User::find($this->user['id']);
+        $result = $this->userService->saveProfileSettings(
+            $this->user['id'],
+            $this->user['is_public'],
+            $this->imageProfil
+        );
 
-            if (!is_null($this->imageProfil)) {
-                User::saveProfileImage($user->idUser, $this->imageProfil);
-                $this->userProfileImage = User::getUserProfileImage($user->idUser);
-            }
-
-            $user->is_public = $this->user['is_public'];
-            $user->save();
-
+        if ($result['success']) {
+            $this->userProfileImage = $result['userProfileImage'];
             $this->originalIsPublic = $this->user['is_public'];
-
             $this->imageProfil = null;
-
-            session()->flash('success', Lang::get('Profile settings saved successfully'));
-
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            session()->flash('danger', Lang::get('Error saving profile settings'));
+            session()->flash('success', Lang::get($result['message']));
+        } else {
+            session()->flash('danger', Lang::get($result['message']));
         }
     }
 
 
     public function CalculPercenteComplete()
     {
-        $this->errors_array = array();
-        $this->PercentComplete = 0;
-        if (isset($this->usermetta_info['enFirstName']) && trim($this->usermetta_info['enFirstName']) != "" && isset($this->usermetta_info['enLastName']) && trim($this->usermetta_info['enLastName']) != "") {
-            $this->PercentComplete += 20;
-        }
+        $result = $this->mettaUsersService->calculateProfileCompleteness(
+            $this->usermetta_info,
+            $this->user,
+            $this->usermetta_info['idUser']
+        );
 
-        if (!isset($this->usermetta_info['enFirstName']) || trim($this->usermetta_info['enFirstName']) == "") {
-            array_push($this->errors_array, getProfileMsgErreur('enFirstName'));
-        }
-        if (!isset($this->usermetta_info['enLastName']) || trim($this->usermetta_info['enLastName']) == "") {
-            array_push($this->errors_array, getProfileMsgErreur('enLastName'));
-        }
-
-        if (isset($this->usermetta_info['birthday'])) {
-            $this->PercentComplete += 20;
-        } else {
-            array_push($this->errors_array, getProfileMsgErreur('birthday'));
-        }
-
-        if (isset($this->usermetta_info['nationalID']) && trim($this->usermetta_info['nationalID']) != "") {
-
-            $this->PercentComplete += 20;
-        } else {
-            array_push($this->errors_array, getProfileMsgErreur('nationalID'));
-        }
-        if (User::getNationalFrontImage($this->usermetta_info['idUser'] != User::DEFAULT_NATIONAL_FRONT_URL)
-            && User::getNationalBackImage($this->usermetta_info['idUser']) != User::DEFAULT_NATIONAL_BACK_URL) {
-
-            $this->PercentComplete += 20;
-        } else {
-            array_push($this->errors_array, getProfileMsgErreur('photoIdentite'));
-        }
-
-        if (isset($this->user['email']) && trim($this->user['email']) != "") {
-
-            $this->PercentComplete += 20;
-        } else {
-            array_push($this->errors_array, getProfileMsgErreur('email'));
-        }
-
+        $this->errors_array = $result['errors'];
+        $this->PercentComplete = $result['percentComplete'];
     }
 
 
-    public function deleteContact($id, settingsManager $settingsManager)
+    public function deleteContact($id)
     {
-        $userC = $settingsManager->getUserContactsById($id);
-        if (!$userC) return;
-        $userC->delete();
-        return redirect()->route('account', app()->getLocale());
+        try {
+            $this->userContactService->deleteContact($id);
+            return redirect()->route('account', app()->getLocale())
+                ->with('success', Lang::get('Contact deleted successfully'));
+        } catch (\Exception $e) {
+            Log::error('Error deleting contact: ' . $e->getMessage());
+            return redirect()->route('account', app()->getLocale())
+                ->with('danger', Lang::get($e->getMessage()));
+        }
     }
 
     public function saveUser($nbrChild, settingsManager $settingsManager)
     {
-        $canModify = true;
-        $us = User::find($this->user['id']);
-        $um = MettaUser::find($this->usermetta_info['id']);
+        $result = $this->userService->saveUserProfile(
+            $this->user['id'],
+            $this->usermetta_info['id'],
+            $this->usermetta_info->toArray(),
+            $nbrChild,
+            $this->user['is_public'],
+            $this->paramIdUser,
+            $this->imageProfil
+        );
 
-        if ($this->paramIdUser == "" && $us->hasIdentificationRequest()) {
-            $canModify = false;
-        }
-
-        if (!$canModify) {
-            return redirect()->route('account', app()->getLocale())->with('info', Lang::get('You cant update your profile when you have an identifiaction request in progress'));
-        }
-        if ($canModify) {
-
-            $um->arLastName = $this->usermetta_info['arLastName'];
-            $um->arFirstName = $this->usermetta_info['arFirstName'];
-            $um->enLastName = $this->usermetta_info['enLastName'];
-            $um->enFirstName = $this->usermetta_info['enFirstName'];
-            if (!empty($this->usermetta_info['birthday'])) {
-                $um->birthday = $this->usermetta_info['birthday'];
-            } else {
-                $um->birthday = null;
-            }
-            $um->adresse = $this->usermetta_info['adresse'];
-            $um->nationalID = $this->usermetta_info['nationalID'];
-        }
-        if ($nbrChild < 0) {
-            $nbrChild = 0;
-        }
-        if ($nbrChild > 20) {
-            $nbrChild = 20;
-        }
-        $um->childrenCount = $nbrChild;
-        if (!empty($this->usermetta_info['idState'])) {
-            $um->idState = $this->usermetta_info['idState'];
-        } else {
-            $um->idState = null;
-        }
-        $um->gender = $this->usermetta_info['gender'];
-        $um->personaltitle = $this->usermetta_info['personaltitle'];
-        $um->idLanguage = $this->usermetta_info['idLanguage'];
-        if ($this->paramIdUser != "") {
-            $us->status = StatusRequest::InProgressNational->value;
-        }
-        $um->save();
-        $um = MettaUser::find($this->usermetta_info['id']);
-        $us->is_public = $this->user['is_public'];
-        $us->save();
-        $us = User::find($this->user['id']);
-
-        try {
-            if (!is_null($this->imageProfil)) {
-                User::saveProfileImage($us->idUser, $this->imageProfil);
-            }
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get($exception->getMessage()));
+        if (!$result['success']) {
+            $flashType = $result['flashType'] ?? 'danger';
+            return redirect()->route($result['redirectRoute'], app()->getLocale())
+                ->with($flashType, Lang::get($result['message']));
         }
 
-        if ($this->paramIdUser == "")
-            return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Edit profile success'));
-        else {
-            $settingsManager->validateIdentity($us->idUser);
-            return redirect()->route('requests_identification', app()->getLocale());
+        // Handle identity validation if needed
+        if ($result['shouldValidateIdentity']) {
+            $settingsManager->validateIdentity($result['user']->idUser);
         }
+
+        return redirect()->route($result['redirectRoute'], app()->getLocale())
+            ->with('success', Lang::get($result['message']));
     }
 
 
