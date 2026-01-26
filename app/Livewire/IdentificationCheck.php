@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Enums\StatusRequest;
 use App\Models\User;
 use App\Services\UserService;
+use App\Services\IdentificationUserRequestService;
 use Carbon\Carbon;
 use App\Models\identificationuserrequest;
 use App\Models\MettaUser;
@@ -22,29 +23,16 @@ class IdentificationCheck extends Component
     use WithFileUploads;
 
     protected UserService $userService;
+    protected IdentificationUserRequestService $identificationRequestService;
 
     const MAX_PHOTO_ALLAWED_SIZE = 2048000;
 
-    public $photoFront = 0;
-    public $backback;
-    public $photoBack = 0;
-    public $photoInternational = 0;
-    public $notify = true;
-    public $usermetta_info2;
-    public $photo;
-    public $userF;
-    public $internationalCard;
-    public $messageVerif = "";
-    public $disabled;
-    public $userNationalBackImage;
-    public $userNationalFrontImage;
-    public $userInternationalImage;
+    // ...existing code...
 
-    public $listeners = ['sendIndentificationRequest' => 'sendIndentificationRequest'];
-
-    public function boot(UserService $userService)
+    public function boot(UserService $userService, IdentificationUserRequestService $identificationRequestService)
     {
         $this->userService = $userService;
+        $this->identificationRequestService = $identificationRequestService;
     }
 
     public function mount()
@@ -178,19 +166,116 @@ class IdentificationCheck extends Component
     public function sendIdentificationRequest($newStatus, settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
-        $hasRequest = $userAuth->hasIdentificationRequest();
+
+        // Check if user already has a request
+        $hasRequest = $this->identificationRequestService->hasIdentificationRequest($userAuth->idUser);
+
         if (!$hasRequest) {
-            identificationuserrequest::create([
-                    'idUser' => $userAuth->idUser,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                    'response' => 0,
-                    'note' => '',
-                    'status' => $newStatus
-                ]
+            // Create identification request using service
+            $result = $this->identificationRequestService->createIdentificationRequest(
+                $userAuth->idUser,
+                $newStatus
             );
+
+            if (!$result['success']) {
+                Log::error('Failed to create identification request', [
+                    'idUser' => $userAuth->idUser,
+                    'status' => $newStatus
+                ]);
+            }
         }
+
         $this->dispatch('existIdentificationRequest', ['type' => 'warning', 'title' => "Opt", 'text' => '',]);
+    }
+
+    /**
+     * Validate metta user first name
+     *
+     * @param object $mettaUser
+     * @param array &$errors
+     * @return void
+     */
+    private function validateFirstName($mettaUser, array &$errors): void
+    {
+        if ($mettaUser->enFirstName == null) {
+            $errors[] = getProfileMsgErreur('enFirstName');
+        }
+    }
+
+    /**
+     * Validate metta user last name
+     *
+     * @param object $mettaUser
+     * @param array &$errors
+     * @return void
+     */
+    private function validateLastName($mettaUser, array &$errors): void
+    {
+        if ($mettaUser->enLastName == null) {
+            $errors[] = getProfileMsgErreur('enLastName');
+        }
+    }
+
+    /**
+     * Validate metta user birthday
+     *
+     * @param object $mettaUser
+     * @param array &$errors
+     * @return void
+     */
+    private function validateBirthday($mettaUser, array &$errors): void
+    {
+        if ($mettaUser->birthday == null) {
+            $errors[] = getProfileMsgErreur('birthday');
+        }
+    }
+
+    /**
+     * Validate metta user national ID
+     *
+     * @param object $mettaUser
+     * @param array &$errors
+     * @return void
+     */
+    private function validateNationalID($mettaUser, array &$errors): void
+    {
+        if ($mettaUser->nationalID == null) {
+            $errors[] = getProfileMsgErreur('nationalID');
+        }
+    }
+
+    /**
+     * Validate user email
+     *
+     * @param object $user
+     * @param array &$errors
+     * @return void
+     */
+    private function validateEmail($user, array &$errors): void
+    {
+        if (!isset($user->email) || trim($user->email) == "") {
+            $errors[] = getProfileMsgErreur('email');
+        }
+    }
+
+    /**
+     * Validate all profile fields for identification
+     *
+     * @param object $user
+     * @param object $mettaUser
+     * @return array Array of error messages
+     */
+    private function validateProfileForIdentification($user, $mettaUser): array
+    {
+        $errors = [];
+
+        $this->validateFirstName($mettaUser, $errors);
+        $this->validateLastName($mettaUser, $errors);
+        $this->validateBirthday($mettaUser, $errors);
+        $this->validateNationalID($mettaUser, $errors);
+        $this->validateEmail($user, $errors);
+
+        return $errors;
     }
 
 
@@ -203,27 +288,12 @@ class IdentificationCheck extends Component
         $user = $this->userService->findByIdUser($userAuth->idUser);
         if (!$user) abort(404);
         $this->userF = collect($user);
-        $errors_array = array();
 
         $usermetta_info = DB::table('metta_users')->where('idUser', $userAuth->idUser)->first();
+        $this->usermetta_info2 = collect($usermetta_info);
 
-        $this->usermetta_info2 = collect(DB::table('metta_users')->where('idUser', $userAuth->idUser)->first());
-
-        if ($usermetta_info->enFirstName == null) {
-            array_push($errors_array, getProfileMsgErreur('enFirstName'));
-        }
-        if ($usermetta_info->enLastName == null) {
-            array_push($errors_array, getProfileMsgErreur('enLastName'));
-        }
-        if ($usermetta_info->birthday == null) {
-            array_push($errors_array, getProfileMsgErreur('birthday'));
-        }
-        if ($usermetta_info->nationalID == null) {
-            array_push($errors_array, getProfileMsgErreur('nationalID'));
-        }
-        if (!isset($user->email) && trim($user->email) == "") {
-            array_push($errors_array, getProfileMsgErreur('email'));
-        }
+        // Validate profile using separated validation methods
+        $errors_array = $this->validateProfileForIdentification($user, $usermetta_info);
 
         $this->notify = $userAuth->iden_notif;
         $hasRequest = $userAuth->hasIdentificationRequest();
@@ -232,13 +302,16 @@ class IdentificationCheck extends Component
         $hasFrontImage = User::getNationalFrontImage($userAuth->idUser) != User::DEFAULT_NATIONAL_FRONT_URL;
         $hasBackImage = User::getNationalBackImage($userAuth->idUser) != User::DEFAULT_NATIONAL_BACK_URL;
 
-        $requestIdentification = identificationuserrequest::where('idUser', $userAuth->idUser)
-            ->where('status', StatusRequest::Rejected->value)
-            ->latest('responseDate')
-            ->first();
+        // Get latest rejected request using service
+        $requestIdentification = $this->identificationRequestService->getLatestRejectedRequest(
+            $userAuth->idUser,
+            StatusRequest::Rejected->value
+        );
+
         if ($requestIdentification != null) {
             $noteRequset = $requestIdentification->note;
         }
+
         $this->disabled = in_array($user->status, [StatusRequest::InProgressNational->value, StatusRequest::InProgressInternational->value, StatusRequest::InProgressGlobal->value, StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value]) ? true : false;
         return view('livewire.identification-check',
             compact('user', 'usermetta_info', 'errors_array', 'userAuth', 'hasRequest', 'hasFrontImage', 'hasBackImage', 'noteRequset'))
