@@ -200,5 +200,73 @@ class NewsService
             return null;
         }
     }
+
+    /**
+     * Get news with standard relationships for news item display
+     *
+     * @param int $id
+     * @return News|null
+     */
+    public function getNewsWithRelations(int $id): ?News
+    {
+        try {
+            return News::with(['mainImage', 'likes', 'comments.user'])->find($id);
+        } catch (\Exception $e) {
+            Log::error('Error fetching news with relations: ' . $e->getMessage(), [
+                'id' => $id
+            ]);
+            return null;
+        }
+    }
+
+    /**
+     * Add a like to a news item
+     *
+     * @param int $newsId
+     * @param int $userId
+     * @return bool
+     */
+    public function addLike(int $newsId, int $userId): bool
+    {
+        try {
+            $news = News::findOrFail($newsId);
+
+            // Check if user already liked it
+            if ($news->likes()->where('user_id', $userId)->exists()) {
+                return true;
+            }
+
+            $news->likes()->create(['user_id' => $userId]);
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Error adding like to news: ' . $e->getMessage(), [
+                'newsId' => $newsId,
+                'userId' => $userId
+            ]);
+            return false;
+        }
+    }
+
+    /**
+     * Remove a like from a news item
+     *
+     * @param int $newsId
+     * @param int $userId
+     * @return bool
+     */
+    public function removeLike(int $newsId, int $userId): bool
+    {
+        try {
+            $news = News::findOrFail($newsId);
+            $news->likes()->where('user_id', $userId)->delete();
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Error removing like from news: ' . $e->getMessage(), [
+                'newsId' => $newsId,
+                'userId' => $userId
+            ]);
+            return false;
+        }
+    }
 }
 

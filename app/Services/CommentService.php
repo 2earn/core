@@ -70,5 +70,40 @@ class CommentService
     {
         return $this->delete($commentId);
     }
+
+    /**
+     * Create a comment for a news item
+     *
+     * @param int $newsId
+     * @param int $userId
+     * @param string $content
+     * @return array Result array with success status and comment
+     */
+    public function createComment(int $newsId, int $userId, string $content): array
+    {
+        try {
+            $news = \App\Models\News::findOrFail($newsId);
+
+            $comment = $news->comments()->create([
+                'user_id' => $userId,
+                'content' => $content
+            ]);
+
+            return [
+                'success' => true,
+                'message' => 'Comment created successfully',
+                'comment' => $comment
+            ];
+        } catch (\Exception $e) {
+            Log::error('Error creating comment: ' . $e->getMessage(), [
+                'newsId' => $newsId,
+                'userId' => $userId
+            ]);
+            return [
+                'success' => false,
+                'message' => 'Error creating comment'
+            ];
+        }
+    }
 }
 
