@@ -117,37 +117,26 @@ class CouponBuy extends Component
 
     public function simulateCoupon()
     {
-        $this->equal = false;
+        // Simulate coupon purchase using service
+        $result = $this->couponService->simulateCouponPurchase(
+            $this->idPlatform,
+            auth()->user()->id,
+            $this->displayedAmount,
+            $this->time
+        );
 
-        if ($this->displayedAmount == "" || $this->displayedAmount == "0" || intval($this->displayedAmount) < 1) {
-            return redirect()->route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform])->with('danger', trans('Wrong wintered amount'));
+        if (!$result['success']) {
+            return redirect()->route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform])
+                ->with('danger', trans($result['message']));
         }
 
-        $this->amount = $this->displayedAmount;
-        $this->preSumulationResult = $this->getCouponsForAmount($this->amount);
-        if ($this->amount) {
-            if ($this->preSumulationResult['amount'] == $this->displayedAmount) {
-                $this->equal = true;
-            } else {
-                $this->equal = false;
-            }
-            if (is_null($this->preSumulationResult)) {
-                return redirect()->route('coupon_buy', ['locale' => app()->getLocale(), 'id' => $this->idPlatform])->with('danger', trans('Amount simulation failed'));
-            }
-            $this->result = $this->getCouponsForAmount($this->preSumulationResult['lastValue'] + $this->amount);
-            if ($this->equal) {
-                $this->lastValue = $this->preSumulationResult['lastValue'];
-                $this->amount = $this->preSumulationResult['amount'];
-                $this->coupons = $this->preSumulationResult['coupons'];
-            } else {
-                $this->lastValue = $this->preSumulationResult['lastValue'];
-                $this->amount = $this->preSumulationResult['amount'];
-                $this->coupons = $this->result['coupons'];
-            }
-        } else {
-            $this->coupons = [];
-        }
-
+        // Update component state with simulation results
+        $this->equal = $result['equal'];
+        $this->amount = $result['amount'];
+        $this->lastValue = $result['lastValue'];
+        $this->coupons = $result['coupons'];
+        $this->preSumulationResult = $result['preSimulationResult'];
+        $this->result = $result['alternativeResult'];
         $this->simulated = true;
 
     }
@@ -181,37 +170,13 @@ class CouponBuy extends Component
 
     public function getCouponsForAmount($amount): array
     {
-        $availableCoupons = $this->couponService->getAvailableCouponsForPlatform(
+        return $this->couponService->getCouponsForAmount(
             $this->idPlatform,
-            auth()->user()->id
+            auth()->user()->id,
+            $amount,
+            $this->time,
+            $this->equal
         );
-
-        $selectedCoupons = [];
-        $total = 0;
-        $lastValue = 0;
-
-        if ($availableCoupons->count() == 0) {
-            $lastValue = 0;
-        }
-
-        foreach ($availableCoupons as $coupon) {
-            $lastValue = $coupon->value;
-            if ($total + $coupon->value <= $amount) {
-                $this->couponService->updateCoupon($coupon, [
-                    'status' => CouponStatusEnum::reserved->value,
-                    'user_id' => auth()->user()->id,
-                    'reserved_until' => now()->addMinutes($this->time)
-                ]);
-                $selectedCoupons[] = $coupon;
-                $total += $coupon->value;
-            }
-        }
-
-        return [
-            'amount' => $total,
-            'coupons' => $selectedCoupons,
-            'lastValue' => $this->equal ? 0 : $lastValue,
-        ];
     }
 
     public function render()

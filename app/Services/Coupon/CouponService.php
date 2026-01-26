@@ -508,5 +508,142 @@ class CouponService
             ];
         }
     }
+
+    /**
+     * Get coupons for specified amount with reservation
+     *
+     * @param int $platformId Platform ID
+     * @param int $userId User ID
+     * @param float $amount Target amount
+     * @param int $reservationMinutes Minutes to reserve coupons
+     * @param bool $isEqual Whether the amount should match exactly
+     * @return array Result array with amount, coupons, and lastValue
+     */
+    public function getCouponsForAmount(
+        int $platformId,
+        int $userId,
+        float $amount,
+        int $reservationMinutes,
+        bool $isEqual = false
+    ): array
+    {
+        try {
+            $availableCoupons = $this->getAvailableCouponsForPlatform($platformId, $userId);
+
+            $selectedCoupons = [];
+            $total = 0;
+            $lastValue = 0;
+
+            if ($availableCoupons->count() == 0) {
+                $lastValue = 0;
+            }
+
+            foreach ($availableCoupons as $coupon) {
+                $lastValue = $coupon->value;
+                if ($total + $coupon->value <= $amount) {
+                    $this->updateCoupon($coupon, [
+                        'status' => CouponStatusEnum::reserved->value,
+                        'user_id' => $userId,
+                        'reserved_until' => now()->addMinutes($reservationMinutes)
+                    ]);
+                    $selectedCoupons[] = $coupon;
+                    $total += $coupon->value;
+                }
+            }
+
+            return [
+                'amount' => $total,
+                'coupons' => $selectedCoupons,
+                'lastValue' => $isEqual ? 0 : $lastValue,
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error getting coupons for amount: ' . $exception->getMessage());
+            return [
+                'amount' => 0,
+                'coupons' => [],
+                'lastValue' => 0,
+            ];
+        }
+    }
+
+    /**
+     * Simulate coupon purchase for a given amount
+     *
+     * @param int $platformId Platform ID
+     * @param int $userId User ID
+     * @param float $displayedAmount Amount to simulate
+     * @param int $reservationMinutes Minutes to reserve coupons
+     * @return array Result array with success status, simulation results, and UI data
+     */
+    public function simulateCouponPurchase(
+        int $platformId,
+        int $userId,
+        float $displayedAmount,
+        int $reservationMinutes
+    ): array
+    {
+        try {
+            // Validate amount
+            if (empty($displayedAmount) || $displayedAmount == "0" || intval($displayedAmount) < 1) {
+                return [
+                    'success' => false,
+                    'message' => 'Wrong wintered amount'
+                ];
+            }
+
+            // Get coupons for the requested amount
+            $preSimulationResult = $this->getCouponsForAmount(
+                $platformId,
+                $userId,
+                $displayedAmount,
+                $reservationMinutes,
+                false
+            );
+
+            // Check if simulation failed
+            if (is_null($preSimulationResult)) {
+                return [
+                    'success' => false,
+                    'message' => 'Amount simulation failed'
+                ];
+            }
+
+            // Check if amount matches exactly
+            $isEqual = ($preSimulationResult['amount'] == $displayedAmount);
+
+            // Get alternative simulation with next coupon value added
+            $alternativeResult = $this->getCouponsForAmount(
+                $platformId,
+                $userId,
+                $preSimulationResult['lastValue'] + $displayedAmount,
+                $reservationMinutes,
+                true
+            );
+
+            // Determine final coupons and amount based on exact match
+            $finalCoupons = $isEqual ? $preSimulationResult['coupons'] : $alternativeResult['coupons'];
+            $finalAmount = $preSimulationResult['amount'];
+            $lastValue = $preSimulationResult['lastValue'];
+
+            return [
+                'success' => true,
+                'equal' => $isEqual,
+                'amount' => $finalAmount,
+                'lastValue' => $lastValue,
+                'coupons' => $finalCoupons,
+                'preSimulationResult' => $preSimulationResult,
+                'alternativeResult' => $alternativeResult,
+                'displayedAmount' => $displayedAmount
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error simulating coupon purchase: ' . $exception->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Error simulating coupon purchase'
+            ];
+        }
+    }
 }
 
