@@ -8,6 +8,7 @@ use App\Enums\TypeNotificationEnum;
 use App\Http\Traits\earnLog;
 use App\Http\Traits\earnTrait;
 use App\Models\User;
+use App\Services\MettaUsersService;
 use App\Services\UserService;
 use Carbon\Carbon;
 use App\Models\identificationuserrequest;
@@ -25,10 +26,8 @@ class Account extends Component
     use WithFileUploads;
     use earnTrait;
     use earnLog;
-
     protected UserService $userService;
-
-
+    protected MettaUsersService $mettaUsersService;
     public $nbrChild = 9;
     public $photoFront;
     public $noteReject;
@@ -68,9 +67,10 @@ class Account extends Component
         'saveProfileSettings' => 'saveProfileSettings',
     ];
 
-    public function boot(UserService $userService)
+    public function boot(UserService $userService, MettaUsersService $mettaUsersService)
     {
         $this->userService = $userService;
+        $this->mettaUsersService = $mettaUsersService;
     }
 
     public function mount(settingsManager $settingManager)
@@ -95,19 +95,30 @@ class Account extends Component
 
     public function SaveChangeEdit()
     {
-        $um = MettaUser::find($this->usermetta_info['id']);
-        $um->enLastName = $this->usermetta_info['enLastName'];
-        $um->enFirstName = $this->usermetta_info['enFirstName'];
-        $um->birthday = $this->usermetta_info['birthday'];
-        $um->nationalID = $this->usermetta_info['nationalID'];
-        $um->save();
-        if (!is_null($this->photoFront) && gettype($this->photoFront) == "object") {
-            $this->photoFront->storeAs('profiles', 'front-id-image' . $um->idUser . '.png', 'public2');
+        // Prepare data for update
+        $data = [
+            'enLastName' => $this->usermetta_info['enLastName'],
+            'enFirstName' => $this->usermetta_info['enFirstName'],
+            'birthday' => $this->usermetta_info['birthday'],
+            'nationalID' => $this->usermetta_info['nationalID']
+        ];
+
+        // Delegate to service
+        $result = $this->mettaUsersService->updateProfileWithImages(
+            $this->usermetta_info['id'],
+            $data,
+            $this->photoFront,
+            $this->photoBack
+        );
+
+        // Handle the result
+        if (!$result['success']) {
+            return redirect()->route('account', app()->getLocale())
+                ->with($result['type'], Lang::get($result['message']));
         }
-        if (!is_null($this->photoBack) && gettype($this->photoBack) == "object") {
-            $this->photoBack->storeAs('profiles', 'back-id-image' . $um->idUser . '.png', 'public2');
-        }
-        return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Edit profile success'));
+
+        return redirect()->route('account', app()->getLocale())
+            ->with($result['type'], Lang::get($result['message']));
     }
 
     public function saveProfileSettings()
