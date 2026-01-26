@@ -364,4 +364,40 @@ class EntityRoleService
             ->where('name', $roleName)
             ->first();
     }
+
+    /**
+     * Get a specific role by platform and role name (without user filter)
+     *
+     * @param int $platformId
+     * @param string $roleName
+     * @param array $with Additional relationships to eager load
+     * @return EntityRole|null
+     */
+    public function getRoleByPlatformAndName(int $platformId, string $roleName, array $with = ['user']): ?EntityRole
+    {
+        try {
+            return EntityRole::where('roleable_id', $platformId)
+                ->where('roleable_type', Platform::class)
+                ->where('name', $roleName)
+                ->with($with)
+                ->first();
+        } catch (\Exception $e) {
+            Log::error('Error fetching role by platform and name: ' . $e->getMessage(), [
+                'platform_id' => $platformId,
+                'role_name' => $roleName
+            ]);
+            return null;
+        }
+    }
+
+    /**
+     * Get owner role for a specific platform
+     *
+     * @param int $platformId
+     * @return EntityRole|null
+     */
+    public function getPlatformOwnerRole(int $platformId): ?EntityRole
+    {
+        return $this->getRoleByPlatformAndName($platformId, 'owner');
+    }
 }

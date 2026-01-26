@@ -2,8 +2,8 @@
 
 namespace App\Livewire;
 
-use App\Models\EntityRole;
 use App\Models\PlatformValidationRequest;
+use App\Services\EntityRole\EntityRoleService;
 use App\Services\Platform\PlatformValidationRequestService;
 use App\Models\Platform;
 use Illuminate\Support\Facades\Auth;
@@ -33,10 +33,14 @@ class PlatformValidationRequests extends Component
     protected $queryString = ['search', 'statusFilter'];
 
     protected PlatformValidationRequestService $platformValidationRequestService;
+    protected EntityRoleService $entityRoleService;
 
-    public function boot(PlatformValidationRequestService $platformValidationRequestService)
-    {
+    public function boot(
+        PlatformValidationRequestService $platformValidationRequestService,
+        EntityRoleService $entityRoleService
+    ) {
         $this->platformValidationRequestService = $platformValidationRequestService;
+        $this->entityRoleService = $entityRoleService;
     }
 
     public function updatingSearch()
@@ -164,14 +168,12 @@ class PlatformValidationRequests extends Component
             $this->perPage
         );
 
-        // Load EntityRoles for each platform
+        // Load EntityRoles for each platform using the service
         foreach ($requests as $request) {
             if ($request->platform) {
-                $request->platform->ownerRole = EntityRole::where('roleable_type', 'App\Models\Platform')
-                    ->where('roleable_id', $request->platform->id)
-                    ->where('name', 'owner')
-                    ->with('user')
-                    ->first();
+                $request->platform->ownerRole = $this->entityRoleService->getPlatformOwnerRole(
+                    $request->platform->id
+                );
             }
         }
 
