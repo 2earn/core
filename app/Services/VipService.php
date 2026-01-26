@@ -323,5 +323,27 @@ class VipService
             ];
         }
     }
+
+    /**
+     * Check if user has an active flash VIP
+     *
+     * @param string $idUser User's business ID
+     * @return bool
+     */
+    public function hasActiveFlashVip(string $idUser): bool
+    {
+        try {
+            return vip::where('idUser', '=', $idUser)
+                ->where('closed', '=', false)
+                ->whereRaw('DATE_ADD(dateFNS, INTERVAL flashDeadline HOUR) > NOW()')
+                ->exists();
+        } catch (\Exception $e) {
+            Log::error('Error checking active flash VIP for user', [
+                'idUser' => $idUser,
+                'error' => $e->getMessage()
+            ]);
+            return false;
+        }
+    }
 }
 

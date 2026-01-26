@@ -160,5 +160,59 @@ class BalanceInjectorCouponService
             return new Collection();
         }
     }
+
+    /**
+     * Create multiple balance injector coupons
+     *
+     * @param int $numberOfCoupons Number of coupons to create
+     * @param array $couponData Base coupon data (attachment_date, value, category, consumed)
+     * @param string|null $type Coupon type
+     * @return array Result array with success status, message, and created count
+     */
+    public function createMultipleCoupons(int $numberOfCoupons, array $couponData, ?string $type = null): array
+    {
+        try {
+            // Validate number of coupons
+            if (!is_numeric($numberOfCoupons) || $numberOfCoupons <= 0 || $numberOfCoupons >= 100) {
+                return [
+                    'success' => false,
+                    'message' => 'Number of coupons must be a positive number less than 100'
+                ];
+            }
+
+            $dateNow = now()->format('YmdHis');
+            $createdCount = 0;
+
+            // Determine type based on category
+            $finalType = ($couponData['category'] == 2 && empty($type)) ? '100.00' : $type;
+
+            for ($i = 1; $i <= $numberOfCoupons; $i++) {
+                $coupon = $couponData;
+                $coupon['pin'] = $dateNow . strtoupper(\Illuminate\Support\Str::random(10));
+                $coupon['sn'] = 'SN' . $dateNow . rand(100000, 999999);
+                $coupon['type'] = $finalType;
+
+                BalanceInjectorCoupon::create($coupon);
+                $createdCount++;
+            }
+
+            return [
+                'success' => true,
+                'message' => 'Coupons created Successfully',
+                'createdCount' => $createdCount
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error creating multiple coupons: ' . $exception->getMessage(), [
+                'numberOfCoupons' => $numberOfCoupons,
+                'couponData' => $couponData
+            ]);
+
+            return [
+                'success' => false,
+                'message' => 'Coupons creation Failed: ' . $exception->getMessage()
+            ];
+        }
+    }
 }
 

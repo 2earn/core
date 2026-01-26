@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Enums\BalanceEnum;
 use App\Models\BalanceInjectorCoupon;
+use App\Services\Coupon\BalanceInjectorCouponService;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -11,6 +12,8 @@ use Livewire\Component;
 class CouponInjectorCreate extends Component
 {
     const INDEX_ROUTE_NAME = 'coupon_injector_index';
+
+    protected BalanceInjectorCouponService $balanceInjectorCouponService;
 
     public $attachment_date;
     public $numberOfCoupons;
@@ -26,6 +29,11 @@ class CouponInjectorCreate extends Component
         'value' => 'required|numeric|min:0.01',
     ];
 
+    public function boot(BalanceInjectorCouponService $balanceInjectorCouponService)
+    {
+        $this->balanceInjectorCouponService = $balanceInjectorCouponService;
+    }
+
     public function mount()
     {
         $this->allCategories = [
@@ -36,36 +44,33 @@ class CouponInjectorCreate extends Component
 
     public function store()
     {
-
         $this->validate();
-        try {
-            if (!is_numeric($this->numberOfCoupons) || $this->numberOfCoupons <= 0 || $this->numberOfCoupons >= 100) {
-                throw new \Exception('Number of coupons must be a positive number less than 100');
-            }
 
-            $coupon = [
-                'attachment_date' => $this->attachment_date,
-                'value' => $this->value,
-                'category' => intval($this->category_id),
-                'consumed' => false
-            ];
+        // Prepare coupon data
+        $couponData = [
+            'attachment_date' => $this->attachment_date,
+            'value' => $this->value,
+            'category' => intval($this->category_id),
+            'consumed' => false
+        ];
 
-            $dateNow = now()->format('YmdHis');
-            $type = ($this->category_id == "2" && $this->type == '') ? '100.00' : $this->type;
+        // Create coupons using service
+        $result = $this->balanceInjectorCouponService->createMultipleCoupons(
+            $this->numberOfCoupons,
+            $couponData,
+            $this->type
+        );
 
-            for ($i = 1; $i <= $this->numberOfCoupons; $i++) {
-                $coupon['pin'] = $dateNow . strtoupper(Str::random(10));
-                $coupon['sn'] = 'SN' . $dateNow . rand(100000, 999999);
-                $coupon['type'] = $type;
-                BalanceInjectorCoupon::create($coupon);
-            }
-
-            return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])->with('success', Lang::get('Coupons created Successfully'));
-        } catch (\Exception $exception) {
-            return redirect()->route('coupon_injector_create', ['locale' => app()->getLocale()])->with('danger', Lang::get('Coupons creation Failed') . ' ' . $exception->getMessage());
+        if (!$result['success']) {
+            return redirect()->route('coupon_injector_create', ['locale' => app()->getLocale()])
+                ->with('danger', Lang::get($result['message']));
         }
+
+        return redirect()->route(self::INDEX_ROUTE_NAME, ['locale' => app()->getLocale()])
+            ->with('success', Lang::get($result['message']));
     }
 
+    // ...existing code...
     public function cancel()
     {
         return redirect()->route('coupon_injector_index', ['locale' => app()->getLocale()])->with('warning', Lang::get('Coupons operation canceled'));
