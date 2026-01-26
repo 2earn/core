@@ -4,6 +4,8 @@ namespace App\Services\FinancialRequest;
 
 use App\Models\detail_financial_request;
 use App\Models\FinancialRequest;
+use App\Models\User;
+use App\Notifications\FinancialRequestSent;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -543,5 +545,97 @@ class FinancialRequestService
             ];
         }
     }
-}
 
+    /**
+     * Send a financial request with validation, security code generation, and notification
+     *
+     * @param int $senderId The ID of the user sending the request
+     * @param float $amount The amount being requested
+     * @param array $selectedUsers Array of user IDs to send the request to
+     * @param User $senderUser The authenticated user object
+     * @return array Result array with success status, message, security code, and redirect info
+     */
+    public function sendFinancialRequestWithNotification(
+        int $senderId,
+        float $amount,
+        array $selectedUsers,
+        User $senderUser
+    ): array
+    {
+        try {
+            // Validate that users are selected
+            if (empty($selectedUsers)) {
+                return [
+                    'success' => false,
+                    'message' => 'No selected users',
+                    'type' => 'danger',
+                    'redirect' => 'financial_transaction',
+                    'redirectParams' => ['filter' => 2]
+                ];
+            }
+
+            // Generate security code
+            $securityCode = $this->generateSecurityCode();
+
+            // Create the financial request
+            DB::beginTransaction();
+
+            $this->createFinancialRequest(
+                $senderId,
+                $amount,
+                $selectedUsers,
+                $securityCode
+            );
+
+            DB::commit();
+
+            // Send notification to the user
+            $senderUser->notify(new FinancialRequestSent());
+
+            return [
+                'success' => true,
+                'message' => 'Financial request sent successfully ,This is your security code',
+                'securityCode' => $securityCode,
+                'type' => 'success',
+                'redirect' => 'financial_transaction',
+                'redirectParams' => ['filter' => 2]
+            ];
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error sending financial request with notification', [
+                'senderId' => $senderId,
+                'amount' => $amount,
+                'selectedUsersCount' => count($selectedUsers),
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return [
+                'success' => false,
+                'message' => 'Failed to send financial request',
+                'type' => 'danger',
+                'redirect' => 'financial_transaction',
+                'redirectParams' => ['filter' => 2]
+            ];
+        }
+    }
+
+    /**
+     * Generate a random security code for financial requests
+     *
+     * @param int $length The length of the security code (default: 6)
+     * @return string The generated security code
+     */
+    protected function generateSecurityCode(int $length = 6): string
+    {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $code = '';
+
+        for ($i = 0; $i < $length; $i++) {
+            $code .= $characters[rand(0, strlen($characters) - 1)];
+        }
+
+        return $code;
+    }
+}

@@ -23,25 +23,36 @@ class RequestPublicUser extends Component
         'sendFinancialRequest' => 'sendFinancialRequest'
     ];
 
+    protected FinancialRequestService $financialRequestService;
+
+    public function boot(FinancialRequestService $financialRequestService)
+    {
+        $this->financialRequestService = $financialRequestService;
+    }
+
     public function sendFinancialRequest(settingsManager $settingsManager)
     {
-        if (!count($this->selectedUsers) > 0) {
-            return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 2])->with('danger', Lang::get('No selected users'));
-        };
-
         $userAuth = $settingsManager->getAuthUser();
-        $securityCode = $settingsManager->randomNewCodeOpt();
 
-        $financialRequestService = app(FinancialRequestService::class);
-        $financialRequestService->createFinancialRequest(
+        // Use the service to handle the complete send logic
+        $result = $this->financialRequestService->sendFinancialRequestWithNotification(
             $userAuth->idUser,
             $this->amount,
             $this->selectedUsers,
-            $securityCode
+            Auth::user()
         );
 
-        Auth::user()->notify(new FinancialRequestSent());
-        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 2])->with('success', Lang::get('Financial request sent successfully ,This is your security code') . ' : ' . $securityCode);
+        // Handle the result
+        if ($result['success']) {
+            $message = Lang::get($result['message']) . ' : ' . $result['securityCode'];
+            return redirect()
+                ->route($result['redirect'], array_merge(['locale' => app()->getLocale()], $result['redirectParams']))
+                ->with($result['type'], $message);
+        } else {
+            return redirect()
+                ->route($result['redirect'], array_merge(['locale' => app()->getLocale()], $result['redirectParams']))
+                ->with($result['type'], Lang::get($result['message']));
+        }
     }
 
     public function send($idUser, settingsManager $settingsManager)
