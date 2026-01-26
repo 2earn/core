@@ -638,4 +638,59 @@ class FinancialRequestService
 
         return $code;
     }
+
+    /**
+     * Create a recharge request from a payee to a public user
+     *
+     * @param int $userId The ID of the user receiving the request
+     * @param int $payeeId The ID of the user sending the request (payee)
+     * @param string $userPhone The phone number of the receiving user
+     * @param string $payeePhone The phone number of the payee
+     * @param float $amount The amount requested
+     * @param int $typeUser The type of user (default: 2 for public user)
+     * @return bool Whether the insertion was successful
+     * @throws \Exception
+     */
+    public function createRechargeRequest(
+        int $userId,
+        int $payeeId,
+        string $userPhone,
+        string $payeePhone,
+        float $amount,
+        int $typeUser = 2
+    ): bool
+    {
+        try {
+            $date = date(config('app.date_format'));
+
+            DB::table('recharge_requests')->insert([
+                'Date' => $date,
+                'idUser' => $userId,
+                'idPayee' => $payeeId,
+                'userPhone' => $userPhone,
+                'payeePhone' => $payeePhone,
+                'amount' => $amount,
+                'validated' => 0,
+                'type_user' => $typeUser
+            ]);
+
+            Log::info('Recharge request created', [
+                'userId' => $userId,
+                'payeeId' => $payeeId,
+                'amount' => $amount,
+                'typeUser' => $typeUser
+            ]);
+
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Error creating recharge request', [
+                'userId' => $userId,
+                'payeeId' => $payeeId,
+                'amount' => $amount,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
+        }
+    }
 }

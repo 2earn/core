@@ -345,5 +345,44 @@ class VipService
             return false;
         }
     }
+
+    /**
+     * Get VIP status information for a user
+     * Returns VIP record, message, and validity status
+     *
+     * @param int $userId
+     * @return array|null Returns array with 'vip', 'message', 'isActive' keys, or null if no VIP found
+     */
+    public function getVipStatusForUser(int $userId): ?array
+    {
+        try {
+            $activeVips = $this->getActiveVipsByUserId($userId);
+
+            if ($activeVips->isEmpty()) {
+                return null;
+            }
+
+            /** @var vip $vip */
+            $vip = $activeVips->first();
+
+            if (!$vip) {
+                return null;
+            }
+
+            $isValid = $this->isVipValid($vip);
+
+            return [
+                'vip' => $vip,
+                'message' => $isValid ? 'Actually is vip' : 'It was a vip',
+                'isActive' => $isValid
+            ];
+        } catch (\Exception $e) {
+            Log::error('Error getting VIP status for user', [
+                'userId' => $userId,
+                'error' => $e->getMessage()
+            ]);
+            return null;
+        }
+    }
 }
 

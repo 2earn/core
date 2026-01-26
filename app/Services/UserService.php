@@ -862,6 +862,69 @@ class UserService
             ];
         }
     }
+
+    /**
+     * Get user by business ID (idUser)
+     *
+     * @param string $idUser
+     * @return User|null
+     */
+    public function getUserByIdUser(string $idUser): ?User
+    {
+        try {
+            return User::where('idUser', $idUser)->first();
+        } catch (\Exception $e) {
+            Log::error('Error getting user by idUser', [
+                'idUser' => $idUser,
+                'error' => $e->getMessage()
+            ]);
+            return null;
+        }
+    }
+
+    /**
+     * Get user profile image
+     *
+     * @param string $idUser
+     * @return string|null
+     */
+    public function getUserProfileImage(string $idUser): ?string
+    {
+        return User::getUserProfileImage($idUser);
+    }
+
+    /**
+     * Get user national front image
+     *
+     * @param string $idUser
+     * @return string|null
+     */
+    public function getNationalFrontImage(string $idUser): ?string
+    {
+        return User::getNationalFrontImage($idUser);
+    }
+
+    /**
+     * Get user national back image
+     *
+     * @param string $idUser
+     * @return string|null
+     */
+    public function getNationalBackImage(string $idUser): ?string
+    {
+        return User::getNationalBackImage($idUser);
+    }
+
+    /**
+     * Get user international image
+     *
+     * @param string $idUser
+     * @return string|null
+     */
+    public function getInternationalImage(string $idUser): ?string
+    {
+        return User::getInternational($idUser);
+    }
 }
 
 

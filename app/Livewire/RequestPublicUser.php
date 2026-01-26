@@ -9,8 +9,8 @@ use App\Services\UserService;
 use App\Services\settingsManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class RequestPublicUser extends Component
@@ -62,19 +62,32 @@ class RequestPublicUser extends Component
         if (!$user) return;
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) return;
-        $date = date(config('app.date_format'));
-        DB::table('recharge_requests')
-            ->insert([
-                'Date' => $date,
-                'idUser' => $user->idUser,
-                'idPayee' => $userAuth->idUser,
-                'userPhone' => $user->fullphone_number,
-                'payeePhone' => $userAuth->fullNumber,
+
+        try {
+            $this->financialRequestService->createRechargeRequest(
+                $user->idUser,
+                $userAuth->idUser,
+                $user->fullphone_number,
+                $userAuth->fullNumber,
+                $this->amount,
+                2 // type_user for public user
+            );
+
+            return redirect()
+                ->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 2])
+                ->with('success', Lang::get('Success send req to public user'));
+        } catch (\Exception $e) {
+            Log::error('[RequestPublicUser] Error creating recharge request', [
+                'userId' => $user->idUser,
+                'payeeId' => $userAuth->idUser,
                 'amount' => $this->amount,
-                'validated' => 0,
-                'type_user' => 2
+                'error' => $e->getMessage()
             ]);
-        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 2])->with('success', Lang::get('Success send req to public user'));
+
+            return redirect()
+                ->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 2])
+                ->with('danger', Lang::get('Failed to send request'));
+        }
     }
 
     public function mount(Request $request)
