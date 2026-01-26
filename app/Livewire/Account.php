@@ -201,25 +201,34 @@ class Account extends Component
     {
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) abort(404);
-        if (!isValidEmailAdressFormat($mail)) {
-            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Not valid Email Format'));
+
+        $result = $this->userService->sendVerificationEmail(
+            $this->user['id'],
+            $mail,
+            $userAuth->email,
+            $userAuth->idUser
+        );
+
+        if (!$result['success']) {
+            return redirect()->route('account', app()->getLocale())
+                ->with('danger', Lang::get($result['message']));
         }
-        if ($userAuth->email == $mail) {
-            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Same email Address'));
-        }
-        $userExisteMail = $settingsManager->getConditionalUser('email', $mail);
-        if ($userExisteMail && $userExisteMail->idUser != $userAuth->idUser) {
-            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('mail_used'));
-        }
-        $opt = $this->randomNewCodeOpt();
-        $us = User::find($this->user['id']);
-        $us->OptActivation = $opt;
-        $us->OptActivation_at = Carbon::now();
-        $us->save();
+
+        // Send SMS notification with OTP
         $numberActif = $settingsManager->getNumberCOntactActif($userAuth->idUser)->fullNumber;
-        $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::VerifMail, ['msg' => $opt, 'type' => TypeNotificationEnum::SMS]);
-        $this->newMail = $mail;
-        $this->dispatch('confirmOPTVerifMail', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'numberActif' => $numberActif]);
+        $settingsManager->NotifyUser(
+            $userAuth->id,
+            TypeEventNotificationEnum::VerifMail,
+            ['msg' => $result['optCode'], 'type' => TypeNotificationEnum::SMS]
+        );
+
+        $this->newMail = $result['newEmail'];
+        $this->dispatch('confirmOPTVerifMail', [
+            'type' => 'warning',
+            'title' => "Opt",
+            'text' => '',
+            'numberActif' => $numberActif
+        ]);
     }
 
     public function cancelProcess($message)
@@ -229,58 +238,96 @@ class Account extends Component
 
     public function checkUserEmail($codeOpt = null, settingsManager $settingsManager)
     {
-        $us = User::find($this->user['id']);
-        if (is_null($codeOpt) || $codeOpt != $us->OptActivation) {
-            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Invalid OPT code'));
+        $result = $this->userService->verifyEmailOtp(
+            $this->user['id'],
+            $codeOpt,
+            $this->newMail
+        );
+
+        if (!$result['success']) {
+            return redirect()->route('account', app()->getLocale())
+                ->with('danger', Lang::get($result['message']));
         }
-        $check_exchange = $this->randomNewCodeOpt();
-        User::where('id', auth()->user()->id)->update(['OptActivation' => $check_exchange]);
-        $settingsManager->NotifyUser(auth()->user()->id, TypeEventNotificationEnum::NewContactNumber, ['canSendMail' => 1, 'msg' => $check_exchange, 'toMail' => $this->newMail, 'emailTitle' => "2Earn.cash"]);
-        $this->dispatch('EmailCheckUser', ['emailValidation' => true, 'title' => trans('Opt code from your email'), 'html' => trans('We sent an opt code to your email') . ' : ' . $this->newMail . ' <br> ' . trans('Please fill it')]);
+
+        // Send email notification with new OTP
+        $settingsManager->NotifyUser(
+            auth()->user()->id,
+            TypeEventNotificationEnum::NewContactNumber,
+            [
+                'canSendMail' => 1,
+                'msg' => $result['newOtp'],
+                'toMail' => $result['newEmail'],
+                'emailTitle' => "2Earn.cash"
+            ]
+        );
+
+        // Dispatch Livewire event to show email verification dialog
+        $this->dispatch('EmailCheckUser', [
+            'emailValidation' => true,
+            'title' => trans('Opt code from your email'),
+            'html' => trans('We sent an opt code to your email') . ' : ' . $result['newEmail'] . ' <br> ' . trans('Please fill it')
+        ]);
     }
 
     public function saveVerifiedMail($codeOpt = null)
     {
-        $us = User::find($this->user['id']);
-        if (is_null($codeOpt) || $codeOpt != $us->OptActivation) {
-            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Change user email failed - Code OPT'));
-        }
-        $us->email_verified = 1;
-        $us->email = $this->newMail;
-        $us->email_verified_at = Carbon::now();
-        $us->save();
-        return redirect()->route('account', app()->getLocale())->with('success', Lang::get('User email change completed successfully'));
+        $result = $this->userService->saveVerifiedEmail(
+            $this->user['id'],
+            $codeOpt,
+            $this->newMail
+        );
+
+        $flashType = $result['success'] ? 'success' : 'danger';
+        return redirect()->route('account', app()->getLocale())
+            ->with($flashType, Lang::get($result['message']));
     }
 
     public function approuve($idUser, settingsManager $settingsManager)
     {
-        $user = User::find($idUser);
-        if ($user) {
-            $settingsManager->validateIdentity($user->idUser);
-            return redirect()->route('requests_identification', app()->getLocale())->with('success', Lang::get('User identification request approuved') . ' : ' . $user->email);
+        $result = $this->userService->approveIdentificationRequest($idUser);
+
+        if (!$result['success']) {
+            return redirect()->route('requests_identification', app()->getLocale())
+                ->with('danger', Lang::get($result['message']));
         }
+
+        // Validate identity through settings manager
+        if ($result['shouldValidateIdentity']) {
+            $settingsManager->validateIdentity($result['user']->idUser);
+        }
+
+        return redirect()->route('requests_identification', app()->getLocale())
+            ->with('success', Lang::get($result['message']) . ' : ' . $result['user']->email);
     }
 
     public function reject($idUser, settingsManager $settingsManager)
     {
-        $user = User::find($idUser);
-        if ($user) {
-            $settingsManager->rejectIdentity($user->idUser, $this->noteReject);
-            return redirect()->route('requests_identification', app()->getLocale())->with('success', Lang::get('User identification request rejected') . ' : ' . $user->email);
+        $result = $this->userService->rejectIdentificationRequest($idUser, $this->noteReject);
+
+        if (!$result['success']) {
+            return redirect()->route('requests_identification', app()->getLocale())
+                ->with('danger', Lang::get($result['message']));
         }
+
+        // Reject identity through settings manager
+        if ($result['shouldRejectIdentity']) {
+            $settingsManager->rejectIdentity($result['user']->idUser, $result['noteReject']);
+        }
+
+        return redirect()->route('requests_identification', app()->getLocale())
+            ->with('success', Lang::get($result['message']) . ' : ' . $result['user']->email);
     }
 
-    public
-    function sendIdentificationRequest(settingsManager $settingsManager)
+    public function sendIdentificationRequest(settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
         $hasRequest = $userAuth->hasIdentificationRequest();
-        if ($hasRequest) {
-            return redirect()->route('account', app()->getLocale())->with('danger', Lang::get('Identification request exist'));
-        } else {
-            identificationuserrequest::create(['idUser' => $userAuth->idUser, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(), 'response' => 0, 'note' => '', 'status' => 1]);
-            return redirect()->route('account', app()->getLocale())->with('success', Lang::get('Identification send request success'));
-        }
+
+        $result = $this->userService->sendIdentificationRequest($userAuth->idUser, $hasRequest);
+
+        $flashType = $result['success'] ? 'success' : 'danger';
+        return redirect()->route('account', app()->getLocale())
+            ->with($flashType, Lang::get($result['message']));
     }
 
 

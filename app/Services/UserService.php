@@ -458,6 +458,303 @@ class UserService
             ];
         }
     }
+
+    /**
+     * Send verification email to user with OTP code
+     *
+     * @param int $userId User ID
+     * @param string $newEmail New email address to verify
+     * @param string $currentEmail Current user email
+     * @param string $idUser User's business ID
+     * @return array Result array with success status, message, OTP code and active number
+     */
+    public function sendVerificationEmail(
+        int $userId,
+        string $newEmail,
+        string $currentEmail,
+        string $idUser
+    ): array
+    {
+        try {
+            // Validate email format
+            if (!isValidEmailAdressFormat($newEmail)) {
+                return [
+                    'success' => false,
+                    'message' => 'Not valid Email Format'
+                ];
+            }
+
+            // Check if it's the same email
+            if ($currentEmail == $newEmail) {
+                return [
+                    'success' => false,
+                    'message' => 'Same email Address'
+                ];
+            }
+
+            // Check if email is already used by another user
+            $existingUser = User::where('email', $newEmail)->first();
+            if ($existingUser && $existingUser->idUser != $idUser) {
+                return [
+                    'success' => false,
+                    'message' => 'mail_used'
+                ];
+            }
+
+            // Generate OTP code
+            $opt = $this->generateOtpCode();
+
+            // Update user with OTP
+            $user = User::find($userId);
+            if (!$user) {
+                return [
+                    'success' => false,
+                    'message' => 'User not found'
+                ];
+            }
+
+            $user->OptActivation = $opt;
+            $user->OptActivation_at = \Carbon\Carbon::now();
+            $user->save();
+
+            return [
+                'success' => true,
+                'message' => 'Verification code sent successfully',
+                'optCode' => $opt,
+                'newEmail' => $newEmail
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error sending verification email: ' . $exception->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Error sending verification email'
+            ];
+        }
+    }
+
+    /**
+     * Generate a random OTP code
+     *
+     * @return string
+     */
+    private function generateOtpCode(): string
+    {
+        return str_pad((string)random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+    }
+
+    /**
+     * Verify email OTP code and generate new OTP for final verification
+     *
+     * @param int $userId User ID
+     * @param string|null $codeOpt OTP code to verify
+     * @param string $newEmail New email address for notification
+     * @return array Result array with success status, message, new OTP and email
+     */
+    public function verifyEmailOtp(int $userId, ?string $codeOpt, string $newEmail): array
+    {
+        try {
+            $user = User::find($userId);
+
+            if (!$user) {
+                return [
+                    'success' => false,
+                    'message' => 'User not found'
+                ];
+            }
+
+            // Verify OTP code
+            if (is_null($codeOpt) || $codeOpt != $user->OptActivation) {
+                return [
+                    'success' => false,
+                    'message' => 'Invalid OPT code'
+                ];
+            }
+
+            // Generate new OTP for email verification
+            $newOtp = $this->generateOtpCode();
+
+            // Update user with new OTP
+            $user->OptActivation = $newOtp;
+            $user->save();
+
+            return [
+                'success' => true,
+                'message' => 'OTP verified successfully',
+                'newOtp' => $newOtp,
+                'newEmail' => $newEmail
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error verifying email OTP: ' . $exception->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Error verifying email OTP'
+            ];
+        }
+    }
+
+    /**
+     * Save verified email after final OTP confirmation
+     *
+     * @param int $userId User ID
+     * @param string|null $codeOpt OTP code to verify
+     * @param string $newEmail New email address to save
+     * @return array Result array with success status and message
+     */
+    public function saveVerifiedEmail(int $userId, ?string $codeOpt, string $newEmail): array
+    {
+        try {
+            $user = User::find($userId);
+
+            if (!$user) {
+                return [
+                    'success' => false,
+                    'message' => 'User not found'
+                ];
+            }
+
+            // Verify OTP code
+            if (is_null($codeOpt) || $codeOpt != $user->OptActivation) {
+                return [
+                    'success' => false,
+                    'message' => 'Change user email failed - Code OPT'
+                ];
+            }
+
+            // Update user email and verification status
+            $user->email_verified = 1;
+            $user->email = $newEmail;
+            $user->email_verified_at = \Carbon\Carbon::now();
+            $user->save();
+
+            return [
+                'success' => true,
+                'message' => 'User email change completed successfully'
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error saving verified email: ' . $exception->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Error saving verified email'
+            ];
+        }
+    }
+
+    /**
+     * Approve user identification request
+     *
+     * @param int $userId User ID
+     * @return array Result array with success status, message and user email
+     */
+    public function approveIdentificationRequest(int $userId): array
+    {
+        try {
+            $user = User::find($userId);
+
+            if (!$user) {
+                return [
+                    'success' => false,
+                    'message' => 'User not found'
+                ];
+            }
+
+            return [
+                'success' => true,
+                'message' => 'User identification request approuved',
+                'user' => $user,
+                'shouldValidateIdentity' => true
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error approving identification request: ' . $exception->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Error approving identification request'
+            ];
+        }
+    }
+
+    /**
+     * Reject user identification request
+     *
+     * @param int $userId User ID
+     * @param string $noteReject Rejection note
+     * @return array Result array with success status, message and user email
+     */
+    public function rejectIdentificationRequest(int $userId, string $noteReject): array
+    {
+        try {
+            $user = User::find($userId);
+
+            if (!$user) {
+                return [
+                    'success' => false,
+                    'message' => 'User not found'
+                ];
+            }
+
+            return [
+                'success' => true,
+                'message' => 'User identification request rejected',
+                'user' => $user,
+                'noteReject' => $noteReject,
+                'shouldRejectIdentity' => true
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error rejecting identification request: ' . $exception->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Error rejecting identification request'
+            ];
+        }
+    }
+
+    /**
+     * Send user identification request
+     *
+     * @param string $idUser User's business ID
+     * @param bool $hasExistingRequest Whether user already has a request
+     * @return array Result array with success status and message
+     */
+    public function sendIdentificationRequest(string $idUser, bool $hasExistingRequest): array
+    {
+        try {
+            // Check if user already has a pending request
+            if ($hasExistingRequest) {
+                return [
+                    'success' => false,
+                    'message' => 'Identification request exist'
+                ];
+            }
+
+            // Create identification request
+            \App\Models\identificationuserrequest::create([
+                'idUser' => $idUser,
+                'created_at' => \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now(),
+                'response' => 0,
+                'note' => '',
+                'status' => 1
+            ]);
+
+            return [
+                'success' => true,
+                'message' => 'Identification send request success'
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error sending identification request: ' . $exception->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Error sending identification request'
+            ];
+        }
+    }
 }
+
+
 
 
