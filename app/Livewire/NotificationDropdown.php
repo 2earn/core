@@ -2,15 +2,23 @@
 
 namespace App\Livewire;
 
+use App\Services\NotificationService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class NotificationDropdown extends Component
 {
+    protected NotificationService $notificationService;
+
     public $notifications = [];
     public $latests;
     public $unreadNotificationsNumber;
     protected $listeners = ['notificationUpdated' => 'loadNotifications'];
+
+    public function boot(NotificationService $notificationService)
+    {
+        $this->notificationService = $notificationService;
+    }
 
     public function mount()
     {
@@ -19,16 +27,17 @@ class NotificationDropdown extends Component
 
     public function loadNotifications()
     {
-        $this->notifications = Auth::user()->notifications()->latest()->take(5)->get();
-        $this->latests = Auth::user()->notifications()->latest()->count();
-        $this->unreadNotificationsNumber = auth()->user()->unreadNotifications()->count();
+        // Get latest 5 notifications using service
+        $allNotifications = $this->notificationService->getAllNotifications(Auth::id());
+        $this->notifications = $allNotifications->take(5);
+        $this->latests = $allNotifications->count();
+        $this->unreadNotificationsNumber = $this->notificationService->getUnreadCount(Auth::id());
     }
 
     public function markAsRead($id)
     {
-        $notification = Auth::user()->notifications()->find($id);
-        if ($notification) {
-            $notification->markAsRead();
+        $result = $this->notificationService->markAsRead(Auth::id(), $id);
+        if ($result) {
             $this->loadNotifications();
             $this->dispatch('notificationUpdated');
         }
@@ -36,9 +45,8 @@ class NotificationDropdown extends Component
 
     public function markThemAllRead()
     {
-        $notifications = Auth::user()->notifications()->get();
-        if ($notifications) {
-            $notifications->markAsRead();
+        $result = $this->notificationService->markAllAsRead(Auth::id());
+        if ($result) {
             $this->loadNotifications();
             $this->dispatch('notificationUpdated');
         }
