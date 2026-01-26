@@ -586,6 +586,152 @@ class OrderService
             throw $e;
         }
     }
+
+    /**
+     * Cancel an order by deleting it
+     *
+     * @param int $orderId
+     * @return array Result array with success status and message
+     */
+    public function cancelOrder(int $orderId): array
+    {
+        try {
+            $order = Order::findOrFail($orderId);
+
+            // Delete the order (this will cascade delete order details if configured)
+            $order->delete();
+
+            return [
+                'success' => true,
+                'message' => 'Order canceled successfully'
+            ];
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            Log::error(self::LOG_PREFIX . 'Order not found for cancellation: ' . $e->getMessage(), [
+                'order_id' => $orderId
+            ]);
+            return [
+                'success' => false,
+                'message' => 'Order not found'
+            ];
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error canceling order: ' . $e->getMessage(), [
+                'order_id' => $orderId
+            ]);
+            return [
+                'success' => false,
+                'message' => 'Error canceling order'
+            ];
+        }
+    }
+
+    /**
+     * Make an order ready for processing
+     *
+     * @param int $orderId
+     * @return array Result array with success status, message, and order
+     */
+    public function makeOrderReady(int $orderId): array
+    {
+        try {
+            $order = Order::findOrFail($orderId);
+
+            // Check if order is in New status and has order details
+            if ($order->status->value != OrderEnum::New->value) {
+                return [
+                    'success' => false,
+                    'message' => 'Order is not in New status',
+                    'order' => $order
+                ];
+            }
+
+            if ($order->orderDetails->count() === 0) {
+                return [
+                    'success' => false,
+                    'message' => 'Empty order',
+                    'order' => $order
+                ];
+            }
+
+            // Update order status to Ready
+            $order->updateStatus(OrderEnum::Ready);
+
+            return [
+                'success' => true,
+                'message' => 'Order is ready',
+                'order' => $order
+            ];
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            Log::error(self::LOG_PREFIX . 'Order not found for making ready: ' . $e->getMessage(), [
+                'order_id' => $orderId
+            ]);
+            return [
+                'success' => false,
+                'message' => 'Order not found'
+            ];
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error making order ready: ' . $e->getMessage(), [
+                'order_id' => $orderId
+            ]);
+            return [
+                'success' => false,
+                'message' => 'Error making order ready'
+            ];
+        }
+    }
+
+    /**
+     * Validate and execute an order
+     *
+     * @param int $orderId
+     * @param mixed $simulation The simulation result
+     * @param bool $isValidated Whether order is already validated
+     * @return array Result array with success status, message, order status, and order
+     */
+    public function validateOrder(int $orderId, $simulation, bool $isValidated): array
+    {
+        try {
+            // Check if already validated
+            if ($isValidated) {
+                return [
+                    'success' => false,
+                    'message' => 'Order already validated',
+                    'shouldRedirect' => false
+                ];
+            }
+
+            // Run the order through Ordering system
+            $status = \App\Services\Orders\Ordering::run($simulation);
+
+            // Refresh order to get latest status
+            $order = Order::findOrFail($orderId);
+
+            return [
+                'success' => true,
+                'orderStatus' => $status,
+                'order' => $order,
+                'isDispatched' => $order->status->value == OrderEnum::Dispatched->value,
+                'message' => $order->status->value == OrderEnum::Dispatched->value
+                    ? 'Ordering succeeded'
+                    : 'Ordering Failed'
+            ];
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            Log::error(self::LOG_PREFIX . 'Order not found for validation: ' . $e->getMessage(), [
+                'order_id' => $orderId
+            ]);
+            return [
+                'success' => false,
+                'message' => 'Order not found'
+            ];
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Error validating order: ' . $e->getMessage(), [
+                'order_id' => $orderId
+            ]);
+            return [
+                'success' => false,
+                'message' => 'Error validating order'
+            ];
+        }
+    }
 }
 
 
