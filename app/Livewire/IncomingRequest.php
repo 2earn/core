@@ -29,29 +29,26 @@ class IncomingRequest extends Component
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) abort(404);
 
-        $financialRequest = $financialRequestService->getByNumeroReq($numeroRequste);
+        // Validate and reject request using service
+        $result = $financialRequestService->validateAndRejectRequest($numeroRequste, $userAuth->idUser);
 
-        if (!$financialRequest || $financialRequest->status != 0) {
-            return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 5])->with('danger', Lang::get('Invalid financial request'));
+        if (!$result['success']) {
+            return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 5])
+                ->with('danger', Lang::get($result['message']));
         }
 
-        $detailReques = $financialRequestService->getDetailRequest($numeroRequste, $userAuth->idUser);
-
-        if (!$detailReques) {
-            return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 5])->with('danger', Lang::get('Invalid details financial request'));
-        }
-
-        $financialRequestService->rejectFinancialRequest($numeroRequste, $userAuth->idUser);
-
-        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 5])->with('success', Lang::get('Financial request rejected successfully'));
+        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 5])
+            ->with('success', Lang::get($result['message']));
     }
 
     public function AcceptRequest($numeroRequste, FinancialRequestService $financialRequestService)
     {
-        $financialRequest = $financialRequestService->getByNumeroReq($numeroRequste);
+        // Validate request using service
+        $result = $financialRequestService->validateRequestForAcceptance($numeroRequste);
 
-        if (!$financialRequest || $financialRequest->status != 0) {
-            return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 5])->with('danger', Lang::get('Invalid details financial request'));
+        if (!$result['success']) {
+            return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 5])
+                ->with('danger', Lang::get($result['message']));
         }
 
         return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $numeroRequste]);

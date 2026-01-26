@@ -455,5 +455,93 @@ class FinancialRequestService
 
 
     }
+
+    /**
+     * Validate and reject a financial request with full validation
+     *
+     * @param string $numeroReq Request number
+     * @param string $idUser User's business ID
+     * @return array Result array with success status and message
+     */
+    public function validateAndRejectRequest(string $numeroReq, string $idUser): array
+    {
+        try {
+            // Get the financial request
+            $financialRequest = $this->getByNumeroReq($numeroReq);
+
+            if (!$financialRequest || $financialRequest->status != 0) {
+                return [
+                    'success' => false,
+                    'message' => 'Invalid financial request'
+                ];
+            }
+
+            // Check if user is part of this request
+            $detailRequest = $this->getDetailRequest($numeroReq, $idUser);
+
+            if (!$detailRequest) {
+                return [
+                    'success' => false,
+                    'message' => 'Invalid details financial request'
+                ];
+            }
+
+            // Reject the request
+            $this->rejectFinancialRequest($numeroReq, $idUser);
+
+            return [
+                'success' => true,
+                'message' => 'Financial request rejected successfully'
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error validating and rejecting financial request: ' . $exception->getMessage(), [
+                'numeroReq' => $numeroReq,
+                'idUser' => $idUser
+            ]);
+
+            return [
+                'success' => false,
+                'message' => 'Error rejecting financial request'
+            ];
+        }
+    }
+
+    /**
+     * Validate financial request for acceptance
+     *
+     * @param string $numeroReq Request number
+     * @return array Result array with success status and message
+     */
+    public function validateRequestForAcceptance(string $numeroReq): array
+    {
+        try {
+            // Get the financial request
+            $financialRequest = $this->getByNumeroReq($numeroReq);
+
+            if (!$financialRequest || $financialRequest->status != 0) {
+                return [
+                    'success' => false,
+                    'message' => 'Invalid details financial request'
+                ];
+            }
+
+            return [
+                'success' => true,
+                'message' => 'Request is valid for acceptance',
+                'request' => $financialRequest
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error validating financial request for acceptance: ' . $exception->getMessage(), [
+                'numeroReq' => $numeroReq
+            ]);
+
+            return [
+                'success' => false,
+                'message' => 'Error validating financial request'
+            ];
+        }
+    }
 }
 
