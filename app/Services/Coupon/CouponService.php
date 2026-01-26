@@ -400,5 +400,113 @@ class CouponService
             throw $e;
         }
     }
+
+    /**
+     * Process coupon purchase with order creation and execution
+     *
+     * @param array $coupons Array of coupons to purchase
+     * @param int $userId User ID making the purchase
+     * @param int $platformId Platform ID
+     * @param string $platformName Platform name
+     * @param int $itemId Item ID for order details
+     * @return array Result array with success status, message, order, and coupons
+     */
+    public function buyCoupon(
+        array $coupons,
+        int $userId,
+        int $platformId,
+        string $platformName,
+        int $itemId
+    ): array
+    {
+        try {
+            \Illuminate\Support\Facades\DB::beginTransaction();
+
+            // Create order
+            $order = \App\Models\Order::create([
+                'user_id' => $userId,
+                'platform_id' => $platformId,
+                'note' => 'Coupons buy from' . ' :' . $platformId . '-' . $platformName
+            ]);
+
+            // Calculate totals and prepare note
+            $total_amount = $unit_price = 0;
+            $serialNumbers = [];
+            foreach ($coupons as $couponItem) {
+                $unit_price += $couponItem['value'];
+                $total_amount += $couponItem['value'];
+                $serialNumbers[] = $couponItem['sn'];
+            }
+
+            // Create order details
+            $order->orderDetails()->create([
+                'qty' => 1,
+                'unit_price' => $unit_price,
+                'total_amount' => $total_amount,
+                'note' => implode(",", $serialNumbers),
+                'item_id' => $itemId,
+            ]);
+
+            // Update order status and simulate
+            $order->updateStatus(\App\Enums\OrderEnum::Ready);
+            $simulation = \App\Services\Orders\Ordering::simulate($order);
+
+            if (!$simulation) {
+                $order->updateStatus(\App\Enums\OrderEnum::Failed);
+                \Illuminate\Support\Facades\DB::commit();
+                return [
+                    'success' => false,
+                    'message' => 'Coupons order failed'
+                ];
+            }
+
+            // Run the order
+            $status = \App\Services\Orders\Ordering::run($simulation);
+            if ($status->value == \App\Enums\OrderEnum::Failed->value) {
+                \Illuminate\Support\Facades\DB::commit();
+                return [
+                    'success' => false,
+                    'message' => 'Coupons order failed'
+                ];
+            }
+
+            // Update coupons as purchased
+            $purchasedCoupons = [];
+            foreach ($serialNumbers as $sn) {
+                $coupon = $this->getBySn($sn);
+                if ($coupon && !$coupon->consumed) {
+                    $this->updateCoupon($coupon, [
+                        'user_id' => $userId,
+                        'purchase_date' => now(),
+                        'status' => CouponStatusEnum::purchased->value
+                    ]);
+                }
+                $purchasedCoupons[] = $coupon;
+            }
+
+            \Illuminate\Support\Facades\DB::commit();
+
+            return [
+                'success' => true,
+                'message' => 'Coupons purchased successfully',
+                'order' => $order,
+                'coupons' => $purchasedCoupons,
+                'totalAmount' => $total_amount
+            ];
+
+        } catch (\Exception $exception) {
+            \Illuminate\Support\Facades\DB::rollBack();
+            Log::error('Error processing coupon purchase: ' . $exception->getMessage());
+
+            if (isset($order)) {
+                $order->updateStatus(\App\Enums\OrderEnum::Failed);
+            }
+
+            return [
+                'success' => false,
+                'message' => 'Error processing coupon purchase'
+            ];
+        }
+    }
 }
 
