@@ -6,47 +6,54 @@ use App\Enums\NotificationSettingEnum;
 use App\Enums\SettingsEnum;
 use App\Services\Settings\SettingService;
 use App\Services\settingsManager;
-use Illuminate\Support\Facades\DB;
+use App\Services\UserNotificationSettingService;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class NotificationSettings extends Component
 {
     private settingsManager $settingsManager;
     private SettingService $settingService;
+    private UserNotificationSettingService $userNotificationSettingService;
+
     public $setting_notif;
     public $nbrSms;
     public $nbrSmsPossible;
+
     protected $rules = [
         'setting_notif.*.value' => 'required',
     ];
 
-    public function mount(settingsManager $settingsManager, SettingService $settingService)
-    {
+    public function mount(
+        settingsManager $settingsManager,
+        SettingService $settingService,
+        UserNotificationSettingService $userNotificationSettingService
+    ) {
         $this->settingsManager = $settingsManager;
         $this->settingService = $settingService;
+        $this->userNotificationSettingService = $userNotificationSettingService;
     }
-
 
     public function save()
     {
-        try {
-            foreach ($this->setting_notif as $setting) {
-                if ($setting->id == 19)
-                    $val = $this->nbrSms;
-                else
-                    $val = $setting->value;
-                DB::table('user_notification_setting')
-                    ->where('idNotification', $setting->idNotification)
-                    ->where('idUser', $setting->idUser)
-                    ->update(['value' => $val]);
-            }
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return redirect()->route('notification_settings', ['locale' => app()->getLocale()])->with('warning', Lang::get('Notifications setting saving failed'));
+        // Prepare settings array for bulk update
+        $settings = [];
+        foreach ($this->setting_notif as $setting) {
+            $value = ($setting->id == 19) ? $this->nbrSms : $setting->value;
+
+            $settings[] = [
+                'idNotification' => $setting->idNotification,
+                'idUser' => $setting->idUser,
+                'value' => $value
+            ];
         }
-        return redirect()->route('notification_settings', ['locale' => app()->getLocale()])->with('success', Lang::get('Notifications setting saved successfully'));
+
+        // Update settings using service
+        $result = $this->userNotificationSettingService->updateMultipleSettings($settings);
+
+        $flashType = $result['success'] ? 'success' : 'warning';
+        return redirect()->route('notification_settings', ['locale' => app()->getLocale()])
+            ->with($flashType, Lang::get($result['message']));
     }
 
     public function render(settingsManager $settingsManager)
