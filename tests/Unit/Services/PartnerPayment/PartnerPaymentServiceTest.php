@@ -5,12 +5,10 @@ namespace Tests\Unit\Services\PartnerPayment;
 use App\Models\PartnerPayment;
 use App\Models\User;
 use App\Services\PartnerPayment\PartnerPaymentService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PartnerPaymentServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected PartnerPaymentService $partnerPaymentService;
 

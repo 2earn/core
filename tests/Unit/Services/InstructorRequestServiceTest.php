@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services;
 
 use App\Services\InstructorRequestService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class InstructorRequestServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected InstructorRequestService $instructorRequestService;
 

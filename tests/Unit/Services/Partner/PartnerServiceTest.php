@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Partner;
 
 use App\Services\Partner\PartnerService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PartnerServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected PartnerService $partnerService;
 

@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Platform;
 
 use App\Services\Platform\PendingPlatformChangeRequestsInlineService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PendingPlatformChangeRequestsInlineServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected PendingPlatformChangeRequestsInlineService $pendingPlatformChangeRequestsInlineService;
 

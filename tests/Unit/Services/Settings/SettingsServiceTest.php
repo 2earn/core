@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Settings;
 
 use App\Services\Settings\SettingsService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class SettingsServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected SettingsService $settingsService;
 

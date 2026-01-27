@@ -5,12 +5,10 @@ namespace Tests\Unit\Services;
 use App\Models\User;
 use App\Models\UserCurrentBalanceHorisontal;
 use App\Services\UserCurrentBalanceHorisontalService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class UserCurrentBalanceHorisontalServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected UserCurrentBalanceHorisontalService $userCurrentBalanceHorisontalService;
 

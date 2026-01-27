@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Role;
 
 use App\Services\Role\RoleService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class RoleServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected RoleService $roleService;
 

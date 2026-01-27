@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services;
 
 use App\Services\TranslaleModelService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class TranslaleModelServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected TranslaleModelService $translaleModelService;
 

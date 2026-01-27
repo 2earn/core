@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Platform;
 
 use App\Services\Platform\PlatformService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PlatformServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected PlatformService $platformService;
 

@@ -2,13 +2,11 @@
 
 namespace Tests\Unit\Services;
 
-use App\Services\Service;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Services\OperationCategoryService;
 use Tests\TestCase;
 
 class OperationCategoryServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected Service $operationCategoryService;
 

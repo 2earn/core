@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services;
 
 use App\Services\NotificationService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class NotificationServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected NotificationService $notificationService;
 

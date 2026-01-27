@@ -9,12 +9,10 @@ use App\Models\OrderDetail;
 use App\Models\Platform;
 use App\Models\User;
 use App\Services\Items\ItemService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ItemServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected ItemService $itemService;
 

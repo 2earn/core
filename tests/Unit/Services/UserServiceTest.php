@@ -5,13 +5,11 @@ namespace Tests\Unit\Services;
 use App\Interfaces\IUserRepository;
 use App\Models\User;
 use App\Services\UserService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Mockery;
 
 class UserServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected UserService $userService;
     protected $mockUserRepository;

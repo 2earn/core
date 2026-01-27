@@ -135,7 +135,6 @@ All test classes use `RefreshDatabase` for clean test isolation:
 ```php
 class ServiceTest extends TestCase
 {
-    use RefreshDatabase;
 }
 ```
 

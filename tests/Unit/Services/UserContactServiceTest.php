@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services;
 
 use App\Services\UserContactService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class UserContactServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected UserContactService $userContactService;
 

@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Targeting;
 
 use App\Services\Targeting\ConditionService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ConditionServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected ConditionService $conditionService;
 

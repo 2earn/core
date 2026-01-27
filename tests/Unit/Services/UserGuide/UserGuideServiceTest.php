@@ -5,13 +5,11 @@ namespace Tests\Unit\Services\UserGuide;
 use App\Models\User;
 use App\Models\UserGuide;
 use App\Services\UserGuide\UserGuideService;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Services\UserGuide\UserGuideService;
 use Tests\TestCase;
 
 class UserGuideServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected UserGuideService $userGuideService;
 

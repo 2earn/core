@@ -8,7 +8,6 @@ use App\Models\PartnerRoleRequest;
 use App\Models\Partner;
 use App\Models\User;
 use App\Models\EntityRole;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PartnerRoleRequestTest extends TestCase
 {

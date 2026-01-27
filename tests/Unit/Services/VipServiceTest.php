@@ -5,12 +5,10 @@ namespace Tests\Unit\Services;
 use App\Models\User;
 use App\Models\vip;
 use App\Services\VipService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class VipServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected VipService $vipService;
 

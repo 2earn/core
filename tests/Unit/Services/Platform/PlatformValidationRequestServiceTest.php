@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Platform;
 
 use App\Services\Platform\PlatformValidationRequestService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PlatformValidationRequestServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected PlatformValidationRequestService $platformValidationRequestService;
 

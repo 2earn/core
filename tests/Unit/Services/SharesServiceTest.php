@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services;
 
 use App\Services\SharesService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class SharesServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected SharesService $sharesService;
 

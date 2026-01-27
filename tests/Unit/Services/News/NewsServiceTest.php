@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\News;
 
 use App\Services\News\NewsService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class NewsServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected NewsService $newsService;
 
