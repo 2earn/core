@@ -2,6 +2,8 @@
 
 namespace Tests\Unit\Services;
 
+use App\Models\User;
+use App\Models\vip;
 use App\Services\VipService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -18,241 +20,211 @@ class VipServiceTest extends TestCase
         $this->vipService = new VipService();
     }
 
-    /**
-     * Test getActiveVipByUserId method
-     * TODO: Implement actual test logic
-     */
     public function test_get_active_vip_by_user_id_works()
     {
-        // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $activeVip = vip::factory()->active()->create(['idUser' => $user->idUser]);
+        vip::factory()->closed()->create(['idUser' => $user->idUser]);
 
-        // Act
-        // $result = $this->service->getActiveVipByUserId();
+        $result = $this->vipService->getActiveVipByUserId($user->idUser);
 
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getActiveVipByUserId not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertInstanceOf(vip::class, $result);
+        $this->assertEquals($activeVip->id, $result->id);
+        $this->assertFalse($result->closed);
     }
 
-    /**
-     * Test getActiveVipsByUserId method
-     * TODO: Implement actual test logic
-     */
     public function test_get_active_vips_by_user_id_works()
     {
-        // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        vip::factory()->active()->count(3)->create(['idUser' => $user->idUser]);
+        vip::factory()->closed()->count(2)->create(['idUser' => $user->idUser]);
 
-        // Act
-        // $result = $this->service->getActiveVipsByUserId();
+        $result = $this->vipService->getActiveVipsByUserId($user->idUser);
 
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getActiveVipsByUserId not yet implemented');
+        $this->assertCount(3, $result);
+        $this->assertTrue($result->every(fn($v) => !$v->closed));
     }
 
-    /**
-     * Test closeVip method
-     * TODO: Implement actual test logic
-     */
     public function test_close_vip_works()
     {
-        // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $vip = vip::factory()->active()->create(['idUser' => $user->idUser]);
 
-        // Act
-        // $result = $this->service->closeVip();
+        $result = $this->vipService->closeVip($user->idUser);
 
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for closeVip not yet implemented');
+        $this->assertTrue($result);
+        $vip->refresh();
+        $this->assertEquals(1, $vip->closed);
+        $this->assertNotNull($vip->closedDate);
     }
 
-    /**
-     * Test declenchVip method
-     * TODO: Implement actual test logic
-     */
     public function test_declench_vip_works()
     {
-        // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $vip = vip::factory()->active()->create(['idUser' => $user->idUser]);
 
-        // Act
-        // $result = $this->service->declenchVip();
+        $result = $this->vipService->declenchVip($user->idUser);
 
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for declenchVip not yet implemented');
+        $this->assertTrue($result);
+        $vip->refresh();
+        $this->assertEquals(1, $vip->declenched);
+        $this->assertNotNull($vip->declenchedDate);
     }
 
-    /**
-     * Test declenchAndCloseVip method
-     * TODO: Implement actual test logic
-     */
     public function test_declench_and_close_vip_works()
     {
-        // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $vip = vip::factory()->active()->create(['idUser' => $user->idUser]);
 
-        // Act
-        // $result = $this->service->declenchAndCloseVip();
+        $result = $this->vipService->declenchAndCloseVip($user->idUser);
 
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for declenchAndCloseVip not yet implemented');
+        $this->assertTrue($result);
+        $vip->refresh();
+        $this->assertEquals(1, $vip->closed);
+        $this->assertEquals(1, $vip->declenched);
+        $this->assertNotNull($vip->closedDate);
+        $this->assertNotNull($vip->declenchedDate);
     }
 
-    /**
-     * Test hasActiveVip method
-     * TODO: Implement actual test logic
-     */
     public function test_has_active_vip_works()
     {
-        // Arrange
-        // TODO: Set up test data
+        $userWithVip = User::factory()->create();
+        $userWithoutVip = User::factory()->create();
+        vip::factory()->active()->create(['idUser' => $userWithVip->idUser]);
 
-        // Act
-        // $result = $this->service->hasActiveVip();
+        $hasVip = $this->vipService->hasActiveVip($userWithVip->idUser);
+        $noVip = $this->vipService->hasActiveVip($userWithoutVip->idUser);
 
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for hasActiveVip not yet implemented');
+        $this->assertTrue($hasVip);
+        $this->assertFalse($noVip);
     }
 
-    /**
-     * Test isVipValid method
-     * TODO: Implement actual test logic
-     */
     public function test_is_vip_valid_works()
     {
-        // Arrange
-        // TODO: Set up test data
+        $validVip = vip::factory()->create([
+            'dateFNS' => now()->subHours(12),
+            'flashDeadline' => 48,
+        ]);
+        $expiredVip = vip::factory()->create([
+            'dateFNS' => now()->subHours(72),
+            'flashDeadline' => 48,
+        ]);
 
-        // Act
-        // $result = $this->service->isVipValid();
+        $isValid = $this->vipService->isVipValid($validVip);
+        $isExpired = $this->vipService->isVipValid($expiredVip);
 
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for isVipValid not yet implemented');
+        $this->assertTrue($isValid);
+        $this->assertFalse($isExpired);
     }
 
-    /**
-     * Test calculateVipActions method
-     * TODO: Implement actual test logic
-     */
     public function test_calculate_vip_actions_works()
     {
-        // Arrange
-        // TODO: Set up test data
+        $vip = vip::factory()->create([
+            'solde' => 100,
+            'flashCoefficient' => 2.5,
+        ]);
 
-        // Act
-        // $result = $this->service->calculateVipActions();
+        $result = $this->vipService->calculateVipActions($vip, 50, 200, 1.5);
 
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for calculateVipActions not yet implemented');
+        $this->assertIsInt($result);
+        $this->assertGreaterThanOrEqual(0, $result);
     }
 
-    /**
-     * Test calculateVipBenefits method
-     * TODO: Implement actual test logic
-     */
     public function test_calculate_vip_benefits_works()
     {
-        // Arrange
-        // TODO: Set up test data
+        $vip = vip::factory()->create(['solde' => 100]);
+        $actions = 40;
+        $actualActionValue = 2.5;
 
-        // Act
-        // $result = $this->service->calculateVipBenefits();
+        $result = $this->vipService->calculateVipBenefits($vip, $actions, $actualActionValue);
 
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for calculateVipBenefits not yet implemented');
+        $this->assertEquals(150.0, $result);
+        $this->assertIsFloat($result);
     }
 
-    /**
-     * Test calculateVipCost method
-     * TODO: Implement actual test logic
-     */
     public function test_calculate_vip_cost_works()
     {
-        // Arrange
-        // TODO: Set up test data
+        $vip = vip::factory()->create(['flashCoefficient' => 2.0]);
+        $actions = 50;
+        $actualActionValue = 3.0;
 
-        // Act
-        // $result = $this->service->calculateVipCost();
+        $result = $this->vipService->calculateVipCost($vip, $actions, $actualActionValue);
 
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for calculateVipCost not yet implemented');
+        $this->assertIsFloat($result);
+        $this->assertGreaterThanOrEqual(0, $result);
     }
 
-    /**
-     * Test getVipFlashStatus method
-     * TODO: Implement actual test logic
-     */
     public function test_get_vip_flash_status_works()
     {
-        // Arrange
-        // TODO: Set up test data
+        $vip = vip::factory()->create([
+            'dateFNS' => now()->subHours(12),
+            'flashDeadline' => 48,
+            'flashCoefficient' => 2.5,
+            'flashMinAmount' => 10,
+        ]);
 
-        // Act
-        // $result = $this->service->getVipFlashStatus();
+        $result = $this->vipService->getVipFlashStatus($vip);
 
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getVipFlashStatus not yet implemented');
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('isFlashActive', $result);
+        $this->assertArrayHasKey('flashEndDate', $result);
+        $this->assertArrayHasKey('flashTimes', $result);
+        $this->assertArrayHasKey('flashPeriod', $result);
+        $this->assertArrayHasKey('flashMinShares', $result);
+        $this->assertTrue($result['isFlashActive']);
+        $this->assertEquals(2.5, $result['flashTimes']);
     }
 
-    /**
-     * Test getVipCalculations method
-     * TODO: Implement actual test logic
-     */
     public function test_get_vip_calculations_works()
     {
-        // Arrange
-        // TODO: Set up test data
+        $vip = vip::factory()->create([
+            'solde' => 100,
+            'flashCoefficient' => 2.0,
+            'dateFNS' => now()->subHours(12),
+            'flashDeadline' => 48,
+        ]);
 
-        // Act
-        // $result = $this->service->getVipCalculations();
+        $result = $this->vipService->getVipCalculations($vip, 50, 200, 1.5, 2.5);
 
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getVipCalculations not yet implemented');
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('actions', $result);
+        $this->assertArrayHasKey('benefits', $result);
+        $this->assertArrayHasKey('cost', $result);
+        $this->assertArrayHasKey('flashStatus', $result);
     }
 
-    /**
-     * Test hasActiveFlashVip method
-     * TODO: Implement actual test logic
-     */
     public function test_has_active_flash_vip_works()
     {
-        // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        vip::factory()->create([
+            'idUser' => $user->idUser,
+            'closed' => false,
+            'dateFNS' => now()->subHours(12),
+            'flashDeadline' => 48,
+        ]);
 
-        // Act
-        // $result = $this->service->hasActiveFlashVip();
+        $result = $this->vipService->hasActiveFlashVip($user->idUser);
 
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for hasActiveFlashVip not yet implemented');
+        $this->assertTrue($result);
     }
 
-    /**
-     * Test getVipStatusForUser method
-     * TODO: Implement actual test logic
-     */
     public function test_get_vip_status_for_user_works()
     {
-        // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        vip::factory()->active()->create([
+            'idUser' => $user->idUser,
+            'dateFNS' => now()->subHours(12),
+            'flashDeadline' => 48,
+        ]);
 
-        // Act
-        // $result = $this->service->getVipStatusForUser();
+        $result = $this->vipService->getVipStatusForUser($user->idUser);
 
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getVipStatusForUser not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('vip', $result);
+        $this->assertArrayHasKey('message', $result);
+        $this->assertArrayHasKey('isActive', $result);
+        $this->assertInstanceOf(vip::class, $result['vip']);
     }
 }

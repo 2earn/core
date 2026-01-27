@@ -2,6 +2,10 @@
 
 namespace Tests\Unit\Services;
 
+use App\Models\SurveyResponse;
+use App\Models\SurveyResponseItem;
+use App\Models\SurveyQuestion;
+use App\Models\SurveyQuestionChoice;
 use App\Services\SurveyResponseItemService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -20,171 +24,209 @@ class SurveyResponseItemServiceTest extends TestCase
 
     /**
      * Test getById method
-     * TODO: Implement actual test logic
      */
     public function test_get_by_id_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $item = SurveyResponseItem::factory()->create();
 
         // Act
-        // $result = $this->service->getById();
+        $result = $this->surveyResponseItemService->getById($item->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getById not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertInstanceOf(SurveyResponseItem::class, $result);
+        $this->assertEquals($item->id, $result->id);
     }
 
     /**
      * Test getBySurveyResponse method
-     * TODO: Implement actual test logic
      */
     public function test_get_by_survey_response_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $surveyResponse = SurveyResponse::factory()->create();
+        SurveyResponseItem::factory()->count(5)->create(['surveyResponse_id' => $surveyResponse->id]);
+        SurveyResponseItem::factory()->count(3)->create();
 
         // Act
-        // $result = $this->service->getBySurveyResponse();
+        $result = $this->surveyResponseItemService->getBySurveyResponse($surveyResponse->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getBySurveyResponse not yet implemented');
+        $this->assertCount(5, $result);
+        $this->assertTrue($result->every(fn($item) => $item->surveyResponse_id === $surveyResponse->id));
     }
 
     /**
      * Test countByResponseAndQuestion method
-     * TODO: Implement actual test logic
      */
     public function test_count_by_response_and_question_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $surveyResponse = SurveyResponse::factory()->create();
+        $surveyQuestion = SurveyQuestion::factory()->create();
+        SurveyResponseItem::factory()->count(3)->create([
+            'surveyResponse_id' => $surveyResponse->id,
+            'surveyQuestion_id' => $surveyQuestion->id,
+        ]);
 
         // Act
-        // $result = $this->service->countByResponseAndQuestion();
+        $result = $this->surveyResponseItemService->countByResponseAndQuestion(
+            $surveyResponse->id,
+            $surveyQuestion->id
+        );
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for countByResponseAndQuestion not yet implemented');
+        $this->assertEquals(3, $result);
     }
 
     /**
      * Test deleteByResponseAndQuestion method
-     * TODO: Implement actual test logic
      */
     public function test_delete_by_response_and_question_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $surveyResponse = SurveyResponse::factory()->create();
+        $surveyQuestion = SurveyQuestion::factory()->create();
+        SurveyResponseItem::factory()->count(3)->create([
+            'surveyResponse_id' => $surveyResponse->id,
+            'surveyQuestion_id' => $surveyQuestion->id,
+        ]);
 
         // Act
-        // $result = $this->service->deleteByResponseAndQuestion();
+        $result = $this->surveyResponseItemService->deleteByResponseAndQuestion(
+            $surveyResponse->id,
+            $surveyQuestion->id
+        );
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for deleteByResponseAndQuestion not yet implemented');
+        $this->assertTrue($result);
+        $this->assertEquals(0, SurveyResponseItem::where('surveyResponse_id', $surveyResponse->id)
+            ->where('surveyQuestion_id', $surveyQuestion->id)
+            ->count());
     }
 
     /**
      * Test create method
-     * TODO: Implement actual test logic
      */
     public function test_create_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $surveyResponse = SurveyResponse::factory()->create();
+        $surveyQuestion = SurveyQuestion::factory()->create();
+        $surveyQuestionChoice = SurveyQuestionChoice::factory()->create();
+
+        $data = [
+            'surveyResponse_id' => $surveyResponse->id,
+            'surveyQuestion_id' => $surveyQuestion->id,
+            'surveyQuestionChoice_id' => $surveyQuestionChoice->id,
+        ];
 
         // Act
-        // $result = $this->service->create();
+        $result = $this->surveyResponseItemService->create($data);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for create not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertInstanceOf(SurveyResponseItem::class, $result);
+        $this->assertDatabaseHas('survey_response_items', $data);
     }
 
     /**
      * Test createMultiple method
-     * TODO: Implement actual test logic
      */
     public function test_create_multiple_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $surveyResponse = SurveyResponse::factory()->create();
+        $surveyQuestion = SurveyQuestion::factory()->create();
+        $choices = SurveyQuestionChoice::factory()->count(3)->create();
+        $choiceIds = $choices->pluck('id')->toArray();
 
         // Act
-        // $result = $this->service->createMultiple();
+        $result = $this->surveyResponseItemService->createMultiple(
+            $surveyResponse->id,
+            $surveyQuestion->id,
+            $choiceIds
+        );
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for createMultiple not yet implemented');
+        $this->assertTrue($result);
+        $this->assertEquals(3, SurveyResponseItem::where('surveyResponse_id', $surveyResponse->id)
+            ->where('surveyQuestion_id', $surveyQuestion->id)
+            ->count());
     }
 
     /**
      * Test update method
-     * TODO: Implement actual test logic
      */
     public function test_update_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $item = SurveyResponseItem::factory()->create();
+        $newChoice = SurveyQuestionChoice::factory()->create();
+        $updateData = ['surveyQuestionChoice_id' => $newChoice->id];
 
         // Act
-        // $result = $this->service->update();
+        $result = $this->surveyResponseItemService->update($item->id, $updateData);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for update not yet implemented');
+        $this->assertTrue($result);
+        $item->refresh();
+        $this->assertEquals($newChoice->id, $item->surveyQuestionChoice_id);
     }
 
     /**
      * Test delete method
-     * TODO: Implement actual test logic
      */
     public function test_delete_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $item = SurveyResponseItem::factory()->create();
 
         // Act
-        // $result = $this->service->delete();
+        $result = $this->surveyResponseItemService->delete($item->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for delete not yet implemented');
+        $this->assertTrue($result);
+        $this->assertDatabaseMissing('survey_response_items', ['id' => $item->id]);
     }
 
     /**
      * Test countByQuestion method
-     * TODO: Implement actual test logic
      */
     public function test_count_by_question_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $surveyQuestion = SurveyQuestion::factory()->create();
+        SurveyResponseItem::factory()->count(4)->create(['surveyQuestion_id' => $surveyQuestion->id]);
 
         // Act
-        // $result = $this->service->countByQuestion();
+        $result = $this->surveyResponseItemService->countByQuestion($surveyQuestion->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for countByQuestion not yet implemented');
+        $this->assertEquals(4, $result);
     }
 
     /**
      * Test countByQuestionAndChoice method
-     * TODO: Implement actual test logic
      */
     public function test_count_by_question_and_choice_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $surveyQuestion = SurveyQuestion::factory()->create();
+        $surveyQuestionChoice = SurveyQuestionChoice::factory()->create();
+        SurveyResponseItem::factory()->count(5)->create([
+            'surveyQuestion_id' => $surveyQuestion->id,
+            'surveyQuestionChoice_id' => $surveyQuestionChoice->id,
+        ]);
 
         // Act
-        // $result = $this->service->countByQuestionAndChoice();
+        $result = $this->surveyResponseItemService->countByQuestionAndChoice(
+            $surveyQuestion->id,
+            $surveyQuestionChoice->id
+        );
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for countByQuestionAndChoice not yet implemented');
+        $this->assertEquals(5, $result);
     }
 }
