@@ -131,15 +131,6 @@ class ItemsPartnerController extends Controller
                 'message' => 'Deal not found'
             ], Response::HTTP_NOT_FOUND);
         }
-
-        if (!$deal->validated) {
-            Log::warning(self::LOG_PREFIX . 'Deal is not active', ['id' => $dealId, 'status' => $deal->status]);
-            return response()->json([
-                'status' => 'Failed',
-                'message' => 'Deal is not validated'
-            ], Response::HTTP_BAD_REQUEST);
-        }
-
         $items = $this->itemService->getItemsForDeal($dealId);
         $productsCount = $items->count();
 
@@ -286,14 +277,6 @@ class ItemsPartnerController extends Controller
                 'status' => 'Failed',
                 'message' => 'Deal not found'
             ], Response::HTTP_NOT_FOUND);
-        }
-
-        if (!$deal->validated) {
-            Log::warning(self::LOG_PREFIX . 'Deal is not validated', ['id' => $dealId]);
-            return response()->json([
-                'status' => 'Failed',
-                'message' => 'Deal is not validated'
-            ], Response::HTTP_BAD_REQUEST);
         }
 
         try {
