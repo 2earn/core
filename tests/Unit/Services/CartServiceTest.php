@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services;
 
 use App\Services\CartService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class CartServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected CartService $cartService;
 

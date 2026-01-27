@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Platform;
 
 use App\Services\Platform\PlatformTypeChangeRequestService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PlatformTypeChangeRequestServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected PlatformTypeChangeRequestService $platformTypeChangeRequestService;
 

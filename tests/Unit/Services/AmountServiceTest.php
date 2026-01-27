@@ -10,7 +10,6 @@ use Tests\TestCase;
 
 class AmountServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected AmountService $amountService;
 

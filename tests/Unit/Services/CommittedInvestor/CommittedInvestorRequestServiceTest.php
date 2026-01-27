@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\CommittedInvestor;
 
 use App\Services\CommittedInvestor\CommittedInvestorRequestService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class CommittedInvestorRequestServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected CommittedInvestorRequestService $committedInvestorRequestService;
 

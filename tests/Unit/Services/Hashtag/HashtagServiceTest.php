@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Hashtag;
 
 use App\Services\Hashtag\HashtagService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class HashtagServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected HashtagService $hashtagService;
 

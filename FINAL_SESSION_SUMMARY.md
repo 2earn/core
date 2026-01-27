@@ -195,7 +195,6 @@ php artisan test --filter=Notification
 ```php
 class ServiceTest extends TestCase
 {
-    use RefreshDatabase;
     
     protected ServiceName $service;
     

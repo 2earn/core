@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services;
 
 use App\Services\MessageService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class MessageServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected MessageService $messageService;
 

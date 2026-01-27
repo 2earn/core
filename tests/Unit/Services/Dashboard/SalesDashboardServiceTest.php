@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Dashboard;
 
 use App\Services\Dashboard\SalesDashboardService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class SalesDashboardServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected SalesDashboardService $salesDashboardService;
 

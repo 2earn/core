@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Commission;
 
 use App\Services\Commission\PlanLabelService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PlanLabelServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected PlanLabelService $planLabelService;
 

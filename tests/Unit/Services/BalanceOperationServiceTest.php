@@ -4,13 +4,11 @@ namespace Tests\Unit\Services;
 
 use App\Models\BalanceOperation;
 use App\Services\BalanceOperationService;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Services\BalanceOperationService;
 use Tests\TestCase;
 
 class BalanceOperationServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected BalanceOperationService $balanceOperationService;
 

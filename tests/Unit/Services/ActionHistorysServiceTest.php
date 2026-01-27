@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services;
 
 use App\Services\ActionHistorysService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ActionHistorysServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected ActionHistorysService $actionHistorysService;
 

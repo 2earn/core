@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Platform;
 
 use App\Services\Platform\PendingPlatformRoleAssignmentsInlineService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PendingPlatformRoleAssignmentsInlineServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected PendingPlatformRoleAssignmentsInlineService $pendingPlatformRoleAssignmentsInlineService;
 

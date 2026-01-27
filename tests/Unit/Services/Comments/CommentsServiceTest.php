@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Comments;
 
 use App\Services\Comments\CommentsService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class CommentsServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected CommentsService $commentsService;
 

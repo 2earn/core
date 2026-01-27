@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Orders;
 
 use App\Services\Orders\OrderService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class OrderServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected OrderService $orderService;
 

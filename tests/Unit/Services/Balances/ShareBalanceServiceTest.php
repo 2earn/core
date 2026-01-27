@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Balances;
 
 use App\Services\Balances\ShareBalanceService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ShareBalanceServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected ShareBalanceService $shareBalanceService;
 

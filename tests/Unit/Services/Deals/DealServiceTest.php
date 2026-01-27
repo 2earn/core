@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Deals;
 
 use App\Services\Deals\DealService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class DealServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected DealService $dealService;
 

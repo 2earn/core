@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services;
 
 use App\Services\SurveyQuestionService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class SurveyQuestionServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected SurveyQuestionService $surveyQuestionService;
 

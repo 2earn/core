@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Translation;
 
 use App\Services\Translation\TranslationMergeService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class TranslationMergeServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected TranslationMergeService $translationMergeService;
 

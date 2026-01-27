@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Balances;
 
 use App\Services\Balances\OperationCategoryService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class OperationCategoryServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected OperationCategoryService $operationCategoryService;
 

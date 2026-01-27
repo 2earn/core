@@ -6,12 +6,10 @@ use App\Models\Deal;
 use App\Models\DealChangeRequest;
 use App\Models\User;
 use App\Services\DealChangeRequest\DealChangeRequestService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class DealChangeRequestServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected DealChangeRequestService $dealChangeRequestService;
 

@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Deals;
 
 use App\Services\Deals\PendingDealChangeRequestsInlineService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PendingDealChangeRequestsInlineServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected PendingDealChangeRequestsInlineService $pendingDealChangeRequestsInlineService;
 

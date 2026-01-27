@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Deals;
 
 use App\Services\Deals\PendingDealValidationRequestsInlineService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PendingDealValidationRequestsInlineServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected PendingDealValidationRequestsInlineService $pendingDealValidationRequestsInlineService;
 

@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\EntityRole;
 
 use App\Services\EntityRole\EntityRoleService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class EntityRoleServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected EntityRoleService $entityRoleService;
 

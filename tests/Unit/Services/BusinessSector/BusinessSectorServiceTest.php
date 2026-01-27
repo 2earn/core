@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\BusinessSector;
 
 use App\Services\BusinessSector\BusinessSectorService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class BusinessSectorServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected BusinessSectorService $businessSectorService;
 

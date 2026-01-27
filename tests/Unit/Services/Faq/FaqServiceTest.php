@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Faq;
 
 use App\Services\Faq\FaqService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class FaqServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected FaqService $faqService;
 

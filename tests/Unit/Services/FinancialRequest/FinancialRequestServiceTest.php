@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\FinancialRequest;
 
 use App\Services\FinancialRequest\FinancialRequestService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class FinancialRequestServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected FinancialRequestService $financialRequestService;
 

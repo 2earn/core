@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services;
 
 use App\Services\MettaUsersService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class MettaUsersServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected MettaUsersService $mettaUsersService;
 

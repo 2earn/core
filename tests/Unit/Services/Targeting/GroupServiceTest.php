@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Targeting;
 
 use App\Services\Targeting\GroupService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class GroupServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected GroupService $groupService;
 

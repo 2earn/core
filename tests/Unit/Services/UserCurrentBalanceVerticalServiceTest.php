@@ -6,12 +6,10 @@ use App\Enums\BalanceEnum;
 use App\Models\User;
 use App\Models\UserCurrentBalanceVertical;
 use App\Services\UserCurrentBalanceVerticalService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class UserCurrentBalanceVerticalServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected UserCurrentBalanceVerticalService $userCurrentBalanceVerticalService;
 
