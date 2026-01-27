@@ -2,6 +2,8 @@
 
 namespace Tests\Unit\Services;
 
+use App\Models\User;
+use App\Models\UserCurrentBalanceHorisontal;
 use App\Services\UserCurrentBalanceHorisontalService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -20,154 +22,189 @@ class UserCurrentBalanceHorisontalServiceTest extends TestCase
 
     /**
      * Test getStoredUserBalances method
-     * TODO: Implement actual test logic
      */
     public function test_get_stored_user_balances_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $balance = UserCurrentBalanceHorisontal::factory()->create(['user_id' => $user->id]);
 
         // Act
-        // $result = $this->service->getStoredUserBalances();
+        $result = $this->userCurrentBalanceHorisontalService->getStoredUserBalances($user->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getStoredUserBalances not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertInstanceOf(UserCurrentBalanceHorisontal::class, $result);
+        $this->assertEquals($balance->id, $result->id);
     }
 
     /**
      * Test getStoredCash method
-     * TODO: Implement actual test logic
      */
     public function test_get_stored_cash_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        UserCurrentBalanceHorisontal::factory()->create([
+            'user_id' => $user->id,
+            'cash_balance' => 500.50,
+        ]);
 
         // Act
-        // $result = $this->service->getStoredCash();
+        $result = $this->userCurrentBalanceHorisontalService->getStoredCash($user->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getStoredCash not yet implemented');
+        $this->assertEquals(500.50, $result);
     }
 
     /**
      * Test getStoredBfss method
-     * TODO: Implement actual test logic
      */
     public function test_get_stored_bfss_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        UserCurrentBalanceHorisontal::factory()->create(['user_id' => $user->id]);
 
         // Act
-        // $result = $this->service->getStoredBfss();
+        $result = $this->userCurrentBalanceHorisontalService->getStoredBfss($user->id, 'some_type');
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getStoredBfss not yet implemented');
+        $this->assertIsNumeric($result);
     }
 
     /**
      * Test getStoredDiscount method
-     * TODO: Implement actual test logic
      */
     public function test_get_stored_discount_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        UserCurrentBalanceHorisontal::factory()->create([
+            'user_id' => $user->id,
+            'discount_balance' => 120.75,
+        ]);
 
         // Act
-        // $result = $this->service->getStoredDiscount();
+        $result = $this->userCurrentBalanceHorisontalService->getStoredDiscount($user->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getStoredDiscount not yet implemented');
+        $this->assertEquals(120.75, $result);
     }
 
     /**
      * Test getStoredTree method
-     * TODO: Implement actual test logic
      */
     public function test_get_stored_tree_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        UserCurrentBalanceHorisontal::factory()->create([
+            'user_id' => $user->id,
+            'tree_balance' => 350.00,
+        ]);
 
         // Act
-        // $result = $this->service->getStoredTree();
+        $result = $this->userCurrentBalanceHorisontalService->getStoredTree($user->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getStoredTree not yet implemented');
+        $this->assertEquals(350.00, $result);
     }
 
     /**
      * Test getStoredSms method
-     * TODO: Implement actual test logic
      */
     public function test_get_stored_sms_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        UserCurrentBalanceHorisontal::factory()->create([
+            'user_id' => $user->id,
+            'sms_balance' => 25,
+        ]);
 
         // Act
-        // $result = $this->service->getStoredSms();
+        $result = $this->userCurrentBalanceHorisontalService->getStoredSms($user->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getStoredSms not yet implemented');
+        $this->assertEquals(25, $result);
     }
 
     /**
      * Test updateCalculatedHorisental method
-     * TODO: Implement actual test logic
      */
     public function test_update_calculated_horisental_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $balance = UserCurrentBalanceHorisontal::factory()->create([
+            'user_id' => $user->id,
+            'cash_balance' => 100.00,
+        ]);
 
         // Act
-        // $result = $this->service->updateCalculatedHorisental();
+        $result = $this->userCurrentBalanceHorisontalService->updateCalculatedHorisental(
+            $user->id,
+            'cash_balance',
+            250.00
+        );
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for updateCalculatedHorisental not yet implemented');
+        $this->assertGreaterThan(0, $result);
+        $balance->refresh();
+        $this->assertEquals(250.00, $balance->cash_balance);
     }
 
     /**
      * Test updateBalanceField method
-     * TODO: Implement actual test logic
      */
     public function test_update_balance_field_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $balance = UserCurrentBalanceHorisontal::factory()->create([
+            'user_id' => $user->id,
+            'share_balance' => 500.00,
+        ]);
 
         // Act
-        // $result = $this->service->updateBalanceField();
+        $result = $this->userCurrentBalanceHorisontalService->updateBalanceField(
+            $user->id,
+            'share_balance',
+            750.00
+        );
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for updateBalanceField not yet implemented');
+        $this->assertTrue($result);
+        $balance->refresh();
+        $this->assertEquals(750.00, $balance->share_balance);
     }
 
     /**
      * Test calculateNewBalance method
-     * TODO: Implement actual test logic
      */
     public function test_calculate_new_balance_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        UserCurrentBalanceHorisontal::factory()->create([
+            'user_id' => $user->id,
+            'share_balance' => 1000.00,
+        ]);
 
         // Act
-        // $result = $this->service->calculateNewBalance();
+        $result = $this->userCurrentBalanceHorisontalService->calculateNewBalance(
+            $user->id,
+            'share_balance',
+            250.50
+        );
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for calculateNewBalance not yet implemented');
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('record', $result);
+        $this->assertArrayHasKey('currentBalance', $result);
+        $this->assertArrayHasKey('newBalance', $result);
+        $this->assertEquals(1000.00, $result['currentBalance']);
+        $this->assertEquals(1250.50, $result['newBalance']);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Tests\Unit\Services;
 
+use App\Models\User;
+use App\Models\UserNotificationSettings;
 use App\Services\UserNotificationSettingsService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -20,86 +22,121 @@ class UserNotificationSettingsServiceTest extends TestCase
 
     /**
      * Test updateNotificationSetting method
-     * TODO: Implement actual test logic
      */
     public function test_update_notification_setting_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $setting = UserNotificationSettings::factory()->create([
+            'idUser' => $user->idUser,
+            'idNotification' => 1,
+            'value' => 0,
+        ]);
 
         // Act
-        // $result = $this->service->updateNotificationSetting();
+        $result = $this->userNotificationSettingsService->updateNotificationSetting(
+            $user->idUser,
+            1,
+            1
+        );
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for updateNotificationSetting not yet implemented');
+        $this->assertGreaterThan(0, $result);
+        $setting->refresh();
+        $this->assertEquals(1, $setting->value);
     }
 
     /**
      * Test getNotificationSetting method
-     * TODO: Implement actual test logic
      */
     public function test_get_notification_setting_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $setting = UserNotificationSettings::factory()->create([
+            'idUser' => $user->idUser,
+            'idNotification' => 5,
+        ]);
 
         // Act
-        // $result = $this->service->getNotificationSetting();
+        $result = $this->userNotificationSettingsService->getNotificationSetting(
+            $user->idUser,
+            5
+        );
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getNotificationSetting not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertInstanceOf(UserNotificationSettings::class, $result);
+        $this->assertEquals($setting->id, $result->id);
     }
 
     /**
      * Test getUserNotificationSettings method
-     * TODO: Implement actual test logic
      */
     public function test_get_user_notification_settings_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        UserNotificationSettings::factory()->count(5)->create(['idUser' => $user->idUser]);
+        UserNotificationSettings::factory()->count(3)->create();
 
         // Act
-        // $result = $this->service->getUserNotificationSettings();
+        $result = $this->userNotificationSettingsService->getUserNotificationSettings($user->idUser);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getUserNotificationSettings not yet implemented');
+        $this->assertCount(5, $result);
+        $this->assertTrue($result->every(fn($s) => $s->idUser === $user->idUser));
     }
 
     /**
      * Test upsertNotificationSetting method
-     * TODO: Implement actual test logic
      */
     public function test_upsert_notification_setting_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
 
         // Act
-        // $result = $this->service->upsertNotificationSetting();
+        // Test create
+        $result = $this->userNotificationSettingsService->upsertNotificationSetting(
+            $user->idUser,
+            10,
+            1
+        );
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for upsertNotificationSetting not yet implemented');
+        $this->assertInstanceOf(UserNotificationSettings::class, $result);
+        $this->assertEquals($user->idUser, $result->idUser);
+        $this->assertEquals(10, $result->idNotification);
+        $this->assertEquals(1, $result->value);
+
+        // Act
+        // Test update
+        $result2 = $this->userNotificationSettingsService->upsertNotificationSetting(
+            $user->idUser,
+            10,
+            0
+        );
+
+        // Assert
+        $this->assertEquals($result->id, $result2->id);
+        $this->assertEquals(0, $result2->value);
     }
 
     /**
      * Test deleteUserNotificationSettings method
-     * TODO: Implement actual test logic
      */
     public function test_delete_user_notification_settings_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        UserNotificationSettings::factory()->count(4)->create(['idUser' => $user->idUser]);
 
         // Act
-        // $result = $this->service->deleteUserNotificationSettings();
+        $result = $this->userNotificationSettingsService->deleteUserNotificationSettings($user->idUser);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for deleteUserNotificationSettings not yet implemented');
+        $this->assertEquals(4, $result);
+        $this->assertEquals(0, UserNotificationSettings::where('idUser', $user->idUser)->count());
     }
 }
