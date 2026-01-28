@@ -64,6 +64,11 @@ return [
             'path' => storage_path('logs/EarnException.log'),
             'level' => env('LOG_LEVEL', 'debug'),
         ],
+        'auth' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/auth.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
         'earnDebug' => [
             'driver' => 'single',
             'path' => storage_path('logs/MyDebug.log'),

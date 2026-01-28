@@ -14,27 +14,35 @@ class OAuthController extends Controller
 {
     public function callback(Request $request)
     {
+        Log::channel('auth')->info('OAuth Callback initiated', [
+            'ip' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'has_code' => $request->has('code'),
+            'has_error' => $request->has('error'),
+            'all_params' => $request->all()
+        ]);
+
         $code = $request->input('code');
 
         $response = Http::asForm()
             ->withOptions(['verify' => false])
             ->post(config('services.auth_2earn.token'), [
-                'grant_type'    => 'authorization_code',
-                'client_id'     => config('services.auth_2earn.client_id'),
+                'grant_type' => 'authorization_code',
+                'client_id' => config('services.auth_2earn.client_id'),
                 'client_secret' => config('services.auth_2earn.secret'),
-                'code'          => $code,
-                'redirect_uri'  => config('services.auth_2earn.redirect'),
+                'code' => $code,
+                'redirect_uri' => config('services.auth_2earn.redirect'),
             ]);
 
-        Log::info('OAuth token response:', ['body' => $response->body()]);
+        Log::channel('auth')->info('OAuth token response:', ['body' => $response->body()]);
 
-        Log::info('Http', ['client_id' => config('services.auth_2earn.client_id'), 'secret' => config('services.auth_2earn.secret')]);
-        Log::info('OAuth token response', ['response' => $response->body()]);
+        Log::channel('auth')->info('Http', ['client_id' => config('services.auth_2earn.client_id'), 'secret' => config('services.auth_2earn.secret')]);
+        Log::channel('auth')->info('OAuth token response', ['response' => $response->body()]);
 
         if (!$response->ok()) {
             Log::alert('OAuth token retrieval failed', ['response' => $response->body()]);
             return response()->json([
-                'error'   => 'unauthorized',
+                'error' => 'unauthorized',
                 'message' => 'Error while retrieving the token',
                 'details' => $response->json()
             ], 401);
@@ -46,7 +54,7 @@ class OAuthController extends Controller
         $idToken = $data['id_token'] ?? null;
 
         if (!$idToken) {
-            Log::alert('ID Token missing in OAuth response', ['response' => $response->body()]);
+            Log::channel('auth')->alert('ID Token missing in OAuth response', ['response' => $response->body()]);
             return response()->json(['error' => 'invalid_id_token', 'message' => 'ID Token missing from the response'], 401);
         }
 
@@ -59,6 +67,7 @@ class OAuthController extends Controller
             $user = User::where('id', $user_id)->first();
 
             if (!$user) {
+                Log::channel('auth')->warning('User not found after OAuth login', ['sub' => $user_id]);
                 return redirect()->route('login', ['locale' => app()->getLocale()])->with('error', 'User not found');
             }
 
@@ -66,7 +75,7 @@ class OAuthController extends Controller
             return redirect()->route('main', ['locale' => app()->getLocale()]);
 
         } catch (\Exception $e) {
-            Log::error('JWT Decode Error: ' . $e->getMessage());
+            Log::channel('auth')->error('JWT Decode Error: ' . $e->getMessage());
             return response()->json(['error' => 'token_error', 'message' => $e->getMessage()], 401);
         }
     }
