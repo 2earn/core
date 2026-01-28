@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasAuditing;
 
 class Setting extends Model
 {
-    use HasAuditing;
+    use HasAuditing, HasFactory;
 
     public $primaryKey = 'idSETTINGS';
     protected $table = 'settings';
