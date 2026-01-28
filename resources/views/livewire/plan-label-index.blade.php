@@ -196,10 +196,10 @@
                 <div wire:loading.remove>
                     @if($labels->count() > 0)
                         <div class="row g-3">
-                            @foreach($labels as $formula)
+                            @foreach($labels as $planLabel)
                                 <div class="col-12">
                                     <div
-                                        class="card border shadow-none mb-0 {{ $formula->is_active ? '' : 'bg-light' }}">
+                                        class="card border shadow-none mb-0 {{ $planLabel->is_active ? '' : 'bg-light' }}">
                                         <div class="card-body">
                                             <div class="row align-items-center">
 
@@ -207,17 +207,17 @@
                                                     <div class="d-flex align-items-center gap-2">
                                                         <div class="flex-shrink-0">
                                                             <div class="avatar-sm">
-                                                                @if($formula->iconImage)
+                                                                @if($planLabel->iconImage)
                                                                     <img
-                                                                        src="{{ asset('uploads/' . $formula->iconImage->url) }}"
-                                                                        alt="{{ $formula->name }}"
+                                                                        src="{{ asset('uploads/' . $planLabel->iconImage->url) }}"
+                                                                        alt="{{ $planLabel->name }}"
                                                                         class="avatar-sm rounded-circle"
                                                                         style="width: 40px; height: 40px; object-fit: cover;"
                                                                         onerror="this.src='{{ Vite::asset(\App\Models\PlanLabel::DEFAULT_IMAGE_TYPE_ICON) }}'">
                                                                 @else
                                                                     <img
                                                                         src="{{ Vite::asset(\App\Models\PlanLabel::DEFAULT_IMAGE_TYPE_ICON) }}"
-                                                                        alt="{{ $formula->name }}"
+                                                                        alt="{{ $planLabel->name }}"
                                                                         class="avatar-sm rounded-circle"
                                                                         style="width: 40px; height: 40px; object-fit: cover;">
                                                                 @endif
@@ -225,10 +225,16 @@
                                                         </div>
                                                         <div class="flex-grow-1">
                                                             <h5 class="fs-15 mb-1">
-                                                                {{ $formula->name ?: __('No Name') }}
+                                                                {{ \App\Models\TranslaleModel::getTranslation($planLabel,'name',$planLabel->name) }}
+                                                                @if(\App\Models\User::isSuperAdmin())
+                                                                    <a class="link-info small text-decoration-none"
+                                                                       href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($planLabel,'description')])}}">
+                                                                        <i class="fa fa-language me-1"></i>
+                                                                    </a>
+                                                                @endif
                                                             </h5>
                                                             <p class="text-muted mb-0">
-                                                                <small>{{ __('ID') }}: #{{ $formula->id }}</small>
+                                                                <small>{{ __('ID') }}: #{{ $planLabel->id }}</small>
                                                             </p>
                                                         </div>
                                                     </div>
@@ -241,7 +247,7 @@
                                                             <div class="text-center">
                                                                 <p class="text-muted mb-1 fs-11 text-uppercase">{{ __('Initial') }}</p>
                                                                 <span class="badge badge-soft-info fs-13">
-                                                                {{ number_format($formula->initial_commission, 2) }}%
+                                                                {{ number_format($planLabel->initial_commission, 2) }}%
                                                             </span>
                                                             </div>
                                                         </div>
@@ -252,7 +258,7 @@
                                                             <div class="text-center">
                                                                 <p class="text-muted mb-1 fs-11 text-uppercase">{{ __('Final') }}</p>
                                                                 <span class="badge badge-soft-success fs-13">
-                                                                {{ number_format($formula->final_commission, 2) }}%
+                                                                {{ number_format($planLabel->final_commission, 2) }}%
                                                             </span>
                                                             </div>
                                                         </div>
@@ -263,11 +269,11 @@
                                                             <div class="text-center">
                                                                 <p class="text-muted mb-1 fs-11 text-uppercase">{{ __('Range') }}</p>
                                                                 <span class="badge badge-soft-primary fs-12">
-                                                                {{ $formula->getCommissionRange() }}
+                                                                {{ $planLabel->getCommissionRange() }}
                                                             </span>
                                                             </div>
                                                         </div>
-                                                        @if($formula->step)
+                                                        @if($planLabel->step)
                                                         <div class="col-auto">
                                                             <div class="vr h-100"></div>
                                                         </div>
@@ -275,28 +281,28 @@
                                                             <div class="text-center">
                                                                 <p class="text-muted mb-1 fs-11 text-uppercase">{{ __('Step') }}</p>
                                                                 <span class="badge badge-soft-secondary fs-12">
-                                                                {{ $formula->step }}
+                                                                {{ $planLabel->step }}
                                                             </span>
                                                             </div>
                                                         </div>
                                                         @endif
-                                                        @if($formula->rate)
+                                                        @if($planLabel->rate)
                                                         <div class="col-auto">
                                                             <div class="text-center">
                                                                 <p class="text-muted mb-1 fs-11 text-uppercase">{{ __('Rate') }}</p>
                                                                 <span class="badge badge-soft-warning fs-12">
-                                                                {{ number_format($formula->rate, 2) }}
+                                                                {{ number_format($planLabel->rate, 2) }}
                                                             </span>
                                                             </div>
                                                         </div>
                                                         @endif
-                                                        @if($formula->stars)
+                                                        @if($planLabel->stars)
                                                         <div class="col-auto">
                                                             <div class="text-center">
                                                                 <p class="text-muted mb-1 fs-11 text-uppercase">{{ __('Stars') }}</p>
                                                                 <span class="text-warning fs-13">
                                                                 @for($i = 1; $i <= 5; $i++)
-                                                                    @if($i <= $formula->stars)
+                                                                    @if($i <= $planLabel->stars)
                                                                         <i class="ri-star-fill"></i>
                                                                     @else
                                                                         <i class="ri-star-line text-muted"></i>
@@ -314,7 +320,7 @@
                                                     <div class="d-flex align-items-center justify-content-end gap-3">
 
                                                         <div class="text-center">
-                                                            @if($formula->is_active)
+                                                            @if($planLabel->is_active)
                                                                 <span class="badge badge-soft-success">
                                                                 <i class="ri-checkbox-circle-line align-middle me-1"></i>{{ __('Active') }}
                                                             </span>
@@ -324,7 +330,7 @@
                                                             </span>
                                                             @endif
                                                             <p class="text-muted mb-0 mt-1">
-                                                                <small>{{ $formula->created_at->format(config('app.date_format')) }}</small>
+                                                                <small>{{ $planLabel->created_at->format(config('app.date_format')) }}</small>
                                                             </p>
                                                         </div>
 
@@ -334,14 +340,14 @@
                                                                 <div class="hstack gap-1">
 
                                                                     <button
-                                                                        wire:click="toggleActive({{ $formula->id }})"
-                                                                        class="btn btn-sm btn-soft-{{ $formula->is_active ? 'warning' : 'success' }}"
-                                                                        title="{{ $formula->is_active ? __('Deactivate') : __('Activate') }}">
-                                                                        <i class="ri-{{ $formula->is_active ? 'pause' : 'play' }}-circle-line"></i>
+                                                                        wire:click="toggleActive({{ $planLabel->id }})"
+                                                                        class="btn btn-sm btn-soft-{{ $planLabel->is_active ? 'warning' : 'success' }}"
+                                                                        title="{{ $planLabel->is_active ? __('Deactivate') : __('Activate') }}">
+                                                                        <i class="ri-{{ $planLabel->is_active ? 'pause' : 'play' }}-circle-line"></i>
                                                                     </button>
 
 
-                                                                    <a href="{{ route('plan_label_edit', ['locale' => app()->getLocale(), 'id' => $formula->id]) }}"
+                                                                    <a href="{{ route('plan_label_edit', ['locale' => app()->getLocale(), 'id' => $planLabel->id]) }}"
                                                                        class="btn btn-sm btn-soft-info"
                                                                        title="{{ __('Edit') }}">
                                                                         <i class="ri-edit-2-line"></i>
@@ -349,7 +355,7 @@
 
 
                                                                     <button
-                                                                        wire:click="confirmDelete({{ $formula->id }})"
+                                                                        wire:click="confirmDelete({{ $planLabel->id }})"
                                                                         class="btn btn-sm btn-soft-danger"
                                                                         title="{{ __('Delete') }}">
                                                                         <i class="ri-delete-bin-line"></i>
@@ -362,14 +368,22 @@
                                             </div>
 
 
-                                            @if($formula->description)
+                                            @if($planLabel->description)
                                                 <div class="row mt-3">
                                                     <div class="col-12">
                                                         <div class="border-top pt-3">
                                                             <p class="text-muted mb-0">
                                                                 <i class="ri-information-line align-middle me-1"></i>
-                                                                {{ Str::limit($formula->description, 150) }}
+                                                                {{ Str::limit(\App\Models\TranslaleModel::getTranslation($planLabel,'description',$planLabel->description), 150) }}
                                                             </p>
+
+                                                            @if(\App\Models\User::isSuperAdmin())
+                                                                <a class="link-info small text-decoration-none"
+                                                                   href="{{route('translate_model_data',['locale'=>app()->getLocale(),'search'=> \App\Models\TranslaleModel::getTranslateName($planLabel,'description')])}}">
+                                                                    <i class="fa fa-language me-1"></i>
+                                                                </a>
+                                                            @endif
+
                                                         </div>
                                                     </div>
                                                 </div>

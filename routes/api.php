@@ -124,12 +124,13 @@ Route::prefix('/partner/')->name('api_partner_')
         Route::middleware(['check.url'])->group(function () {
 
             Route::prefix('platforms')->name('platform_')->group(function () {
-                Route::apiResource('/platforms', PlatformPartnerController::class)->except('destroy');
+                Route::get('/top-selling', [PlatformPartnerController::class, 'getTopSellingPlatforms'])->name('top_selling');
+                Route::get('/platforms/{platformId}/roles', [PlatformPartnerController::class, 'getRoles'])->name('roles');
                 Route::post('/change', [PlatformPartnerController::class, 'changePlatformType'])->name('change_type');
                 Route::post('/validate', [PlatformPartnerController::class, 'validateRequest'])->name('validate_request');
                 Route::post('/validation/cancel', [PlatformPartnerController::class, 'cancelValidationRequest'])->name('validation_cancel');
                 Route::post('/change/cancel', [PlatformPartnerController::class, 'cancelChangeRequest'])->name('change_cancel');
-                Route::get('/top-selling', [PlatformPartnerController::class, 'getTopSellingPlatforms'])->name('top_selling');
+                Route::apiResource('/platforms', PlatformPartnerController::class)->except('destroy');
             });
 
             Route::prefix('deals')->name('deals_')->group(function () {
@@ -156,6 +157,7 @@ Route::prefix('/partner/')->name('api_partner_')
             });
 
             Route::prefix('items')->name('items_')->group(function () {
+                Route::get('/', [ItemsPartnerController::class, 'listItems'])->name('list');
                 Route::post('/', [ItemsPartnerController::class, 'store'])->name('store');
                 Route::put('/{id}', [ItemsPartnerController::class, 'update'])->name('update');
                 Route::get('/deal/{dealId}', [ItemsPartnerController::class, 'listItemsForDeal'])->name('list_by_deal');
@@ -194,7 +196,9 @@ Route::prefix('/partner/')->name('api_partner_')
             });
 
             Route::get('/plan-label', [PlanLabelPartnerController::class, 'index'])->name('deals_plan_label_index');
-            Route::post('/users/add-role', [UserPartnerController::class, 'addRole'])->name('users_add_role');
+            Route::post('/users/platforms/add-role', [UserPartnerController::class, 'addRole'])->name('users_platforms_add_role');
+            Route::post('/users/platforms/update-role', [UserPartnerController::class, 'updateRole'])->name('users_platforms_update_role');
+            Route::post('/users/platforms/delete-role', [UserPartnerController::class, 'deleteRole'])->name('users_platforms_delete_role');
             Route::get('/users/platforms', [UserPartnerController::class, 'getPartnerPlatforms'])->name('users_platforms');
             Route::get('/user', [UserController::class, 'getUser'])->name('get_user');
         });

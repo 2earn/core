@@ -29,6 +29,7 @@
                         <input type="text"
                                wire:model.blur="name"
                                id="name"
+                               {{ $isEditMode ? 'disabled' : '' }}
                                class="form-control @error('name') is-invalid @enderror"
                                placeholder="{{ __('Enter formula name (e.g., Premium Plan)') }}">
                         @error('name')
@@ -172,12 +173,14 @@
                                   id="description"
                                   class="form-control @error('description') is-invalid @enderror"
                                   rows="4"
-                                  placeholder="{{ __('Enter a detailed description of this Plan label...') }}"></textarea>
+                                  placeholder="{{ __('Enter a detailed description of this Plan label...') }}"
+                                  {{ $isEditMode ? 'disabled' : '' }}></textarea>
                         @error('description')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                        <div
-                            class="form-text">{{ __('Optional detailed description of when and how this formula should be used.') }}</div>
+                        <div class="form-text">
+                            {{ $isEditMode ? __('Description cannot be changed in edit mode.') : __('Optional detailed description of when and how this formula should be used.') }}
+                        </div>
                     </div>
 
                     {{-- Icon Image Upload --}}

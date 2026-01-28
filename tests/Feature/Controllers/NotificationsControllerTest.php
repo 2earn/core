@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * Test Suite for NotificationsController
+ *
+ * @package Tests\Feature\Controllers
+ * @see App\Http\Controllers\NotificationsController
+ * @author 2earn Development Team
+ * @created 2026-01-22
+ */
+
+namespace Tests\Feature\Controllers;
+
+use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
+use App\Models\User;
+use App\Services\settingsManager;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Mockery;
+
+class NotificationsControllerTest extends TestCase
+{
+    use DatabaseTransactions;
+
+    protected $user;
+    protected $settingsManager;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->user = User::factory()->create();
+        $this->actingAs($this->user);
+        $this->settingsManager = Mockery::mock(settingsManager::class);
+    }
+
+    #[Test]
+    public function test_user_is_authenticated()
+    {
+        $this->assertAuthenticatedAs($this->user);
+    }
+
+    #[Test]
+    public function test_settings_manager_can_be_mocked()
+    {
+        $this->assertInstanceOf(\Mockery\MockInterface::class, $this->settingsManager);
+    }
+
+    #[Test]
+    public function test_controller_has_index_method()
+    {
+        $this->assertTrue(method_exists(\App\Http\Controllers\NotificationsController::class, 'index'));
+    }
+
+    #[Test]
+    public function test_user_factory_creates_valid_user()
+    {
+        $this->assertInstanceOf(User::class, $this->user);
+        $this->assertNotNull($this->user->id);
+    }
+
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
+        parent::tearDown();
+    }
+}

@@ -12,7 +12,7 @@ class PlanLabelSeeder extends Seeder
      */
     public function run(): void
     {
-        $formulas = [
+        $planLabels = [
             [
                 'name' => 'Basic',
                 'description' => 'Basic commission plan for new partners',
@@ -84,8 +84,10 @@ class PlanLabelSeeder extends Seeder
             ],
         ];
 
-        foreach ($formulas as $formula) {
-            PlanLabel::create($formula);
+        foreach ($planLabels as $planLabel) {
+            $planLabelModel = PlanLabel::create($planLabel);
+            createTranslaleModel($planLabelModel, 'name', $planLabel['name']);
+            createTranslaleModel($planLabelModel, 'description', $planLabel['description']);
         }
 
     }

@@ -51,7 +51,7 @@ class DealChangeRequestApproved extends Notification
     {
         return [
             'idUser' => $notifiable->idUser,
-            'url' => route('deals.index', ['locale' => app()->getLocale()]),
+            'url' => route('deals_index', ['locale' => app()->getLocale()]),
             'message_params' => [
                 'deal_name' => $this->deal->name,
                 'changes' => $this->changes

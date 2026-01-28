@@ -16,7 +16,7 @@ class PlanLabelCreateUpdate extends Component
 
     protected $PlanLabelService;
 
-    public $formulaId = null;
+    public $planLabelId = null;
     public $name = '';
     public $initial_commission = '';
     public $final_commission = '';
@@ -69,21 +69,21 @@ class PlanLabelCreateUpdate extends Component
 
     public function loadFormula($id)
     {
-        $formula = $this->PlanLabelService->getPlanLabelById($id);
+        $planLabel = $this->PlanLabelService->getPlanLabelById($id);
 
-        if (!$formula) {
+        if (!$planLabel) {
             session()->flash('error', Lang::get('Plan label not found'));
             return redirect()->route('plan_label_index', ['locale' => app()->getLocale()]);
         }
 
-        $this->name = $formula->name;
-        $this->initial_commission = $formula->initial_commission;
-        $this->final_commission = $formula->final_commission;
-        $this->description = $formula->description;
-        $this->is_active = $formula->is_active;
+        $this->name = $planLabel->name;
+        $this->initial_commission = $planLabel->initial_commission;
+        $this->final_commission = $planLabel->final_commission;
+        $this->description = $planLabel->description;
+        $this->is_active = $planLabel->is_active;
 
-        if ($formula->iconImage) {
-            $this->existingIconUrl = $formula->iconImage->url;
+        if ($planLabel->iconImage) {
+            $this->existingIconUrl = $planLabel->iconImage->url;
         }
     }
 
@@ -105,11 +105,11 @@ class PlanLabelCreateUpdate extends Component
         ];
 
         if ($this->isEditMode) {
-            $formula = $this->PlanLabelService->updatePlanLabel($this->formulaId, $data);
+            $planLabel = $this->PlanLabelService->updatePlanLabel($this->formulaId, $data);
 
-            if ($formula) {
+            if ($planLabel) {
                 if ($this->iconImage) {
-                    $this->handleIconImageUpload($formula);
+                    $this->handleIconImageUpload($planLabel);
                 }
 
                 session()->flash('success', Lang::get('Plan label updated successfully') . ' : ' . $this->name);
@@ -118,11 +118,13 @@ class PlanLabelCreateUpdate extends Component
                 session()->flash('error', Lang::get('Failed to update Plan label.'));
             }
         } else {
-            $formula = $this->PlanLabelService->createPlanLabel($data);
+            $planLabel = $this->PlanLabelService->createPlanLabel($data);
+            createTranslaleModel($planLabel, 'name',  $this->name);
+            createTranslaleModel($planLabel, 'description',  $this->description);
 
-            if ($formula) {
+            if ($planLabel) {
                 if ($this->iconImage) {
-                    $this->handleIconImageUpload($formula);
+                    $this->handleIconImageUpload($planLabel);
                 }
 
                 session()->flash('success', Lang::get('Plan label created successfully'));
@@ -136,20 +138,20 @@ class PlanLabelCreateUpdate extends Component
     /**
      * Handle icon image upload
      */
-    private function handleIconImageUpload($formula)
+    private function handleIconImageUpload($planLabel)
     {
         try {
             // Delete old image if exists
-            if ($formula->iconImage) {
-                if (Storage::disk('public2')->exists($formula->iconImage->url)) {
-                    Storage::disk('public2')->delete($formula->iconImage->url);
+            if ($planLabel->iconImage) {
+                if (Storage::disk('public2')->exists($planLabel->iconImage->url)) {
+                    Storage::disk('public2')->delete($planLabel->iconImage->url);
                 }
-                $formula->iconImage()->delete();
+                $planLabel->iconImage()->delete();
             }
 
             $imagePath = $this->iconImage->store('plan-label/' . PlanLabel::IMAGE_TYPE_ICON, 'public2');
 
-            $formula->iconImage()->create([
+            $planLabel->iconImage()->create([
                 'type' => PlanLabel::IMAGE_TYPE_ICON,
                 'url' => $imagePath,
                 'created_by' => auth()->id(),
