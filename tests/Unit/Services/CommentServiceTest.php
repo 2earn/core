@@ -7,12 +7,10 @@ use App\Models\News;
 use App\Models\User;
 use App\Services\CommentService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class CommentServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected CommentService $commentService;
 

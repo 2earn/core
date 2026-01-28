@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services;
 
 use App\Services\CountriesService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class CountriesServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected CountriesService $countriesService;
 

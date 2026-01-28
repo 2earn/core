@@ -5,12 +5,10 @@ namespace Tests\Unit\Services;
 use App\Enums\LanguageEnum;
 use App\Models\countrie;
 use App\Services\CountryService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class CountryServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected CountryService $countryService;
 

@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services;
 
 use App\Services\UserNotificationSettingsService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class UserNotificationSettingsServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected UserNotificationSettingsService $userNotificationSettingsService;
 

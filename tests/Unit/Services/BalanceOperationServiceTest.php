@@ -4,7 +4,7 @@ namespace Tests\Unit\Services;
 
 use App\Models\BalanceOperation;
 use App\Services\BalanceOperationService;
-use App\Services\BalanceOperationService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Tests\TestCase;
 
 class BalanceOperationServiceTest extends TestCase

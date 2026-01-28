@@ -4,12 +4,10 @@ namespace Tests\Unit\Services;
 
 use App\Enums\BalanceEnum;
 use App\Services\UserCurrentBalanceVerticalService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class UserCurrentBalanceVerticalServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected UserCurrentBalanceVerticalService $userCurrentBalanceVerticalService;
 

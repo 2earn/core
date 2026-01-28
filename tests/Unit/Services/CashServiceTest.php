@@ -4,12 +4,10 @@ namespace Tests\Unit\Services;
 
 use App\Models\User;
 use App\Services\CashService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class CashServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected CashService $cashService;
 

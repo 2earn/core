@@ -5,12 +5,10 @@ namespace Tests\Unit\Services;
 use App\Models\Event;
 use App\Services\EventService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class EventServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected EventService $eventService;
 

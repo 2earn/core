@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services;
 
 use App\Services\CommunicationBoardService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class CommunicationBoardServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected CommunicationBoardService $communicationBoardService;
 

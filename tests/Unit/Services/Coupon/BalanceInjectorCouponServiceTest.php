@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Coupon;
 
 use App\Services\Coupon\BalanceInjectorCouponService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class BalanceInjectorCouponServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected BalanceInjectorCouponService $balanceInjectorCouponService;
 

@@ -5,7 +5,7 @@ namespace Tests\Unit\Services\UserGuide;
 use App\Models\User;
 use App\Models\UserGuide;
 use App\Services\UserGuide\UserGuideService;
-use App\Services\UserGuide\UserGuideService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Tests\TestCase;
 
 class UserGuideServiceTest extends TestCase

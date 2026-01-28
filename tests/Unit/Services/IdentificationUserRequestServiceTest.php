@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services;
 
 use App\Services\IdentificationUserRequestService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class IdentificationUserRequestServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected IdentificationUserRequestService $identificationUserRequestService;
 

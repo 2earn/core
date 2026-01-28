@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services\Balances;
 
 use App\Services\Balances\BalanceService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class BalanceServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected BalanceService $balanceService;
 

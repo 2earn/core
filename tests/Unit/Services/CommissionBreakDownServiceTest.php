@@ -3,12 +3,10 @@
 namespace Tests\Unit\Services;
 
 use App\Services\CommissionBreakDownService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class CommissionBreakDownServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected CommissionBreakDownService $commissionBreakDownService;
 
