@@ -66,10 +66,17 @@ class FinancialRequestServiceTest extends TestCase
     {
         // Arrange
         $user = User::factory()->create();
-        $financialRequest = FinancialRequest::factory()->create();
+        $financialRequest1 = FinancialRequest::factory()->create();
+        $financialRequest2 = FinancialRequest::factory()->create();
 
-        detail_financial_request::factory()->count(2)->create([
-            'numeroRequest' => $financialRequest->numeroReq,
+        detail_financial_request::create([
+            'numeroRequest' => $financialRequest1->numeroReq,
+            'idUser' => $user->idUser,
+            'vu' => 0
+        ]);
+
+        detail_financial_request::create([
+            'numeroRequest' => $financialRequest2->numeroReq,
             'idUser' => $user->idUser,
             'vu' => 0
         ]);
@@ -137,10 +144,24 @@ class FinancialRequestServiceTest extends TestCase
     {
         // Arrange
         $user = User::factory()->create();
-        $financialRequest = FinancialRequest::factory()->pending()->create();
+        $financialRequest1 = FinancialRequest::factory()->pending()->create();
+        $financialRequest2 = FinancialRequest::factory()->pending()->create();
+        $financialRequest3 = FinancialRequest::factory()->pending()->create();
 
-        detail_financial_request::factory()->count(3)->create([
-            'numeroRequest' => $financialRequest->numeroReq,
+        detail_financial_request::factory()->create([
+            'numeroRequest' => $financialRequest1->numeroReq,
+            'idUser' => $user->idUser,
+            'vu' => 0
+        ]);
+
+        detail_financial_request::factory()->create([
+            'numeroRequest' => $financialRequest2->numeroReq,
+            'idUser' => $user->idUser,
+            'vu' => 0
+        ]);
+
+        detail_financial_request::factory()->create([
+            'numeroRequest' => $financialRequest3->numeroReq,
             'idUser' => $user->idUser,
             'vu' => 0
         ]);
@@ -311,7 +332,6 @@ class FinancialRequestServiceTest extends TestCase
     {
         // Arrange
         $user = User::factory()->create();
-        $initialCount = FinancialRequest::where('idSender', $user->idUser)->count();
 
         FinancialRequest::factory()->count(3)->create([
             'idSender' => $user->idUser
@@ -321,7 +341,7 @@ class FinancialRequestServiceTest extends TestCase
         $result = $this->financialRequestService->getRequestsFromUser($user->idUser);
 
         // Assert
-        $this->assertGreaterThanOrEqual($initialCount + 3, $result->count());
+        $this->assertGreaterThanOrEqual(3, $result->count());
     }
 
     /**

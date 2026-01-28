@@ -13,10 +13,10 @@ class Detail_financial_requestFactory extends Factory
 
     public function definition(): array
     {
+        $financialRequest = FinancialRequest::factory()->create();
+
         return [
-            'numeroRequest' => function () {
-                return FinancialRequest::factory()->create()->numeroReq;
-            },
+            'numeroRequest' => $financialRequest->numeroReq,
             'idUser' => User::factory(),
             'response' => null,
             'dateResponse' => null,
