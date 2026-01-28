@@ -2,11 +2,21 @@
 
 namespace Tests\Unit\Services\Platform;
 
+use App\Models\BusinessSector;
+use App\Models\Deal;
+use App\Models\Item;
+use App\Models\Order;
+use App\Models\OrderDetail;
+use App\Models\Platform;
+use App\Models\User;
 use App\Services\Platform\PlatformService;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Tests\TestCase;
 
 class PlatformServiceTest extends TestCase
 {
+    use DatabaseTransactions;
 
     protected PlatformService $platformService;
 
@@ -17,291 +27,293 @@ class PlatformServiceTest extends TestCase
     }
 
     /**
-     * Test getAll method
-     * TODO: Implement actual test logic
+     * Test getAll returns all platforms
      */
-    public function test_get_all_works()
+    public function test_get_all_returns_all_platforms()
     {
         // Arrange
-        // TODO: Set up test data
+        $initialCount = Platform::count();
+        $platforms = Platform::factory()->count(3)->create();
 
         // Act
-        // $result = $this->service->getAll();
+        $result = $this->platformService->getAll();
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getAll not yet implemented');
+        $this->assertGreaterThanOrEqual($initialCount + 3, $result->count());
+        foreach ($platforms as $platform) {
+            $this->assertTrue($result->contains('id', $platform->id));
+        }
     }
 
     /**
-     * Test getById method
-     * TODO: Implement actual test logic
+     * Test getAll returns collection
      */
-    public function test_get_by_id_works()
+    public function test_get_all_returns_collection()
     {
-        // Arrange
-        // TODO: Set up test data
-
         // Act
-        // $result = $this->service->getById();
+        $result = $this->platformService->getAll();
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getById not yet implemented');
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $result);
     }
 
     /**
-     * Test getPlatformsWithUserPurchases method
-     * TODO: Implement actual test logic
+     * Test getById returns platform when exists
      */
-    public function test_get_platforms_with_user_purchases_works()
+    public function test_get_by_id_returns_platform_when_exists()
     {
         // Arrange
-        // TODO: Set up test data
+        $platform = Platform::factory()->create();
 
         // Act
-        // $result = $this->service->getPlatformsWithUserPurchases();
+        $result = $this->platformService->getById($platform->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getPlatformsWithUserPurchases not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertEquals($platform->id, $result->id);
     }
 
     /**
-     * Test findOrFail method
-     * TODO: Implement actual test logic
+     * Test getById returns null when not exists
      */
-    public function test_find_or_fail_works()
+    public function test_get_by_id_returns_null_when_not_exists()
     {
-        // Arrange
-        // TODO: Set up test data
-
         // Act
-        // $result = $this->service->findOrFail();
+        $result = $this->platformService->getById(99999);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for findOrFail not yet implemented');
+        $this->assertNull($result);
     }
 
     /**
-     * Test create method
-     * TODO: Implement actual test logic
+     * Test findOrFail returns platform when exists
      */
-    public function test_create_works()
+    public function test_find_or_fail_returns_platform_when_exists()
     {
         // Arrange
-        // TODO: Set up test data
+        $platform = Platform::factory()->create();
 
         // Act
-        // $result = $this->service->create();
+        $result = $this->platformService->findOrFail($platform->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for create not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertEquals($platform->id, $result->id);
     }
 
     /**
-     * Test update method
-     * TODO: Implement actual test logic
+     * Test findOrFail throws exception when not exists
      */
-    public function test_update_works()
+    public function test_find_or_fail_throws_exception_when_not_exists()
     {
-        // Arrange
-        // TODO: Set up test data
+        // Assert
+        $this->expectException(ModelNotFoundException::class);
 
         // Act
-        // $result = $this->service->update();
-
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for update not yet implemented');
+        $this->platformService->findOrFail(99999);
     }
 
     /**
-     * Test delete method
-     * TODO: Implement actual test logic
+     * Test create creates new platform
      */
-    public function test_delete_works()
+    public function test_create_creates_new_platform()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $data = [
+            'name' => 'Test Platform',
+            'description' => 'Test Description',
+            'enabled' => true,
+            'type' => 1,
+            'created_by' => $user->id,
+        ];
 
         // Act
-        // $result = $this->service->delete();
+        $result = $this->platformService->create($data);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for delete not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertEquals('Test Platform', $result->name);
+        $this->assertDatabaseHas('platforms', ['name' => 'Test Platform']);
     }
 
     /**
-     * Test getPlatformsWithActiveDeals method
-     * TODO: Implement actual test logic
+     * Test update updates existing platform
      */
-    public function test_get_platforms_with_active_deals_works()
+    public function test_update_updates_existing_platform()
     {
         // Arrange
-        // TODO: Set up test data
+        $platform = Platform::factory()->create(['name' => 'Old Name']);
+        $data = ['name' => 'New Name'];
 
         // Act
-        // $result = $this->service->getPlatformsWithActiveDeals();
+        $result = $this->platformService->update($platform->id, $data);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getPlatformsWithActiveDeals not yet implemented');
+        $this->assertTrue($result);
+        $this->assertDatabaseHas('platforms', ['id' => $platform->id, 'name' => 'New Name']);
     }
 
     /**
-     * Test getItemsFromEnabledPlatforms method
-     * TODO: Implement actual test logic
+     * Test update returns false when platform not exists
      */
-    public function test_get_items_from_enabled_platforms_works()
+    public function test_update_returns_false_when_not_exists()
     {
-        // Arrange
-        // TODO: Set up test data
-
         // Act
-        // $result = $this->service->getItemsFromEnabledPlatforms();
+        $result = $this->platformService->update(99999, ['name' => 'New Name']);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getItemsFromEnabledPlatforms not yet implemented');
+        $this->assertFalse($result);
     }
 
     /**
-     * Test getPaginatedPlatforms method
-     * TODO: Implement actual test logic
+     * Test delete deletes existing platform
      */
-    public function test_get_paginated_platforms_works()
+    public function test_delete_deletes_existing_platform()
     {
         // Arrange
-        // TODO: Set up test data
+        $platform = Platform::factory()->create();
 
         // Act
-        // $result = $this->service->getPaginatedPlatforms();
+        $result = $this->platformService->delete($platform->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getPaginatedPlatforms not yet implemented');
+        $this->assertTrue($result);
+        $this->assertDatabaseMissing('platforms', ['id' => $platform->id]);
     }
 
     /**
-     * Test getEnabledPlatforms method
-     * TODO: Implement actual test logic
+     * Test delete returns false when platform not exists
      */
-    public function test_get_enabled_platforms_works()
+    public function test_delete_returns_false_when_not_exists()
     {
-        // Arrange
-        // TODO: Set up test data
-
         // Act
-        // $result = $this->service->getEnabledPlatforms();
+        $result = $this->platformService->delete(99999);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getEnabledPlatforms not yet implemented');
+        $this->assertFalse($result);
     }
 
     /**
-     * Test getPlatformsManagedByUser method
-     * TODO: Implement actual test logic
+     * Test getPlatformsWithActiveDeals returns only platforms with active deals
      */
-    public function test_get_platforms_managed_by_user_works()
+    public function test_get_platforms_with_active_deals_returns_correct_platforms()
     {
         // Arrange
-        // TODO: Set up test data
+        $businessSector = BusinessSector::factory()->create();
+        $platform1 = Platform::factory()->create([
+            'business_sector_id' => $businessSector->id,
+            'enabled' => true
+        ]);
+        $platform2 = Platform::factory()->create([
+            'business_sector_id' => $businessSector->id,
+            'enabled' => true
+        ]);
+
+        Deal::factory()->create([
+            'platform_id' => $platform1->id,
+            'status' => 2,
+            'validated' => true
+        ]);
 
         // Act
-        // $result = $this->service->getPlatformsManagedByUser();
+        $result = $this->platformService->getPlatformsWithActiveDeals($businessSector->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getPlatformsManagedByUser not yet implemented');
+        $this->assertCount(1, $result);
+        $this->assertEquals($platform1->id, $result->first()->id);
     }
 
     /**
-     * Test getPlatformsForPartner method
-     * TODO: Implement actual test logic
+     * Test getPlatformsWithActiveDeals returns empty for disabled platforms
      */
-    public function test_get_platforms_for_partner_works()
+    public function test_get_platforms_with_active_deals_ignores_disabled_platforms()
     {
         // Arrange
-        // TODO: Set up test data
+        $businessSector = BusinessSector::factory()->create();
+        $platform = Platform::factory()->create([
+            'business_sector_id' => $businessSector->id,
+            'enabled' => false
+        ]);
+
+        Deal::factory()->create([
+            'platform_id' => $platform->id,
+            'status' => 2,
+            'validated' => true
+        ]);
 
         // Act
-        // $result = $this->service->getPlatformsForPartner();
+        $result = $this->platformService->getPlatformsWithActiveDeals($businessSector->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getPlatformsForPartner not yet implemented');
+        $this->assertCount(0, $result);
     }
 
     /**
-     * Test userHasRoleInPlatform method
-     * TODO: Implement actual test logic
+     * Test getItemsFromEnabledPlatforms returns items from enabled platforms
      */
-    public function test_user_has_role_in_platform_works()
+    public function test_get_items_from_enabled_platforms_returns_correct_items()
     {
         // Arrange
-        // TODO: Set up test data
+        $businessSector = BusinessSector::factory()->create();
+        $platform = Platform::factory()->create([
+            'business_sector_id' => $businessSector->id,
+            'enabled' => true
+        ]);
+
+        $deal = Deal::factory()->create([
+            'platform_id' => $platform->id,
+            'status' => 2,
+            'validated' => true
+        ]);
+
+        $item = Item::factory()->create([
+            'deal_id' => $deal->id,
+            'platform_id' => $platform->id
+        ]);
 
         // Act
-        // $result = $this->service->userHasRoleInPlatform();
+        $result = $this->platformService->getItemsFromEnabledPlatforms($businessSector->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for userHasRoleInPlatform not yet implemented');
+        $this->assertGreaterThan(0, $result->count());
     }
 
     /**
-     * Test getPlatformForPartner method
-     * TODO: Implement actual test logic
+     * Test getPlatformsWithUserPurchases returns platforms where user made purchases
      */
-    public function test_get_platform_for_partner_works()
+    public function test_get_platforms_with_user_purchases_returns_correct_platforms()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $platform = Platform::factory()->create();
+        $deal = Deal::factory()->create(['platform_id' => $platform->id]);
+        $item = Item::factory()->create(['deal_id' => $deal->id, 'platform_id' => $platform->id]);
+        $order = Order::factory()->create(['user_id' => $user->id]);
+        OrderDetail::factory()->create([
+            'order_id' => $order->id,
+            'item_id' => $item->id
+        ]);
 
         // Act
-        // $result = $this->service->getPlatformForPartner();
+        $result = $this->platformService->getPlatformsWithUserPurchases($user->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getPlatformForPartner not yet implemented');
+        $this->assertGreaterThan(0, $result->count());
     }
 
     /**
-     * Test getPlatformsWithCouponDeals method
-     * TODO: Implement actual test logic
+     * Test getPlatformsWithUserPurchases returns empty when no purchases
      */
-    public function test_get_platforms_with_coupon_deals_works()
+    public function test_get_platforms_with_user_purchases_returns_empty_when_no_purchases()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
 
         // Act
-        // $result = $this->service->getPlatformsWithCouponDeals();
+        $result = $this->platformService->getPlatformsWithUserPurchases($user->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getPlatformsWithCouponDeals not yet implemented');
-    }
-
-    /**
-     * Test getSelectPlatformsWithCouponDeals method
-     * TODO: Implement actual test logic
-     */
-    public function test_get_select_platforms_with_coupon_deals_works()
-    {
-        // Arrange
-        // TODO: Set up test data
-
-        // Act
-        // $result = $this->service->getSelectPlatformsWithCouponDeals();
-
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getSelectPlatformsWithCouponDeals not yet implemented');
+        $this->assertCount(0, $result);
     }
 }

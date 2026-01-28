@@ -2,11 +2,16 @@
 
 namespace Tests\Unit\Services\News;
 
+use App\Models\News;
+use App\Models\User;
 use App\Services\News\NewsService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class NewsServiceTest extends TestCase
 {
+    use DatabaseTransactions;
 
     protected NewsService $newsService;
 
@@ -17,240 +22,389 @@ class NewsServiceTest extends TestCase
     }
 
     /**
-     * Test getById method
-     * TODO: Implement actual test logic
+     * Test getById returns correct news
      */
-    public function test_get_by_id_works()
+    public function test_get_by_id_returns_news()
     {
         // Arrange
-        // TODO: Set up test data
+        $news = News::factory()->create();
 
         // Act
-        // $result = $this->service->getById();
+        $result = $this->newsService->getById($news->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getById not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertEquals($news->id, $result->id);
+        $this->assertEquals($news->title, $result->title);
     }
 
     /**
-     * Test getByIdOrFail method
-     * TODO: Implement actual test logic
+     * Test getById returns null when not found
      */
-    public function test_get_by_id_or_fail_works()
+    public function test_get_by_id_returns_null_when_not_found()
     {
-        // Arrange
-        // TODO: Set up test data
-
         // Act
-        // $result = $this->service->getByIdOrFail();
+        $result = $this->newsService->getById(99999);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getByIdOrFail not yet implemented');
+        $this->assertNull($result);
     }
 
     /**
-     * Test getPaginated method
-     * TODO: Implement actual test logic
+     * Test getById loads relationships
      */
-    public function test_get_paginated_works()
+    public function test_get_by_id_loads_relationships()
     {
         // Arrange
-        // TODO: Set up test data
+        $news = News::factory()->create();
 
         // Act
-        // $result = $this->service->getPaginated();
+        $result = $this->newsService->getById($news->id, ['mainImage', 'hashtags']);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getPaginated not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertTrue($result->relationLoaded('mainImage'));
+        $this->assertTrue($result->relationLoaded('hashtags'));
     }
 
     /**
-     * Test getAll method
-     * TODO: Implement actual test logic
+     * Test getByIdOrFail returns correct news
      */
-    public function test_get_all_works()
+    public function test_get_by_id_or_fail_returns_news()
     {
         // Arrange
-        // TODO: Set up test data
+        $news = News::factory()->create();
 
         // Act
-        // $result = $this->service->getAll();
+        $result = $this->newsService->getByIdOrFail($news->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getAll not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertEquals($news->id, $result->id);
     }
 
     /**
-     * Test getEnabledNews method
-     * TODO: Implement actual test logic
+     * Test getByIdOrFail throws exception when not found
      */
-    public function test_get_enabled_news_works()
+    public function test_get_by_id_or_fail_throws_exception_when_not_found()
     {
-        // Arrange
-        // TODO: Set up test data
+        // Assert
+        $this->expectException(ModelNotFoundException::class);
 
         // Act
-        // $result = $this->service->getEnabledNews();
-
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getEnabledNews not yet implemented');
+        $this->newsService->getByIdOrFail(99999);
     }
 
     /**
-     * Test create method
-     * TODO: Implement actual test logic
+     * Test getPaginated returns paginated results
      */
-    public function test_create_works()
+    public function test_get_paginated_returns_paginated_results()
     {
         // Arrange
-        // TODO: Set up test data
+        News::factory()->count(15)->create();
 
         // Act
-        // $result = $this->service->create();
+        $result = $this->newsService->getPaginated(null, 10);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for create not yet implemented');
+        $this->assertCount(10, $result);
+        $this->assertEquals(15, $result->total());
     }
 
     /**
-     * Test update method
-     * TODO: Implement actual test logic
+     * Test getPaginated filters by search term
      */
-    public function test_update_works()
+    public function test_get_paginated_filters_by_search()
     {
         // Arrange
-        // TODO: Set up test data
+        News::factory()->create(['title' => 'Unique Search Term']);
+        News::factory()->count(3)->create(['title' => 'Other News']);
 
         // Act
-        // $result = $this->service->update();
+        $result = $this->newsService->getPaginated('Unique', 10);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for update not yet implemented');
+        $this->assertCount(1, $result);
+        $this->assertStringContainsString('Unique', $result->items()[0]->title);
     }
 
     /**
-     * Test delete method
-     * TODO: Implement actual test logic
+     * Test getAll returns all news
      */
-    public function test_delete_works()
+    public function test_get_all_returns_all_news()
     {
         // Arrange
-        // TODO: Set up test data
+        News::factory()->count(5)->create();
 
         // Act
-        // $result = $this->service->delete();
+        $result = $this->newsService->getAll();
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for delete not yet implemented');
+        $this->assertCount(5, $result);
     }
 
     /**
-     * Test duplicate method
-     * TODO: Implement actual test logic
+     * Test getAll loads relationships
      */
-    public function test_duplicate_works()
+    public function test_get_all_loads_relationships()
     {
         // Arrange
-        // TODO: Set up test data
+        News::factory()->count(3)->create();
 
         // Act
-        // $result = $this->service->duplicate();
+        $result = $this->newsService->getAll(['mainImage', 'hashtags']);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for duplicate not yet implemented');
+        $this->assertCount(3, $result);
+        $this->assertTrue($result->first()->relationLoaded('mainImage'));
+        $this->assertTrue($result->first()->relationLoaded('hashtags'));
     }
 
     /**
-     * Test hasUserLiked method
-     * TODO: Implement actual test logic
+     * Test getEnabledNews returns only enabled news
      */
-    public function test_has_user_liked_works()
+    public function test_get_enabled_news_returns_only_enabled()
     {
         // Arrange
-        // TODO: Set up test data
+        News::factory()->enabled()->count(3)->create();
+        News::factory()->disabled()->count(2)->create();
 
         // Act
-        // $result = $this->service->hasUserLiked();
+        $result = $this->newsService->getEnabledNews();
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for hasUserLiked not yet implemented');
+        $this->assertCount(3, $result);
+        $this->assertTrue($result->every(fn($news) => $news->enabled == 1));
     }
 
     /**
-     * Test getWithRelations method
-     * TODO: Implement actual test logic
+     * Test create creates new news
      */
-    public function test_get_with_relations_works()
+    public function test_create_creates_new_news()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $data = [
+            'title' => 'Test News Title',
+            'content' => 'Test news content',
+            'enabled' => true,
+            'created_by' => $user->id,
+        ];
 
         // Act
-        // $result = $this->service->getWithRelations();
+        $result = $this->newsService->create($data);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getWithRelations not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertEquals($data['title'], $result->title);
+        $this->assertEquals($data['content'], $result->content);
+        $this->assertEquals($data['enabled'], $result->enabled);
+        $this->assertDatabaseHas('news', ['title' => 'Test News Title']);
     }
 
     /**
-     * Test getNewsWithRelations method
-     * TODO: Implement actual test logic
+     * Test update updates existing news
      */
-    public function test_get_news_with_relations_works()
+    public function test_update_updates_news()
     {
         // Arrange
-        // TODO: Set up test data
+        $news = News::factory()->create(['title' => 'Original Title']);
+        $updateData = ['title' => 'Updated Title'];
 
         // Act
-        // $result = $this->service->getNewsWithRelations();
+        $result = $this->newsService->update($news->id, $updateData);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getNewsWithRelations not yet implemented');
+        $this->assertTrue($result);
+        $news->refresh();
+        $this->assertEquals('Updated Title', $news->title);
     }
 
     /**
-     * Test addLike method
-     * TODO: Implement actual test logic
+     * Test update throws exception when not found
      */
-    public function test_add_like_works()
+    public function test_update_throws_exception_when_not_found()
     {
-        // Arrange
-        // TODO: Set up test data
+        // Assert
+        $this->expectException(ModelNotFoundException::class);
 
         // Act
-        // $result = $this->service->addLike();
-
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for addLike not yet implemented');
+        $this->newsService->update(99999, ['title' => 'Test']);
     }
 
     /**
-     * Test removeLike method
-     * TODO: Implement actual test logic
+     * Test delete deletes news
      */
-    public function test_remove_like_works()
+    public function test_delete_deletes_news()
     {
         // Arrange
-        // TODO: Set up test data
+        $news = News::factory()->create();
 
         // Act
-        // $result = $this->service->removeLike();
+        $result = $this->newsService->delete($news->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for removeLike not yet implemented');
+        $this->assertTrue($result);
+        $this->assertDatabaseMissing('news', ['id' => $news->id]);
+    }
+
+    /**
+     * Test delete throws exception when not found
+     */
+    public function test_delete_throws_exception_when_not_found()
+    {
+        // Assert
+        $this->expectException(ModelNotFoundException::class);
+
+        // Act
+        $this->newsService->delete(99999);
+    }
+
+    /**
+     * Test duplicate creates copy of news
+     */
+    public function test_duplicate_creates_copy()
+    {
+        // Arrange
+        $original = News::factory()->create([
+            'title' => 'Original News',
+            'content' => 'Original Content',
+            'enabled' => true
+        ]);
+
+        // Act
+        $duplicate = $this->newsService->duplicate($original->id);
+
+        // Assert
+        $this->assertNotNull($duplicate);
+        $this->assertNotEquals($original->id, $duplicate->id);
+        $this->assertStringContainsString('Original News', $duplicate->title);
+        $this->assertStringContainsString('(Copy)', $duplicate->title);
+        $this->assertStringContainsString('(Copy)', $duplicate->content);
+        $this->assertFalse($duplicate->enabled);
+    }
+
+    /**
+     * Test hasUserLiked returns false when not liked
+     */
+    public function test_has_user_liked_returns_false_when_not_liked()
+    {
+        // Arrange
+        $news = News::factory()->create();
+        $user = User::factory()->create();
+
+        // Act
+        $result = $this->newsService->hasUserLiked($news->id, $user->id);
+
+        // Assert
+        $this->assertFalse($result);
+    }
+
+    /**
+     * Test getWithRelations loads specified relations
+     */
+    public function test_get_with_relations_loads_specified_relations()
+    {
+        // Arrange
+        $news = News::factory()->create();
+
+        // Act
+        $result = $this->newsService->getWithRelations($news->id, ['likes', 'comments']);
+
+        // Assert
+        $this->assertNotNull($result);
+        $this->assertTrue($result->relationLoaded('likes'));
+        $this->assertTrue($result->relationLoaded('comments'));
+    }
+
+    /**
+     * Test getWithRelations returns null when not found
+     */
+    public function test_get_with_relations_returns_null_when_not_found()
+    {
+        // Act
+        $result = $this->newsService->getWithRelations(99999, ['likes']);
+
+        // Assert
+        $this->assertNull($result);
+    }
+
+    /**
+     * Test getNewsWithRelations loads standard relations
+     */
+    public function test_get_news_with_relations_loads_standard_relations()
+    {
+        // Arrange
+        $news = News::factory()->create();
+
+        // Act
+        $result = $this->newsService->getNewsWithRelations($news->id);
+
+        // Assert
+        $this->assertNotNull($result);
+        $this->assertTrue($result->relationLoaded('mainImage'));
+        $this->assertTrue($result->relationLoaded('likes'));
+        $this->assertTrue($result->relationLoaded('comments'));
+    }
+
+    /**
+     * Test addLike adds like to news
+     */
+    public function test_add_like_adds_like()
+    {
+        // Arrange
+        $news = News::factory()->create();
+        $user = User::factory()->create();
+
+        // Act
+        $result = $this->newsService->addLike($news->id, $user->id);
+
+        // Assert
+        $this->assertTrue($result);
+        $this->assertDatabaseHas('likes', [
+            'likable_id' => $news->id,
+            'likable_type' => News::class,
+            'user_id' => $user->id
+        ]);
+    }
+
+    /**
+     * Test addLike handles duplicate likes
+     */
+    public function test_add_like_handles_duplicate()
+    {
+        // Arrange
+        $news = News::factory()->create();
+        $user = User::factory()->create();
+        $news->likes()->create(['user_id' => $user->id]);
+
+        // Act
+        $result = $this->newsService->addLike($news->id, $user->id);
+
+        // Assert
+        $this->assertTrue($result);
+        $this->assertEquals(1, $news->likes()->count());
+    }
+
+    /**
+     * Test removeLike removes like from news
+     */
+    public function test_remove_like_removes_like()
+    {
+        // Arrange
+        $news = News::factory()->create();
+        $user = User::factory()->create();
+        $news->likes()->create(['user_id' => $user->id]);
+
+        // Act
+        $result = $this->newsService->removeLike($news->id, $user->id);
+
+        // Assert
+        $this->assertTrue($result);
+        $this->assertDatabaseMissing('likes', [
+            'likable_id' => $news->id,
+            'likable_type' => News::class,
+            'user_id' => $user->id
+        ]);
     }
 }
