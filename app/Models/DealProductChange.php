@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use App\Traits\HasAuditing;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DealProductChange extends Model
 {
-    use HasAuditing;
+    use HasFactory, HasAuditing;
 
     protected $fillable = [
         'deal_id',

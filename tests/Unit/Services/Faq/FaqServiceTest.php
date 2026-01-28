@@ -261,42 +261,5 @@ class FaqServiceTest extends TestCase
         $this->assertNotNull($result);
         $this->assertEquals(1, $result->created_by);
         $this->assertEquals(1, $result->updated_by);
-
-
-
-    }
-
-    /**
-     * Test update method
-     * TODO: Implement actual test logic
-     */
-    public function test_update_works()
-    {
-        // Arrange
-        // TODO: Set up test data
-
-        // Act
-        // $result = $this->service->update();
-
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for update not yet implemented');
-    }
-
-    /**
-     * Test delete method
-     * TODO: Implement actual test logic
-     */
-    public function test_delete_works()
-    {
-        // Arrange
-        // TODO: Set up test data
-
-        // Act
-        // $result = $this->service->delete();
-
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for delete not yet implemented');
     }
 }
