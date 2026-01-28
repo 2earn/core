@@ -2,11 +2,17 @@
 
 namespace Tests\Unit\Services\Platform;
 
+use App\Models\Platform;
+use App\Models\PlatformChangeRequest;
+use App\Models\User;
 use App\Services\Platform\PlatformChangeRequestService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class PlatformChangeRequestServiceTest extends TestCase
 {
+    use DatabaseTransactions;
 
     protected PlatformChangeRequestService $platformChangeRequestService;
 
@@ -17,240 +23,480 @@ class PlatformChangeRequestServiceTest extends TestCase
     }
 
     /**
-     * Test getPendingRequestsPaginated method
-     * TODO: Implement actual test logic
+     * Test getPendingRequestsPaginated returns paginated pending requests
      */
-    public function test_get_pending_requests_paginated_works()
+    public function test_get_pending_requests_paginated_returns_pending_requests()
     {
         // Arrange
-        // TODO: Set up test data
+        $platform = Platform::factory()->create();
+        $user = User::factory()->create();
+
+        PlatformChangeRequest::factory()->count(3)->create([
+            'platform_id' => $platform->id,
+            'status' => PlatformChangeRequest::STATUS_PENDING,
+            'requested_by' => $user->id
+        ]);
 
         // Act
-        // $result = $this->service->getPendingRequestsPaginated();
+        $result = $this->platformChangeRequestService->getPendingRequestsPaginated(1, 10);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getPendingRequestsPaginated not yet implemented');
+        $this->assertGreaterThanOrEqual(3, $result->total());
     }
 
     /**
-     * Test getChangeRequestsPaginated method
-     * TODO: Implement actual test logic
+     * Test getPendingRequestsPaginated filters by platform
      */
-    public function test_get_change_requests_paginated_works()
+    public function test_get_pending_requests_paginated_filters_by_platform()
     {
         // Arrange
-        // TODO: Set up test data
+        $platform1 = Platform::factory()->create();
+        $platform2 = Platform::factory()->create();
+        $user = User::factory()->create();
+
+        PlatformChangeRequest::factory()->create([
+            'platform_id' => $platform1->id,
+            'status' => PlatformChangeRequest::STATUS_PENDING,
+            'requested_by' => $user->id
+        ]);
+        PlatformChangeRequest::factory()->create([
+            'platform_id' => $platform2->id,
+            'status' => PlatformChangeRequest::STATUS_PENDING,
+            'requested_by' => $user->id
+        ]);
 
         // Act
-        // $result = $this->service->getChangeRequestsPaginated();
+        $result = $this->platformChangeRequestService->getPendingRequestsPaginated(1, 10, $platform1->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getChangeRequestsPaginated not yet implemented');
+        $this->assertGreaterThanOrEqual(1, $result->total());
+        foreach ($result->items() as $item) {
+            $this->assertEquals($platform1->id, $item->platform_id);
+        }
     }
 
     /**
-     * Test getChangeRequestById method
-     * TODO: Implement actual test logic
+     * Test getChangeRequestsPaginated returns paginated results
      */
-    public function test_get_change_request_by_id_works()
+    public function test_get_change_requests_paginated_returns_results()
     {
         // Arrange
-        // TODO: Set up test data
+        $platform = Platform::factory()->create();
+        $user = User::factory()->create();
+
+        PlatformChangeRequest::factory()->count(5)->create([
+            'platform_id' => $platform->id,
+            'requested_by' => $user->id
+        ]);
 
         // Act
-        // $result = $this->service->getChangeRequestById();
+        $result = $this->platformChangeRequestService->getChangeRequestsPaginated(null, null, 1, 10);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getChangeRequestById not yet implemented');
+        $this->assertGreaterThanOrEqual(5, $result->total());
     }
 
     /**
-     * Test findRequest method
-     * TODO: Implement actual test logic
+     * Test getChangeRequestsPaginated filters by status
      */
-    public function test_find_request_works()
+    public function test_get_change_requests_paginated_filters_by_status()
     {
         // Arrange
-        // TODO: Set up test data
+        $platform = Platform::factory()->create();
+        $user = User::factory()->create();
+
+        PlatformChangeRequest::factory()->count(2)->create([
+            'platform_id' => $platform->id,
+            'status' => PlatformChangeRequest::STATUS_PENDING,
+            'requested_by' => $user->id
+        ]);
+        PlatformChangeRequest::factory()->count(3)->create([
+            'platform_id' => $platform->id,
+            'status' => PlatformChangeRequest::STATUS_APPROVED,
+            'requested_by' => $user->id
+        ]);
 
         // Act
-        // $result = $this->service->findRequest();
+        $result = $this->platformChangeRequestService->getChangeRequestsPaginated(
+            PlatformChangeRequest::STATUS_APPROVED,
+            null,
+            1,
+            10
+        );
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for findRequest not yet implemented');
+        $this->assertGreaterThanOrEqual(3, $result->total());
     }
 
     /**
-     * Test findRequestWithRelations method
-     * TODO: Implement actual test logic
+     * Test getChangeRequestById returns request
      */
-    public function test_find_request_with_relations_works()
+    public function test_get_change_request_by_id_returns_request()
     {
         // Arrange
-        // TODO: Set up test data
+        $platform = Platform::factory()->create();
+        $user = User::factory()->create();
+        $request = PlatformChangeRequest::factory()->create([
+            'platform_id' => $platform->id,
+            'requested_by' => $user->id
+        ]);
 
         // Act
-        // $result = $this->service->findRequestWithRelations();
+        $result = $this->platformChangeRequestService->getChangeRequestById($request->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for findRequestWithRelations not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertEquals($request->id, $result->id);
     }
 
     /**
-     * Test approveRequest method
-     * TODO: Implement actual test logic
+     * Test getChangeRequestById returns null when not found
      */
-    public function test_approve_request_works()
+    public function test_get_change_request_by_id_returns_null_when_not_found()
     {
-        // Arrange
-        // TODO: Set up test data
-
         // Act
-        // $result = $this->service->approveRequest();
+        $result = $this->platformChangeRequestService->getChangeRequestById(99999);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for approveRequest not yet implemented');
+        $this->assertNull($result);
     }
 
     /**
-     * Test rejectRequest method
-     * TODO: Implement actual test logic
+     * Test findRequest returns request
      */
-    public function test_reject_request_works()
+    public function test_find_request_returns_request()
     {
         // Arrange
-        // TODO: Set up test data
+        $platform = Platform::factory()->create();
+        $user = User::factory()->create();
+        $request = PlatformChangeRequest::factory()->create([
+            'platform_id' => $platform->id,
+            'requested_by' => $user->id
+        ]);
 
         // Act
-        // $result = $this->service->rejectRequest();
+        $result = $this->platformChangeRequestService->findRequest($request->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for rejectRequest not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertEquals($request->id, $result->id);
     }
 
     /**
-     * Test getFilteredQuery method
-     * TODO: Implement actual test logic
+     * Test findRequest throws exception when not found
      */
-    public function test_get_filtered_query_works()
+    public function test_find_request_throws_exception_when_not_found()
     {
-        // Arrange
-        // TODO: Set up test data
+        // Assert
+        $this->expectException(ModelNotFoundException::class);
 
         // Act
-        // $result = $this->service->getFilteredQuery();
-
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getFilteredQuery not yet implemented');
+        $this->platformChangeRequestService->findRequest(99999);
     }
 
     /**
-     * Test getPaginatedRequests method
-     * TODO: Implement actual test logic
+     * Test findRequestWithRelations loads relationships
      */
-    public function test_get_paginated_requests_works()
+    public function test_find_request_with_relations_loads_relationships()
     {
         // Arrange
-        // TODO: Set up test data
+        $platform = Platform::factory()->create();
+        $user = User::factory()->create();
+        $request = PlatformChangeRequest::factory()->create([
+            'platform_id' => $platform->id,
+            'requested_by' => $user->id
+        ]);
 
         // Act
-        // $result = $this->service->getPaginatedRequests();
+        $result = $this->platformChangeRequestService->findRequestWithRelations(
+            $request->id,
+            ['platform', 'requestedBy']
+        );
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getPaginatedRequests not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertTrue($result->relationLoaded('platform'));
+        $this->assertTrue($result->relationLoaded('requestedBy'));
     }
 
     /**
-     * Test createRequest method
-     * TODO: Implement actual test logic
+     * Test approveRequest approves and applies changes
      */
-    public function test_create_request_works()
+    public function test_approve_request_approves_and_applies_changes()
     {
         // Arrange
-        // TODO: Set up test data
+        $platform = Platform::factory()->create(['name' => 'Original Name']);
+        $user = User::factory()->create();
+        $reviewer = User::factory()->create();
+
+        $request = PlatformChangeRequest::factory()->create([
+            'platform_id' => $platform->id,
+            'requested_by' => $user->id,
+            'status' => PlatformChangeRequest::STATUS_PENDING,
+            'changes' => [
+                'name' => [
+                    'old' => 'Original Name',
+                    'new' => 'Updated Name'
+                ]
+            ]
+        ]);
 
         // Act
-        // $result = $this->service->createRequest();
+        $result = $this->platformChangeRequestService->approveRequest($request->id, $reviewer->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for createRequest not yet implemented');
+        $this->assertEquals(PlatformChangeRequest::STATUS_APPROVED, $result->status);
+        $this->assertEquals($reviewer->id, $result->reviewed_by);
+        $this->assertNotNull($result->reviewed_at);
+
+        $platform->refresh();
+        $this->assertEquals('Updated Name', $platform->name);
     }
 
     /**
-     * Test cancelRequest method
-     * TODO: Implement actual test logic
+     * Test approveRequest throws exception for already processed request
      */
-    public function test_cancel_request_works()
+    public function test_approve_request_throws_exception_for_already_processed()
     {
         // Arrange
-        // TODO: Set up test data
+        $platform = Platform::factory()->create();
+        $user = User::factory()->create();
+        $reviewer = User::factory()->create();
 
-        // Act
-        // $result = $this->service->cancelRequest();
+        $request = PlatformChangeRequest::factory()->create([
+            'platform_id' => $platform->id,
+            'requested_by' => $user->id,
+            'status' => PlatformChangeRequest::STATUS_APPROVED,
+            'reviewed_by' => $reviewer->id
+        ]);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for cancelRequest not yet implemented');
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('already been processed');
+
+        // Act
+        $this->platformChangeRequestService->approveRequest($request->id, $reviewer->id);
     }
 
     /**
-     * Test getPendingRequests method
-     * TODO: Implement actual test logic
+     * Test rejectRequest rejects request
      */
-    public function test_get_pending_requests_works()
+    public function test_reject_request_rejects_request()
     {
         // Arrange
-        // TODO: Set up test data
+        $platform = Platform::factory()->create();
+        $user = User::factory()->create();
+        $reviewer = User::factory()->create();
+
+        $request = PlatformChangeRequest::factory()->create([
+            'platform_id' => $platform->id,
+            'requested_by' => $user->id,
+            'status' => PlatformChangeRequest::STATUS_PENDING
+        ]);
 
         // Act
-        // $result = $this->service->getPendingRequests();
+        $result = $this->platformChangeRequestService->rejectRequest(
+            $request->id,
+            $reviewer->id,
+            'Not approved'
+        );
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getPendingRequests not yet implemented');
+        $this->assertEquals('rejected', $result->status);
+        $this->assertEquals('Not approved', $result->rejection_reason);
+        $this->assertEquals($reviewer->id, $result->reviewed_by);
+        $this->assertNotNull($result->reviewed_at);
     }
 
     /**
-     * Test getStatistics method
-     * TODO: Implement actual test logic
+     * Test getFilteredQuery returns query builder
      */
-    public function test_get_statistics_works()
+    public function test_get_filtered_query_returns_query_builder()
     {
-        // Arrange
-        // TODO: Set up test data
-
         // Act
-        // $result = $this->service->getStatistics();
+        $result = $this->platformChangeRequestService->getFilteredQuery();
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getStatistics not yet implemented');
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Builder::class, $result);
     }
 
     /**
-     * Test getTotalPending method
-     * TODO: Implement actual test logic
+     * Test getFilteredQuery filters by status
      */
-    public function test_get_total_pending_works()
+    public function test_get_filtered_query_filters_by_status()
     {
         // Arrange
-        // TODO: Set up test data
+        $platform = Platform::factory()->create();
+        $user = User::factory()->create();
+
+        PlatformChangeRequest::factory()->create([
+            'platform_id' => $platform->id,
+            'status' => PlatformChangeRequest::STATUS_PENDING,
+            'requested_by' => $user->id
+        ]);
 
         // Act
-        // $result = $this->service->getTotalPending();
+        $query = $this->platformChangeRequestService->getFilteredQuery(PlatformChangeRequest::STATUS_PENDING);
+        $result = $query->get();
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getTotalPending not yet implemented');
+        $this->assertGreaterThanOrEqual(1, $result->count());
+    }
+
+    /**
+     * Test getPaginatedRequests returns paginated results
+     */
+    public function test_get_paginated_requests_returns_paginated_results()
+    {
+        // Arrange
+        $platform = Platform::factory()->create();
+        $user = User::factory()->create();
+
+        PlatformChangeRequest::factory()->count(15)->create([
+            'platform_id' => $platform->id,
+            'requested_by' => $user->id
+        ]);
+
+        // Act
+        $result = $this->platformChangeRequestService->getPaginatedRequests(null, null, 10);
+
+        // Assert
+        $this->assertGreaterThanOrEqual(15, $result->total());
+        $this->assertLessThanOrEqual(10, $result->count());
+    }
+
+    /**
+     * Test createRequest creates new request
+     */
+    public function test_create_request_creates_new_request()
+    {
+        // Arrange
+        $platform = Platform::factory()->create();
+        $user = User::factory()->create();
+        $changes = ['name' => ['old' => 'Old', 'new' => 'New']];
+
+        // Act
+        $result = $this->platformChangeRequestService->createRequest(
+            $platform->id,
+            $changes,
+            $user->id
+        );
+
+        // Assert
+        $this->assertNotNull($result);
+        $this->assertEquals($platform->id, $result->platform_id);
+        $this->assertEquals($changes, $result->changes);
+        $this->assertEquals(PlatformChangeRequest::STATUS_PENDING, $result->status);
+        $this->assertDatabaseHas('platform_change_requests', [
+            'platform_id' => $platform->id,
+            'requested_by' => $user->id
+        ]);
+    }
+
+    /**
+     * Test cancelRequest cancels pending request
+     */
+    public function test_cancel_request_cancels_pending_request()
+    {
+        // Arrange
+        $platform = Platform::factory()->create();
+        $user = User::factory()->create();
+        $request = PlatformChangeRequest::factory()->create([
+            'platform_id' => $platform->id,
+            'requested_by' => $user->id,
+            'status' => PlatformChangeRequest::STATUS_PENDING
+        ]);
+
+        // Act
+        $result = $this->platformChangeRequestService->cancelRequest($request->id);
+
+        // Assert
+        $this->assertEquals(PlatformChangeRequest::STATUS_CANCELLED, $result->status);
+    }
+
+    /**
+     * Test getPendingRequests returns pending requests
+     */
+    public function test_get_pending_requests_returns_pending_requests()
+    {
+        // Arrange
+        $platform = Platform::factory()->create();
+        $user = User::factory()->create();
+
+        PlatformChangeRequest::factory()->count(3)->create([
+            'platform_id' => $platform->id,
+            'status' => PlatformChangeRequest::STATUS_PENDING,
+            'requested_by' => $user->id
+        ]);
+
+        // Act
+        $result = $this->platformChangeRequestService->getPendingRequests();
+
+        // Assert
+        $this->assertGreaterThanOrEqual(3, $result->count());
+    }
+
+    /**
+     * Test getPendingRequests respects limit
+     */
+    public function test_get_pending_requests_respects_limit()
+    {
+        // Arrange
+        $platform = Platform::factory()->create();
+        $user = User::factory()->create();
+
+        PlatformChangeRequest::factory()->count(10)->create([
+            'platform_id' => $platform->id,
+            'status' => PlatformChangeRequest::STATUS_PENDING,
+            'requested_by' => $user->id
+        ]);
+
+        // Act
+        $result = $this->platformChangeRequestService->getPendingRequests(5);
+
+        // Assert
+        $this->assertEquals(5, $result->count());
+    }
+
+    /**
+     * Test getStatistics returns statistics array
+     */
+    public function test_get_statistics_returns_statistics_array()
+    {
+        // Act
+        $result = $this->platformChangeRequestService->getStatistics();
+
+        // Assert
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('pending_count', $result);
+        $this->assertArrayHasKey('approved_count', $result);
+        $this->assertArrayHasKey('rejected_count', $result);
+        $this->assertArrayHasKey('total_count', $result);
+        $this->assertArrayHasKey('recent_pending', $result);
+        $this->assertArrayHasKey('today_count', $result);
+        $this->assertArrayHasKey('this_week_count', $result);
+    }
+
+    /**
+     * Test getTotalPending returns correct count
+     */
+    public function test_get_total_pending_returns_correct_count()
+    {
+        // Arrange
+        $platform = Platform::factory()->create();
+        $user = User::factory()->create();
+        $initialCount = PlatformChangeRequest::where('status', PlatformChangeRequest::STATUS_PENDING)->count();
+
+        PlatformChangeRequest::factory()->count(5)->create([
+            'platform_id' => $platform->id,
+            'status' => PlatformChangeRequest::STATUS_PENDING,
+            'requested_by' => $user->id
+        ]);
+
+        // Act
+        $result = $this->platformChangeRequestService->getTotalPending();
+
+        // Assert
+        $this->assertEquals($initialCount + 5, $result);
     }
 }
