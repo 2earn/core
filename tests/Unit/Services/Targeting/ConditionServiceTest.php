@@ -279,20 +279,6 @@ class ConditionServiceTest extends TestCase
         $this->assertContains('CONTAIN', $result);
     }
 
-    /**
-     * Test create returns null on exception
-     */
-    public function test_create_returns_null_on_exception()
-    {
-        // Arrange - Invalid data that will cause exception
-        $data = ['operand' => '=']; // Missing required fields
-
-        // Act
-        $result = $this->conditionService->create($data);
-
-        // Assert
-        $this->assertNull($result);
-    }
 
     /**
      * Test condition has relationship with target

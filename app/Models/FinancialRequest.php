@@ -2,14 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasAuditing;
 
 class FinancialRequest extends Model
 {
-    use HasAuditing;
+    use HasFactory, HasAuditing;
 
     protected $table = 'financial_request';
+    protected $primaryKey = 'numeroReq';
+    public $incrementing = false;
+    protected $keyType = 'string';
     public $timestamps = true;
 
     protected $fillable = [

@@ -2,11 +2,16 @@
 
 namespace Tests\Unit\Services\FinancialRequest;
 
+use App\Models\detail_financial_request;
+use App\Models\FinancialRequest;
+use App\Models\User;
 use App\Services\FinancialRequest\FinancialRequestService;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class FinancialRequestServiceTest extends TestCase
 {
+    use DatabaseTransactions;
 
     protected FinancialRequestService $financialRequestService;
 
@@ -17,359 +22,436 @@ class FinancialRequestServiceTest extends TestCase
     }
 
     /**
-     * Test resetOutGoingNotification method
-     * TODO: Implement actual test logic
+     * Test resetOutGoingNotification resets accepted notifications
      */
-    public function test_reset_out_going_notification_works()
+    public function test_reset_out_going_notification_resets_accepted()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        FinancialRequest::factory()->accepted()->count(2)->create([
+            'idSender' => $user->idUser,
+            'vu' => 0
+        ]);
 
         // Act
-        // $result = $this->service->resetOutGoingNotification();
+        $result = $this->financialRequestService->resetOutGoingNotification($user->idUser);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for resetOutGoingNotification not yet implemented');
+        $this->assertGreaterThan(0, $result);
     }
 
     /**
-     * Test resetInComingNotification method
-     * TODO: Implement actual test logic
+     * Test resetOutGoingNotification resets refused notifications
      */
-    public function test_reset_in_coming_notification_works()
+    public function test_reset_out_going_notification_resets_refused()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        FinancialRequest::factory()->refused()->count(2)->create([
+            'idSender' => $user->idUser,
+            'vu' => 0
+        ]);
 
         // Act
-        // $result = $this->service->resetInComingNotification();
+        $result = $this->financialRequestService->resetOutGoingNotification($user->idUser);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for resetInComingNotification not yet implemented');
+        $this->assertGreaterThan(0, $result);
     }
 
     /**
-     * Test getRequestsToUser method
-     * TODO: Implement actual test logic
+     * Test resetInComingNotification resets incoming notifications
      */
-    public function test_get_requests_to_user_works()
+    public function test_reset_in_coming_notification_resets_notifications()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $financialRequest = FinancialRequest::factory()->create();
+
+        detail_financial_request::factory()->count(2)->create([
+            'numeroRequest' => $financialRequest->numeroReq,
+            'idUser' => $user->idUser,
+            'vu' => 0
+        ]);
 
         // Act
-        // $result = $this->service->getRequestsToUser();
+        $result = $this->financialRequestService->resetInComingNotification($user->idUser);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getRequestsToUser not yet implemented');
+        $this->assertGreaterThan(0, $result);
     }
 
     /**
-     * Test countRequestsInOpen method
-     * TODO: Implement actual test logic
+     * Test getByNumeroReq returns financial request
      */
-    public function test_count_requests_in_open_works()
+    public function test_get_by_numero_req_returns_request()
     {
         // Arrange
-        // TODO: Set up test data
+        $financialRequest = FinancialRequest::factory()->create();
 
         // Act
-        // $result = $this->service->countRequestsInOpen();
+        $result = $this->financialRequestService->getByNumeroReq($financialRequest->numeroReq);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for countRequestsInOpen not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertEquals($financialRequest->numeroReq, $result->numeroReq);
     }
 
     /**
-     * Test countRequestsOutAccepted method
-     * TODO: Implement actual test logic
+     * Test getByNumeroReq returns null for non-existent request
      */
-    public function test_count_requests_out_accepted_works()
+    public function test_get_by_numero_req_returns_null_for_nonexistent()
     {
-        // Arrange
-        // TODO: Set up test data
-
         // Act
-        // $result = $this->service->countRequestsOutAccepted();
+        $result = $this->financialRequestService->getByNumeroReq('999999');
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for countRequestsOutAccepted not yet implemented');
+        $this->assertNull($result);
     }
 
     /**
-     * Test countRequestsOutRefused method
-     * TODO: Implement actual test logic
+     * Test getDetailRequest returns detail request
      */
-    public function test_count_requests_out_refused_works()
+    public function test_get_detail_request_returns_detail()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $financialRequest = FinancialRequest::factory()->create();
+        $detail = detail_financial_request::factory()->create([
+            'numeroRequest' => $financialRequest->numeroReq,
+            'idUser' => $user->idUser
+        ]);
 
         // Act
-        // $result = $this->service->countRequestsOutRefused();
+        $result = $this->financialRequestService->getDetailRequest($financialRequest->numeroReq, $user->idUser);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for countRequestsOutRefused not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertEquals($detail->id, $result->id);
     }
 
     /**
-     * Test getRequestsFromUser method
-     * TODO: Implement actual test logic
+     * Test countRequestsInOpen counts open requests
      */
-    public function test_get_requests_from_user_works()
+    public function test_count_requests_in_open_counts_correctly()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $financialRequest = FinancialRequest::factory()->pending()->create();
+
+        detail_financial_request::factory()->count(3)->create([
+            'numeroRequest' => $financialRequest->numeroReq,
+            'idUser' => $user->idUser,
+            'vu' => 0
+        ]);
 
         // Act
-        // $result = $this->service->getRequestsFromUser();
+        $result = $this->financialRequestService->countRequestsInOpen($user->idUser);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getRequestsFromUser not yet implemented');
+        $this->assertGreaterThanOrEqual(3, $result);
     }
 
     /**
-     * Test getRechargeRequestsIn method
-     * TODO: Implement actual test logic
+     * Test countRequestsOutAccepted counts accepted requests
      */
-    public function test_get_recharge_requests_in_works()
+    public function test_count_requests_out_accepted_counts_correctly()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        FinancialRequest::factory()->accepted()->count(2)->create([
+            'idSender' => $user->idUser,
+            'vu' => 0
+        ]);
 
         // Act
-        // $result = $this->service->getRechargeRequestsIn();
+        $result = $this->financialRequestService->countRequestsOutAccepted($user->idUser);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getRechargeRequestsIn not yet implemented');
+        $this->assertGreaterThanOrEqual(2, $result);
     }
 
     /**
-     * Test getRechargeRequestsOut method
-     * TODO: Implement actual test logic
+     * Test countRequestsOutRefused counts refused requests
      */
-    public function test_get_recharge_requests_out_works()
+    public function test_count_requests_out_refused_counts_correctly()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        FinancialRequest::factory()->refused()->count(2)->create([
+            'idSender' => $user->idUser,
+            'vu' => 0
+        ]);
 
         // Act
-        // $result = $this->service->getRechargeRequestsOut();
+        $result = $this->financialRequestService->countRequestsOutRefused($user->idUser);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getRechargeRequestsOut not yet implemented');
+        $this->assertGreaterThanOrEqual(2, $result);
     }
 
     /**
-     * Test getByNumeroReq method
-     * TODO: Implement actual test logic
+     * Test acceptFinancialRequest accepts a request
      */
-    public function test_get_by_numero_req_works()
+    public function test_accept_financial_request_accepts_request()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $financialRequest = FinancialRequest::factory()->pending()->create();
+
+        detail_financial_request::factory()->create([
+            'numeroRequest' => $financialRequest->numeroReq,
+            'idUser' => $user->idUser,
+            'response' => null
+        ]);
 
         // Act
-        // $result = $this->service->getByNumeroReq();
+        $result = $this->financialRequestService->acceptFinancialRequest(
+            $financialRequest->numeroReq,
+            $user->idUser
+        );
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getByNumeroReq not yet implemented');
+        $this->assertTrue($result);
+
+        // Verify the request was accepted
+        $financialRequest->refresh();
+        $this->assertEquals(1, $financialRequest->status);
+        $this->assertEquals($user->idUser, $financialRequest->idUserAccepted);
     }
 
     /**
-     * Test getRequestWithUserDetails method
-     * TODO: Implement actual test logic
+     * Test rejectFinancialRequest rejects a request
      */
-    public function test_get_request_with_user_details_works()
+    public function test_reject_financial_request_rejects_request()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $financialRequest = FinancialRequest::factory()->pending()->create();
+
+        detail_financial_request::factory()->create([
+            'numeroRequest' => $financialRequest->numeroReq,
+            'idUser' => $user->idUser,
+            'response' => null
+        ]);
 
         // Act
-        // $result = $this->service->getRequestWithUserDetails();
+        $result = $this->financialRequestService->rejectFinancialRequest(
+            $financialRequest->numeroReq,
+            $user->idUser
+        );
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getRequestWithUserDetails not yet implemented');
+        $this->assertTrue($result);
+
+        // Verify the detail was rejected
+        $detail = detail_financial_request::where('numeroRequest', $financialRequest->numeroReq)
+            ->where('idUser', $user->idUser)
+            ->first();
+        $this->assertEquals(2, $detail->response);
     }
 
     /**
-     * Test getDetailRequest method
-     * TODO: Implement actual test logic
+     * Test rejectFinancialRequest marks request as refused when all reject
      */
-    public function test_get_detail_request_works()
+    public function test_reject_financial_request_marks_refused_when_all_reject()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $financialRequest = FinancialRequest::factory()->pending()->create();
+
+        // Only one user in the request
+        detail_financial_request::factory()->create([
+            'numeroRequest' => $financialRequest->numeroReq,
+            'idUser' => $user->idUser,
+            'response' => null
+        ]);
 
         // Act
-        // $result = $this->service->getDetailRequest();
+        $result = $this->financialRequestService->rejectFinancialRequest(
+            $financialRequest->numeroReq,
+            $user->idUser
+        );
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getDetailRequest not yet implemented');
+        $this->assertTrue($result);
+
+        $financialRequest->refresh();
+        $this->assertEquals(5, $financialRequest->status); // Status 5 = refused
     }
 
     /**
-     * Test acceptFinancialRequest method
-     * TODO: Implement actual test logic
+     * Test cancelFinancialRequest cancels a request
      */
-    public function test_accept_financial_request_works()
+    public function test_cancel_financial_request_cancels_request()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $financialRequest = FinancialRequest::factory()->pending()->create([
+            'idSender' => $user->idUser
+        ]);
 
         // Act
-        // $result = $this->service->acceptFinancialRequest();
+        $result = $this->financialRequestService->cancelFinancialRequest(
+            $financialRequest->numeroReq,
+            $user->idUser
+        );
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for acceptFinancialRequest not yet implemented');
+        $this->assertTrue($result);
+
+        $financialRequest->refresh();
+        $this->assertEquals(3, $financialRequest->status); // Status 3 = canceled
     }
 
     /**
-     * Test rejectFinancialRequest method
-     * TODO: Implement actual test logic
+     * Test getRequestsFromUser returns user's requests
      */
-    public function test_reject_financial_request_works()
+    public function test_get_requests_from_user_returns_requests()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $initialCount = FinancialRequest::where('idSender', $user->idUser)->count();
+
+        FinancialRequest::factory()->count(3)->create([
+            'idSender' => $user->idUser
+        ]);
 
         // Act
-        // $result = $this->service->rejectFinancialRequest();
+        $result = $this->financialRequestService->getRequestsFromUser($user->idUser);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for rejectFinancialRequest not yet implemented');
+        $this->assertGreaterThanOrEqual($initialCount + 3, $result->count());
     }
 
     /**
-     * Test cancelFinancialRequest method
-     * TODO: Implement actual test logic
+     * Test getRequestsFromUser excludes canceled when showCanceled is false
      */
-    public function test_cancel_financial_request_works()
+    public function test_get_requests_from_user_excludes_canceled()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        FinancialRequest::factory()->canceled()->create([
+            'idSender' => $user->idUser
+        ]);
+        $activeRequest = FinancialRequest::factory()->pending()->create([
+            'idSender' => $user->idUser
+        ]);
 
         // Act
-        // $result = $this->service->cancelFinancialRequest();
+        $result = $this->financialRequestService->getRequestsFromUser($user->idUser, false);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for cancelFinancialRequest not yet implemented');
+        $this->assertGreaterThanOrEqual(1, $result->count());
+        // Should not contain status 3 (canceled)
+        foreach ($result as $request) {
+            $this->assertNotEquals(3, $request->FStatus);
+        }
     }
 
     /**
-     * Test confirmFinancialRequest method
-     * TODO: Implement actual test logic
+     * Test validateRequestForAcceptance validates open request
      */
-    public function test_confirm_financial_request_works()
+    public function test_validate_request_for_acceptance_validates_open_request()
     {
         // Arrange
-        // TODO: Set up test data
+        $financialRequest = FinancialRequest::factory()->pending()->create();
 
         // Act
-        // $result = $this->service->confirmFinancialRequest();
+        $result = $this->financialRequestService->validateRequestForAcceptance($financialRequest->numeroReq);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for confirmFinancialRequest not yet implemented');
+        $this->assertTrue($result['success']);
+        $this->assertArrayHasKey('request', $result);
     }
 
     /**
-     * Test createFinancialRequest method
-     * TODO: Implement actual test logic
+     * Test validateRequestForAcceptance fails for non-open request
      */
-    public function test_create_financial_request_works()
+    public function test_validate_request_for_acceptance_fails_for_non_open()
     {
         // Arrange
-        // TODO: Set up test data
+        $financialRequest = FinancialRequest::factory()->accepted()->create();
 
         // Act
-        // $result = $this->service->createFinancialRequest();
+        $result = $this->financialRequestService->validateRequestForAcceptance($financialRequest->numeroReq);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for createFinancialRequest not yet implemented');
+        $this->assertFalse($result['success']);
     }
 
     /**
-     * Test validateAndRejectRequest method
-     * TODO: Implement actual test logic
+     * Test validateAndRejectRequest rejects valid request
      */
-    public function test_validate_and_reject_request_works()
+    public function test_validate_and_reject_request_rejects_valid_request()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $financialRequest = FinancialRequest::factory()->pending()->create();
+
+        detail_financial_request::factory()->create([
+            'numeroRequest' => $financialRequest->numeroReq,
+            'idUser' => $user->idUser,
+            'response' => null
+        ]);
 
         // Act
-        // $result = $this->service->validateAndRejectRequest();
+        $result = $this->financialRequestService->validateAndRejectRequest(
+            $financialRequest->numeroReq,
+            $user->idUser
+        );
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for validateAndRejectRequest not yet implemented');
+        $this->assertTrue($result['success']);
     }
 
     /**
-     * Test validateRequestForAcceptance method
-     * TODO: Implement actual test logic
+     * Test validateAndRejectRequest fails for invalid request
      */
-    public function test_validate_request_for_acceptance_works()
+    public function test_validate_and_reject_request_fails_for_invalid()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $financialRequest = FinancialRequest::factory()->accepted()->create();
 
         // Act
-        // $result = $this->service->validateRequestForAcceptance();
+        $result = $this->financialRequestService->validateAndRejectRequest(
+            $financialRequest->numeroReq,
+            $user->idUser
+        );
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for validateRequestForAcceptance not yet implemented');
+        $this->assertFalse($result['success']);
     }
 
     /**
-     * Test sendFinancialRequestWithNotification method
-     * TODO: Implement actual test logic
+     * Test createFinancialRequest creates request with details
      */
-    public function test_send_financial_request_with_notification_works()
+    public function test_create_financial_request_creates_request_with_details()
     {
         // Arrange
-        // TODO: Set up test data
+        $sender = User::factory()->create();
+        $recipient1 = User::factory()->create();
+        $recipient2 = User::factory()->create();
+        $amount = 100.50;
+        $securityCode = 'ABC123';
+        $selectedUsers = [$recipient1->idUser, $recipient2->idUser];
 
         // Act
-        // $result = $this->service->sendFinancialRequestWithNotification();
+        $this->financialRequestService->createFinancialRequest(
+            $sender->idUser,
+            $amount,
+            $selectedUsers,
+            $securityCode
+        );
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for sendFinancialRequestWithNotification not yet implemented');
-    }
-
-    /**
-     * Test createRechargeRequest method
-     * TODO: Implement actual test logic
-     */
-    public function test_create_recharge_request_works()
-    {
-        // Arrange
-        // TODO: Set up test data
-
-        // Act
-        // $result = $this->service->createRechargeRequest();
-
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for createRechargeRequest not yet implemented');
+        $this->assertDatabaseHas('financial_request', [
+            'idSender' => $sender->idUser,
+            'amount' => $amount,
+            'securityCode' => $securityCode,
+            'status' => '0'
+        ]);
     }
 }
+

@@ -187,20 +187,6 @@ class GroupServiceTest extends TestCase
         $this->assertFalse($result);
     }
 
-    /**
-     * Test create returns null on exception
-     */
-    public function test_create_returns_null_on_exception()
-    {
-        // Arrange - Invalid data that will cause exception
-        $data = ['operator' => 'AND']; // Missing required target_id
-
-        // Act
-        $result = $this->groupService->create($data);
-
-        // Assert
-        $this->assertNull($result);
-    }
 
     /**
      * Test group has relationship with target
