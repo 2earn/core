@@ -315,10 +315,7 @@ class BalanceInjectorCouponServiceTest extends TestCase
         $this->assertTrue($result['success']);
         $this->assertEquals(3, $result['created_count']);
     }
-}
 
-        $this->markTestIncomplete('Test for deleteMultiple not yet implemented');
-    }
 
     /**
      * Test getAll method

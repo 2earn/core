@@ -2,187 +2,235 @@
 
 namespace Tests\Unit\Services;
 
+use App\Interfaces\IUserRepository;
+use App\Models\MettaUser;
+use App\Models\User;
 use App\Services\MettaUsersService;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class MettaUsersServiceTest extends TestCase
 {
+    use DatabaseTransactions;
 
     protected MettaUsersService $mettaUsersService;
+    protected IUserRepository $userRepository;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->mettaUsersService = new MettaUsersService();
+        $this->userRepository = $this->app->make(IUserRepository::class);
+        $this->mettaUsersService = new MettaUsersService($this->userRepository);
     }
 
     /**
-     * Test getMettaUserInfo method
-     * TODO: Implement actual test logic
+     * Test getMettaUserInfo returns collection
      */
-    public function test_get_metta_user_info_works()
+    public function test_get_metta_user_info_returns_collection()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $mettaUser = MettaUser::factory()->create(['idUser' => $user->idUser]);
 
         // Act
-        // $result = $this->service->getMettaUserInfo();
+        $result = $this->mettaUsersService->getMettaUserInfo($user->idUser);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getMettaUserInfo not yet implemented');
+        $this->assertIsObject($result);
+        $this->assertNotEmpty($result);
     }
 
     /**
-     * Test getMettaUser method
-     * TODO: Implement actual test logic
+     * Test getMettaUserInfo returns empty collection for non-existent user
      */
-    public function test_get_metta_user_works()
+    public function test_get_metta_user_info_returns_empty_for_nonexistent()
     {
-        // Arrange
-        // TODO: Set up test data
-
         // Act
-        // $result = $this->service->getMettaUser();
+        $result = $this->mettaUsersService->getMettaUserInfo(99999);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getMettaUser not yet implemented');
+        $this->assertIsObject($result);
     }
 
     /**
-     * Test getMettaUserFullName method
-     * TODO: Implement actual test logic
+     * Test getMettaUser returns metta user
      */
-    public function test_get_metta_user_full_name_works()
+    public function test_get_metta_user_returns_metta_user()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $mettaUser = MettaUser::factory()->create(['idUser' => $user->idUser]);
 
         // Act
-        // $result = $this->service->getMettaUserFullName();
+        $result = $this->mettaUsersService->getMettaUser($user->idUser);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getMettaUserFullName not yet implemented');
+        $this->assertInstanceOf(MettaUser::class, $result);
+        $this->assertEquals($user->idUser, $result->idUser);
     }
 
     /**
-     * Test mettaUserExists method
-     * TODO: Implement actual test logic
+     * Test getMettaUser returns null for non-existent user
      */
-    public function test_metta_user_exists_works()
+    public function test_get_metta_user_returns_null_for_nonexistent()
     {
-        // Arrange
-        // TODO: Set up test data
-
         // Act
-        // $result = $this->service->mettaUserExists();
+        $result = $this->mettaUsersService->getMettaUser(99999);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for mettaUserExists not yet implemented');
+        $this->assertNull($result);
     }
 
     /**
-     * Test createMettaUser method
-     * TODO: Implement actual test logic
+     * Test getMettaUserFullName returns full name
      */
-    public function test_create_metta_user_works()
+    public function test_get_metta_user_full_name_returns_full_name()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $mettaUser = MettaUser::factory()->create([
+            'idUser' => $user->idUser,
+            'enFirstName' => 'John',
+            'enLastName' => 'Doe'
+        ]);
 
         // Act
-        // $result = $this->service->createMettaUser();
+        $result = $this->mettaUsersService->getMettaUserFullName($user->idUser);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for createMettaUser not yet implemented');
+        $this->assertEquals('John Doe', $result);
     }
 
     /**
-     * Test createMettaUserFromUser method
-     * TODO: Implement actual test logic
+     * Test getMettaUserFullName returns empty string for non-existent
      */
-    public function test_create_metta_user_from_user_works()
+    public function test_get_metta_user_full_name_returns_empty_for_nonexistent()
     {
-        // Arrange
-        // TODO: Set up test data
-
         // Act
-        // $result = $this->service->createMettaUserFromUser();
+        $result = $this->mettaUsersService->getMettaUserFullName(99999);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for createMettaUserFromUser not yet implemented');
+        $this->assertEquals('', $result);
     }
 
     /**
-     * Test createMettaUserByData method
-     * TODO: Implement actual test logic
+     * Test getMettaUserFullName with only first name
      */
-    public function test_create_metta_user_by_data_works()
+    public function test_get_metta_user_full_name_with_only_first_name()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $mettaUser = MettaUser::factory()->create([
+            'idUser' => $user->idUser,
+            'enFirstName' => 'John',
+            'enLastName' => null
+        ]);
 
         // Act
-        // $result = $this->service->createMettaUserByData();
+        $result = $this->mettaUsersService->getMettaUserFullName($user->idUser);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for createMettaUserByData not yet implemented');
+        $this->assertEquals('John', $result);
     }
 
     /**
-     * Test updateMettaUser method
-     * TODO: Implement actual test logic
+     * Test mettaUserExists returns true when exists
      */
-    public function test_update_metta_user_works()
+    public function test_metta_user_exists_returns_true()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $mettaUser = MettaUser::factory()->create(['idUser' => $user->idUser]);
 
         // Act
-        // $result = $this->service->updateMettaUser();
+        $result = $this->mettaUsersService->mettaUserExists($user->idUser);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for updateMettaUser not yet implemented');
+        $this->assertTrue($result);
     }
 
     /**
-     * Test updateProfileWithImages method
-     * TODO: Implement actual test logic
+     * Test mettaUserExists returns false when not exists
      */
-    public function test_update_profile_with_images_works()
+    public function test_metta_user_exists_returns_false()
     {
-        // Arrange
-        // TODO: Set up test data
-
         // Act
-        // $result = $this->service->updateProfileWithImages();
+        $result = $this->mettaUsersService->mettaUserExists(99999);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for updateProfileWithImages not yet implemented');
+        $this->assertFalse($result);
     }
 
     /**
-     * Test calculateProfileCompleteness method
-     * TODO: Implement actual test logic
+     * Test createMettaUser creates user
      */
-    public function test_calculate_profile_completeness_works()
+    public function test_create_metta_user_creates_user()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $data = [
+            'idUser' => $user->idUser,
+            'enFirstName' => 'Test',
+            'enLastName' => 'User'
+        ];
 
         // Act
-        // $result = $this->service->calculateProfileCompleteness();
+        $result = $this->mettaUsersService->createMettaUser($data);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for calculateProfileCompleteness not yet implemented');
+        $this->assertInstanceOf(MettaUser::class, $result);
+        $this->assertEquals($user->idUser, $result->idUser);
+        $this->assertEquals('Test', $result->enFirstName);
+        $this->assertDatabaseHas('metta_users', ['idUser' => $user->idUser]);
+    }
+
+    /**
+     * Test createMettaUserFromUser creates metta user from user model
+     */
+    public function test_create_metta_user_from_user_creates_from_user()
+    {
+        // Arrange
+        $user = User::factory()->create();
+
+        // Act
+        $this->mettaUsersService->createMettaUserFromUser($user);
+
+        // Assert
+        $this->assertDatabaseHas('metta_users', ['idUser' => $user->idUser]);
+    }
+
+    /**
+     * Test calculateProfileCompleteness calculates completeness
+     */
+    public function test_calculate_profile_completeness_calculates_percentage()
+    {
+        // Arrange
+        $user = User::factory()->create();
+        $mettaUser = MettaUser::factory()->create([
+            'idUser' => $user->idUser,
+            'enFirstName' => 'John',
+            'enLastName' => 'Doe',
+            'email' => 'john@example.com'
+        ]);
+
+        // Act
+        $result = $this->mettaUsersService->calculateProfileCompleteness($user->idUser);
+
+        // Assert
+        $this->assertIsNumeric($result);
+        $this->assertGreaterThanOrEqual(0, $result);
+        $this->assertLessThanOrEqual(100, $result);
+    }
+
+    /**
+     * Test calculateProfileCompleteness returns 0 for non-existent
+     */
+    public function test_calculate_profile_completeness_returns_zero_for_nonexistent()
+    {
+        // Act
+        $result = $this->mettaUsersService->calculateProfileCompleteness(99999);
+
+        // Assert
+        $this->assertEquals(0, $result);
     }
 }
