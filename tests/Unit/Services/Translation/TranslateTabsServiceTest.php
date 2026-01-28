@@ -54,13 +54,14 @@ class TranslateTabsServiceTest extends TestCase
     public function test_get_all_returns_all_translations()
     {
         // Arrange
+        $initialCount = translatetabs::count();
         translatetabs::factory()->count(5)->create();
 
         // Act
         $result = $this->translateTabsService->getAll();
 
         // Assert
-        $this->assertCount(5, $result);
+        $this->assertCount($initialCount + 5, $result);
     }
 
     /**
@@ -85,6 +86,7 @@ class TranslateTabsServiceTest extends TestCase
     public function test_get_paginated_returns_paginated_results()
     {
         // Arrange
+        $initialCount = translatetabs::count();
         translatetabs::factory()->count(15)->create();
 
         // Act
@@ -92,7 +94,7 @@ class TranslateTabsServiceTest extends TestCase
 
         // Assert
         $this->assertCount(10, $result);
-        $this->assertEquals(15, $result->total());
+        $this->assertEquals($initialCount + 15, $result->total());
     }
 
     /**
@@ -286,13 +288,14 @@ class TranslateTabsServiceTest extends TestCase
     public function test_count_returns_correct_count()
     {
         // Arrange
+        $initialCount = translatetabs::count();
         translatetabs::factory()->count(7)->create();
 
         // Act
         $result = $this->translateTabsService->count();
 
         // Assert
-        $this->assertEquals(7, $result);
+        $this->assertEquals($initialCount + 7, $result);
     }
 
     /**
@@ -361,6 +364,7 @@ class TranslateTabsServiceTest extends TestCase
     public function test_get_statistics_returns_statistics()
     {
         // Arrange
+        $initialCount = translatetabs::count();
         translatetabs::factory()->count(5)->create();
 
         // Act
@@ -372,6 +376,6 @@ class TranslateTabsServiceTest extends TestCase
         $this->assertArrayHasKey('today_count', $result);
         $this->assertArrayHasKey('this_week_count', $result);
         $this->assertArrayHasKey('this_month_count', $result);
-        $this->assertEquals(5, $result['total_count']);
+        $this->assertEquals($initialCount + 5, $result['total_count']);
     }
 }
