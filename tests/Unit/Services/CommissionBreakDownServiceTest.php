@@ -239,10 +239,7 @@ class CommissionBreakDownServiceTest extends TestCase
         // Assert
         $this->assertEquals($breakdown2->id, $result->first()->id);
     }
-}
 
-        $this->markTestIncomplete('Test for update not yet implemented');
-    }
 
     /**
      * Test delete method

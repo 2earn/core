@@ -334,10 +334,7 @@ class SurveyServiceTest extends TestCase
         // Assert
         $this->assertFalse($result);
     }
-}
 
-        $this->markTestIncomplete('Test for update not yet implemented');
-    }
 
     /**
      * Test delete method
