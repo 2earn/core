@@ -1,14 +1,16 @@
-<?php
+﻿<?php
 
 namespace Tests\Unit\Services;
 
 use App\Models\BalanceOperation;
 use App\Services\BalanceOperationService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class BalanceOperationServiceTest extends TestCase
 {
+    use DatabaseTransactions;
 
     protected BalanceOperationService $balanceOperationService;
 
@@ -242,3 +244,4 @@ class BalanceOperationServiceTest extends TestCase
         $this->assertIsInt($result);
     }
 }
+

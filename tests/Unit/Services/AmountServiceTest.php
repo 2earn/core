@@ -1,15 +1,16 @@
-<?php
+﻿<?php
 
 namespace Tests\Unit\Services;
 
 use App\Models\Amount;
 use App\Services\AmountService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 class AmountServiceTest extends TestCase
 {
+    use DatabaseTransactions;
 
     protected AmountService $amountService;
 
@@ -140,3 +141,4 @@ class AmountServiceTest extends TestCase
         $this->assertCount(0, $result);
     }
 }
+

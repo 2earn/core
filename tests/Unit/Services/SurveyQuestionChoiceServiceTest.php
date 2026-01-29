@@ -68,13 +68,13 @@ class SurveyQuestionChoiceServiceTest extends TestCase
     {
         // Arrange
         $question = SurveyQuestion::factory()->create();
-        SurveyQuestionChoice::factory()->count(5)->create(['surveyQuestion_id' => $question->id]);
+        SurveyQuestionChoice::factory()->count(5)->create(['question_id' => $question->id]);
         SurveyQuestionChoice::factory()->count(3)->create(); // Other choices
         // Act
         $result = $this->surveyQuestionChoiceService->getByQuestion($question->id);
         // Assert
         $this->assertCount(5, $result);
-        $this->assertTrue($result->every(fn($choice) => $choice->surveyQuestion_id === $question->id));
+        $this->assertTrue($result->every(fn($choice) => $choice->question_id === $question->id));
     }
     /**
      * Test getByQuestion returns empty collection when no choices
@@ -96,19 +96,19 @@ class SurveyQuestionChoiceServiceTest extends TestCase
         // Arrange
         $question = SurveyQuestion::factory()->create();
         $data = [
-            'surveyQuestion_id' => $question->id,
-            'choice' => 'Option A',
+            'question_id' => $question->id,
+            'title' => 'Option Title A',
             'order' => 1
         ];
         // Act
         $result = $this->surveyQuestionChoiceService->create($data);
         // Assert
         $this->assertInstanceOf(SurveyQuestionChoice::class, $result);
-        $this->assertEquals($question->id, $result->surveyQuestion_id);
-        $this->assertEquals('Option A', $result->choice);
+        $this->assertEquals($question->id, $result->question_id);
+        $this->assertEquals('Option Title A', $result->title);
         $this->assertDatabaseHas('survey_question_choices', [
-            'surveyQuestion_id' => $question->id,
-            'choice' => 'Option A'
+            'question_id' => $question->id,
+            'title' => 'Option Title A'
         ]);
     }
     /**
@@ -117,14 +117,14 @@ class SurveyQuestionChoiceServiceTest extends TestCase
     public function test_update_updates_survey_question_choice()
     {
         // Arrange
-        $choice = SurveyQuestionChoice::factory()->create(['choice' => 'Old Choice']);
-        $data = ['choice' => 'New Choice'];
+        $choice = SurveyQuestionChoice::factory()->create(['title' => 'Old Title']);
+        $data = ['title' => 'New Title'];
         // Act
         $result = $this->surveyQuestionChoiceService->update($choice->id, $data);
         // Assert
         $this->assertTrue($result);
         $choice->refresh();
-        $this->assertEquals('New Choice', $choice->choice);
+        $this->assertEquals('New Title', $choice->title);
     }
     /**
      * Test update returns false for non-existent
@@ -132,7 +132,7 @@ class SurveyQuestionChoiceServiceTest extends TestCase
     public function test_update_returns_false_for_nonexistent()
     {
         // Act
-        $result = $this->surveyQuestionChoiceService->update(99999, ['choice' => 'Test']);
+        $result = $this->surveyQuestionChoiceService->update(99999, ['title' => 'Test']);
         // Assert
         $this->assertFalse($result);
     }
@@ -142,13 +142,13 @@ class SurveyQuestionChoiceServiceTest extends TestCase
     public function test_update_by_id_updates_survey_question_choice()
     {
         // Arrange
-        $choice = SurveyQuestionChoice::factory()->create(['choice' => 'Old Choice']);
+        $choice = SurveyQuestionChoice::factory()->create(['title' => 'Old Title']);
         // Act
-        $result = $this->surveyQuestionChoiceService->updateById($choice->id, ['choice' => 'Updated Choice']);
+        $result = $this->surveyQuestionChoiceService->updateById($choice->id, ['title' => 'Updated Title']);
         // Assert
         $this->assertTrue($result);
         $choice->refresh();
-        $this->assertEquals('Updated Choice', $choice->choice);
+        $this->assertEquals('Updated Title', $choice->title);
     }
     /**
      * Test updateById returns false for non-existent
@@ -156,7 +156,7 @@ class SurveyQuestionChoiceServiceTest extends TestCase
     public function test_update_by_id_returns_false_for_nonexistent()
     {
         // Act
-        $result = $this->surveyQuestionChoiceService->updateById(99999, ['choice' => 'Test']);
+        $result = $this->surveyQuestionChoiceService->updateById(99999, ['title' => 'Test']);
         // Assert
         $this->assertFalse($result);
     }
@@ -190,7 +190,7 @@ class SurveyQuestionChoiceServiceTest extends TestCase
     {
         // Arrange
         $question = SurveyQuestion::factory()->create();
-        SurveyQuestionChoice::factory()->count(7)->create(['surveyQuestion_id' => $question->id]);
+        SurveyQuestionChoice::factory()->count(7)->create(['question_id' => $question->id]);
         SurveyQuestionChoice::factory()->count(3)->create(); // Other choices
         // Act
         $result = $this->surveyQuestionChoiceService->countByQuestion($question->id);
@@ -210,3 +210,5 @@ class SurveyQuestionChoiceServiceTest extends TestCase
         $this->assertEquals(0, $result);
     }
 }
+
+

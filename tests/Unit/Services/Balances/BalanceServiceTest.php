@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 namespace Tests\Unit\Services\Balances;
 use App\Models\User;
 use App\Models\BFSsBalances;
@@ -8,10 +8,11 @@ use App\Models\SmsBalances;
 use App\Models\ChanceBalances;
 use App\Models\SharesBalances;
 use App\Services\Balances\BalanceService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 class BalanceServiceTest extends TestCase
 {
+    use DatabaseTransactions;
     protected BalanceService $balanceService;
     protected function setUp(): void
     {
@@ -167,3 +168,4 @@ class BalanceServiceTest extends TestCase
         $this->assertNotNull($result);
     }
 }
+
