@@ -1,409 +1,348 @@
 <?php
-
 namespace Tests\Unit\Services\Coupon;
-
+use App\Enums\CouponStatusEnum;
+use App\Models\BalanceInjectorCoupon;
+use App\Models\Coupon;
+use App\Models\User;
 use App\Services\Coupon\CouponService;
+use Core\Models\Platform;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-
 class CouponServiceTest extends TestCase
 {
-
     protected CouponService $couponService;
-
     protected function setUp(): void
     {
         parent::setUp();
         $this->couponService = new CouponService();
     }
-
     /**
-     * Test getById method
-     * TODO: Implement actual test logic
+     * Test getById returns coupon when exists
      */
     public function test_get_by_id_works()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $user = User::factory()->create();
+        $coupon = BalanceInjectorCoupon::factory()->create(['user_id' => $user->id]);
         // Act
-        // $result = $this->service->getById();
-
+        $result = $this->couponService->getById($coupon->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getById not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertEquals($coupon->id, $result->id);
     }
-
     /**
-     * Test getByIdOrFail method
-     * TODO: Implement actual test logic
+     * Test getByIdOrFail returns coupon
      */
     public function test_get_by_id_or_fail_works()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $user = User::factory()->create();
+        $coupon = BalanceInjectorCoupon::factory()->create(['user_id' => $user->id]);
         // Act
-        // $result = $this->service->getByIdOrFail();
-
+        $result = $this->couponService->getByIdOrFail($coupon->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getByIdOrFail not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertEquals($coupon->id, $result->id);
     }
-
     /**
-     * Test getUserCouponsPaginated method
-     * TODO: Implement actual test logic
+     * Test getUserCouponsPaginated returns paginated results
      */
     public function test_get_user_coupons_paginated_works()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $user = User::factory()->create();
+        BalanceInjectorCoupon::factory()->count(15)->create(['user_id' => $user->id]);
         // Act
-        // $result = $this->service->getUserCouponsPaginated();
-
+        $result = $this->couponService->getUserCouponsPaginated($user->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getUserCouponsPaginated not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertEquals(10, $result->perPage());
+        $this->assertGreaterThan(0, $result->total());
     }
-
     /**
-     * Test getUserCoupons method
-     * TODO: Implement actual test logic
+     * Test getUserCoupons returns collection
      */
     public function test_get_user_coupons_works()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $user = User::factory()->create();
+        BalanceInjectorCoupon::factory()->count(5)->create(['user_id' => $user->id]);
         // Act
-        // $result = $this->service->getUserCoupons();
-
+        $result = $this->couponService->getUserCoupons($user->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getUserCoupons not yet implemented');
+        $this->assertCount(5, $result);
     }
-
     /**
-     * Test deleteMultiple method
-     * TODO: Implement actual test logic
+     * Test deleteMultiple deletes unconsumed coupons only
      */
     public function test_delete_multiple_works()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $user = User::factory()->create();
+        $coupon1 = BalanceInjectorCoupon::factory()->create(['user_id' => $user->id, 'consumed' => 0]);
+        $coupon2 = BalanceInjectorCoupon::factory()->create(['user_id' => $user->id, 'consumed' => 0]);
+        $coupon3 = BalanceInjectorCoupon::factory()->create(['user_id' => $user->id, 'consumed' => 1]);
         // Act
-        // $result = $this->service->deleteMultiple();
-
+        $result = $this->couponService->deleteMultiple([$coupon1->id, $coupon2->id, $coupon3->id], $user->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for deleteMultiple not yet implemented');
+        $this->assertEquals(2, $result);
+        $this->assertDatabaseMissing('balance_injector_coupons', ['id' => $coupon1->id]);
+        $this->assertDatabaseMissing('balance_injector_coupons', ['id' => $coupon2->id]);
+        $this->assertDatabaseHas('balance_injector_coupons', ['id' => $coupon3->id]);
     }
-
     /**
-     * Test delete method
-     * TODO: Implement actual test logic
+     * Test delete removes single coupon
      */
     public function test_delete_works()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $user = User::factory()->create();
+        $coupon = BalanceInjectorCoupon::factory()->create(['user_id' => $user->id, 'consumed' => 0]);
         // Act
-        // $result = $this->service->delete();
-
+        $result = $this->couponService->delete($coupon->id, $user->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for delete not yet implemented');
+        $this->assertTrue($result);
+        $this->assertDatabaseMissing('balance_injector_coupons', ['id' => $coupon->id]);
     }
-
     /**
-     * Test consume method
-     * TODO: Implement actual test logic
+     * Test consume marks coupon as consumed
      */
     public function test_consume_works()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $user = User::factory()->create();
+        $coupon = BalanceInjectorCoupon::factory()->create(['user_id' => $user->id, 'consumed' => 0]);
         // Act
-        // $result = $this->service->consume();
-
+        $result = $this->couponService->consume($coupon->id, $user->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for consume not yet implemented');
+        $this->assertTrue($result);
+        $this->assertDatabaseHas('balance_injector_coupons', ['id' => $coupon->id, 'consumed' => 1]);
     }
-
     /**
-     * Test getCouponsPaginated method
-     * TODO: Implement actual test logic
+     * Test getCouponsPaginated returns paginated results
      */
     public function test_get_coupons_paginated_works()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $user = User::factory()->create();
+        BalanceInjectorCoupon::factory()->count(15)->create(['user_id' => $user->id]);
         // Act
-        // $result = $this->service->getCouponsPaginated();
-
+        $result = $this->couponService->getCouponsPaginated();
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getCouponsPaginated not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertEquals(10, $result->perPage());
     }
-
     /**
-     * Test deleteById method
-     * TODO: Implement actual test logic
+     * Test deleteById removes coupon
      */
     public function test_delete_by_id_works()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $user = User::factory()->create();
+        $coupon = BalanceInjectorCoupon::factory()->create(['user_id' => $user->id]);
         // Act
-        // $result = $this->service->deleteById();
-
+        $result = $this->couponService->deleteById($coupon->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for deleteById not yet implemented');
+        $this->assertTrue($result);
+        $this->assertDatabaseMissing('balance_injector_coupons', ['id' => $coupon->id]);
     }
-
     /**
-     * Test getMaxAvailableAmount method
-     * TODO: Implement actual test logic
+     * Test getMaxAvailableAmount returns correct amount
      */
     public function test_get_max_available_amount_works()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        $platform = Platform::factory()->create();
+        Coupon::factory()->count(3)->create([
+            'platform_id' => $platform->id,
+            'status' => CouponStatusEnum::available->value,
+            'value' => 100
+        ]);
         // Act
-        // $result = $this->service->getMaxAvailableAmount();
-
+        $result = $this->couponService->getMaxAvailableAmount($platform->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getMaxAvailableAmount not yet implemented');
+        $this->assertGreaterThan(0, $result);
     }
-
     /**
-     * Test deleteMultipleByIds method
-     * TODO: Implement actual test logic
+     * Test deleteMultipleByIds deletes unconsumed coupons
      */
     public function test_delete_multiple_by_ids_works()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $user = User::factory()->create();
+        $coupon1 = BalanceInjectorCoupon::factory()->create(['user_id' => $user->id, 'consumed' => 0]);
+        $coupon2 = BalanceInjectorCoupon::factory()->create(['user_id' => $user->id, 'consumed' => 0]);
         // Act
-        // $result = $this->service->deleteMultipleByIds();
-
+        $result = $this->couponService->deleteMultipleByIds([$coupon1->id, $coupon2->id]);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for deleteMultipleByIds not yet implemented');
+        $this->assertEquals(2, $result);
     }
-
     /**
-     * Test getAllCouponsOrdered method
-     * TODO: Implement actual test logic
+     * Test getAllCouponsOrdered returns ordered collection
      */
     public function test_get_all_coupons_ordered_works()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $user = User::factory()->create();
+        BalanceInjectorCoupon::factory()->count(5)->create(['user_id' => $user->id]);
         // Act
-        // $result = $this->service->getAllCouponsOrdered();
-
+        $result = $this->couponService->getAllCouponsOrdered();
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getAllCouponsOrdered not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertGreaterThanOrEqual(5, $result->count());
     }
-
     /**
-     * Test getPurchasedCouponsPaginated method
-     * TODO: Implement actual test logic
+     * Test getPurchasedCouponsPaginated returns paginated results
      */
     public function test_get_purchased_coupons_paginated_works()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $user = User::factory()->create();
+        Coupon::factory()->count(15)->create(['user_id' => $user->id]);
         // Act
-        // $result = $this->service->getPurchasedCouponsPaginated();
-
+        $result = $this->couponService->getPurchasedCouponsPaginated($user->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getPurchasedCouponsPaginated not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertEquals(10, $result->perPage());
     }
-
     /**
-     * Test getPurchasedCouponsByStatus method
-     * TODO: Implement actual test logic
+     * Test getPurchasedCouponsByStatus returns filtered collection
      */
     public function test_get_purchased_coupons_by_status_works()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $user = User::factory()->create();
+        Coupon::factory()->count(3)->create([
+            'user_id' => $user->id,
+            'status' => CouponStatusEnum::available->value
+        ]);
+        Coupon::factory()->count(2)->create([
+            'user_id' => $user->id,
+            'status' => CouponStatusEnum::consumed->value
+        ]);
         // Act
-        // $result = $this->service->getPurchasedCouponsByStatus();
-
+        $result = $this->couponService->getPurchasedCouponsByStatus($user->id, CouponStatusEnum::available->value);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getPurchasedCouponsByStatus not yet implemented');
+        $this->assertCount(3, $result);
     }
-
     /**
-     * Test markAsConsumed method
-     * TODO: Implement actual test logic
+     * Test markAsConsumed updates coupon status
      */
     public function test_mark_as_consumed_works()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $user = User::factory()->create();
+        $coupon = Coupon::factory()->create([
+            'user_id' => $user->id,
+            'consumed' => 0
+        ]);
         // Act
-        // $result = $this->service->markAsConsumed();
-
+        $result = $this->couponService->markAsConsumed($coupon->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for markAsConsumed not yet implemented');
+        $this->assertTrue($result);
+        $this->assertDatabaseHas('coupons', ['id' => $coupon->id, 'consumed' => 1]);
     }
-
     /**
-     * Test getBySn method
-     * TODO: Implement actual test logic
+     * Test getBySn returns coupon by serial number
      */
     public function test_get_by_sn_works()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $coupon = Coupon::factory()->create(['sn' => 'TEST123456']);
         // Act
-        // $result = $this->service->getBySn();
-
+        $result = $this->couponService->getBySn('TEST123456');
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getBySn not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertEquals('TEST123456', $result->sn);
     }
-
     /**
-     * Test findCouponById method
-     * TODO: Implement actual test logic
+     * Test findCouponById returns coupon
      */
     public function test_find_coupon_by_id_works()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $coupon = Coupon::factory()->create();
         // Act
-        // $result = $this->service->findCouponById();
-
+        $result = $this->couponService->findCouponById($coupon->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for findCouponById not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertEquals($coupon->id, $result->id);
     }
-
     /**
-     * Test updateCoupon method
-     * TODO: Implement actual test logic
+     * Test updateCoupon updates coupon data
      */
     public function test_update_coupon_works()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $coupon = Coupon::factory()->create(['value' => 100]);
+        $data = ['value' => 200];
         // Act
-        // $result = $this->service->updateCoupon();
-
+        $result = $this->couponService->updateCoupon($coupon, $data);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for updateCoupon not yet implemented');
+        $this->assertTrue($result);
+        $this->assertDatabaseHas('coupons', ['id' => $coupon->id, 'value' => 200]);
     }
-
     /**
-     * Test getAvailableCouponsForPlatform method
-     * TODO: Implement actual test logic
+     * Test getAvailableCouponsForPlatform returns available coupons
      */
     public function test_get_available_coupons_for_platform_works()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        $platform = Platform::factory()->create();
+        Coupon::factory()->count(5)->create([
+            'platform_id' => $platform->id,
+            'status' => CouponStatusEnum::available->value
+        ]);
         // Act
-        // $result = $this->service->getAvailableCouponsForPlatform();
-
+        $result = $this->couponService->getAvailableCouponsForPlatform($platform->id, $user->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getAvailableCouponsForPlatform not yet implemented');
+        $this->assertGreaterThanOrEqual(5, $result->count());
     }
-
     /**
-     * Test createMultipleCoupons method
-     * TODO: Implement actual test logic
+     * Test createMultipleCoupons creates coupons
      */
     public function test_create_multiple_coupons_works()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $platform = Platform::factory()->create();
+        $pins = ['PIN1', 'PIN2', 'PIN3'];
+        $sns = ['SN1', 'SN2', 'SN3'];
+        $data = [
+            'platform_id' => $platform->id,
+            'value' => 100,
+            'status' => CouponStatusEnum::available->value
+        ];
         // Act
-        // $result = $this->service->createMultipleCoupons();
-
+        $result = $this->couponService->createMultipleCoupons($pins, $sns, $data);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for createMultipleCoupons not yet implemented');
+        $this->assertEquals(3, $result);
+        $this->assertDatabaseHas('coupons', ['pin' => 'PIN1']);
+        $this->assertDatabaseHas('coupons', ['pin' => 'PIN2']);
+        $this->assertDatabaseHas('coupons', ['pin' => 'PIN3']);
     }
-
     /**
-     * Test buyCoupon method
-     * TODO: Implement actual test logic
+     * Test buyCoupon purchases coupon
      */
     public function test_buy_coupon_works()
     {
-        // Arrange
-        // TODO: Set up test data
-
-        // Act
-        // $result = $this->service->buyCoupon();
-
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for buyCoupon not yet implemented');
+        $this->markTestIncomplete('Test for buyCoupon requires complex setup with balance operations');
     }
-
     /**
-     * Test getCouponsForAmount method
-     * TODO: Implement actual test logic
+     * Test getCouponsForAmount returns coupons for amount
      */
     public function test_get_coupons_for_amount_works()
     {
-        // Arrange
-        // TODO: Set up test data
-
-        // Act
-        // $result = $this->service->getCouponsForAmount();
-
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getCouponsForAmount not yet implemented');
+        $this->markTestIncomplete('Test for getCouponsForAmount requires complex setup');
     }
-
     /**
-     * Test simulateCouponPurchase method
-     * TODO: Implement actual test logic
+     * Test simulateCouponPurchase simulates purchase
      */
     public function test_simulate_coupon_purchase_works()
     {
-        // Arrange
-        // TODO: Set up test data
-
-        // Act
-        // $result = $this->service->simulateCouponPurchase();
-
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for simulateCouponPurchase not yet implemented');
+        $this->markTestIncomplete('Test for simulateCouponPurchase requires complex setup');
     }
 }

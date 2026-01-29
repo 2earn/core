@@ -1,154 +1,212 @@
-<?php
-
+﻿<?php
 namespace Tests\Unit\Services;
-
+use App\Models\SurveyQuestion;
+use App\Models\SurveyQuestionChoice;
 use App\Services\SurveyQuestionChoiceService;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
-
 class SurveyQuestionChoiceServiceTest extends TestCase
 {
-
+    use DatabaseTransactions;
     protected SurveyQuestionChoiceService $surveyQuestionChoiceService;
-
     protected function setUp(): void
     {
         parent::setUp();
         $this->surveyQuestionChoiceService = new SurveyQuestionChoiceService();
     }
-
     /**
-     * Test getById method
-     * TODO: Implement actual test logic
+     * Test getById returns survey question choice
      */
-    public function test_get_by_id_works()
+    public function test_get_by_id_returns_survey_question_choice()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $choice = SurveyQuestionChoice::factory()->create();
         // Act
-        // $result = $this->service->getById();
-
+        $result = $this->surveyQuestionChoiceService->getById($choice->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getById not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertInstanceOf(SurveyQuestionChoice::class, $result);
+        $this->assertEquals($choice->id, $result->id);
     }
-
     /**
-     * Test findOrFail method
-     * TODO: Implement actual test logic
+     * Test getById returns null for non-existent
      */
-    public function test_find_or_fail_works()
+    public function test_get_by_id_returns_null_for_nonexistent()
     {
-        // Arrange
-        // TODO: Set up test data
-
         // Act
-        // $result = $this->service->findOrFail();
-
+        $result = $this->surveyQuestionChoiceService->getById(99999);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for findOrFail not yet implemented');
+        $this->assertNull($result);
     }
-
     /**
-     * Test getByQuestion method
-     * TODO: Implement actual test logic
+     * Test findOrFail returns survey question choice
      */
-    public function test_get_by_question_works()
+    public function test_find_or_fail_returns_survey_question_choice()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $choice = SurveyQuestionChoice::factory()->create();
         // Act
-        // $result = $this->service->getByQuestion();
-
+        $result = $this->surveyQuestionChoiceService->findOrFail($choice->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getByQuestion not yet implemented');
+        $this->assertInstanceOf(SurveyQuestionChoice::class, $result);
+        $this->assertEquals($choice->id, $result->id);
     }
-
     /**
-     * Test create method
-     * TODO: Implement actual test logic
+     * Test findOrFail throws exception for non-existent
      */
-    public function test_create_works()
+    public function test_find_or_fail_throws_exception_for_nonexistent()
     {
-        // Arrange
-        // TODO: Set up test data
-
-        // Act
-        // $result = $this->service->create();
-
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for create not yet implemented');
+        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        // Act
+        $this->surveyQuestionChoiceService->findOrFail(99999);
     }
-
     /**
-     * Test update method
-     * TODO: Implement actual test logic
+     * Test getByQuestion returns choices
      */
-    public function test_update_works()
+    public function test_get_by_question_returns_choices()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $question = SurveyQuestion::factory()->create();
+        SurveyQuestionChoice::factory()->count(5)->create(['surveyQuestion_id' => $question->id]);
+        SurveyQuestionChoice::factory()->count(3)->create(); // Other choices
         // Act
-        // $result = $this->service->update();
-
+        $result = $this->surveyQuestionChoiceService->getByQuestion($question->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for update not yet implemented');
+        $this->assertCount(5, $result);
+        $this->assertTrue($result->every(fn($choice) => $choice->surveyQuestion_id === $question->id));
     }
-
     /**
-     * Test updateById method
-     * TODO: Implement actual test logic
+     * Test getByQuestion returns empty collection when no choices
      */
-    public function test_update_by_id_works()
+    public function test_get_by_question_returns_empty_when_no_choices()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $question = SurveyQuestion::factory()->create();
         // Act
-        // $result = $this->service->updateById();
-
+        $result = $this->surveyQuestionChoiceService->getByQuestion($question->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for updateById not yet implemented');
+        $this->assertCount(0, $result);
     }
-
     /**
-     * Test delete method
-     * TODO: Implement actual test logic
+     * Test create creates survey question choice
      */
-    public function test_delete_works()
+    public function test_create_creates_survey_question_choice()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $question = SurveyQuestion::factory()->create();
+        $data = [
+            'surveyQuestion_id' => $question->id,
+            'choice' => 'Option A',
+            'order' => 1
+        ];
         // Act
-        // $result = $this->service->delete();
-
+        $result = $this->surveyQuestionChoiceService->create($data);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for delete not yet implemented');
+        $this->assertInstanceOf(SurveyQuestionChoice::class, $result);
+        $this->assertEquals($question->id, $result->surveyQuestion_id);
+        $this->assertEquals('Option A', $result->choice);
+        $this->assertDatabaseHas('survey_question_choices', [
+            'surveyQuestion_id' => $question->id,
+            'choice' => 'Option A'
+        ]);
     }
-
     /**
-     * Test countByQuestion method
-     * TODO: Implement actual test logic
+     * Test update updates survey question choice
      */
-    public function test_count_by_question_works()
+    public function test_update_updates_survey_question_choice()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $choice = SurveyQuestionChoice::factory()->create(['choice' => 'Old Choice']);
+        $data = ['choice' => 'New Choice'];
         // Act
-        // $result = $this->service->countByQuestion();
-
+        $result = $this->surveyQuestionChoiceService->update($choice->id, $data);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for countByQuestion not yet implemented');
+        $this->assertTrue($result);
+        $choice->refresh();
+        $this->assertEquals('New Choice', $choice->choice);
+    }
+    /**
+     * Test update returns false for non-existent
+     */
+    public function test_update_returns_false_for_nonexistent()
+    {
+        // Act
+        $result = $this->surveyQuestionChoiceService->update(99999, ['choice' => 'Test']);
+        // Assert
+        $this->assertFalse($result);
+    }
+    /**
+     * Test updateById updates survey question choice
+     */
+    public function test_update_by_id_updates_survey_question_choice()
+    {
+        // Arrange
+        $choice = SurveyQuestionChoice::factory()->create(['choice' => 'Old Choice']);
+        // Act
+        $result = $this->surveyQuestionChoiceService->updateById($choice->id, ['choice' => 'Updated Choice']);
+        // Assert
+        $this->assertTrue($result);
+        $choice->refresh();
+        $this->assertEquals('Updated Choice', $choice->choice);
+    }
+    /**
+     * Test updateById returns false for non-existent
+     */
+    public function test_update_by_id_returns_false_for_nonexistent()
+    {
+        // Act
+        $result = $this->surveyQuestionChoiceService->updateById(99999, ['choice' => 'Test']);
+        // Assert
+        $this->assertFalse($result);
+    }
+    /**
+     * Test delete deletes survey question choice
+     */
+    public function test_delete_deletes_survey_question_choice()
+    {
+        // Arrange
+        $choice = SurveyQuestionChoice::factory()->create();
+        // Act
+        $result = $this->surveyQuestionChoiceService->delete($choice->id);
+        // Assert
+        $this->assertTrue($result);
+        $this->assertDatabaseMissing('survey_question_choices', ['id' => $choice->id]);
+    }
+    /**
+     * Test delete returns false for non-existent
+     */
+    public function test_delete_returns_false_for_nonexistent()
+    {
+        // Act
+        $result = $this->surveyQuestionChoiceService->delete(99999);
+        // Assert
+        $this->assertFalse($result);
+    }
+    /**
+     * Test countByQuestion counts choices
+     */
+    public function test_count_by_question_counts_choices()
+    {
+        // Arrange
+        $question = SurveyQuestion::factory()->create();
+        SurveyQuestionChoice::factory()->count(7)->create(['surveyQuestion_id' => $question->id]);
+        SurveyQuestionChoice::factory()->count(3)->create(); // Other choices
+        // Act
+        $result = $this->surveyQuestionChoiceService->countByQuestion($question->id);
+        // Assert
+        $this->assertEquals(7, $result);
+    }
+    /**
+     * Test countByQuestion returns zero when no choices
+     */
+    public function test_count_by_question_returns_zero_when_no_choices()
+    {
+        // Arrange
+        $question = SurveyQuestion::factory()->create();
+        // Act
+        $result = $this->surveyQuestionChoiceService->countByQuestion($question->id);
+        // Assert
+        $this->assertEquals(0, $result);
     }
 }

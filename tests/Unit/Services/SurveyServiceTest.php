@@ -4,7 +4,10 @@ namespace Tests\Unit\Services;
 
 use App\Enums\StatusSurvey;
 use App\Models\Survey;
+use App\Models\SurveyQuestion;
+use App\Models\SurveyQuestionChoice;
 use App\Models\Target;
+use App\Models\User;
 use App\Services\SurveyService;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -335,327 +338,307 @@ class SurveyServiceTest extends TestCase
         $this->assertFalse($result);
     }
 
-
     /**
-     * Test delete method
-     * TODO: Implement actual test logic
+     * Test getNonArchivedSurveysWithFilters without search
      */
-    public function test_delete_works()
+    public function test_get_non_archived_surveys_with_filters_returns_non_archived()
     {
         // Arrange
-        // TODO: Set up test data
-
+        Survey::factory()->count(3)->create(['status' => StatusSurvey::OPEN->value, 'published' => true]);
+        Survey::factory()->count(2)->create(['status' => StatusSurvey::ARCHIVED->value, 'published' => true]);
         // Act
-        // $result = $this->service->delete();
-
+        $result = $this->surveyService->getNonArchivedSurveysWithFilters(null, true);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for delete not yet implemented');
+        $this->assertIsObject($result);
+        $this->assertGreaterThanOrEqual(3, $result->count());
     }
-
     /**
-     * Test getArchivedSurveys method
-     * TODO: Implement actual test logic
+     * Test getNonArchivedSurveysWithFilters with search
      */
-    public function test_get_archived_surveys_works()
+    public function test_get_non_archived_surveys_with_filters_with_search()
     {
         // Arrange
-        // TODO: Set up test data
-
+        Survey::factory()->create(['name' => 'Customer Survey', 'status' => StatusSurvey::OPEN->value, 'published' => true]);
+        Survey::factory()->create(['name' => 'Employee Survey', 'status' => StatusSurvey::OPEN->value, 'published' => true]);
         // Act
-        // $result = $this->service->getArchivedSurveys();
-
+        $result = $this->surveyService->getNonArchivedSurveysWithFilters('Customer', true);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getArchivedSurveys not yet implemented');
+        $this->assertIsObject($result);
     }
-
     /**
-     * Test findOrFail method
-     * TODO: Implement actual test logic
+     * Test enable method enables survey
      */
-    public function test_find_or_fail_works()
+    public function test_enable_enables_survey()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $survey = Survey::factory()->create(['enabled' => false]);
         // Act
-        // $result = $this->service->findOrFail();
-
+        $result = $this->surveyService->enable($survey->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for findOrFail not yet implemented');
+        $this->assertTrue($result);
+        $survey->refresh();
+        $this->assertTrue($survey->enabled);
+        $this->assertNotNull($survey->enableDate);
     }
-
     /**
-     * Test attachTargets method
-     * TODO: Implement actual test logic
+     * Test disable method disables survey
      */
-    public function test_attach_targets_works()
+    public function test_disable_disables_survey()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $survey = Survey::factory()->create(['enabled' => true]);
+        $note = 'Survey disabled for maintenance';
         // Act
-        // $result = $this->service->attachTargets();
-
+        $result = $this->surveyService->disable($survey->id, $note);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for attachTargets not yet implemented');
+        $this->assertTrue($result);
+        $survey->refresh();
+        $this->assertFalse($survey->enabled);
+        $this->assertNotNull($survey->disableDate);
+        $this->assertEquals($note, $survey->disabledBtnDescription);
     }
-
     /**
-     * Test updateById method
-     * TODO: Implement actual test logic
+     * Test canBeOpened throws exception when survey is disabled
      */
-    public function test_update_by_id_works()
+    public function test_can_be_opened_throws_exception_when_disabled()
     {
         // Arrange
-        // TODO: Set up test data
-
-        // Act
-        // $result = $this->service->updateById();
-
+        $survey = Survey::factory()->create(['enabled' => false]);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for updateById not yet implemented');
+        $this->expectException(\Exception::class);
+        // Act
+        $this->surveyService->canBeOpened($survey->id);
     }
-
     /**
-     * Test getNonArchivedSurveysWithFilters method
-     * TODO: Implement actual test logic
+     * Test canBeOpened throws exception when no targets
      */
-    public function test_get_non_archived_surveys_with_filters_works()
+    public function test_can_be_opened_throws_exception_when_no_targets()
     {
         // Arrange
-        // TODO: Set up test data
-
-        // Act
-        // $result = $this->service->getNonArchivedSurveysWithFilters();
-
+        $survey = Survey::factory()->create(['enabled' => true]);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getNonArchivedSurveysWithFilters not yet implemented');
+        $this->expectException(\Exception::class);
+        // Act
+        $this->surveyService->canBeOpened($survey->id);
     }
-
     /**
-     * Test enable method
-     * TODO: Implement actual test logic
+     * Test canBeOpened throws exception when no question
      */
-    public function test_enable_works()
+    public function test_can_be_opened_throws_exception_when_no_question()
     {
         // Arrange
-        // TODO: Set up test data
-
-        // Act
-        // $result = $this->service->enable();
-
+        $survey = Survey::factory()->create(['enabled' => true]);
+        $targets = Target::factory()->count(2)->create();
+        $survey->targets()->attach($targets->pluck('id'));
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for enable not yet implemented');
+        $this->expectException(\Exception::class);
+        // Act
+        $this->surveyService->canBeOpened($survey->id);
     }
-
     /**
-     * Test disable method
-     * TODO: Implement actual test logic
+     * Test canBeOpened throws exception when insufficient choices
      */
-    public function test_disable_works()
+    public function test_can_be_opened_throws_exception_when_insufficient_choices()
     {
         // Arrange
-        // TODO: Set up test data
-
-        // Act
-        // $result = $this->service->disable();
-
+        $survey = Survey::factory()->create(['enabled' => true]);
+        $targets = Target::factory()->count(2)->create();
+        $survey->targets()->attach($targets->pluck('id'));
+        $question = SurveyQuestion::factory()->create(['survey_id' => $survey->id]);
+        SurveyQuestionChoice::factory()->create(['surveyQuestion_id' => $question->id]);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for disable not yet implemented');
+        $this->expectException(\Exception::class);
+        // Act
+        $this->surveyService->canBeOpened($survey->id);
     }
-
     /**
-     * Test canBeOpened method
-     * TODO: Implement actual test logic
+     * Test canBeOpened returns true when valid
      */
-    public function test_can_be_opened_works()
+    public function test_can_be_opened_returns_true_when_valid()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $survey = Survey::factory()->create(['enabled' => true]);
+        $targets = Target::factory()->count(2)->create();
+        $survey->targets()->attach($targets->pluck('id'));
+        $question = SurveyQuestion::factory()->create(['survey_id' => $survey->id]);
+        SurveyQuestionChoice::factory()->count(2)->create(['surveyQuestion_id' => $question->id]);
         // Act
-        // $result = $this->service->canBeOpened();
-
+        $result = $this->surveyService->canBeOpened($survey->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for canBeOpened not yet implemented');
+        $this->assertTrue($result);
     }
-
     /**
-     * Test open method
-     * TODO: Implement actual test logic
+     * Test open method opens survey
      */
-    public function test_open_works()
+    public function test_open_opens_survey()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $survey = Survey::factory()->create(['status' => StatusSurvey::NEW->value]);
         // Act
-        // $result = $this->service->open();
-
+        $result = $this->surveyService->open($survey->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for open not yet implemented');
+        $this->assertTrue($result);
+        $survey->refresh();
+        $this->assertEquals(StatusSurvey::OPEN->value, $survey->status);
+        $this->assertNotNull($survey->openDate);
     }
-
     /**
-     * Test close method
-     * TODO: Implement actual test logic
+     * Test close method closes survey
      */
-    public function test_close_works()
+    public function test_close_closes_survey()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $survey = Survey::factory()->create(['status' => StatusSurvey::OPEN->value]);
         // Act
-        // $result = $this->service->close();
-
+        $result = $this->surveyService->close($survey->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for close not yet implemented');
+        $this->assertTrue($result);
+        $survey->refresh();
+        $this->assertEquals(StatusSurvey::CLOSED->value, $survey->status);
+        $this->assertNotNull($survey->closeDate);
     }
-
     /**
-     * Test archive method
-     * TODO: Implement actual test logic
+     * Test archive method archives survey
      */
-    public function test_archive_works()
+    public function test_archive_archives_survey()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $survey = Survey::factory()->create(['status' => StatusSurvey::CLOSED->value]);
         // Act
-        // $result = $this->service->archive();
-
+        $result = $this->surveyService->archive($survey->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for archive not yet implemented');
+        $this->assertTrue($result);
+        $survey->refresh();
+        $this->assertEquals(StatusSurvey::ARCHIVED->value, $survey->status);
+        $this->assertNotNull($survey->archivedDate);
     }
-
     /**
-     * Test publish method
-     * TODO: Implement actual test logic
+     * Test publish method publishes survey
      */
-    public function test_publish_works()
+    public function test_publish_publishes_survey()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $survey = Survey::factory()->create(['published' => false]);
         // Act
-        // $result = $this->service->publish();
-
+        $result = $this->surveyService->publish($survey->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for publish not yet implemented');
+        $this->assertTrue($result);
+        $survey->refresh();
+        $this->assertTrue($survey->published);
+        $this->assertNotNull($survey->publishDate);
     }
-
     /**
-     * Test unpublish method
-     * TODO: Implement actual test logic
+     * Test unpublish method unpublishes survey
      */
-    public function test_unpublish_works()
+    public function test_unpublish_unpublishes_survey()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $survey = Survey::factory()->create(['published' => true]);
         // Act
-        // $result = $this->service->unpublish();
-
+        $result = $this->surveyService->unpublish($survey->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for unpublish not yet implemented');
+        $this->assertTrue($result);
+        $survey->refresh();
+        $this->assertFalse($survey->published);
+        $this->assertNotNull($survey->unpublishDate);
     }
-
     /**
-     * Test changeUpdatable method
-     * TODO: Implement actual test logic
+     * Test changeUpdatable method changes updatable property
      */
-    public function test_change_updatable_works()
+    public function test_change_updatable_changes_property()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $survey = Survey::factory()->create(['updatable' => false]);
         // Act
-        // $result = $this->service->changeUpdatable();
-
+        $result = $this->surveyService->changeUpdatable($survey->id, true);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for changeUpdatable not yet implemented');
+        $this->assertTrue($result);
+        $survey->refresh();
+        $this->assertTrue($survey->updatable);
     }
-
     /**
-     * Test hasUserLiked method
-     * TODO: Implement actual test logic
+     * Test hasUserLiked returns false when user hasnt liked
      */
-    public function test_has_user_liked_works()
+    public function test_has_user_liked_returns_false_when_not_liked()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $survey = Survey::factory()->create();
+        $user = User::factory()->create();
         // Act
-        // $result = $this->service->hasUserLiked();
-
+        $result = $this->surveyService->hasUserLiked($survey->id, $user->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for hasUserLiked not yet implemented');
+        $this->assertFalse($result);
     }
-
     /**
-     * Test addLike method
-     * TODO: Implement actual test logic
+     * Test hasUserLiked returns true when user has liked
      */
-    public function test_add_like_works()
+    public function test_has_user_liked_returns_true_when_liked()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $survey = Survey::factory()->create();
+        $user = User::factory()->create();
+        $survey->likes()->create(['user_id' => $user->id]);
         // Act
-        // $result = $this->service->addLike();
-
+        $result = $this->surveyService->hasUserLiked($survey->id, $user->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for addLike not yet implemented');
+        $this->assertTrue($result);
     }
-
     /**
-     * Test removeLike method
-     * TODO: Implement actual test logic
+     * Test addLike adds like to survey
      */
-    public function test_remove_like_works()
+    public function test_add_like_adds_like()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $survey = Survey::factory()->create();
+        $user = User::factory()->create();
         // Act
-        // $result = $this->service->removeLike();
-
+        $result = $this->surveyService->addLike($survey->id, $user->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for removeLike not yet implemented');
+        $this->assertTrue($result);
+        $this->assertDatabaseHas('likes', [
+            'likable_type' => 'App\\Models\\Survey',
+            'likable_id' => $survey->id,
+            'user_id' => $user->id
+        ]);
     }
-
     /**
-     * Test addComment method
-     * TODO: Implement actual test logic
+     * Test removeLike removes like from survey
      */
-    public function test_add_comment_works()
+    public function test_remove_like_removes_like()
     {
         // Arrange
-        // TODO: Set up test data
-
+        $survey = Survey::factory()->create();
+        $user = User::factory()->create();
+        $survey->likes()->create(['user_id' => $user->id]);
         // Act
-        // $result = $this->service->addComment();
-
+        $result = $this->surveyService->removeLike($survey->id, $user->id);
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for addComment not yet implemented');
+        $this->assertTrue($result);
+        $this->assertDatabaseMissing('likes', [
+            'likable_type' => 'App\\Models\\Survey',
+            'likable_id' => $survey->id,
+            'user_id' => $user->id
+        ]);
+    }
+    /**
+     * Test addComment adds comment to survey
+     */
+    public function test_add_comment_adds_comment()
+    {
+        // Arrange
+        $survey = Survey::factory()->create();
+        $user = User::factory()->create();
+        $content = 'This is a test comment';
+        // Act
+        $result = $this->surveyService->addComment($survey->id, $user->id, $content);
+        // Assert
+        $this->assertTrue($result);
+        $this->assertDatabaseHas('comments', [
+            'commentable_type' => 'App\\Models\\Survey',
+            'commentable_id' => $survey->id,
+            'user_id' => $user->id,
+            'content' => $content
+        ]);
     }
 }
+
