@@ -30,10 +30,10 @@ class CommittedInvestorRequestFactory extends Factory
         ]);
     }
 
-    public function approved(): static
+    public function validated(): static
     {
         return $this->state(fn (array $attributes) => [
-            'status' => RequestStatus::Approved->value,
+            'status' => RequestStatus::Validated->value,
             'examination_date' => now(),
             'examiner_id' => User::factory(),
         ]);

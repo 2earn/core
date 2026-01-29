@@ -21,6 +21,8 @@ class BalanceInjectorCouponFactory extends Factory
             'status' => 1,
             'category' => $this->faker->numberBetween(1, 3),
             'type' => $this->faker->randomElement(['50.00', '100.00', '200.00']),
+            'consumption_date' => null,
+            'user_id' => User::factory(), // Database requires NOT NULL
         ];
     }
 
@@ -41,7 +43,7 @@ class BalanceInjectorCouponFactory extends Factory
             return [
                 'consumed' => 0,
                 'consumption_date' => null,
-                'user_id' => null,
+                // user_id stays from definition since DB requires NOT NULL
             ];
         });
     }

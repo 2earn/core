@@ -52,7 +52,7 @@ class CommittedInvestorRequestServiceTest extends TestCase
     {
         // Arrange
         $user = User::factory()->create();
-        CommittedInvestorRequest::factory()->approved()->create([
+        CommittedInvestorRequest::factory()->validated()->create([
             'user_id' => $user->id,
             'created_at' => now()->subDays(3)
         ]);
@@ -122,7 +122,7 @@ class CommittedInvestorRequestServiceTest extends TestCase
     {
         // Arrange
         $user = User::factory()->create();
-        CommittedInvestorRequest::factory()->approved()->create(['user_id' => $user->id]);
+        CommittedInvestorRequest::factory()->validated()->create(['user_id' => $user->id]);
 
         // Act
         $result = $this->committedInvestorRequestService->hasInProgressRequest($user->id);
@@ -167,7 +167,7 @@ class CommittedInvestorRequestServiceTest extends TestCase
         // Arrange
         $request = CommittedInvestorRequest::factory()->inProgress()->create();
         $data = [
-            'status' => RequestStatus::Approved->value,
+            'status' => RequestStatus::Validated->value,
             'note' => 'Updated note'
         ];
 
@@ -177,7 +177,7 @@ class CommittedInvestorRequestServiceTest extends TestCase
         // Assert
         $this->assertTrue($result);
         $request->refresh();
-        $this->assertEquals(RequestStatus::Approved->value, $request->status);
+        $this->assertEquals(RequestStatus::Validated->value, $request->status);
         $this->assertEquals('Updated note', $request->note);
     }
 
@@ -188,7 +188,7 @@ class CommittedInvestorRequestServiceTest extends TestCase
     {
         // Arrange
         CommittedInvestorRequest::factory()->inProgress()->count(3)->create();
-        CommittedInvestorRequest::factory()->approved()->count(2)->create();
+        CommittedInvestorRequest::factory()->validated()->count(2)->create();
 
         // Act
         $result = $this->committedInvestorRequestService->getInProgressRequests();
