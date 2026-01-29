@@ -2,11 +2,14 @@
 
 namespace Tests\Unit\Services\Balances;
 
+use App\Models\OperationCategory;
 use App\Services\Balances\OperationCategoryService;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class OperationCategoryServiceTest extends TestCase
 {
+    use DatabaseTransactions;
 
     protected OperationCategoryService $operationCategoryService;
 
@@ -17,88 +20,222 @@ class OperationCategoryServiceTest extends TestCase
     }
 
     /**
-     * Test getFilteredCategories method
-     * TODO: Implement actual test logic
+     * Test getFilteredCategories returns paginated results
      */
-    public function test_get_filtered_categories_works()
+    public function test_get_filtered_categories_returns_paginated_results()
     {
         // Arrange
-        // TODO: Set up test data
+        OperationCategory::factory()->count(15)->create();
 
         // Act
-        // $result = $this->service->getFilteredCategories();
+        $result = $this->operationCategoryService->getFilteredCategories(null, 10);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getFilteredCategories not yet implemented');
+        $this->assertInstanceOf(\Illuminate\Contracts\Pagination\LengthAwarePaginator::class, $result);
+        $this->assertEquals(10, $result->perPage());
     }
 
     /**
-     * Test getCategoryById method
-     * TODO: Implement actual test logic
+     * Test getFilteredCategories filters by search term in name
      */
-    public function test_get_category_by_id_works()
+    public function test_get_filtered_categories_filters_by_name()
     {
         // Arrange
-        // TODO: Set up test data
+        OperationCategory::factory()->create(['name' => 'Special Category']);
+        OperationCategory::factory()->create(['name' => 'Regular Category']);
 
         // Act
-        // $result = $this->service->getCategoryById();
+        $result = $this->operationCategoryService->getFilteredCategories('Special');
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getCategoryById not yet implemented');
+        $this->assertGreaterThanOrEqual(1, $result->total());
     }
 
     /**
-     * Test getAllCategories method
-     * TODO: Implement actual test logic
+     * Test getFilteredCategories filters by search term in code
      */
-    public function test_get_all_categories_works()
+    public function test_get_filtered_categories_filters_by_code()
     {
         // Arrange
-        // TODO: Set up test data
+        OperationCategory::factory()->create(['code' => 'SPEC001']);
+        OperationCategory::factory()->create(['code' => 'REG002']);
 
         // Act
-        // $result = $this->service->getAllCategories();
+        $result = $this->operationCategoryService->getFilteredCategories('SPEC');
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getAllCategories not yet implemented');
+        $this->assertGreaterThanOrEqual(1, $result->total());
     }
 
     /**
-     * Test getAll method
-     * TODO: Implement actual test logic
+     * Test getFilteredCategories orders by ID desc
      */
-    public function test_get_all_works()
+    public function test_get_filtered_categories_orders_by_id_desc()
     {
         // Arrange
-        // TODO: Set up test data
+        $category1 = OperationCategory::factory()->create();
+        $category2 = OperationCategory::factory()->create();
 
         // Act
-        // $result = $this->service->getAll();
+        $result = $this->operationCategoryService->getFilteredCategories();
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getAll not yet implemented');
+        $this->assertEquals($category2->id, $result->first()->id);
     }
 
     /**
-     * Test createCategory method
-     * TODO: Implement actual test logic
+     * Test getCategoryById returns category
      */
-    public function test_create_category_works()
+    public function test_get_category_by_id_returns_category()
     {
         // Arrange
-        // TODO: Set up test data
+        $category = OperationCategory::factory()->create();
 
         // Act
-        // $result = $this->service->createCategory();
+        $result = $this->operationCategoryService->getCategoryById($category->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for createCategory not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertEquals($category->id, $result->id);
+    }
+
+    /**
+     * Test getCategoryById returns null for non-existent
+     */
+    public function test_get_category_by_id_returns_null_for_nonexistent()
+    {
+        // Act
+        $result = $this->operationCategoryService->getCategoryById(99999);
+
+        // Assert
+        $this->assertNull($result);
+    }
+
+    /**
+     * Test getAllCategories returns all categories
+     */
+    public function test_get_all_categories_returns_all_categories()
+    {
+        // Arrange
+        $initialCount = OperationCategory::count();
+        OperationCategory::factory()->count(5)->create();
+
+        // Act
+        $result = $this->operationCategoryService->getAllCategories();
+
+        // Assert
+        $this->assertGreaterThanOrEqual($initialCount + 5, $result->count());
+    }
+
+    /**
+     * Test getAllCategories orders by ID desc
+     */
+    public function test_get_all_categories_orders_by_id_desc()
+    {
+        // Arrange
+        $category1 = OperationCategory::factory()->create();
+        $category2 = OperationCategory::factory()->create();
+
+        // Act
+        $result = $this->operationCategoryService->getAllCategories();
+
+        // Assert
+        $this->assertEquals($category2->id, $result->first()->id);
+    }
+
+    /**
+     * Test getAll returns all categories
+     */
+    public function test_get_all_returns_all_categories()
+    {
+        // Arrange
+        $initialCount = OperationCategory::count();
+        OperationCategory::factory()->count(3)->create();
+
+        // Act
+        $result = $this->operationCategoryService->getAll();
+
+        // Assert
+        $this->assertGreaterThanOrEqual($initialCount + 3, $result->count());
+    }
+
+    /**
+     * Test createCategory creates new category
+     */
+    public function test_create_category_creates_new_category()
+    {
+        // Arrange
+        $data = [
+            'name' => 'Test Category',
+            'code' => 'TEST001',
+            'description' => 'Test description',
+        ];
+
+        // Act
+        $result = $this->operationCategoryService->createCategory($data);
+
+        // Assert
+        $this->assertInstanceOf(OperationCategory::class, $result);
+        $this->assertEquals('Test Category', $result->name);
+        $this->assertDatabaseHas('operation_categories', ['name' => 'Test Category']);
+    }
+
+    /**
+     * Test updateCategory updates category
+     */
+    public function test_update_category_updates_category()
+    {
+        // Arrange
+        $category = OperationCategory::factory()->create(['name' => 'Old Name']);
+        $data = ['name' => 'New Name'];
+
+        // Act
+        $result = $this->operationCategoryService->updateCategory($category->id, $data);
+
+        // Assert
+        $this->assertTrue($result);
+        $category->refresh();
+        $this->assertEquals('New Name', $category->name);
+    }
+
+    /**
+     * Test updateCategory returns false for non-existent
+     */
+    public function test_update_category_returns_false_for_nonexistent()
+    {
+        // Act
+        $result = $this->operationCategoryService->updateCategory(99999, ['name' => 'Test']);
+
+        // Assert
+        $this->assertFalse($result);
+    }
+
+    /**
+     * Test deleteCategory deletes category
+     */
+    public function test_delete_category_deletes_category()
+    {
+        // Arrange
+        $category = OperationCategory::factory()->create();
+
+        // Act
+        $result = $this->operationCategoryService->deleteCategory($category->id);
+
+        // Assert
+        $this->assertTrue($result);
+        $this->assertDatabaseMissing('operation_categories', ['id' => $category->id]);
+    }
+
+    /**
+     * Test deleteCategory returns false for non-existent
+     */
+    public function test_delete_category_returns_false_for_nonexistent()
+    {
+        // Act
+        $result = $this->operationCategoryService->deleteCategory(99999);
+
+        // Assert
+        $this->assertFalse($result);
     }
 
     /**
