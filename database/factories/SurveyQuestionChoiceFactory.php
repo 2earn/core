@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 namespace Database\Factories;
 use App\Models\SurveyQuestionChoice;
 use App\Models\SurveyQuestion;

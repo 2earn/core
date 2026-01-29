@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 namespace Database\Factories;
 use App\Enums\StatusSurvey;
 use App\Models\Survey;

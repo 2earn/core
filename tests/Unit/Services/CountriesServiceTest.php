@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 namespace Tests\Unit\Services;
 use App\Models\countrie;
 use App\Services\CountriesService;

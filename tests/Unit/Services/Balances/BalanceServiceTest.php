@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 namespace Tests\Unit\Services\Balances;
 use App\Models\User;
 use App\Models\BFSsBalances;

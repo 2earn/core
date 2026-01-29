@@ -1,24 +1,23 @@
 <?php
 
 namespace Tests\Unit\Services\sms;
-
 use App\Models\Sms;
 use App\Models\User;
 use App\Services\sms\SmsService;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Tests\TestCase;
 
 class SmsServiceTest extends TestCase
 {
+    use DatabaseTransactions;
 
     protected SmsService $smsService;
-
     protected function setUp(): void
     {
         parent::setUp();
         $this->smsService = new SmsService();
     }
-
     /**
      * Test getStatistics method returns correct counts
      */
@@ -29,10 +28,8 @@ class SmsServiceTest extends TestCase
         Sms::factory()->count(5)->thisWeek()->create();
         Sms::factory()->count(7)->thisMonth()->create();
         Sms::factory()->count(2)->create(['created_at' => now()->subMonths(2)]);
-
         // Act
         $result = $this->smsService->getStatistics();
-
         // Assert
         $this->assertIsArray($result);
         $this->assertArrayHasKey('today', $result);
@@ -44,7 +41,6 @@ class SmsServiceTest extends TestCase
         $this->assertGreaterThanOrEqual(3, $result['month']);
         $this->assertEquals(17, $result['total']);
     }
-
     /**
      * Test getStatistics returns zeros when no SMS exist
      */
@@ -52,7 +48,6 @@ class SmsServiceTest extends TestCase
     {
         // Act
         $result = $this->smsService->getStatistics();
-
         // Assert
         $this->assertIsArray($result);
         $this->assertEquals(0, $result['today']);
@@ -60,7 +55,6 @@ class SmsServiceTest extends TestCase
         $this->assertEquals(0, $result['month']);
         $this->assertEquals(0, $result['total']);
     }
-
     /**
      * Test getSmsData returns paginated results
      */
@@ -68,17 +62,14 @@ class SmsServiceTest extends TestCase
     {
         // Arrange
         Sms::factory()->count(30)->create();
-
         // Act
         $result = $this->smsService->getSmsData([], 10);
-
         // Assert
         $this->assertInstanceOf(LengthAwarePaginator::class, $result);
         $this->assertEquals(10, $result->perPage());
         $this->assertEquals(30, $result->total());
         $this->assertCount(10, $result->items());
     }
-
     /**
      * Test getSmsData filters by destination number
      */
@@ -87,14 +78,11 @@ class SmsServiceTest extends TestCase
         // Arrange
         Sms::factory()->count(3)->withDestination('+1234567890')->create();
         Sms::factory()->count(5)->create();
-
         // Act
         $result = $this->smsService->getSmsData(['destination_number' => '+1234567890']);
-
         // Assert
         $this->assertEquals(3, $result->total());
     }
-
     /**
      * Test getSmsData filters by date range
      */
@@ -103,20 +91,16 @@ class SmsServiceTest extends TestCase
         // Arrange
         $today = now()->toDateString();
         $yesterday = now()->subDay()->toDateString();
-
         Sms::factory()->count(3)->create(['created_at' => $today]);
         Sms::factory()->count(2)->create(['created_at' => $yesterday]);
-
         // Act
         $result = $this->smsService->getSmsData([
             'date_from' => $today,
             'date_to' => $today
         ]);
-
         // Assert
         $this->assertEquals(3, $result->total());
     }
-
     /**
      * Test getSmsData filters by message content
      */
@@ -125,14 +109,11 @@ class SmsServiceTest extends TestCase
         // Arrange
         Sms::factory()->count(2)->create(['message' => 'Test message with keyword']);
         Sms::factory()->count(3)->create(['message' => 'Different message']);
-
         // Act
         $result = $this->smsService->getSmsData(['message' => 'keyword']);
-
         // Assert
         $this->assertEquals(2, $result->total());
     }
-
     /**
      * Test getSmsData filters by user ID
      */
@@ -142,14 +123,11 @@ class SmsServiceTest extends TestCase
         $user = User::factory()->create();
         Sms::factory()->count(4)->create(['created_by' => $user->id]);
         Sms::factory()->count(2)->create();
-
         // Act
         $result = $this->smsService->getSmsData(['user_id' => $user->id]);
-
         // Assert
         $this->assertEquals(4, $result->total());
     }
-
     /**
      * Test getSmsDataQuery returns query builder
      */
@@ -157,11 +135,9 @@ class SmsServiceTest extends TestCase
     {
         // Act
         $result = $this->smsService->getSmsDataQuery();
-
         // Assert
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Builder::class, $result);
     }
-
     /**
      * Test getSmsDataQuery applies filters correctly
      */
@@ -174,18 +150,15 @@ class SmsServiceTest extends TestCase
             'destination_number' => '+9876543210'
         ]);
         Sms::factory()->count(5)->create();
-
         // Act
         $query = $this->smsService->getSmsDataQuery([
             'user_id' => $user->id,
             'destination_number' => '+9876543210'
         ]);
         $result = $query->get();
-
         // Assert
         $this->assertCount(3, $result);
     }
-
     /**
      * Test findById returns SMS when exists
      */
@@ -193,16 +166,13 @@ class SmsServiceTest extends TestCase
     {
         // Arrange
         $sms = Sms::factory()->create();
-
         // Act
         $result = $this->smsService->findById($sms->id);
-
         // Assert
         $this->assertNotNull($result);
         $this->assertInstanceOf(Sms::class, $result);
         $this->assertEquals($sms->id, $result->id);
     }
-
     /**
      * Test findById returns null when SMS not found
      */
@@ -210,11 +180,9 @@ class SmsServiceTest extends TestCase
     {
         // Act
         $result = $this->smsService->findById(99999);
-
         // Assert
         $this->assertNull($result);
     }
-
     /**
      * Test getSmsData returns empty paginator when no SMS
      */
@@ -222,13 +190,11 @@ class SmsServiceTest extends TestCase
     {
         // Act
         $result = $this->smsService->getSmsData();
-
         // Assert
         $this->assertInstanceOf(LengthAwarePaginator::class, $result);
         $this->assertEquals(0, $result->total());
         $this->assertCount(0, $result->items());
     }
-
     /**
      * Test getSmsData orders by created_at descending
      */
@@ -237,10 +203,8 @@ class SmsServiceTest extends TestCase
         // Arrange
         $older = Sms::factory()->create(['created_at' => now()->subHours(2)]);
         $newer = Sms::factory()->create(['created_at' => now()]);
-
         // Act
         $result = $this->smsService->getSmsData();
-
         // Assert
         $this->assertEquals($newer->id, $result->items()[0]->id);
         $this->assertEquals($older->id, $result->items()[1]->id);

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 namespace Tests\Unit\Services;
 use App\Models\Survey;
 use App\Models\SurveyResponse;
