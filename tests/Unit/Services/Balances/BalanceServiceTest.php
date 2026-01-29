@@ -4,9 +4,10 @@ use App\Models\User;
 use App\Models\BFSsBalances;
 use App\Models\BalanceOperation;
 use App\Models\CashBalances;
-use App\Models\SmsBalances;
+use App\Models\SMSBalances;
 use App\Models\ChanceBalances;
 use App\Models\SharesBalances;
+use App\Models\UserCurrentBalanceHorisontal;
 use App\Services\Balances\BalanceService;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -27,10 +28,10 @@ class BalanceServiceTest extends TestCase
         // Arrange
         $user = User::factory()->create();
         $this->actingAs($user);
-        BalanceOperation::factory()->create(['id' => 1, 'operation' => 'Test', 'direction' => 'IN']);
+        $balanceOp = BalanceOperation::factory()->create(['operation' => 'Test', 'direction' => 'IN']);
         CashBalances::factory()->create([
             'beneficiary_id' => $user->idUser,
-            'balance_operation_id' => 1,
+            'balance_operation_id' => $balanceOp->id,
             'value' => 100,
         ]);
         // Act
@@ -65,10 +66,10 @@ class BalanceServiceTest extends TestCase
         // Arrange
         $user = User::factory()->create();
         $this->actingAs($user);
-        BalanceOperation::factory()->create(['id' => 1, 'operation' => 'Test', 'direction' => 'IN']);
+        $balanceOp = BalanceOperation::factory()->create(['operation' => 'Test', 'direction' => 'IN']);
         CashBalances::factory()->create([
             'beneficiary_id' => $user->idUser,
-            'balance_operation_id' => 1,
+            'balance_operation_id' => $balanceOp->id,
             'value' => 100,
         ]);
         // Act
@@ -83,10 +84,19 @@ class BalanceServiceTest extends TestCase
     {
         // Arrange
         $user = User::factory()->create();
-        BalanceOperation::factory()->create(['id' => 1, 'operation' => 'Test', 'direction' => 'IN']);
+        // Create UserCurrentBalanceHorisontal for the user
+        UserCurrentBalanceHorisontal::factory()->create([
+            'user_id' => $user->idUser,
+            'user_id_auto' => $user->id,
+            'bfss_balance' => [
+                ['type' => '10', 'value' => 0],
+                ['type' => '100.00', 'value' => 0],
+            ],
+        ]);
+        $balanceOp = BalanceOperation::factory()->create(['operation' => 'Test', 'direction' => 'IN']);
         BFSsBalances::factory()->create([
             'beneficiary_id' => $user->idUser,
-            'balance_operation_id' => 1,
+            'balance_operation_id' => $balanceOp->id,
             'value' => 100,
             'percentage' => 10,
         ]);
@@ -102,10 +112,19 @@ class BalanceServiceTest extends TestCase
     {
         // Arrange
         $user = User::factory()->create();
-        BalanceOperation::factory()->create(['id' => 1, 'operation' => 'Test', 'direction' => 'IN']);
+        // Create UserCurrentBalanceHorisontal for the user
+        UserCurrentBalanceHorisontal::factory()->create([
+            'user_id' => $user->idUser,
+            'user_id_auto' => $user->id,
+            'bfss_balance' => [
+                ['type' => '10', 'value' => 0],
+                ['type' => '100.00', 'value' => 0],
+            ],
+        ]);
+        $balanceOp = BalanceOperation::factory()->create(['operation' => 'Test', 'direction' => 'IN']);
         BFSsBalances::factory()->create([
             'beneficiary_id' => $user->idUser,
-            'balance_operation_id' => 1,
+            'balance_operation_id' => $balanceOp->id,
             'value' => 100,
             'percentage' => 10,
         ]);
@@ -121,10 +140,10 @@ class BalanceServiceTest extends TestCase
     {
         // Arrange
         $user = User::factory()->create();
-        BalanceOperation::factory()->create(['id' => 1, 'operation' => 'Test', 'direction' => 'IN']);
-        SmsBalances::factory()->create([
+        $balanceOp = BalanceOperation::factory()->create(['operation' => 'Test', 'direction' => 'IN']);
+        SMSBalances::factory()->create([
             'beneficiary_id' => $user->idUser,
-            'balance_operation_id' => 1,
+            'balance_operation_id' => $balanceOp->id,
             'value' => 50,
         ]);
         // Act
@@ -139,11 +158,20 @@ class BalanceServiceTest extends TestCase
     {
         // Arrange
         $user = User::factory()->create();
-        BalanceOperation::factory()->create(['id' => 1, 'operation' => 'Test', 'direction' => 'IN']);
+        // Create UserCurrentBalanceHorisontal for the user
+        UserCurrentBalanceHorisontal::factory()->create([
+            'user_id' => $user->idUser,
+            'user_id_auto' => $user->id,
+            'chances_balance' => [
+                ['pool_id' => 1, 'value' => 0],
+            ],
+        ]);
+        $balanceOp = BalanceOperation::factory()->create(['operation' => 'Test', 'direction' => 'IN']);
         ChanceBalances::factory()->create([
             'beneficiary_id' => $user->idUser,
-            'balance_operation_id' => 1,
+            'balance_operation_id' => $balanceOp->id,
             'value' => 5,
+            'pool_id' => 1,
         ]);
         // Act
         $result = $this->balanceService->getChanceUserDatatables($user->idUser);
@@ -168,4 +196,3 @@ class BalanceServiceTest extends TestCase
         $this->assertNotNull($result);
     }
 }
-
