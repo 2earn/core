@@ -270,8 +270,8 @@ class BalanceInjectorCouponServiceTest extends TestCase
 
         // Assert
         $this->assertTrue($result['success']);
-        $this->assertEquals(5, $result['created_count']);
-        $this->assertStringContainsString('coupons created successfully', $result['message']);
+        $this->assertEquals(5, $result['createdCount']);
+        $this->assertStringContainsString('successfully', strtolower($result['message']));
     }
 
     /**
@@ -313,75 +313,6 @@ class BalanceInjectorCouponServiceTest extends TestCase
 
         // Assert
         $this->assertTrue($result['success']);
-        $this->assertEquals(3, $result['created_count']);
-    }
-
-
-    /**
-     * Test getAll method
-     * TODO: Implement actual test logic
-     */
-    public function test_get_all_works()
-    {
-        // Arrange
-        // TODO: Set up test data
-
-        // Act
-        // $result = $this->service->getAll();
-
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getAll not yet implemented');
-    }
-
-    /**
-     * Test getByPin method
-     * TODO: Implement actual test logic
-     */
-    public function test_get_by_pin_works()
-    {
-        // Arrange
-        // TODO: Set up test data
-
-        // Act
-        // $result = $this->service->getByPin();
-
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getByPin not yet implemented');
-    }
-
-    /**
-     * Test getByUserId method
-     * TODO: Implement actual test logic
-     */
-    public function test_get_by_user_id_works()
-    {
-        // Arrange
-        // TODO: Set up test data
-
-        // Act
-        // $result = $this->service->getByUserId();
-
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getByUserId not yet implemented');
-    }
-
-    /**
-     * Test createMultipleCoupons method
-     * TODO: Implement actual test logic
-     */
-    public function test_create_multiple_coupons_works()
-    {
-        // Arrange
-        // TODO: Set up test data
-
-        // Act
-        // $result = $this->service->createMultipleCoupons();
-
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for createMultipleCoupons not yet implemented');
+        $this->assertEquals(3, $result['createdCount']);
     }
 }

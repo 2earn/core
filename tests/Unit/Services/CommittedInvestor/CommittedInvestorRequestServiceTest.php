@@ -2,11 +2,16 @@
 
 namespace Tests\Unit\Services\CommittedInvestor;
 
+use App\Enums\RequestStatus;
+use App\Models\CommittedInvestorRequest;
+use App\Models\User;
 use App\Services\CommittedInvestor\CommittedInvestorRequestService;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class CommittedInvestorRequestServiceTest extends TestCase
 {
+    use DatabaseTransactions;
 
     protected CommittedInvestorRequestService $committedInvestorRequestService;
 
@@ -17,138 +22,201 @@ class CommittedInvestorRequestServiceTest extends TestCase
     }
 
     /**
-     * Test getLastCommittedInvestorRequest method
-     * TODO: Implement actual test logic
+     * Test getLastCommittedInvestorRequest returns last request
      */
     public function test_get_last_committed_investor_request_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $request1 = CommittedInvestorRequest::factory()->create([
+            'user_id' => $user->id,
+            'created_at' => now()->subDays(2)
+        ]);
+        $request2 = CommittedInvestorRequest::factory()->create([
+            'user_id' => $user->id,
+            'created_at' => now()
+        ]);
 
         // Act
-        // $result = $this->service->getLastCommittedInvestorRequest();
+        $result = $this->committedInvestorRequestService->getLastCommittedInvestorRequest($user->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getLastCommittedInvestorRequest not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertEquals($request2->id, $result->id);
     }
 
     /**
-     * Test getLastCommittedInvestorRequestByStatus method
-     * TODO: Implement actual test logic
+     * Test getLastCommittedInvestorRequestByStatus returns last request with status
      */
     public function test_get_last_committed_investor_request_by_status_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        CommittedInvestorRequest::factory()->approved()->create([
+            'user_id' => $user->id,
+            'created_at' => now()->subDays(3)
+        ]);
+        $inProgressRequest = CommittedInvestorRequest::factory()->inProgress()->create([
+            'user_id' => $user->id,
+            'created_at' => now()
+        ]);
 
         // Act
-        // $result = $this->service->getLastCommittedInvestorRequestByStatus();
+        $result = $this->committedInvestorRequestService->getLastCommittedInvestorRequestByStatus(
+            $user->id,
+            RequestStatus::InProgress->value
+        );
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getLastCommittedInvestorRequestByStatus not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertEquals($inProgressRequest->id, $result->id);
+        $this->assertEquals(RequestStatus::InProgress->value, $result->status);
     }
 
     /**
-     * Test createCommittedInvestorRequest method
-     * TODO: Implement actual test logic
+     * Test createCommittedInvestorRequest creates request
      */
     public function test_create_committed_investor_request_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        $data = [
+            'user_id' => $user->id,
+            'status' => RequestStatus::InProgress->value,
+            'note' => 'Test request',
+            'request_date' => now(),
+        ];
 
         // Act
-        // $result = $this->service->createCommittedInvestorRequest();
+        $result = $this->committedInvestorRequestService->createCommittedInvestorRequest($data);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for createCommittedInvestorRequest not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertEquals($user->id, $result->user_id);
+        $this->assertDatabaseHas('committed_investor_requests', [
+            'user_id' => $user->id,
+            'note' => 'Test request'
+        ]);
     }
 
     /**
-     * Test hasInProgressRequest method
-     * TODO: Implement actual test logic
+     * Test hasInProgressRequest returns true when request exists
      */
     public function test_has_in_progress_request_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        CommittedInvestorRequest::factory()->inProgress()->create(['user_id' => $user->id]);
 
         // Act
-        // $result = $this->service->hasInProgressRequest();
+        $result = $this->committedInvestorRequestService->hasInProgressRequest($user->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for hasInProgressRequest not yet implemented');
+        $this->assertTrue($result);
     }
 
     /**
-     * Test getCommittedInvestorRequestById method
-     * TODO: Implement actual test logic
+     * Test hasInProgressRequest returns false when no in-progress request exists
+     */
+    public function test_has_in_progress_request_returns_false_when_no_request()
+    {
+        // Arrange
+        $user = User::factory()->create();
+        CommittedInvestorRequest::factory()->approved()->create(['user_id' => $user->id]);
+
+        // Act
+        $result = $this->committedInvestorRequestService->hasInProgressRequest($user->id);
+
+        // Assert
+        $this->assertFalse($result);
+    }
+
+    /**
+     * Test getCommittedInvestorRequestById returns request
      */
     public function test_get_committed_investor_request_by_id_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $request = CommittedInvestorRequest::factory()->create();
 
         // Act
-        // $result = $this->service->getCommittedInvestorRequestById();
+        $result = $this->committedInvestorRequestService->getCommittedInvestorRequestById($request->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getCommittedInvestorRequestById not yet implemented');
+        $this->assertNotNull($result);
+        $this->assertEquals($request->id, $result->id);
     }
 
     /**
-     * Test updateCommittedInvestorRequest method
-     * TODO: Implement actual test logic
+     * Test getCommittedInvestorRequestById returns null when not found
+     */
+    public function test_get_committed_investor_request_by_id_returns_null_when_not_found()
+    {
+        // Act
+        $result = $this->committedInvestorRequestService->getCommittedInvestorRequestById(99999);
+
+        // Assert
+        $this->assertNull($result);
+    }
+
+    /**
+     * Test updateCommittedInvestorRequest updates request
      */
     public function test_update_committed_investor_request_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $request = CommittedInvestorRequest::factory()->inProgress()->create();
+        $data = [
+            'status' => RequestStatus::Approved->value,
+            'note' => 'Updated note'
+        ];
 
         // Act
-        // $result = $this->service->updateCommittedInvestorRequest();
+        $result = $this->committedInvestorRequestService->updateCommittedInvestorRequest($request->id, $data);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for updateCommittedInvestorRequest not yet implemented');
+        $this->assertTrue($result);
+        $request->refresh();
+        $this->assertEquals(RequestStatus::Approved->value, $request->status);
+        $this->assertEquals('Updated note', $request->note);
     }
 
     /**
-     * Test getInProgressRequests method
-     * TODO: Implement actual test logic
+     * Test getInProgressRequests returns in-progress requests
      */
     public function test_get_in_progress_requests_works()
     {
         // Arrange
-        // TODO: Set up test data
+        CommittedInvestorRequest::factory()->inProgress()->count(3)->create();
+        CommittedInvestorRequest::factory()->approved()->count(2)->create();
 
         // Act
-        // $result = $this->service->getInProgressRequests();
+        $result = $this->committedInvestorRequestService->getInProgressRequests();
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getInProgressRequests not yet implemented');
+        $this->assertGreaterThanOrEqual(3, $result->count());
+        foreach ($result as $request) {
+            $this->assertEquals(RequestStatus::InProgress->value, $request->status);
+        }
     }
 
     /**
-     * Test getUserCommittedInvestorRequests method
-     * TODO: Implement actual test logic
+     * Test getUserCommittedInvestorRequests returns user's requests
      */
     public function test_get_user_committed_investor_requests_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = User::factory()->create();
+        CommittedInvestorRequest::factory()->count(3)->create(['user_id' => $user->id]);
+        CommittedInvestorRequest::factory()->count(2)->create(); // Other users
 
         // Act
-        // $result = $this->service->getUserCommittedInvestorRequests();
+        $result = $this->committedInvestorRequestService->getUserCommittedInvestorRequests($user->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getUserCommittedInvestorRequests not yet implemented');
+        $this->assertGreaterThanOrEqual(3, $result->count());
+        foreach ($result as $request) {
+            $this->assertEquals($user->id, $request->user_id);
+        }
     }
 }
