@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasAuditing;
 
 class translatetabs extends Model
 {
-    use HasAuditing;
+    use HasFactory, HasAuditing;
 
     protected $table = 'translatetab';
 

@@ -3,14 +3,17 @@
 namespace App\Models;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasAuditing;
 
 class detail_financial_request extends Model
 {
-    use HasAuditing;
+    use HasFactory, HasAuditing;
 
     protected $table = 'detail_financial_request';
+    protected $primaryKey = null;
+    public $incrementing = false;
     public $timestamps = true;
 
     protected $fillable = [

@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\TranslaleModel;
 use App\Traits\HasAuditing;
 
 class Hashtag extends Model
 {
-    use HasAuditing;
+    use HasFactory, HasAuditing;
 
     protected $fillable = ['name', 'slug',
         'created_by',
