@@ -165,9 +165,11 @@ class OperationCategoryServiceTest extends TestCase
     public function test_create_category_creates_new_category()
     {
         // Arrange
+        $uniqueName = 'Test Category ' . time();
+        $uniqueCode = 'TEST' . time();
         $data = [
-            'name' => 'Test Category',
-            'code' => 'TEST001',
+            'name' => $uniqueName,
+            'code' => $uniqueCode,
             'description' => 'Test description',
         ];
 
@@ -176,8 +178,8 @@ class OperationCategoryServiceTest extends TestCase
 
         // Assert
         $this->assertInstanceOf(OperationCategory::class, $result);
-        $this->assertEquals('Test Category', $result->name);
-        $this->assertDatabaseHas('operation_categories', ['name' => 'Test Category']);
+        $this->assertEquals($uniqueName, $result->name);
+        $this->assertDatabaseHas('operation_categories', ['name' => $uniqueName]);
     }
 
     /**
@@ -236,39 +238,5 @@ class OperationCategoryServiceTest extends TestCase
 
         // Assert
         $this->assertFalse($result);
-    }
-
-    /**
-     * Test updateCategory method
-     * TODO: Implement actual test logic
-     */
-    public function test_update_category_works()
-    {
-        // Arrange
-        // TODO: Set up test data
-
-        // Act
-        // $result = $this->service->updateCategory();
-
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for updateCategory not yet implemented');
-    }
-
-    /**
-     * Test deleteCategory method
-     * TODO: Implement actual test logic
-     */
-    public function test_delete_category_works()
-    {
-        // Arrange
-        // TODO: Set up test data
-
-        // Act
-        // $result = $this->service->deleteCategory();
-
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for deleteCategory not yet implemented');
     }
 }

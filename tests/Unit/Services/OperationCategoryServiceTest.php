@@ -2,26 +2,28 @@
 
 namespace Tests\Unit\Services;
 
-use App\Services\OperationCategoryService;
+use App\Services\Balances\OperationCategoryService;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class OperationCategoryServiceTest extends TestCase
 {
+    use DatabaseTransactions;
 
-    protected Service $operationCategoryService;
+    protected OperationCategoryService $operationCategoryService;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->operationCategoryService = new Service();
+        $this->operationCategoryService = new OperationCategoryService();
     }
 
     /**
-     * @test
-     * TODO: Implement test methods for this service
+     * Test service exists and can be instantiated
      */
     public function test_service_exists()
     {
-        $this->assertNotNull($this->service);
+        $this->assertNotNull($this->operationCategoryService);
+        $this->assertInstanceOf(OperationCategoryService::class, $this->operationCategoryService);
     }
 }

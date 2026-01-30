@@ -53,7 +53,7 @@ class CommunicationBoardServiceTest extends TestCase
     public function test_get_communication_board_items_includes_surveys()
     {
         // Arrange
-        Survey::factory()->create(['status' => StatusSurvey::OPEN->value]);
+        Survey::factory()->create(['status' => StatusSurvey::OPEN->value, 'published' => true]);
 
         // Act
         $result = $this->communicationBoardService->getCommunicationBoardItems();
@@ -101,7 +101,7 @@ class CommunicationBoardServiceTest extends TestCase
     public function test_get_communication_board_items_formats_with_type()
     {
         // Arrange
-        $survey = Survey::factory()->create(['status' => StatusSurvey::OPEN->value]);
+        $survey = Survey::factory()->create(['status' => StatusSurvey::OPEN->value, 'published' => true]);
         $news = News::factory()->enabled()->create();
 
         // Act
@@ -122,7 +122,7 @@ class CommunicationBoardServiceTest extends TestCase
     public function test_get_communication_board_items_merges_all_types()
     {
         // Arrange
-        Survey::factory()->count(2)->create(['status' => StatusSurvey::OPEN->value]);
+        Survey::factory()->count(2)->create(['status' => StatusSurvey::OPEN->value, 'published' => true]);
         News::factory()->enabled()->count(2)->create();
         Event::factory()->enabled()->count(2)->create();
 
