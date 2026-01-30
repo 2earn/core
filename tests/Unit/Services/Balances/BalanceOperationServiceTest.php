@@ -2,11 +2,15 @@
 
 namespace Tests\Unit\Services\Balances;
 
+use App\Models\BalanceOperation;
+use App\Models\OperationCategory;
 use App\Services\Balances\BalanceOperationService;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class BalanceOperationServiceTest extends TestCase
 {
+    use DatabaseTransactions;
 
     protected BalanceOperationService $balanceOperationService;
 
@@ -22,7 +26,7 @@ class BalanceOperationServiceTest extends TestCase
     public function test_get_filtered_operations_returns_paginated_results()
     {
         // Arrange
-        \App\Models\BalanceOperation::factory()->count(15)->create();
+        BalanceOperation::factory()->count(15)->create();
 
         // Act
         $result = $this->balanceOperationService->getFilteredOperations(null, 10);
@@ -38,9 +42,9 @@ class BalanceOperationServiceTest extends TestCase
     public function test_get_filtered_operations_filters_by_search()
     {
         // Arrange
-        \App\Models\BalanceOperation::factory()->create(['operation' => 'Test Operation One']);
-        \App\Models\BalanceOperation::factory()->create(['operation' => 'Test Operation Two']);
-        \App\Models\BalanceOperation::factory()->create(['operation' => 'Other Operation']);
+        BalanceOperation::factory()->create(['operation' => 'Test Operation One']);
+        BalanceOperation::factory()->create(['operation' => 'Test Operation Two']);
+        BalanceOperation::factory()->create(['operation' => 'Other Operation']);
 
         // Act
         $result = $this->balanceOperationService->getFilteredOperations('Test', 10);
@@ -55,14 +59,14 @@ class BalanceOperationServiceTest extends TestCase
     public function test_get_operation_by_id_returns_operation_when_exists()
     {
         // Arrange
-        $operation = \App\Models\BalanceOperation::factory()->create();
+        $operation = BalanceOperation::factory()->create();
 
         // Act
         $result = $this->balanceOperationService->getOperationById($operation->id);
 
         // Assert
         $this->assertNotNull($result);
-        $this->assertInstanceOf(\App\Models\BalanceOperation::class, $result);
+        $this->assertInstanceOf(BalanceOperation::class, $result);
         $this->assertEquals($operation->id, $result->id);
     }
 
@@ -84,9 +88,9 @@ class BalanceOperationServiceTest extends TestCase
     public function test_get_all_operations_returns_all_operations()
     {
         // Arrange
-        $operation1 = \App\Models\BalanceOperation::factory()->create();
-        $operation2 = \App\Models\BalanceOperation::factory()->create();
-        $operation3 = \App\Models\BalanceOperation::factory()->create();
+        $operation1 = BalanceOperation::factory()->create();
+        $operation2 = BalanceOperation::factory()->create();
+        $operation3 = BalanceOperation::factory()->create();
 
         // Act
         $result = $this->balanceOperationService->getAllOperations();
@@ -105,22 +109,20 @@ class BalanceOperationServiceTest extends TestCase
         // Arrange
         $data = [
             'operation' => 'Test Operation',
-            'io' => 'I',
-            'source' => 'test',
-            'mode' => 'manual',
+            'direction' => 'IN',
             'note' => 'Test note',
+            'balance_id' => 1,
         ];
 
         // Act
         $result = $this->balanceOperationService->createOperation($data);
 
         // Assert
-        $this->assertInstanceOf(\App\Models\BalanceOperation::class, $result);
+        $this->assertInstanceOf(BalanceOperation::class, $result);
         $this->assertEquals('Test Operation', $result->operation);
         $this->assertDatabaseHas('balance_operations', [
             'operation' => 'Test Operation',
-            'source' => 'test',
-            'mode' => 'manual',
+            'direction' => 'IN',
         ]);
     }
 
@@ -130,7 +132,7 @@ class BalanceOperationServiceTest extends TestCase
     public function test_update_operation_updates_successfully()
     {
         // Arrange
-        $operation = \App\Models\BalanceOperation::factory()->create([
+        $operation = BalanceOperation::factory()->create([
             'operation' => 'Original Operation'
         ]);
         $updateData = [
@@ -163,20 +165,33 @@ class BalanceOperationServiceTest extends TestCase
     }
 
     /**
-     * Test deleteOperation method
-     * TODO: Implement actual test logic
+     * Test deleteOperation deletes successfully when operation exists
      */
-    public function test_delete_operation_works()
+    public function test_delete_operation_deletes_successfully()
     {
         // Arrange
-        // TODO: Set up test data
+        $operation = BalanceOperation::factory()->create();
 
         // Act
-        // $result = $this->service->deleteOperation();
+        $result = $this->balanceOperationService->deleteOperation($operation->id);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for deleteOperation not yet implemented');
+        $this->assertTrue($result);
+        $this->assertDatabaseMissing('balance_operations', [
+            'id' => $operation->id,
+        ]);
+    }
+
+    /**
+     * Test deleteOperation returns false when operation not found
+     */
+    public function test_delete_operation_returns_false_when_not_found()
+    {
+        // Act
+        $result = $this->balanceOperationService->deleteOperation(9999);
+
+        // Assert
+        $this->assertFalse($result);
     }
 
     /**
@@ -185,7 +200,7 @@ class BalanceOperationServiceTest extends TestCase
     public function test_get_operation_category_name_returns_name_when_exists()
     {
         // Arrange
-        $category = \App\Models\OperationCategory::create([
+        $category = OperationCategory::create([
             'name' => 'Test Category',
             'code' => 'TEST',
         ]);

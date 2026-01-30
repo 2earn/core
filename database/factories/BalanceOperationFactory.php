@@ -17,6 +17,7 @@ class BalanceOperationFactory extends Factory
             'relateble' => $this->faker->boolean(20),
             'relateble_model' => $this->faker->optional()->word(),
             'relateble_types' => $this->faker->optional()->word(),
+            'note' => $this->faker->optional()->sentence(),
         ];
     }
 }

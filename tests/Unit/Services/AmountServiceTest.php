@@ -26,7 +26,7 @@ class AmountServiceTest extends TestCase
         // Assert
         $this->assertNotNull($result);
         $this->assertInstanceOf(Amount::class, $result);
-        $this->assertEquals($amount->id, $result->id);
+        $this->assertEquals($amount->idamounts, $result->idamounts);
     }
     /**
      * Test getting amount by ID when not exists
@@ -75,7 +75,7 @@ class AmountServiceTest extends TestCase
         $amount = Amount::factory()->create(['amountsname' => 'Original Name']);
         $updateData = ['amountsname' => 'Updated Name'];
         // Act
-        $result = $this->amountService->update($amount->id, $updateData);
+        $result = $this->amountService->update($amount->idamounts, $updateData);
         // Assert
         $this->assertTrue($result);
         $this->assertDatabaseHas('amounts', [

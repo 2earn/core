@@ -17,7 +17,7 @@ class DealValidationRequestFactory extends Factory
             'deal_id' => Deal::factory(),
             'status' => 'pending',
             'rejection_reason' => null,
-            'requested_by' => User::factory(),
+            'requested_by_id' => User::factory(),
             'reviewed_by' => null,
             'reviewed_at' => null,
         ];

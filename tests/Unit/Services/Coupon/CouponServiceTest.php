@@ -3,13 +3,15 @@ namespace Tests\Unit\Services\Coupon;
 use App\Enums\CouponStatusEnum;
 use App\Models\BalanceInjectorCoupon;
 use App\Models\Coupon;
+use App\Models\Platform;
 use App\Models\User;
 use App\Services\Coupon\CouponService;
-use Core\Models\Platform;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 class CouponServiceTest extends TestCase
 {
+    use DatabaseTransactions;
+
     protected CouponService $couponService;
     protected function setUp(): void
     {
@@ -111,6 +113,7 @@ class CouponServiceTest extends TestCase
     {
         // Arrange
         $user = User::factory()->create();
+        $this->actingAs($user);
         $coupon = BalanceInjectorCoupon::factory()->create(['user_id' => $user->id, 'consumed' => 0]);
         // Act
         $result = $this->couponService->consume($coupon->id, $user->id);
@@ -172,8 +175,8 @@ class CouponServiceTest extends TestCase
     {
         // Arrange
         $user = User::factory()->create();
-        $coupon1 = BalanceInjectorCoupon::factory()->create(['user_id' => $user->id, 'consumed' => 0]);
-        $coupon2 = BalanceInjectorCoupon::factory()->create(['user_id' => $user->id, 'consumed' => 0]);
+        $coupon1 = Coupon::factory()->create(['user_id' => $user->id, 'consumed' => 0]);
+        $coupon2 = Coupon::factory()->create(['user_id' => $user->id, 'consumed' => 0]);
         // Act
         $result = $this->couponService->deleteMultipleByIds([$coupon1->id, $coupon2->id]);
         // Assert
@@ -186,7 +189,7 @@ class CouponServiceTest extends TestCase
     {
         // Arrange
         $user = User::factory()->create();
-        BalanceInjectorCoupon::factory()->count(5)->create(['user_id' => $user->id]);
+        Coupon::factory()->count(5)->create(['user_id' => $user->id]);
         // Act
         $result = $this->couponService->getAllCouponsOrdered();
         // Assert
