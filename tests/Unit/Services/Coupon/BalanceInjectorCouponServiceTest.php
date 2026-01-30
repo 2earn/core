@@ -214,8 +214,18 @@ class BalanceInjectorCouponServiceTest extends TestCase
     {
         // Arrange
         $user = User::factory()->create();
-        BalanceInjectorCoupon::factory()->count(3)->consumed()->create(['user_id' => $user->id]);
-        BalanceInjectorCoupon::factory()->count(2)->create(); // Other users
+
+        // Create consumed coupons for this specific user
+        for ($i = 0; $i < 3; $i++) {
+            BalanceInjectorCoupon::factory()->create([
+                'consumed' => 1,
+                'consumption_date' => now(),
+                'user_id' => $user->id,
+            ]);
+        }
+
+        // Create coupons for other users
+        BalanceInjectorCoupon::factory()->count(2)->create();
 
         // Act
         $result = $this->balanceInjectorCouponService->getByUserId($user->id);
