@@ -30,7 +30,7 @@ class CartServiceTest extends TestCase
     public function test_get_user_cart_returns_cart_when_exists()
     {
         // Arrange
-        $user = User::factory()->create();
+        $user = User::factory()->create(['email' => 'carttest1_' . uniqid() . '@example.com']);
         $cart = Cart::factory()->create(['user_id' => $user->id]);
 
         // Act
@@ -49,7 +49,7 @@ class CartServiceTest extends TestCase
     public function test_get_user_cart_returns_null_when_not_exists()
     {
         // Arrange
-        $user = User::factory()->create();
+        $user = User::factory()->create(['email' => 'carttest2_' . uniqid() . '@example.com']);
 
         // Act
         $result = $this->cartService->getUserCart($user->id);
@@ -64,8 +64,8 @@ class CartServiceTest extends TestCase
     public function test_get_user_cart_returns_correct_cart_for_user()
     {
         // Arrange
-        $user1 = User::factory()->create();
-        $user2 = User::factory()->create();
+        $user1 = User::factory()->create(['email' => 'carttest3a_' . uniqid() . '@example.com']);
+        $user2 = User::factory()->create(['email' => 'carttest3b_' . uniqid() . '@example.com']);
         $cart1 = Cart::factory()->create(['user_id' => $user1->id]);
         $cart2 = Cart::factory()->create(['user_id' => $user2->id]);
 
@@ -399,7 +399,7 @@ class CartServiceTest extends TestCase
     public function test_get_unique_platforms_count_with_multiple_platforms()
     {
         // Arrange
-        $user = User::factory()->create();
+        $user = User::factory()->create(['email' => 'carttest19_' . uniqid() . '@example.com']);
         $cart = Cart::factory()->create(['user_id' => $user->id]);
 
         $platform1 = Platform::factory()->create();
