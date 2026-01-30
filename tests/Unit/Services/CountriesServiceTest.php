@@ -19,34 +19,44 @@ class CountriesServiceTest extends TestCase
     public function test_get_by_phone_code_returns_country_when_exists()
     {
         // Arrange
-        $country = countrie::factory()->withPhoneCode('961')->create();
+        $uniqueCode = '99' . rand(100000, 999999);
+        $country = countrie::factory()->withPhoneCode($uniqueCode)->create();
+
         // Act
-        $result = $this->countriesService->getByPhoneCode('961');
+        $result = $this->countriesService->getByPhoneCode($uniqueCode);
+
         // Assert
         $this->assertNotNull($result);
         $this->assertEquals($country->phonecode, $result->phonecode);
         $this->assertEquals($country->name, $result->name);
     }
+
     /**
      * Test getByPhoneCode returns null when country does not exist
      */
     public function test_get_by_phone_code_returns_null_when_not_exists()
     {
         // Act
-        $result = $this->countriesService->getByPhoneCode('999');
+        $result = $this->countriesService->getByPhoneCode('999999999');
+
         // Assert
         $this->assertNull($result);
     }
+
     /**
      * Test getCountryModelByPhoneCode returns country model when it exists
      */
     public function test_get_country_model_by_phone_code_returns_country_when_exists()
     {
         // Arrange
-        $country = countrie::factory()->withPhoneCode('961')->create();
+        $uniqueCode = '88' . rand(100000, 999999);
+        $country = countrie::factory()->withPhoneCode($uniqueCode)->create();
+
         // Act
-        $result = $this->countriesService->getCountryModelByPhoneCode('961');
+        $result = $this->countriesService->getCountryModelByPhoneCode($uniqueCode);
+
         // Assert
+        $this->assertNotNull($result, 'Country should not be null');
         $this->assertInstanceOf(countrie::class, $result);
         $this->assertEquals($country->id, $result->id);
         $this->assertEquals($country->phonecode, $result->phonecode);

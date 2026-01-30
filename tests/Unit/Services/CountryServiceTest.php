@@ -26,7 +26,7 @@ class CountryServiceTest extends TestCase
         // Arrange
         $country = countrie::factory()->create([
             'langage' => 'English',
-            'lang' => LanguageEnum::ENGLISH
+            'lang' => LanguageEnum::English->value
         ]);
 
         // Act

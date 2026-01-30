@@ -2,18 +2,23 @@
 
 namespace Tests\Unit\Services;
 
+use App\Services\Items\ItemService;
 use App\Services\OrderDetailService;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class OrderDetailServiceTest extends TestCase
 {
+    use DatabaseTransactions;
 
     protected OrderDetailService $orderDetailService;
+    protected ItemService $itemService;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->orderDetailService = new OrderDetailService();
+        $this->itemService = new ItemService();
+        $this->orderDetailService = new OrderDetailService($this->itemService);
     }
 
     /**

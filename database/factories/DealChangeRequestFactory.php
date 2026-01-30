@@ -35,6 +35,7 @@ class DealChangeRequestFactory extends Factory
                 'status' => DealChangeRequest::STATUS_PENDING,
                 'reviewed_by' => null,
                 'reviewed_at' => null,
+                'rejection_reason' => null,
             ];
         });
     }
