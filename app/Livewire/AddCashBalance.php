@@ -6,12 +6,15 @@ use App\Enums\BalanceOperationsEnum;
 use App\Models\CashBalances;
 use App\Models\User;
 use App\Services\Balances\Balances;
+use App\Services\UserService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class AddCashBalance extends Component
 {
+    protected UserService $userService;
+
     public $search = '';
     public $selectedUserId = null;
     public $selectedUserName = '';
@@ -34,6 +37,11 @@ class AddCashBalance extends Component
         'amount.min' => 'Amount must be greater than 0',
     ];
 
+    public function boot(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     public function updatedSearch()
     {
         $this->showUsersList = false;
@@ -43,18 +51,9 @@ class AddCashBalance extends Component
             return;
         }
 
-        $searchTerm = $this->search;
-
-        // Search users by ID, name, email, or mobile phone number
-        $this->users = User::where(function($query) use ($searchTerm) {
-            $query->where('idUser', 'like', '%' . $searchTerm . '%')
-                  ->orWhere('name', 'like', '%' . $searchTerm . '%')
-                  ->orWhere('email', 'like', '%' . $searchTerm . '%')
-                  ->orWhere('mobile', 'like', '%' . $searchTerm . '%');
-        })
-        ->limit(10)
-        ->get()
-        ->toArray();
+        // Use UserService to search users
+        $users = $this->userService->searchUsers($this->search, 10);
+        $this->users = $users->toArray();
 
         $this->showUsersList = !empty($this->users);
     }

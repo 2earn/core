@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\BusinessSector;
+use App\Services\BusinessSector\BusinessSectorService;
 use App\Services\Partner\PartnerService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
@@ -22,6 +22,7 @@ class PartnerCreateUpdate extends Component
     public $update = false;
 
     protected PartnerService $partnerService;
+    protected BusinessSectorService $businessSectorService;
 
     protected $rules = [
         'company_name' => 'required|string|max:255',
@@ -37,14 +38,16 @@ class PartnerCreateUpdate extends Component
         'platform_url.url' => 'Platform URL must be a valid URL',
     ];
 
-    public function boot(PartnerService $partnerService)
+    public function boot(PartnerService $partnerService, BusinessSectorService $businessSectorService)
     {
         $this->partnerService = $partnerService;
+        $this->businessSectorService = $businessSectorService;
     }
 
     public function mount($id = null)
     {
-        $this->businessSectors = BusinessSector::orderBy('name')->get();
+        // Use BusinessSectorService to get ordered business sectors
+        $this->businessSectors = $this->businessSectorService->getAllOrderedByName();
 
         if (!is_null($id)) {
             $this->id = $id;

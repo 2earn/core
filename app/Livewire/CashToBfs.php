@@ -8,6 +8,7 @@ use App\Enums\TypeNotificationEnum;
 use App\Models\BFSsBalances;
 use App\Models\User;
 use App\Services\Balances\Balances;
+use App\Services\CashService;
 use App\Services\Settings\SettingService;
 use App\Services\settingsManager;
 use Illuminate\Http\Request;
@@ -16,6 +17,8 @@ use Livewire\Component;
 
 class CashToBfs extends Component
 {
+    protected CashService $cashService;
+
     public $soldecashB;
     public $soldeBFS;
     public $soldeExchange;
@@ -30,6 +33,11 @@ class CashToBfs extends Component
         'PreExchange' => 'PreExchange',
         'ExchangeCashToBFS' => 'ExchangeCashToBFS',
     ];
+
+    public function boot(CashService $cashService)
+    {
+        $this->cashService = $cashService;
+    }
 
     public function mount($filter, Request $request, SettingService $settingService)
     {
@@ -57,26 +65,61 @@ class CashToBfs extends Component
     {
         $userAuth = $settingsManager->getAuthUser();
         $user = $settingsManager->getUserById($userAuth->id);
-        if ($code != $user->activationCodeValue)
-            return redirect()->route("financial_transaction", ['locale' => app()->getLocale(), 'filter' => 1])->with('danger', Lang::get('Invalid OPT code'));
-        $settingsManager->exchange(ExchangeTypeEnum::CashToBFS, $settingsManager->getAuthUser()->idUser, floatval($this->soldeExchange));
+
+        // Verify OTP using service
+        $result = $this->cashService->verifyCashToBfsExchange(
+            $userAuth->id,
+            $code,
+            $user->activationCodeValue
+        );
+
+        if (!$result['success']) {
+            return redirect()->route("financial_transaction", ['locale' => app()->getLocale(), 'filter' => 1])
+                ->with('danger', Lang::get($result['message']));
+        }
+
+        // Execute exchange operation
+        $settingsManager->exchange(ExchangeTypeEnum::CashToBFS, $userAuth->idUser, floatval($this->soldeExchange));
+
+        // Handle financial request if present
         if ($this->FinRequestN != null && $this->FinRequestN != '') {
             return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $this->FinRequestN]);
         }
+
+        // Send notification
         $user->notify(new \App\Notifications\CashToBfs());
-        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 1])->with('success', Lang::get('Success CASH to BFS exchange'));
+
+        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 1])
+            ->with('success', Lang::get('Success CASH to BFS exchange'));
     }
 
     public function PreExchange(settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) return;
-        $check_exchange = rand(1000, 9999);
-        User::where('id', $userAuth->id)->update(['activationCodeValue' => $check_exchange]);
+
         $userContactActif = $settingsManager->getidCountryForSms($userAuth->id);
         $fullNumber = $userContactActif->fullNumber;
-        $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::OPTVerification, ['msg' => $check_exchange, 'type' => TypeNotificationEnum::SMS]);
-        $this->dispatch('OptExBFSCash', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'FullNumber' => $fullNumber]);
+
+        // Prepare exchange verification using service
+        $result = $this->cashService->prepareCashToBfsExchange($userAuth->id, $fullNumber);
+
+        if (!$result['success']) {
+            return redirect()->route("financial_transaction", ['locale' => app()->getLocale(), 'filter' => 1])
+                ->with('danger', Lang::get($result['message']));
+        }
+
+        // Send SMS notification with OTP
+        if ($result['shouldNotifyBySms']) {
+            $settingsManager->NotifyUser(
+                $userAuth->id,
+                TypeEventNotificationEnum::OPTVerification,
+                ['msg' => $result['otpCode'], 'type' => TypeNotificationEnum::SMS]
+            );
+        }
+
+        // Dispatch Livewire event with verification params
+        $this->dispatch('OptExBFSCash', $result['verificationParams']);
     }
 
 

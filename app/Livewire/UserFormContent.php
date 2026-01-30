@@ -236,7 +236,6 @@ class UserFormContent extends Component
 
     public function render()
     {
-
         return view('livewire.user-form-content')->extends('layouts.master')->section('content');
     }
 }

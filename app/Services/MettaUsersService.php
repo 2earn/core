@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class MettaUsersService
 {
@@ -203,6 +204,146 @@ class MettaUsersService
             ]);
             return false;
         }
+    }
+
+    /**
+     * Update metta user profile information and handle ID images upload
+     *
+     * @param int $mettaUserId The metta user ID
+     * @param array $data The data to update (enFirstName, enLastName, birthday, nationalID)
+     * @param TemporaryUploadedFile|null $photoFront Front ID image
+     * @param TemporaryUploadedFile|null $photoBack Back ID image
+     * @return array ['success' => bool, 'message' => string, 'type' => string]
+     * @throws \Exception
+     */
+    public function updateProfileWithImages(
+        int $mettaUserId,
+        array $data,
+        $photoFront = null,
+        $photoBack = null
+    ): array
+    {
+        try {
+            $mettaUser = MettaUser::find($mettaUserId);
+
+            if (!$mettaUser) {
+                return [
+                    'success' => false,
+                    'message' => 'Metta user not found',
+                    'type' => 'danger'
+                ];
+            }
+
+            // Update metta user data
+            if (isset($data['enLastName'])) {
+                $mettaUser->enLastName = $data['enLastName'];
+            }
+
+            if (isset($data['enFirstName'])) {
+                $mettaUser->enFirstName = $data['enFirstName'];
+            }
+
+            if (isset($data['birthday'])) {
+                $mettaUser->birthday = $data['birthday'];
+            }
+
+            if (isset($data['nationalID'])) {
+                $mettaUser->nationalID = $data['nationalID'];
+            }
+
+            $mettaUser->save();
+
+            // Handle front ID image upload
+            if (!is_null($photoFront) && is_object($photoFront)) {
+                $photoFront->storeAs('profiles', 'front-id-image' . $mettaUser->idUser . '.png', 'public2');
+            }
+
+            // Handle back ID image upload
+            if (!is_null($photoBack) && is_object($photoBack)) {
+                $photoBack->storeAs('profiles', 'back-id-image' . $mettaUser->idUser . '.png', 'public2');
+            }
+
+            return [
+                'success' => true,
+                'message' => 'Edit profile success',
+                'type' => 'success'
+            ];
+
+        } catch (\Exception $e) {
+            Log::error('Error updating metta user profile', [
+                'mettaUserId' => $mettaUserId,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return [
+                'success' => false,
+                'message' => $e->getMessage(),
+                'type' => 'danger'
+            ];
+        }
+    }
+
+    /**
+     * Calculate profile completeness percentage and validation errors
+     *
+     * @param Collection $mettaUserInfo Metta user information
+     * @param array|Collection $userInfo User information (must have 'email' key)
+     * @param string $idUser User's business ID
+     * @return array ['percentComplete' => int, 'errors' => array]
+     */
+    public function calculateProfileCompleteness($mettaUserInfo, $userInfo, string $idUser): array
+    {
+        $errors = [];
+        $percentComplete = 0;
+
+        // Check first and last names (20%)
+        if (isset($mettaUserInfo['enFirstName']) && trim($mettaUserInfo['enFirstName']) != ""
+            && isset($mettaUserInfo['enLastName']) && trim($mettaUserInfo['enLastName']) != "") {
+            $percentComplete += 20;
+        }
+
+        if (!isset($mettaUserInfo['enFirstName']) || trim($mettaUserInfo['enFirstName']) == "") {
+            $errors[] = getProfileMsgErreur('enFirstName');
+        }
+        if (!isset($mettaUserInfo['enLastName']) || trim($mettaUserInfo['enLastName']) == "") {
+            $errors[] = getProfileMsgErreur('enLastName');
+        }
+
+        // Check birthday (20%)
+        if (isset($mettaUserInfo['birthday'])) {
+            $percentComplete += 20;
+        } else {
+            $errors[] = getProfileMsgErreur('birthday');
+        }
+
+        // Check national ID (20%)
+        if (isset($mettaUserInfo['nationalID']) && trim($mettaUserInfo['nationalID']) != "") {
+            $percentComplete += 20;
+        } else {
+            $errors[] = getProfileMsgErreur('nationalID');
+        }
+
+        // Check national ID images (20%)
+        if (User::getNationalFrontImage($idUser) != User::DEFAULT_NATIONAL_FRONT_URL
+            && User::getNationalBackImage($idUser) != User::DEFAULT_NATIONAL_BACK_URL) {
+            $percentComplete += 20;
+        } else {
+            $errors[] = getProfileMsgErreur('photoIdentite');
+        }
+
+        // Check email (20%)
+        $email = is_array($userInfo) ? ($userInfo['email'] ?? null) : $userInfo->get('email');
+        if (isset($email) && trim($email) != "") {
+            $percentComplete += 20;
+        } else {
+            $errors[] = getProfileMsgErreur('email');
+        }
+
+        return [
+            'percentComplete' => $percentComplete,
+            'errors' => $errors
+        ];
     }
 }
 

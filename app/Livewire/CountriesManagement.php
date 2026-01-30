@@ -4,12 +4,14 @@ namespace App\Livewire;
 
 
 use App\Enums\LanguageEnum;
+use App\Services\CountryService;
 use App\Services\settingsManager;
 use Livewire\Component;
 
 class CountriesManagement extends Component
 {
     private settingsManager $settingsManager;
+    private CountryService $countryService;
     public $discountBalance;
     protected $paginationTheme = 'bootstrap';
     public $allLanguage;
@@ -22,9 +24,10 @@ class CountriesManagement extends Component
 
     protected $listeners = ['initCountrie' => 'initCountrie'];
 
-    public function mount(settingsManager $settingsManager)
+    public function mount(settingsManager $settingsManager, CountryService $countryService)
     {
         $this->settingsManager = $settingsManager;
+        $this->countryService = $countryService;
     }
 
     public function initCountrie($id, settingsManager $settingsManager)
@@ -41,11 +44,14 @@ class CountriesManagement extends Component
 
     public function save(settingsManager $settingsManager)
     {
-        $countrie = $settingsManager->getCountrieById($this->idL);
-        if (!$countrie) return;
-        $countrie->langage = $this->langue;
-        $countrie->lang = LanguageEnum:: fromName($this->langue);
-        $countrie->save();
+        // Update country language using service
+        $result = $this->countryService->updateCountryLanguage($this->idL, $this->langue);
+
+        if (!$result['success']) {
+            $this->dispatch('toastr:error', ['message' => $result['message']]);
+            return;
+        }
+
         $this->dispatch('toastr:info', ['message' => 'succes']);
         $this->dispatch('close-modal');
         return redirect()->route('countries_management', app()->getLocale());

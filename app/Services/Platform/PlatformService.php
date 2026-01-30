@@ -394,5 +394,47 @@ class PlatformService
             return null;
         }
     }
+
+    /**
+     * Get platforms that have coupon deals
+     *
+     * @return Collection
+     */
+    public function getPlatformsWithCouponDeals(): Collection
+    {
+        try {
+            return Platform::whereHas('deals', function ($query) {
+                $query->where('type', 'coupon');
+            })->get();
+        } catch (\Exception $e) {
+            Log::error('Error fetching platforms with coupon deals: ' . $e->getMessage());
+            return new Collection();
+        }
+    }
+
+    /**
+     * Get platforms with coupon deals formatted for select dropdown
+     *
+     * @return array Array of platforms with 'name' and 'value' keys for select options
+     */
+    public function getSelectPlatformsWithCouponDeals(): array
+    {
+        try {
+            $platforms = $this->getPlatformsWithCouponDeals();
+
+            $selectPlatforms = [];
+            foreach ($platforms as $platform) {
+                $selectPlatforms[] = [
+                    'name' => $platform->name,
+                    'value' => $platform->id
+                ];
+            }
+
+            return $selectPlatforms;
+        } catch (\Exception $e) {
+            Log::error('Error fetching select platforms with coupon deals: ' . $e->getMessage());
+            return [];
+        }
+    }
 }
 

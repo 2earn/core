@@ -39,11 +39,6 @@ class SharesSoldMarketStatus extends Component
         'checkContactNumbre' => 'checkContactNumbre'
     ];
 
-    function checkContactNumbre()
-    {
-        dd('ddd');
-    }
-
 
     public function updatingSearch()
     {

@@ -1,17 +1,13 @@
 <?php
-
 namespace App\Models;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasAuditing;
-
 class countrie extends Model
 {
-    use HasAuditing;
-
+    use HasFactory, HasAuditing;
     protected $table = 'countries';
     public $timestamps = true;
-
     protected $fillable = [
         'apha2',
         'name',

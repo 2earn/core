@@ -89,5 +89,24 @@ class UserCurrentBalanceVerticalService
             ->where('balance_id', $balanceIdValue)
             ->update(['current_balance' => $value]);
     }
+
+    /**
+     * Get all vertical balances for a user
+     *
+     * @param int $userId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAllUserBalances(int $userId)
+    {
+        try {
+            return UserCurrentBalanceVertical::where('user_id', $userId)->get();
+        } catch (\Exception $e) {
+            Log::error('Error getting all user balances', [
+                'userId' => $userId,
+                'error' => $e->getMessage()
+            ]);
+            return new \Illuminate\Database\Eloquent\Collection();
+        }
+    }
 }
 

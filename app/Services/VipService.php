@@ -323,5 +323,66 @@ class VipService
             ];
         }
     }
+
+    /**
+     * Check if user has an active flash VIP
+     *
+     * @param string $idUser User's business ID
+     * @return bool
+     */
+    public function hasActiveFlashVip(string $idUser): bool
+    {
+        try {
+            return vip::where('idUser', '=', $idUser)
+                ->where('closed', '=', false)
+                ->whereRaw('DATE_ADD(dateFNS, INTERVAL flashDeadline HOUR) > NOW()')
+                ->exists();
+        } catch (\Exception $e) {
+            Log::error('Error checking active flash VIP for user', [
+                'idUser' => $idUser,
+                'error' => $e->getMessage()
+            ]);
+            return false;
+        }
+    }
+
+    /**
+     * Get VIP status information for a user
+     * Returns VIP record, message, and validity status
+     *
+     * @param int $userId
+     * @return array|null Returns array with 'vip', 'message', 'isActive' keys, or null if no VIP found
+     */
+    public function getVipStatusForUser(int $userId): ?array
+    {
+        try {
+            $activeVips = $this->getActiveVipsByUserId($userId);
+
+            if ($activeVips->isEmpty()) {
+                return null;
+            }
+
+            /** @var vip $vip */
+            $vip = $activeVips->first();
+
+            if (!$vip) {
+                return null;
+            }
+
+            $isValid = $this->isVipValid($vip);
+
+            return [
+                'vip' => $vip,
+                'message' => $isValid ? 'Actually is vip' : 'It was a vip',
+                'isActive' => $isValid
+            ];
+        } catch (\Exception $e) {
+            Log::error('Error getting VIP status for user', [
+                'userId' => $userId,
+                'error' => $e->getMessage()
+            ]);
+            return null;
+        }
+    }
 }
 

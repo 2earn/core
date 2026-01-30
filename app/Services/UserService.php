@@ -306,6 +306,627 @@ class UserService
                   ->with('roleable:id,name');
         }])->find($userId);
     }
+
+    /**
+     * Save user profile settings (profile image and visibility)
+     *
+     * @param int $userId User ID
+     * @param bool $isPublic Profile visibility setting
+     * @param mixed|null $imageProfil Uploaded profile image file
+     * @return array Result array with success status and message
+     */
+    public function saveProfileSettings(int $userId, bool $isPublic, $imageProfil = null): array
+    {
+        try {
+            $user = User::find($userId);
+
+            if (!$user) {
+                return [
+                    'success' => false,
+                    'message' => 'User not found'
+                ];
+            }
+
+            // Handle profile image upload if provided
+            if (!is_null($imageProfil)) {
+                User::saveProfileImage($user->idUser, $imageProfil);
+            }
+
+            // Update visibility setting
+            $user->is_public = $isPublic;
+            $user->save();
+
+            return [
+                'success' => true,
+                'message' => 'Profile settings saved successfully',
+                'userProfileImage' => User::getUserProfileImage($user->idUser)
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error saving profile settings: ' . $exception->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Error saving profile settings'
+            ];
+        }
+    }
+
+    /**
+     * Save complete user profile including metta user data
+     *
+     * @param int $userId User ID
+     * @param int $mettaUserId Metta User ID
+     * @param array $mettaUserData Metta user data to update
+     * @param int $nbrChild Number of children
+     * @param bool $isPublic Profile visibility
+     * @param string $paramIdUser Parameter ID user for admin validation
+     * @param mixed|null $imageProfil Profile image to upload
+     * @return array Result array with success status, message, redirect route and user
+     */
+    public function saveUserProfile(
+        int $userId,
+        int $mettaUserId,
+        array $mettaUserData,
+        int $nbrChild,
+        bool $isPublic,
+        string $paramIdUser = "",
+        $imageProfil = null
+    ): array
+    {
+        try {
+            $user = User::find($userId);
+            $mettaUser = \App\Models\MettaUser::find($mettaUserId);
+
+            if (!$user || !$mettaUser) {
+                return [
+                    'success' => false,
+                    'message' => 'User or Metta User not found',
+                    'redirectRoute' => 'account'
+                ];
+            }
+
+            // Check if user can modify their profile
+            if ($paramIdUser == "" && $user->hasIdentificationRequest()) {
+                return [
+                    'success' => false,
+                    'message' => 'You cant update your profile when you have an identifiaction request in progress',
+                    'redirectRoute' => 'account',
+                    'flashType' => 'info'
+                ];
+            }
+
+            // Update metta user profile data
+            $mettaUser->arLastName = $mettaUserData['arLastName'] ?? $mettaUser->arLastName;
+            $mettaUser->arFirstName = $mettaUserData['arFirstName'] ?? $mettaUser->arFirstName;
+            $mettaUser->enLastName = $mettaUserData['enLastName'] ?? $mettaUser->enLastName;
+            $mettaUser->enFirstName = $mettaUserData['enFirstName'] ?? $mettaUser->enFirstName;
+
+            if (!empty($mettaUserData['birthday'])) {
+                $mettaUser->birthday = $mettaUserData['birthday'];
+            } else {
+                $mettaUser->birthday = null;
+            }
+
+            $mettaUser->adresse = $mettaUserData['adresse'] ?? $mettaUser->adresse;
+            $mettaUser->nationalID = $mettaUserData['nationalID'] ?? $mettaUser->nationalID;
+
+            // Validate and set children count
+            $nbrChild = max(0, min(20, $nbrChild));
+            $mettaUser->childrenCount = $nbrChild;
+
+            // Set state
+            if (!empty($mettaUserData['idState'])) {
+                $mettaUser->idState = $mettaUserData['idState'];
+            } else {
+                $mettaUser->idState = null;
+            }
+
+            $mettaUser->gender = $mettaUserData['gender'] ?? $mettaUser->gender;
+            $mettaUser->personaltitle = $mettaUserData['personaltitle'] ?? $mettaUser->personaltitle;
+            $mettaUser->idLanguage = $mettaUserData['idLanguage'] ?? $mettaUser->idLanguage;
+
+            // Update user status if admin is validating
+            if ($paramIdUser != "") {
+                $user->status = \App\Enums\StatusRequest::InProgressNational->value;
+            }
+
+            $mettaUser->save();
+
+            // Update user visibility
+            $user->is_public = $isPublic;
+            $user->save();
+
+            // Handle profile image upload
+            if (!is_null($imageProfil)) {
+                User::saveProfileImage($user->idUser, $imageProfil);
+            }
+
+            return [
+                'success' => true,
+                'message' => 'Edit profile success',
+                'redirectRoute' => $paramIdUser == "" ? 'account' : 'requests_identification',
+                'user' => $user,
+                'shouldValidateIdentity' => $paramIdUser != ""
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error saving user profile: ' . $exception->getMessage());
+            return [
+                'success' => false,
+                'message' => $exception->getMessage(),
+                'redirectRoute' => 'account'
+            ];
+        }
+    }
+
+    /**
+     * Send verification email to user with OTP code
+     *
+     * @param int $userId User ID
+     * @param string $newEmail New email address to verify
+     * @param string $currentEmail Current user email
+     * @param string $idUser User's business ID
+     * @return array Result array with success status, message, OTP code and active number
+     */
+    public function sendVerificationEmail(
+        int $userId,
+        string $newEmail,
+        string $currentEmail,
+        string $idUser
+    ): array
+    {
+        try {
+            // Validate email format
+            if (!isValidEmailAdressFormat($newEmail)) {
+                return [
+                    'success' => false,
+                    'message' => 'Not valid Email Format'
+                ];
+            }
+
+            // Check if it's the same email
+            if ($currentEmail == $newEmail) {
+                return [
+                    'success' => false,
+                    'message' => 'Same email Address'
+                ];
+            }
+
+            // Check if email is already used by another user
+            $existingUser = User::where('email', $newEmail)->first();
+            if ($existingUser && $existingUser->idUser != $idUser) {
+                return [
+                    'success' => false,
+                    'message' => 'mail_used'
+                ];
+            }
+
+            // Generate OTP code
+            $opt = $this->generateOtpCode();
+
+            // Update user with OTP
+            $user = User::find($userId);
+            if (!$user) {
+                return [
+                    'success' => false,
+                    'message' => 'User not found'
+                ];
+            }
+
+            $user->OptActivation = $opt;
+            $user->OptActivation_at = \Carbon\Carbon::now();
+            $user->save();
+
+            return [
+                'success' => true,
+                'message' => 'Verification code sent successfully',
+                'optCode' => $opt,
+                'newEmail' => $newEmail
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error sending verification email: ' . $exception->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Error sending verification email'
+            ];
+        }
+    }
+
+    /**
+     * Generate a random OTP code
+     *
+     * @return string
+     */
+    private function generateOtpCode(): string
+    {
+        return str_pad((string)random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+    }
+
+    /**
+     * Verify email OTP code and generate new OTP for final verification
+     *
+     * @param int $userId User ID
+     * @param string|null $codeOpt OTP code to verify
+     * @param string $newEmail New email address for notification
+     * @return array Result array with success status, message, new OTP and email
+     */
+    public function verifyEmailOtp(int $userId, ?string $codeOpt, string $newEmail): array
+    {
+        try {
+            $user = User::find($userId);
+
+            if (!$user) {
+                return [
+                    'success' => false,
+                    'message' => 'User not found'
+                ];
+            }
+
+            // Verify OTP code
+            if (is_null($codeOpt) || $codeOpt != $user->OptActivation) {
+                return [
+                    'success' => false,
+                    'message' => 'Invalid OPT code'
+                ];
+            }
+
+            // Generate new OTP for email verification
+            $newOtp = $this->generateOtpCode();
+
+            // Update user with new OTP
+            $user->OptActivation = $newOtp;
+            $user->save();
+
+            return [
+                'success' => true,
+                'message' => 'OTP verified successfully',
+                'newOtp' => $newOtp,
+                'newEmail' => $newEmail
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error verifying email OTP: ' . $exception->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Error verifying email OTP'
+            ];
+        }
+    }
+
+    /**
+     * Save verified email after final OTP confirmation
+     *
+     * @param int $userId User ID
+     * @param string|null $codeOpt OTP code to verify
+     * @param string $newEmail New email address to save
+     * @return array Result array with success status and message
+     */
+    public function saveVerifiedEmail(int $userId, ?string $codeOpt, string $newEmail): array
+    {
+        try {
+            $user = User::find($userId);
+
+            if (!$user) {
+                return [
+                    'success' => false,
+                    'message' => 'User not found'
+                ];
+            }
+
+            // Verify OTP code
+            if (is_null($codeOpt) || $codeOpt != $user->OptActivation) {
+                return [
+                    'success' => false,
+                    'message' => 'Change user email failed - Code OPT'
+                ];
+            }
+
+            // Update user email and verification status
+            $user->email_verified = 1;
+            $user->email = $newEmail;
+            $user->email_verified_at = \Carbon\Carbon::now();
+            $user->save();
+
+            return [
+                'success' => true,
+                'message' => 'User email change completed successfully'
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error saving verified email: ' . $exception->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Error saving verified email'
+            ];
+        }
+    }
+
+    /**
+     * Approve user identification request
+     *
+     * @param int $userId User ID
+     * @return array Result array with success status, message and user email
+     */
+    public function approveIdentificationRequest(int $userId): array
+    {
+        try {
+            $user = User::find($userId);
+
+            if (!$user) {
+                return [
+                    'success' => false,
+                    'message' => 'User not found'
+                ];
+            }
+
+            return [
+                'success' => true,
+                'message' => 'User identification request approuved',
+                'user' => $user,
+                'shouldValidateIdentity' => true
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error approving identification request: ' . $exception->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Error approving identification request'
+            ];
+        }
+    }
+
+    /**
+     * Reject user identification request
+     *
+     * @param int $userId User ID
+     * @param string $noteReject Rejection note
+     * @return array Result array with success status, message and user email
+     */
+    public function rejectIdentificationRequest(int $userId, string $noteReject): array
+    {
+        try {
+            $user = User::find($userId);
+
+            if (!$user) {
+                return [
+                    'success' => false,
+                    'message' => 'User not found'
+                ];
+            }
+
+            return [
+                'success' => true,
+                'message' => 'User identification request rejected',
+                'user' => $user,
+                'noteReject' => $noteReject,
+                'shouldRejectIdentity' => true
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error rejecting identification request: ' . $exception->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Error rejecting identification request'
+            ];
+        }
+    }
+
+    /**
+     * Send user identification request
+     *
+     * @param string $idUser User's business ID
+     * @param bool $hasExistingRequest Whether user already has a request
+     * @return array Result array with success status and message
+     */
+    public function sendIdentificationRequest(string $idUser, bool $hasExistingRequest): array
+    {
+        try {
+            // Check if user already has a pending request
+            if ($hasExistingRequest) {
+                return [
+                    'success' => false,
+                    'message' => 'Identification request exist'
+                ];
+            }
+
+            // Create identification request
+            \App\Models\identificationuserrequest::create([
+                'idUser' => $idUser,
+                'created_at' => \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now(),
+                'response' => 0,
+                'note' => '',
+                'status' => 1
+            ]);
+
+            return [
+                'success' => true,
+                'message' => 'Identification send request success'
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error sending identification request: ' . $exception->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Error sending identification request'
+            ];
+        }
+    }
+
+    /**
+     * Prepare exchange operation verification by generating OTP
+     *
+     * @param int $userId User ID
+     * @param string $fullNumber User's active phone number for SMS notification
+     * @return array Result array with success status, OTP code, and verification params
+     */
+    public function prepareExchangeVerification(int $userId, string $fullNumber): array
+    {
+        try {
+            // Generate 4-digit OTP code for exchange
+            $otpCode = (string)random_int(1000, 9999);
+
+            // Update user with OTP code
+            User::where('id', $userId)->update(['activationCodeValue' => $otpCode]);
+
+            return [
+                'success' => true,
+                'otpCode' => $otpCode,
+                'verificationParams' => [
+                    'type' => 'warning',
+                    'title' => 'Opt',
+                    'text' => '',
+                    'FullNumber' => $fullNumber
+                ],
+                'shouldNotifyBySms' => true
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error preparing exchange verification: ' . $exception->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Error preparing exchange verification'
+            ];
+        }
+    }
+
+    /**
+     * Verify OTP and execute exchange operation
+     *
+     * @param int $userId User ID
+     * @param string $code OTP code to verify
+     * @param string $storedOtp Stored OTP code from user
+     * @return array Result array with success status and message
+     */
+    public function verifyExchangeOtp(int $userId, string $code, string $storedOtp): array
+    {
+        try {
+            // Verify OTP code
+            if ($code != $storedOtp) {
+                return [
+                    'success' => false,
+                    'message' => 'Invalid OPT code'
+                ];
+            }
+
+            return [
+                'success' => true,
+                'message' => 'OTP verified successfully'
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error verifying exchange OTP: ' . $exception->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Error verifying OTP'
+            ];
+        }
+    }
+
+    /**
+     * Save identification status update
+     *
+     * @param string $idUser User's business ID
+     * @param bool $idenNotif Identification notification preference
+     * @return array Result array with success status and message
+     */
+    public function saveIdentificationStatus(string $idUser, bool $idenNotif): array
+    {
+        try {
+            $updated = User::where('idUser', $idUser)->update([
+                'status' => -1,
+                'asked_at' => date(config('app.date_format')),
+                'iden_notif' => $idenNotif
+            ]);
+
+            if (!$updated) {
+                return [
+                    'success' => false,
+                    'message' => 'Failed to update identification status'
+                ];
+            }
+
+            return [
+                'success' => true,
+                'message' => 'Identification send request success'
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error saving identification status: ' . $exception->getMessage(), [
+                'idUser' => $idUser
+            ]);
+            return [
+                'success' => false,
+                'message' => 'Error saving identification status'
+            ];
+        }
+    }
+
+    /**
+     * Get user by business ID (idUser)
+     *
+     * @param string $idUser
+     * @return User|null
+     */
+    public function getUserByIdUser(string $idUser): ?User
+    {
+        try {
+            return User::where('idUser', $idUser)->first();
+        } catch (\Exception $e) {
+            Log::error('Error getting user by idUser', [
+                'idUser' => $idUser,
+                'error' => $e->getMessage()
+            ]);
+            return null;
+        }
+    }
+
+    /**
+     * Get user profile image
+     *
+     * @param string $idUser
+     * @return string|null
+     */
+    public function getUserProfileImage(string $idUser): ?string
+    {
+        return User::getUserProfileImage($idUser);
+    }
+
+    /**
+     * Get user national front image
+     *
+     * @param string $idUser
+     * @return string|null
+     */
+    public function getNationalFrontImage(string $idUser): ?string
+    {
+        return User::getNationalFrontImage($idUser);
+    }
+
+    /**
+     * Get user national back image
+     *
+     * @param string $idUser
+     * @return string|null
+     */
+    public function getNationalBackImage(string $idUser): ?string
+    {
+        return User::getNationalBackImage($idUser);
+    }
+
+    /**
+     * Get user international image
+     *
+     * @param string $idUser
+     * @return string|null
+     */
+    public function getInternationalImage(string $idUser): ?string
+    {
+        return User::getInternational($idUser);
+    }
 }
+
+
 
 

@@ -4,6 +4,8 @@ namespace App\Services\FinancialRequest;
 
 use App\Models\detail_financial_request;
 use App\Models\FinancialRequest;
+use App\Models\User;
+use App\Notifications\FinancialRequestSent;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -328,6 +330,99 @@ class FinancialRequestService
     }
 
 
+    /**
+     * Confirm a financial request with validation and balance operations
+     *
+     * @param int $val The confirmation type (2 = from BFS)
+     * @param string $num The request number
+     * @param string $secCode The security code
+     * @param int $userId The user ID confirming the request
+     * @param \App\Services\UserBalancesHelper $userBalancesHelper
+     * @return array ['success' => bool, 'message' => string, 'redirect' => string|null, 'redirectParams' => array]
+     * @throws \Exception
+     */
+    public function confirmFinancialRequest(
+        int $val,
+        string $num,
+        string $secCode,
+        int $userId,
+        \App\Services\UserBalancesHelper $userBalancesHelper
+    ): array
+    {
+        $financialRequest = $this->getByNumeroReq($num);
+
+        // Validate financial request exists and is open
+        if (!$financialRequest || $financialRequest->status != 0) {
+            return [
+                'success' => false,
+                'message' => \Illuminate\Support\Facades\Lang::get('Invalid financial request'),
+                'type' => 'danger',
+                'redirect' => 'accept_financial_request',
+                'redirectParams' => ['numeroReq' => $num]
+            ];
+        }
+
+        // Validate security code
+        if ($financialRequest->securityCode == "" || $financialRequest->securityCode != $secCode) {
+            return [
+                'success' => false,
+                'message' => \Illuminate\Support\Facades\Lang::get('Failed security code'),
+                'type' => 'danger',
+                'redirect' => 'accept_financial_request',
+                'redirectParams' => ['numeroReq' => $num]
+            ];
+        }
+
+        $param = ['montant' => $financialRequest->amount, 'recipient' => $financialRequest->idSender];
+        $userCurrentBalancehorisontal = \App\Services\Balances\Balances::getStoredUserBalances($userId);
+        $bfs100 = $userCurrentBalancehorisontal->getBfssBalance(\App\Models\BFSsBalances::BFS_100);
+        $financialRequestAmount = floatval($financialRequest->amount);
+
+        // If confirming from BFS (val == 2), check BFS balance
+        if ($val == 2) {
+            if ($bfs100 < $financialRequestAmount) {
+                $montant = $financialRequestAmount - $bfs100;
+                return [
+                    'success' => false,
+                    'message' => trans('Insufficient BFS 100 balance') . ' : ' . $bfs100 . ' > ' . $montant,
+                    'type' => 'warning',
+                    'redirect' => 'financial_transaction',
+                    'redirectParams' => ['filter' => 5, 'FinRequestN' => $financialRequest->numeroReq]
+                ];
+            }
+
+            // Add balance operation
+            $userBalancesHelper->AddBalanceByEvent(
+                \App\Enums\EventBalanceOperationEnum::SendToPublicFromBFS,
+                $userId,
+                $param
+            );
+        }
+
+        // Verify detail request exists
+        $detailRequst = $this->getDetailRequest($num, $userId);
+        if (!$detailRequst) {
+            return [
+                'success' => false,
+                'message' => \Illuminate\Support\Facades\Lang::get('Invalid financial request'),
+                'type' => 'danger',
+                'redirect' => 'accept_financial_request',
+                'redirectParams' => ['numeroReq' => $num]
+            ];
+        }
+
+        // Accept the financial request
+        $this->acceptFinancialRequest($num, $userId);
+
+        return [
+            'success' => true,
+            'message' => \Illuminate\Support\Facades\Lang::get('accepted Request'),
+            'type' => 'success',
+            'redirect' => 'financial_transaction',
+            'redirectParams' => ['filter' => 5]
+        ];
+    }
+
     public function createFinancialRequest($idUser, $amount, $selectedUsers, $securityCode)
     {
 
@@ -362,5 +457,240 @@ class FinancialRequestService
 
 
     }
-}
 
+    /**
+     * Validate and reject a financial request with full validation
+     *
+     * @param string $numeroReq Request number
+     * @param string $idUser User's business ID
+     * @return array Result array with success status and message
+     */
+    public function validateAndRejectRequest(string $numeroReq, string $idUser): array
+    {
+        try {
+            // Get the financial request
+            $financialRequest = $this->getByNumeroReq($numeroReq);
+
+            if (!$financialRequest || $financialRequest->status != 0) {
+                return [
+                    'success' => false,
+                    'message' => 'Invalid financial request'
+                ];
+            }
+
+            // Check if user is part of this request
+            $detailRequest = $this->getDetailRequest($numeroReq, $idUser);
+
+            if (!$detailRequest) {
+                return [
+                    'success' => false,
+                    'message' => 'Invalid details financial request'
+                ];
+            }
+
+            // Reject the request
+            $this->rejectFinancialRequest($numeroReq, $idUser);
+
+            return [
+                'success' => true,
+                'message' => 'Financial request rejected successfully'
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error validating and rejecting financial request: ' . $exception->getMessage(), [
+                'numeroReq' => $numeroReq,
+                'idUser' => $idUser
+            ]);
+
+            return [
+                'success' => false,
+                'message' => 'Error rejecting financial request'
+            ];
+        }
+    }
+
+    /**
+     * Validate financial request for acceptance
+     *
+     * @param string $numeroReq Request number
+     * @return array Result array with success status and message
+     */
+    public function validateRequestForAcceptance(string $numeroReq): array
+    {
+        try {
+            // Get the financial request
+            $financialRequest = $this->getByNumeroReq($numeroReq);
+
+            if (!$financialRequest || $financialRequest->status != 0) {
+                return [
+                    'success' => false,
+                    'message' => 'Invalid details financial request'
+                ];
+            }
+
+            return [
+                'success' => true,
+                'message' => 'Request is valid for acceptance',
+                'request' => $financialRequest
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error validating financial request for acceptance: ' . $exception->getMessage(), [
+                'numeroReq' => $numeroReq
+            ]);
+
+            return [
+                'success' => false,
+                'message' => 'Error validating financial request'
+            ];
+        }
+    }
+
+    /**
+     * Send a financial request with validation, security code generation, and notification
+     *
+     * @param int $senderId The ID of the user sending the request
+     * @param float $amount The amount being requested
+     * @param array $selectedUsers Array of user IDs to send the request to
+     * @param User $senderUser The authenticated user object
+     * @return array Result array with success status, message, security code, and redirect info
+     */
+    public function sendFinancialRequestWithNotification(
+        int $senderId,
+        float $amount,
+        array $selectedUsers,
+        User $senderUser
+    ): array
+    {
+        try {
+            // Validate that users are selected
+            if (empty($selectedUsers)) {
+                return [
+                    'success' => false,
+                    'message' => 'No selected users',
+                    'type' => 'danger',
+                    'redirect' => 'financial_transaction',
+                    'redirectParams' => ['filter' => 2]
+                ];
+            }
+
+            // Generate security code
+            $securityCode = $this->generateSecurityCode();
+
+            // Create the financial request
+            DB::beginTransaction();
+
+            $this->createFinancialRequest(
+                $senderId,
+                $amount,
+                $selectedUsers,
+                $securityCode
+            );
+
+            DB::commit();
+
+            // Send notification to the user
+            $senderUser->notify(new FinancialRequestSent());
+
+            return [
+                'success' => true,
+                'message' => 'Financial request sent successfully ,This is your security code',
+                'securityCode' => $securityCode,
+                'type' => 'success',
+                'redirect' => 'financial_transaction',
+                'redirectParams' => ['filter' => 2]
+            ];
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error sending financial request with notification', [
+                'senderId' => $senderId,
+                'amount' => $amount,
+                'selectedUsersCount' => count($selectedUsers),
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return [
+                'success' => false,
+                'message' => 'Failed to send financial request',
+                'type' => 'danger',
+                'redirect' => 'financial_transaction',
+                'redirectParams' => ['filter' => 2]
+            ];
+        }
+    }
+
+    /**
+     * Generate a random security code for financial requests
+     *
+     * @param int $length The length of the security code (default: 6)
+     * @return string The generated security code
+     */
+    protected function generateSecurityCode(int $length = 6): string
+    {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $code = '';
+
+        for ($i = 0; $i < $length; $i++) {
+            $code .= $characters[rand(0, strlen($characters) - 1)];
+        }
+
+        return $code;
+    }
+
+    /**
+     * Create a recharge request from a payee to a public user
+     *
+     * @param int $userId The ID of the user receiving the request
+     * @param int $payeeId The ID of the user sending the request (payee)
+     * @param string $userPhone The phone number of the receiving user
+     * @param string $payeePhone The phone number of the payee
+     * @param float $amount The amount requested
+     * @param int $typeUser The type of user (default: 2 for public user)
+     * @return bool Whether the insertion was successful
+     * @throws \Exception
+     */
+    public function createRechargeRequest(
+        int $userId,
+        int $payeeId,
+        string $userPhone,
+        string $payeePhone,
+        float $amount,
+        int $typeUser = 2
+    ): bool
+    {
+        try {
+            $date = date(config('app.date_format'));
+
+            DB::table('recharge_requests')->insert([
+                'Date' => $date,
+                'idUser' => $userId,
+                'idPayee' => $payeeId,
+                'userPhone' => $userPhone,
+                'payeePhone' => $payeePhone,
+                'amount' => $amount,
+                'validated' => 0,
+                'type_user' => $typeUser
+            ]);
+
+            Log::info('Recharge request created', [
+                'userId' => $userId,
+                'payeeId' => $payeeId,
+                'amount' => $amount,
+                'typeUser' => $typeUser
+            ]);
+
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Error creating recharge request', [
+                'userId' => $userId,
+                'payeeId' => $payeeId,
+                'amount' => $amount,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
+        }
+    }
+}

@@ -3,7 +3,7 @@
 namespace App\Livewire;
 
 use App\Enums\PlatformType;
-use App\Models\EntityRole;
+use App\Services\EntityRole\EntityRoleService;
 use App\Services\Platform\PlatformTypeChangeRequestService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -30,10 +30,14 @@ class PlatformTypeChangeRequests extends Component
     protected $queryString = ['search', 'statusFilter'];
 
     protected PlatformTypeChangeRequestService $platformTypeChangeRequestService;
+    protected EntityRoleService $entityRoleService;
 
-    public function boot(PlatformTypeChangeRequestService $platformTypeChangeRequestService)
-    {
+    public function boot(
+        PlatformTypeChangeRequestService $platformTypeChangeRequestService,
+        EntityRoleService $entityRoleService
+    ) {
         $this->platformTypeChangeRequestService = $platformTypeChangeRequestService;
+        $this->entityRoleService = $entityRoleService;
     }
 
     public function updatingSearch()
@@ -168,14 +172,12 @@ class PlatformTypeChangeRequests extends Component
             $this->perPage
         );
 
-        // Load EntityRoles for each platform
+        // Load EntityRoles for each platform using the service
         foreach ($requests as $request) {
             if ($request->platform) {
-                $request->platform->ownerRole = EntityRole::where('roleable_type', 'App\Models\Platform')
-                    ->where('roleable_id', $request->platform->id)
-                    ->where('name', 'owner')
-                    ->with('user')
-                    ->first();
+                $request->platform->ownerRole = $this->entityRoleService->getPlatformOwnerRole(
+                    $request->platform->id
+                );
             }
         }
 

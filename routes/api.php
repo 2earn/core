@@ -3,13 +3,13 @@
 use App\Http\Controllers\Api\mobile\BalanceController;
 use App\Http\Controllers\Api\mobile\CashBalanceController;
 use App\Http\Controllers\Api\mobile\UserController;
-use App\Http\Controllers\Api\partner\PlanLabelPartnerController;
 use App\Http\Controllers\Api\partner\DealPartnerController;
 use App\Http\Controllers\Api\partner\DealProductChangeController;
 use App\Http\Controllers\Api\partner\ItemsPartnerController;
 use App\Http\Controllers\Api\partner\OrderDetailsPartnerController;
 use App\Http\Controllers\Api\partner\OrderPartnerController;
 use App\Http\Controllers\Api\partner\PartnerRolePartnerController;
+use App\Http\Controllers\Api\partner\PlanLabelPartnerController;
 use App\Http\Controllers\Api\partner\PlatformPartnerController;
 use App\Http\Controllers\Api\partner\SalesDashboardController;
 use App\Http\Controllers\Api\partner\UserPartnerController;
@@ -196,11 +196,16 @@ Route::prefix('/partner/')->name('api_partner_')
             });
 
             Route::get('/plan-label', [PlanLabelPartnerController::class, 'index'])->name('deals_plan_label_index');
-            Route::post('/users/platforms/add-role', [UserPartnerController::class, 'addRole'])->name('users_platforms_add_role');
-            Route::post('/users/platforms/update-role', [UserPartnerController::class, 'updateRole'])->name('users_platforms_update_role');
-            Route::post('/users/platforms/delete-role', [UserPartnerController::class, 'deleteRole'])->name('users_platforms_delete_role');
-            Route::get('/users/platforms', [UserPartnerController::class, 'getPartnerPlatforms'])->name('users_platforms');
-            Route::get('/user', [UserController::class, 'getUser'])->name('get_user');
+
+            Route::prefix('users')->name('users_')->group(function () {
+                Route::prefix('platforms')->name('platforms_')->group(function () {
+                    Route::post('/add-role', [UserPartnerController::class, 'addRole'])->name('add_role');
+                    Route::post('/update-role', [UserPartnerController::class, 'updateRole'])->name('update_role');
+                    Route::post('/delete-role', [UserPartnerController::class, 'deleteRole'])->name('delete_role');
+                    Route::get('/', [UserPartnerController::class, 'getPartnerPlatforms'])->name('platforms');
+                });
+                Route::get('/', [UserController::class, 'getUser'])->name('get_user');
+            });
         });
 
     });

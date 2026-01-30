@@ -38,14 +38,13 @@ class CouponCreate extends Component
 
     public function mount()
     {
-        $platforms = $this->platformService->getPlatformsWithCouponDeals();
+        // Get platforms formatted for select dropdown using service
+        $this->selectPlatforms = $this->platformService->getSelectPlatformsWithCouponDeals();
 
-        $selectPlatforms = [];
-        foreach ($platforms as $platform) {
-            $selectPlatforms[] = ['name' => $platform->name, 'value' => $platform->id];
-            $this->platform_id = $platform->id;
+        // Set default platform_id to first platform if available
+        if (!empty($this->selectPlatforms)) {
+            $this->platform_id = $this->selectPlatforms[0]['value'];
         }
-        $this->selectPlatforms = $selectPlatforms;
     }
 
     public function store()

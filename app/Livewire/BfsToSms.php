@@ -8,6 +8,7 @@ use App\Enums\TypeNotificationEnum;
 use App\Models\BFSsBalances;
 use App\Models\User;
 use App\Services\Balances\Balances;
+use App\Services\UserService;
 use App\Services\settingsManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +17,8 @@ use Livewire\Component;
 
 class BfsToSms extends Component
 {
+    protected UserService $userService;
+
     public $prix_sms = 0;
     public $montantSms = 0;
     public $numberSmsExchange = 0;
@@ -28,6 +31,11 @@ class BfsToSms extends Component
         'PreExchangeSMS' => 'PreExchangeSMS',
         'exchangeSms' => 'exchangeSms'
     ];
+
+    public function boot(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
 
     public function mount($filter, Request $request)
     {
@@ -52,22 +60,53 @@ class BfsToSms extends Component
     {
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) return;
-        $check_exchange = rand(1000, 9999);
-        User::where('id', $userAuth->id)->update(['activationCodeValue' => $check_exchange]);
+
         $userContactActif = $settingsManager->getidCountryForSms($userAuth->id);
         $fullNumber = $userContactActif->fullNumber;
-        $settingsManager->NotifyUser($userAuth->id, TypeEventNotificationEnum::OPTVerification, ['msg' => $check_exchange, 'type' => TypeNotificationEnum::SMS]);
-        $this->dispatch('confirmSms', ['type' => 'warning', 'title' => "Opt", 'text' => '', 'FullNumber' => $fullNumber]);
+
+        // Prepare exchange verification using service
+        $result = $this->userService->prepareExchangeVerification($userAuth->id, $fullNumber);
+
+        if (!$result['success']) {
+            return redirect()->route("financial_transaction", ['locale' => app()->getLocale(), 'filter' => 3])
+                ->with('danger', Lang::get($result['message']));
+        }
+
+        // Send SMS notification with OTP
+        if ($result['shouldNotifyBySms']) {
+            $settingsManager->NotifyUser(
+                $userAuth->id,
+                TypeEventNotificationEnum::OPTVerification,
+                ['msg' => $result['otpCode'], 'type' => TypeNotificationEnum::SMS]
+            );
+        }
+
+        // Dispatch Livewire event with verification params
+        $this->dispatch('confirmSms', $result['verificationParams']);
     }
 
     public function exchangeSms($code, $numberSms, settingsManager $settingsManager)
     {
         $userAuth = $settingsManager->getAuthUser();
         $user = $settingsManager->getUserById($userAuth->id);
-        if ($code != $user->activationCodeValue)
-            return redirect()->route("financial_transaction", ['locale' => app()->getLocale(), 'filter' => 3])->with('danger', Lang::get('Invalid OPT code'));
-        $settingsManager->exchange(ExchangeTypeEnum::BFSToSMS, $settingsManager->getAuthUser()->idUser, intval($numberSms));
-        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 3])->with('success', Lang::get('BFS to sms exchange operation seceded'));
+
+        // Verify OTP using service
+        $result = $this->userService->verifyExchangeOtp(
+            $userAuth->id,
+            $code,
+            $user->activationCodeValue
+        );
+
+        if (!$result['success']) {
+            return redirect()->route("financial_transaction", ['locale' => app()->getLocale(), 'filter' => 3])
+                ->with('danger', Lang::get($result['message']));
+        }
+
+        // Execute exchange operation
+        $settingsManager->exchange(ExchangeTypeEnum::BFSToSMS, $userAuth->idUser, intval($numberSms));
+
+        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 3])
+            ->with('success', Lang::get('BFS to sms exchange operation seceded'));
     }
 
     public function render()

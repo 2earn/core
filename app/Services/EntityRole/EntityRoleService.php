@@ -60,6 +60,28 @@ class EntityRoleService
     }
 
     /**
+     * Get entity roles for a platform keyed by name
+     *
+     * @param int $platformId Platform ID
+     * @return \Illuminate\Support\Collection Collection of roles keyed by name
+     */
+    public function getEntityRolesKeyedByName(int $platformId): \Illuminate\Support\Collection
+    {
+        try {
+            return EntityRole::where('roleable_type', 'App\Models\Platform')
+                ->where('roleable_id', $platformId)
+                ->with('user')
+                ->get()
+                ->keyBy('name');
+        } catch (\Exception $e) {
+            Log::error('Error fetching entity roles keyed by name: ' . $e->getMessage(), [
+                'platform_id' => $platformId
+            ]);
+            return collect();
+        }
+    }
+
+    /**
      * Get roles for a specific partner
      */
     public function getRolesForPartner($partnerId, $paginate = false, $perPage = 10)
@@ -341,5 +363,41 @@ class EntityRoleService
             ->where('roleable_type', Platform::class)
             ->where('name', $roleName)
             ->first();
+    }
+
+    /**
+     * Get a specific role by platform and role name (without user filter)
+     *
+     * @param int $platformId
+     * @param string $roleName
+     * @param array $with Additional relationships to eager load
+     * @return EntityRole|null
+     */
+    public function getRoleByPlatformAndName(int $platformId, string $roleName, array $with = ['user']): ?EntityRole
+    {
+        try {
+            return EntityRole::where('roleable_id', $platformId)
+                ->where('roleable_type', Platform::class)
+                ->where('name', $roleName)
+                ->with($with)
+                ->first();
+        } catch (\Exception $e) {
+            Log::error('Error fetching role by platform and name: ' . $e->getMessage(), [
+                'platform_id' => $platformId,
+                'role_name' => $roleName
+            ]);
+            return null;
+        }
+    }
+
+    /**
+     * Get owner role for a specific platform
+     *
+     * @param int $platformId
+     * @return EntityRole|null
+     */
+    public function getPlatformOwnerRole(int $platformId): ?EntityRole
+    {
+        return $this->getRoleByPlatformAndName($platformId, 'owner');
     }
 }

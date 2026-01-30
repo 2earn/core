@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Order;
 use App\Services\Carts\Carts;
 use App\Services\Orders\Ordering;
+use App\Services\Orders\OrderService;
 use App\Enums\OrderEnum;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
@@ -12,6 +13,8 @@ use Livewire\Component;
 
 class OrderSimulation extends Component
 {
+    protected OrderService $orderService;
+
     public $idOrder;
     public $order;
     public $currentRouteName;
@@ -21,6 +24,11 @@ class OrderSimulation extends Component
         'validateOrder' => 'validateOrder',
         'makeOrderReady' => 'makeOrderReady'
     ];
+
+    public function boot(OrderService $orderService)
+    {
+        $this->orderService = $orderService;
+    }
 
     public function mount()
     {
@@ -36,34 +44,51 @@ class OrderSimulation extends Component
 
     public function makeOrderReady()
     {
-        $this->order = Order::findOrFail($this->idOrder);
-        if ($this->order->status->value == OrderEnum::New->value && $this->order->orderDetails->count() > 0) {
-            $this->order->updateStatus(OrderEnum::Ready);
-        }
-        return redirect()->route('orders_simulation', ['locale' => app()->getLocale(), 'id' => $this->order->id])->with('danger', trans('Empty order'));
+        // Make order ready using service
+        $result = $this->orderService->makeOrderReady($this->idOrder);
 
+        if (!$result['success']) {
+            return redirect()->route('orders_simulation', ['locale' => app()->getLocale(), 'id' => $this->idOrder])
+                ->with('danger', trans($result['message']));
+        }
+
+        return redirect()->route('orders_simulation', ['locale' => app()->getLocale(), 'id' => $result['order']->id])
+            ->with('success', trans($result['message']));
     }
 
     public function validateOrder()
     {
-        if (!$this->validated) {
-            $status = Ordering::run($this->simulation);
-            $this->clearCart();
-            $this->order = Order::findOrFail($this->idOrder);
-            if ($this->order->status->value == OrderEnum::Dispatched->value) {
-                return redirect()->route('orders_detail', ['locale' => app()->getLocale(), 'id' => $this->idOrder])->with('success', Lang::get('Ordering succeeded') . ' : ' . Lang::get($status->name));
-            } else {
-                return redirect()->route('orders_detail', ['locale' => app()->getLocale(), 'id' => $this->idOrder])->with('warning', Lang::get('Ordering Failed') . ' : ' . Lang::get($status->name));
+        // Validate order using service
+        $result = $this->orderService->validateOrder($this->idOrder, $this->simulation, $this->validated);
+
+        if (!$result['success']) {
+            if (isset($result['shouldRedirect']) && !$result['shouldRedirect']) {
+                return; // Already validated, do nothing
             }
+            return redirect()->route('orders_detail', ['locale' => app()->getLocale(), 'id' => $this->idOrder])
+                ->with('danger', Lang::get($result['message']));
         }
+
+        // Clear cart after validation
+        $this->clearCart();
+
+        $flashType = $result['isDispatched'] ? 'success' : 'warning';
+        $message = Lang::get($result['message']) . ' : ' . Lang::get($result['orderStatus']->name);
+
+        return redirect()->route('orders_detail', ['locale' => app()->getLocale(), 'id' => $this->idOrder])
+            ->with($flashType, $message);
     }
 
     public function cancelOrder()
     {
         $this->clearCart();
-        $this->order = Order::findOrFail($this->idOrder);
-        $this->order->delete();
-        return redirect()->route('home', ['locale' => app()->getLocale()])->with('info', Lang::get('Order canceled successfully'));
+
+        // Cancel order using service
+        $result = $this->orderService->cancelOrder($this->idOrder);
+
+        $flashType = $result['success'] ? 'info' : 'danger';
+        return redirect()->route('home', ['locale' => app()->getLocale()])
+            ->with($flashType, Lang::get($result['message']));
     }
 
     public function clearCart()

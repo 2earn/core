@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Models\News;
 use App\Models\User;
 use App\Services\CommentService;
+use App\Services\News\NewsService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -22,19 +23,21 @@ class NewsShow extends Component
     public $unvalidatedComments = [];
 
     protected CommentService $commentService;
+    protected NewsService $newsService;
 
-    public function boot(CommentService $commentService)
+    public function boot(CommentService $commentService, NewsService $newsService)
     {
         $this->commentService = $commentService;
+        $this->newsService = $newsService;
     }
 
     public function mount($id)
     {
         $this->id = $id;
-        $this->news = News::with(['mainImage', 'comments.user', 'likes', 'hashtags'])->findOrFail($id);
+        $this->news = $this->newsService->getByIdOrFail($id, ['mainImage', 'comments.user', 'likes', 'hashtags']);
         $this->loadComments();
         $this->loadLikes();
-        $this->like = $this->news->likes()->where('user_id', auth()->id())->exists();
+        $this->like = $this->newsService->hasUserLiked($id, auth()->id());
         $this->comment = '';
     }
 
@@ -42,19 +45,22 @@ class NewsShow extends Component
     public function toggleLike()
     {
         if (!Auth::check()) return;
-        $like = $this->news->likes()->where('user_id', Auth::id())->first();
-        if ($like) {
-            $like->delete();
+
+        $isLiked = $this->newsService->hasUserLiked($this->id, Auth::id());
+
+        if ($isLiked) {
+            $this->newsService->removeLike($this->id, Auth::id());
         } else {
-            $this->news->likes()->create(['user_id' => Auth::id()]);
+            $this->newsService->addLike($this->id, Auth::id());
         }
+
         $this->loadLikes();
     }
 
     public function loadLikes()
     {
         $this->likeCount = $this->news->likes()->count();
-        $this->liked = Auth::check() && $this->news->likes()->where('user_id', Auth::id())->exists();
+        $this->liked = Auth::check() && $this->newsService->hasUserLiked($this->id, Auth::id());
     }
 
     public function addComment()
@@ -63,16 +69,19 @@ class NewsShow extends Component
             session()->flash('error', 'You must be logged in to comment.');
             return;
         }
+
         $this->validate([
             'comment' => 'required|string|min:2|max:500',
         ]);
-        $this->news->comments()->create([
-            'user_id' => Auth::id(),
-            'content' => $this->comment
-        ]);
-        $this->comment = '';
-        $this->loadComments();
-        session()->flash('success', 'Comment added successfully and is awaiting validation.');
+
+        // Add comment using service
+        $result = $this->commentService->createComment($this->id, Auth::id(), $this->comment);
+
+        if ($result['success']) {
+            $this->comment = '';
+            $this->loadComments();
+            session()->flash('success', 'Comment added successfully and is awaiting validation.');
+        }
     }
 
     public function validateComment($commentId)
