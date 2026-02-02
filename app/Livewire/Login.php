@@ -13,7 +13,6 @@ class Login extends Component
     use RedirectsUsers;
     use earnLog;
 
-
     protected $listeners = [
         'login' => 'login',
         'changeLanguage' => 'changeLanguage'

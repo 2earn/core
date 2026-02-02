@@ -9,8 +9,8 @@ use App\Services\UserService;
 use App\Services\settingsManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class RequestPublicUser extends Component
@@ -23,25 +23,36 @@ class RequestPublicUser extends Component
         'sendFinancialRequest' => 'sendFinancialRequest'
     ];
 
+    protected FinancialRequestService $financialRequestService;
+
+    public function boot(FinancialRequestService $financialRequestService)
+    {
+        $this->financialRequestService = $financialRequestService;
+    }
+
     public function sendFinancialRequest(settingsManager $settingsManager)
     {
-        if (!count($this->selectedUsers) > 0) {
-            return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 2])->with('danger', Lang::get('No selected users'));
-        };
-
         $userAuth = $settingsManager->getAuthUser();
-        $securityCode = $settingsManager->randomNewCodeOpt();
 
-        $financialRequestService = app(FinancialRequestService::class);
-        $financialRequestService->createFinancialRequest(
+        // Use the service to handle the complete send logic
+        $result = $this->financialRequestService->sendFinancialRequestWithNotification(
             $userAuth->idUser,
             $this->amount,
             $this->selectedUsers,
-            $securityCode
+            Auth::user()
         );
 
-        Auth::user()->notify(new FinancialRequestSent());
-        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 2])->with('success', Lang::get('Financial request sent successfully ,This is your security code') . ' : ' . $securityCode);
+        // Handle the result
+        if ($result['success']) {
+            $message = Lang::get($result['message']) . ' : ' . $result['securityCode'];
+            return redirect()
+                ->route($result['redirect'], array_merge(['locale' => app()->getLocale()], $result['redirectParams']))
+                ->with($result['type'], $message);
+        } else {
+            return redirect()
+                ->route($result['redirect'], array_merge(['locale' => app()->getLocale()], $result['redirectParams']))
+                ->with($result['type'], Lang::get($result['message']));
+        }
     }
 
     public function send($idUser, settingsManager $settingsManager)
@@ -51,19 +62,32 @@ class RequestPublicUser extends Component
         if (!$user) return;
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) return;
-        $date = date(config('app.date_format'));
-        DB::table('recharge_requests')
-            ->insert([
-                'Date' => $date,
-                'idUser' => $user->idUser,
-                'idPayee' => $userAuth->idUser,
-                'userPhone' => $user->fullphone_number,
-                'payeePhone' => $userAuth->fullNumber,
+
+        try {
+            $this->financialRequestService->createRechargeRequest(
+                $user->idUser,
+                $userAuth->idUser,
+                $user->fullphone_number,
+                $userAuth->fullNumber,
+                $this->amount,
+                2 // type_user for public user
+            );
+
+            return redirect()
+                ->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 2])
+                ->with('success', Lang::get('Success send req to public user'));
+        } catch (\Exception $e) {
+            Log::error('[RequestPublicUser] Error creating recharge request', [
+                'userId' => $user->idUser,
+                'payeeId' => $userAuth->idUser,
                 'amount' => $this->amount,
-                'validated' => 0,
-                'type_user' => 2
+                'error' => $e->getMessage()
             ]);
-        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 2])->with('success', Lang::get('Success send req to public user'));
+
+            return redirect()
+                ->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 2])
+                ->with('danger', Lang::get('Failed to send request'));
+        }
     }
 
     public function mount(Request $request)

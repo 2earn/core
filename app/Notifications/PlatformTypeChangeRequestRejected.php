@@ -55,7 +55,7 @@ class PlatformTypeChangeRequestRejected extends Notification
     {
         return [
             'idUser' => $notifiable->idUser,
-            'url' => route('platforms.index', ['locale' => app()->getLocale()]),
+            'url' => route('platform_index', ['locale' => app()->getLocale()]),
             'message_params' => [
                 'platform_name' => $this->platform->name,
                 'old_type' => $this->oldType,

@@ -4,10 +4,11 @@ namespace App\Livewire;
 
 use App\Enums\StatusRequest;
 use App\Models\User;
-use App\Models\UserCurrentBalanceVertical;
-use App\Models\vip;
 use App\Services\Balances\Balances;
-use App\Models\MettaUser;
+use App\Services\MettaUsersService;
+use App\Services\UserService;
+use App\Services\UserCurrentBalanceVerticalService;
+use App\Services\VipService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
@@ -15,51 +16,65 @@ use Livewire\Component;
 
 class UserDetails extends Component
 {
+    public $idUser;
     public $userProfileImage;
     public $userNationalFrontImage;
     public $userNationalBackImage;
     public $userInternationalImage;
     public $activeUser = false;
 
+    protected VipService $vipService;
+    protected UserService $userService;
+    protected MettaUsersService $mettaUsersService;
+    protected UserCurrentBalanceVerticalService $balanceVerticalService;
+
+    public function boot(
+        VipService $vipService,
+        UserService $userService,
+        MettaUsersService $mettaUsersService,
+        UserCurrentBalanceVerticalService $balanceVerticalService
+    ) {
+        $this->vipService = $vipService;
+        $this->userService = $userService;
+        $this->mettaUsersService = $mettaUsersService;
+        $this->balanceVerticalService = $balanceVerticalService;
+    }
+
     public function mount($idUser, Request $request)
     {
-        $user = User::where('idUser', Route::current()->parameter('idUser'))->first();
+        $routeIdUser = Route::current()->parameter('idUser');
+        $user = $this->userService->getUserByIdUser($routeIdUser);
+
         if (!$user) {
-            $user = User::find(Route::current()->parameter('idUser'));
+            $user = $this->userService->findById($routeIdUser);
             if (!$user) {
                 throw new \Exception('User not found');
             }
         }
 
-        $this->userProfileImage = User::getUserProfileImage($user->idUser);
-        $this->userNationalFrontImage = User::getNationalFrontImage($user->idUser);
-        $this->userNationalBackImage = User::getNationalBackImage($user->idUser);
-        $this->userInternationalImage = User::getInternational($user->idUser);
+        $this->userProfileImage = $this->userService->getUserProfileImage($user->idUser);
+        $this->userNationalFrontImage = $this->userService->getNationalFrontImage($user->idUser);
+        $this->userNationalBackImage = $this->userService->getNationalBackImage($user->idUser);
+        $this->userInternationalImage = $this->userService->getInternationalImage($user->idUser);
         $this->idUser = $user->id;
     }
 
     public function render()
     {
-        $params['user'] = User::find($this->idUser);
-        $params['metta'] = MettaUser::where('idUser', $params['user']->idUser)->first();
+        $params['user'] = $this->userService->findById($this->idUser);
+        $params['metta'] = $this->mettaUsersService->getMettaUser($params['user']->idUser);
         $params['dispalyedUserCred'] = getUserDisplayedName($params['user']->idUser);
+
         if ($params['user']->status >= StatusRequest::OptValidated->value) {
             $this->activeUser = true;
             $params['userCurrentBalanceHorisontal'] = Balances::getStoredUserBalances($params['user']->idUser);
-            $params['userCurrentBalanceVertical'] = UserCurrentBalanceVertical::where('user_id', $params['user']->idUser)->get();
+            $params['userCurrentBalanceVertical'] = $this->balanceVerticalService->getAllUserBalances($params['user']->idUser);
         }
-        $hasVip = vip::Where('idUser', '=', $params['user']->idUser)
-            ->where('closed', '=', false)->get();
-        if ($hasVip->isNotEmpty()) {
-            $dateStart = new \DateTime($hasVip->first()->dateFNS);
-            $dateEnd = $dateStart->modify($hasVip->first()->flashDeadline . ' hour');;
-            if ($dateEnd > now()) {
-                $params['vipMessage'] = Lang::get('Actually is vip');
-                $params['vip'] = vip::where('idUser', $params['user']->idUser)->first();
-            } else {
-                $params['vipMessage'] = Lang::get('It was a vip');
-                $params['vip'] = vip::where('idUser', $params['user']->idUser)->first();
-            }
+
+        $vipStatus = $this->vipService->getVipStatusForUser($params['user']->idUser);
+        if ($vipStatus) {
+            $params['vipMessage'] = Lang::get($vipStatus['message']);
+            $params['vip'] = $vipStatus['vip'];
         }
 
         return view('livewire.user-details', $params)->extends('layouts.master')->section('content');

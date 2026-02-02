@@ -21,6 +21,11 @@ class Comment extends Model
         'updated_by',
     ];
 
+    protected $casts = [
+        'validated' => 'boolean',
+        'validatedAt' => 'datetime',
+    ];
+
     public function validatedBy()
     {
         return $this->belongsTo(User::class, 'validatedBy_id', 'id');

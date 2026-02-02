@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use App\Models\BalanceOperation;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasAuditing;
 
 class OperationCategory extends Model
 {
-    use HasAuditing;
+    use HasFactory, HasAuditing;
 
     protected $fillable = [
         'name',

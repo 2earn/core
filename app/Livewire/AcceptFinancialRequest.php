@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-use App\Enums\EventBalanceOperationEnum;
 use App\Models\BFSsBalances;
 use App\Services\Balances\Balances;
 use App\Services\FinancialRequest\FinancialRequestService;
@@ -10,7 +9,6 @@ use App\Services\BalancesManager;
 use App\Services\settingsManager;
 use App\Services\UserBalancesHelper;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Lang;
 use Livewire\Component;
 
 class AcceptFinancialRequest extends Component
@@ -28,37 +26,30 @@ class AcceptFinancialRequest extends Component
 
     public function ConfirmRequest($val, $num, $secCode, UserBalancesHelper $userBalancesHelper, settingsManager $settingsManager, BalancesManager $balancesManager, FinancialRequestService $financialRequestService)
     {
-
         $userAuth = $settingsManager->getAuthUser();
         if (!$userAuth) return;
 
-        $financialRequest = $financialRequestService->getByNumeroReq($num);
-        if (!$financialRequest || $financialRequest->status != 0) {
-            return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $num])->with('danger', Lang::get('Invalid financial request'));
-        }
-        if ($financialRequest->securityCode == "" || $financialRequest->securityCode != $secCode) {
-            return redirect()->route('accept_financial_request', ['locale' => app()->getLocale(), 'numeroReq' => $num])->with('danger', Lang::get('Failed security code'));
-        }
-        $param = ['montant' => $financialRequest->amount, 'recipient' => $financialRequest->idSender];
-        $userCurrentBalancehorisontal = Balances::getStoredUserBalances($userAuth->idUser);
-        $bfs100 = $userCurrentBalancehorisontal->getBfssBalance(BFSsBalances::BFS_100);
-        $cash = $userCurrentBalancehorisontal->cash_balance;
-        $financialRequestAmount = floatval($financialRequest->amount);
+        // Delegate all logic to the service
+        $result = $financialRequestService->confirmFinancialRequest(
+            $val,
+            $num,
+            $secCode,
+            $userAuth->idUser,
+            $userBalancesHelper
+        );
 
-        if ($val == 2) {
-            if ($bfs100 < $financialRequestAmount) {
-                $montant = $financialRequestAmount - $bfs100;
-                return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 5, 'FinRequestN' => $financialRequest->numeroReq])->with('warning', trans('Insufficient BFS 100 balance') . ' : ' . $bfs100 . ' > ' . $montant);
-            }
-            $userBalancesHelper->AddBalanceByEvent(EventBalanceOperationEnum::SendToPublicFromBFS, $userAuth->idUser, $param);
+        // Handle the result
+        if (!$result['success']) {
+            return redirect()->route(
+                $result['redirect'],
+                array_merge(['locale' => app()->getLocale()], $result['redirectParams'])
+            )->with($result['type'], $result['message']);
         }
 
-        $detailRequst = $financialRequestService->getDetailRequest($num, $userAuth->idUser);
-        if (!$detailRequst) return;
-
-        $financialRequestService->acceptFinancialRequest($num, $userAuth->idUser);
-
-        return redirect()->route('financial_transaction', ['locale' => app()->getLocale(), 'filter' => 5])->with('success', Lang::get('accepted Request'));
+        return redirect()->route(
+            $result['redirect'],
+            array_merge(['locale' => app()->getLocale()], $result['redirectParams'])
+        )->with($result['type'], $result['message']);
     }
 
 

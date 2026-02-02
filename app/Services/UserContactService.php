@@ -132,5 +132,124 @@ class UserContactService
             'isID' => 0,
         ]);
     }
+
+    /**
+     * Prepare contact number verification by generating OTP and checking if number exists
+     *
+     * @param string $idUser User's business ID
+     * @param int $userId User ID
+     * @param string $fullNumber Full phone number with country code
+     * @param string $isoP Country ISO code
+     * @param string $mobile Mobile number without country code
+     * @param string|null $userEmail User's email for notification
+     * @param string $idNumberFullNumber ID contact number for SMS
+     * @return array Result array with success status, message, and verification params
+     */
+    public function prepareContactNumberVerification(
+        string $idUser,
+        int $userId,
+        string $fullNumber,
+        string $isoP,
+        string $mobile,
+        ?string $userEmail,
+        string $idNumberFullNumber
+    ): array
+    {
+        try {
+            // Check if contact number already exists
+            if ($this->contactNumberExists($idUser, $fullNumber)) {
+                return [
+                    'success' => false,
+                    'message' => 'This contact number already exists',
+                    'alertType' => 'danger'
+                ];
+            }
+
+            // Generate OTP code
+            $otpCode = str_pad((string)random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+
+            // Prepare message based on email availability
+            $msgSend = \Illuminate\Support\Facades\Lang::get('We_will_sendWithMail');
+            if (empty($userEmail)) {
+                $msgSend = \Illuminate\Support\Facades\Lang::get('We_will_send');
+            }
+
+            return [
+                'success' => true,
+                'otpCode' => $otpCode,
+                'verificationParams' => [
+                    'type' => 'warning',
+                    'title' => 'Opt',
+                    'text' => '',
+                    'FullNumber' => $idNumberFullNumber,
+                    'FullNumberNew' => $fullNumber,
+                    'userMail' => $userEmail,
+                    'isoP' => $isoP,
+                    'mobile' => $mobile,
+                    'msgSend' => $msgSend
+                ],
+                'shouldNotifyBySms' => true,
+                'shouldNotifyByEmail' => !empty($userEmail)
+            ];
+
+        } catch (\Exception $exception) {
+            \Illuminate\Support\Facades\Log::error('Error preparing contact number verification: ' . $exception->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Error preparing contact verification',
+                'alertType' => 'danger'
+            ];
+        }
+    }
+
+    /**
+     * Verify OTP code and save new contact number
+     *
+     * @param int $userId User ID
+     * @param string $idUser User's business ID
+     * @param string $code OTP code to verify
+     * @param string $storedOtp Stored OTP code from user
+     * @param string $mobile Mobile number without country code
+     * @param int $countryId Country ID
+     * @param string $iso Country ISO code
+     * @param string $fullNumber Full phone number with country code
+     * @return array Result array with success status and message
+     */
+    public function verifyAndSaveContactNumber(
+        int $userId,
+        string $idUser,
+        string $code,
+        string $storedOtp,
+        string $mobile,
+        int $countryId,
+        string $iso,
+        string $fullNumber
+    ): array
+    {
+        try {
+            // Verify OTP code
+            if ($code != $storedOtp) {
+                return [
+                    'success' => false,
+                    'message' => 'Invalid OPT code'
+                ];
+            }
+
+            // Create new contact number
+            $this->createContactNumber($idUser, $mobile, $countryId, $iso, $fullNumber);
+
+            return [
+                'success' => true,
+                'message' => 'Adding contact number completed successfully'
+            ];
+
+        } catch (\Exception $exception) {
+            \Illuminate\Support\Facades\Log::error('Error saving contact number: ' . $exception->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Error saving contact number'
+            ];
+        }
+    }
 }
 

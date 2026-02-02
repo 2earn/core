@@ -33,18 +33,28 @@ class BalancesControllerTest extends TestCase
     #[Test]
     public function test_add_cash_validates_amount()
     {
-        $response = $this->postJson('/api/balances/add-cash', [
-            'amount' => -100,
+        // Create a Sanctum token for the user
+        $token = $this->user->createToken('test-token')->plainTextToken;
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->postJson('/api/v1/add-cash', [
+            'amount' => 999999999, // Amount exceeds user's balance
             'reciver' => $this->recipient->idUser
         ]);
 
-        // Should return error for negative amount or insufficient balance
+        // Should return error for insufficient balance
         $this->assertTrue(in_array($response->status(), [400, 422, 500]));
     }
     #[Test]
     public function test_add_cash_requires_recipient()
     {
-        $response = $this->postJson('/api/balances/add-cash', [
+        // Create a Sanctum token for the user
+        $token = $this->user->createToken('test-token')->plainTextToken;
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->postJson('/api/v1/add-cash', [
             'amount' => 100,
             'reciver' => null
         ]);

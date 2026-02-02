@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Services\NotificationService;
 use App\Services\settingsManager;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -10,6 +11,7 @@ class NotificationHistory extends Component
 {
     use WithPagination;
 
+    protected NotificationService $notificationService;
     protected $paginationTheme = 'bootstrap';
 
     public ?string $search = "";
@@ -23,15 +25,16 @@ class NotificationHistory extends Component
     public ?string $filterType = "";
     public ?string $filterResponse = "";
 
+    public function boot(NotificationService $notificationService)
+    {
+        $this->notificationService = $notificationService;
+    }
+
     protected function queryString()
     {
         return [
-            'search' => [
-                'as' => 'q',
-            ],
-            'pageCount' => [
-                'as' => 'pc',
-            ],
+            'search' => ['as' => 'q'],
+            'pageCount' => ['as' => 'pc'],
         ];
     }
 
@@ -93,78 +96,23 @@ class NotificationHistory extends Component
 
     public function getNotificationsProperty()
     {
-        $notifications = app(settingsManager::class)->getHistory();
+        // Build filters array from component properties
+        $filters = [
+            'search' => $this->search,
+            'filterReference' => $this->filterReference,
+            'filterSource' => $this->filterSource,
+            'filterReceiver' => $this->filterReceiver,
+            'filterActions' => $this->filterActions,
+            'filterDate' => $this->filterDate,
+            'filterType' => $this->filterType,
+            'filterResponse' => $this->filterResponse,
+        ];
 
-        // Apply filters
-        if ($this->search) {
-            $searchTerm = strtolower($this->search);
-            $notifications = $notifications->filter(function ($item) use ($searchTerm) {
-                return str_contains(strtolower($item->reference ?? ''), $searchTerm)
-                    || str_contains(strtolower($item->send ?? ''), $searchTerm)
-                    || str_contains(strtolower($item->receiver ?? ''), $searchTerm)
-                    || str_contains(strtolower($item->action ?? ''), $searchTerm)
-                    || str_contains(strtolower($item->type ?? ''), $searchTerm)
-                    || str_contains(strtolower($item->responce ?? ''), $searchTerm);
-            });
-        }
-
-        if ($this->filterReference) {
-            $notifications = $notifications->filter(function ($item) {
-                return str_contains(strtolower($item->reference ?? ''), strtolower($this->filterReference));
-            });
-        }
-
-        if ($this->filterSource) {
-            $notifications = $notifications->filter(function ($item) {
-                return str_contains(strtolower($item->send ?? ''), strtolower($this->filterSource));
-            });
-        }
-
-        if ($this->filterReceiver) {
-            $notifications = $notifications->filter(function ($item) {
-                return str_contains(strtolower($item->receiver ?? ''), strtolower($this->filterReceiver));
-            });
-        }
-
-        if ($this->filterActions) {
-            $notifications = $notifications->filter(function ($item) {
-                return str_contains(strtolower($item->action ?? ''), strtolower($this->filterActions));
-            });
-        }
-
-        if ($this->filterDate) {
-            $notifications = $notifications->filter(function ($item) {
-                return str_contains(strtolower($item->date ?? ''), strtolower($this->filterDate));
-            });
-        }
-
-        if ($this->filterType) {
-            $notifications = $notifications->filter(function ($item) {
-                return str_contains(strtolower($item->type ?? ''), strtolower($this->filterType));
-            });
-        }
-
-        if ($this->filterResponse) {
-            $notifications = $notifications->filter(function ($item) {
-                return str_contains(strtolower($item->responce ?? ''), strtolower($this->filterResponse));
-            });
-        }
-
-        // Convert to paginator with proper Livewire support
-        $perPage = (int)$this->pageCount;
-        $currentPage = $this->getPage('page');
-        $total = $notifications->count();
-        $items = $notifications->slice(($currentPage - 1) * $perPage, $perPage)->values();
-
-        return new \Illuminate\Pagination\LengthAwarePaginator(
-            $items,
-            $total,
-            $perPage,
-            $currentPage,
-            [
-                'path' => \Illuminate\Pagination\Paginator::resolveCurrentPath(),
-                'pageName' => 'page',
-            ]
+        // Get paginated history using service
+        return $this->notificationService->getPaginatedHistory(
+            $filters,
+            (int)$this->pageCount,
+            $this->getPage('page')
         );
     }
 

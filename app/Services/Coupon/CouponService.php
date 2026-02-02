@@ -400,5 +400,250 @@ class CouponService
             throw $e;
         }
     }
+
+    /**
+     * Process coupon purchase with order creation and execution
+     *
+     * @param array $coupons Array of coupons to purchase
+     * @param int $userId User ID making the purchase
+     * @param int $platformId Platform ID
+     * @param string $platformName Platform name
+     * @param int $itemId Item ID for order details
+     * @return array Result array with success status, message, order, and coupons
+     */
+    public function buyCoupon(
+        array $coupons,
+        int $userId,
+        int $platformId,
+        string $platformName,
+        int $itemId
+    ): array
+    {
+        try {
+            \Illuminate\Support\Facades\DB::beginTransaction();
+
+            // Create order
+            $order = \App\Models\Order::create([
+                'user_id' => $userId,
+                'platform_id' => $platformId,
+                'note' => 'Coupons buy from' . ' :' . $platformId . '-' . $platformName
+            ]);
+
+            // Calculate totals and prepare note
+            $total_amount = $unit_price = 0;
+            $serialNumbers = [];
+            foreach ($coupons as $couponItem) {
+                $unit_price += $couponItem['value'];
+                $total_amount += $couponItem['value'];
+                $serialNumbers[] = $couponItem['sn'];
+            }
+
+            // Create order details
+            $order->orderDetails()->create([
+                'qty' => 1,
+                'unit_price' => $unit_price,
+                'total_amount' => $total_amount,
+                'note' => implode(",", $serialNumbers),
+                'item_id' => $itemId,
+            ]);
+
+            // Update order status and simulate
+            $order->updateStatus(\App\Enums\OrderEnum::Ready);
+            $simulation = \App\Services\Orders\Ordering::simulate($order);
+
+            if (!$simulation) {
+                $order->updateStatus(\App\Enums\OrderEnum::Failed);
+                \Illuminate\Support\Facades\DB::commit();
+                return [
+                    'success' => false,
+                    'message' => 'Coupons order failed'
+                ];
+            }
+
+            // Run the order
+            $status = \App\Services\Orders\Ordering::run($simulation);
+            if ($status->value == \App\Enums\OrderEnum::Failed->value) {
+                \Illuminate\Support\Facades\DB::commit();
+                return [
+                    'success' => false,
+                    'message' => 'Coupons order failed'
+                ];
+            }
+
+            // Update coupons as purchased
+            $purchasedCoupons = [];
+            foreach ($serialNumbers as $sn) {
+                $coupon = $this->getBySn($sn);
+                if ($coupon && !$coupon->consumed) {
+                    $this->updateCoupon($coupon, [
+                        'user_id' => $userId,
+                        'purchase_date' => now(),
+                        'status' => CouponStatusEnum::purchased->value
+                    ]);
+                }
+                $purchasedCoupons[] = $coupon;
+            }
+
+            \Illuminate\Support\Facades\DB::commit();
+
+            return [
+                'success' => true,
+                'message' => 'Coupons purchased successfully',
+                'order' => $order,
+                'coupons' => $purchasedCoupons,
+                'totalAmount' => $total_amount
+            ];
+
+        } catch (\Exception $exception) {
+            \Illuminate\Support\Facades\DB::rollBack();
+            Log::error('Error processing coupon purchase: ' . $exception->getMessage());
+
+            if (isset($order)) {
+                $order->updateStatus(\App\Enums\OrderEnum::Failed);
+            }
+
+            return [
+                'success' => false,
+                'message' => 'Error processing coupon purchase'
+            ];
+        }
+    }
+
+    /**
+     * Get coupons for specified amount with reservation
+     *
+     * @param int $platformId Platform ID
+     * @param int $userId User ID
+     * @param float $amount Target amount
+     * @param int $reservationMinutes Minutes to reserve coupons
+     * @param bool $isEqual Whether the amount should match exactly
+     * @return array Result array with amount, coupons, and lastValue
+     */
+    public function getCouponsForAmount(
+        int $platformId,
+        int $userId,
+        float $amount,
+        int $reservationMinutes,
+        bool $isEqual = false
+    ): array
+    {
+        try {
+            $availableCoupons = $this->getAvailableCouponsForPlatform($platformId, $userId);
+
+            $selectedCoupons = [];
+            $total = 0;
+            $lastValue = 0;
+
+            if ($availableCoupons->count() == 0) {
+                $lastValue = 0;
+            }
+
+            foreach ($availableCoupons as $coupon) {
+                $lastValue = $coupon->value;
+                if ($total + $coupon->value <= $amount) {
+                    $this->updateCoupon($coupon, [
+                        'status' => CouponStatusEnum::reserved->value,
+                        'user_id' => $userId,
+                        'reserved_until' => now()->addMinutes($reservationMinutes)
+                    ]);
+                    $selectedCoupons[] = $coupon;
+                    $total += $coupon->value;
+                }
+            }
+
+            return [
+                'amount' => $total,
+                'coupons' => $selectedCoupons,
+                'lastValue' => $isEqual ? 0 : $lastValue,
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error getting coupons for amount: ' . $exception->getMessage());
+            return [
+                'amount' => 0,
+                'coupons' => [],
+                'lastValue' => 0,
+            ];
+        }
+    }
+
+    /**
+     * Simulate coupon purchase for a given amount
+     *
+     * @param int $platformId Platform ID
+     * @param int $userId User ID
+     * @param float $displayedAmount Amount to simulate
+     * @param int $reservationMinutes Minutes to reserve coupons
+     * @return array Result array with success status, simulation results, and UI data
+     */
+    public function simulateCouponPurchase(
+        int $platformId,
+        int $userId,
+        float $displayedAmount,
+        int $reservationMinutes
+    ): array
+    {
+        try {
+            // Validate amount
+            if (empty($displayedAmount) || $displayedAmount == "0" || intval($displayedAmount) < 1) {
+                return [
+                    'success' => false,
+                    'message' => 'Wrong wintered amount'
+                ];
+            }
+
+            // Get coupons for the requested amount
+            $preSimulationResult = $this->getCouponsForAmount(
+                $platformId,
+                $userId,
+                $displayedAmount,
+                $reservationMinutes,
+                false
+            );
+
+            // Check if simulation failed
+            if (is_null($preSimulationResult)) {
+                return [
+                    'success' => false,
+                    'message' => 'Amount simulation failed'
+                ];
+            }
+
+            // Check if amount matches exactly
+            $isEqual = ($preSimulationResult['amount'] == $displayedAmount);
+
+            // Get alternative simulation with next coupon value added
+            $alternativeResult = $this->getCouponsForAmount(
+                $platformId,
+                $userId,
+                $preSimulationResult['lastValue'] + $displayedAmount,
+                $reservationMinutes,
+                true
+            );
+
+            // Determine final coupons and amount based on exact match
+            $finalCoupons = $isEqual ? $preSimulationResult['coupons'] : $alternativeResult['coupons'];
+            $finalAmount = $preSimulationResult['amount'];
+            $lastValue = $preSimulationResult['lastValue'];
+
+            return [
+                'success' => true,
+                'equal' => $isEqual,
+                'amount' => $finalAmount,
+                'lastValue' => $lastValue,
+                'coupons' => $finalCoupons,
+                'preSimulationResult' => $preSimulationResult,
+                'alternativeResult' => $alternativeResult,
+                'displayedAmount' => $displayedAmount
+            ];
+
+        } catch (\Exception $exception) {
+            Log::error('Error simulating coupon purchase: ' . $exception->getMessage());
+            return [
+                'success' => false,
+                'message' => 'Error simulating coupon purchase'
+            ];
+        }
+    }
 }
 
