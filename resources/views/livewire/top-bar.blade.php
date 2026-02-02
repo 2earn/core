@@ -161,12 +161,12 @@
                                 </a>
                                 <div class="dropdown-divider">
                                 </div>
-                                <a class="dropdown-item " wire:click="logout">
-                                <span class="font-size-16 me-1 text-dark" key="t-logout">
-                                    <i class="bx bx-power-off"></i>
-                                    {{ __('Logout') }}
-                                </span>
-                                </a>
+                                <button class="dropdown-item d-flex align-items-center" type="button" wire:click="logout">
+                                    <span class="font-size-16 me-1 text-dark" key="t-logout">
+                                        <i class="bx bx-power-off"></i>
+                                        {{ __('Logout') }}
+                                    </span>
+                                </button>
                             </div>
                         </div>
                     </div>
