@@ -350,19 +350,30 @@ class OrderService
                 ->limit(50)
                 ->get();
 
-            return [
-                'summary' => [
-                    'total_orders' => $totalOrders,
-                    'total_revenue' => round($totalRevenue, 2),
-                    'total_paid' => round($totalPaid, 2),
-                    'total_items_sold' => (int)$totalItemsSold,
-                    'average_order_value' => $averageOrderValue,
-                ],
+            $summary = [
+                'total_orders' => $totalOrders,
+                'total_revenue' => round($totalRevenue, 2),
+                'total_paid' => round($totalPaid, 2),
+                'total_items_sold' => (int)$totalItemsSold,
+                'average_order_value' => $averageOrderValue,
+            ];
+
+            $result = [
+                'summary' => $summary,
                 'orders_by_status' => $ordersByStatus,
                 'orders_by_deal' => $ordersByDeal,
                 'top_products' => $topProducts,
                 'orders_list' => $ordersList,
             ];
+
+            // Also expose summary fields at top level for backward compatibility with consumers/tests
+            $result['total_orders'] = $summary['total_orders'];
+            $result['total_revenue'] = $summary['total_revenue'];
+            $result['total_paid'] = $summary['total_paid'];
+            $result['total_items_sold'] = $summary['total_items_sold'];
+            $result['average_order_value'] = $summary['average_order_value'];
+
+            return $result;
         } catch (\Exception $e) {
             Log::error(self::LOG_PREFIX . 'Error getting order dashboard statistics: ' . $e->getMessage(), [
                 'start_date' => $startDate,
@@ -733,5 +744,4 @@ class OrderService
         }
     }
 }
-
 

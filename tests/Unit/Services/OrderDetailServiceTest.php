@@ -23,70 +23,93 @@ class OrderDetailServiceTest extends TestCase
 
     /**
      * Test getTopSellingProducts method
-     * TODO: Implement actual test logic
      */
     public function test_get_top_selling_products_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $platform = \App\Models\Platform::factory()->create();
+        $itemA = \App\Models\Item::factory()->create(['platform_id' => $platform->id, 'name' => 'Item A']);
+        $itemB = \App\Models\Item::factory()->create(['platform_id' => $platform->id, 'name' => 'Item B']);
+
+        // Create dispatched orders with details
+        $order1 = \App\Models\Order::factory()->dispatched()->create(['platform_id' => $platform->id, 'payment_result' => true]);
+        $order2 = \App\Models\Order::factory()->dispatched()->create(['platform_id' => $platform->id, 'payment_result' => true]);
+
+        \App\Models\OrderDetail::factory()->create(['order_id' => $order1->id, 'item_id' => $itemA->id, 'qty' => 5, 'amount_after_partner_discount' => 50]);
+        \App\Models\OrderDetail::factory()->create(['order_id' => $order2->id, 'item_id' => $itemA->id, 'qty' => 2, 'amount_after_partner_discount' => 20]);
+        \App\Models\OrderDetail::factory()->create(['order_id' => $order1->id, 'item_id' => $itemB->id, 'qty' => 1, 'amount_after_partner_discount' => 10]);
 
         // Act
-        // $result = $this->service->getTopSellingProducts();
+        $result = $this->orderDetailService->getTopSellingProducts(['platform_id' => $platform->id, 'limit' => 5]);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getTopSellingProducts not yet implemented');
+        $this->assertIsArray($result);
+        $this->assertNotEmpty($result);
+        $this->assertEquals('Item A', $result[0]['product_name']);
+        $this->assertEquals(7, $result[0]['sale_count']);
     }
 
     /**
      * Test getSalesEvolutionData method
-     * TODO: Implement actual test logic
      */
     public function test_get_sales_evolution_data_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $start = now()->subDays(3)->format('Y-m-d');
+        $end = now()->format('Y-m-d');
+
+        $order1 = \App\Models\Order::factory()->create([ 'created_at' => now()->subDays(2)->startOfDay(), 'payment_result' => true ]);
+        $order2 = \App\Models\Order::factory()->create([ 'created_at' => now()->subDays(1)->startOfDay(), 'payment_result' => true ]);
+
+        \App\Models\OrderDetail::factory()->create(['order_id' => $order1->id, 'amount_after_deal_discount' => 100]);
+        \App\Models\OrderDetail::factory()->create(['order_id' => $order2->id, 'amount_after_deal_discount' => 50]);
 
         // Act
-        // $result = $this->service->getSalesEvolutionData();
+        $result = $this->orderDetailService->getSalesEvolutionData(['start_date' => $start, 'end_date' => $end, 'view_mode' => 'daily']);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getSalesEvolutionData not yet implemented');
+        $this->assertIsArray($result);
+        $this->assertNotEmpty($result);
+        $dates = array_column($result, 'date');
+        $this->assertContains(now()->subDays(2)->format('Y-m-d'), $dates);
     }
 
     /**
      * Test getSalesTransactionData method
-     * TODO: Implement actual test logic
      */
     public function test_get_sales_transaction_data_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $user = \App\Models\User::factory()->create();
+        $platform = \App\Models\Platform::factory()->create();
+
+        $order = \App\Models\Order::factory()->paid()->create([ 'user_id' => $user->id, 'platform_id' => $platform->id, 'payment_result' => true ]);
 
         // Act
-        // $result = $this->service->getSalesTransactionData();
+        $result = $this->orderDetailService->getSalesTransactionData(['per_page' => 10, 'page' => 1]);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getSalesTransactionData not yet implemented');
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('data', $result);
+        $this->assertArrayHasKey('total', $result);
     }
 
     /**
      * Test getSalesTransactionDetailsData method
-     * TODO: Implement actual test logic
      */
     public function test_get_sales_transaction_details_data_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $order = \App\Models\Order::factory()->create();
+        \App\Models\OrderDetail::factory()->count(3)->create(['order_id' => $order->id]);
 
         // Act
-        // $result = $this->service->getSalesTransactionDetailsData();
+        $result = $this->orderDetailService->getSalesTransactionDetailsData(['order_id' => $order->id]);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getSalesTransactionDetailsData not yet implemented');
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('data', $result);
+        $this->assertEquals(3, $result['count']);
     }
 
     /**

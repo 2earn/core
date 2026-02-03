@@ -58,6 +58,14 @@ class PartnerPayment extends Model
     }
 
     /**
+     * Creator or related user (who created the payment record)
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /**
      * Check if the payment has been validated.
      */
     public function isValidated(): bool
