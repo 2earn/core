@@ -333,12 +333,19 @@ class FinancialRequestServiceTest extends TestCase
         // Arrange
         $user = User::factory()->create();
 
-        FinancialRequest::factory()->count(3)->create([
+        FinancialRequest::factory()->pending()->count(3)->create([
             'idSender' => $user->idUser
         ]);
 
+        // Ensure records were created in DB
+        $this->assertEquals(3, FinancialRequest::where('idSender', $user->idUser)->count());
+
         // Act
         $result = $this->financialRequestService->getRequestsFromUser($user->idUser);
+
+        // Debug: compare DB rows vs returned rows
+        $dbCount = FinancialRequest::where('idSender', $user->idUser)->where('status', '!=', 3)->count();
+        $this->assertEquals($dbCount, $result->count(), 'DB count and returned count should match: DB rows=['.implode(',', FinancialRequest::where('idSender', $user->idUser)->pluck('numeroReq')->toArray()).'] returned=['.implode(',', $result->pluck('numeroReq')->toArray()).']');
 
         // Assert
         $this->assertGreaterThanOrEqual(3, $result->count());
@@ -365,7 +372,7 @@ class FinancialRequestServiceTest extends TestCase
         $this->assertGreaterThanOrEqual(1, $result->count());
         // Should not contain status 3 (canceled)
         foreach ($result as $request) {
-            $this->assertNotEquals(3, $request->FStatus);
+            $this->assertNotEquals(3, $request->status);
         }
     }
 

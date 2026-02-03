@@ -38,4 +38,12 @@ class FinancialRequest extends Model
     {
         return $this->hasMany(detail_financial_request::class, 'numeroRequest', 'numeroReq');
     }
+
+    /**
+     * Sender relation - link idSender (user idUser) to User model
+     */
+    public function sender()
+    {
+        return $this->belongsTo(User::class, 'idSender', 'idUser');
+    }
 }
