@@ -6,10 +6,11 @@ use App\Traits\HasAuditing;
 use App\Models\Platform;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AssignPlatformRole extends Model
 {
-    use HasAuditing;
+    use HasFactory, HasAuditing;
 
     /**
      * Status constants
