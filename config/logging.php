@@ -65,9 +65,10 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
         ],
         'auth' => [
-            'driver' => 'single',
+            'driver' => 'daily',
             'path' => storage_path('logs/auth.log'),
             'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 14,
         ],
         'earnDebug' => [
             'driver' => 'single',

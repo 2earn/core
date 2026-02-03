@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Response;
 
 class OAuthController extends Controller
 {
@@ -45,7 +46,7 @@ class OAuthController extends Controller
                 'error' => 'unauthorized',
                 'message' => 'Error while retrieving the token',
                 'details' => $response->json()
-            ], 401);
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $data = $response->json();
@@ -55,7 +56,7 @@ class OAuthController extends Controller
 
         if (!$idToken) {
             Log::channel('auth')->alert('ID Token missing in OAuth response', ['response' => $response->body()]);
-            return response()->json(['error' => 'invalid_id_token', 'message' => 'ID Token missing from the response'], 401);
+            return response()->json(['error' => 'invalid_id_token', 'message' => 'ID Token missing from the response'], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $publicKey = file_get_contents(storage_path(config('services.auth_2earn.public_key_path')));
@@ -76,7 +77,7 @@ class OAuthController extends Controller
 
         } catch (\Exception $e) {
             Log::channel('auth')->error('JWT Decode Error: ' . $e->getMessage());
-            return response()->json(['error' => 'token_error', 'message' => $e->getMessage()], 401);
+            return response()->json(['error' => 'token_error', 'message' => $e->getMessage()], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
 }
