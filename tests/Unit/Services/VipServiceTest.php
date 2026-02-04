@@ -156,7 +156,11 @@ class VipServiceTest extends TestCase
 
     public function test_calculate_vip_cost_works()
     {
-        $vip = vip::factory()->create(['flashCoefficient' => 2.0]);
+        $user = User::factory()->create();
+        $vip = vip::factory()->create([
+            'idUser' => $user->idUser,
+            'flashCoefficient' => 2.0
+        ]);
         $actions = 50;
         $actualActionValue = 3.0;
 
@@ -168,7 +172,9 @@ class VipServiceTest extends TestCase
 
     public function test_get_vip_flash_status_works()
     {
+        $user = User::factory()->create();
         $vip = vip::factory()->create([
+            'idUser' => $user->idUser,
             'dateFNS' => now()->subHours(12),
             'flashDeadline' => 48,
             'flashCoefficient' => 2.5,
@@ -189,7 +195,9 @@ class VipServiceTest extends TestCase
 
     public function test_get_vip_calculations_works()
     {
+        $user = User::factory()->create();
         $vip = vip::factory()->create([
+            'idUser' => $user->idUser,
             'solde' => 100,
             'flashCoefficient' => 2.0,
             'dateFNS' => now()->subHours(12),
