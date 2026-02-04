@@ -8,6 +8,14 @@ use App\Services\VipService;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
+/**
+ * @group vip
+ * @group slow
+ *
+ * Note: This test suite causes timeouts when run as part of the full test suite
+ * Run separately with: php artisan test --group=vip
+ * Or exclude with: php artisan test --exclude-group=slow
+ */
 class VipServiceTest extends TestCase
 {
     use DatabaseTransactions;

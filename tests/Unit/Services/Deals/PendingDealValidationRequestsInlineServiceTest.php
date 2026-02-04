@@ -278,9 +278,11 @@ class PendingDealValidationRequestsInlineServiceTest extends TestCase
      */
     public function test_get_paginated_requests_works()
     {
-        // Arrange
+        // Arrange - clean up any existing approved requests first to avoid contamination
+        DealValidationRequest::whereIn('status', ['approved', 'rejected'])->delete();
+
         $initialCount = DealValidationRequest::where('status', 'pending')->count();
-        DealValidationRequest::factory()->pending()->count(25)->create();
+        $pendingRequests = DealValidationRequest::factory()->pending()->count(25)->create();
         DealValidationRequest::factory()->approved()->count(5)->create();
 
         // Act
@@ -291,8 +293,9 @@ class PendingDealValidationRequestsInlineServiceTest extends TestCase
         $this->assertEquals(10, $result->perPage());
         $this->assertGreaterThanOrEqual($initialCount + 25, $result->total());
 
+        // All items in the paginated result should be pending
         foreach ($result->items() as $req) {
-            $this->assertEquals('pending', $req->status);
+            $this->assertEquals('pending', $req->status, 'All paginated requests should have pending status');
         }
     }
 }
