@@ -18,7 +18,9 @@ class GenerateTestReport extends Command
                             {--skip-tests : Skip running tests and use existing results}
                             {--open : Open the report in browser after generation}
                             {--timeout=1800 : Maximum execution time in seconds}
-                            {--show-output : Show full test output during execution}';
+                            {--show-output : Show full test output during execution}
+                            {--exclude-group=* : Exclude test groups (default: slow)}
+                            {--include-slow : Include slow tests (removes slow from exclude-group)}';
 
     /**
      * The console command description.
@@ -38,6 +40,21 @@ class GenerateTestReport extends Command
         // Step 1: Run tests (unless skipped)
         if (!$this->option('skip-tests')) {
             $this->info('📝 Running tests...');
+
+            // Determine which groups to exclude
+            $excludeGroups = $this->option('exclude-group');
+            if (!$this->option('include-slow')) {
+                if (empty($excludeGroups)) {
+                    $excludeGroups = ['slow'];
+                } elseif (!in_array('slow', $excludeGroups)) {
+                    $excludeGroups[] = 'slow';
+                }
+            }
+
+            if (!empty($excludeGroups)) {
+                $this->comment('   Excluding groups: ' . implode(', ', $excludeGroups));
+            }
+
             $this->newLine();
 
             // First, get total test count
@@ -62,9 +79,17 @@ class GenerateTestReport extends Command
             // Run tests with progress tracking
             $testCommand = ['php', 'artisan', 'test'];
 
+            // Add exclude-group arguments to command
+            foreach ($excludeGroups as $group) {
+                $testCommand[] = '--exclude-group=' . $group;
+            }
+
             // Add verbose flag if requested
             if ($this->option('show-output')) {
                 $this->info('Running tests with full output...');
+                if (!empty($excludeGroups)) {
+                    $this->info('Excluding groups: ' . implode(', ', $excludeGroups));
+                }
             }
 
             $process = new Process($testCommand);
