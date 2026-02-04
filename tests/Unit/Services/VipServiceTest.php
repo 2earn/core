@@ -5,10 +5,12 @@ namespace Tests\Unit\Services;
 use App\Models\User;
 use App\Models\vip;
 use App\Services\VipService;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class VipServiceTest extends TestCase
 {
+    use DatabaseTransactions;
 
     protected VipService $vipService;
 
@@ -100,11 +102,16 @@ class VipServiceTest extends TestCase
 
     public function test_is_vip_valid_works()
     {
+        $user1 = User::factory()->create();
+        $user2 = User::factory()->create();
+
         $validVip = vip::factory()->create([
+            'idUser' => $user1->idUser,
             'dateFNS' => now()->subHours(12),
             'flashDeadline' => 48,
         ]);
         $expiredVip = vip::factory()->create([
+            'idUser' => $user2->idUser,
             'dateFNS' => now()->subHours(72),
             'flashDeadline' => 48,
         ]);
@@ -118,7 +125,9 @@ class VipServiceTest extends TestCase
 
     public function test_calculate_vip_actions_works()
     {
+        $user = User::factory()->create();
         $vip = vip::factory()->create([
+            'idUser' => $user->idUser,
             'solde' => 100,
             'flashCoefficient' => 2.5,
         ]);
@@ -131,7 +140,11 @@ class VipServiceTest extends TestCase
 
     public function test_calculate_vip_benefits_works()
     {
-        $vip = vip::factory()->create(['solde' => 100]);
+        $user = User::factory()->create();
+        $vip = vip::factory()->create([
+            'idUser' => $user->idUser,
+            'solde' => 100
+        ]);
         $actions = 40;
         $actualActionValue = 2.5;
 
