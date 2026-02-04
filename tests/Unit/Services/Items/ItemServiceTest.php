@@ -9,16 +9,19 @@ use App\Models\OrderDetail;
 use App\Models\Platform;
 use App\Models\User;
 use App\Services\Items\ItemService;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class ItemServiceTest extends TestCase
 {
+    use DatabaseTransactions;
 
     protected ItemService $itemService;
 
     protected function setUp(): void
     {
         parent::setUp();
+        // Do not delete the items table here; rely on DatabaseTransactions for isolation
         $this->itemService = new ItemService();
     }
 
