@@ -121,10 +121,10 @@ class Sponsorship
             'operator_id' => $this->isSource,
             'beneficiary_id' => $reserve,
             'reference' => $ref,
-            'percentage' => BFSsBalances::BFS_50,
+            'percentage' => BFSsBalances::BFS_100,
             'description' => 'sponsorship commission from ' . getUserDisplayedName($resiver),
             'value' => $amount * $this->amountBFS / 100,
-            'current_balance' => $balances->getBfssBalance(BFSsBalances::BFS_50) + BalanceOperation::getMultiplicator(BalanceOperationsEnum::SPONSORSHIP_COMMISSION_BFS->value)* $amount * $this->amountBFS / 100
+            'current_balance' => $balances->getBfssBalance(BFSsBalances::BFS_100) + BalanceOperation::getMultiplicator(BalanceOperationsEnum::SPONSORSHIP_COMMISSION_BFS->value)* $amount * $this->amountBFS / 100
         ]);
             DB::commit();
         } catch (\Exception $exception) {
