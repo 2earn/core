@@ -331,43 +331,4 @@ class UserServiceTest extends TestCase
         $this->assertNotNull($result);
     }
 
-    /**
-     * Test getUserProfileImage method
-     * TODO: Implement actual test logic
-     */
-    public function test_get_user_profile_image_works()
-    {
-        // File system dependencies - basic test
-        $this->assertTrue(true);
-    }
-
-    /**
-     * Test getNationalFrontImage method
-     * TODO: Implement actual test logic
-     */
-    public function test_get_national_front_image_works()
-    {
-        // File system dependencies - basic test
-        $this->assertTrue(true);
-    }
-
-    /**
-     * Test getNationalBackImage method
-     * TODO: Implement actual test logic
-     */
-    public function test_get_national_back_image_works()
-    {
-        // File system dependencies - basic test
-        $this->assertTrue(true);
-    }
-
-    /**
-     * Test getInternationalImage method
-     * TODO: Implement actual test logic
-     */
-    public function test_get_international_image_works()
-    {
-        // File system dependencies - basic test
-        $this->assertTrue(true);
-    }
 }
