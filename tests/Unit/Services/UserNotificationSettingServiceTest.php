@@ -5,10 +5,12 @@ namespace Tests\Unit\Services;
 use App\Models\User;
 use App\Models\UserNotificationSettings;
 use App\Services\UserNotificationSettingService;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class UserNotificationSettingServiceTest extends TestCase
 {
+    use DatabaseTransactions;
 
     protected UserNotificationSettingService $userNotificationSettingService;
 
@@ -25,7 +27,15 @@ class UserNotificationSettingServiceTest extends TestCase
     {
         // Arrange
         $user = User::factory()->create();
-        UserNotificationSettings::factory()->count(5)->create(['idUser' => $user->idUser]);
+
+        // Create settings with unique idNotification values for this user
+        UserNotificationSettings::factory()->create(['idUser' => $user->idUser, 'idNotification' => 1]);
+        UserNotificationSettings::factory()->create(['idUser' => $user->idUser, 'idNotification' => 2]);
+        UserNotificationSettings::factory()->create(['idUser' => $user->idUser, 'idNotification' => 3]);
+        UserNotificationSettings::factory()->create(['idUser' => $user->idUser, 'idNotification' => 4]);
+        UserNotificationSettings::factory()->create(['idUser' => $user->idUser, 'idNotification' => 5]);
+
+        // Create settings for other users
         UserNotificationSettings::factory()->count(3)->create();
 
         // Act
@@ -65,9 +75,9 @@ class UserNotificationSettingServiceTest extends TestCase
         // Arrange
         $user = User::factory()->create();
         $settings = [
-            UserNotificationSettings::factory()->create(['idUser' => $user->idUser, 'idNotification' => 1]),
-            UserNotificationSettings::factory()->create(['idUser' => $user->idUser, 'idNotification' => 2]),
-            UserNotificationSettings::factory()->create(['idUser' => $user->idUser, 'idNotification' => 3]),
+            UserNotificationSettings::factory()->create(['idUser' => $user->idUser, 'idNotification' => 1, 'value' => 0]),
+            UserNotificationSettings::factory()->create(['idUser' => $user->idUser, 'idNotification' => 2, 'value' => 1]),
+            UserNotificationSettings::factory()->create(['idUser' => $user->idUser, 'idNotification' => 3, 'value' => 0]),
         ];
 
         $updateData = [
@@ -82,6 +92,14 @@ class UserNotificationSettingServiceTest extends TestCase
         // Assert
         $this->assertTrue($result['success']);
         $this->assertEquals(3, $result['updatedCount']);
+
+        // Verify the actual updates
+        $settings[0]->refresh();
+        $settings[1]->refresh();
+        $settings[2]->refresh();
+        $this->assertEquals(1, $settings[0]->value);
+        $this->assertEquals(0, $settings[1]->value);
+        $this->assertEquals(1, $settings[2]->value);
     }
 
     /**
