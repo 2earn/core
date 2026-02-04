@@ -27,6 +27,11 @@ class Platform extends Model
         'updated_by',
     ];
 
+    protected $casts = [
+        'enabled' => 'boolean',
+        'show_profile' => 'boolean',
+    ];
+
     public $timestamps = true;
     const IMAGE_TYPE_LOGO = 'logo';
 
