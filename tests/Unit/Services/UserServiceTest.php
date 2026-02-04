@@ -157,12 +157,32 @@ class UserServiceTest extends TestCase
     public function test_get_auth_user_by_id_works()
     {
         $user = User::factory()->create();
+
+        // Create metta user data
+        $mettaUser = new \stdClass();
+        $mettaUser->idUser = $user->idUser;
+        $mettaUser->arFirstName = 'Arabic First';
+        $mettaUser->arLastName = 'Arabic Last';
+        $mettaUser->enFirstName = 'English First';
+        $mettaUser->enLastName = 'English Last';
+
+        $mettaCollection = collect([$mettaUser]);
+
         $this->mockUserRepository->shouldReceive('getUserById')
             ->with($user->id)
             ->once()
             ->andReturn($user);
+
+        $this->mockUserRepository->shouldReceive('getAllMettaUser')
+            ->once()
+            ->andReturn($mettaCollection);
+
         $result = $this->userService->getAuthUserById($user->id);
+
         $this->assertNotNull($result);
+        $this->assertInstanceOf(\App\Models\AuthenticatedUser::class, $result);
+        $this->assertEquals($user->id, $result->id);
+        $this->assertEquals($user->idUser, $result->idUser);
     }
 
     /**
@@ -318,17 +338,18 @@ class UserServiceTest extends TestCase
 
     /**
      * Test getUserByIdUser method
-     * TODO: Implement actual test logic
      */
     public function test_get_user_by_id_user_works()
     {
         $user = User::factory()->create();
-        $this->mockUserRepository->shouldReceive('getUserByIdUser')
-            ->with($user->idUser)
-            ->once()
-            ->andReturn($user);
+
+        // The service method queries User model directly, not through repository
         $result = $this->userService->getUserByIdUser($user->idUser);
+
         $this->assertNotNull($result);
+        $this->assertInstanceOf(User::class, $result);
+        $this->assertEquals($user->idUser, $result->idUser);
+        $this->assertEquals($user->id, $result->id);
     }
 
 }
