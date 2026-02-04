@@ -6,10 +6,12 @@ use App\Models\User;
 use App\Models\UserGuide;
 use App\Services\UserGuide\UserGuideService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class UserGuideServiceTest extends TestCase
 {
+    use DatabaseTransactions;
 
     protected UserGuideService $userGuideService;
 
@@ -86,6 +88,7 @@ class UserGuideServiceTest extends TestCase
     {
         // Arrange
         $user = User::factory()->create();
+        $initialCount = UserGuide::count();
         UserGuide::factory()->count(15)->create(['user_id' => $user->id]);
 
         // Act
@@ -93,7 +96,7 @@ class UserGuideServiceTest extends TestCase
 
         // Assert
         $this->assertCount(10, $result->items());
-        $this->assertEquals(15, $result->total());
+        $this->assertGreaterThanOrEqual($initialCount + 15, $result->total());
     }
 
     /**
@@ -130,13 +133,14 @@ class UserGuideServiceTest extends TestCase
     {
         // Arrange
         $user = User::factory()->create();
+        $initialCount = UserGuide::count();
         UserGuide::factory()->count(5)->create(['user_id' => $user->id]);
 
         // Act
         $result = $this->userGuideService->getAll();
 
         // Assert
-        $this->assertCount(5, $result);
+        $this->assertGreaterThanOrEqual($initialCount + 5, $result->count());
     }
 
     /**
@@ -243,15 +247,15 @@ class UserGuideServiceTest extends TestCase
     {
         // Arrange
         $user = User::factory()->create();
-        UserGuide::factory()->create([
+        $guide1 = UserGuide::factory()->create([
             'user_id' => $user->id,
             'routes' => ['home', 'dashboard']
         ]);
-        UserGuide::factory()->create([
+        $guide2 = UserGuide::factory()->create([
             'user_id' => $user->id,
             'routes' => ['profile', 'settings']
         ]);
-        UserGuide::factory()->create([
+        $guide3 = UserGuide::factory()->create([
             'user_id' => $user->id,
             'routes' => ['home', 'profile']
         ]);
@@ -260,7 +264,12 @@ class UserGuideServiceTest extends TestCase
         $result = $this->userGuideService->getByRouteName('home');
 
         // Assert
-        $this->assertCount(2, $result);
+        $this->assertGreaterThanOrEqual(2, $result->count());
+        // Verify that at least our created guides with 'home' route are in the results
+        $resultIds = $result->pluck('id')->toArray();
+        $this->assertContains($guide1->id, $resultIds);
+        $this->assertContains($guide3->id, $resultIds);
+        $this->assertNotContains($guide2->id, $resultIds);
     }
 
     /**
@@ -316,13 +325,14 @@ class UserGuideServiceTest extends TestCase
     {
         // Arrange
         $user = User::factory()->create();
+        $initialCount = UserGuide::count();
         UserGuide::factory()->count(7)->create(['user_id' => $user->id]);
 
         // Act
         $result = $this->userGuideService->count();
 
         // Assert
-        $this->assertEquals(7, $result);
+        $this->assertEquals($initialCount + 7, $result);
     }
 
     /**

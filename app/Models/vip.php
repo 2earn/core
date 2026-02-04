@@ -29,4 +29,9 @@ class vip extends Model
         'updated_by',
     ];
 
+    protected $casts = [
+        'closed' => 'boolean',
+        'declenched' => 'boolean',
+    ];
+
 }

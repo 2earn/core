@@ -445,7 +445,7 @@ class SurveyServiceTest extends TestCase
         $targets = Target::factory()->count(2)->create();
         $survey->targets()->attach($targets->pluck('id'));
         $question = SurveyQuestion::factory()->create(['survey_id' => $survey->id]);
-        SurveyQuestionChoice::factory()->create(['surveyQuestion_id' => $question->id]);
+        SurveyQuestionChoice::factory()->create(['question_id' => $question->id]);
         // Assert
         $this->expectException(\Exception::class);
         // Act
@@ -461,7 +461,7 @@ class SurveyServiceTest extends TestCase
         $targets = Target::factory()->count(2)->create();
         $survey->targets()->attach($targets->pluck('id'));
         $question = SurveyQuestion::factory()->create(['survey_id' => $survey->id]);
-        SurveyQuestionChoice::factory()->count(2)->create(['surveyQuestion_id' => $question->id]);
+        SurveyQuestionChoice::factory()->count(2)->create(['question_id' => $question->id]);
         // Act
         $result = $this->surveyService->canBeOpened($survey->id);
         // Assert

@@ -26,7 +26,17 @@ class RoleServiceTest extends TestCase
     public function test_get_by_id_returns_role()
     {
         // Arrange
-        $role = Role::create(['name' => 'test-role', 'guard_name' => 'web']);
+        $baseId = Role::max('id') ?? 4;
+        $roleId = $baseId + 1;
+        $timestamp = time();
+        \DB::table('roles')->insert([
+            'id' => $roleId,
+            'name' => "test-role-{$timestamp}",
+            'guard_name' => 'web',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $role = Role::find($roleId);
 
         // Act
         $result = $this->roleService->getById($role->id);
@@ -34,7 +44,7 @@ class RoleServiceTest extends TestCase
         // Assert
         $this->assertNotNull($result);
         $this->assertEquals($role->id, $result->id);
-        $this->assertEquals('test-role', $result->name);
+        $this->assertEquals("test-role-{$timestamp}", $result->name);
     }
 
     /**
@@ -55,7 +65,17 @@ class RoleServiceTest extends TestCase
     public function test_get_by_id_or_fail_returns_role()
     {
         // Arrange
-        $role = Role::create(['name' => 'test-role', 'guard_name' => 'web']);
+        $baseId = Role::max('id') ?? 4;
+        $roleId = $baseId + 1;
+        $timestamp = time();
+        \DB::table('roles')->insert([
+            'id' => $roleId,
+            'name' => "test-role-{$timestamp}",
+            'guard_name' => 'web',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $role = Role::find($roleId);
 
         // Act
         $result = $this->roleService->getByIdOrFail($role->id);
@@ -83,9 +103,13 @@ class RoleServiceTest extends TestCase
     public function test_get_paginated_returns_paginated_results()
     {
         // Arrange
-        Role::create(['name' => 'test-role-1', 'guard_name' => 'web']);
-        Role::create(['name' => 'test-role-2', 'guard_name' => 'web']);
-        Role::create(['name' => 'test-role-3', 'guard_name' => 'web']);
+        $baseId = Role::max('id') ?? 4;
+        $timestamp = time();
+        \DB::table('roles')->insert([
+            ['id' => $baseId + 1, 'name' => "test-role-1-{$timestamp}", 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => $baseId + 2, 'name' => "test-role-2-{$timestamp}", 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => $baseId + 3, 'name' => "test-role-3-{$timestamp}", 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
+        ]);
 
         // Act
         $result = $this->roleService->getPaginated(null, 10);
@@ -100,11 +124,15 @@ class RoleServiceTest extends TestCase
     public function test_get_paginated_filters_by_search()
     {
         // Arrange
-        Role::create(['name' => 'unique-test-role', 'guard_name' => 'web']);
-        Role::create(['name' => 'other-role', 'guard_name' => 'web']);
+        $baseId = Role::max('id') ?? 4;
+        $timestamp = time();
+        \DB::table('roles')->insert([
+            ['id' => $baseId + 1, 'name' => "unique-test-role-{$timestamp}", 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => $baseId + 2, 'name' => "other-role-{$timestamp}", 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
+        ]);
 
         // Act
-        $result = $this->roleService->getPaginated('unique-test', 10);
+        $result = $this->roleService->getPaginated("unique-test-role-{$timestamp}", 10);
 
         // Assert
         $this->assertGreaterThanOrEqual(1, $result->total());
@@ -118,8 +146,12 @@ class RoleServiceTest extends TestCase
     {
         // Arrange
         $initialCount = Role::count();
-        Role::create(['name' => 'test-role-a', 'guard_name' => 'web']);
-        Role::create(['name' => 'test-role-b', 'guard_name' => 'web']);
+        $baseId = Role::max('id') ?? 4;
+        $timestamp = time();
+        \DB::table('roles')->insert([
+            ['id' => $baseId + 1, 'name' => "test-role-a-{$timestamp}", 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => $baseId + 2, 'name' => "test-role-b-{$timestamp}", 'guard_name' => 'web', 'created_at' => now(), 'updated_at' => now()],
+        ]);
 
         // Act
         $result = $this->roleService->getAll();
@@ -134,8 +166,11 @@ class RoleServiceTest extends TestCase
     public function test_create_creates_new_role()
     {
         // Arrange
+        $baseId = Role::max('id') ?? 4;
+        $timestamp = time();
         $data = [
-            'name' => 'new-test-role',
+            'id' => $baseId + 1,
+            'name' => "new-test-role-{$timestamp}",
             'guard_name' => 'web'
         ];
 
@@ -144,8 +179,8 @@ class RoleServiceTest extends TestCase
 
         // Assert
         $this->assertNotNull($result);
-        $this->assertEquals('new-test-role', $result->name);
-        $this->assertDatabaseHas('roles', ['name' => 'new-test-role']);
+        $this->assertEquals("new-test-role-{$timestamp}", $result->name);
+        $this->assertDatabaseHas('roles', ['name' => "new-test-role-{$timestamp}"]);
     }
 
     /**
@@ -154,8 +189,18 @@ class RoleServiceTest extends TestCase
     public function test_update_updates_role()
     {
         // Arrange
-        $role = Role::create(['name' => 'original-name', 'guard_name' => 'web']);
-        $updateData = ['name' => 'updated-name'];
+        $baseId = Role::max('id') ?? 4;
+        $roleId = $baseId + 1;
+        $timestamp = time();
+        \DB::table('roles')->insert([
+            'id' => $roleId,
+            'name' => "original-name-{$timestamp}",
+            'guard_name' => 'web',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $role = Role::find($roleId);
+        $updateData = ['name' => "updated-name-{$timestamp}"];
 
         // Act
         $result = $this->roleService->update($role->id, $updateData);
@@ -163,7 +208,7 @@ class RoleServiceTest extends TestCase
         // Assert
         $this->assertTrue($result);
         $role->refresh();
-        $this->assertEquals('updated-name', $role->name);
+        $this->assertEquals("updated-name-{$timestamp}", $role->name);
     }
 
     /**
@@ -184,8 +229,16 @@ class RoleServiceTest extends TestCase
     public function test_delete_deletes_role()
     {
         // Arrange
-        $role = Role::create(['name' => 'deletable-role', 'guard_name' => 'web']);
-        $roleId = $role->id;
+        $baseId = Role::max('id') ?? 4;
+        $roleId = max($baseId + 1, 5); // Ensure ID is greater than 4 to avoid protected role check
+        $timestamp = time();
+        \DB::table('roles')->insert([
+            'id' => $roleId,
+            'name' => "deletable-role-{$timestamp}",
+            'guard_name' => 'web',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
 
         // Act
         $result = $this->roleService->delete($roleId);

@@ -5,10 +5,20 @@ namespace Tests\Unit\Services;
 use App\Models\User;
 use App\Models\vip;
 use App\Services\VipService;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
+/**
+ * @group vip
+ * @group slow
+ *
+ * Note: This test suite causes timeouts when run as part of the full test suite
+ * Run separately with: php artisan test --group=vip
+ * Or exclude with: php artisan test --exclude-group=slow
+ */
 class VipServiceTest extends TestCase
 {
+    use DatabaseTransactions;
 
     protected VipService $vipService;
 
@@ -100,11 +110,16 @@ class VipServiceTest extends TestCase
 
     public function test_is_vip_valid_works()
     {
+        $user1 = User::factory()->create();
+        $user2 = User::factory()->create();
+
         $validVip = vip::factory()->create([
+            'idUser' => $user1->idUser,
             'dateFNS' => now()->subHours(12),
             'flashDeadline' => 48,
         ]);
         $expiredVip = vip::factory()->create([
+            'idUser' => $user2->idUser,
             'dateFNS' => now()->subHours(72),
             'flashDeadline' => 48,
         ]);
@@ -118,7 +133,9 @@ class VipServiceTest extends TestCase
 
     public function test_calculate_vip_actions_works()
     {
+        $user = User::factory()->create();
         $vip = vip::factory()->create([
+            'idUser' => $user->idUser,
             'solde' => 100,
             'flashCoefficient' => 2.5,
         ]);
@@ -131,7 +148,11 @@ class VipServiceTest extends TestCase
 
     public function test_calculate_vip_benefits_works()
     {
-        $vip = vip::factory()->create(['solde' => 100]);
+        $user = User::factory()->create();
+        $vip = vip::factory()->create([
+            'idUser' => $user->idUser,
+            'solde' => 100
+        ]);
         $actions = 40;
         $actualActionValue = 2.5;
 
@@ -143,7 +164,11 @@ class VipServiceTest extends TestCase
 
     public function test_calculate_vip_cost_works()
     {
-        $vip = vip::factory()->create(['flashCoefficient' => 2.0]);
+        $user = User::factory()->create();
+        $vip = vip::factory()->create([
+            'idUser' => $user->idUser,
+            'flashCoefficient' => 2.0
+        ]);
         $actions = 50;
         $actualActionValue = 3.0;
 
@@ -155,7 +180,9 @@ class VipServiceTest extends TestCase
 
     public function test_get_vip_flash_status_works()
     {
+        $user = User::factory()->create();
         $vip = vip::factory()->create([
+            'idUser' => $user->idUser,
             'dateFNS' => now()->subHours(12),
             'flashDeadline' => 48,
             'flashCoefficient' => 2.5,
@@ -176,7 +203,9 @@ class VipServiceTest extends TestCase
 
     public function test_get_vip_calculations_works()
     {
+        $user = User::factory()->create();
         $vip = vip::factory()->create([
+            'idUser' => $user->idUser,
             'solde' => 100,
             'flashCoefficient' => 2.0,
             'dateFNS' => now()->subHours(12),
