@@ -54,6 +54,16 @@ class Survey extends Model
     ];
 
     protected $casts = [
+        'enabled' => 'boolean',
+        'published' => 'boolean',
+        'updatable' => 'boolean',
+        'show' => 'boolean',
+        'showAttchivementChrono' => 'boolean',
+        'showAttchivementGool' => 'boolean',
+        'showAfterArchiving' => 'boolean',
+        'showResult' => 'boolean',
+        'commentable' => 'boolean',
+        'likable' => 'boolean',
         'show_results_as_number' => 'boolean',
         'show_results_as_percentage' => 'boolean',
     ];
