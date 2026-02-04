@@ -12,12 +12,14 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->integer('flashCoefficient')->nullable();
-            $table->integer('flashDeadline')->nullable();
-            $table->string('flashNote')->nullable();
-            $table->float('flashMinAmount')->nullable();
-        });
+        if (Schema::hasTable('users')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->integer('flashCoefficient')->nullable();
+                $table->integer('flashDeadline')->nullable();
+                $table->string('flashNote')->nullable();
+                $table->float('flashMinAmount')->nullable();
+            });
+        }
     }
 
     /**

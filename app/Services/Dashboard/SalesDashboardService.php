@@ -35,6 +35,11 @@ class SalesDashboardService
     public function getKpiData(array $filters = []): array
     {
         try {
+            // Normalize platform_id to platform_ids for callers that send a single id
+            if (!empty($filters['platform_id']) && empty($filters['platform_ids'])) {
+                $filters['platform_ids'] = is_array($filters['platform_id']) ? $filters['platform_id'] : [$filters['platform_id']];
+            }
+
             if (!empty($filters['user_id']) && !empty($filters['platform_ids'])) {
                 foreach ($filters['platform_ids'] as $platformId) {
                     if (!$this->platformService->userHasRoleInPlatform($filters['user_id'], $platformId)) {
@@ -86,6 +91,11 @@ class SalesDashboardService
     public function getTransactions(array $filters = []): array
     {
         try {
+            // Normalize platform_id to platform_ids
+            if (!empty($filters['platform_id']) && empty($filters['platform_ids'])) {
+                $filters['platform_ids'] = is_array($filters['platform_id']) ? $filters['platform_id'] : [$filters['platform_id']];
+            }
+
             if (!empty($filters['user_id']) && !empty($filters['platform_ids'])) {
                 foreach ($filters['platform_ids'] as $platformId) {
                     if (!$this->platformService->userHasRoleInPlatform($filters['user_id'], $platformId)) {

@@ -40,7 +40,12 @@ class DealChangeRequestService
             return $query->orderBy('created_at', 'desc')
                          ->paginate($perPage);
         } catch (\Exception $e) {
-            Log::error('Error fetching paginated deal change requests: ' . $e->getMessage());
+            Log::error('Error fetching paginated deal change requests: ' . $e->getMessage(), [
+                'statusFilter' => $statusFilter,
+                'perPage' => $perPage,
+                'search' => $search,
+                'trace' => $e->getTraceAsString(),
+            ]);
             return new \Illuminate\Pagination\LengthAwarePaginator([], 0, $perPage);
         }
     }

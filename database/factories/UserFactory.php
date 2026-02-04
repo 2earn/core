@@ -14,9 +14,13 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $baseEmail = $this->faker->safeEmail();
+        [$local, $domain] = explode('@', $baseEmail);
+        $uniqueEmail = $local . '+' . uniqid() . '@' . $domain;
+
         return [
             'name' => $this->faker->name(),
-            'email' => $this->faker->unique()->safeEmail(),
+            'email' => $uniqueEmail,
             'idUser' => $this->faker->unique()->numerify('#########'), // 9-digit unique ID
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password

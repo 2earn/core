@@ -186,19 +186,26 @@ class DealChangeRequestServiceTest extends TestCase
 
     /**
      * Test getRequestsByStatus method
-     * TODO: Implement actual test logic
      */
     public function test_get_requests_by_status_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $initialPending = DealChangeRequest::where('status', DealChangeRequest::STATUS_PENDING)->count();
+        DealChangeRequest::factory()->count(6)->create(['status' => DealChangeRequest::STATUS_PENDING]);
+        DealChangeRequest::factory()->count(2)->create(['status' => DealChangeRequest::STATUS_APPROVED]);
 
         // Act
-        // $result = $this->service->getRequestsByStatus();
+        $result = $this->dealChangeRequestService->getRequestsByStatus(DealChangeRequest::STATUS_PENDING);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getRequestsByStatus not yet implemented');
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $result);
+        $this->assertGreaterThanOrEqual($initialPending + 6, $result->count());
+
+        foreach ($result as $req) {
+            $this->assertEquals(DealChangeRequest::STATUS_PENDING, $req->status);
+            $this->assertTrue($req->relationLoaded('deal'));
+            $this->assertTrue($req->relationLoaded('requestedBy'));
+        }
     }
 
     /**

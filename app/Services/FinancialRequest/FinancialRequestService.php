@@ -112,16 +112,15 @@ class FinancialRequestService
      */
     public function getRequestsFromUser(int $userId, bool $showCanceled = false)
     {
-        $query = FinancialRequest::where('financial_request.idSender', $userId);
+        $query = FinancialRequest::where('idSender', $userId);
 
         if (!$showCanceled) {
-            $query->where('financial_request.Status', '!=', '3');
+            $query->where('status', '!=', 3);
         }
 
-        return $query->join('users as u1', 'financial_request.idSender', '=', 'u1.idUser')
-            ->with('details', 'details.User')
-            ->orderBy('financial_request.date', 'desc')
-            ->get(['financial_request.numeroReq', 'financial_request.date', 'u1.name', 'u1.mobile', 'financial_request.amount', 'financial_request.status as FStatus', 'financial_request.securityCode']);
+        return $query->with(['details', 'details.User', 'sender'])
+            ->orderBy('date', 'desc')
+            ->get();
     }
 
     /**

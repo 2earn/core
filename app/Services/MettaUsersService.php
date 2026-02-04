@@ -287,12 +287,56 @@ class MettaUsersService
     /**
      * Calculate profile completeness percentage and validation errors
      *
-     * @param Collection $mettaUserInfo Metta user information
-     * @param array|Collection $userInfo User information (must have 'email' key)
-     * @param string $idUser User's business ID
-     * @return array ['percentComplete' => int, 'errors' => array]
+     * Supports two call styles:
+     *  - calculateProfileCompleteness($userId) => returns int percentComplete (used by tests)
+     *  - calculateProfileCompleteness($mettaUserInfo, $userInfo, $idUser) => returns array with percent and errors (used by UI)
+     *
      */
-    public function calculateProfileCompleteness($mettaUserInfo, $userInfo, string $idUser): array
+    public function calculateProfileCompleteness($mettaUserInfo, $userInfo = null, string $idUser = '')
+    {
+        // If called with a single scalar argument, treat it as idUser and return numeric percent
+        if ((is_string($mettaUserInfo) || is_int($mettaUserInfo)) && $userInfo === null && $idUser === '') {
+            $id = (string)$mettaUserInfo;
+            $metta = $this->getMettaUser($id);
+            $user = User::where('idUser', $id)->first();
+
+            $mettaArr = $metta ? (is_array($metta) ? $metta : $metta->toArray()) : [];
+            $userColl = $user ? collect($user->toArray()) : collect();
+
+            $result = $this->calculateProfileCompletenessInternal($mettaArr, $userColl, $id);
+            return $result['percentComplete'];
+        }
+
+        // Otherwise normalize inputs and return detailed array (percent + errors)
+        // Normalize mettaUserInfo: may be model, array, or collection
+        if (is_object($mettaUserInfo) && method_exists($mettaUserInfo, 'toArray')) {
+            $mettaUserInfoArr = $mettaUserInfo->toArray();
+        } elseif (is_array($mettaUserInfo)) {
+            $mettaUserInfoArr = $mettaUserInfo;
+        } elseif ($mettaUserInfo instanceof \Illuminate\Support\Collection) {
+            $mettaUserInfoArr = $mettaUserInfo->toArray();
+        } else {
+            $mettaUserInfoArr = [];
+        }
+
+        // Normalize userInfo: may be array or collection
+        if (is_object($userInfo) && method_exists($userInfo, 'toArray')) {
+            $userInfoColl = collect($userInfo->toArray());
+        } elseif (is_array($userInfo)) {
+            $userInfoColl = collect($userInfo);
+        } elseif ($userInfo instanceof \Illuminate\Support\Collection) {
+            $userInfoColl = $userInfo;
+        } else {
+            $userInfoColl = collect();
+        }
+
+        return $this->calculateProfileCompletenessInternal($mettaUserInfoArr, $userInfoColl, $idUser);
+    }
+
+    /**
+     * Internal helper that performs the actual completeness calculation and returns array
+     */
+    private function calculateProfileCompletenessInternal(array $mettaUserInfo, \Illuminate\Support\Collection $userInfo, string $idUser): array
     {
         $errors = [];
         $percentComplete = 0;
@@ -303,38 +347,43 @@ class MettaUsersService
             $percentComplete += 20;
         }
 
-        if (!isset($mettaUserInfo['enFirstName']) || trim($mettaUserInfo['enFirstName']) == "") {
+        if (!isset($mettaUserInfo['enFirstName']) || trim((string)($mettaUserInfo['enFirstName'] ?? '')) == "") {
             $errors[] = getProfileMsgErreur('enFirstName');
         }
-        if (!isset($mettaUserInfo['enLastName']) || trim($mettaUserInfo['enLastName']) == "") {
+        if (!isset($mettaUserInfo['enLastName']) || trim((string)($mettaUserInfo['enLastName'] ?? '')) == "") {
             $errors[] = getProfileMsgErreur('enLastName');
         }
 
         // Check birthday (20%)
-        if (isset($mettaUserInfo['birthday'])) {
+        if (!empty($mettaUserInfo['birthday'])) {
             $percentComplete += 20;
         } else {
             $errors[] = getProfileMsgErreur('birthday');
         }
 
         // Check national ID (20%)
-        if (isset($mettaUserInfo['nationalID']) && trim($mettaUserInfo['nationalID']) != "") {
+        if (isset($mettaUserInfo['nationalID']) && trim((string)$mettaUserInfo['nationalID']) != "") {
             $percentComplete += 20;
         } else {
             $errors[] = getProfileMsgErreur('nationalID');
         }
 
         // Check national ID images (20%)
-        if (User::getNationalFrontImage($idUser) != User::DEFAULT_NATIONAL_FRONT_URL
-            && User::getNationalBackImage($idUser) != User::DEFAULT_NATIONAL_BACK_URL) {
-            $percentComplete += 20;
-        } else {
+        try {
+            if (!empty($idUser) && User::getNationalFrontImage($idUser) != User::DEFAULT_NATIONAL_FRONT_URL
+                && User::getNationalBackImage($idUser) != User::DEFAULT_NATIONAL_BACK_URL) {
+                $percentComplete += 20;
+            } else {
+                $errors[] = getProfileMsgErreur('photoIdentite');
+            }
+        } catch (\Throwable $e) {
+            // If retrieving images fails or not available, consider it missing
             $errors[] = getProfileMsgErreur('photoIdentite');
         }
 
         // Check email (20%)
-        $email = is_array($userInfo) ? ($userInfo['email'] ?? null) : $userInfo->get('email');
-        if (isset($email) && trim($email) != "") {
+        $email = $userInfo->get('email') ?? null;
+        if (isset($email) && trim((string)$email) != "") {
             $percentComplete += 20;
         } else {
             $errors[] = getProfileMsgErreur('email');

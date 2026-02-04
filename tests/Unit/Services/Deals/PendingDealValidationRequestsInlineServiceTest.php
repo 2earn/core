@@ -275,18 +275,24 @@ class PendingDealValidationRequestsInlineServiceTest extends TestCase
 
     /**
      * Test getPaginatedRequests method
-     * TODO: Implement actual test logic
      */
     public function test_get_paginated_requests_works()
     {
         // Arrange
-        // TODO: Set up test data
+        $initialCount = DealValidationRequest::where('status', 'pending')->count();
+        DealValidationRequest::factory()->pending()->count(25)->create();
+        DealValidationRequest::factory()->approved()->count(5)->create();
 
         // Act
-        // $result = $this->service->getPaginatedRequests();
+        $result = $this->service->getPaginatedRequests(null, null, null, false, 10);
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getPaginatedRequests not yet implemented');
+        $this->assertInstanceOf(\Illuminate\Contracts\Pagination\LengthAwarePaginator::class, $result);
+        $this->assertEquals(10, $result->perPage());
+        $this->assertGreaterThanOrEqual($initialCount + 25, $result->total());
+
+        foreach ($result->items() as $req) {
+            $this->assertEquals('pending', $req->status);
+        }
     }
 }
