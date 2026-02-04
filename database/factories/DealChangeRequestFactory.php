@@ -14,7 +14,7 @@ class DealChangeRequestFactory extends Factory
     public function definition(): array
     {
         return [
-            'deal_id' => Deal::factory(),
+            'deal_id' => Deal::factory()->create()->id,
             'changes' => [
                 'field' => 'discount',
                 'old_value' => $this->faker->randomFloat(2, 5, 20),
@@ -22,7 +22,7 @@ class DealChangeRequestFactory extends Factory
             ],
             'status' => DealChangeRequest::STATUS_PENDING,
             'rejection_reason' => null,
-            'requested_by' => User::factory(),
+            'requested_by' => User::factory()->create()->id,
             'reviewed_by' => null,
             'reviewed_at' => null,
         ];
@@ -45,7 +45,7 @@ class DealChangeRequestFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'status' => DealChangeRequest::STATUS_APPROVED,
-                'reviewed_by' => User::factory(),
+                'reviewed_by' => User::factory()->create()->id,
                 'reviewed_at' => now(),
             ];
         });
@@ -57,7 +57,7 @@ class DealChangeRequestFactory extends Factory
             return [
                 'status' => DealChangeRequest::STATUS_REJECTED,
                 'rejection_reason' => $this->faker->sentence(),
-                'reviewed_by' => User::factory(),
+                'reviewed_by' => User::factory()->create()->id,
                 'reviewed_at' => now(),
             ];
         });

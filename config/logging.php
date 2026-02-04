@@ -64,6 +64,12 @@ return [
             'path' => storage_path('logs/EarnException.log'),
             'level' => env('LOG_LEVEL', 'debug'),
         ],
+        'auth' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/auth.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 14,
+        ],
         'earnDebug' => [
             'driver' => 'single',
             'path' => storage_path('logs/MyDebug.log'),

@@ -9,7 +9,6 @@ use App\Models\EntityRole;
 use App\Models\PlatformValidationRequest;
 use App\Models\PlatformChangeRequest;
 use App\Models\PlatformTypeChangeRequest;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PlatformPartnerControllerTest extends TestCase

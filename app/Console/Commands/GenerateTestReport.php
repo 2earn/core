@@ -36,16 +36,14 @@ class GenerateTestReport extends Command
         // Step 1: Run tests (unless skipped)
         if (!$this->option('skip-tests')) {
             $this->info('📝 Running tests...');
-            $this->newLine();
 
             $process = new Process(['php', 'artisan', 'test']);
             $process->setTimeout(300); // 5 minutes timeout
             $process->setWorkingDirectory(base_path());
 
             try {
-                $process->run(function ($type, $buffer) {
-                    echo $buffer;
-                });
+                // Run process without outputting test results - only suppress intermediate output
+                $process->run();
 
                 if (!$process->isSuccessful()) {
                     $this->warn('⚠️  Some tests failed, but continuing with report generation...');
@@ -55,11 +53,8 @@ class GenerateTestReport extends Command
                 $this->error($exception->getMessage());
                 return Command::FAILURE;
             }
-
-            $this->newLine();
         } else {
             $this->info('⏭️  Skipping test execution, using existing results...');
-            $this->newLine();
         }
 
         // Step 2: Parse JUnit XML

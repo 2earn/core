@@ -9,16 +9,19 @@ use App\Models\OrderDetail;
 use App\Models\Platform;
 use App\Models\User;
 use App\Services\Items\ItemService;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class ItemServiceTest extends TestCase
 {
+    use DatabaseTransactions;
 
     protected ItemService $itemService;
 
     protected function setUp(): void
     {
         parent::setUp();
+        // Do not delete the items table here; rely on DatabaseTransactions for isolation
         $this->itemService = new ItemService();
     }
 
@@ -28,10 +31,13 @@ class ItemServiceTest extends TestCase
     public function test_get_items_returns_paginated_results()
     {
         // Arrange
-        Item::factory()->count(10)->create();
+        // create items with a unique token so we only count test-created rows
+        $token = 'TESTITEM-' . uniqid();
+        Item::factory()->count(10)->create(['name' => $token . ' Product']);
 
         // Act
-        $result = $this->itemService->getItems(null, 5);
+        // search by token to isolate test items
+        $result = $this->itemService->getItems($token, 5);
 
         // Assert
         $this->assertCount(5, $result->items());
@@ -44,12 +50,14 @@ class ItemServiceTest extends TestCase
     public function test_get_items_filters_by_search_term()
     {
         // Arrange
-        Item::factory()->create(['name' => 'Product One']);
-        Item::factory()->create(['name' => 'Product Two']);
-        Item::factory()->create(['name' => 'Another Item']);
+        // use a unique token so search only matches these three
+        $token = 'UNIQ-' . uniqid();
+        Item::factory()->create(['name' => $token . ' Product One']);
+        Item::factory()->create(['name' => $token . ' Product Two']);
+        Item::factory()->create(['name' => $token . ' Another Item']);
 
         // Act
-        $result = $this->itemService->getItems('Product', 10);
+        $result = $this->itemService->getItems($token . ' Product', 10);
 
         // Assert
         $this->assertEquals(2, $result->total());

@@ -3,6 +3,7 @@
 namespace Tests\Unit\Services\Faq;
 
 use App\Models\Faq;
+use App\Models\User;
 use App\Services\Faq\FaqService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -247,11 +248,12 @@ class FaqServiceTest extends TestCase
     public function test_create_with_all_fields()
     {
         // Arrange
+        $user = User::factory()->create();
         $data = [
             'question' => 'Test Question',
             'answer' => 'Test Answer',
-            'created_by' => 1,
-            'updated_by' => 1,
+            'created_by' => $user->id,
+            'updated_by' => $user->id,
         ];
 
         // Act
@@ -259,7 +261,7 @@ class FaqServiceTest extends TestCase
 
         // Assert
         $this->assertNotNull($result);
-        $this->assertEquals(1, $result->created_by);
-        $this->assertEquals(1, $result->updated_by);
+        $this->assertEquals($user->id, $result->created_by);
+        $this->assertEquals($user->id, $result->updated_by);
     }
 }

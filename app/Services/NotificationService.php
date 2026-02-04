@@ -205,7 +205,7 @@ class NotificationService
             }
 
             return $notifications;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             Log::error('Error getting notification history: ' . $e->getMessage(), [
                 'filters' => $filters
             ]);
@@ -239,7 +239,7 @@ class NotificationService
                     'pageName' => 'page',
                 ]
             );
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             Log::error('Error getting paginated notification history: ' . $e->getMessage(), [
                 'filters' => $filters
             ]);

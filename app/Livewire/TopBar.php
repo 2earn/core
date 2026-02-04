@@ -48,10 +48,20 @@ class TopBar extends Component
 
     public function logout(settingsManager $settingsManager)
     {
-        $fromSession = session('token_responce');
-        $response = Http::withToken($fromSession['access_token'])->post(config('services.auth_2earn.logout'));
-        Log::notice('Logout :: ' . json_encode($response));
-        Log::notice('Logout :: ' . json_encode($response->body()));
+        try {
+            $fromSession = session('token_responce');
+            if ($fromSession && isset($fromSession['access_token'])) {
+                $response = Http::withToken($fromSession['access_token'])
+                    ->timeout(5)
+                    ->post(config('services.auth_2earn.logout'));
+
+                Log::notice('Logout :: ' . json_encode($response));
+                Log::notice('Logout :: ' . json_encode($response->body()));
+            }
+        } catch (\Exception $e) {
+            Log::error("Logout External API Error: " . $e->getMessage());
+        }
+
         $settingsManager->logoutUser();
         return redirect()->route('login', ['locale' => app()->getLocale()]);
     }

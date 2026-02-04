@@ -110,7 +110,13 @@ class CommunicationBoardServiceTest extends TestCase
     public function test_get_communication_board_items_formats_with_type()
     {
         // Arrange
-        $survey = Survey::factory()->create(['status' => StatusSurvey::OPEN->value, 'published' => true]);
+        $survey = Survey::factory()->create([
+            'status' => StatusSurvey::OPEN->value,
+            'published' => true,
+            'startDate' => null,
+            'endDate' => null,
+            'goals' => null
+        ]);
         $news = News::factory()->enabled()->create();
 
         // Act
