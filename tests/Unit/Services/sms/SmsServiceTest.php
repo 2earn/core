@@ -23,22 +23,46 @@ class SmsServiceTest extends TestCase
      */
     public function test_get_statistics_returns_correct_counts()
     {
-        // Arrange
-        Sms::factory()->count(3)->today()->create();
-        Sms::factory()->count(5)->thisWeek()->create();
-        Sms::factory()->count(7)->thisMonth()->create();
+        // Arrange - Create SMS with specific non-overlapping dates
+        // 3 SMS today
+        Sms::factory()->count(3)->create(['created_at' => now()]);
+
+        // 5 SMS earlier this week (but not today)
+        // Use start of week + 1 day to ensure it's in this week but not today
+        $thisWeekDate = now()->startOfWeek()->addDay();
+        if ($thisWeekDate->isToday()) {
+            $thisWeekDate = now()->startOfWeek()->addDays(2);
+        }
+        Sms::factory()->count(5)->create(['created_at' => $thisWeekDate]);
+
+        // 7 SMS earlier this month (but before this week started)
+        // Use start of month to ensure it's in this month but before this week
+        $thisMonthDate = now()->startOfMonth()->addDay();
+        Sms::factory()->count(7)->create(['created_at' => $thisMonthDate]);
+
+        // 2 SMS from 2 months ago (outside current month)
         Sms::factory()->count(2)->create(['created_at' => now()->subMonths(2)]);
+
         // Act
         $result = $this->smsService->getStatistics();
+
         // Assert
         $this->assertIsArray($result);
         $this->assertArrayHasKey('today', $result);
         $this->assertArrayHasKey('week', $result);
         $this->assertArrayHasKey('month', $result);
         $this->assertArrayHasKey('total', $result);
+
+        // Today should have exactly 3
         $this->assertEquals(3, $result['today']);
-        $this->assertGreaterThanOrEqual(3, $result['week']);
-        $this->assertGreaterThanOrEqual(3, $result['month']);
+
+        // Week should have today (3) + this week (5) = 8
+        $this->assertEquals(8, $result['week']);
+
+        // Month should have all from this month: today (3) + this week (5) + this month (7) = 15
+        $this->assertEquals(15, $result['month']);
+
+        // Total should be all records: 3 + 5 + 7 + 2 = 17
         $this->assertEquals(17, $result['total']);
     }
     /**
