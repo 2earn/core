@@ -63,6 +63,58 @@ class ItemsPartnerControllerTest extends TestCase
                  ->assertJsonStructure(['status', 'message', 'data']);
     }
 
+    public function test_can_show_item_detail()
+    {
+        $item = Item::factory()->create([
+            'platform_id' => $this->platform->id,
+            'deal_id' => $this->deal->id
+        ]);
+
+        $response = $this->getJson($this->baseUrl . '/' . $item->id);
+
+        $response->assertStatus(200)
+                 ->assertJsonStructure([
+                     'status',
+                     'message',
+                     'data' => [
+                         'id',
+                         'name',
+                         'ref',
+                         'price',
+                         'discount',
+                         'discount_2earn',
+                         'photo_link',
+                         'description',
+                         'stock',
+                         'platform_id',
+                         'platform_name',
+                         'is_assigned_to_deal',
+                         'deal',
+                         'created_at',
+                         'updated_at'
+                     ]
+                 ])
+                 ->assertJson([
+                     'status' => 'Success',
+                     'message' => 'Item retrieved successfully'
+                 ]);
+
+        $this->assertEquals($item->id, $response->json('data.id'));
+        $this->assertEquals($item->name, $response->json('data.name'));
+        $this->assertTrue($response->json('data.is_assigned_to_deal'));
+    }
+
+    public function test_show_item_detail_not_found()
+    {
+        $response = $this->getJson($this->baseUrl . '/99999');
+
+        $response->assertStatus(404)
+                 ->assertJson([
+                     'status' => 'Failed',
+                     'message' => 'Item not found'
+                 ]);
+    }
+
     public function test_can_list_items_for_deal()
     {
         // Create validated deal

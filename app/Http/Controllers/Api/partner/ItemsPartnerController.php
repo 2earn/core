@@ -159,6 +159,66 @@ class ItemsPartnerController extends Controller
         ], Response::HTTP_OK);
     }
 
+    public function show($itemId)
+    {
+        try {
+            $item = $this->itemService->findItem($itemId);
+
+            if (!$item) {
+                Log::error(self::LOG_PREFIX . 'Item not found', ['id' => $itemId]);
+                return response()->json([
+                    'status' => 'Failed',
+                    'message' => 'Item not found'
+                ], Response::HTTP_NOT_FOUND);
+            }
+
+            // Load relationships
+            $item->load(['deal:id,name,validated', 'platform:id,name']);
+
+            $itemData = [
+                'id' => $item->id,
+                'name' => $item->name,
+                'ref' => $item->ref,
+                'price' => $item->price,
+                'discount' => $item->discount,
+                'discount_2earn' => $item->discount_2earn,
+                'photo_link' => $item->photo_link,
+                'description' => $item->description,
+                'stock' => $item->stock,
+                'platform_id' => $item->platform_id,
+                'platform_name' => $item->platform?->name,
+                'is_assigned_to_deal' => !is_null($item->deal_id),
+                'deal' => $item->deal ? [
+                    'id' => $item->deal->id,
+                    'name' => $item->deal->name,
+                    'validated' => $item->deal->validated,
+                ] : null,
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at,
+            ];
+
+            Log::info(self::LOG_PREFIX . 'Item retrieved successfully', ['id' => $itemId]);
+
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'Item retrieved successfully',
+                'data' => $itemData
+            ], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Failed to retrieve item', [
+                'id' => $itemId,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Failed to retrieve item',
+                'error' => $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public function listItems(Request $request)
     {
         $validator = Validator::make($request->all(), [
