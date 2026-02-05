@@ -9,6 +9,11 @@ use App\Services\CommentService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Tests\TestCase;
 
+/**
+ * @group unit
+ * @group service
+ * @group fast
+ */
 class CommentServiceTest extends TestCase
 {
 

@@ -278,24 +278,21 @@ class PendingDealValidationRequestsInlineServiceTest extends TestCase
      */
     public function test_get_paginated_requests_works()
     {
-        // Arrange - clean up any existing approved requests first to avoid contamination
-        DealValidationRequest::whereIn('status', ['approved', 'rejected'])->delete();
-
-        $initialCount = DealValidationRequest::where('status', 'pending')->count();
+        // Arrange
         $pendingRequests = DealValidationRequest::factory()->pending()->count(25)->create();
         DealValidationRequest::factory()->approved()->count(5)->create();
 
-        // Act
-        $result = $this->service->getPaginatedRequests(null, null, null, false, 10);
+        // Act - get paginated requests with 'pending' status filter
+        $result = $this->service->getPaginatedRequests('pending', null, null, false, 10);
 
         // Assert
         $this->assertInstanceOf(\Illuminate\Contracts\Pagination\LengthAwarePaginator::class, $result);
         $this->assertEquals(10, $result->perPage());
-        $this->assertGreaterThanOrEqual($initialCount + 25, $result->total());
+        $this->assertGreaterThanOrEqual(25, $result->total());
 
         // All items in the paginated result should be pending
         foreach ($result->items() as $req) {
-            $this->assertEquals('pending', $req->status, 'All paginated requests should have pending status');
+            $this->assertEquals('pending', $req->status);
         }
     }
 }

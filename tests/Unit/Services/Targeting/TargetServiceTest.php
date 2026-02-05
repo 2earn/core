@@ -243,38 +243,4 @@ class TargetServiceTest extends TestCase
         $this->assertEquals('Updated Name', $target->name);
         $this->assertEquals('Updated Description', $target->description);
     }
-
-    /**
-     * Test exists method
-     * TODO: Implement actual test logic
-     */
-    public function test_exists_works()
-    {
-        // Arrange
-        // TODO: Set up test data
-
-        // Act
-        // $result = $this->service->exists();
-
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for exists not yet implemented');
-    }
-
-    /**
-     * Test getAll method
-     * TODO: Implement actual test logic
-     */
-    public function test_get_all_works()
-    {
-        // Arrange
-        // TODO: Set up test data
-
-        // Act
-        // $result = $this->service->getAll();
-
-        // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getAll not yet implemented');
-    }
 }

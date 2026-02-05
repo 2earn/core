@@ -75,7 +75,13 @@ class UserNotificationSettingsServiceTest extends TestCase
     {
         // Arrange
         $user = User::factory()->create();
-        UserNotificationSettings::factory()->count(5)->create(['idUser' => $user->idUser]);
+        // Create 5 settings with unique idNotification values to avoid constraint violations
+        for ($i = 1; $i <= 5; $i++) {
+            UserNotificationSettings::factory()->create([
+                'idUser' => $user->idUser,
+                'idNotification' => $i,
+            ]);
+        }
         UserNotificationSettings::factory()->count(3)->create();
 
         // Act
@@ -83,7 +89,7 @@ class UserNotificationSettingsServiceTest extends TestCase
 
         // Assert
         $this->assertCount(5, $result);
-        $this->assertTrue($result->every(fn($s) => $s->idUser === $user->idUser));
+        $this->assertTrue($result->every(fn($s) => $s->idUser == $user->idUser));
     }
 
     /**

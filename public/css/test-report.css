@@ -226,6 +226,12 @@ body {
     background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
 }
 
+.test-suite-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .test-suite-title {
     font-size: 1.4em;
     font-weight: 700;
@@ -233,6 +239,88 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
+}
+
+.test-suite-groups {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.group-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+}
+
+.group-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Group-specific badge colors */
+.group-badge.group-slow {
+    background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+    color: #fff;
+}
+
+.group-badge.group-fast {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: #fff;
+}
+
+.group-badge.group-integration {
+    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+    color: #fff;
+}
+
+.group-badge.group-unit {
+    background: linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%);
+    color: #fff;
+}
+
+.group-badge.group-feature {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+}
+
+.group-badge.group-api {
+    background: linear-gradient(135deg, #fd7e14 0%, #e8590c 100%);
+    color: #fff;
+}
+
+.group-badge.group-database {
+    background: linear-gradient(135deg, #20c997 0%, #17a689 100%);
+    color: #fff;
+}
+
+.group-badge.group-vip {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    color: #333;
+    font-weight: 700;
+}
+
+.group-badge.group-service {
+    background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+    color: #fff;
+}
+
+.group-badge.group-controller {
+    background: linear-gradient(135deg, #e83e8c 0%, #d63384 100%);
+    color: #fff;
+}
+
+/* Default for unknown groups */
+.group-badge:not([class*="group-slow"]):not([class*="group-fast"]):not([class*="group-integration"]):not([class*="group-unit"]):not([class*="group-feature"]):not([class*="group-api"]):not([class*="group-database"]):not([class*="group-vip"]):not([class*="group-service"]):not([class*="group-controller"]) {
+    background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+    color: #fff;
 }
 
 .test-suite-stats {
@@ -399,6 +487,15 @@ body {
         flex-direction: column;
         gap: 15px;
         align-items: flex-start;
+    }
+
+    .test-suite-info {
+        width: 100%;
+    }
+
+    .test-suite-stats {
+        width: 100%;
+        justify-content: flex-start;
     }
 
     .test-case {

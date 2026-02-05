@@ -74,7 +74,8 @@ class OAuthControllerTest extends TestCase
 
         // Should not authenticate with invalid token
         $this->assertGuest();
-        $this->assertTrue(in_array($response->status(), [302, 400, 401, 404, 500]));
+        // Expect 422 status code for unprocessable entity
+        $this->assertEquals(422, $response->status());
     }
 
     #[Test]
@@ -127,6 +128,7 @@ class OAuthControllerTest extends TestCase
 
         // Should fail without proper token
         $this->assertGuest();
-        $this->assertTrue(in_array($response->status(), [302, 400, 401, 404, 500]));
+        // Expect 422 status code for unprocessable entity (missing id_token)
+        $this->assertEquals(422, $response->status());
     }
 }

@@ -320,36 +320,57 @@ class ConditionServiceTest extends TestCase
     }
 
     /**
-     * Test getOperators method
-     * TODO: Implement actual test logic
+     * Test getOperators method returns array of operators
      */
     public function test_get_operators_works()
     {
-        // Arrange
-        // TODO: Set up test data
-
         // Act
-        // $result = $this->service->getOperators();
+        $result = $this->conditionService->getOperators();
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getOperators not yet implemented');
+        $this->assertIsArray($result);
+        $this->assertNotEmpty($result);
+
+        // Verify structure
+        foreach ($result as $operator) {
+            $this->assertIsArray($operator);
+            $this->assertArrayHasKey('name', $operator);
+            $this->assertArrayHasKey('value', $operator);
+        }
+
+        // Verify some expected operators exist
+        $operatorValues = array_column($result, 'value');
+        $this->assertContains('u.id', $operatorValues);
+        $this->assertContains('u.name', $operatorValues);
+        $this->assertContains('u.email', $operatorValues);
     }
 
     /**
-     * Test getOperands method
-     * TODO: Implement actual test logic
+     * Test getOperands method returns array of operands
      */
     public function test_get_operands_works()
     {
-        // Arrange
-        // TODO: Set up test data
-
         // Act
-        // $result = $this->service->getOperands();
+        $result = $this->conditionService->getOperands();
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getOperands not yet implemented');
+        $this->assertIsArray($result);
+        $this->assertNotEmpty($result);
+
+        // Verify simple operands are present
+        $this->assertContains('=', $result);
+        $this->assertContains('!=', $result);
+        $this->assertContains('<', $result);
+        $this->assertContains('>', $result);
+        $this->assertContains('<=', $result);
+        $this->assertContains('>=', $result);
+
+        // Verify complex operands are present
+        $this->assertContains('END WITH', $result);
+        $this->assertContains('START WITH', $result);
+        $this->assertContains('CONTAIN', $result);
+
+        // Verify total count (6 simple + 3 complex = 9)
+        $this->assertCount(9, $result);
     }
 }

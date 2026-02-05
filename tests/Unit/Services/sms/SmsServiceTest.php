@@ -23,23 +23,56 @@ class SmsServiceTest extends TestCase
      */
     public function test_get_statistics_returns_correct_counts()
     {
-        // Arrange
-        Sms::factory()->count(3)->today()->create();
-        Sms::factory()->count(5)->thisWeek()->create();
-        Sms::factory()->count(7)->thisMonth()->create();
+        // Arrange - Create SMS with specific dates that don't overlap
+
+        // 3 SMS today
+        Sms::factory()->count(3)->create(['created_at' => now()]);
+
+        // 5 SMS earlier this week (ensure it's Monday of current week to avoid overlap)
+        $startOfWeek = now()->startOfWeek(); // Monday
+        Sms::factory()->count(5)->create(['created_at' => $startOfWeek->copy()->addHours(12)]);
+
+        // 7 SMS earlier this month but before current week
+        // Go to 2nd day of month, which should be before most weeks start
+        $startOfMonth = now()->startOfMonth()->addDay()->setTime(12, 0);
+
+        // Only create "this month" records if they don't fall in current week
+        if ($startOfMonth->lessThan(now()->startOfWeek())) {
+            Sms::factory()->count(7)->create(['created_at' => $startOfMonth]);
+            $expectedMonth = 15; // 3 + 5 + 7
+            $expectedWeek = 8; // 3 + 5
+        } else {
+            // If start of month is in current week, all records will be in this week
+            $expectedMonth = 8; // 3 + 5
+            $expectedWeek = 8; // 3 + 5
+        }
+
+        // 2 SMS from 2 months ago (outside current month)
         Sms::factory()->count(2)->create(['created_at' => now()->subMonths(2)]);
+
+        $expectedTotal = $expectedMonth + 2;
+
         // Act
         $result = $this->smsService->getStatistics();
+
         // Assert
         $this->assertIsArray($result);
         $this->assertArrayHasKey('today', $result);
         $this->assertArrayHasKey('week', $result);
         $this->assertArrayHasKey('month', $result);
         $this->assertArrayHasKey('total', $result);
+
+        // Today should have exactly 3
         $this->assertEquals(3, $result['today']);
-        $this->assertGreaterThanOrEqual(3, $result['week']);
-        $this->assertGreaterThanOrEqual(3, $result['month']);
-        $this->assertEquals(17, $result['total']);
+
+        // Week should have today (3) + this week (5) = 8 or all if month start is in week
+        $this->assertEquals($expectedWeek, $result['week']);
+
+        // Month should have all from this month
+        $this->assertEquals($expectedMonth, $result['month']);
+
+        // Total should be all records
+        $this->assertEquals($expectedTotal, $result['total']);
     }
     /**
      * Test getStatistics returns zeros when no SMS exist
