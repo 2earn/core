@@ -229,6 +229,9 @@ class GenerateTestReport extends Command
             $displayName = end($parts);
         }
 
+        // Extract groups from test class file
+        $groups = $this->extractGroupsFromTestClass($suiteName);
+
         $suite = [
             'name' => $displayName,
             'full_name' => $suiteName,
@@ -237,6 +240,7 @@ class GenerateTestReport extends Command
             'errors' => (int) $testsuite['errors'],
             'passed' => (int) $testsuite['tests'] - (int) $testsuite['failures'] - (int) $testsuite['errors'],
             'time' => (float) $testsuite['time'],
+            'groups' => $groups,
             'test_cases' => []
         ];
 
@@ -272,5 +276,57 @@ class GenerateTestReport extends Command
         }
 
         $testSuites[] = $suite;
+    }
+
+    /**
+     * Extract @group annotations from test class file
+     */
+    private function extractGroupsFromTestClass(string $className): array
+    {
+        $groups = [];
+
+        try {
+            // Convert namespace to file path
+            $classPath = str_replace('\\', DIRECTORY_SEPARATOR, $className);
+            $possiblePaths = [
+                base_path('tests/' . str_replace('Tests\\', '', $classPath) . '.php'),
+                base_path($classPath . '.php'),
+            ];
+
+            $filePath = null;
+            foreach ($possiblePaths as $path) {
+                if (File::exists($path)) {
+                    $filePath = $path;
+                    break;
+                }
+            }
+
+            if (!$filePath) {
+                return $groups;
+            }
+
+            $content = File::get($filePath);
+
+            // Extract @group annotations from class-level PHPDoc
+            if (preg_match('/\/\*\*.*?class\s+\w+/s', $content, $matches)) {
+                $docBlock = $matches[0];
+                if (preg_match_all('/@group\s+(\w+)/', $docBlock, $groupMatches)) {
+                    $groups = array_merge($groups, $groupMatches[1]);
+                }
+            }
+
+            // Also check for #[Group] attributes (PHPUnit 10+)
+            if (preg_match_all('/#\[Group\([\'"](\w+)[\'"]\)\]/', $content, $attributeMatches)) {
+                $groups = array_merge($groups, $attributeMatches[1]);
+            }
+
+            // Remove duplicates and return
+            $groups = array_unique($groups);
+
+        } catch (\Exception $e) {
+            // Silently fail - groups are optional
+        }
+
+        return array_values($groups);
     }
 }

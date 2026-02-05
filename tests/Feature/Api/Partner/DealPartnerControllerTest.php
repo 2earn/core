@@ -9,6 +9,11 @@ use App\Models\Platform;
 use App\Models\EntityRole;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
+/**
+ * @group feature
+ * @group api
+ * @group controller
+ */
 class DealPartnerControllerTest extends TestCase
 {
     use DatabaseTransactions;

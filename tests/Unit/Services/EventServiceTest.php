@@ -7,6 +7,11 @@ use App\Services\EventService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Tests\TestCase;
 
+/**
+ * @group unit
+ * @group service
+ * @group database
+ */
 class EventServiceTest extends TestCase
 {
 

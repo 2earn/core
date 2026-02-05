@@ -78,8 +78,19 @@
             @forelse($testSuites as $suite)
                 <div class="test-suite">
                     <div class="test-suite-header">
-                        <div class="test-suite-title">
-                            {{ $suite['name'] }}
+                        <div class="test-suite-info">
+                            <div class="test-suite-title">
+                                {{ $suite['name'] }}
+                            </div>
+                            @if(!empty($suite['groups']))
+                                <div class="test-suite-groups">
+                                    @foreach($suite['groups'] as $group)
+                                        <span class="group-badge group-{{ $group }}">
+                                            {{ $group }}
+                                        </span>
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
                         <div class="test-suite-stats">
                             <span class="test-suite-stat passed">
