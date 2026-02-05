@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api\payment;
 
+use App\Enums\OrderEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\SimulationOrder;
 use App\Services\Orders\Ordering;
-use App\Enums\OrderEnum;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -178,7 +178,7 @@ class OrderSimulationController extends Controller
             }
 
             // Perform simulation only
-            $simulation = Ordering::simulate($order);
+            $simulation = Ordering::simulate($order, true);
 
             // Log the simulation result
             Log::info(self::LOG_PREFIX . 'Order simulation result', [

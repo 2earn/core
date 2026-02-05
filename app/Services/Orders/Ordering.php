@@ -283,7 +283,7 @@ class Ordering
         return $order->update(['paid_cash' => $amount_after_discount]);
     }
 
-    public static function simulate(Order $order)
+    public static function simulate(Order $order, bool $withSave = true)
     {
         $simulation = false;
         if (self::runChecks($order)) {
@@ -299,17 +299,21 @@ class Ordering
 
             $simulation = ['order' => $order, 'order_deal' => $order_deal, 'bfssTables' => $bfssTables];
 
-            // Save simulation to database
-            try {
-                SimulationOrder::createFromSimulation($order->id, $simulation);
-                Log::info('[Ordering] Simulation saved to database', ['order_id' => $order->id]);
-            } catch (\Exception $e) {
-                Log::error('[Ordering] Failed to save simulation to database', [
-                    'order_id' => $order->id,
-                    'error' => $e->getMessage(),
-                    'trace' => $e->getTraceAsString()
-                ]);
-                // Don't throw - simulation save failure shouldn't stop the process
+            // Save simulation to database only if $withSave is true
+            if ($withSave) {
+                try {
+                    SimulationOrder::createFromSimulation($order->id, $simulation);
+                    Log::info('[Ordering] Simulation saved to database', ['order_id' => $order->id]);
+                } catch (\Exception $e) {
+                    Log::error('[Ordering] Failed to save simulation to database', [
+                        'order_id' => $order->id,
+                        'error' => $e->getMessage(),
+                        'trace' => $e->getTraceAsString()
+                    ]);
+                    // Don't throw - simulation save failure shouldn't stop the process
+                }
+            } else {
+                Log::debug('[Ordering] Simulation not saved to database (withSave=false)', ['order_id' => $order->id]);
             }
         }
         return $simulation;
