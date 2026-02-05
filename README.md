@@ -240,6 +240,67 @@ The generated HTML report includes:
 - Easy navigation
 - Mobile-friendly layout
 
+**🏷️ Group Badges (Category Tags):**
+- **Automatic Detection:** Extracts PHPUnit `@group` annotations from test files
+- **Visual Categories:** Displays test groups as colorful gradient badges
+- **10+ Pre-styled Groups:** Includes colors for common groups (slow, fast, unit, integration, api, etc.)
+- **Custom Support:** Easy to add custom group colors via CSS
+- **Multiple Groups:** Shows multiple badges per test suite
+- **Hover Effects:** Smooth animations on badge interaction
+
+**Available Badge Colors:**
+- 🟡 `slow` - Orange warning gradient
+- 🟢 `fast` - Green success gradient
+- 🟣 `unit` - Purple gradient
+- 🔵 `integration` - Cyan gradient
+- 🟣 `feature` - Blue-purple gradient
+- 🟠 `api` - Orange gradient
+- 🟢 `database` - Teal gradient
+- 🟡 `vip` - Gold gradient
+- ⚫ `service` - Gray gradient
+- 🔴 `controller` - Pink gradient
+- ⚫ `custom` - Default gray for unknown groups
+
+---
+
+#### Adding Groups to Tests
+
+To display badges in the report, add `@group` annotations to your test classes:
+
+```php
+/**
+ * @group unit
+ * @group service
+ * @group fast
+ */
+class CommentServiceTest extends TestCase
+{
+    // your tests...
+}
+```
+
+**PHPUnit 10+ Attribute Syntax (also supported):**
+```php
+#[Group('slow')]
+#[Group('integration')]
+class PaymentServiceTest extends TestCase
+{
+    // your tests...
+}
+```
+
+**Running Specific Groups:**
+```bash
+# Run only fast tests
+php artisan test --group=fast
+
+# Exclude slow tests
+php artisan test --exclude-group=slow
+
+# Multiple groups
+php artisan test --group=unit,service
+```
+
 ---
 
 #### Usage Examples
@@ -572,6 +633,10 @@ Comprehensive documentation is available in:
 - **SKIPPED_TESTS_IMPLEMENTED.md** - Details on integration tests
 - **PHPUNIT_WARNINGS_FIXED.md** - PHPUnit configuration guide
 - **TEST_FIX_API_CONTROLLER.md** - Troubleshooting examples
+- **TEST_REPORT_GROUP_BADGES.md** - Complete guide to group badges feature
+- **TEST_REPORT_GROUP_BADGES_EXAMPLES.md** - Visual examples and demos
+- **TEST_REPORT_CUSTOM_GROUP_COLORS.md** - Guide for adding custom badge colors
+- **TEST_REPORT_GROUP_BADGES_QUICKSTART.md** - Quick start guide for group badges
 
 ---
 
