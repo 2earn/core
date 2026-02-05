@@ -1,0 +1,459 @@
+{
+  "info": {
+    "name": "User Discount Balance API",
+    "description": "API endpoint to retrieve user's discount balance from user_current_balance_horisontals table",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get User Discount Balance - Success",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/users/discount-balance?user_id={{user_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "users",
+            "discount-balance"
+          ],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}",
+              "description": "The auto-increment ID of the user (required)"
+            }
+          ]
+        },
+        "description": "Retrieves the discount balance for a user from the user_current_balance_horisontals table."
+      },
+      "response": [
+        {
+          "name": "Success with Balance",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/partner/users/discount-balance?user_id=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "partner",
+                "users",
+                "discount-balance"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"status\": true,\n    \"message\": \"Discount balance retrieved successfully\",\n    \"data\": {\n        \"user_id\": 1,\n        \"idUser\": \"123456789\",\n        \"user_name\": \"John Doe\",\n        \"user_email\": \"john@example.com\",\n        \"discount_balance\": 250.50\n    }\n}"
+        },
+        {
+          "name": "Success with Zero Balance",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/partner/users/discount-balance?user_id=2",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "partner",
+                "users",
+                "discount-balance"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"status\": true,\n    \"message\": \"No balance record found. Discount balance is 0.\",\n    \"data\": {\n        \"user_id\": 2,\n        \"idUser\": \"987654321\",\n        \"user_name\": \"Jane Smith\",\n        \"user_email\": \"jane@example.com\",\n        \"discount_balance\": 0\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Get User Discount Balance - User Not Found",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/users/discount-balance?user_id=99999",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "users",
+            "discount-balance"
+          ],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "99999",
+              "description": "Non-existent user ID"
+            }
+          ]
+        },
+        "description": "Attempt to get discount balance for a non-existent user"
+      },
+      "response": [
+        {
+          "name": "Validation Error - User Not Found",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/partner/users/discount-balance?user_id=99999",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "partner",
+                "users",
+                "discount-balance"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "99999"
+                }
+              ]
+            }
+          },
+          "status": "Unprocessable Entity",
+          "code": 422,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"status\": false,\n    \"message\": \"Validation failed\",\n    \"errors\": {\n        \"user_id\": [\n            \"The specified user does not exist\"\n        ]\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Get User Discount Balance - Missing User ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/users/discount-balance",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "users",
+            "discount-balance"
+          ]
+        },
+        "description": "Attempt to get discount balance without providing user_id"
+      },
+      "response": [
+        {
+          "name": "Validation Error - Missing User ID",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/partner/users/discount-balance",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "partner",
+                "users",
+                "discount-balance"
+              ]
+            }
+          },
+          "status": "Unprocessable Entity",
+          "code": 422,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"status\": false,\n    \"message\": \"Validation failed\",\n    \"errors\": {\n        \"user_id\": [\n            \"User ID is required\"\n        ]\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Get User Discount Balance - Invalid User ID Type",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/users/discount-balance?user_id=invalid",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "users",
+            "discount-balance"
+          ],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "invalid",
+              "description": "Non-integer value"
+            }
+          ]
+        },
+        "description": "Attempt to get discount balance with invalid user_id type"
+      },
+      "response": [
+        {
+          "name": "Validation Error - Invalid Type",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/partner/users/discount-balance?user_id=invalid",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "partner",
+                "users",
+                "discount-balance"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "invalid"
+                }
+              ]
+            }
+          },
+          "status": "Unprocessable Entity",
+          "code": 422,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"status\": false,\n    \"message\": \"Validation failed\",\n    \"errors\": {\n        \"user_id\": [\n            \"User ID must be an integer\"\n        ]\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Get User Discount Balance - Different Values",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/users/discount-balance?user_id={{user_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "users",
+            "discount-balance"
+          ],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            }
+          ]
+        },
+        "description": "Examples of different balance values that can be returned"
+      },
+      "response": [
+        {
+          "name": "Zero Balance",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/partner/users/discount-balance?user_id=3",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "partner",
+                "users",
+                "discount-balance"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"status\": true,\n    \"message\": \"Discount balance retrieved successfully\",\n    \"data\": {\n        \"user_id\": 3,\n        \"idUser\": \"111222333\",\n        \"user_name\": \"User Three\",\n        \"user_email\": \"user3@example.com\",\n        \"discount_balance\": 0\n    }\n}"
+        },
+        {
+          "name": "Small Balance (0.01)",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/partner/users/discount-balance?user_id=4",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "partner",
+                "users",
+                "discount-balance"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"status\": true,\n    \"message\": \"Discount balance retrieved successfully\",\n    \"data\": {\n        \"user_id\": 4,\n        \"idUser\": \"444555666\",\n        \"user_name\": \"User Four\",\n        \"user_email\": \"user4@example.com\",\n        \"discount_balance\": 0.01\n    }\n}"
+        },
+        {
+          "name": "Large Balance (10000.50)",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/partner/users/discount-balance?user_id=5",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "partner",
+                "users",
+                "discount-balance"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "5"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"status\": true,\n    \"message\": \"Discount balance retrieved successfully\",\n    \"data\": {\n        \"user_id\": 5,\n        \"idUser\": \"777888999\",\n        \"user_name\": \"User Five\",\n        \"user_email\": \"user5@example.com\",\n        \"discount_balance\": 10000.50\n    }\n}"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string",
+      "description": "Base URL for the API"
+    },
+    {
+      "key": "user_id",
+      "value": "1",
+      "type": "string",
+      "description": "User ID (auto-increment id from users table)"
+    }
+  ]
+}
