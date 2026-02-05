@@ -112,11 +112,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 });
 
-
-Route::post('/order/process', [OrderSimulationController::class, 'processOrder'])
+// Order Simulation Endpoints
+Route::prefix('/order')->name('api_ext_order_')
     ->withoutMiddleware([\App\Http\Middleware\Authenticate::class])
     ->middleware('check.url')
-    ->name('api_ext_order_process');
+    ->group(function () {
+        Route::post('/process', [OrderSimulationController::class, 'processOrder'])->name('process');
+        Route::post('/simulate', [OrderSimulationController::class, 'simulateOrder'])->name('simulate');
+        Route::post('/run-simulation', [OrderSimulationController::class, 'runSimulation'])->name('run_simulation');
+    });
 
 Route::prefix('/partner/')->name('api_partner_')
     ->withoutMiddleware([\App\Http\Middleware\Authenticate::class])
