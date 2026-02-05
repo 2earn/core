@@ -206,6 +206,7 @@ Route::prefix('/partner/')->name('api_partner_')
                     Route::post('/delete-role', [UserPartnerController::class, 'deleteRole'])->name('delete_role');
                     Route::get('/', [UserPartnerController::class, 'getPartnerPlatforms'])->name('platforms');
                 });
+                Route::get('/discount-balance', [UserPartnerController::class, 'getDiscountBalance'])->name('discount_balance');
                 Route::get('/', [UserController::class, 'getUser'])->name('get_user');
             });
         });

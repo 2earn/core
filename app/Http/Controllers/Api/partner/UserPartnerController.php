@@ -7,10 +7,12 @@ use App\Http\Requests\Api\Partner\AddRoleRequest;
 use App\Http\Requests\Api\Partner\UpdateRoleRequest;
 use App\Http\Requests\Api\Partner\DeleteRoleRequest;
 use App\Http\Requests\Api\Partner\GetPartnerPlatformsRequest;
+use App\Http\Requests\Api\Partner\GetDiscountBalanceRequest;
 use App\Models\AssignPlatformRole;
 use App\Models\User;
 use App\Models\Platform;
 use App\Services\EntityRole\EntityRoleService;
+use App\Services\UserCurrentBalanceHorisontalService;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -20,11 +22,16 @@ class UserPartnerController extends Controller
     private const LOG_PREFIX = '[UserPartnerController] ';
 
     protected EntityRoleService $entityRoleService;
+    protected UserCurrentBalanceHorisontalService $balanceService;
 
-    public function __construct(EntityRoleService $entityRoleService)
+    public function __construct(
+        EntityRoleService $entityRoleService,
+        UserCurrentBalanceHorisontalService $balanceService
+    )
     {
         $this->middleware('check.url');
         $this->entityRoleService = $entityRoleService;
+        $this->balanceService = $balanceService;
     }
 
     // ...existing code...
@@ -325,6 +332,81 @@ class UserPartnerController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Failed to delete role: ' . $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getDiscountBalance(GetDiscountBalanceRequest $request)
+    {
+        $validated = $request->validated();
+        $userId = $validated['user_id'];
+
+        try {
+            // Get user details by auto-increment id
+            $user = User::find($userId);
+
+            if (!$user) {
+                Log::warning(self::LOG_PREFIX . 'User not found', [
+                    'user_id' => $userId
+                ]);
+
+                return response()->json([
+                    'status' => false,
+                    'message' => 'User not found'
+                ], Response::HTTP_NOT_FOUND);
+            }
+
+            // Get discount balance using the service (service expects idUser, not auto-increment id)
+            $discountBalance = $this->balanceService->getStoredDiscount($user->idUser);
+
+            // If no balance record exists, return 0
+            if (is_null($discountBalance)) {
+                Log::info(self::LOG_PREFIX . 'No balance record found for user', [
+                    'user_id' => $userId,
+                    'idUser' => $user->idUser
+                ]);
+
+                return response()->json([
+                    'status' => true,
+                    'message' => 'No balance record found. Discount balance is 0.',
+                    'data' => [
+                        'user_id' => $userId,
+                        'idUser' => $user->idUser,
+                        'user_name' => $user->name,
+                        'user_email' => $user->email,
+                        'discount_balance' => 0
+                    ]
+                ], Response::HTTP_OK);
+            }
+
+            Log::info(self::LOG_PREFIX . 'Discount balance retrieved successfully', [
+                'user_id' => $userId,
+                'idUser' => $user->idUser,
+                'discount_balance' => $discountBalance
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Discount balance retrieved successfully',
+                'data' => [
+                    'user_id' => $userId,
+                    'idUser' => $user->idUser,
+                    'user_name' => $user->name,
+                    'user_email' => $user->email,
+                    'discount_balance' => (float) $discountBalance
+                ]
+            ], Response::HTTP_OK);
+
+        } catch (\Throwable $e) {
+            Log::error(self::LOG_PREFIX . 'Failed to retrieve discount balance', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'user_id' => $userId
+            ]);
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to retrieve discount balance: ' . $e->getMessage()
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

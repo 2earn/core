@@ -5,6 +5,7 @@ namespace Tests\Feature\Api\Partner;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Platform;
+use App\Models\UserCurrentBalanceHorisontal;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserPartnerControllerTest extends TestCase
@@ -346,6 +347,183 @@ class UserPartnerControllerTest extends TestCase
                      'status' => false,
                      'message' => 'Validation failed'
                  ]);
+    }
+
+    public function test_can_get_discount_balance_for_user()
+    {
+        // Create a balance record for the user
+        UserCurrentBalanceHorisontal::create([
+            'user_id' => $this->user->idUser,  // Use idUser, not id
+            'user_id_auto' => $this->user->id,
+            'cash_balance' => 100.0,
+            'bfss_balance' => [],
+            'discount_balance' => 250.50,
+            'tree_balance' => 50.0,
+            'sms_balance' => 10.0,
+            'share_balance' => 75.0,
+            'chances_balance' => []
+        ]);
+
+        $response = $this->getJson($this->baseUrl . '/users/discount-balance?user_id=' . $this->user->id);
+
+        $response->assertStatus(200)
+                 ->assertJsonStructure([
+                     'status',
+                     'message',
+                     'data' => [
+                         'user_id',
+                         'idUser',
+                         'user_name',
+                         'user_email',
+                         'discount_balance'
+                     ]
+                 ])
+                 ->assertJson([
+                     'status' => true,
+                     'message' => 'Discount balance retrieved successfully',
+                     'data' => [
+                         'user_id' => $this->user->id,
+                         'idUser' => $this->user->idUser,
+                         'discount_balance' => 250.50
+                     ]
+                 ]);
+    }
+
+    public function test_get_discount_balance_returns_zero_when_no_balance_record()
+    {
+        // Don't create a balance record
+        $response = $this->getJson($this->baseUrl . '/users/discount-balance?user_id=' . $this->user->id);
+
+        $response->assertStatus(200)
+                 ->assertJsonStructure([
+                     'status',
+                     'message',
+                     'data' => [
+                         'user_id',
+                         'idUser',
+                         'user_name',
+                         'user_email',
+                         'discount_balance'
+                     ]
+                 ])
+                 ->assertJson([
+                     'status' => true,
+                     'message' => 'No balance record found. Discount balance is 0.',
+                     'data' => [
+                         'user_id' => $this->user->id,
+                         'idUser' => $this->user->idUser,
+                         'discount_balance' => 0
+                     ]
+                 ]);
+    }
+
+    public function test_get_discount_balance_returns_zero_when_discount_is_null()
+    {
+        // Create a balance record with null discount_balance
+        UserCurrentBalanceHorisontal::create([
+            'user_id' => $this->user->idUser,  // Use idUser, not id
+            'user_id_auto' => $this->user->id,
+            'cash_balance' => 100.0,
+            'bfss_balance' => [],
+            'discount_balance' => null,
+            'tree_balance' => 50.0,
+            'sms_balance' => 10.0,
+            'share_balance' => 75.0,
+            'chances_balance' => []
+        ]);
+
+        $response = $this->getJson($this->baseUrl . '/users/discount-balance?user_id=' . $this->user->id);
+
+        $response->assertStatus(200)
+                 ->assertJson([
+                     'status' => true,
+                     'data' => [
+                         'user_id' => $this->user->id,
+                         'idUser' => $this->user->idUser,
+                         'discount_balance' => 0
+                     ]
+                 ]);
+    }
+
+    public function test_get_discount_balance_fails_without_user_id()
+    {
+        $response = $this->getJson($this->baseUrl . '/users/discount-balance');
+
+        $response->assertStatus(422)
+                 ->assertJson([
+                     'status' => false,
+                     'message' => 'Validation failed'
+                 ]);
+    }
+
+    public function test_get_discount_balance_fails_with_invalid_user_id()
+    {
+        $response = $this->getJson($this->baseUrl . '/users/discount-balance?user_id=99999');
+
+        $response->assertStatus(422)
+                 ->assertJson([
+                     'status' => false,
+                     'message' => 'Validation failed'
+                 ]);
+    }
+
+    public function test_get_discount_balance_fails_with_non_integer_user_id()
+    {
+        $response = $this->getJson($this->baseUrl . '/users/discount-balance?user_id=invalid');
+
+        $response->assertStatus(422)
+                 ->assertJson([
+                     'status' => false,
+                     'message' => 'Validation failed'
+                 ]);
+    }
+
+    public function test_get_discount_balance_with_different_balance_values()
+    {
+        $testCases = [
+            ['balance' => 0, 'expected' => 0],
+            ['balance' => 0.01, 'expected' => 0.01],
+            ['balance' => 999.99, 'expected' => 999.99],
+            ['balance' => 10000.50, 'expected' => 10000.50],
+        ];
+
+        foreach ($testCases as $index => $testCase) {
+            $testUser = User::factory()->create();
+
+            UserCurrentBalanceHorisontal::create([
+                'user_id' => $testUser->idUser,  // Use idUser, not id
+                'user_id_auto' => $testUser->id,
+                'cash_balance' => 0,
+                'bfss_balance' => [],
+                'discount_balance' => $testCase['balance'],
+                'tree_balance' => 0,
+                'sms_balance' => 0,
+                'share_balance' => 0,
+                'chances_balance' => []
+            ]);
+
+            $response = $this->getJson($this->baseUrl . '/users/discount-balance?user_id=' . $testUser->id);
+
+            $response->assertStatus(200)
+                     ->assertJson([
+                         'status' => true,
+                         'data' => [
+                             'user_id' => $testUser->id,
+                             'idUser' => $testUser->idUser,
+                             'discount_balance' => $testCase['expected']
+                         ]
+                     ]);
+        }
+    }
+
+    public function test_get_discount_balance_fails_without_valid_ip()
+    {
+        $this->withServerVariables(['REMOTE_ADDR' => '192.168.1.1']);
+
+        $response = $this->getJson($this->baseUrl . '/users/discount-balance?user_id=' . $this->user->id);
+
+        $response->assertStatus(403)
+                 ->assertJson(['error' => 'Unauthorized. Invalid IP.']);
     }
 }
 
