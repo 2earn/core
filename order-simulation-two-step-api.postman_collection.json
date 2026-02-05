@@ -1,0 +1,417 @@
+{
+  "info": {
+    "name": "Order Simulation API - Two-Step Process",
+    "description": "API endpoints for order simulation and execution in a two-step process",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Step 1: Simulate Order",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"order_id\": {{order_id}}\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/order/simulate",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "order",
+            "simulate"
+          ]
+        },
+        "description": "Simulates an order without executing it. Returns calculation preview including discounts and final amounts."
+      },
+      "response": [
+        {
+          "name": "Success - Simulation Complete",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"order_id\": 123\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/order/simulate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "order",
+                "simulate"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"status\": \"Success\",\n    \"message\": \"Order simulation completed successfully\",\n    \"data\": {\n        \"order_id\": 123,\n        \"simulation\": {\n            \"total_amount\": 100.00,\n            \"partner_discount\": 5.00,\n            \"amount_after_partner_discount\": 95.00,\n            \"earn_discount\": 10.00,\n            \"amount_after_earn_discount\": 85.00,\n            \"deal_discount_percentage\": 15,\n            \"deal_discount\": 12.75,\n            \"amount_after_deal_discount\": 72.25,\n            \"total_discount\": 27.75,\n            \"final_discount\": 27.75,\n            \"final_discount_percentage\": 27.75,\n            \"lost_discount\": 0,\n            \"final_amount\": 72.25\n        },\n        \"note\": \"Simulation complete. Use runSimulation endpoint to execute the order.\"\n    }\n}"
+        },
+        {
+          "name": "Error - Invalid Status",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"order_id\": 123\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/order/simulate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "order",
+                "simulate"
+              ]
+            }
+          },
+          "status": "Locked",
+          "code": 423,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"status\": \"Failed\",\n    \"message\": \"Order status is not eligible for simulation.\",\n    \"current_status\": \"Dispatched\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Step 2: Run Simulation (Execute Order)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"order_id\": {{order_id}}\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/order/run-simulation",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "order",
+            "run-simulation"
+          ]
+        },
+        "description": "Simulates and executes an order. Updates balances, dispatches the order, and completes the payment."
+      },
+      "response": [
+        {
+          "name": "Success - Order Dispatched",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"order_id\": 123\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/order/run-simulation",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "order",
+                "run-simulation"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"order_id\": \"123\",\n    \"status\": \"success\",\n    \"amount\": 100.00,\n    \"currency\": \"USD\",\n    \"discount-available\": 27.75,\n    \"lost-Discount\": 0,\n    \"paid-with-BFS\": 22.25,\n    \"paid-with-Cash\": 50.00,\n    \"transaction_id\": \"TXN-123\",\n    \"message\": \"Payment successfully completed\",\n    \"timestamp\": \"2026-02-05T10:30:00+00:00\"\n}"
+        },
+        {
+          "name": "Error - Order Not Dispatched",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"order_id\": 123\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/order/run-simulation",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "order",
+                "run-simulation"
+              ]
+            }
+          },
+          "status": "Unprocessable Entity",
+          "code": 422,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"status\": \"Failed\",\n    \"message\": \"Order could not be dispatched\",\n    \"order_id\": 123,\n    \"current_status\": \"Ready\",\n    \"order\": {}\n}"
+        }
+      ]
+    },
+    {
+      "name": "Process Order (Original - One Step)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"order_id\": {{order_id}}\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/order/process",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "order",
+            "process"
+          ]
+        },
+        "description": "Original endpoint that performs simulation and execution in one call. Kept for backward compatibility."
+      },
+      "response": [
+        {
+          "name": "Success - Order Processed",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"order_id\": 123\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/order/process",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "order",
+                "process"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"order_id\": \"123\",\n    \"status\": \"success\",\n    \"amount\": 100.00,\n    \"currency\": \"USD\",\n    \"discount-available\": 27.75,\n    \"lost-Discount\": 0,\n    \"paid-with-BFS\": 22.25,\n    \"paid-with-Cash\": 50.00,\n    \"transaction_id\": \"TXN-123\",\n    \"message\": \"Payment successfully completed\",\n    \"timestamp\": \"2026-02-05T10:30:00+00:00\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Simulate Order - Missing Order ID",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/order/simulate",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "order",
+            "simulate"
+          ]
+        },
+        "description": "Test validation error when order_id is missing"
+      },
+      "response": [
+        {
+          "name": "Validation Error",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/order/simulate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "order",
+                "simulate"
+              ]
+            }
+          },
+          "status": "Unprocessable Entity",
+          "code": 422,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"status\": \"Failed\",\n    \"message\": \"Validation failed\",\n    \"errors\": {\n        \"order_id\": [\n            \"The order id field is required.\"\n        ]\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Run Simulation - Invalid Order ID",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"order_id\": 99999\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/order/run-simulation",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "order",
+            "run-simulation"
+          ]
+        },
+        "description": "Test validation error when order_id doesn't exist"
+      },
+      "response": [
+        {
+          "name": "Validation Error - Not Found",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"order_id\": 99999\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/order/run-simulation",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "order",
+                "run-simulation"
+              ]
+            }
+          },
+          "status": "Unprocessable Entity",
+          "code": 422,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n    \"status\": \"Failed\",\n    \"message\": \"Validation failed\",\n    \"errors\": {\n        \"order_id\": [\n            \"The selected order id is invalid.\"\n        ]\n    }\n}"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string",
+      "description": "Base URL for the API"
+    },
+    {
+      "key": "order_id",
+      "value": "1",
+      "type": "string",
+      "description": "Order ID to simulate/process"
+    }
+  ]
+}
