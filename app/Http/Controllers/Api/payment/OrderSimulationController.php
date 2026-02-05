@@ -49,6 +49,12 @@ class OrderSimulationController extends Controller
 
             $simulation = Ordering::simulate($order);
 
+            // Log the simulation result
+            Log::info(self::LOG_PREFIX . 'Order simulation result', [
+                'order_id' => $orderId,
+                'simulation' => $simulation
+            ]);
+
             if (!$simulation) {
                 return response()->json([
                     'status' => 'Failed',
@@ -137,6 +143,12 @@ class OrderSimulationController extends Controller
             // Perform simulation only
             $simulation = Ordering::simulate($order);
 
+            // Log the simulation result
+            Log::info(self::LOG_PREFIX . 'Order simulation result', [
+                'order_id' => $orderId,
+                'simulation' => $simulation
+            ]);
+
             if (!$simulation) {
                 Log::error(self::LOG_PREFIX . 'Simulation failed', ['order_id' => $orderId]);
                 return response()->json([
@@ -220,6 +232,12 @@ class OrderSimulationController extends Controller
 
             // Step 1: Simulate
             $simulation = Ordering::simulate($order);
+
+            // Log the simulation result
+            Log::info(self::LOG_PREFIX . 'Order simulation result', [
+                'order_id' => $orderId,
+                'simulation' => $simulation
+            ]);
 
             if (!$simulation) {
                 Log::error(self::LOG_PREFIX . 'Simulation failed during run', ['order_id' => $orderId]);
