@@ -18,7 +18,6 @@ class GenerateTestReport extends Command
                             {--skip-tests : Skip running tests and use existing results}
                             {--open : Open the report in browser after generation}
                             {--timeout=1800 : Maximum execution time in seconds}
-                            {--show-output : Show full test output during execution}
                             {--exclude-group=* : Exclude test groups (default: slow)}
                             {--include-slow : Include slow tests (removes slow from exclude-group)}';
 
@@ -71,12 +70,16 @@ class GenerateTestReport extends Command
                 $totalTests = count($matches[0]);
             }
 
-            // If we couldn't get count, estimate from junit file or use placeholder
-            if ($totalTests === 0) {
-                $this->warn('⚠️  Could not determine total test count, showing progress without percentage...');
+            // Display test count
+            if ($totalTests > 0) {
+                $this->info("📊 {$totalTests} tests will be executed");
+            } else {
+                $this->warn('⚠️  Could not determine total test count');
             }
 
-            // Run tests with progress tracking
+            $this->newLine();
+
+            // Run tests
             $testCommand = ['php', 'artisan', 'test'];
 
             // Add exclude-group arguments to command
@@ -84,104 +87,30 @@ class GenerateTestReport extends Command
                 $testCommand[] = '--exclude-group=' . $group;
             }
 
-            // Add verbose flag if requested
-            if ($this->option('show-output')) {
-                $this->info('Running tests with full output...');
-                if (!empty($excludeGroups)) {
-                    $this->info('Excluding groups: ' . implode(', ', $excludeGroups));
-                }
-            }
-
             $process = new Process($testCommand);
             $process->setTimeout((int) $this->option('timeout')); // Configurable timeout
             $process->setWorkingDirectory(base_path());
 
-            $completedTests = 0;
-            $currentTest = '';
-            $progressBar = null;
-
-            if ($totalTests > 0) {
-                $progressBar = $this->output->createProgressBar($totalTests);
-                $progressBar->setFormat(' %current%/%max% [%bar%] %percent:3s%% - %message%');
-                $progressBar->setMessage('Starting tests...');
-                $progressBar->start();
-            }
-
             try {
-                $process->run(function ($type, $buffer) use (&$completedTests, &$currentTest, $progressBar, $totalTests) {
+                $process->run(function ($type, $buffer) {
                     if ($type === Process::OUT) {
-                        // If show-output mode, show all output
-                        if ($this->option('show-output')) {
-                            echo $buffer;
-                            return;
-                        }
-
-                        // Track completed tests by looking for test result indicators
-                        $lines = explode("\n", $buffer);
-
-                        foreach ($lines as $line) {
-                            // Match PHPUnit progress indicators (., F, E, S, I, R)
-                            if (preg_match('/^[\s]*[.FESIR]/', $line)) {
-                                $dots = preg_match_all('/[.FESIR]/', $line, $matches);
-                                if ($dots > 0) {
-                                    $completedTests += $dots;
-                                    if ($progressBar) {
-                                        $progressBar->setProgress(min($completedTests, $totalTests));
-                                    }
-                                }
-                            }
-
-                            // Try to capture current test name
-                            if (preg_match('/Tests\\\\.*?::\w+/', $line, $matches)) {
-                                $currentTest = $matches[0];
-                                if ($progressBar) {
-                                    // Shorten the test name for display
-                                    $shortName = substr($currentTest, strrpos($currentTest, '\\') + 1);
-                                    $progressBar->setMessage(substr($shortName, 0, 50));
-                                }
-                            }
-
-                            // Show warning if test is taking too long (for debugging)
-                            if (stripos($line, 'international image') !== false) {
-                                if ($progressBar) {
-                                    $progressBar->setMessage('⚠️ Running slow test: international image...');
-                                } else {
-                                    $this->warn('⚠️ Running potentially slow test: international image works');
-                                }
-                            }
-                        }
-
-                        // If no progress bar, show dots
-                        if (!$progressBar && $completedTests > 0) {
-                            echo '.';
-                        }
+                        echo $buffer;
                     }
                 });
 
-                if ($progressBar) {
-                    $progressBar->finish();
-                    $this->newLine(2);
-                }
+                $this->newLine();
 
                 if (!$process->isSuccessful()) {
                     $this->warn('⚠️  Some tests failed, but continuing with report generation...');
                 }
 
-                $this->info("✓ Completed {$completedTests} tests");
-
             } catch (ProcessFailedException $exception) {
-                if ($progressBar) {
-                    $progressBar->clear();
-                    $this->newLine();
-                }
+                $this->newLine();
                 $this->error('❌ Failed to run tests');
                 $this->error($exception->getMessage());
                 return Command::FAILURE;
             } catch (\Exception $exception) {
-                if ($progressBar) {
-                    $progressBar->clear();
-                    $this->newLine();
-                }
+                $this->newLine();
                 $this->error('❌ Test execution timed out or failed');
                 $this->error($exception->getMessage());
                 $this->warn('⚠️  Attempting to generate report from partial results...');
