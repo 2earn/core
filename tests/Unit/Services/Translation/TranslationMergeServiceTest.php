@@ -288,19 +288,52 @@ class TranslationMergeServiceTest extends TestCase
     }
 
     /**
-     * Test getDefaultSourcePath method
-     * TODO: Implement actual test logic
+     * Test getDefaultSourcePath method returns correct default path
      */
     public function test_get_default_source_path_works()
     {
-        // Arrange
-        // TODO: Set up test data
-
         // Act
-        // $result = $this->service->getDefaultSourcePath();
+        $result = $this->translationMergeService->getDefaultSourcePath('en');
 
         // Assert
-        // TODO: Add assertions
-        $this->markTestIncomplete('Test for getDefaultSourcePath not yet implemented');
+        $this->assertIsString($result);
+        $this->assertStringContainsString('new trans', $result);
+        $this->assertStringEndsWith('en.json', $result);
+        $this->assertEquals(base_path('new trans/en.json'), $result);
+    }
+
+    /**
+     * Test getDefaultSourcePath with different language codes
+     */
+    public function test_get_default_source_path_with_different_languages()
+    {
+        // Test Arabic
+        $resultAr = $this->translationMergeService->getDefaultSourcePath('ar');
+        $this->assertStringEndsWith('ar.json', $resultAr);
+        $this->assertEquals(base_path('new trans/ar.json'), $resultAr);
+
+        // Test French
+        $resultFr = $this->translationMergeService->getDefaultSourcePath('fr');
+        $this->assertStringEndsWith('fr.json', $resultFr);
+        $this->assertEquals(base_path('new trans/fr.json'), $resultFr);
+
+        // Test Spanish
+        $resultEs = $this->translationMergeService->getDefaultSourcePath('es');
+        $this->assertStringEndsWith('es.json', $resultEs);
+        $this->assertEquals(base_path('new trans/es.json'), $resultEs);
+    }
+
+    /**
+     * Test getDefaultSourcePath returns path relative to base path
+     */
+    public function test_get_default_source_path_uses_base_path()
+    {
+        // Act
+        $result = $this->translationMergeService->getDefaultSourcePath('test');
+
+        // Assert
+        $expectedPath = base_path('new trans/test.json');
+        $this->assertEquals($expectedPath, $result);
+        $this->assertStringStartsWith(base_path(), $result);
     }
 }
