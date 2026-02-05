@@ -153,6 +153,292 @@ php artisan test -v
 
 ---
 
+### Test Report Generator
+
+The project includes a powerful **Test Report Generator** command that runs PHPUnit tests and generates a beautiful, interactive HTML report with detailed statistics and test results.
+
+#### Command Overview
+```bash
+php artisan test:report
+```
+
+This command will:
+1. 🧪 Execute all PHPUnit tests (excluding slow tests by default)
+2. 📊 Parse the JUnit XML test results
+3. 🎨 Generate a beautiful HTML report
+4. 📁 Save the report to `tests/reports/test-report.html`
+
+---
+
+#### Command Options
+
+**Basic Usage:**
+```bash
+# Run tests and generate report
+php artisan test:report
+
+# Generate report from existing test results (skip test execution)
+php artisan test:report --skip-tests
+
+# Generate report and open in browser automatically
+php artisan test:report --open
+```
+
+**Advanced Options:**
+
+```bash
+# Include slow tests (by default they are excluded)
+php artisan test:report --include-slow
+
+# Exclude specific test groups
+php artisan test:report --exclude-group=integration --exclude-group=api
+
+# Set custom timeout (default: 1800 seconds / 30 minutes)
+php artisan test:report --timeout=3600
+
+# Combine multiple options
+php artisan test:report --include-slow --open --timeout=600
+```
+
+---
+
+#### Command Options Reference
+
+| Option | Description | Default Value |
+|--------|-------------|---------------|
+| `--skip-tests` | Skip running tests and use existing JUnit XML results | `false` |
+| `--open` | Automatically open the HTML report in your default browser | `false` |
+| `--timeout=N` | Maximum execution time in seconds for test suite | `1800` (30 min) |
+| `--exclude-group=GROUP` | Exclude specific test groups (can be used multiple times) | `slow` |
+| `--include-slow` | Include slow tests (removes "slow" from exclude list) | `false` |
+
+---
+
+#### Report Features
+
+The generated HTML report includes:
+
+**📊 Test Statistics Dashboard:**
+- Total tests executed
+- Passed tests count
+- Failed tests count
+- Skipped tests count
+- Success rate percentage
+- Total execution time
+
+**🎯 Test Suite Breakdown:**
+- Organized by test class
+- Individual test case results
+- Execution time per test
+- Readable test names (formatted from method names)
+- Full error messages for failed tests
+
+**🎨 Visual Design:**
+- Modern, responsive design
+- Color-coded test results (green, red, yellow)
+- Expandable test suite sections
+- Easy navigation
+- Mobile-friendly layout
+
+---
+
+#### Usage Examples
+
+**Example 1: Quick Report Generation**
+```bash
+# Run all tests (except slow) and generate report
+php artisan test:report
+```
+**Output:**
+```
+🧪 Test Report Generator
+
+📝 Running tests...
+   Excluding groups: slow
+
+📊 108 tests will be executed
+
+  PASS  Tests\Feature\Controllers\ApiControllerTest
+  ✓ test_user_is_authenticated
+  ...
+
+📊 Parsing test results...
+🎨 Generating HTML report...
+✅ Test report generated successfully!
+
++--------------+--------+
+| Metric       | Value  |
++--------------+--------+
+| Total Tests  | 1404   |
+| Passed       | 1401   |
+| Failed       | 1      |
+| Skipped      | 2      |
+| Success Rate | 99.79% |
+| Total Time   | 89.31s |
++--------------+--------+
+
+
+📁 Report location: C:\laragon\www\2earn\tests\reports\test-report.html
+```
+
+---
+
+**Example 2: Quick Check Without Re-running Tests**
+```bash
+# Use existing test results to regenerate report
+php artisan test:report --skip-tests --open
+```
+**Use case:** You already ran tests and just want to view the report or regenerate it with updated styling.
+
+---
+
+**Example 3: Complete Test Suite (Including Slow Tests)**
+```bash
+# Run all tests including slow ones
+php artisan test:report --include-slow --timeout=3600
+```
+**Use case:** CI/CD pipelines, comprehensive testing before production deployment.
+
+---
+
+**Example 4: Custom Test Groups**
+```bash
+# Exclude multiple test groups
+php artisan test:report --exclude-group=integration --exclude-group=external --exclude-group=slow
+```
+**Use case:** Running only unit tests for rapid feedback during development.
+
+---
+
+**Example 5: Developer Workflow**
+```bash
+# Quick feedback loop during development
+php artisan test:report --open --timeout=300
+```
+**Use case:** Fast test execution with immediate visual feedback in the browser.
+
+---
+
+#### Report Location
+
+The HTML report is saved to:
+```
+tests/reports/test-report.html
+```
+
+You can open it manually in any browser or use the `--open` flag to open it automatically.
+
+---
+
+#### Requirements
+
+The test report generator requires:
+- ✅ PHPUnit configured with JUnit XML logging
+- ✅ `tests/reports/` directory (created automatically)
+- ✅ Laravel Blade view: `resources/views/test-report.blade.php`
+- ✅ Symfony Process component (included in Laravel)
+
+**PHPUnit Configuration** (`phpunit.xml`):
+```xml
+<logging>
+    <junit outputFile="tests/reports/junit.xml"/>
+</logging>
+```
+
+---
+
+#### Troubleshooting
+
+**Error: JUnit XML file not found**
+```
+❌ JUnit XML file not found at: tests/reports/junit.xml
+   Please run tests first or check your phpunit.xml configuration.
+```
+**Solution:** Ensure your `phpunit.xml` has JUnit logging configured:
+```xml
+<logging>
+    <junit outputFile="tests/reports/junit.xml"/>
+</logging>
+```
+
+---
+
+**Error: Test execution timed out**
+```
+❌ Test execution timed out or failed
+⚠️  Attempting to generate report from partial results...
+```
+**Solution:** Increase the timeout value:
+```bash
+php artisan test:report --timeout=3600
+```
+
+---
+
+**Error: View not found**
+```
+❌ View [test-report] not found
+```
+**Solution:** Ensure the Blade view exists at:
+```
+resources/views/test-report.blade.php
+```
+
+---
+
+#### Benefits
+
+**🚀 Development Benefits:**
+- Visual test results for better understanding
+- Historical test data tracking
+- Easy sharing with team members
+- Beautiful presentation for stakeholders
+
+**⏱️ Time Savings:**
+- No need to parse console output
+- Quick identification of failing tests
+- Instant access to error messages
+- Fast navigation between test suites
+
+**📈 Quality Assurance:**
+- Track test coverage trends
+- Monitor test execution time
+- Identify slow tests easily
+- Maintain test health visibility
+
+---
+
+#### Integration with CI/CD
+
+Add to your CI/CD pipeline:
+
+**GitHub Actions:**
+```yaml
+- name: Run Tests and Generate Report
+  run: php artisan test:report --skip-tests
+  
+- name: Upload Test Report
+  uses: actions/upload-artifact@v3
+  with:
+    name: test-report
+    path: tests/reports/test-report.html
+```
+
+**GitLab CI:**
+```yaml
+test:
+  script:
+    - php artisan test:report
+  artifacts:
+    paths:
+      - tests/reports/test-report.html
+    expire_in: 1 week
+```
+
+---
+
+---
+
 ### Test Coverage
 
 #### Controller Tests (26 files)
