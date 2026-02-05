@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\payment;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\SimulationOrder;
 use App\Services\Orders\Ordering;
 use App\Enums\OrderEnum;
 use Illuminate\Http\JsonResponse;
@@ -62,6 +63,41 @@ class OrderSimulationController extends Controller
                     'message' => 'Simulation Failed.',
                 ], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
+
+            // Compare with last saved simulation
+            $lastSimulation = SimulationOrder::getLatestForOrder($orderId);
+            if ($lastSimulation && $lastSimulation->simulation_data) {
+                // Compare key fields
+                $currentFinalAmount = $simulation['order']->amount_after_discount ?? null;
+                $lastFinalAmount = $lastSimulation->simulation_data['order']['amount_after_discount'] ?? null;
+
+                if ($currentFinalAmount !== $lastFinalAmount) {
+                    Log::error(self::LOG_PREFIX . 'Simulation mismatch detected', [
+                        'order_id' => $orderId,
+                        'current_final_amount' => $currentFinalAmount,
+                        'last_final_amount' => $lastFinalAmount,
+                        'current_simulation' => $simulation,
+                        'last_simulation' => $lastSimulation->simulation_data
+                    ]);
+
+                    return response()->json([
+                        'status' => 'Failed',
+                        'message' => 'Simulation mismatch error. Current simulation differs from last saved simulation.',
+                        'error_code' => 'SIMULATION_MISMATCH',
+                        'details' => [
+                            'current_final_amount' => $currentFinalAmount,
+                            'last_final_amount' => $lastFinalAmount,
+                            'last_simulation_date' => $lastSimulation->created_at->toIso8601String()
+                        ]
+                    ], Response::HTTP_CONFLICT);
+                }
+
+                Log::info(self::LOG_PREFIX . 'Simulation matches last saved simulation', [
+                    'order_id' => $orderId,
+                    'final_amount' => $currentFinalAmount
+                ]);
+            }
+
             Ordering::run($simulation);
 
             $order->refresh();
@@ -248,6 +284,40 @@ class OrderSimulationController extends Controller
                     'status' => 'Failed',
                     'message' => 'Simulation failed.',
                 ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+
+            // Compare with last saved simulation
+            $lastSimulation = SimulationOrder::getLatestForOrder($orderId);
+            if ($lastSimulation && $lastSimulation->simulation_data) {
+                // Compare key fields
+                $currentFinalAmount = $simulation['order']->amount_after_discount ?? null;
+                $lastFinalAmount = $lastSimulation->simulation_data['order']['amount_after_discount'] ?? null;
+
+                if ($currentFinalAmount !== $lastFinalAmount) {
+                    Log::error(self::LOG_PREFIX . 'Simulation mismatch detected', [
+                        'order_id' => $orderId,
+                        'current_final_amount' => $currentFinalAmount,
+                        'last_final_amount' => $lastFinalAmount,
+                        'current_simulation' => $simulation,
+                        'last_simulation' => $lastSimulation->simulation_data
+                    ]);
+
+                    return response()->json([
+                        'status' => 'Failed',
+                        'message' => 'Simulation mismatch error. Current simulation differs from last saved simulation.',
+                        'error_code' => 'SIMULATION_MISMATCH',
+                        'details' => [
+                            'current_final_amount' => $currentFinalAmount,
+                            'last_final_amount' => $lastFinalAmount,
+                            'last_simulation_date' => $lastSimulation->created_at->toIso8601String()
+                        ]
+                    ], Response::HTTP_CONFLICT);
+                }
+
+                Log::info(self::LOG_PREFIX . 'Simulation matches last saved simulation', [
+                    'order_id' => $orderId,
+                    'final_amount' => $currentFinalAmount
+                ]);
             }
 
             Log::info(self::LOG_PREFIX . 'Simulation successful, now running order', ['order_id' => $orderId]);
