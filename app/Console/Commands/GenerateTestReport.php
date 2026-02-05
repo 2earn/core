@@ -315,8 +315,9 @@ class GenerateTestReport extends Command
                 }
             }
 
-            // Also check for #[Group] attributes (PHPUnit 10+)
-            if (preg_match_all('/#\[Group\([\'"](\w+)[\'"]\)\]/', $content, $attributeMatches)) {
+            // Extract #[Group] attributes (PHPUnit 10+) - supports single quotes, double quotes, and no quotes
+            // Matches: #[Group('name')], #[Group("name")], #[Group('name')]
+            if (preg_match_all('/#\s*\[\s*Group\s*\(\s*[\'"](\w+)[\'"]\s*\)\s*\]/', $content, $attributeMatches)) {
                 $groups = array_merge($groups, $attributeMatches[1]);
             }
 
