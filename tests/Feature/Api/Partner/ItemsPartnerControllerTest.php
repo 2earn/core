@@ -423,6 +423,115 @@ class ItemsPartnerControllerTest extends TestCase
         $response->assertStatus(422);
     }
 
+    public function test_can_remove_platform_from_item()
+    {
+        $item = Item::factory()->create([
+            'platform_id' => $this->platform->id,
+            'name' => 'Test Item with Platform'
+        ]);
+
+        $this->assertNotNull($item->platform_id);
+        $this->assertEquals($this->platform->id, $item->platform_id);
+
+        $response = $this->deleteJson($this->baseUrl . '/' . $item->id . '/platform', [
+            'updated_by' => $this->user->id
+        ]);
+
+        $response->assertStatus(200)
+                 ->assertJsonStructure([
+                     'status',
+                     'message',
+                     'data' => [
+                         'id',
+                         'name',
+                         'ref',
+                         'platform_id',
+                         'old_platform_id'
+                     ]
+                 ])
+                 ->assertJson([
+                     'status' => 'Success',
+                     'message' => 'Platform removed from item successfully',
+                     'data' => [
+                         'id' => $item->id,
+                         'platform_id' => null,
+                         'old_platform_id' => $this->platform->id
+                     ]
+                 ]);
+
+        // Verify in database that platform_id is now null
+        $item->refresh();
+        $this->assertNull($item->platform_id);
+    }
+
+    public function test_remove_platform_from_item_not_found()
+    {
+        $response = $this->deleteJson($this->baseUrl . '/99999/platform', [
+            'updated_by' => $this->user->id
+        ]);
+
+        $response->assertStatus(404)
+                 ->assertJson([
+                     'status' => 'Failed',
+                     'message' => 'Item not found'
+                 ]);
+    }
+
+    public function test_remove_platform_from_item_fails_without_updated_by()
+    {
+        $item = Item::factory()->create([
+            'platform_id' => $this->platform->id
+        ]);
+
+        $response = $this->deleteJson($this->baseUrl . '/' . $item->id . '/platform', []);
+
+        $response->assertStatus(422)
+                 ->assertJson([
+                     'status' => 'Failed',
+                     'message' => 'Validation failed'
+                 ]);
+    }
+
+    public function test_remove_platform_from_item_with_invalid_user()
+    {
+        $item = Item::factory()->create([
+            'platform_id' => $this->platform->id
+        ]);
+
+        $response = $this->deleteJson($this->baseUrl . '/' . $item->id . '/platform', [
+            'updated_by' => 99999
+        ]);
+
+        $response->assertStatus(422)
+                 ->assertJson([
+                     'status' => 'Failed',
+                     'message' => 'Validation failed'
+                 ]);
+    }
+
+    public function test_can_remove_platform_from_item_already_without_platform()
+    {
+        $item = Item::factory()->create([
+            'platform_id' => null
+        ]);
+
+        $this->assertNull($item->platform_id);
+
+        $response = $this->deleteJson($this->baseUrl . '/' . $item->id . '/platform', [
+            'updated_by' => $this->user->id
+        ]);
+
+        $response->assertStatus(200)
+                 ->assertJson([
+                     'status' => 'Success',
+                     'message' => 'Platform removed from item successfully',
+                     'data' => [
+                         'platform_id' => null,
+                         'old_platform_id' => null
+                     ]
+                 ]);
+    }
+
     public function test_fails_without_valid_ip()
     {
         $this->withServerVariables(['REMOTE_ADDR' => '192.168.1.1']);

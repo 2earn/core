@@ -161,6 +161,7 @@ Route::prefix('/partner/')->name('api_partner_')
                 Route::post('/', [ItemsPartnerController::class, 'store'])->name('store');
                 Route::get('/{id}', [ItemsPartnerController::class, 'show'])->name('show');
                 Route::put('/{id}', [ItemsPartnerController::class, 'update'])->name('update');
+                Route::delete('/{id}/platform', [ItemsPartnerController::class, 'removePlatformFromItem'])->name('remove_platform');
                 Route::get('/deal/{dealId}', [ItemsPartnerController::class, 'listItemsForDeal'])->name('list_by_deal');
                 Route::post('/deal/add-bulk', [ItemsPartnerController::class, 'addItemsToDeal'])->name('add_to_deal_bulk');
                 Route::post('/deal/remove-bulk', [ItemsPartnerController::class, 'removeItemsFromDeal'])->name('remove_from_deal_bulk');

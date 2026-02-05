@@ -120,6 +120,71 @@ class ItemsPartnerController extends Controller
         ], Response::HTTP_OK);
     }
 
+    public function removePlatformFromItem(Request $request, $itemId)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'updated_by' => 'required|exists:users,id',
+            ]);
+
+            if ($validator->fails()) {
+                Log::error(self::LOG_PREFIX . 'Validation failed', ['errors' => $validator->errors()]);
+                return response()->json([
+                    'status' => 'Failed',
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors()
+                ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+
+            $item = Item::find($itemId);
+            if (!$item) {
+                Log::error(self::LOG_PREFIX . 'Item not found', ['id' => $itemId]);
+                return response()->json([
+                    'status' => 'Failed',
+                    'message' => 'Item not found'
+                ], Response::HTTP_NOT_FOUND);
+            }
+
+            $oldPlatformId = $item->platform_id;
+
+            // Remove platform_id by setting it to null
+            $item->update([
+                'platform_id' => null,
+                'updated_by' => $request->updated_by
+            ]);
+
+            Log::info(self::LOG_PREFIX . 'Platform removed from item successfully', [
+                'item_id' => $itemId,
+                'old_platform_id' => $oldPlatformId,
+                'updated_by' => $request->updated_by
+            ]);
+
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'Platform removed from item successfully',
+                'data' => [
+                    'id' => $item->id,
+                    'name' => $item->name,
+                    'ref' => $item->ref,
+                    'platform_id' => $item->platform_id,
+                    'old_platform_id' => $oldPlatformId
+                ]
+            ], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Failed to remove platform from item', [
+                'item_id' => $itemId,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Failed to remove platform from item',
+                'error' => $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public function listItemsForDeal($dealId)
     {
         $deal = $this->dealService->find($dealId);
