@@ -18,8 +18,7 @@ class GenerateTestReport extends Command
                             {--skip-tests : Skip running tests and use existing results}
                             {--open : Open the report in browser after generation}
                             {--timeout=1800 : Maximum execution time in seconds}
-                            {--exclude-group=* : Exclude test groups (default: slow)}
-                            {--include-slow : Include slow tests (removes slow from exclude-group)}';
+                            {--exclude-group=* : Exclude test groups}';
 
     /**
      * The console command description.
@@ -42,13 +41,6 @@ class GenerateTestReport extends Command
 
             // Determine which groups to exclude
             $excludeGroups = $this->option('exclude-group');
-            if (!$this->option('include-slow')) {
-                if (empty($excludeGroups)) {
-                    $excludeGroups = ['slow'];
-                } elseif (!in_array('slow', $excludeGroups)) {
-                    $excludeGroups[] = 'slow';
-                }
-            }
 
             if (!empty($excludeGroups)) {
                 $this->comment('   Excluding groups: ' . implode(', ', $excludeGroups));
@@ -177,6 +169,7 @@ class GenerateTestReport extends Command
                 ['Total Tests', $stats['total']],
                 ['Passed', $stats['passed']],
                 ['Failed', $stats['failures']],
+                ['Errors', $stats['errors']],
                 ['Skipped', $stats['skipped']],
                 ['Success Rate', $stats['success_rate'] . '%'],
                 ['Total Time', round($stats['time'], 2) . 's'],

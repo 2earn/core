@@ -134,7 +134,13 @@ class UserNotificationSettingsServiceTest extends TestCase
     {
         // Arrange
         $user = User::factory()->create();
-        UserNotificationSettings::factory()->count(4)->create(['idUser' => $user->idUser]);
+        // Create 4 settings with unique idNotification values to avoid constraint violations
+        for ($i = 11; $i <= 14; $i++) {
+            UserNotificationSettings::factory()->create([
+                'idUser' => $user->idUser,
+                'idNotification' => $i,
+            ]);
+        }
 
         // Act
         $result = $this->userNotificationSettingsService->deleteUserNotificationSettings($user->idUser);
