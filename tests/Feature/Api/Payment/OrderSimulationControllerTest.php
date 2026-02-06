@@ -24,6 +24,12 @@ class OrderSimulationControllerTest extends TestCase
         $this->withServerVariables(['REMOTE_ADDR' => '127.0.0.1']);
     }
 
+    protected function tearDown(): void
+    {
+        Mockery::close();
+        parent::tearDown();
+    }
+
     public function test_can_simulate_order_successfully()
     {
         $order = Order::factory()->create([
