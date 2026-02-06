@@ -69,6 +69,14 @@ class OrderSimulationController extends Controller
                 return response()->json([
                     'status' => 'Failed',
                     'message' => 'Simulation Failed.',
+                    'simulation_result' => false,
+                    'simulation_details' => $order->simulation_details ?? 'No details available',
+                    'simulation_datetime' => $order->simulation_datetime ?? now()->toIso8601String(),
+                    'user' => [
+                        'id' => $order->user_id,
+                        'name' => $order->user->name ?? null,
+                        'email' => $order->user->email ?? null,
+                    ]
                 ], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 
@@ -178,6 +186,14 @@ class OrderSimulationController extends Controller
                 return response()->json([
                     'status' => 'Failed',
                     'message' => 'Simulation failed.',
+                    'simulation_result' => false,
+                    'simulation_details' => $order->simulation_details ?? 'No details available',
+                    'simulation_datetime' => $order->simulation_datetime ?? now()->toIso8601String(),
+                    'user' => [
+                        'id' => $order->user_id,
+                        'name' => $order->user->name ?? null,
+                        'email' => $order->user->email ?? null,
+                    ]
                 ], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 
@@ -269,6 +285,14 @@ class OrderSimulationController extends Controller
                 return response()->json([
                     'status' => 'Failed',
                     'message' => 'Simulation failed.',
+                    'simulation_result' => false,
+                    'simulation_details' => $order->simulation_details ?? 'No details available',
+                    'simulation_datetime' => $order->simulation_datetime ?? now()->toIso8601String(),
+                    'user' => [
+                        'id' => $order->user_id,
+                        'name' => $order->user->name ?? null,
+                        'email' => $order->user->email ?? null,
+                    ]
                 ], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 
