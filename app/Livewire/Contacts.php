@@ -65,10 +65,14 @@ class Contacts extends Component
                 } else {
                     if ($contactUser->idUpline == 11111111) {
                         $dateUpline = \DateTime::createFromFormat(config('app.date_format'), $user->dateUpline);
-                        $delaiDateUpline = $dateUpline->diff(now());
-                        $diffDateUpline = ($delaiDateUpline->days * 24) + $delaiDateUpline->h;
-                        if ($diffDateUpline < $sponsorshipRetardatifReservation->IntegerValue) {
-                            $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Available'), 'success', true, false);
+                        if ($dateUpline !== false) {
+                            $delaiDateUpline = $dateUpline->diff(now());
+                            $diffDateUpline = ($delaiDateUpline->days * 24) + $delaiDateUpline->h;
+                            if ($diffDateUpline < $sponsorshipRetardatifReservation->IntegerValue) {
+                                $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Available'), 'success', true, false);
+                            } else {
+                                $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Already has a sponsor'), 'danger', false, false);
+                            }
                         } else {
                             $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Already has a sponsor'), 'danger', false, false);
                         }
@@ -80,11 +84,15 @@ class Contacts extends Component
                 if ($contactUser->availablity == 0) {
                     $contactUsers[$key] = $this->updateUserContact($contactUser, Lang::get('Available'), 'success', true, false);
                 } else {
+                    $diff = 0;
+                    $reste = 0;
                     if (strtotime($contactUser->reserved_at)) {
                         $reserved_at = \DateTime::createFromFormat(config('app.date_format'), $user->reserved_at);
-                        $delai = $reserved_at->diff(now());
-                        $diff = ($delai->days * 24) + $delai->h;
-                        $reste = $reservation - $diff;
+                        if ($reserved_at !== false) {
+                            $delai = $reserved_at->diff(now());
+                            $diff = ($delai->days * 24) + $delai->h;
+                            $reste = $reservation - $diff;
+                        }
                     }
                     if ($contactUser->reserved_by == auth()->user()->idUser) {
                         if ($diff < $reservation) {
@@ -92,9 +100,13 @@ class Contacts extends Component
                         } else {
                             if (!is_null($user->reserved_at) and strtotime($user->reserved_at)) {
                                 $reserved_at = \DateTime::createFromFormat(config('app.date_format'), $user->reserved_at);
-                                $interval = $reserved_at->diff(now());
-                                $delai = ($interval->days * 24) + $interval->h;
-                                $resteReserved = $reservation + $switchBlock - $delai;
+                                if ($reserved_at !== false) {
+                                    $interval = $reserved_at->diff(now());
+                                    $delai = ($interval->days * 24) + $interval->h;
+                                    $resteReserved = $reservation + $switchBlock - $delai;
+                                } else {
+                                    $resteReserved = 0;
+                                }
                             } else {
                                 $resteReserved = 0;
                             }
@@ -106,9 +118,13 @@ class Contacts extends Component
                         if ($diff < $reservation) {
                             if (!is_null($user->reserved_at) and strtotime($user->reserved_at)) {
                                 $reserved_at = \DateTime::createFromFormat(config('app.date_format'), $user->reserved_at);
-                                $interval = $reserved_at->diff(now());
-                                $diff = ($delai->days * 24) + $delai->h;
-                                $reste = $reservation - $diff;
+                                if ($reserved_at !== false) {
+                                    $interval = $reserved_at->diff(now());
+                                    $diff = ($interval->days * 24) + $interval->h;
+                                    $reste = $reservation - $diff;
+                                } else {
+                                    $reste = 0;
+                                }
                             } else {
                                 $reste = 0;
                             }
