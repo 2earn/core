@@ -19,6 +19,7 @@ class OrdersTablePaymentSeeder extends Seeder
      */
     public function run()
     {
+        $ordersNumber = 20;
         $allItems = Item::with(['deal', 'deal.platform'])->where('ref', '!=', '#0001')->get();
 
         // Group items by deal_id, filter items that have deals with platforms
@@ -67,7 +68,6 @@ class OrdersTablePaymentSeeder extends Seeder
 
         $userIds = [2, 213, 325, 384, 3716, 3786];
 
-        $ordersNumber = 10;
 
         $this->command->info("Creating {$ordersNumber} orders without simulation or payment...");
 

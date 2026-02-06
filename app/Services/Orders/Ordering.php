@@ -5,6 +5,7 @@ namespace App\Services\Orders;
 use App\Enums\BalanceOperationsEnum;
 use App\Enums\CommissionTypeEnum;
 use App\Enums\OrderEnum;
+use App\Models\BalanceOperation;
 use App\Models\BFSsBalances;
 use App\Models\CashBalances;
 use App\Models\CommissionBreakDown;
@@ -13,10 +14,10 @@ use App\Models\DiscountBalances;
 use App\Models\Order;
 use App\Models\OrderDeal;
 use App\Models\OrderDetail;
+use App\Models\SimulationOrder;
 use App\Notifications\OrderCompleted;
 use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
-use App\Models\BalanceOperation;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -282,8 +283,9 @@ class Ordering
         return $order->update(['paid_cash' => $amount_after_discount]);
     }
 
-    public static function simulate(Order $order)
+    public static function simulate(Order $order, bool $withSave = true)
     {
+        $simulation = false;
         if (self::runChecks($order)) {
             $order_deal = self::simulateDiscount($order);
             $bfssTables = self::simulateBFSs($order);
@@ -295,9 +297,26 @@ class Ordering
             self::simulateCash($order, $amount);
             $order->updateStatus(OrderEnum::Simulated);
 
-            return ['order' => $order, 'order_deal' => $order_deal, 'bfssTables' => $bfssTables];
+            $simulation = ['order' => $order, 'order_deal' => $order_deal, 'bfssTables' => $bfssTables];
+
+            // Save simulation to database only if $withSave is true
+            if ($withSave) {
+                try {
+                    SimulationOrder::createFromSimulation($order->id, $simulation);
+                    Log::info('[Ordering] Simulation saved to database', ['order_id' => $order->id]);
+                } catch (\Exception $e) {
+                    Log::error('[Ordering] Failed to save simulation to database', [
+                        'order_id' => $order->id,
+                        'error' => $e->getMessage(),
+                        'trace' => $e->getTraceAsString()
+                    ]);
+                    // Don't throw - simulation save failure shouldn't stop the process
+                }
+            } else {
+                Log::debug('[Ordering] Simulation not saved to database (withSave=false)', ['order_id' => $order->id]);
+            }
         }
-        return false;
+        return $simulation;
     }
 
     public static function runDiscount(Order $order, $order_deal, $balances)
