@@ -183,8 +183,10 @@ if (!function_exists('find_actions')) {
         $a = ($total_actions * $max_bonus) / 100;
         $epsilon = 0.0001; // tolérance pour la solution
         $actions_guess = $result_final / (1 + $x); // initial guess
+        $max_iterations = 1000; // Prevent infinite loops
+        $iteration = 0;
 
-        while (true) {
+        while ($iteration < $max_iterations) {
             $b = 1 - exp(-$k * $actions_guess);
             $result = intval($a * $b);
             $calculated_result_final = $result + $x * $actions_guess;
@@ -194,7 +196,11 @@ if (!function_exists('find_actions')) {
             }
 
             $actions_guess -= ($calculated_result_final - $result_final) / (1 + $x);
+            $iteration++;
         }
+
+        // If we reach max iterations, return best guess
+        return $actions_guess;
     }
 }
 if (!function_exists('getFlashGiftedActions')) {
