@@ -6,9 +6,8 @@ use Tests\TestCase;
 use App\Models\Order;
 use App\Models\User;
 use App\Enums\OrderEnum;
-use App\Services\Orders\Ordering;
+use App\Models\UserCurrentBalanceHorisontal;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Mockery;
 
 class OrderSimulationControllerTest extends TestCase
 {
@@ -21,19 +20,18 @@ class OrderSimulationControllerTest extends TestCase
     {
         parent::setUp();
         $this->user = User::factory()->create();
-        $this->withServerVariables(['REMOTE_ADDR' => '127.0.0.1']);
-    }
 
-    /**
-     * Create or retrieve existing Ordering alias mock
-     */
-    protected function getOrderingMock()
-    {
-        // Check if alias mock already exists (when running full test suite)
-        if (class_exists('Mockery_0_App_Services_Orders_Ordering', false)) {
-            return Mockery::mock('Mockery_0_App_Services_Orders_Ordering');
-        }
-        return Mockery::mock('alias:' . Ordering::class);
+        // Create balance record for user
+        UserCurrentBalanceHorisontal::factory()->create([
+            'user_id' => $this->user->idUser,
+            'user_id_auto' => $this->user->id,
+            'cash_balance' => 1000.00,
+            'discount_balance' => 100.00,
+            'bfss_balance' => [],
+            'chances_balance' => [],
+        ]);
+
+        $this->withServerVariables(['REMOTE_ADDR' => '127.0.0.1']);
     }
 
 
@@ -44,17 +42,6 @@ class OrderSimulationControllerTest extends TestCase
             'user_id' => $this->user->id,
         ]);
 
-        // Mock Ordering::simulate to return a valid simulation
-        $mockSimulation = [
-            'order' => $order,
-            'order_deal' => [],
-            'bfssTables' => []
-        ];
-
-        $mock = $this->getOrderingMock();
-        $mock->shouldReceive('simulate')
-            ->once()
-            ->andReturn($mockSimulation);
 
         $response = $this->postJson($this->baseUrl . '/simulate', [
             'order_id' => $order->id
@@ -127,24 +114,6 @@ class OrderSimulationControllerTest extends TestCase
             'paid_cash' => 50.00,
         ]);
 
-        // Mock Ordering::simulate and Ordering::run
-        $mockSimulation = [
-            'order' => $order,
-            'order_deal' => [],
-            'bfssTables' => []
-        ];
-
-        $mock = $this->getOrderingMock();
-        $mock->shouldReceive('simulate')
-            ->andReturn($mockSimulation);
-        $mock->shouldReceive('run')
-            ->once()
-            ->with($mockSimulation)
-            ->andReturnUsing(function () use ($order) {
-                // Simulate what Ordering::run does - update order status
-                $order->status = OrderEnum::Dispatched;
-                $order->save();
-            });
 
         $response = $this->postJson($this->baseUrl . '/run-simulation', [
             'order_id' => $order->id
@@ -221,28 +190,10 @@ class OrderSimulationControllerTest extends TestCase
             'paid_cash' => 50.00,
         ]);
 
-        // Mock Ordering::simulate and Ordering::run
-        $mockSimulation = [
-            'order' => $order,
-            'order_deal' => [],
-            'bfssTables' => []
-        ];
-
-        $mock = $this->getOrderingMock();
-        $mock->shouldReceive('simulate')
-            ->andReturn($mockSimulation);
-        $mock->shouldReceive('run')
-            ->once()
-            ->with($mockSimulation)
-            ->andReturnUsing(function () use ($order) {
-                // Simulate what Ordering::run does - update order status
-                $order->status = OrderEnum::Dispatched;
-                $order->save();
-            });
-
         $response = $this->postJson($this->baseUrl . '/process', [
             'order_id' => $order->id
         ]);
+
 
         // The original endpoint should still work (not return 500)
         $this->assertNotEquals(500, $response->status());
