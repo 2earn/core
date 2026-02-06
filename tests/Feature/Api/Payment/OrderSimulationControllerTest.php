@@ -24,11 +24,18 @@ class OrderSimulationControllerTest extends TestCase
         $this->withServerVariables(['REMOTE_ADDR' => '127.0.0.1']);
     }
 
-    protected function tearDown(): void
+    /**
+     * Create or retrieve existing Ordering alias mock
+     */
+    protected function getOrderingMock()
     {
-        Mockery::close();
-        parent::tearDown();
+        // Check if alias mock already exists (when running full test suite)
+        if (class_exists('Mockery_0_App_Services_Orders_Ordering', false)) {
+            return Mockery::mock('Mockery_0_App_Services_Orders_Ordering');
+        }
+        return Mockery::mock('alias:' . Ordering::class);
     }
+
 
     public function test_can_simulate_order_successfully()
     {
@@ -44,7 +51,7 @@ class OrderSimulationControllerTest extends TestCase
             'bfssTables' => []
         ];
 
-        $mock = Mockery::mock('alias:' . Ordering::class);
+        $mock = $this->getOrderingMock();
         $mock->shouldReceive('simulate')
             ->once()
             ->andReturn($mockSimulation);
@@ -127,7 +134,7 @@ class OrderSimulationControllerTest extends TestCase
             'bfssTables' => []
         ];
 
-        $mock = Mockery::mock('alias:' . Ordering::class);
+        $mock = $this->getOrderingMock();
         $mock->shouldReceive('simulate')
             ->andReturn($mockSimulation);
         $mock->shouldReceive('run')
@@ -221,7 +228,7 @@ class OrderSimulationControllerTest extends TestCase
             'bfssTables' => []
         ];
 
-        $mock = Mockery::mock('alias:' . Ordering::class);
+        $mock = $this->getOrderingMock();
         $mock->shouldReceive('simulate')
             ->andReturn($mockSimulation);
         $mock->shouldReceive('run')
