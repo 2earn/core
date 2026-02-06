@@ -93,7 +93,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-5 col-md-4">
+                                        <div class="col-lg-4 col-md-4">
                                             <div class="d-flex flex-column">
                                                 <h5 class="mb-1">
                                                     <i class="mdi mdi-ticket-confirmation text-primary"></i>
@@ -133,14 +133,12 @@
                                         </div>
 
                                         <!-- Action Buttons -->
-                                        <div class="col-lg-1 col-md-12">
-                                            <div class="d-flex gap-2 justify-content-end flex-wrap">
-                                                <button wire:click="delete({{ $coupon->id }})"
-                                                        wire:confirm="{{__('Are you sure to delete this Coupon')}}? {{ $coupon->pin }}"
-                                                        class="btn btn-sm btn-danger">
-                                                    <i class="mdi mdi-delete"></i> {{__('Delete')}}
-                                                </button>
-                                            </div>
+                                        <div class="col-lg-1 col-md-12 d-flex align-items-center justify-content-center">
+                                            <button wire:click="delete({{ $coupon->id }})"
+                                                    wire:confirm="{{__('Are you sure to delete this Coupon')}}? {{ $coupon->pin }}"
+                                                    class="btn btn-sm btn-danger">
+                                                <i class="mdi mdi-delete"></i> {{__('Delete')}}
+                                            </button>
                                         </div>
                                     </div>
                                     <hr class="my-3">
