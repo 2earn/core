@@ -27,7 +27,25 @@ class IdentificationCheck extends Component
 
     const MAX_PHOTO_ALLAWED_SIZE = 2048000;
 
-    // ...existing code...
+    // Public properties for file uploads
+    public $photoFront;
+    public $photoBack;
+    public $photoInternational;
+
+    // Public properties for form data
+    public $internationalCard = false;
+    public $notify = true;
+    public $usermetta_info2;
+    public $userF;
+
+    // Public properties for images
+    public $userNationalFrontImage;
+    public $userNationalBackImage;
+    public $userInternationalImage;
+
+    // Public properties for UI state
+    public $messageVerif = "";
+    public $disabled = false;
 
     public function boot(UserService $userService, IdentificationUserRequestService $identificationRequestService)
     {
@@ -313,8 +331,18 @@ class IdentificationCheck extends Component
         }
 
         $this->disabled = in_array($user->status, [StatusRequest::InProgressNational->value, StatusRequest::InProgressInternational->value, StatusRequest::InProgressGlobal->value, StatusRequest::ValidNational->value, StatusRequest::ValidInternational->value]) ? true : false;
+
+        // Make component properties available to the view
+        $usermetta_info2 = $this->usermetta_info2;
+        $userF = $this->userF;
+        $userNationalFrontImage = $this->userNationalFrontImage;
+        $userNationalBackImage = $this->userNationalBackImage;
+        $userInternationalImage = $this->userInternationalImage;
+        $disabled = $this->disabled;
+        $internationalCard = $this->internationalCard;
+
         return view('livewire.identification-check',
-            compact('user', 'usermetta_info', 'errors_array', 'userAuth', 'hasRequest', 'hasFrontImage', 'hasBackImage', 'noteRequset'))
+            compact('user', 'usermetta_info', 'usermetta_info2', 'userF', 'errors_array', 'userAuth', 'hasRequest', 'hasFrontImage', 'hasBackImage', 'noteRequset', 'userNationalFrontImage', 'userNationalBackImage', 'userInternationalImage', 'disabled', 'internationalCard'))
             ->extends('layouts.master')->section('content');
     }
 }
