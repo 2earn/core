@@ -8,12 +8,11 @@ use App\Models\Deal;
 use App\Models\Platform;
 use App\Models\EntityRole;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use PHPUnit\Framework\Attributes\Group;
 
-/**
- * @group feature
- * @group api
- * @group controller
- */
+#[Group('feature')]
+#[Group('api')]
+#[Group('controller')]
 class DealPartnerControllerTest extends TestCase
 {
     use DatabaseTransactions;

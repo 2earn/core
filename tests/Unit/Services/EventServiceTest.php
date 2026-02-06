@@ -5,13 +5,12 @@ namespace Tests\Unit\Services;
 use App\Models\Event;
 use App\Services\EventService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use PHPUnit\Framework\Attributes\Group;
 use Tests\TestCase;
 
-/**
- * @group unit
- * @group service
- * @group database
- */
+#[Group('unit')]
+#[Group('service')]
+#[Group('database')]
 class EventServiceTest extends TestCase
 {
 

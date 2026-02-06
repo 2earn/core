@@ -7,13 +7,12 @@ use App\Models\News;
 use App\Models\User;
 use App\Services\CommentService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use PHPUnit\Framework\Attributes\Group;
 use Tests\TestCase;
 
-/**
- * @group unit
- * @group service
- * @group fast
- */
+#[Group('unit')]
+#[Group('service')]
+#[Group('fast')]
 class CommentServiceTest extends TestCase
 {
 
