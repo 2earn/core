@@ -189,8 +189,8 @@
                                                 <div class="d-flex align-items-center">
                                                     <img class="avatar-xxs me-2 rounded" style="width: 20px; height: 15px; object-fit: cover;"
                                                          src="{{ Vite::asset("resources/images/flags/" . strtolower($userRole->apha2) . ".svg")}}"
-                                                         alt="{{$userRole->countries}}">
-                                                    <span class="text-muted">{{__($userRole->countries)}}</span>
+                                                         alt="{{$userRole->countrie}}">
+                                                    <span class="text-muted">{{__($userRole->countrie)}}</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-3 col-12 mt-3 mt-md-0">
