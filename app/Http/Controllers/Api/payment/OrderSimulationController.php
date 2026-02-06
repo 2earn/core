@@ -242,7 +242,7 @@ class OrderSimulationController extends Controller
             $order = Order::findOrFail($orderId);
 
             // Check if order status is eligible for simulation
-            if (!in_array($order->status->value, [OrderEnum::Simulated->value, OrderEnum::Ready->value])) {
+            if (!in_array($order->status->value, [OrderEnum::Simulated->value])) {
                 Log::warning(self::LOG_PREFIX . 'Order status not eligible for running simulation', [
                     'order_id' => $orderId,
                     'status' => $order->status->value
