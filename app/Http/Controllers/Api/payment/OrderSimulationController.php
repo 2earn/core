@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\SimulationOrder;
 use App\Services\Orders\Ordering;
+use App\Services\SimulationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -16,6 +17,13 @@ use Illuminate\Support\Facades\Validator;
 class OrderSimulationController extends Controller
 {
     private const LOG_PREFIX = '[OrderSimulationController] ';
+
+    private SimulationService $simulationService;
+
+    public function __construct(SimulationService $simulationService)
+    {
+        $this->simulationService = $simulationService;
+    }
 
     public function processOrder(Request $request): JsonResponse
     {
@@ -65,38 +73,16 @@ class OrderSimulationController extends Controller
             }
 
             // Compare with last saved simulation
-            $lastSimulation = SimulationOrder::getLatestForOrder($orderId);
-            if ($lastSimulation && $lastSimulation->simulation_data) {
-                // Compare key fields
-                $currentFinalAmount = $simulation['order']->amount_after_discount ?? null;
-                $lastFinalAmount = $lastSimulation->simulation_data['order']['amount_after_discount'] ?? null;
-
-                if ($currentFinalAmount !== $lastFinalAmount) {
-                    Log::error(self::LOG_PREFIX . 'Simulation mismatch detected', [
-                        'order_id' => $orderId,
-                        'current_final_amount' => $currentFinalAmount,
-                        'last_final_amount' => $lastFinalAmount,
-                        'current_simulation' => $simulation,
-                        'last_simulation' => $lastSimulation->simulation_data
-                    ]);
-
-                    return response()->json([
-                        'status' => 'Failed',
-                        'message' => 'Simulation mismatch error. Current simulation differs from last saved simulation.',
-                        'error_code' => 'SIMULATION_MISMATCH',
-                        'details' => [
-                            'current_final_amount' => $currentFinalAmount,
-                            'last_final_amount' => $lastFinalAmount,
-                            'last_simulation_date' => $lastSimulation->created_at->toIso8601String()
-                        ]
-                    ], Response::HTTP_CONFLICT);
-                }
-
-                Log::info(self::LOG_PREFIX . 'Simulation matches last saved simulation', [
-                    'order_id' => $orderId,
-                    'final_amount' => $currentFinalAmount
-                ]);
+            $comparisonResult = $this->simulationService->compareWithLastSimulation($orderId, $simulation);
+            if (!$comparisonResult['matches']) {
+                return response()->json([
+                    'status' => 'Failed',
+                    'message' => 'Simulation mismatch error. Current simulation differs from last saved simulation.',
+                    'error_code' => 'SIMULATION_MISMATCH',
+                    'details' => $comparisonResult['details']
+                ], Response::HTTP_CONFLICT);
             }
+
 
             Ordering::run($simulation);
 
@@ -287,38 +273,16 @@ class OrderSimulationController extends Controller
             }
 
             // Compare with last saved simulation
-            $lastSimulation = SimulationOrder::getLatestForOrder($orderId);
-            if ($lastSimulation && $lastSimulation->simulation_data) {
-                // Compare key fields
-                $currentFinalAmount = $simulation['order']->amount_after_discount ?? null;
-                $lastFinalAmount = $lastSimulation->simulation_data['order']['amount_after_discount'] ?? null;
-
-                if ($currentFinalAmount !== $lastFinalAmount) {
-                    Log::error(self::LOG_PREFIX . 'Simulation mismatch detected', [
-                        'order_id' => $orderId,
-                        'current_final_amount' => $currentFinalAmount,
-                        'last_final_amount' => $lastFinalAmount,
-                        'current_simulation' => $simulation,
-                        'last_simulation' => $lastSimulation->simulation_data
-                    ]);
-
-                    return response()->json([
-                        'status' => 'Failed',
-                        'message' => 'Simulation mismatch error. Current simulation differs from last saved simulation.',
-                        'error_code' => 'SIMULATION_MISMATCH',
-                        'details' => [
-                            'current_final_amount' => $currentFinalAmount,
-                            'last_final_amount' => $lastFinalAmount,
-                            'last_simulation_date' => $lastSimulation->created_at->toIso8601String()
-                        ]
-                    ], Response::HTTP_CONFLICT);
-                }
-
-                Log::info(self::LOG_PREFIX . 'Simulation matches last saved simulation', [
-                    'order_id' => $orderId,
-                    'final_amount' => $currentFinalAmount
-                ]);
+            $comparisonResult = $this->simulationService->compareWithLastSimulation($orderId, $simulation);
+            if (!$comparisonResult['matches']) {
+                return response()->json([
+                    'status' => 'Failed',
+                    'message' => 'Simulation mismatch error. Current simulation differs from last saved simulation.',
+                    'error_code' => 'SIMULATION_MISMATCH',
+                    'details' => $comparisonResult['details']
+                ], Response::HTTP_CONFLICT);
             }
+
 
             Log::info(self::LOG_PREFIX . 'Simulation successful, now running order', ['order_id' => $orderId]);
 
