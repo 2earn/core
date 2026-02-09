@@ -406,4 +406,32 @@ Route::prefix('/v2/')->name('api_v2_')
             Route::put('/{id}', [\App\Http\Controllers\Api\v2\HashtagController::class, 'update'])->name('update');
             Route::delete('/{id}', [\App\Http\Controllers\Api\v2\HashtagController::class, 'destroy'])->name('destroy');
         });
+
+        Route::prefix('orders')->name('orders_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\OrderController::class, 'index'])->name('index');
+            Route::get('/users/{userId}', [\App\Http\Controllers\Api\v2\OrderController::class, 'getUserOrders'])->name('user_orders');
+            Route::get('/users/{userId}/{orderId}', [\App\Http\Controllers\Api\v2\OrderController::class, 'findUserOrder'])->name('user_order');
+            Route::get('/users/{userId}/pending-count', [\App\Http\Controllers\Api\v2\OrderController::class, 'getPendingCount'])->name('pending_count');
+            Route::get('/users/{userId}/by-ids', [\App\Http\Controllers\Api\v2\OrderController::class, 'getOrdersByIds'])->name('by_ids');
+            Route::get('/dashboard/statistics', [\App\Http\Controllers\Api\v2\OrderController::class, 'getDashboardStatistics'])->name('dashboard_statistics');
+            Route::post('/', [\App\Http\Controllers\Api\v2\OrderController::class, 'store'])->name('store');
+            Route::post('/from-cart', [\App\Http\Controllers\Api\v2\OrderController::class, 'createFromCart'])->name('create_from_cart');
+            Route::post('/{orderId}/cancel', [\App\Http\Controllers\Api\v2\OrderController::class, 'cancel'])->name('cancel');
+            Route::post('/{orderId}/make-ready', [\App\Http\Controllers\Api\v2\OrderController::class, 'makeReady'])->name('make_ready');
+        });
+
+        Route::prefix('news')->name('news_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\NewsController::class, 'index'])->name('index');
+            Route::get('/all', [\App\Http\Controllers\Api\v2\NewsController::class, 'all'])->name('all');
+            Route::get('/enabled', [\App\Http\Controllers\Api\v2\NewsController::class, 'enabled'])->name('enabled');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\NewsController::class, 'show'])->name('show');
+            Route::get('/{id}/with-relations', [\App\Http\Controllers\Api\v2\NewsController::class, 'showWithRelations'])->name('show_with_relations');
+            Route::get('/{id}/has-user-liked', [\App\Http\Controllers\Api\v2\NewsController::class, 'hasUserLiked'])->name('has_user_liked');
+            Route::post('/', [\App\Http\Controllers\Api\v2\NewsController::class, 'store'])->name('store');
+            Route::post('/{id}/duplicate', [\App\Http\Controllers\Api\v2\NewsController::class, 'duplicate'])->name('duplicate');
+            Route::post('/{id}/like', [\App\Http\Controllers\Api\v2\NewsController::class, 'addLike'])->name('add_like');
+            Route::delete('/{id}/like', [\App\Http\Controllers\Api\v2\NewsController::class, 'removeLike'])->name('remove_like');
+            Route::put('/{id}', [\App\Http\Controllers\Api\v2\NewsController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Api\v2\NewsController::class, 'destroy'])->name('destroy');
+        });
     });

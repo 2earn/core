@@ -1,7 +1,7 @@
 {
   "info": {
     "_postman_id": "f2a3b4c5-d6e7-8901-5678-234567890123",
-    "name": "V1 Authenticated API",
+    "name": "Authenticated API v1",
     "description": "Version 1 API endpoints - Requires Sanctum Authentication",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
