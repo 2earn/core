@@ -59,6 +59,77 @@ class SettingService
         return $setting?->StringValue;
     }
 
+    /**
+     * Alias for getStringByParameterName for backward compatibility
+     *
+     * @param string $parameterName
+     * @return string|null
+     */
+    public function getStringValue(string $parameterName): ?string
+    {
+        return $this->getStringByParameterName($parameterName);
+    }
+
+    /**
+     * Get a setting parameter value by name (Legacy method from SettingsService)
+     *
+     * @param string $parameterName
+     * @param string $valueType 'IntegerValue', 'DecimalValue', 'StringValue'
+     * @param mixed $defaultValue
+     * @return mixed
+     */
+    public function getParameter(string $parameterName, string $valueType = 'IntegerValue', $defaultValue = null)
+    {
+        try {
+            $setting = $this->getSettingByParameterName($parameterName);
+
+            if (!is_null($setting) && isset($setting->{$valueType})) {
+                return $setting->{$valueType};
+            }
+
+            return $defaultValue;
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Error fetching setting parameter: ' . $e->getMessage());
+            return $defaultValue;
+        }
+    }
+
+    /**
+     * Get an integer setting parameter (Legacy method from SettingsService)
+     *
+     * @param string $parameterName
+     * @param int $defaultValue
+     * @return int
+     */
+    public function getIntegerParameter(string $parameterName, int $defaultValue = 0): int
+    {
+        return (int) $this->getParameter($parameterName, 'IntegerValue', $defaultValue);
+    }
+
+    /**
+     * Get a decimal setting parameter (Legacy method from SettingsService)
+     *
+     * @param string $parameterName
+     * @param float $defaultValue
+     * @return float
+     */
+    public function getDecimalParameter(string $parameterName, float $defaultValue = 0.0): float
+    {
+        return (float) $this->getParameter($parameterName, 'DecimalValue', $defaultValue);
+    }
+
+    /**
+     * Get a string setting parameter (Legacy method from SettingsService)
+     *
+     * @param string $parameterName
+     * @param string $defaultValue
+     * @return string
+     */
+    public function getStringParameter(string $parameterName, string $defaultValue = ''): string
+    {
+        return (string) $this->getParameter($parameterName, 'StringValue', $defaultValue);
+    }
+
     public function getById(int|string $settingId): ?Setting
     {
         return Setting::where('idSETTINGS', $settingId)->first();
