@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "3b09c498-16f3-45c4-bee7-05b104b7caab",
+    "_postman_id": "128287c6-d562-4329-a994-743e27b0444c",
     "name": "2Earn - Payment & Order Simulation API",
     "description": "Payment API endpoints for 2Earn platform - Order Processing and Simulation",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -11,7 +11,7 @@
       "item": [
         {
           "name": "Process Order",
-          "id": "839d5053-a192-4476-96b3-6c081a0ea9f3",
+          "id": "ff41f113-fd93-489b-83e5-3498e17db3bc",
           "request": {
             "method": "POST",
             "header": [
@@ -40,7 +40,7 @@
         },
         {
           "name": "Simulate Order",
-          "id": "c4c41293-33dd-4575-9428-df8d6ccb62bd",
+          "id": "dfe4e709-fcff-40f4-910f-a0ba43ec3a54",
           "request": {
             "method": "POST",
             "header": [
@@ -69,7 +69,7 @@
         },
         {
           "name": "Run Simulation",
-          "id": "84f4495f-09c2-41b5-b171-88d3b7d5a3e4",
+          "id": "b52fac9d-83cc-4fde-9588-40c4d0b94ae1",
           "request": {
             "method": "POST",
             "header": [
@@ -97,18 +97,18 @@
           "response": []
         }
       ],
-      "id": "8cd68688-64e7-42e5-9f17-31a58c39f35c"
+      "id": "8141b870-0209-4c63-9298-1caa8fd538f6"
     }
   ],
   "variable": [
     {
-      "id": "a9cadd62-d465-4620-9ce1-6f3fcfc4ab7c",
+      "id": "9c642ecf-f365-4db4-9300-45713d0af134",
       "key": "base_url",
       "value": "http://localhost/api",
       "type": "string"
     },
     {
-      "id": "9167f8de-5be7-45e4-bea6-a75cbda9b8d5",
+      "id": "b7cc20d3-e60c-4b19-9924-159469f59a67",
       "key": "order_id",
       "value": "1",
       "type": "string"

@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "cb3ae3d0-091f-43aa-a1d5-2aea91672462",
+    "_postman_id": "9c5abebb-746f-4b52-a834-daceb07e3c55",
     "name": "Balance Operation Service API",
     "description": "Complete API collection for Balance Operation Service endpoints - Public API (No Authentication Required)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -8,7 +8,7 @@
   "item": [
     {
       "name": "Get Operations (DataTables)",
-      "id": "477083bf-6ad3-4d97-8ada-384ef2b53351",
+      "id": "522f9510-cb78-4702-8fdd-a1e117770957",
       "request": {
         "method": "GET",
         "header": [
@@ -34,7 +34,7 @@
     },
     {
       "name": "Get Filtered Operations",
-      "id": "0ed86d98-48d4-4ede-b678-37c4014b3ec6",
+      "id": "1f8d0f2c-ac8f-45e3-a776-a31a9981899b",
       "request": {
         "method": "GET",
         "header": [
@@ -73,7 +73,7 @@
     },
     {
       "name": "Get All Operations",
-      "id": "c9bfa4b0-beab-415d-adb8-fcc21ec5d6fc",
+      "id": "2d13ebca-fa04-430d-952d-1bea39ef6abf",
       "request": {
         "method": "GET",
         "header": [
@@ -100,7 +100,7 @@
     },
     {
       "name": "Get Operation by ID",
-      "id": "a4abdc88-2db6-4aa1-bc23-88f53b53bbda",
+      "id": "1c19358b-7095-4ff0-a010-5d9dbf4ff378",
       "request": {
         "method": "GET",
         "header": [
@@ -127,7 +127,7 @@
     },
     {
       "name": "Create Operation",
-      "id": "83821986-4612-4134-bbe4-353ffc544a2f",
+      "id": "9384ad7f-be6e-4cb2-8cc5-1078e7e25752",
       "request": {
         "method": "POST",
         "header": [
@@ -162,7 +162,7 @@
     },
     {
       "name": "Update Operation",
-      "id": "49c87615-f714-4401-b715-fc42b63ceab5",
+      "id": "cacde3ee-7694-458f-a973-9b63a994f20e",
       "request": {
         "method": "PUT",
         "header": [
@@ -198,7 +198,7 @@
     },
     {
       "name": "Delete Operation",
-      "id": "5bcba889-7053-4c0e-992c-66b3c8d69029",
+      "id": "a0cf437e-ead4-4332-9a02-3e7e3fd666f2",
       "request": {
         "method": "DELETE",
         "header": [
@@ -225,7 +225,7 @@
     },
     {
       "name": "Get Category Name",
-      "id": "a2c0d103-8212-452c-8ea4-a38228711f1c",
+      "id": "33f6df89-370d-465e-bb16-c318f08d9ce3",
       "request": {
         "method": "GET",
         "header": [
@@ -254,7 +254,7 @@
     },
     {
       "name": "Get Categories (DataTables)",
-      "id": "ac71f36d-4ac6-45a1-ad73-49ef9679fb95",
+      "id": "b3ae6f92-de31-450e-8865-f0ec80289cca",
       "request": {
         "method": "GET",
         "header": [
@@ -282,19 +282,19 @@
   ],
   "variable": [
     {
-      "id": "a977bb4d-de06-4f47-8253-eeb9aa699ea3",
+      "id": "bb7c0ce3-8328-4523-be56-0193c952398c",
       "key": "base_url",
       "value": "http://localhost/api/v1",
       "type": "string"
     },
     {
-      "id": "85ecd1b6-b133-4553-bbb2-749df2b961b3",
+      "id": "e0231d44-db9e-42b4-88a9-fa89c2d65537",
       "key": "operation_id",
       "value": "1",
       "type": "string"
     },
     {
-      "id": "704a1f2c-395c-4973-bbba-0ef4ab507f85",
+      "id": "59f36f0c-c7af-4afc-9540-3a23b2e26a31",
       "key": "category_id",
       "value": "1",
       "type": "string"

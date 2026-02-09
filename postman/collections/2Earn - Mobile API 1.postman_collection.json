@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "228b1b03-2a00-468d-8c59-a4a8fa85c057",
+    "_postman_id": "850cce24-103d-4a2b-93ec-27e74dbd305f",
     "name": "2Earn - Mobile API",
     "description": "Mobile API endpoints for 2Earn platform - User, Balance, and Cash Balance operations",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -11,7 +11,7 @@
       "item": [
         {
           "name": "Get User",
-          "id": "bcfa4799-3c6a-42f9-aac8-9dc4b48c7c8b",
+          "id": "870a9354-9732-47c9-8555-54b4cfe82bc4",
           "request": {
             "method": "GET",
             "header": [
@@ -42,14 +42,14 @@
           "response": []
         }
       ],
-      "id": "e38c8b7b-d509-4a26-b5e2-436719791af7"
+      "id": "21669453-3326-422a-9584-cbf37f9238d9"
     },
     {
       "name": "Balance",
       "item": [
         {
           "name": "Get Balances",
-          "id": "bbe03066-8a45-4980-9e3a-fa8d50e7226f",
+          "id": "475a3d9d-03f9-41bf-9b54-762e4e5a797c",
           "request": {
             "method": "GET",
             "header": [
@@ -80,14 +80,14 @@
           "response": []
         }
       ],
-      "id": "7fee539f-cfa2-4e99-820a-be718cbcf062"
+      "id": "6188ef97-5770-4537-8ecb-cc20b8c0f42e"
     },
     {
       "name": "Cash Balance",
       "item": [
         {
           "name": "Create Cash Balance",
-          "id": "e067275b-32f3-46f7-be03-3571022cdcce",
+          "id": "5fa780ed-7d26-4b2f-8406-6d1c66254f26",
           "request": {
             "method": "POST",
             "header": [
@@ -116,7 +116,7 @@
         },
         {
           "name": "Get Cash Balance",
-          "id": "1c631789-62a9-47be-a6e3-cf478b81b829",
+          "id": "38e3f646-4b2a-4d22-a488-49c06aacf795",
           "request": {
             "method": "GET",
             "header": [
@@ -147,18 +147,18 @@
           "response": []
         }
       ],
-      "id": "907379cb-f6ef-4bf1-adf6-7722f1d459f3"
+      "id": "34b97772-e38a-4370-97ed-9958cb7ba23f"
     }
   ],
   "variable": [
     {
-      "id": "7054aa48-bd84-4050-98e8-fa192652d6bc",
+      "id": "27683079-87e9-42ab-bb59-8557255edd27",
       "key": "base_url",
       "value": "http://localhost/api",
       "type": "string"
     },
     {
-      "id": "c1acedb5-bec4-471a-9d5e-3f8c2e39c279",
+      "id": "0c80091c-5509-400c-a2ae-2e426da45e89",
       "key": "user_id",
       "value": "1",
       "type": "string"

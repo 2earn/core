@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "453c2ed4-4c4a-42b1-ad78-7b22a550358e",
+    "_postman_id": "7baa46ec-97d7-42f3-931d-b9215676564b",
     "name": "2Earn - Admin API",
     "description": "Admin API endpoints for 2Earn platform - Platform Change Requests and Partner Requests Management",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -11,7 +11,7 @@
       "item": [
         {
           "name": "Get Pending Change Requests",
-          "id": "4cf9df68-c554-40e0-8cdf-bcf02766d39f",
+          "id": "89634fa9-6d8f-4509-8053-4095d2ad314b",
           "request": {
             "method": "GET",
             "header": [
@@ -58,7 +58,7 @@
         },
         {
           "name": "List All Change Requests",
-          "id": "30ca65df-cde2-4bdc-a731-b767cd625cc6",
+          "id": "30685d59-86ec-4165-a866-5ffd3ee7428c",
           "request": {
             "method": "GET",
             "header": [
@@ -109,7 +109,7 @@
         },
         {
           "name": "Get Change Request Details",
-          "id": "347e22c2-059e-40bb-b2fb-03e0582dd1c5",
+          "id": "f1de1275-fa74-4fb5-a1fc-8bd1f41e8e91",
           "request": {
             "method": "GET",
             "header": [
@@ -139,7 +139,7 @@
         },
         {
           "name": "Approve Change Request",
-          "id": "5992a4e7-f939-4f8f-88e0-bb8ba2afb8bf",
+          "id": "7fdf1c8f-805d-4877-80fb-913f8922cc4f",
           "request": {
             "method": "POST",
             "header": [
@@ -174,7 +174,7 @@
         },
         {
           "name": "Reject Change Request",
-          "id": "e838253d-517e-4ef6-b7b5-fa6022f6b6ac",
+          "id": "ed31fa67-d6bd-4af4-9f49-a906fcc4595b",
           "request": {
             "method": "POST",
             "header": [
@@ -208,14 +208,14 @@
           "response": []
         }
       ],
-      "id": "2f9628c7-bfdf-44e2-93e9-681ea546a12d"
+      "id": "72916d6f-12c5-4b27-8933-d04515e385af"
     },
     {
       "name": "Partner Requests",
       "item": [
         {
           "name": "List Partner Requests",
-          "id": "11b35643-3934-4fb6-9381-0f9981e37d8e",
+          "id": "f2df9761-3b38-4afd-970b-5ab9125c583d",
           "request": {
             "method": "GET",
             "header": [
@@ -246,7 +246,7 @@
         },
         {
           "name": "Get Partner Request",
-          "id": "59a63328-bc99-46c0-9778-f58841a7ea05",
+          "id": "31c8e14d-ca14-4385-8daa-42a92f7918bf",
           "request": {
             "method": "GET",
             "header": [
@@ -278,7 +278,7 @@
         },
         {
           "name": "Create Partner Request",
-          "id": "e132cc63-8026-4374-9d90-0dab55d27fba",
+          "id": "ea219f56-d5b8-4805-bc53-d7d3cb8b2c45",
           "request": {
             "method": "POST",
             "header": [
@@ -307,7 +307,7 @@
         },
         {
           "name": "Update Partner Request",
-          "id": "38dfae5c-c8ce-481a-9cb7-8424662c7bd6",
+          "id": "d12141c8-28e7-40f1-abdb-033e9c902ea7",
           "request": {
             "method": "PUT",
             "header": [
@@ -336,36 +336,36 @@
           "response": []
         }
       ],
-      "id": "966fa118-138f-4cea-8e7b-63b7d25e9854"
+      "id": "60ef236a-604e-42c1-bf21-5b4e4b9aead2"
     }
   ],
   "variable": [
     {
-      "id": "16cca7df-0073-4669-9147-148b5fd3a7f4",
+      "id": "ba860e7b-cabc-462f-80b8-bc83d0f4eff4",
       "key": "base_url",
       "value": "http://localhost/api",
       "type": "string"
     },
     {
-      "id": "37cab0bd-f76a-427e-b385-5a5c2193d533",
+      "id": "99ee250a-a7bd-434d-bd31-4991f7e26890",
       "key": "admin_token",
       "value": "your_admin_bearer_token_here",
       "type": "string"
     },
     {
-      "id": "66456810-6347-41dc-ae9e-b922eb419e41",
+      "id": "9f446ded-01b1-40c6-abda-56908717426d",
       "key": "admin_id",
       "value": "1",
       "type": "string"
     },
     {
-      "id": "6de21230-c0f1-441b-a703-950d267bf3b8",
+      "id": "bafba976-6cd0-4e57-b9c0-7ece928c0f74",
       "key": "user_id",
       "value": "1",
       "type": "string"
     },
     {
-      "id": "b5bd7663-f8ea-4677-be9a-2a2f01931fa2",
+      "id": "5dc56681-a2dc-4389-b6ce-8d680310031c",
       "key": "request_id",
       "value": "1",
       "type": "string"
