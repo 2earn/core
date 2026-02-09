@@ -434,4 +434,42 @@ Route::prefix('/v2/')->name('api_v2_')
             Route::put('/{id}', [\App\Http\Controllers\Api\v2\NewsController::class, 'update'])->name('update');
             Route::delete('/{id}', [\App\Http\Controllers\Api\v2\NewsController::class, 'destroy'])->name('destroy');
         });
+
+        Route::prefix('roles')->name('roles_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\RoleController::class, 'index'])->name('index');
+            Route::get('/all', [\App\Http\Controllers\Api\v2\RoleController::class, 'all'])->name('all');
+            Route::get('/user-roles', [\App\Http\Controllers\Api\v2\RoleController::class, 'getUserRoles'])->name('user_roles');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\RoleController::class, 'show'])->name('show');
+            Route::get('/{id}/can-delete', [\App\Http\Controllers\Api\v2\RoleController::class, 'canDelete'])->name('can_delete');
+            Route::post('/', [\App\Http\Controllers\Api\v2\RoleController::class, 'store'])->name('store');
+            Route::put('/{id}', [\App\Http\Controllers\Api\v2\RoleController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Api\v2\RoleController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('partners')->name('partners_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\PartnerController::class, 'index'])->name('index');
+            Route::get('/filtered', [\App\Http\Controllers\Api\v2\PartnerController::class, 'filtered'])->name('filtered');
+            Route::get('/search', [\App\Http\Controllers\Api\v2\PartnerController::class, 'searchByCompanyName'])->name('search');
+            Route::get('/business-sectors/{businessSectorId}', [\App\Http\Controllers\Api\v2\PartnerController::class, 'byBusinessSector'])->name('by_business_sector');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\PartnerController::class, 'show'])->name('show');
+            Route::post('/', [\App\Http\Controllers\Api\v2\PartnerController::class, 'store'])->name('store');
+            Route::put('/{id}', [\App\Http\Controllers\Api\v2\PartnerController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Api\v2\PartnerController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('partner-payments')->name('partner_payments_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\PartnerPaymentController::class, 'index'])->name('index');
+            Route::get('/pending', [\App\Http\Controllers\Api\v2\PartnerPaymentController::class, 'getPending'])->name('pending');
+            Route::get('/validated', [\App\Http\Controllers\Api\v2\PartnerPaymentController::class, 'getValidated'])->name('validated');
+            Route::get('/stats', [\App\Http\Controllers\Api\v2\PartnerPaymentController::class, 'getStats'])->name('stats');
+            Route::get('/payment-methods', [\App\Http\Controllers\Api\v2\PartnerPaymentController::class, 'getPaymentMethods'])->name('payment_methods');
+            Route::get('/partners/{partnerId}', [\App\Http\Controllers\Api\v2\PartnerPaymentController::class, 'getByPartnerId'])->name('by_partner');
+            Route::get('/partners/{partnerId}/total', [\App\Http\Controllers\Api\v2\PartnerPaymentController::class, 'getTotalByPartner'])->name('total_by_partner');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\PartnerPaymentController::class, 'show'])->name('show');
+            Route::post('/', [\App\Http\Controllers\Api\v2\PartnerPaymentController::class, 'store'])->name('store');
+            Route::post('/{id}/validate', [\App\Http\Controllers\Api\v2\PartnerPaymentController::class, 'validatePayment'])->name('validate');
+            Route::post('/{id}/reject', [\App\Http\Controllers\Api\v2\PartnerPaymentController::class, 'rejectPayment'])->name('reject');
+            Route::put('/{id}', [\App\Http\Controllers\Api\v2\PartnerPaymentController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Api\v2\PartnerPaymentController::class, 'destroy'])->name('destroy');
+        });
     });
