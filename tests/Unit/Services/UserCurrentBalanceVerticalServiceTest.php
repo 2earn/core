@@ -5,7 +5,7 @@ namespace Tests\Unit\Services;
 use App\Enums\BalanceEnum;
 use App\Models\User;
 use App\Models\UserCurrentBalanceVertical;
-use App\Services\UserCurrentBalanceVerticalService;
+use App\Services\UserBalances\UserCurrentBalanceVerticalService;
 use Tests\TestCase;
 
 class UserCurrentBalanceVerticalServiceTest extends TestCase

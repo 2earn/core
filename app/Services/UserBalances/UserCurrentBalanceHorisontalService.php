@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\UserBalances;
 
 use App\Models\UserCurrentBalanceHorisontal;
 
@@ -136,3 +136,4 @@ class UserCurrentBalanceHorisontalService
         ];
     }
 }
+

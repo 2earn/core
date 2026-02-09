@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\UserBalances;
 
 use App\Enums\ActionEnum;
 use App\Enums\BalanceOperationsEnum;
@@ -16,6 +16,7 @@ use App\Services\Balances\Balances;
 use App\Services\Balances\BalancesFacade;
 use App\Interfaces\IUserBalancesRepository;
 use App\Models\BalanceOperation;
+use App\Services\BalancesManager;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -288,3 +289,4 @@ class  UserBalancesHelper
         }
     }
 }
+

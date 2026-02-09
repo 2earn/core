@@ -34,7 +34,7 @@ use App\Services\NotifyHelper;
 use App\Services\settingsManager;
 use App\Services\SmsHelper;
 use App\Services\TransactionManager;
-use App\Services\UserBalancesHelper;
+use App\Services\UserBalances\UserBalancesHelper;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 

@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Services;
 
-use App\Services\UserCurrentBalanceHorisontalService;
+use App\Services\UserBalances\UserCurrentBalanceHorisontalService;
 use Tests\TestCase;
 
 class UserCurrentBalanceHorisontalServiceTest extends TestCase

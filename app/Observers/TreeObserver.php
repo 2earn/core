@@ -7,7 +7,7 @@ use App\Models\TreeBalances;
 use App\Services\Balances\Balances;
 use App\Models\BalanceOperation;
 use App\Services\UserCurrentBalanceHorisontalService;
-use App\Services\UserCurrentBalanceVerticalService;
+use App\Services\UserBalances\UserCurrentBalanceVerticalService;
 use Illuminate\Support\Facades\Log;
 
 class TreeObserver
