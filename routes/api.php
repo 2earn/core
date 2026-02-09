@@ -596,4 +596,28 @@ Route::prefix('/v2/')->name('api_v2_')
             Route::put('/{id}', [\App\Http\Controllers\Api\v2\UserGuideController::class, 'update'])->name('update');
             Route::delete('/{id}', [\App\Http\Controllers\Api\v2\UserGuideController::class, 'destroy'])->name('destroy');
         });
+
+        Route::prefix('user-balances')->name('user_balances_')->group(function () {
+            // Horizontal Balance Endpoints
+            Route::prefix('horizontal')->name('horizontal_')->group(function () {
+                Route::get('/{userId}', [\App\Http\Controllers\Api\v2\UserBalancesController::class, 'getHorizontalBalance'])->name('get');
+                Route::get('/{userId}/field/{field}', [\App\Http\Controllers\Api\v2\UserBalancesController::class, 'getHorizontalBalanceField'])->name('get_field');
+                Route::get('/{userId}/cash', [\App\Http\Controllers\Api\v2\UserBalancesController::class, 'getCashBalance'])->name('cash');
+                Route::get('/{userId}/bfss/{type}', [\App\Http\Controllers\Api\v2\UserBalancesController::class, 'getBfssBalance'])->name('bfss');
+                Route::get('/{userId}/discount', [\App\Http\Controllers\Api\v2\UserBalancesController::class, 'getDiscountBalance'])->name('discount');
+                Route::get('/{userId}/tree', [\App\Http\Controllers\Api\v2\UserBalancesController::class, 'getTreeBalance'])->name('tree');
+                Route::get('/{userId}/sms', [\App\Http\Controllers\Api\v2\UserBalancesController::class, 'getSmsBalance'])->name('sms');
+                Route::put('/{userId}/calculated', [\App\Http\Controllers\Api\v2\UserBalancesController::class, 'updateCalculatedHorizontal'])->name('update_calculated');
+                Route::put('/{userId}/field', [\App\Http\Controllers\Api\v2\UserBalancesController::class, 'updateBalanceField'])->name('update_field');
+                Route::post('/{userId}/calculate', [\App\Http\Controllers\Api\v2\UserBalancesController::class, 'calculateNewBalance'])->name('calculate');
+            });
+
+            // Vertical Balance Endpoints
+            Route::prefix('vertical')->name('vertical_')->group(function () {
+                Route::get('/{userId}/all', [\App\Http\Controllers\Api\v2\UserBalancesController::class, 'getAllVerticalBalances'])->name('all');
+                Route::get('/{userId}/{balanceId}', [\App\Http\Controllers\Api\v2\UserBalancesController::class, 'getVerticalBalance'])->name('get');
+                Route::put('/{userId}/update-after-operation', [\App\Http\Controllers\Api\v2\UserBalancesController::class, 'updateVerticalBalanceAfterOperation'])->name('update_after_operation');
+                Route::put('/{userId}/calculated', [\App\Http\Controllers\Api\v2\UserBalancesController::class, 'updateCalculatedVertical'])->name('update_calculated');
+            });
+        });
     });
