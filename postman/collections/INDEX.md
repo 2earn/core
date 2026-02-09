@@ -86,7 +86,7 @@ This index provides quick links to all collections and documentation.
 
 ### 🔄 V2 Module (Public)
 📁 **Location**: `V2/`  
-🎯 **Controllers**: Balance Operations Controller
+🎯 **Controllers**: `app/Http/Controllers/Api/v2/`
 
 | Collection | File | Endpoints |
 |------------|------|-----------|
@@ -102,8 +102,8 @@ This index provides quick links to all collections and documentation.
 |--------|-------|
 | **Total Collections** | 12 |
 | **Total Endpoints** | 130+ |
-| **Total Directories** | 6 |
-| **Documentation Files** | 4 |
+| **Total Directories** | 5 |
+| **Documentation Files** | 3 |
 | **Controllers Covered** | 17+ |
 | **Coverage** | 100% |
 

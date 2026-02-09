@@ -40,7 +40,9 @@ postman/collections/
 **Total Endpoints**: 130+ API endpoints
 **Structure**: Mirrors `app/Http/Controllers/Api`
 
-**Note**: Platform Change Request API has been moved to Partner module as the controller is now located in `app/Http/Controllers/Api/partner/`
+**Notes**: 
+- Platform Change Request API has been moved to Partner module as the controller is now located in `app/Http/Controllers/Api/partner/`
+- Balance Operations API v2 mirrors the controller in `app/Http/Controllers/Api/v2/`
 
 ---
 

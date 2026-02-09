@@ -268,8 +268,9 @@ postman/collections/
 ### Controller Coverage
 - **Mobile Controllers**: 3/3 (100%)
 - **Partner Controllers**: 12/12 (100%)
+- **V2 Controllers**: 1/1 (100%)
 - **Payment Controllers**: 1/1 (100%)
-- **Total Controllers**: 16/16 (100%)
+- **Total Controllers**: 17/17 (100%)
 
 ---
 
