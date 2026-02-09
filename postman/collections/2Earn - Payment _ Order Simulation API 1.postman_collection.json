@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "_postman_id": "128287c6-d562-4329-a994-743e27b0444c",
     "name": "2Earn - Payment & Order Simulation API",
@@ -25,12 +25,11 @@
               "raw": "{\n    \"order_id\": {{order_id}}\n}"
             },
             "url": {
-              "raw": "{{base_url}}/order/process",
+              "raw": "{{base_url}}/api/order/process",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "order",
+              "path": ["api", "order",
                 "process"
               ]
             },
@@ -54,12 +53,11 @@
               "raw": "{\n    \"order_id\": {{order_id}}\n}"
             },
             "url": {
-              "raw": "{{base_url}}/order/simulate",
+              "raw": "{{base_url}}/api/order/simulate",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "order",
+              "path": ["api", "order",
                 "simulate"
               ]
             },
@@ -83,12 +81,11 @@
               "raw": "{\n    \"order_id\": {{order_id}},\n    \"save_simulation\": true\n}"
             },
             "url": {
-              "raw": "{{base_url}}/order/run-simulation",
+              "raw": "{{base_url}}/api/order/run-simulation",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "order",
+              "path": ["api", "order",
                 "run-simulation"
               ]
             },
@@ -104,7 +101,7 @@
     {
       "id": "9c642ecf-f365-4db4-9300-45713d0af134",
       "key": "base_url",
-      "value": "http://localhost/api",
+      "value": "http://localhost",
       "type": "string"
     },
     {

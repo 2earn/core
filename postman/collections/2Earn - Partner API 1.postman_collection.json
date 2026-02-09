@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "_postman_id": "08c29bec-4c1f-46d5-8507-576bf7d34c3a",
     "name": "2Earn - Partner API",
@@ -21,12 +21,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/platforms/top-selling?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/platforms/top-selling?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "platforms",
                 "top-selling"
               ],
@@ -53,12 +52,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/platforms/platforms/{{platform_id}}/roles?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/platforms/platforms/{{platform_id}}/roles?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "platforms",
                 "platforms",
                 "{{platform_id}}",
@@ -91,12 +89,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"platform_id\": {{platform_id}},\n    \"new_type\": \"premium\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/platforms/change",
+              "raw": "{{base_url}}/api/partner/platforms/change",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "platforms",
                 "change"
               ]
@@ -121,12 +118,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"platform_id\": {{platform_id}}\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/platforms/validate",
+              "raw": "{{base_url}}/api/partner/platforms/validate",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "platforms",
                 "validate"
               ]
@@ -151,12 +147,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"platform_id\": {{platform_id}}\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/platforms/validation/cancel",
+              "raw": "{{base_url}}/api/partner/platforms/validation/cancel",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "platforms",
                 "validation",
                 "cancel"
@@ -182,12 +177,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"platform_id\": {{platform_id}}\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/platforms/change/cancel",
+              "raw": "{{base_url}}/api/partner/platforms/change/cancel",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "platforms",
                 "change",
                 "cancel"
@@ -209,12 +203,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/platforms/platforms?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/platforms/platforms?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "platforms",
                 "platforms"
               ],
@@ -245,12 +238,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"name\": \"New Platform\",\n    \"description\": \"Platform description\",\n    \"type\": \"standard\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/platforms/platforms",
+              "raw": "{{base_url}}/api/partner/platforms/platforms",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "platforms",
                 "platforms"
               ]
@@ -271,12 +263,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/platforms/platforms/{{platform_id}}?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/platforms/platforms/{{platform_id}}?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "platforms",
                 "platforms",
                 "{{platform_id}}"
@@ -308,12 +299,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"name\": \"Updated Platform Name\",\n    \"description\": \"Updated description\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/platforms/platforms/{{platform_id}}",
+              "raw": "{{base_url}}/api/partner/platforms/platforms/{{platform_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "platforms",
                 "platforms",
                 "{{platform_id}}"
@@ -341,12 +331,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/deals/deals?user_id={{user_id}}&page=1&limit=10&search=",
+              "raw": "{{base_url}}/api/partner/deals/deals?user_id={{user_id}}&page=1&limit=10&search=",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "deals",
                 "deals"
               ],
@@ -389,12 +378,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"title\": \"New Deal\",\n    \"description\": \"Deal description\",\n    \"platform_id\": {{platform_id}},\n    \"price\": 100,\n    \"discount\": 10,\n    \"current_turnover\": 0,\n    \"notes\": \"Deal validation request\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/deals/deals",
+              "raw": "{{base_url}}/api/partner/deals/deals",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "deals",
                 "deals"
               ]
@@ -415,12 +403,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/deals/deals/{{deal_id}}?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/deals/deals/{{deal_id}}?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "deals",
                 "deals",
                 "{{deal_id}}"
@@ -452,12 +439,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"title\": \"Updated Deal Title\",\n    \"description\": \"Updated description\",\n    \"price\": 120,\n    \"discount\": 15\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/deals/deals/{{deal_id}}",
+              "raw": "{{base_url}}/api/partner/deals/deals/{{deal_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "deals",
                 "deals",
                 "{{deal_id}}"
@@ -483,12 +469,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"status\": \"active\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/deals/{{deal_id}}/status",
+              "raw": "{{base_url}}/api/partner/deals/{{deal_id}}/status",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "deals",
                 "{{deal_id}}",
                 "status"
@@ -514,12 +499,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"deal_id\": {{deal_id}}\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/deals/validate",
+              "raw": "{{base_url}}/api/partner/deals/validate",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "deals",
                 "validate"
               ]
@@ -544,12 +528,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"deal_id\": {{deal_id}}\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/deals/validation/cancel",
+              "raw": "{{base_url}}/api/partner/deals/validation/cancel",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "deals",
                 "validation",
                 "cancel"
@@ -575,12 +558,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"deal_id\": {{deal_id}}\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/deals/change/cancel",
+              "raw": "{{base_url}}/api/partner/deals/change/cancel",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "deals",
                 "change",
                 "cancel"
@@ -602,12 +584,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/deals/dashboard/indicators?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/deals/dashboard/indicators?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "deals",
                 "dashboard",
                 "indicators"
@@ -635,12 +616,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/deals/performance/chart?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/deals/performance/chart?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "deals",
                 "performance",
                 "chart"
@@ -674,12 +654,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/deals/product-changes?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/deals/product-changes?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "deals",
                 "product-changes"
               ],
@@ -706,12 +685,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/deals/product-changes/statistics?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/deals/product-changes/statistics?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "deals",
                 "product-changes",
                 "statistics"
@@ -739,12 +717,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/deals/product-changes/{{change_id}}?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/deals/product-changes/{{change_id}}?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "deals",
                 "product-changes",
                 "{{change_id}}"
@@ -778,12 +755,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/orders/orders?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/orders/orders?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "orders",
                 "orders"
               ],
@@ -814,12 +790,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"customer_id\": 1,\n    \"total_amount\": 500,\n    \"status\": \"pending\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/orders/orders",
+              "raw": "{{base_url}}/api/partner/orders/orders",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "orders",
                 "orders"
               ]
@@ -840,12 +815,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/orders/orders/{{order_id}}?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/orders/orders/{{order_id}}?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "orders",
                 "orders",
                 "{{order_id}}"
@@ -877,12 +851,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"status\": \"processing\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/orders/orders/{{order_id}}",
+              "raw": "{{base_url}}/api/partner/orders/orders/{{order_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "orders",
                 "orders",
                 "{{order_id}}"
@@ -908,12 +881,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"status\": \"completed\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/orders/{{order_id}}/status",
+              "raw": "{{base_url}}/api/partner/orders/{{order_id}}/status",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "orders",
                 "{{order_id}}",
                 "status"
@@ -939,12 +911,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"order_id\": {{order_id}},\n    \"item_id\": 1,\n    \"quantity\": 2,\n    \"price\": 50\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/orders/details",
+              "raw": "{{base_url}}/api/partner/orders/details",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "orders",
                 "details"
               ]
@@ -969,12 +940,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"quantity\": 3,\n    \"price\": 55\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/orders/details/{{detail_id}}",
+              "raw": "{{base_url}}/api/partner/orders/details/{{detail_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "orders",
                 "details",
                 "{{detail_id}}"
@@ -1002,12 +972,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/items?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/items?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "items"
               ],
               "query": [
@@ -1037,12 +1006,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"name\": \"New Item\",\n    \"description\": \"Item description\",\n    \"price\": 50,\n    \"platform_id\": {{platform_id}}\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/items",
+              "raw": "{{base_url}}/api/partner/items",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "items"
               ]
             },
@@ -1062,12 +1030,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/items/{{item_id}}?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/items/{{item_id}}?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "items",
                 "{{item_id}}"
               ],
@@ -1098,12 +1065,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"name\": \"Updated Item Name\",\n    \"price\": 60\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/items/{{item_id}}",
+              "raw": "{{base_url}}/api/partner/items/{{item_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "items",
                 "{{item_id}}"
               ]
@@ -1124,12 +1090,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/items/{{item_id}}/platform?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/items/{{item_id}}/platform?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "items",
                 "{{item_id}}",
                 "platform"
@@ -1157,12 +1122,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/items/deal/{{deal_id}}?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/items/deal/{{deal_id}}?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "items",
                 "deal",
                 "{{deal_id}}"
@@ -1194,12 +1158,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"deal_id\": {{deal_id}},\n    \"item_ids\": [1, 2, 3]\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/items/deal/add-bulk",
+              "raw": "{{base_url}}/api/partner/items/deal/add-bulk",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "items",
                 "deal",
                 "add-bulk"
@@ -1225,12 +1188,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"deal_id\": {{deal_id}},\n    \"item_ids\": [1, 2]\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/items/deal/remove-bulk",
+              "raw": "{{base_url}}/api/partner/items/deal/remove-bulk",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "items",
                 "deal",
                 "remove-bulk"
@@ -1258,12 +1220,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/sales/dashboard/kpis?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/sales/dashboard/kpis?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "sales",
                 "dashboard",
                 "kpis"
@@ -1291,12 +1252,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/sales/dashboard/evolution-chart?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/sales/dashboard/evolution-chart?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "sales",
                 "dashboard",
                 "evolution-chart"
@@ -1324,12 +1284,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/sales/dashboard/top-products?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/sales/dashboard/top-products?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "sales",
                 "dashboard",
                 "top-products"
@@ -1357,12 +1316,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/sales/dashboard/top-deals?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/sales/dashboard/top-deals?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "sales",
                 "dashboard",
                 "top-deals"
@@ -1390,12 +1348,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/sales/dashboard/transactions?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/sales/dashboard/transactions?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "sales",
                 "dashboard",
                 "transactions"
@@ -1423,12 +1380,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/sales/dashboard/transactions/details?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/sales/dashboard/transactions/details?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "sales",
                 "dashboard",
                 "transactions",
@@ -1463,12 +1419,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/payments?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/payments?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "payments"
               ],
               "query": [
@@ -1494,12 +1449,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/payments/{{payment_id}}?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/payments/{{payment_id}}?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "payments",
                 "{{payment_id}}"
               ],
@@ -1530,12 +1484,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"amount\": 1000,\n    \"description\": \"Payment request\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/payments/demand",
+              "raw": "{{base_url}}/api/partner/payments/demand",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "payments",
                 "demand"
               ]
@@ -1556,12 +1509,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/payments/statistics/summary?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/payments/statistics/summary?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "payments",
                 "statistics",
                 "summary"
@@ -1595,12 +1547,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/partner-requests?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/partner-requests?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "partner-requests"
               ],
               "query": [
@@ -1626,12 +1577,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/partner-requests/{{request_id}}?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/partner-requests/{{request_id}}?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "partner-requests",
                 "{{request_id}}"
               ],
@@ -1662,12 +1612,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"request_type\": \"partnership\",\n    \"description\": \"Request description\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/partner-requests",
+              "raw": "{{base_url}}/api/partner/partner-requests",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "partner-requests"
               ]
             },
@@ -1691,12 +1640,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"status\": \"approved\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/partner-requests/{{request_id}}",
+              "raw": "{{base_url}}/api/partner/partner-requests/{{request_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "partner-requests",
                 "{{request_id}}"
               ]
@@ -1723,12 +1671,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/role-requests?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/role-requests?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "role-requests"
               ],
               "query": [
@@ -1754,12 +1701,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/role-requests/{{request_id}}?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/role-requests/{{request_id}}?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "role-requests",
                 "{{request_id}}"
               ],
@@ -1790,12 +1736,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"role_id\": 2,\n    \"platform_id\": {{platform_id}}\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/role-requests",
+              "raw": "{{base_url}}/api/partner/role-requests",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "role-requests"
               ]
             },
@@ -1819,12 +1764,11 @@
               "raw": "{\n    \"user_id\": {{user_id}}\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/role-requests/{{request_id}}/cancel",
+              "raw": "{{base_url}}/api/partner/role-requests/{{request_id}}/cancel",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "role-requests",
                 "{{request_id}}",
                 "cancel"
@@ -1852,12 +1796,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/plan-label?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/plan-label?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "plan-label"
               ],
               "query": [
@@ -1893,12 +1836,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"platform_id\": {{platform_id}},\n    \"role_id\": 2\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/users/platforms/add-role",
+              "raw": "{{base_url}}/api/partner/users/platforms/add-role",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "users",
                 "platforms",
                 "add-role"
@@ -1924,12 +1866,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"platform_id\": {{platform_id}},\n    \"role_id\": 3\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/users/platforms/update-role",
+              "raw": "{{base_url}}/api/partner/users/platforms/update-role",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "users",
                 "platforms",
                 "update-role"
@@ -1955,12 +1896,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"platform_id\": {{platform_id}}\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/users/platforms/delete-role",
+              "raw": "{{base_url}}/api/partner/users/platforms/delete-role",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "users",
                 "platforms",
                 "delete-role"
@@ -1982,12 +1922,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/users/platforms?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/users/platforms?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "users",
                 "platforms"
               ],
@@ -2014,12 +1953,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/users/discount-balance?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/users/discount-balance?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "users",
                 "discount-balance"
               ],
@@ -2046,12 +1984,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/users?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/users?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "users"
               ],
               "query": [
@@ -2073,7 +2010,7 @@
     {
       "id": "303e5e65-4321-4ae3-8cd7-06eb9016d9a9",
       "key": "base_url",
-      "value": "http://localhost/api",
+      "value": "http://localhost",
       "type": "string"
     },
     {

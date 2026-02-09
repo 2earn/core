@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "_postman_id": "850cce24-103d-4a2b-93ec-27e74dbd305f",
     "name": "2Earn - Mobile API",
@@ -21,11 +21,12 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/mobile/users?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/mobile/users?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
+                "api",
                 "mobile",
                 "users"
               ],
@@ -59,11 +60,12 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/mobile/balances?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/mobile/balances?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
+                "api",
                 "mobile",
                 "balances"
               ],
@@ -101,11 +103,12 @@
               "raw": "{\n    \"value\": 100.50,\n    \"description\": \"Payment for order\",\n    \"reference\": \"REF123\",\n    \"ref\": \"REF123\",\n    \"beneficiary_id_auto\": {{user_id}},\n    \"balance_operation_id\": 1,\n    \"operator_id\": 1,\n    \"order_id\": 1,\n    \"item_id\": 1,\n    \"deal_id\": 1,\n    \"platform_id\": 1,\n    \"order_detail_id\": 1\n}"
             },
             "url": {
-              "raw": "{{base_url}}/mobile/cash-balance",
+              "raw": "{{base_url}}/api/mobile/cash-balance",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
+                "api",
                 "mobile",
                 "cash-balance"
               ]
@@ -126,11 +129,12 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/mobile/cash-balance?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/mobile/cash-balance?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
+                "api",
                 "mobile",
                 "cash-balance"
               ],
@@ -154,7 +158,7 @@
     {
       "id": "27683079-87e9-42ab-bb59-8557255edd27",
       "key": "base_url",
-      "value": "http://localhost/api",
+      "value": "http://localhost",
       "type": "string"
     },
     {

@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "_postman_id": "7baa46ec-97d7-42f3-931d-b9215676564b",
     "name": "2Earn - Admin API",
@@ -25,12 +25,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/admin/platform-change-requests/pending?page=1&per_page=20&platform_id=",
+              "raw": "{{base_url}}/api/admin/platform-change-requests/pending?page=1&per_page=20&platform_id=",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "admin",
+              "path": ["api", "admin",
                 "platform-change-requests",
                 "pending"
               ],
@@ -72,12 +71,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/admin/platform-change-requests?status=pending&platform_id=&page=1&per_page=20",
+              "raw": "{{base_url}}/api/admin/platform-change-requests?status=pending&platform_id=&page=1&per_page=20",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "admin",
+              "path": ["api", "admin",
                 "platform-change-requests"
               ],
               "query": [
@@ -123,12 +121,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/admin/platform-change-requests/{{request_id}}",
+              "raw": "{{base_url}}/api/admin/platform-change-requests/{{request_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "admin",
+              "path": ["api", "admin",
                 "platform-change-requests",
                 "{{request_id}}"
               ]
@@ -157,12 +154,11 @@
               "raw": "{\n    \"admin_id\": {{admin_id}},\n    \"notes\": \"Approved by admin\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/admin/platform-change-requests/{{request_id}}/approve",
+              "raw": "{{base_url}}/api/admin/platform-change-requests/{{request_id}}/approve",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "admin",
+              "path": ["api", "admin",
                 "platform-change-requests",
                 "{{request_id}}",
                 "approve"
@@ -192,12 +188,11 @@
               "raw": "{\n    \"admin_id\": {{admin_id}},\n    \"notes\": \"Rejected - reason here\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/admin/platform-change-requests/{{request_id}}/reject",
+              "raw": "{{base_url}}/api/admin/platform-change-requests/{{request_id}}/reject",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "admin",
+              "path": ["api", "admin",
                 "platform-change-requests",
                 "{{request_id}}",
                 "reject"
@@ -225,12 +220,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/partner-requests?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/partner-requests?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "partner-requests"
               ],
               "query": [
@@ -256,12 +250,11 @@
               }
             ],
             "url": {
-              "raw": "{{base_url}}/partner/partner-requests/{{request_id}}?user_id={{user_id}}",
+              "raw": "{{base_url}}/api/partner/partner-requests/{{request_id}}?user_id={{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "partner-requests",
                 "{{request_id}}"
               ],
@@ -292,12 +285,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"request_type\": \"new_partner\",\n    \"business_name\": \"My Business\",\n    \"description\": \"Request description\",\n    \"contact_email\": \"contact@business.com\",\n    \"contact_phone\": \"+1234567890\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/partner-requests",
+              "raw": "{{base_url}}/api/partner/partner-requests",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "partner-requests"
               ]
             },
@@ -321,12 +313,11 @@
               "raw": "{\n    \"user_id\": {{user_id}},\n    \"status\": \"approved\",\n    \"admin_notes\": \"Approved by admin\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/partner/partner-requests/{{request_id}}",
+              "raw": "{{base_url}}/api/partner/partner-requests/{{request_id}}",
               "host": [
                 "{{base_url}}"
               ],
-              "path": [
-                "partner",
+              "path": ["api", "partner",
                 "partner-requests",
                 "{{request_id}}"
               ]
@@ -343,7 +334,7 @@
     {
       "id": "ba860e7b-cabc-462f-80b8-bc83d0f4eff4",
       "key": "base_url",
-      "value": "http://localhost/api",
+      "value": "http://localhost",
       "type": "string"
     },
     {
