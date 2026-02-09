@@ -1,0 +1,167 @@
+{
+  "info": {
+    "_postman_id": "228b1b03-2a00-468d-8c59-a4a8fa85c057",
+    "name": "2Earn - Mobile API",
+    "description": "Mobile API endpoints for 2Earn platform - User, Balance, and Cash Balance operations",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "Get User",
+          "id": "bcfa4799-3c6a-42f9-aac8-9dc4b48c7c8b",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/mobile/users?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "mobile",
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}",
+                  "description": "User ID (required)"
+                }
+              ]
+            },
+            "description": "Get user information with entity roles. Requires check.url middleware."
+          },
+          "response": []
+        }
+      ],
+      "id": "e38c8b7b-d509-4a26-b5e2-436719791af7"
+    },
+    {
+      "name": "Balance",
+      "item": [
+        {
+          "name": "Get Balances",
+          "id": "bbe03066-8a45-4980-9e3a-fa8d50e7226f",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/mobile/balances?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "mobile",
+                "balances"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}",
+                  "description": "User ID (required)"
+                }
+              ]
+            },
+            "description": "Get stored user balances for a specific user. Requires check.url middleware."
+          },
+          "response": []
+        }
+      ],
+      "id": "7fee539f-cfa2-4e99-820a-be718cbcf062"
+    },
+    {
+      "name": "Cash Balance",
+      "item": [
+        {
+          "name": "Create Cash Balance",
+          "id": "e067275b-32f3-46f7-be03-3571022cdcce",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"value\": 100.50,\n    \"description\": \"Payment for order\",\n    \"reference\": \"REF123\",\n    \"ref\": \"REF123\",\n    \"beneficiary_id_auto\": {{user_id}},\n    \"balance_operation_id\": 1,\n    \"operator_id\": 1,\n    \"order_id\": 1,\n    \"item_id\": 1,\n    \"deal_id\": 1,\n    \"platform_id\": 1,\n    \"order_detail_id\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/mobile/cash-balance",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "mobile",
+                "cash-balance"
+              ]
+            },
+            "description": "Create a new cash balance record. Requires check.url middleware."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Cash Balance",
+          "id": "1c631789-62a9-47be-a6e3-cf478b81b829",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/mobile/cash-balance?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "mobile",
+                "cash-balance"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}",
+                  "description": "User ID (required)"
+                }
+              ]
+            },
+            "description": "Get cash balance for a specific user. Requires check.url middleware."
+          },
+          "response": []
+        }
+      ],
+      "id": "907379cb-f6ef-4bf1-adf6-7722f1d459f3"
+    }
+  ],
+  "variable": [
+    {
+      "id": "7054aa48-bd84-4050-98e8-fa192652d6bc",
+      "key": "base_url",
+      "value": "http://localhost/api",
+      "type": "string"
+    },
+    {
+      "id": "c1acedb5-bec4-471a-9d5e-3f8c2e39c279",
+      "key": "user_id",
+      "value": "1",
+      "type": "string"
+    }
+  ]
+}

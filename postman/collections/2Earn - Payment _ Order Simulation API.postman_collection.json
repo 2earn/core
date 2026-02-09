@@ -1,0 +1,117 @@
+{
+  "info": {
+    "_postman_id": "3b09c498-16f3-45c4-bee7-05b104b7caab",
+    "name": "2Earn - Payment & Order Simulation API",
+    "description": "Payment API endpoints for 2Earn platform - Order Processing and Simulation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Order Simulation",
+      "item": [
+        {
+          "name": "Process Order",
+          "id": "839d5053-a192-4476-96b3-6c081a0ea9f3",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"order_id\": {{order_id}}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/order/process",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "order",
+                "process"
+              ]
+            },
+            "description": "Process an order after simulation. Order must be in 'Simulated' or 'Ready' status. Requires check.url middleware. This endpoint will:\n1. Validate order status\n2. Run simulation\n3. Compare with last saved simulation\n4. Execute the order if simulation matches\n5. Return payment details if successful"
+          },
+          "response": []
+        },
+        {
+          "name": "Simulate Order",
+          "id": "c4c41293-33dd-4575-9428-df8d6ccb62bd",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"order_id\": {{order_id}}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/order/simulate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "order",
+                "simulate"
+              ]
+            },
+            "description": "Simulate order without executing it (Step 1). This endpoint will:\n1. Validate order exists\n2. Run simulation\n3. Return simulation results without executing\n4. Does not save simulation details to database"
+          },
+          "response": []
+        },
+        {
+          "name": "Run Simulation",
+          "id": "84f4495f-09c2-41b5-b171-88d3b7d5a3e4",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"order_id\": {{order_id}},\n    \"save_simulation\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/order/run-simulation",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "order",
+                "run-simulation"
+              ]
+            },
+            "description": "Run simulation and optionally save results (Step 2). This endpoint will:\n1. Validate order exists\n2. Run simulation\n3. Optionally save simulation details to database (if save_simulation=true)\n4. Return detailed simulation results\n5. Does not execute the order\n\nUse save_simulation parameter to control whether to persist simulation details."
+          },
+          "response": []
+        }
+      ],
+      "id": "8cd68688-64e7-42e5-9f17-31a58c39f35c"
+    }
+  ],
+  "variable": [
+    {
+      "id": "a9cadd62-d465-4620-9ce1-6f3fcfc4ab7c",
+      "key": "base_url",
+      "value": "http://localhost/api",
+      "type": "string"
+    },
+    {
+      "id": "9167f8de-5be7-45e4-bea6-a75cbda9b8d5",
+      "key": "order_id",
+      "value": "1",
+      "type": "string"
+    }
+  ]
+}

@@ -1,0 +1,2134 @@
+{
+  "info": {
+    "_postman_id": "a8ac2d51-4018-412a-9352-ec879c93ca9b",
+    "name": "2Earn - Partner API",
+    "description": "Partner API endpoints for 2Earn platform - Platforms, Deals, Orders, Items, Sales Dashboard, Payments, and Role Requests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Platforms",
+      "item": [
+        {
+          "name": "Get Top Selling Platforms",
+          "id": "9dd9df20-3421-494c-8ce3-2f6c33146a19",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/platforms/top-selling?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "platforms",
+                "top-selling"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get top selling platforms. Requires check.url middleware."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Platform Roles",
+          "id": "0d8d49c1-1a96-4f49-a468-17d5dc48a25f",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/platforms/platforms/{{platform_id}}/roles?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "platforms",
+                "platforms",
+                "{{platform_id}}",
+                "roles"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get roles for a specific platform"
+          },
+          "response": []
+        },
+        {
+          "name": "Change Platform Type",
+          "id": "1fa20cb8-6e7d-49cc-9bb1-d5195bc964d6",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"platform_id\": {{platform_id}},\n    \"new_type\": \"premium\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/platforms/change",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "platforms",
+                "change"
+              ]
+            },
+            "description": "Change platform type"
+          },
+          "response": []
+        },
+        {
+          "name": "Validate Platform Request",
+          "id": "74fd9baa-21cf-436a-bde0-cee9f4ce9369",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"platform_id\": {{platform_id}}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/platforms/validate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "platforms",
+                "validate"
+              ]
+            },
+            "description": "Validate platform request"
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Validation Request",
+          "id": "b17be5d9-c9e8-44dd-a4e0-12e50f9ec60c",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"platform_id\": {{platform_id}}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/platforms/validation/cancel",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "platforms",
+                "validation",
+                "cancel"
+              ]
+            },
+            "description": "Cancel validation request"
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Change Request",
+          "id": "563fb8fc-b4f7-475b-90ed-f06ed8d0af80",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"platform_id\": {{platform_id}}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/platforms/change/cancel",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "platforms",
+                "change",
+                "cancel"
+              ]
+            },
+            "description": "Cancel change request"
+          },
+          "response": []
+        },
+        {
+          "name": "List Platforms",
+          "id": "d5e0b5a8-9143-4159-8e27-8ccf7b44d11a",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/platforms/platforms?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "platforms",
+                "platforms"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "List all platforms"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Platform",
+          "id": "89d8392e-170b-44b2-a057-b8c2dc7e4463",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"name\": \"New Platform\",\n    \"description\": \"Platform description\",\n    \"type\": \"standard\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/platforms/platforms",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "platforms",
+                "platforms"
+              ]
+            },
+            "description": "Create new platform"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Platform",
+          "id": "5612c627-ef91-4c61-bd1d-b4531bebcd32",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/platforms/platforms/{{platform_id}}?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "platforms",
+                "platforms",
+                "{{platform_id}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get specific platform details"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Platform",
+          "id": "54f1e26f-a201-46f5-a838-890fd903cb3f",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"name\": \"Updated Platform Name\",\n    \"description\": \"Updated description\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/platforms/platforms/{{platform_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "platforms",
+                "platforms",
+                "{{platform_id}}"
+              ]
+            },
+            "description": "Update platform"
+          },
+          "response": []
+        }
+      ],
+      "id": "48996f15-f102-46d6-a37e-80308ace94d1"
+    },
+    {
+      "name": "Deals",
+      "item": [
+        {
+          "name": "List Deals",
+          "id": "b4795b92-6dc7-4614-b566-4b00b89f26f3",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/deals/deals?user_id={{user_id}}&page=1&limit=10&search=",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "deals",
+                "deals"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "search",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "List all partner deals with pagination"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Deal",
+          "id": "2a3d0948-7259-4f8b-95de-1119c7795f19",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"title\": \"New Deal\",\n    \"description\": \"Deal description\",\n    \"platform_id\": {{platform_id}},\n    \"price\": 100,\n    \"discount\": 10,\n    \"current_turnover\": 0,\n    \"notes\": \"Deal validation request\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/deals/deals",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "deals",
+                "deals"
+              ]
+            },
+            "description": "Create new deal with automatic validation request"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Deal",
+          "id": "d1751e69-5b3a-4c53-8425-e20ba7f9e3ec",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/deals/deals/{{deal_id}}?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "deals",
+                "deals",
+                "{{deal_id}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get specific deal details"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Deal",
+          "id": "d524b446-4872-4fa2-8b55-65cfa309dacd",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"title\": \"Updated Deal Title\",\n    \"description\": \"Updated description\",\n    \"price\": 120,\n    \"discount\": 15\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/deals/deals/{{deal_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "deals",
+                "deals",
+                "{{deal_id}}"
+              ]
+            },
+            "description": "Update deal"
+          },
+          "response": []
+        },
+        {
+          "name": "Change Deal Status",
+          "id": "361da866-f197-402c-8a38-74627623dbaa",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/deals/{{deal_id}}/status",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "deals",
+                "{{deal_id}}",
+                "status"
+              ]
+            },
+            "description": "Change deal status"
+          },
+          "response": []
+        },
+        {
+          "name": "Validate Deal Request",
+          "id": "c2e3a13d-de46-4233-954b-832dd87a5f38",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"deal_id\": {{deal_id}}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/deals/validate",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "deals",
+                "validate"
+              ]
+            },
+            "description": "Validate deal request"
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Deal Validation",
+          "id": "b05e581a-b50d-499d-a0fc-d2f2f8baf9b4",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"deal_id\": {{deal_id}}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/deals/validation/cancel",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "deals",
+                "validation",
+                "cancel"
+              ]
+            },
+            "description": "Cancel deal validation request"
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Deal Change",
+          "id": "a5025fdb-35e3-48d8-a8cc-089f9a55e15b",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"deal_id\": {{deal_id}}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/deals/change/cancel",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "deals",
+                "change",
+                "cancel"
+              ]
+            },
+            "description": "Cancel deal change request"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Dashboard Indicators",
+          "id": "90352df5-a57d-4bc2-9e12-3af5cd248ef1",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/deals/dashboard/indicators?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "deals",
+                "dashboard",
+                "indicators"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get deal dashboard indicators"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Performance Chart",
+          "id": "e43fd998-1b2b-4fc1-9c8e-838164a0561e",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/deals/performance/chart?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "deals",
+                "performance",
+                "chart"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get deal performance chart data"
+          },
+          "response": []
+        }
+      ],
+      "id": "43e5b94c-a061-4b4c-a0f2-762bbd9a1a8f"
+    },
+    {
+      "name": "Deal Product Changes",
+      "item": [
+        {
+          "name": "List Product Changes",
+          "id": "b57cd1d5-907e-480a-967b-23c7da023f48",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/deals/product-changes?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "deals",
+                "product-changes"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "List deal product changes"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Product Change Statistics",
+          "id": "455e95e5-58e8-4f70-9f26-c9a2931b5e8f",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/deals/product-changes/statistics?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "deals",
+                "product-changes",
+                "statistics"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get product change statistics"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Product Change Details",
+          "id": "81d86396-b7f7-4f4c-a7cb-0b74c0becd33",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/deals/product-changes/{{change_id}}?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "deals",
+                "product-changes",
+                "{{change_id}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get specific product change details"
+          },
+          "response": []
+        }
+      ],
+      "id": "4cba659e-6446-40d4-9730-651e6e3d5694"
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "List Orders",
+          "id": "573aa931-2c23-4cc7-8b2b-890451d3bddf",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/orders/orders?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "orders",
+                "orders"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "List all partner orders"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Order",
+          "id": "25edef07-5d55-43cd-abdc-fb37f0127aac",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"customer_id\": 1,\n    \"total_amount\": 500,\n    \"status\": \"pending\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/orders/orders",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "orders",
+                "orders"
+              ]
+            },
+            "description": "Create new order"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Order",
+          "id": "91e16f34-fa77-4c2a-bc2f-601a45259693",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/orders/orders/{{order_id}}?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "orders",
+                "orders",
+                "{{order_id}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get specific order details"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Order",
+          "id": "cd433a29-48df-47a1-a1b1-3771df2cf6c5",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"status\": \"processing\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/orders/orders/{{order_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "orders",
+                "orders",
+                "{{order_id}}"
+              ]
+            },
+            "description": "Update order"
+          },
+          "response": []
+        },
+        {
+          "name": "Change Order Status",
+          "id": "55dec976-a9eb-4c94-aaca-1c1c85fbf7c9",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"status\": \"completed\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/orders/{{order_id}}/status",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "orders",
+                "{{order_id}}",
+                "status"
+              ]
+            },
+            "description": "Change order status"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Order Detail",
+          "id": "c7de0d5d-7db4-4bf5-8c2c-b26f999a4532",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"order_id\": {{order_id}},\n    \"item_id\": 1,\n    \"quantity\": 2,\n    \"price\": 50\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/orders/details",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "orders",
+                "details"
+              ]
+            },
+            "description": "Create order detail"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Order Detail",
+          "id": "cb57c4b1-20c4-43eb-999b-45f7dfc99b31",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"quantity\": 3,\n    \"price\": 55\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/orders/details/{{detail_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "orders",
+                "details",
+                "{{detail_id}}"
+              ]
+            },
+            "description": "Update order detail"
+          },
+          "response": []
+        }
+      ],
+      "id": "3b104374-5db1-4fbc-b908-e301480c87e4"
+    },
+    {
+      "name": "Items",
+      "item": [
+        {
+          "name": "List Items",
+          "id": "b157e622-5232-417a-95de-6eedbd4a2ddf",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/items?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "items"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "List all items"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Item",
+          "id": "f7cf8fa3-c378-49d9-8818-fa4816982b4c",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"name\": \"New Item\",\n    \"description\": \"Item description\",\n    \"price\": 50,\n    \"platform_id\": {{platform_id}}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/items",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "items"
+              ]
+            },
+            "description": "Create new item"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Item",
+          "id": "6e09740f-a0ef-4c38-8fc2-768017150e58",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/items/{{item_id}}?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "items",
+                "{{item_id}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get specific item details"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Item",
+          "id": "cdfb2af4-5b13-4d81-93c2-31f181d1e60a",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"name\": \"Updated Item Name\",\n    \"price\": 60\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/items/{{item_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "items",
+                "{{item_id}}"
+              ]
+            },
+            "description": "Update item"
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Platform from Item",
+          "id": "48f0dd4f-06c2-4007-b384-2bd1ccc81966",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/items/{{item_id}}/platform?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "items",
+                "{{item_id}}",
+                "platform"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Remove platform from item"
+          },
+          "response": []
+        },
+        {
+          "name": "List Items for Deal",
+          "id": "950e547b-bbd4-4a06-ae34-f9e98aca895b",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/items/deal/{{deal_id}}?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "items",
+                "deal",
+                "{{deal_id}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "List items for specific deal"
+          },
+          "response": []
+        },
+        {
+          "name": "Add Items to Deal (Bulk)",
+          "id": "df8f0500-b243-4aef-abaf-66e8d0bd73c6",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"deal_id\": {{deal_id}},\n    \"item_ids\": [1, 2, 3]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/items/deal/add-bulk",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "items",
+                "deal",
+                "add-bulk"
+              ]
+            },
+            "description": "Add multiple items to deal"
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Items from Deal (Bulk)",
+          "id": "44c42c28-27d7-48ca-91bd-7c43dff4f775",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"deal_id\": {{deal_id}},\n    \"item_ids\": [1, 2]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/items/deal/remove-bulk",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "items",
+                "deal",
+                "remove-bulk"
+              ]
+            },
+            "description": "Remove multiple items from deal"
+          },
+          "response": []
+        }
+      ],
+      "id": "2fe6fd23-491c-40c2-8a2c-44f559a0e7ed"
+    },
+    {
+      "name": "Sales Dashboard",
+      "item": [
+        {
+          "name": "Get KPIs",
+          "id": "48198a1d-20d2-4aac-a5ec-f456c5a1535c",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/sales/dashboard/kpis?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "sales",
+                "dashboard",
+                "kpis"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get sales dashboard KPIs"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Sales Evolution Chart",
+          "id": "2fbf58c1-c1cd-4cca-a160-a31d3f734958",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/sales/dashboard/evolution-chart?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "sales",
+                "dashboard",
+                "evolution-chart"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get sales evolution chart data"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Top Selling Products",
+          "id": "b19f6320-acf9-48bb-ab20-8a106785d7e7",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/sales/dashboard/top-products?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "sales",
+                "dashboard",
+                "top-products"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get top selling products"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Top Selling Deals",
+          "id": "b15efb02-8dc7-4d13-98cc-630b767c5ab4",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/sales/dashboard/top-deals?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "sales",
+                "dashboard",
+                "top-deals"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get top selling deals"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Transactions",
+          "id": "5b880ea9-7449-452b-a023-35aedce0e0dd",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/sales/dashboard/transactions?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "sales",
+                "dashboard",
+                "transactions"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get transactions list"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Transaction Details",
+          "id": "2ef1bb45-f448-4729-adf8-0b8451810b36",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/sales/dashboard/transactions/details?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "sales",
+                "dashboard",
+                "transactions",
+                "details"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get detailed transaction information"
+          },
+          "response": []
+        }
+      ],
+      "id": "8d51d5ae-130c-4045-8602-b00ce83707c5"
+    },
+    {
+      "name": "Payments",
+      "item": [
+        {
+          "name": "List Payments",
+          "id": "37f6713d-2bb9-40d4-a56a-a605f282b853",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/payments?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "payments"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "List all payments"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Payment",
+          "id": "6c4e6979-d729-42cc-afc7-1d1f08f2b872",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/payments/{{payment_id}}?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "payments",
+                "{{payment_id}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get specific payment details"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Payment Demand",
+          "id": "e9f6d24f-6fcb-4db1-8a0d-18dcec20665a",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"amount\": 1000,\n    \"description\": \"Payment request\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/payments/demand",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "payments",
+                "demand"
+              ]
+            },
+            "description": "Create payment demand"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Payment Statistics",
+          "id": "baed9528-37b9-43f3-aa20-18516dea1c16",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/payments/statistics/summary?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "payments",
+                "statistics",
+                "summary"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get payment statistics summary"
+          },
+          "response": []
+        }
+      ],
+      "id": "50e4e349-a976-4278-9561-e32e3bc656c1"
+    },
+    {
+      "name": "Partner Requests",
+      "item": [
+        {
+          "name": "List Partner Requests",
+          "id": "4259c23e-f6e8-401c-a448-cffffa025eb9",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/partner-requests?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "partner-requests"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "List all partner requests"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Partner Request",
+          "id": "2cc12cf3-da20-45f7-a9e3-3078ac70cf49",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/partner-requests/{{request_id}}?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "partner-requests",
+                "{{request_id}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get specific partner request details"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Partner Request",
+          "id": "fe854a81-6437-4ce6-8360-db43e270c465",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"request_type\": \"partnership\",\n    \"description\": \"Request description\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/partner-requests",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "partner-requests"
+              ]
+            },
+            "description": "Create new partner request"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Partner Request",
+          "id": "8641b589-59de-4a50-bc70-3c28204b7e18",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"status\": \"approved\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/partner-requests/{{request_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "partner-requests",
+                "{{request_id}}"
+              ]
+            },
+            "description": "Update partner request"
+          },
+          "response": []
+        }
+      ],
+      "id": "e76bc2dd-687b-42e2-864a-3b6f1f40ba8c"
+    },
+    {
+      "name": "Role Requests",
+      "item": [
+        {
+          "name": "List Role Requests",
+          "id": "493a408b-ef0d-4128-95c0-b76791b1ec19",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/role-requests?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "role-requests"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "List all role requests"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Role Request",
+          "id": "41d67795-d830-4353-94ed-6350ef1b6d2c",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/role-requests/{{request_id}}?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "role-requests",
+                "{{request_id}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get specific role request details"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Role Request",
+          "id": "959e130a-aaa0-4cd2-ac68-2b9407044813",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"role_id\": 2,\n    \"platform_id\": {{platform_id}}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/role-requests",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "role-requests"
+              ]
+            },
+            "description": "Create new role request"
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Role Request",
+          "id": "6c4ed2a3-6ba1-450a-96fd-f764e83b1bf9",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/role-requests/{{request_id}}/cancel",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "role-requests",
+                "{{request_id}}",
+                "cancel"
+              ]
+            },
+            "description": "Cancel role request"
+          },
+          "response": []
+        }
+      ],
+      "id": "20563591-b0d1-4b0f-b6f6-b419186a8dd5"
+    },
+    {
+      "name": "Plan Labels",
+      "item": [
+        {
+          "name": "Get Plan Labels",
+          "id": "7b9f443e-1da7-4852-abcc-add88db1b8b4",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/plan-label?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "plan-label"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get plan labels"
+          },
+          "response": []
+        }
+      ],
+      "id": "e0e4af88-b49e-4e13-b05a-61e8ea6b9248"
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Add Role to User Platform",
+          "id": "36a97064-d320-456c-b1ee-03a87f34f033",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"platform_id\": {{platform_id}},\n    \"role_id\": 2\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/users/platforms/add-role",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "users",
+                "platforms",
+                "add-role"
+              ]
+            },
+            "description": "Add role to user platform"
+          },
+          "response": []
+        },
+        {
+          "name": "Update User Platform Role",
+          "id": "b5406bc6-12a0-4287-8f08-91ea69d06639",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"platform_id\": {{platform_id}},\n    \"role_id\": 3\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/users/platforms/update-role",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "users",
+                "platforms",
+                "update-role"
+              ]
+            },
+            "description": "Update user platform role"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User Platform Role",
+          "id": "abb47039-c6e7-45b7-9a35-96db25942e87",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"platform_id\": {{platform_id}}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/users/platforms/delete-role",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "users",
+                "platforms",
+                "delete-role"
+              ]
+            },
+            "description": "Delete user platform role"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Partner Platforms",
+          "id": "8558f4fc-e045-4ae7-bfaa-b60a36e5459c",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/users/platforms?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "users",
+                "platforms"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get partner platforms"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Discount Balance",
+          "id": "7ac93631-54de-4cf9-b141-96fcc6d86370",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/users/discount-balance?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "users",
+                "discount-balance"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get user discount balance"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Info",
+          "id": "61b93172-e3f0-44f7-9073-cacaa3657abb",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/users?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get user information"
+          },
+          "response": []
+        }
+      ],
+      "id": "16eb8a91-e3e1-4a98-ba41-7a29e16c2f05"
+    }
+  ],
+  "variable": [
+    {
+      "id": "bbab9b53-71ad-434a-9306-f91fb1902f0c",
+      "key": "base_url",
+      "value": "http://localhost/api",
+      "type": "string"
+    },
+    {
+      "id": "476d7c2a-227f-42b9-97d7-eba5da26bc3f",
+      "key": "user_id",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "id": "8be6ab37-d6b6-4062-8d83-32444a9cd762",
+      "key": "platform_id",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "id": "7184f005-cec6-46aa-8312-3bf345e9c9c7",
+      "key": "deal_id",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "id": "ce2150b7-b896-4cde-97df-ce2e3c33fcd4",
+      "key": "order_id",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "id": "075412eb-deca-4fb4-aa05-1582b2e031dd",
+      "key": "item_id",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "id": "e5aa371d-2d96-420e-924a-6162a1a79172",
+      "key": "payment_id",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "id": "b4a75263-3ee8-483d-af83-661f7f67b0d2",
+      "key": "request_id",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "id": "0c2be0fa-063f-4526-94d4-9e4e1fc24b43",
+      "key": "change_id",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "id": "f9b42090-e145-4217-98cf-2b16f600fedb",
+      "key": "detail_id",
+      "value": "1",
+      "type": "string"
+    }
+  ]
+}

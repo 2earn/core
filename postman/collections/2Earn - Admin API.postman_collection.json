@@ -1,0 +1,374 @@
+{
+  "info": {
+    "_postman_id": "453c2ed4-4c4a-42b1-ad78-7b22a550358e",
+    "name": "2Earn - Admin API",
+    "description": "Admin API endpoints for 2Earn platform - Platform Change Requests and Partner Requests Management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Platform Change Requests",
+      "item": [
+        {
+          "name": "Get Pending Change Requests",
+          "id": "4cf9df68-c554-40e0-8cdf-bcf02766d39f",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/platform-change-requests/pending?page=1&per_page=20&platform_id=",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "platform-change-requests",
+                "pending"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "key": "per_page",
+                  "value": "20",
+                  "description": "Items per page"
+                },
+                {
+                  "key": "platform_id",
+                  "value": "",
+                  "description": "Filter by platform ID (optional)"
+                }
+              ]
+            },
+            "description": "Get all pending platform change requests with pagination"
+          },
+          "response": []
+        },
+        {
+          "name": "List All Change Requests",
+          "id": "30ca65df-cde2-4bdc-a731-b767cd625cc6",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/platform-change-requests?status=pending&platform_id=&page=1&per_page=20",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "platform-change-requests"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "pending",
+                  "description": "Filter by status: pending, approved, rejected (optional)"
+                },
+                {
+                  "key": "platform_id",
+                  "value": "",
+                  "description": "Filter by platform ID (optional)"
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "key": "per_page",
+                  "value": "20",
+                  "description": "Items per page (max 100)"
+                }
+              ]
+            },
+            "description": "List all platform change requests with optional filters"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Change Request Details",
+          "id": "347e22c2-059e-40bb-b2fb-03e0582dd1c5",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/platform-change-requests/{{request_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "platform-change-requests",
+                "{{request_id}}"
+              ]
+            },
+            "description": "Get specific platform change request details"
+          },
+          "response": []
+        },
+        {
+          "name": "Approve Change Request",
+          "id": "5992a4e7-f939-4f8f-88e0-bb8ba2afb8bf",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"admin_id\": {{admin_id}},\n    \"notes\": \"Approved by admin\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/platform-change-requests/{{request_id}}/approve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "platform-change-requests",
+                "{{request_id}}",
+                "approve"
+              ]
+            },
+            "description": "Approve a platform change request"
+          },
+          "response": []
+        },
+        {
+          "name": "Reject Change Request",
+          "id": "e838253d-517e-4ef6-b7b5-fa6022f6b6ac",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"admin_id\": {{admin_id}},\n    \"notes\": \"Rejected - reason here\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/platform-change-requests/{{request_id}}/reject",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "platform-change-requests",
+                "{{request_id}}",
+                "reject"
+              ]
+            },
+            "description": "Reject a platform change request"
+          },
+          "response": []
+        }
+      ],
+      "id": "2f9628c7-bfdf-44e2-93e9-681ea546a12d"
+    },
+    {
+      "name": "Partner Requests",
+      "item": [
+        {
+          "name": "List Partner Requests",
+          "id": "11b35643-3934-4fb6-9381-0f9981e37d8e",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/partner-requests?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "partner-requests"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "List all partner requests (via partner route). Requires check.url middleware."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Partner Request",
+          "id": "59a63328-bc99-46c0-9778-f58841a7ea05",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/partner/partner-requests/{{request_id}}?user_id={{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "partner-requests",
+                "{{request_id}}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "{{user_id}}"
+                }
+              ]
+            },
+            "description": "Get specific partner request details"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Partner Request",
+          "id": "e132cc63-8026-4374-9d90-0dab55d27fba",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"request_type\": \"new_partner\",\n    \"business_name\": \"My Business\",\n    \"description\": \"Request description\",\n    \"contact_email\": \"contact@business.com\",\n    \"contact_phone\": \"+1234567890\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/partner-requests",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "partner-requests"
+              ]
+            },
+            "description": "Create new partner request"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Partner Request",
+          "id": "38dfae5c-c8ce-481a-9cb7-8424662c7bd6",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user_id\": {{user_id}},\n    \"status\": \"approved\",\n    \"admin_notes\": \"Approved by admin\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/partner/partner-requests/{{request_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "partner",
+                "partner-requests",
+                "{{request_id}}"
+              ]
+            },
+            "description": "Update partner request (admin action)"
+          },
+          "response": []
+        }
+      ],
+      "id": "966fa118-138f-4cea-8e7b-63b7d25e9854"
+    }
+  ],
+  "variable": [
+    {
+      "id": "16cca7df-0073-4669-9147-148b5fd3a7f4",
+      "key": "base_url",
+      "value": "http://localhost/api",
+      "type": "string"
+    },
+    {
+      "id": "37cab0bd-f76a-427e-b385-5a5c2193d533",
+      "key": "admin_token",
+      "value": "your_admin_bearer_token_here",
+      "type": "string"
+    },
+    {
+      "id": "66456810-6347-41dc-ae9e-b922eb419e41",
+      "key": "admin_id",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "id": "6de21230-c0f1-441b-a703-950d267bf3b8",
+      "key": "user_id",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "id": "b5bd7663-f8ea-4677-be9a-2a2f01931fa2",
+      "key": "request_id",
+      "value": "1",
+      "type": "string"
+    }
+  ]
+}
