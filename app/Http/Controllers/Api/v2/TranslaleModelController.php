@@ -1,0 +1,396 @@
+<?php
+
+namespace App\Http\Controllers\Api\v2;
+
+use App\Http\Controllers\Controller;
+use App\Services\Translation\TranslaleModelService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
+class TranslaleModelController extends Controller
+{
+    protected TranslaleModelService $translaleModelService;
+
+    public function __construct(TranslaleModelService $translaleModelService)
+    {
+        $this->translaleModelService = $translaleModelService;
+    }
+
+    /**
+     * Get paginated translations with search
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function index(Request $request): JsonResponse
+    {
+        try {
+            $search = $request->get('search');
+            $perPage = (int) $request->get('per_page', 10);
+            $perPage = min(max($perPage, 1), 100);
+
+            $translations = $this->translaleModelService->getPaginated($search, $perPage);
+
+            return response()->json([
+                'success' => true,
+                'data' => $translations
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error fetching translations: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Get all translations
+     *
+     * @return JsonResponse
+     */
+    public function all(): JsonResponse
+    {
+        try {
+            $translations = $this->translaleModelService->getAll();
+
+            return response()->json([
+                'success' => true,
+                'data' => $translations
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error fetching all translations: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Get a specific translation by ID
+     *
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function show(int $id): JsonResponse
+    {
+        try {
+            $translation = $this->translaleModelService->getById($id);
+
+            if (!$translation) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Translation not found'
+                ], 404);
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => $translation
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error fetching translation: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Search translations
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function search(Request $request): JsonResponse
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'search' => 'required|string|min:1'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $translations = $this->translaleModelService->search($request->search);
+
+            return response()->json([
+                'success' => true,
+                'data' => $translations
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error searching translations: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Get all translations as key-value arrays
+     *
+     * @return JsonResponse
+     */
+    public function keyValueArrays(): JsonResponse
+    {
+        try {
+            $arrays = $this->translaleModelService->getAllAsKeyValueArrays();
+
+            return response()->json([
+                'success' => true,
+                'data' => $arrays
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error fetching key-value arrays: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Get translation count
+     *
+     * @return JsonResponse
+     */
+    public function count(): JsonResponse
+    {
+        try {
+            $count = $this->translaleModelService->count();
+
+            return response()->json([
+                'success' => true,
+                'count' => $count
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error fetching count: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Check if translation exists
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function exists(Request $request): JsonResponse
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $exists = $this->translaleModelService->exists($request->name);
+
+            return response()->json([
+                'success' => true,
+                'exists' => $exists
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error checking existence: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Get translations by name pattern
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function byPattern(Request $request): JsonResponse
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'pattern' => 'required|string'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $translations = $this->translaleModelService->getByNamePattern($request->pattern);
+
+            return response()->json([
+                'success' => true,
+                'data' => $translations
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error fetching translations: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Create a new translation
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function store(Request $request): JsonResponse
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'value' => 'nullable|string',
+                'valueFr' => 'nullable|string',
+                'valueEn' => 'nullable|string',
+                'valueEs' => 'nullable|string',
+                'valueTr' => 'nullable|string',
+                'valueRu' => 'nullable|string',
+                'valueDe' => 'nullable|string',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            if ($this->translaleModelService->exists($request->name)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Translation with this name already exists'
+                ], 400);
+            }
+
+            $translation = $this->translaleModelService->create($request->name, $request->only([
+                'value', 'valueFr', 'valueEn', 'valueEs', 'valueTr', 'valueRu', 'valueDe'
+            ]));
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Translation created successfully',
+                'data' => $translation
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error creating translation: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Update a translation
+     *
+     * @param Request $request
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function update(Request $request, int $id): JsonResponse
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'name' => 'sometimes|string|max:255',
+                'value' => 'nullable|string',
+                'valueFr' => 'nullable|string',
+                'valueEn' => 'nullable|string',
+                'valueEs' => 'nullable|string',
+                'valueTr' => 'nullable|string',
+                'valueRu' => 'nullable|string',
+                'valueDe' => 'nullable|string',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $translation = $this->translaleModelService->getById($id);
+            if (!$translation) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Translation not found'
+                ], 404);
+            }
+
+            $success = $this->translaleModelService->update($id, $request->all());
+
+            if (!$success) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Failed to update translation'
+                ], 400);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Translation updated successfully'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error updating translation: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Delete a translation
+     *
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function destroy(int $id): JsonResponse
+    {
+        try {
+            $translation = $this->translaleModelService->getById($id);
+            if (!$translation) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Translation not found'
+                ], 404);
+            }
+
+            $success = $this->translaleModelService->delete($id);
+
+            if (!$success) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Failed to delete translation'
+                ], 400);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Translation deleted successfully'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error deleting translation: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+}
+

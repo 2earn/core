@@ -543,4 +543,57 @@ Route::prefix('/v2/')->name('api_v2_')
             Route::get('/count', [\App\Http\Controllers\Api\v2\PendingPlatformRoleAssignmentsInlineController::class, 'count'])->name('count');
             Route::get('/with-total', [\App\Http\Controllers\Api\v2\PendingPlatformRoleAssignmentsInlineController::class, 'withTotal'])->name('with_total');
         });
+
+        Route::prefix('translale-models')->name('translale_models_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\TranslaleModelController::class, 'index'])->name('index');
+            Route::get('/all', [\App\Http\Controllers\Api\v2\TranslaleModelController::class, 'all'])->name('all');
+            Route::get('/count', [\App\Http\Controllers\Api\v2\TranslaleModelController::class, 'count'])->name('count');
+            Route::get('/key-value-arrays', [\App\Http\Controllers\Api\v2\TranslaleModelController::class, 'keyValueArrays'])->name('key_value_arrays');
+            Route::get('/search', [\App\Http\Controllers\Api\v2\TranslaleModelController::class, 'search'])->name('search');
+            Route::get('/exists', [\App\Http\Controllers\Api\v2\TranslaleModelController::class, 'exists'])->name('exists');
+            Route::get('/by-pattern', [\App\Http\Controllers\Api\v2\TranslaleModelController::class, 'byPattern'])->name('by_pattern');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\TranslaleModelController::class, 'show'])->name('show');
+            Route::post('/', [\App\Http\Controllers\Api\v2\TranslaleModelController::class, 'store'])->name('store');
+            Route::put('/{id}', [\App\Http\Controllers\Api\v2\TranslaleModelController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Api\v2\TranslaleModelController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('translate-tabs')->name('translate_tabs_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\TranslateTabsController::class, 'index'])->name('index');
+            Route::get('/all', [\App\Http\Controllers\Api\v2\TranslateTabsController::class, 'all'])->name('all');
+            Route::get('/count', [\App\Http\Controllers\Api\v2\TranslateTabsController::class, 'count'])->name('count');
+            Route::get('/statistics', [\App\Http\Controllers\Api\v2\TranslateTabsController::class, 'statistics'])->name('statistics');
+            Route::get('/key-value-arrays', [\App\Http\Controllers\Api\v2\TranslateTabsController::class, 'keyValueArrays'])->name('key_value_arrays');
+            Route::get('/search', [\App\Http\Controllers\Api\v2\TranslateTabsController::class, 'search'])->name('search');
+            Route::get('/exists', [\App\Http\Controllers\Api\v2\TranslateTabsController::class, 'exists'])->name('exists');
+            Route::get('/by-pattern', [\App\Http\Controllers\Api\v2\TranslateTabsController::class, 'byPattern'])->name('by_pattern');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\TranslateTabsController::class, 'show'])->name('show');
+            Route::post('/', [\App\Http\Controllers\Api\v2\TranslateTabsController::class, 'store'])->name('store');
+            Route::post('/bulk', [\App\Http\Controllers\Api\v2\TranslateTabsController::class, 'bulkStore'])->name('bulk_store');
+            Route::put('/{id}', [\App\Http\Controllers\Api\v2\TranslateTabsController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Api\v2\TranslateTabsController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('translation-merge')->name('translation_merge_')->group(function () {
+            Route::post('/merge', [\App\Http\Controllers\Api\v2\TranslationMergeController::class, 'merge'])->name('merge');
+            Route::post('/merge-default', [\App\Http\Controllers\Api\v2\TranslationMergeController::class, 'mergeDefault'])->name('merge_default');
+            Route::get('/supported-languages', [\App\Http\Controllers\Api\v2\TranslationMergeController::class, 'supportedLanguages'])->name('supported_languages');
+            Route::get('/language-name/{code}', [\App\Http\Controllers\Api\v2\TranslationMergeController::class, 'getLanguageName'])->name('language_name');
+            Route::get('/source-path/{code}', [\App\Http\Controllers\Api\v2\TranslationMergeController::class, 'getDefaultSourcePath'])->name('source_path');
+        });
+
+        Route::prefix('user-guides')->name('user_guides_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\UserGuideController::class, 'index'])->name('index');
+            Route::get('/all', [\App\Http\Controllers\Api\v2\UserGuideController::class, 'all'])->name('all');
+            Route::get('/count', [\App\Http\Controllers\Api\v2\UserGuideController::class, 'count'])->name('count');
+            Route::get('/recent', [\App\Http\Controllers\Api\v2\UserGuideController::class, 'recent'])->name('recent');
+            Route::get('/search', [\App\Http\Controllers\Api\v2\UserGuideController::class, 'search'])->name('search');
+            Route::get('/by-route', [\App\Http\Controllers\Api\v2\UserGuideController::class, 'byRoute'])->name('by_route');
+            Route::get('/users/{userId}', [\App\Http\Controllers\Api\v2\UserGuideController::class, 'byUser'])->name('by_user');
+            Route::get('/{id}/exists', [\App\Http\Controllers\Api\v2\UserGuideController::class, 'exists'])->name('exists');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\UserGuideController::class, 'show'])->name('show');
+            Route::post('/', [\App\Http\Controllers\Api\v2\UserGuideController::class, 'store'])->name('store');
+            Route::put('/{id}', [\App\Http\Controllers\Api\v2\UserGuideController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Api\v2\UserGuideController::class, 'destroy'])->name('destroy');
+        });
     });
