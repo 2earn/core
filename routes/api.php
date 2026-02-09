@@ -301,4 +301,51 @@ Route::prefix('/v2/')->name('api_v2_')
             Route::get('/{id}', [\App\Http\Controllers\Api\v2\BalanceInjectorCouponController::class, 'show'])->name('show');
             Route::delete('/{id}', [\App\Http\Controllers\Api\v2\BalanceInjectorCouponController::class, 'destroy'])->name('destroy');
         });
+
+        Route::prefix('deals')->name('deals_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\DealController::class, 'index'])->name('index');
+            Route::get('/all', [\App\Http\Controllers\Api\v2\DealController::class, 'all'])->name('all');
+            Route::get('/partner', [\App\Http\Controllers\Api\v2\DealController::class, 'getPartnerDeals'])->name('partner');
+            Route::get('/available', [\App\Http\Controllers\Api\v2\DealController::class, 'getAvailableDeals'])->name('available');
+            Route::get('/archived', [\App\Http\Controllers\Api\v2\DealController::class, 'getArchivedDeals'])->name('archived');
+            Route::get('/dashboard-indicators', [\App\Http\Controllers\Api\v2\DealController::class, 'getDashboardIndicators'])->name('dashboard_indicators');
+            Route::get('/users/{userId}/purchases', [\App\Http\Controllers\Api\v2\DealController::class, 'getDealsWithPurchases'])->name('user_purchases');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\DealController::class, 'show'])->name('show');
+            Route::get('/{id}/partner', [\App\Http\Controllers\Api\v2\DealController::class, 'getPartnerDeal'])->name('partner_deal');
+            Route::get('/{id}/performance-chart', [\App\Http\Controllers\Api\v2\DealController::class, 'getPerformanceChart'])->name('performance_chart');
+            Route::get('/{id}/change-requests', [\App\Http\Controllers\Api\v2\DealController::class, 'getChangeRequests'])->name('change_requests');
+            Route::get('/{id}/validation-requests', [\App\Http\Controllers\Api\v2\DealController::class, 'getValidationRequests'])->name('validation_requests');
+            Route::post('/', [\App\Http\Controllers\Api\v2\DealController::class, 'store'])->name('store');
+            Route::put('/{id}', [\App\Http\Controllers\Api\v2\DealController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Api\v2\DealController::class, 'destroy'])->name('destroy');
+            Route::post('/{id}/validation-request', [\App\Http\Controllers\Api\v2\DealController::class, 'createValidationRequest'])->name('create_validation_request');
+            Route::post('/{id}/change-request', [\App\Http\Controllers\Api\v2\DealController::class, 'createChangeRequest'])->name('create_change_request');
+        });
+
+        Route::prefix('deal-product-changes')->name('deal_product_changes_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\DealProductChangeController::class, 'index'])->name('index');
+            Route::get('/statistics', [\App\Http\Controllers\Api\v2\DealProductChangeController::class, 'getStatistics'])->name('statistics');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\DealProductChangeController::class, 'show'])->name('show');
+            Route::post('/', [\App\Http\Controllers\Api\v2\DealProductChangeController::class, 'store'])->name('store');
+            Route::post('/bulk', [\App\Http\Controllers\Api\v2\DealProductChangeController::class, 'createBulk'])->name('create_bulk');
+        });
+
+        Route::prefix('pending-deal-change-requests')->name('pending_deal_change_requests_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\PendingDealChangeRequestsController::class, 'index'])->name('index');
+            Route::get('/total', [\App\Http\Controllers\Api\v2\PendingDealChangeRequestsController::class, 'getTotalPending'])->name('total');
+            Route::get('/with-total', [\App\Http\Controllers\Api\v2\PendingDealChangeRequestsController::class, 'getPendingWithTotal'])->name('with_total');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\PendingDealChangeRequestsController::class, 'show'])->name('show');
+            Route::get('/{id}/with-relations', [\App\Http\Controllers\Api\v2\PendingDealChangeRequestsController::class, 'showWithRelations'])->name('show_with_relations');
+        });
+
+        Route::prefix('pending-deal-validation-requests')->name('pending_deal_validation_requests_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\PendingDealValidationRequestsController::class, 'index'])->name('index');
+            Route::get('/paginated', [\App\Http\Controllers\Api\v2\PendingDealValidationRequestsController::class, 'getPaginated'])->name('paginated');
+            Route::get('/total', [\App\Http\Controllers\Api\v2\PendingDealValidationRequestsController::class, 'getTotalPending'])->name('total');
+            Route::get('/with-total', [\App\Http\Controllers\Api\v2\PendingDealValidationRequestsController::class, 'getPendingWithTotal'])->name('with_total');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\PendingDealValidationRequestsController::class, 'show'])->name('show');
+            Route::get('/{id}/with-relations', [\App\Http\Controllers\Api\v2\PendingDealValidationRequestsController::class, 'showWithRelations'])->name('show_with_relations');
+            Route::post('/{id}/approve', [\App\Http\Controllers\Api\v2\PendingDealValidationRequestsController::class, 'approve'])->name('approve');
+            Route::post('/{id}/reject', [\App\Http\Controllers\Api\v2\PendingDealValidationRequestsController::class, 'reject'])->name('reject');
+        });
     });

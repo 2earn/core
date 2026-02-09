@@ -1,0 +1,108 @@
+{
+  "info": {
+    "_postman_id": "f9a0b1c2-d3e4-5678-9012-345678901234",
+    "name": "Deal Product Changes API v2",
+    "description": "Version 2 API endpoints for Deal Product Change Management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Filtered Product Changes",
+      "request": {
+        "method": "GET",
+        "header": [{"key": "Accept", "value": "application/json"}],
+        "url": {
+          "raw": "{{base_url}}/api/v2/deal-product-changes?deal_id={{deal_id}}&action=added&per_page=15",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "deal-product-changes"],
+          "query": [
+            {"key": "deal_id", "value": "{{deal_id}}"},
+            {"key": "action", "value": "added"},
+            {"key": "per_page", "value": "15"}
+          ]
+        },
+        "description": "Get filtered product changes with pagination"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Product Change by ID",
+      "request": {
+        "method": "GET",
+        "header": [{"key": "Accept", "value": "application/json"}],
+        "url": {
+          "raw": "{{base_url}}/api/v2/deal-product-changes/{{change_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "deal-product-changes", "{{change_id}}"]
+        },
+        "description": "Get specific product change by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Statistics",
+      "request": {
+        "method": "GET",
+        "header": [{"key": "Accept", "value": "application/json"}],
+        "url": {
+          "raw": "{{base_url}}/api/v2/deal-product-changes/statistics?deal_id={{deal_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "deal-product-changes", "statistics"],
+          "query": [{"key": "deal_id", "value": "{{deal_id}}"}]
+        },
+        "description": "Get product change statistics"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Product Change",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"},
+          {"key": "Accept", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"deal_id\": {{deal_id}},\n  \"item_id\": {{item_id}},\n  \"action\": \"added\",\n  \"changed_by\": {{user_id}},\n  \"note\": \"Product added to deal\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v2/deal-product-changes",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "deal-product-changes"]
+        },
+        "description": "Create a new product change"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Bulk Product Changes",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"},
+          {"key": "Accept", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"deal_id\": {{deal_id}},\n  \"item_ids\": [1, 2, 3, 4, 5],\n  \"action\": \"added\",\n  \"changed_by\": {{user_id}},\n  \"note\": \"Bulk products added\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v2/deal-product-changes/bulk",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "deal-product-changes", "bulk"]
+        },
+        "description": "Create multiple product changes at once"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {"key": "base_url", "value": "http://localhost:8000"},
+    {"key": "deal_id", "value": "1"},
+    {"key": "item_id", "value": "1"},
+    {"key": "change_id", "value": "1"},
+    {"key": "user_id", "value": "1"}
+  ]
+}
+
