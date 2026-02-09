@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\OperationCategory;
+use App\Http\Controllers\Controller;
 use App\Models\BalanceOperation;
+use App\Models\OperationCategory;
 use App\Services\Balances\BalanceOperationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class BalancesOperationsController extends Controller
 {

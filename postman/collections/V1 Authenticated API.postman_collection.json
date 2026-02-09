@@ -1,0 +1,1187 @@
+{
+  "info": {
+    "_postman_id": "f2a3b4c5-d6e7-8901-5678-234567890123",
+    "name": "V1 Authenticated API",
+    "description": "Version 1 API endpoints - Requires Sanctum Authentication",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Countries",
+      "item": [
+        {
+          "name": "Get Countries",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/countries",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "countries"]
+            },
+            "description": "Get list of all countries"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Country Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/stat-countries",
+              "host": ["{{base_url}}"],
+              "path": ["api", "stat-countries"]
+            },
+            "description": "Get country statistics"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Settings",
+      "item": [
+        {
+          "name": "Get Settings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/settings",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "settings"]
+            },
+            "description": "Get application settings"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Amounts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/amounts",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "amounts"]
+            },
+            "description": "Get available amounts/denominations"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Action History (Shares)",
+      "item": [
+        {
+          "name": "Get Action History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/action/historys",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "action", "historys"]
+            },
+            "description": "Get action/shares history"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User Balances",
+      "item": [
+        {
+          "name": "Get User Balances",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/user-balances/{{idAmounts}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "user-balances", "{{idAmounts}}"]
+            },
+            "description": "Get user balances for specific amount"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Balances List",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/user-balances-list/{{idUser}}/{{idAmounts}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "user-balances-list", "{{idUser}}", "{{idAmounts}}"]
+            },
+            "description": "Get user balance list for specific user and amount"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Updated Card Content",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/get-updated-card-content",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "get-updated-card-content"]
+            },
+            "description": "Get updated card content for balance display"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Balance Status",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"balance_id\": {{balance_id}},\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/update-balance-status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "update-balance-status"]
+            },
+            "description": "Update balance status"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Reserve Date",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"balance_id\": {{balance_id}},\n  \"reserve_date\": \"2026-12-31\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/update-reserve-date",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "update-reserve-date"]
+            },
+            "description": "Update balance reserve date"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Balance Real",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"balance_id\": {{balance_id}},\n  \"real_balance\": 1000.00\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/update-balance-real",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "update-balance-real"]
+            },
+            "description": "Update real balance value"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Cash Balance",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/api/user/cash",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "api", "user", "cash"]
+            },
+            "description": "Get user's cash balance"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Shares/Actions",
+      "item": [
+        {
+          "name": "Get Shares Solde List",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/shares-solde-list/{{idUser}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "shares-solde-list", "{{idUser}}"]
+            },
+            "description": "Get shares balance list for user"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Shares Solde",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/api/shares/solde",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "api", "shares", "solde"]
+            },
+            "description": "Get shares balance"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Shares Soldes (Multiple)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/api/shares/soldes",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "api", "shares", "soldes"]
+            },
+            "description": "Get multiple shares balances"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Share Price Evolution",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/api/shares/evolution",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "api", "shares", "evolution"]
+            },
+            "description": "Get share price evolution data"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Share Evolution by Date",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/api/share/evolution/date?date=2026-01-01",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "api", "share", "evolution", "date"],
+              "query": [
+                {
+                  "key": "date",
+                  "value": "2026-01-01"
+                }
+              ]
+            },
+            "description": "Get share evolution for specific date"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Share Evolution by Week",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/api/share/evolution/week",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "api", "share", "evolution", "week"]
+            },
+            "description": "Get share evolution for current week"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Share Evolution by Month",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/api/share/evolution/month",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "api", "share", "evolution", "month"]
+            },
+            "description": "Get share evolution for current month"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Share Evolution by Day",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/api/share/evolution/day",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "api", "share", "evolution", "day"]
+            },
+            "description": "Get share evolution for current day"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Share Evolution for User",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/api/share/evolution/user",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "api", "share", "evolution", "user"]
+            },
+            "description": "Get share evolution for current user"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Action Values",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/api/action/values",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "api", "action", "values"]
+            },
+            "description": "Get action values"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "Get Notification History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/history/notification",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "history", "notification"]
+            },
+            "description": "Get notification history"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Coupons",
+      "item": [
+        {
+          "name": "Get Coupons",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/coupons",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "coupons"]
+            },
+            "description": "Get all coupons"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Coupon Injectors",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/coupons/injector",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "coupons", "injector"]
+            },
+            "description": "Get coupon injectors"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Coupon Injectors",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/user/coupons",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "user", "coupons"]
+            },
+            "description": "Get user's coupon injectors"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Coupons",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/coupons/user",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "coupons", "user"]
+            },
+            "description": "Get coupons for current user"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Coupon",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"coupon_id\": {{coupon_id}}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/api/coupon/delete",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "api", "coupon", "delete"]
+            },
+            "description": "Delete a coupon"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Injector Coupon",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"injector_coupon_id\": {{injector_coupon_id}}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/api/coupon/injector/delete",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "api", "coupon", "injector", "delete"]
+            },
+            "description": "Delete an injector coupon"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Platforms & Deals",
+      "item": [
+        {
+          "name": "Get Platforms",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/platforms",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "platforms"]
+            },
+            "description": "Get all platforms"
+          },
+          "response": []
+        },
+        {
+          "name": "Search Deals",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/deals/search?q=keyword",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "deals", "search"],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "keyword"
+                }
+              ]
+            },
+            "description": "Search for deals"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Roles & Requests",
+      "item": [
+        {
+          "name": "Get Roles",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/roles",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "roles"]
+            },
+            "description": "Get all roles"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Requests",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/request",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "request"]
+            },
+            "description": "Get requests"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Representatives",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/representatives",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "representatives"]
+            },
+            "description": "Get representatives"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User Data",
+      "item": [
+        {
+          "name": "Get User Invitations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/user/invitations",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "user", "invitations"]
+            },
+            "description": "Get user invitations"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Purchase BFS",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/user/purchaseBFS/{{type}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "user", "purchaseBFS", "{{type}}"]
+            },
+            "description": "Get user BFS purchase by type"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Tree",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/user/tree",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "user", "tree"]
+            },
+            "description": "Get user tree structure"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User SMS",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/user/sms",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "user", "sms"]
+            },
+            "description": "Get user SMS history"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Chance",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/user/chance",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "user", "chance"]
+            },
+            "description": "Get user chances/opportunities"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Target & Analytics",
+      "item": [
+        {
+          "name": "Get Target Data",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/target/{{idTarget}}/data",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "target", "{{idTarget}}", "data"]
+            },
+            "description": "Get target data by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Sankey Diagram",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/sankey",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "sankey"]
+            },
+            "description": "Get Sankey diagram data"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Transfers & Balance Operations",
+      "item": [
+        {
+          "name": "Get Transfers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/api/transfert",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "api", "transfert"]
+            },
+            "description": "Get transfer history"
+          },
+          "response": []
+        },
+        {
+          "name": "Add Cash",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 100.00,\n  \"user_id\": {{user_id}}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/add-cash",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "add-cash"]
+            },
+            "description": "Add cash to user balance"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "VIP & SMS",
+      "item": [
+        {
+          "name": "Create VIP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": {{user_id}},\n  \"type\": \"premium\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/vip",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "vip"]
+            },
+            "description": "Create VIP status"
+          },
+          "response": []
+        },
+        {
+          "name": "Send SMS",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"+1234567890\",\n  \"message\": \"Your message here\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/send-sms",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "send-sms"]
+            },
+            "description": "Send SMS message"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Payment Notifications",
+      "item": [
+        {
+          "name": "PayTabs Notification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transaction_id\": \"{{transaction_id}}\",\n  \"status\": \"completed\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/paytabs/notification",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "paytabs", "notification"]
+            },
+            "description": "Handle PayTabs payment notification webhook"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
+

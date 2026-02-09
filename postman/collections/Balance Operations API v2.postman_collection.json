@@ -1,0 +1,210 @@
+{
+  "info": {
+    "_postman_id": "b2c3d4e5-f6a7-8901-bcde-f23456789012",
+    "name": "Balance Operations API v2",
+    "description": "Version 2 API endpoints for Balance Operations - Public API (No Authentication Required)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Operations (DataTables)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/balance/operations",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "balance", "operations"]
+        },
+        "description": "Get balance operations formatted for DataTables - Public endpoint, no authentication required"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Filtered Operations",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/balance/operations/filtered?search=transfer&per_page=20",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "balance", "operations", "filtered"],
+          "query": [
+            {
+              "key": "search",
+              "value": "transfer",
+              "description": "Search term to filter operations"
+            },
+            {
+              "key": "per_page",
+              "value": "20",
+              "description": "Number of results per page"
+            }
+          ]
+        },
+        "description": "Get filtered and paginated balance operations with search functionality"
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Operations",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/balance/operations/all",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "balance", "operations", "all"]
+        },
+        "description": "Retrieve all balance operations without pagination"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Categories",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/balance/operations/categories",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "balance", "operations", "categories"]
+        },
+        "description": "Get all operation categories"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Category Name",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/balance/operations/category/{{categoryId}}/name",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "balance", "operations", "category", "{{categoryId}}", "name"]
+        },
+        "description": "Get category name by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Operation by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/balance/operations/{{id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "balance", "operations", "{{id}}"]
+        },
+        "description": "Get a specific operation by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Operation",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"category_id\": 1,\n  \"amount\": 100.00,\n  \"description\": \"Operation description\",\n  \"user_id\": {{user_id}}\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v2/balance/operations",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "balance", "operations"]
+        },
+        "description": "Create a new balance operation"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Operation",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"category_id\": 1,\n  \"amount\": 150.00,\n  \"description\": \"Updated operation description\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v2/balance/operations/{{id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "balance", "operations", "{{id}}"]
+        },
+        "description": "Update an existing balance operation"
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Operation",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/balance/operations/{{id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "balance", "operations", "{{id}}"]
+        },
+        "description": "Delete a balance operation"
+      },
+      "response": []
+    }
+  ]
+}
+

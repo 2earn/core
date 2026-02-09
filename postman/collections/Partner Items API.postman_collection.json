@@ -1,0 +1,207 @@
+{
+  "info": {
+    "_postman_id": "f6a7b8c9-d0e1-2345-f012-678901234567",
+    "name": "Partner Items API",
+    "description": "Partner API endpoints for Item Management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "List Items",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/items?user_id={{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "items"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            }
+          ]
+        },
+        "description": "Get all items for the partner"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Item by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/items/{{id}}?user_id={{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "items", "{{id}}"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            }
+          ]
+        },
+        "description": "Get specific item details"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Item",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"name\": \"Item Name\",\n  \"description\": \"Item description\",\n  \"price\": 50.00,\n  \"platform_id\": {{platform_id}}\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/items",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "items"]
+        },
+        "description": "Create a new item"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Item",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"name\": \"Updated Item Name\",\n  \"description\": \"Updated description\",\n  \"price\": 55.00\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/items/{{id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "items", "{{id}}"]
+        },
+        "description": "Update item details"
+      },
+      "response": []
+    },
+    {
+      "name": "Remove Platform from Item",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/items/{{id}}/platform?user_id={{user_id}}&platform_id={{platform_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "items", "{{id}}", "platform"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            },
+            {
+              "key": "platform_id",
+              "value": "{{platform_id}}"
+            }
+          ]
+        },
+        "description": "Remove platform association from item"
+      },
+      "response": []
+    },
+    {
+      "name": "List Items for Deal",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/items/deal/{{dealId}}?user_id={{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "items", "deal", "{{dealId}}"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            }
+          ]
+        },
+        "description": "Get all items for a specific deal"
+      },
+      "response": []
+    },
+    {
+      "name": "Add Items to Deal (Bulk)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"deal_id\": {{deal_id}},\n  \"item_ids\": [1, 2, 3]\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/items/deal/add-bulk",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "items", "deal", "add-bulk"]
+        },
+        "description": "Add multiple items to a deal at once"
+      },
+      "response": []
+    },
+    {
+      "name": "Remove Items from Deal (Bulk)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"deal_id\": {{deal_id}},\n  \"item_ids\": [1, 2, 3]\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/items/deal/remove-bulk",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "items", "deal", "remove-bulk"]
+        },
+        "description": "Remove multiple items from a deal at once"
+      },
+      "response": []
+    }
+  ]
+}
+

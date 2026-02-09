@@ -125,15 +125,15 @@ Route::prefix('/v2/')->name('api_v2_')
     ->withoutMiddleware([\App\Http\Middleware\Authenticate::class])
     ->group(function () {
         Route::prefix('balance/operations')->name('balance_operations_')->group(function () {
-            Route::get('/filtered', [App\Http\Controllers\BalancesOperationsController::class, 'getFilteredOperations'])->name('filtered');
-            Route::get('/all', [App\Http\Controllers\BalancesOperationsController::class, 'getAllOperations'])->name('all');
-            Route::get('/categories', [App\Http\Controllers\BalancesOperationsController::class, 'getCategories'])->name('categories');
-            Route::get('/category/{categoryId}/name', [App\Http\Controllers\BalancesOperationsController::class, 'getCategoryName'])->name('category_name');
-            Route::get('/{id}', [App\Http\Controllers\BalancesOperationsController::class, 'show'])->name('show');
-            Route::post('/', [App\Http\Controllers\BalancesOperationsController::class, 'store'])->name('store');
-            Route::put('/{id}', [App\Http\Controllers\BalancesOperationsController::class, 'update'])->name('update');
-            Route::delete('/{id}', [App\Http\Controllers\BalancesOperationsController::class, 'destroy'])->name('destroy');
-            Route::get('/', [App\Http\Controllers\BalancesOperationsController::class, 'index'])->name('index');
+            Route::get('/filtered', [\App\Http\Controllers\Api\BalancesOperationsController::class, 'getFilteredOperations'])->name('filtered');
+            Route::get('/all', [\App\Http\Controllers\Api\BalancesOperationsController::class, 'getAllOperations'])->name('all');
+            Route::get('/categories', [\App\Http\Controllers\Api\BalancesOperationsController::class, 'getCategories'])->name('categories');
+            Route::get('/category/{categoryId}/name', [\App\Http\Controllers\Api\BalancesOperationsController::class, 'getCategoryName'])->name('category_name');
+            Route::get('/{id}', [\App\Http\Controllers\Api\BalancesOperationsController::class, 'show'])->name('show');
+            Route::post('/', [\App\Http\Controllers\Api\BalancesOperationsController::class, 'store'])->name('store');
+            Route::put('/{id}', [\App\Http\Controllers\Api\BalancesOperationsController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Api\BalancesOperationsController::class, 'destroy'])->name('destroy');
+            Route::get('/', [\App\Http\Controllers\Api\BalancesOperationsController::class, 'index'])->name('index');
         });
     });
 
