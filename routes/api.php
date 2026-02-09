@@ -255,4 +255,50 @@ Route::prefix('/v2/')->name('api_v2_')
             Route::put('/{id}', [\App\Http\Controllers\Api\v2\BusinessSectorController::class, 'update'])->name('update');
             Route::delete('/{id}', [\App\Http\Controllers\Api\v2\BusinessSectorController::class, 'destroy'])->name('destroy');
         });
+
+        Route::prefix('comments')->name('comments_')->group(function () {
+            Route::get('/validated', [\App\Http\Controllers\Api\v2\CommentsController::class, 'getValidated'])->name('validated');
+            Route::get('/unvalidated', [\App\Http\Controllers\Api\v2\CommentsController::class, 'getUnvalidated'])->name('unvalidated');
+            Route::get('/all', [\App\Http\Controllers\Api\v2\CommentsController::class, 'getAll'])->name('all');
+            Route::get('/count', [\App\Http\Controllers\Api\v2\CommentsController::class, 'getCount'])->name('count');
+            Route::get('/has-commented', [\App\Http\Controllers\Api\v2\CommentsController::class, 'hasUserCommented'])->name('has_commented');
+            Route::post('/', [\App\Http\Controllers\Api\v2\CommentsController::class, 'store'])->name('store');
+            Route::post('/{id}/validate', [\App\Http\Controllers\Api\v2\CommentsController::class, 'validate'])->name('validate');
+            Route::delete('/{id}', [\App\Http\Controllers\Api\v2\CommentsController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('communication')->name('communication_')->group(function () {
+            Route::post('/surveys/{id}/duplicate', [\App\Http\Controllers\Api\v2\CommunicationController::class, 'duplicateSurvey'])->name('duplicate_survey');
+            Route::post('/news/{id}/duplicate', [\App\Http\Controllers\Api\v2\CommunicationController::class, 'duplicateNews'])->name('duplicate_news');
+            Route::post('/events/{id}/duplicate', [\App\Http\Controllers\Api\v2\CommunicationController::class, 'duplicateEvent'])->name('duplicate_event');
+        });
+
+        Route::prefix('coupons')->name('coupons_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\CouponController::class, 'index'])->name('index');
+            Route::get('/all', [\App\Http\Controllers\Api\v2\CouponController::class, 'all'])->name('all');
+            Route::get('/by-sn', [\App\Http\Controllers\Api\v2\CouponController::class, 'getBySn'])->name('by_sn');
+            Route::get('/users/{userId}', [\App\Http\Controllers\Api\v2\CouponController::class, 'getUserCoupons'])->name('user_coupons');
+            Route::get('/users/{userId}/purchased', [\App\Http\Controllers\Api\v2\CouponController::class, 'getPurchasedCoupons'])->name('purchased_coupons');
+            Route::get('/users/{userId}/status/{status}', [\App\Http\Controllers\Api\v2\CouponController::class, 'getPurchasedByStatus'])->name('by_status');
+            Route::get('/platforms/{platformId}/available', [\App\Http\Controllers\Api\v2\CouponController::class, 'getAvailableForPlatform'])->name('available_for_platform');
+            Route::get('/platforms/{platformId}/max-amount', [\App\Http\Controllers\Api\v2\CouponController::class, 'getMaxAvailableAmount'])->name('max_amount');
+            Route::post('/simulate', [\App\Http\Controllers\Api\v2\CouponController::class, 'simulatePurchase'])->name('simulate');
+            Route::post('/buy', [\App\Http\Controllers\Api\v2\CouponController::class, 'buyCoupon'])->name('buy');
+            Route::post('/{id}/consume', [\App\Http\Controllers\Api\v2\CouponController::class, 'consume'])->name('consume');
+            Route::post('/{id}/mark-consumed', [\App\Http\Controllers\Api\v2\CouponController::class, 'markAsConsumed'])->name('mark_consumed');
+            Route::delete('/{id}', [\App\Http\Controllers\Api\v2\CouponController::class, 'destroy'])->name('destroy');
+            Route::delete('/multiple', [\App\Http\Controllers\Api\v2\CouponController::class, 'deleteMultiple'])->name('delete_multiple');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\CouponController::class, 'show'])->name('show');
+        });
+
+        Route::prefix('balance-injector-coupons')->name('balance_injector_coupons_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\BalanceInjectorCouponController::class, 'index'])->name('index');
+            Route::get('/all', [\App\Http\Controllers\Api\v2\BalanceInjectorCouponController::class, 'all'])->name('all');
+            Route::get('/by-pin', [\App\Http\Controllers\Api\v2\BalanceInjectorCouponController::class, 'getByPin'])->name('by_pin');
+            Route::get('/users/{userId}', [\App\Http\Controllers\Api\v2\BalanceInjectorCouponController::class, 'getByUserId'])->name('by_user');
+            Route::post('/create-multiple', [\App\Http\Controllers\Api\v2\BalanceInjectorCouponController::class, 'createMultiple'])->name('create_multiple');
+            Route::delete('/multiple', [\App\Http\Controllers\Api\v2\BalanceInjectorCouponController::class, 'deleteMultiple'])->name('delete_multiple');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\BalanceInjectorCouponController::class, 'show'])->name('show');
+            Route::delete('/{id}', [\App\Http\Controllers\Api\v2\BalanceInjectorCouponController::class, 'destroy'])->name('destroy');
+        });
     });

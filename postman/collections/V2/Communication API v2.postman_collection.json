@@ -1,0 +1,86 @@
+{
+  "info": {
+    "_postman_id": "b5c6d7e8-f9a0-1234-5678-901234567890",
+    "name": "Communication API v2",
+    "description": "Version 2 API endpoints for Communication (Duplication) - Public API (No Authentication Required)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Duplicate Survey",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/communication/surveys/{{survey_id}}/duplicate",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "communication", "surveys", "{{survey_id}}", "duplicate"]
+        },
+        "description": "Duplicate a survey by ID. Creates a copy with all questions and choices."
+      },
+      "response": []
+    },
+    {
+      "name": "Duplicate News",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/communication/news/{{news_id}}/duplicate",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "communication", "news", "{{news_id}}", "duplicate"]
+        },
+        "description": "Duplicate news by ID. Creates a copy with images."
+      },
+      "response": []
+    },
+    {
+      "name": "Duplicate Event",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/communication/events/{{event_id}}/duplicate",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "communication", "events", "{{event_id}}", "duplicate"]
+        },
+        "description": "Duplicate event by ID. Creates a copy with images."
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000"
+    },
+    {
+      "key": "survey_id",
+      "value": "1"
+    },
+    {
+      "key": "news_id",
+      "value": "1"
+    },
+    {
+      "key": "event_id",
+      "value": "1"
+    }
+  ]
+}
+
