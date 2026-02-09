@@ -472,4 +472,75 @@ Route::prefix('/v2/')->name('api_v2_')
             Route::put('/{id}', [\App\Http\Controllers\Api\v2\PartnerPaymentController::class, 'update'])->name('update');
             Route::delete('/{id}', [\App\Http\Controllers\Api\v2\PartnerPaymentController::class, 'destroy'])->name('destroy');
         });
+
+        Route::prefix('platforms')->name('platforms_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\PlatformController::class, 'index'])->name('index');
+            Route::get('/all', [\App\Http\Controllers\Api\v2\PlatformController::class, 'all'])->name('all');
+            Route::get('/enabled', [\App\Http\Controllers\Api\v2\PlatformController::class, 'enabled'])->name('enabled');
+            Route::get('/with-user-purchases', [\App\Http\Controllers\Api\v2\PlatformController::class, 'withUserPurchases'])->name('with_user_purchases');
+            Route::get('/business-sectors/{businessSectorId}/active-deals', [\App\Http\Controllers\Api\v2\PlatformController::class, 'withActiveDeals'])->name('with_active_deals');
+            Route::get('/business-sectors/{businessSectorId}/items', [\App\Http\Controllers\Api\v2\PlatformController::class, 'items'])->name('items');
+            Route::get('/for-partner', [\App\Http\Controllers\Api\v2\PlatformController::class, 'forPartner'])->name('for_partner');
+            Route::get('/with-coupon-deals', [\App\Http\Controllers\Api\v2\PlatformController::class, 'withCouponDeals'])->name('with_coupon_deals');
+            Route::get('/coupon-deals-select', [\App\Http\Controllers\Api\v2\PlatformController::class, 'couponDealsSelect'])->name('coupon_deals_select');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\PlatformController::class, 'show'])->name('show');
+            Route::get('/{id}/for-partner', [\App\Http\Controllers\Api\v2\PlatformController::class, 'partnerPlatform'])->name('partner_platform');
+            Route::get('/{id}/check-user-role', [\App\Http\Controllers\Api\v2\PlatformController::class, 'checkUserRole'])->name('check_user_role');
+            Route::post('/', [\App\Http\Controllers\Api\v2\PlatformController::class, 'store'])->name('store');
+            Route::put('/{id}', [\App\Http\Controllers\Api\v2\PlatformController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Api\v2\PlatformController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('platform-change-requests')->name('platform_change_requests_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\PlatformChangeRequestController::class, 'index'])->name('index');
+            Route::get('/pending', [\App\Http\Controllers\Api\v2\PlatformChangeRequestController::class, 'pending'])->name('pending');
+            Route::get('/pending-count', [\App\Http\Controllers\Api\v2\PlatformChangeRequestController::class, 'pendingCount'])->name('pending_count');
+            Route::get('/statistics', [\App\Http\Controllers\Api\v2\PlatformChangeRequestController::class, 'statistics'])->name('statistics');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\PlatformChangeRequestController::class, 'show'])->name('show');
+            Route::post('/', [\App\Http\Controllers\Api\v2\PlatformChangeRequestController::class, 'store'])->name('store');
+            Route::post('/{id}/approve', [\App\Http\Controllers\Api\v2\PlatformChangeRequestController::class, 'approve'])->name('approve');
+            Route::post('/{id}/reject', [\App\Http\Controllers\Api\v2\PlatformChangeRequestController::class, 'reject'])->name('reject');
+            Route::post('/{id}/cancel', [\App\Http\Controllers\Api\v2\PlatformChangeRequestController::class, 'cancel'])->name('cancel');
+        });
+
+        Route::prefix('platform-validation-requests')->name('platform_validation_requests_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\PlatformValidationRequestController::class, 'index'])->name('index');
+            Route::get('/pending', [\App\Http\Controllers\Api\v2\PlatformValidationRequestController::class, 'pending'])->name('pending');
+            Route::get('/pending-count', [\App\Http\Controllers\Api\v2\PlatformValidationRequestController::class, 'pendingCount'])->name('pending_count');
+            Route::get('/pending-with-total', [\App\Http\Controllers\Api\v2\PlatformValidationRequestController::class, 'pendingWithTotal'])->name('pending_with_total');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\PlatformValidationRequestController::class, 'show'])->name('show');
+            Route::post('/', [\App\Http\Controllers\Api\v2\PlatformValidationRequestController::class, 'store'])->name('store');
+            Route::post('/{id}/approve', [\App\Http\Controllers\Api\v2\PlatformValidationRequestController::class, 'approve'])->name('approve');
+            Route::post('/{id}/reject', [\App\Http\Controllers\Api\v2\PlatformValidationRequestController::class, 'reject'])->name('reject');
+            Route::post('/{id}/cancel', [\App\Http\Controllers\Api\v2\PlatformValidationRequestController::class, 'cancel'])->name('cancel');
+        });
+
+        Route::prefix('platform-type-change-requests')->name('platform_type_change_requests_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\PlatformTypeChangeRequestController::class, 'index'])->name('index');
+            Route::get('/pending', [\App\Http\Controllers\Api\v2\PlatformTypeChangeRequestController::class, 'pending'])->name('pending');
+            Route::get('/pending-count', [\App\Http\Controllers\Api\v2\PlatformTypeChangeRequestController::class, 'pendingCount'])->name('pending_count');
+            Route::get('/pending-with-total', [\App\Http\Controllers\Api\v2\PlatformTypeChangeRequestController::class, 'pendingWithTotal'])->name('pending_with_total');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\PlatformTypeChangeRequestController::class, 'show'])->name('show');
+            Route::post('/', [\App\Http\Controllers\Api\v2\PlatformTypeChangeRequestController::class, 'store'])->name('store');
+            Route::post('/{id}/approve', [\App\Http\Controllers\Api\v2\PlatformTypeChangeRequestController::class, 'approve'])->name('approve');
+            Route::post('/{id}/reject', [\App\Http\Controllers\Api\v2\PlatformTypeChangeRequestController::class, 'reject'])->name('reject');
+        });
+
+        Route::prefix('assign-platform-roles')->name('assign_platform_roles_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\AssignPlatformRoleController::class, 'index'])->name('index');
+            Route::post('/{id}/approve', [\App\Http\Controllers\Api\v2\AssignPlatformRoleController::class, 'approve'])->name('approve');
+            Route::post('/{id}/reject', [\App\Http\Controllers\Api\v2\AssignPlatformRoleController::class, 'reject'])->name('reject');
+        });
+
+        Route::prefix('pending-platform-change-requests-inline')->name('pending_platform_change_requests_inline_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\PendingPlatformChangeRequestsInlineController::class, 'index'])->name('index');
+            Route::get('/count', [\App\Http\Controllers\Api\v2\PendingPlatformChangeRequestsInlineController::class, 'count'])->name('count');
+            Route::get('/with-total', [\App\Http\Controllers\Api\v2\PendingPlatformChangeRequestsInlineController::class, 'withTotal'])->name('with_total');
+        });
+
+        Route::prefix('pending-platform-role-assignments-inline')->name('pending_platform_role_assignments_inline_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\PendingPlatformRoleAssignmentsInlineController::class, 'index'])->name('index');
+            Route::get('/count', [\App\Http\Controllers\Api\v2\PendingPlatformRoleAssignmentsInlineController::class, 'count'])->name('count');
+            Route::get('/with-total', [\App\Http\Controllers\Api\v2\PendingPlatformRoleAssignmentsInlineController::class, 'withTotal'])->name('with_total');
+        });
     });
