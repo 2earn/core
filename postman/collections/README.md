@@ -25,7 +25,7 @@ postman/collections/
 ├── V1/                 → app/Http/Controllers/ (V1 APIs)
 │   └── V1 Authenticated API.postman_collection.json
 │
-├── V2/                 → app/Http/Controllers/ (V2 APIs)
+├── V2/                 → app/Http/Controllers/Api/v2/
 │   └── Balance Operations API v2.postman_collection.json
 │
 └── Payment/            → app/Http/Controllers/Api/payment/
@@ -202,7 +202,7 @@ Comprehensive collection with 50+ endpoints organized in folders:
 
 ### 🔄 V2 Module (`V2/`)
 
-**Controllers Covered**: `BalancesOperationsController.php`
+**Controllers Covered**: `v2/BalancesOperationsController.php`
 
 #### Balance Operations API v2
 **File**: `V2/Balance Operations API v2.postman_collection.json`
@@ -301,6 +301,11 @@ Comprehensive collection with 50+ endpoints organized in folders:
 | Controller | Collection | Location |
 |------------|-----------|----------|
 | `OrderSimulationController.php` | 2Earn - Payment & Order Simulation API | Existing |
+
+### V2 Controllers
+| Controller | Collection | Location |
+|------------|-----------|----------|
+| `v2/BalancesOperationsController.php` | Balance Operations API v2 | `V2/` |
 
 ---
 

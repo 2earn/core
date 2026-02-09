@@ -38,8 +38,8 @@ class BalancesOperationsControllerTest extends TestCase
     #[Test]
     public function test_controller_methods_exist()
     {
-        $this->assertTrue(method_exists(\App\Http\Controllers\Api\BalancesOperationsController::class, 'index'));
-        $this->assertTrue(method_exists(\App\Http\Controllers\Api\BalancesOperationsController::class, 'getCategories'));
+        $this->assertTrue(method_exists(\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'index'));
+        $this->assertTrue(method_exists(\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'getCategories'));
     }
 
     #[Test]

@@ -31,7 +31,7 @@ postman/collections/
 ├── V1/                                 → Version 1 Authenticated APIs
 │   └── V1 Authenticated API.postman_collection.json
 │
-├── V2/                                 → Version 2 Public APIs
+├── V2/                                 → app/Http/Controllers/Api/v2/
 │   └── Balance Operations API v2.postman_collection.json
 │
 └── Payment/                            → app/Http/Controllers/Api/payment/
@@ -69,6 +69,17 @@ postman/collections/
 | Partner Role Requests API | 4 | PartnerRolePartnerController |
 | Partner Users API | 7 | UserPartnerController, PlanLabelPartnerController |
 | Platform Change Request API | 4 | PlatformChangeRequestController |
+
+---
+
+### 📁 V2 Directory (`V2/`)
+**Controllers**: 1 controller  
+**Collections**: 1 collection  
+**Endpoints**: 9 endpoints
+
+| File | Endpoints | Controllers Covered |
+|------|-----------|---------------------|
+| Balance Operations API v2 | 9 | v2/BalancesOperationsController |
 
 ---
 
@@ -135,13 +146,6 @@ postman/collections/
 
 ## 🔄 Mapping: Controllers → Collections
 
-### Admin Controllers → Admin Directory
-```
-app/Http/Controllers/Api/Admin/
-├── PlatformChangeRequestController.php  ──→  Admin/Platform Change Request API
-└── PartnerRequestController.php         ──→  Admin/Platform Change Request API
-```
-
 ### Mobile Controllers → Mobile Directory
 ```
 app/Http/Controllers/Api/mobile/
@@ -162,6 +166,7 @@ app/Http/Controllers/Api/partner/
 ├── PartnerRolePartnerController.php     ──→  Partner/Partner Role Requests API
 ├── PlanLabelPartnerController.php       ──→  Partner/Partner Users API
 ├── PlatformPartnerController.php        ──→  Partner/Partner Platforms API
+├── PlatformChangeRequestController.php  ──→  Partner/Platform Change Request API
 ├── SalesDashboardController.php         ──→  Partner/Partner Sales Dashboard API
 └── UserPartnerController.php            ──→  Partner/Partner Users API
 ```
@@ -169,7 +174,13 @@ app/Http/Controllers/Api/partner/
 ### Payment Controllers → Payment Directory
 ```
 app/Http/Controllers/Api/payment/
-└── OrderSimulationController.php        ──→  (Use existing collections)
+└── OrderSimulationController.php       ──→  (Use existing collections)
+```
+
+### V2 Controllers → V2 Directory
+```
+app/Http/Controllers/Api/v2/
+└── BalancesOperationsController.php    ──→  V2/Balance Operations API v2
 ```
 
 ---
@@ -192,7 +203,7 @@ app/Http/Controllers/Api/payment/
 1. Open Postman
 2. Click "Import" button
 3. Navigate to module folder:
-   - C:\laragon\www\2earn\postman\collections\Admin
+   - C:\laragon\www\2earn\postman\collections\Mobile
    - C:\laragon\www\2earn\postman\collections\Partner
    - etc.
 4. Select collection(s)
@@ -223,8 +234,6 @@ postman/collections/
 ### After (Organized Structure) ✨
 ```
 postman/collections/
-├── Admin/
-│   └── Platform Change Request API.postman_collection.json
 ├── Mobile/
 │   └── Mobile Balance API.postman_collection.json
 ├── Partner/
@@ -235,7 +244,8 @@ postman/collections/
 │   ├── Partner Platforms API.postman_collection.json
 │   ├── Partner Role Requests API.postman_collection.json
 │   ├── Partner Sales Dashboard API.postman_collection.json
-│   └── Partner Users API.postman_collection.json
+│   ├── Partner Users API.postman_collection.json
+│   └── Platform Change Request API.postman_collection.json
 ├── V1/
 │   └── V1 Authenticated API.postman_collection.json
 └── V2/
@@ -249,19 +259,17 @@ postman/collections/
 ### Directory Statistics
 | Directory | Collections | Endpoints | Size |
 |-----------|-------------|-----------|------|
-| Admin/ | 1 | 4 | ~5 KB |
 | Mobile/ | 1 | 3 | ~3 KB |
-| Partner/ | 8 | 59 | ~43 KB |
+| Partner/ | 9 | 63 | ~48 KB |
 | V1/ | 1 | 50+ | ~34 KB |
 | V2/ | 1 | 9 | ~4 KB |
 | **Total** | **12** | **130+** | **~89 KB** |
 
 ### Controller Coverage
-- **Admin Controllers**: 2/2 (100%)
 - **Mobile Controllers**: 3/3 (100%)
-- **Partner Controllers**: 11/11 (100%)
+- **Partner Controllers**: 12/12 (100%)
 - **Payment Controllers**: 1/1 (100%)
-- **Total Controllers**: 17/17 (100%)
+- **Total Controllers**: 16/16 (100%)
 
 ---
 
