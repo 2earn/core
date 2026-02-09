@@ -8,7 +8,7 @@ use App\Models\SurveyQuestion;
 use App\Models\SurveyQuestionChoice;
 use App\Models\Target;
 use App\Models\User;
-use App\Services\SurveyService;
+use App\Services\Survey\SurveyService;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 

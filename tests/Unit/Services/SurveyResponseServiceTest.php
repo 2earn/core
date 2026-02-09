@@ -3,7 +3,7 @@ namespace Tests\Unit\Services;
 use App\Models\Survey;
 use App\Models\SurveyResponse;
 use App\Models\User;
-use App\Services\SurveyResponseService;
+use App\Services\Survey\SurveyResponseService;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 class SurveyResponseServiceTest extends TestCase

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Survey;
 
 use App\Models\SurveyResponseItem;
 use Illuminate\Database\Eloquent\Collection;
@@ -203,4 +203,5 @@ class SurveyResponseItemService
         }
     }
 }
+
 

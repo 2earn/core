@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Survey;
 
 use App\Enums\StatusSurvey;
 use App\Models\Survey;

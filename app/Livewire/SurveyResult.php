@@ -2,10 +2,10 @@
 
 namespace App\Livewire;
 
-use App\Services\SurveyResponseItemService;
-use App\Services\SurveyResponseService;
-use App\Services\SurveyQuestionService;
-use App\Services\SurveyService;
+use App\Services\Survey\SurveyResponseItemService;
+use App\Services\Survey\SurveyResponseService;
+use App\Services\Survey\SurveyQuestionService;
+use App\Services\Survey\SurveyService;
 use App\Services\TranslaleModelService;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
