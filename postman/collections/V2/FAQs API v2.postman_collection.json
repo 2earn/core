@@ -1,0 +1,21 @@
+{
+  "info": {
+    "_postman_id": "e4f5a6b7-c8d9-0123-4567-890123456789",
+    "name": "FAQs API v2",
+    "description": "Version 2 API endpoints for FAQ Management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {"name": "Get All FAQs", "request": {"method": "GET", "header": [{"key": "Accept", "value": "application/json"}], "url": {"raw": "{{base_url}}/api/v2/faqs", "host": ["{{base_url}}"], "path": ["api", "v2", "faqs"]}, "description": "Get all FAQs"}, "response": []},
+    {"name": "Get Paginated FAQs", "request": {"method": "GET", "header": [{"key": "Accept", "value": "application/json"}], "url": {"raw": "{{base_url}}/api/v2/faqs/paginated?search=&per_page=10", "host": ["{{base_url}}"], "path": ["api", "v2", "faqs", "paginated"], "query": [{"key": "search", "value": ""}, {"key": "per_page", "value": "10"}]}, "description": "Get paginated FAQs with search"}, "response": []},
+    {"name": "Get FAQ by ID", "request": {"method": "GET", "header": [{"key": "Accept", "value": "application/json"}], "url": {"raw": "{{base_url}}/api/v2/faqs/{{faq_id}}", "host": ["{{base_url}}"], "path": ["api", "v2", "faqs", "{{faq_id}}"]}, "description": "Get specific FAQ by ID"}, "response": []},
+    {"name": "Create FAQ", "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Accept", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\n  \"question\": \"What is 2Earn?\",\n  \"answer\": \"2Earn is a platform...\"\n}"}, "url": {"raw": "{{base_url}}/api/v2/faqs", "host": ["{{base_url}}"], "path": ["api", "v2", "faqs"]}, "description": "Create new FAQ"}, "response": []},
+    {"name": "Update FAQ", "request": {"method": "PUT", "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Accept", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\n  \"question\": \"Updated question?\",\n  \"answer\": \"Updated answer\"\n}"}, "url": {"raw": "{{base_url}}/api/v2/faqs/{{faq_id}}", "host": ["{{base_url}}"], "path": ["api", "v2", "faqs", "{{faq_id}}"]}, "description": "Update FAQ"}, "response": []},
+    {"name": "Delete FAQ", "request": {"method": "DELETE", "header": [{"key": "Accept", "value": "application/json"}], "url": {"raw": "{{base_url}}/api/v2/faqs/{{faq_id}}", "host": ["{{base_url}}"], "path": ["api", "v2", "faqs", "{{faq_id}}"]}, "description": "Delete FAQ"}, "response": []}
+  ],
+  "variable": [
+    {"key": "base_url", "value": "http://localhost:8000"},
+    {"key": "faq_id", "value": "1"}
+  ]
+}
+

@@ -348,4 +348,62 @@ Route::prefix('/v2/')->name('api_v2_')
             Route::post('/{id}/approve', [\App\Http\Controllers\Api\v2\PendingDealValidationRequestsController::class, 'approve'])->name('approve');
             Route::post('/{id}/reject', [\App\Http\Controllers\Api\v2\PendingDealValidationRequestsController::class, 'reject'])->name('reject');
         });
+
+        Route::prefix('items')->name('items_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\ItemController::class, 'index'])->name('index');
+            Route::get('/by-deal', [\App\Http\Controllers\Api\v2\ItemController::class, 'getByDeal'])->name('by_deal');
+            Route::get('/by-ref-platform', [\App\Http\Controllers\Api\v2\ItemController::class, 'findByRefAndPlatform'])->name('by_ref_platform');
+            Route::get('/platforms/{platformId}', [\App\Http\Controllers\Api\v2\ItemController::class, 'getByPlatform'])->name('by_platform');
+            Route::get('/deals/{dealId}', [\App\Http\Controllers\Api\v2\ItemController::class, 'getForDeal'])->name('for_deal');
+            Route::get('/users/{userId}/purchases', [\App\Http\Controllers\Api\v2\ItemController::class, 'getWithUserPurchases'])->name('user_purchases');
+            Route::post('/bulk-update-deal', [\App\Http\Controllers\Api\v2\ItemController::class, 'bulkUpdateDeal'])->name('bulk_update_deal');
+            Route::post('/bulk-remove-deal', [\App\Http\Controllers\Api\v2\ItemController::class, 'bulkRemoveFromDeal'])->name('bulk_remove_deal');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\ItemController::class, 'show'])->name('show');
+            Route::post('/', [\App\Http\Controllers\Api\v2\ItemController::class, 'store'])->name('store');
+            Route::put('/{id}', [\App\Http\Controllers\Api\v2\ItemController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Api\v2\ItemController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('entity-roles')->name('entity_roles_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\EntityRoleController::class, 'index'])->name('index');
+            Route::get('/filtered', [\App\Http\Controllers\Api\v2\EntityRoleController::class, 'getFiltered'])->name('filtered');
+            Route::get('/platform-roles', [\App\Http\Controllers\Api\v2\EntityRoleController::class, 'getPlatformRoles'])->name('platform_roles');
+            Route::get('/partner-roles', [\App\Http\Controllers\Api\v2\EntityRoleController::class, 'getPartnerRoles'])->name('partner_roles');
+            Route::get('/search', [\App\Http\Controllers\Api\v2\EntityRoleController::class, 'searchByName'])->name('search');
+            Route::get('/platforms/{platformId}', [\App\Http\Controllers\Api\v2\EntityRoleController::class, 'getRolesForPlatform'])->name('for_platform');
+            Route::get('/platforms/{platformId}/keyed', [\App\Http\Controllers\Api\v2\EntityRoleController::class, 'getEntityRolesKeyedByName'])->name('keyed_by_name');
+            Route::get('/platforms/{platformId}/owner', [\App\Http\Controllers\Api\v2\EntityRoleController::class, 'getPlatformOwnerRole'])->name('platform_owner');
+            Route::get('/partners/{partnerId}', [\App\Http\Controllers\Api\v2\EntityRoleController::class, 'getRolesForPartner'])->name('for_partner');
+            Route::get('/users/{userId}/platforms', [\App\Http\Controllers\Api\v2\EntityRoleController::class, 'getPlatformsWithRolesForUser'])->name('user_platforms');
+            Route::get('/users/{userId}/platform-ids', [\App\Http\Controllers\Api\v2\EntityRoleController::class, 'getUserPlatformIds'])->name('user_platform_ids');
+            Route::get('/users/{userId}/partner-ids', [\App\Http\Controllers\Api\v2\EntityRoleController::class, 'getUserPartnerIds'])->name('user_partner_ids');
+            Route::get('/users/{userId}/platforms/{platformId}/roles', [\App\Http\Controllers\Api\v2\EntityRoleController::class, 'getUserRolesForPlatform'])->name('user_platform_roles');
+            Route::get('/users/{userId}/check-platform-role', [\App\Http\Controllers\Api\v2\EntityRoleController::class, 'checkUserHasPlatformRole'])->name('check_platform_role');
+            Route::get('/users/{userId}/check-partner-role', [\App\Http\Controllers\Api\v2\EntityRoleController::class, 'checkUserHasPartnerRole'])->name('check_partner_role');
+            Route::post('/platforms/{platformId}', [\App\Http\Controllers\Api\v2\EntityRoleController::class, 'createPlatformRole'])->name('create_platform');
+            Route::post('/partners/{partnerId}', [\App\Http\Controllers\Api\v2\EntityRoleController::class, 'createPartnerRole'])->name('create_partner');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\EntityRoleController::class, 'show'])->name('show');
+            Route::put('/{id}', [\App\Http\Controllers\Api\v2\EntityRoleController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Api\v2\EntityRoleController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('faqs')->name('faqs_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\FaqController::class, 'index'])->name('index');
+            Route::get('/paginated', [\App\Http\Controllers\Api\v2\FaqController::class, 'getPaginated'])->name('paginated');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\FaqController::class, 'show'])->name('show');
+            Route::post('/', [\App\Http\Controllers\Api\v2\FaqController::class, 'store'])->name('store');
+            Route::put('/{id}', [\App\Http\Controllers\Api\v2\FaqController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Api\v2\FaqController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('hashtags')->name('hashtags_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\HashtagController::class, 'index'])->name('index');
+            Route::get('/filtered', [\App\Http\Controllers\Api\v2\HashtagController::class, 'getFiltered'])->name('filtered');
+            Route::get('/check-exists', [\App\Http\Controllers\Api\v2\HashtagController::class, 'checkExists'])->name('check_exists');
+            Route::get('/slug/{slug}', [\App\Http\Controllers\Api\v2\HashtagController::class, 'getBySlug'])->name('by_slug');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\HashtagController::class, 'show'])->name('show');
+            Route::post('/', [\App\Http\Controllers\Api\v2\HashtagController::class, 'store'])->name('store');
+            Route::put('/{id}', [\App\Http\Controllers\Api\v2\HashtagController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Api\v2\HashtagController::class, 'destroy'])->name('destroy');
+        });
     });
