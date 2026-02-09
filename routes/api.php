@@ -52,6 +52,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/amounts', [App\Http\Controllers\SettingsController::class, 'getAmounts'])->name('api_Amounts');
 
         Route::get('/balance/operations', [App\Http\Controllers\BalancesOperationsController::class, 'index'])->name('api_balance_operations');
+        Route::get('/balance/operations/filtered', [App\Http\Controllers\BalancesOperationsController::class, 'getFilteredOperations'])->name('api_balance_operations_filtered');
+        Route::get('/balance/operations/all', [App\Http\Controllers\BalancesOperationsController::class, 'getAllOperations'])->name('api_balance_operations_all');
+        Route::get('/balance/operations/{id}', [App\Http\Controllers\BalancesOperationsController::class, 'show'])->name('api_balance_operations_show');
+        Route::post('/balance/operations', [App\Http\Controllers\BalancesOperationsController::class, 'store'])->name('api_balance_operations_store');
+        Route::put('/balance/operations/{id}', [App\Http\Controllers\BalancesOperationsController::class, 'update'])->name('api_balance_operations_update');
+        Route::delete('/balance/operations/{id}', [App\Http\Controllers\BalancesOperationsController::class, 'destroy'])->name('api_balance_operations_destroy');
+        Route::get('/balance/operations/category/{categoryId}/name', [App\Http\Controllers\BalancesOperationsController::class, 'getCategoryName'])->name('api_balance_operations_category_name');
         Route::get('/balance/operations/categories', [App\Http\Controllers\BalancesOperationsController::class, 'getCategories'])->name('api_operations_categories');
         Route::get('/action/historys', [App\Http\Controllers\SharesController::class, 'index'])->name('api_action_history');
         Route::get('/user-balances/{idAmounts}', [App\Http\Controllers\UsersBalancesController::class, 'index'])->name('api_user_balances');
