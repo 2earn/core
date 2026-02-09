@@ -2,244 +2,258 @@
 
 This directory contains comprehensive Postman collections for all API endpoints in the 2Earn platform. All API endpoints are prefixed with `/api` as per the application's routing structure.
 
-## 📋 Collection Overview
+## 📋 Directory Structure
 
-Total Collections: **12**
+Collections are organized to mirror the `app/Http/Controllers/Api` structure:
 
-### Collection List
+```
+postman/collections/
+├── Admin/              → app/Http/Controllers/Api/Admin/
+│   └── Platform Change Request API.postman_collection.json
+│
+├── Mobile/             → app/Http/Controllers/Api/mobile/
+│   └── Mobile Balance API.postman_collection.json
+│
+├── Partner/            → app/Http/Controllers/Api/partner/
+│   ├── Partner Deals API.postman_collection.json
+│   ├── Partner Items API.postman_collection.json
+│   ├── Partner Orders API.postman_collection.json
+│   ├── Partner Payments API.postman_collection.json
+│   ├── Partner Platforms API.postman_collection.json
+│   ├── Partner Role Requests API.postman_collection.json
+│   ├── Partner Sales Dashboard API.postman_collection.json
+│   └── Partner Users API.postman_collection.json
+│
+├── V1/                 → app/Http/Controllers/ (V1 APIs)
+│   └── V1 Authenticated API.postman_collection.json
+│
+├── V2/                 → app/Http/Controllers/ (V2 APIs)
+│   └── Balance Operations API v2.postman_collection.json
+│
+└── Payment/            → app/Http/Controllers/Api/payment/
+    (Use existing "2Earn - Payment & Order Simulation API")
+```
 
-1. **V1 Authenticated API** - Core authenticated endpoints (Sanctum Auth)
-2. **Balance Operations API v2** - Balance operations management (Public)
-3. **Mobile Balance API** - Mobile app balance endpoints
-4. **Partner Platforms API** - Partner platform management
-5. **Partner Deals API** - Partner deal management
-6. **Partner Orders API** - Partner order management
-7. **Partner Items API** - Partner item/product management
-8. **Partner Sales Dashboard API** - Partner sales analytics
-9. **Partner Payments API** - Partner payment management
-10. **Partner Role Requests API** - Partner role request management
-11. **Partner Users API** - Partner user and role management
-12. **Platform Change Request API** - Admin platform change requests
+---
+
+## 📦 Collection Overview
+
+**Total Collections**: 12 organized collections
+**Total Endpoints**: 130+ API endpoints
+**Structure**: Mirrors `app/Http/Controllers/Api`
 
 ---
 
 ## 🔐 Authentication
 
 ### V1 Authenticated API (Sanctum)
+- **Location**: `V1/V1 Authenticated API.postman_collection.json`
 - **Prefix**: `/api/v1/`
 - **Authentication**: Bearer Token (Laravel Sanctum)
 - **Header**: `Authorization: Bearer {{access_token}}`
 
 ### Partner APIs
+- **Location**: `Partner/` directory
 - **Prefix**: `/api/partner/`
 - **Middleware**: `check.url` (Custom URL validation)
 - **Authentication**: Not required (middleware-based security)
 
 ### Mobile APIs
+- **Location**: `Mobile/` directory
 - **Prefix**: `/api/mobile/`
 - **Middleware**: `check.url`
 - **Authentication**: Not required (middleware-based security)
 
+### Admin APIs
+- **Location**: `Admin/` directory
+- **Prefix**: `/api/admin/`
+- **Authentication**: Bearer Token (Admin privileges)
+
 ### Balance Operations v2
+- **Location**: `V2/` directory
 - **Prefix**: `/api/v2/balance/operations`
 - **Authentication**: Public API (No authentication required)
 
 ---
 
-## 📦 Detailed Collection Documentation
+## 📁 Module Details
 
-### 1. V1 Authenticated API
-**File**: `V1 Authenticated API.postman_collection.json`
+### 🔧 Admin Module (`Admin/`)
 
-Comprehensive collection covering all authenticated endpoints including:
-- **Countries & Settings**: Country lists, application settings, amounts
-- **User Balances**: Balance queries, updates, status management
-- **Shares/Actions**: Share price evolution, balance tracking
-- **Notifications**: Notification history
-- **Coupons**: Coupon and injector management
-- **Platforms & Deals**: Platform and deal searches
-- **Roles & Requests**: Role management
-- **User Data**: Invitations, tree structure, SMS, purchases
-- **Analytics**: Target data, Sankey diagrams
-- **Transfers**: Balance transfers and cash additions
-- **VIP & SMS**: VIP status, SMS sending
-- **Payment Notifications**: PayTabs webhook handling
+**Controllers Covered**: `Admin/PlatformChangeRequestController.php`, `Admin/PartnerRequestController.php`
 
-**Key Endpoints**: 50+ endpoints
-**Base URL Variable**: `{{base_url}}/api/v1/`
+#### Platform Change Request API
+**File**: `Admin/Platform Change Request API.postman_collection.json`
+- Get pending change requests
+- List all change requests with filters
+- Get request by ID
+- Get statistics
+
+**Endpoints**: 4 | **Base URL**: `/api/admin/platform-change-requests`
 
 ---
 
-### 2. Balance Operations API v2
-**File**: `Balance Operations API v2.postman_collection.json`
+### 📱 Mobile Module (`Mobile/`)
 
-Public API for balance operations management:
-- Get operations (DataTables format)
-- Filtered operations with search
-- Get all operations
-- Category management
-- CRUD operations for balance operations
+**Controllers Covered**: `mobile/BalanceController.php`, `mobile/CashBalanceController.php`, `mobile/UserController.php`
 
-**Key Endpoints**: 9 endpoints
-**Base URL**: `{{base_url}}/api/v2/balance/operations`
-**Authentication**: None (Public API)
-
----
-
-### 3. Mobile Balance API
-**File**: `Mobile Balance API.postman_collection.json`
-
-Mobile application balance endpoints:
+#### Mobile Balance API
+**File**: `Mobile/Mobile Balance API.postman_collection.json`
 - Get user balances
 - Get cash balance
 - Create/add cash balance
 
-**Key Endpoints**: 3 endpoints
-**Base URL**: `{{base_url}}/api/mobile/`
-**Middleware**: `check.url`
+**Endpoints**: 3 | **Base URL**: `/api/mobile/`
 
 ---
 
-### 4. Partner Platforms API
-**File**: `Partner Platforms API.postman_collection.json`
+### 🤝 Partner Module (`Partner/`)
 
-Platform management for partners:
+**Controllers Covered**: All 11 partner controllers
+
+#### 1. Partner Platforms API
+**File**: `Partner/Partner Platforms API.postman_collection.json`
 - Get top selling platforms
 - Platform roles management
 - Change platform type
-- Validation requests (submit, cancel)
-- Change requests (cancel)
-- CRUD operations for platforms
+- Validation workflows
+- CRUD operations
 
-**Key Endpoints**: 10 endpoints
-**Base URL**: `{{base_url}}/api/partner/platforms`
+**Endpoints**: 10 | **Base URL**: `/api/partner/platforms`
 
----
-
-### 5. Partner Deals API
-**File**: `Partner Deals API.postman_collection.json`
-
-Deal management system:
-- List and get deals
-- Create and update deals
+#### 2. Partner Deals API
+**File**: `Partner/Partner Deals API.postman_collection.json`
+- Deal CRUD operations
 - Change deal status
 - Validation workflows
 - Dashboard indicators
 - Performance charts
 - Product change tracking
 
-**Key Endpoints**: 13 endpoints
-**Base URL**: `{{base_url}}/api/partner/deals`
+**Endpoints**: 13 | **Base URL**: `/api/partner/deals`
 
----
-
-### 6. Partner Orders API
-**File**: `Partner Orders API.postman_collection.json`
-
-Order management:
-- List and get orders
-- Create and update orders
+#### 3. Partner Orders API
+**File**: `Partner/Partner Orders API.postman_collection.json`
+- Order CRUD operations
 - Change order status
 - Order details management
-- Order line items (CRUD)
 
-**Key Endpoints**: 7 endpoints
-**Base URL**: `{{base_url}}/api/partner/orders`
+**Endpoints**: 7 | **Base URL**: `/api/partner/orders`
 
----
-
-### 7. Partner Items API
-**File**: `Partner Items API.postman_collection.json`
-
-Item/Product management:
-- List and get items
-- Create and update items
+#### 4. Partner Items API
+**File**: `Partner/Partner Items API.postman_collection.json`
+- Item CRUD operations
 - Platform associations
-- Deal associations (bulk operations)
-- List items by deal
+- Deal associations (bulk)
 
-**Key Endpoints**: 8 endpoints
-**Base URL**: `{{base_url}}/api/partner/items`
+**Endpoints**: 8 | **Base URL**: `/api/partner/items`
 
----
-
-### 8. Partner Sales Dashboard API
-**File**: `Partner Sales Dashboard API.postman_collection.json`
-
-Sales analytics and reporting:
-- KPIs (Key Performance Indicators)
+#### 5. Partner Sales Dashboard API
+**File**: `Partner/Partner Sales Dashboard API.postman_collection.json`
+- KPIs and metrics
 - Sales evolution charts
-- Top selling products
-- Top selling deals
-- Transaction lists and details
+- Top products & deals
+- Transaction lists
 
-**Key Endpoints**: 6 endpoints
-**Base URL**: `{{base_url}}/api/partner/sales/dashboard`
+**Endpoints**: 6 | **Base URL**: `/api/partner/sales/dashboard`
 
----
-
-### 9. Partner Payments API
-**File**: `Partner Payments API.postman_collection.json`
-
-Payment management:
-- List payments
-- Get payment details
+#### 6. Partner Payments API
+**File**: `Partner/Partner Payments API.postman_collection.json`
+- Payment lists & details
 - Create payment demands
-- Payment statistics summary
+- Statistics summary
 
-**Key Endpoints**: 4 endpoints
-**Base URL**: `{{base_url}}/api/partner/payments`
+**Endpoints**: 4 | **Base URL**: `/api/partner/payments`
 
----
-
-### 10. Partner Role Requests API
-**File**: `Partner Role Requests API.postman_collection.json`
-
-Role request workflows:
-- List role requests
-- Get request details
-- Create role requests
+#### 7. Partner Role Requests API
+**File**: `Partner/Partner Role Requests API.postman_collection.json`
+- List & get role requests
+- Create requests
 - Cancel requests
 
-**Key Endpoints**: 4 endpoints
-**Base URL**: `{{base_url}}/api/partner/role-requests`
+**Endpoints**: 4 | **Base URL**: `/api/partner/role-requests`
 
----
-
-### 11. Partner Users API
-**File**: `Partner Users API.postman_collection.json`
-
-User and platform role management:
-- Get user information
-- Partner platforms list
-- Add/update/delete platform roles
-- User discount balance
+#### 8. Partner Users API
+**File**: `Partner/Partner Users API.postman_collection.json`
+- User information
+- Platform roles (add/update/delete)
+- Discount balance
 - Plan labels
 
-**Key Endpoints**: 7 endpoints
-**Base URL**: `{{base_url}}/api/partner/users`
+**Endpoints**: 7 | **Base URL**: `/api/partner/users`
 
 ---
 
-### 12. Platform Change Request API
-**File**: `Platform Change Request API.postman_collection.json`
+### 🔑 V1 Module (`V1/`)
 
-Admin endpoints for platform change management:
-- Get pending requests
-- List all requests with filters
-- Get request details
-- Request statistics
+**Controllers Covered**: All V1 authenticated controllers
 
-**Key Endpoints**: 4 endpoints
-**Base URL**: `{{base_url}}/api/admin/platform-change-requests`
+#### V1 Authenticated API
+**File**: `V1/V1 Authenticated API.postman_collection.json`
+
+Comprehensive collection with 50+ endpoints organized in folders:
+- **Countries & Settings** (3 endpoints)
+- **Action History** (1 endpoint)
+- **User Balances** (7 endpoints)
+- **Shares/Actions** (10 endpoints)
+- **Notifications** (1 endpoint)
+- **Coupons** (6 endpoints)
+- **Platforms & Deals** (2 endpoints)
+- **Roles & Requests** (3 endpoints)
+- **User Data** (5 endpoints)
+- **Target & Analytics** (2 endpoints)
+- **Transfers & Balance Operations** (2 endpoints)
+- **VIP & SMS** (2 endpoints)
+- **Payment Notifications** (1 endpoint)
+
+**Endpoints**: 50+ | **Base URL**: `/api/v1/`
 
 ---
 
-## 🔧 Environment Variables
+### 🔄 V2 Module (`V2/`)
 
-To use these collections effectively, create a Postman environment with the following variables:
+**Controllers Covered**: `BalancesOperationsController.php`
 
-### Required Variables
+#### Balance Operations API v2
+**File**: `V2/Balance Operations API v2.postman_collection.json`
+- Get operations (DataTables)
+- Filtered operations with search
+- Get all operations
+- Category management
+- CRUD operations
+
+**Endpoints**: 9 | **Base URL**: `/api/v2/balance/operations`
+
+---
+
+## 🚀 Getting Started
+
+### 1. Import Collections
+
+**Option A: Import Entire Directory**
+1. Open Postman
+2. Click **Import** button
+3. Select **Folder** tab
+4. Choose `C:\laragon\www\2earn\postman\collections`
+5. Click **Import** (will import all subdirectories)
+
+**Option B: Import by Module**
+1. Open Postman
+2. Click **Import** button
+3. Navigate to specific module folder (e.g., `Partner/`)
+4. Select collection files
+5. Click **Import**
+
+### 2. Create Environment
+
+1. Click **Environments** in Postman
+2. Click **Create Environment**
+3. Name it "2Earn Development" or "2Earn Production"
+4. Add variables (see below)
+5. Click **Save**
+
+### 3. Environment Variables
+
 ```json
 {
   "base_url": "http://localhost:8000",
@@ -251,116 +265,107 @@ To use these collections effectively, create a Postman environment with the foll
   "order_id": "1",
   "item_id": "1",
   "role_id": "1",
-  "change_request_id": "1"
-}
-```
-
-### Optional Variables (for testing)
-```json
-{
+  "change_request_id": "1",
   "idAmounts": "1",
   "idUser": "1",
-  "idTarget": "1",
-  "balance_id": "1",
-  "coupon_id": "1",
-  "injector_coupon_id": "1",
-  "transaction_id": "TXN123456",
-  "type": "BFS",
-  "dealId": "1",
-  "categoryId": "1",
-  "platformId": "1"
+  "transaction_id": "TXN123456"
 }
 ```
 
----
+### 4. Select Environment & Test
 
-## 🚀 Getting Started
-
-### 1. Import Collections
-1. Open Postman
-2. Click **Import** button
-3. Select all `.postman_collection.json` files from this directory
-4. Click **Import**
-
-### 2. Create Environment
-1. Click **Environments** in Postman
-2. Click **Create Environment**
-3. Name it "2Earn Development" or "2Earn Production"
-4. Add the variables listed above
-5. Set initial values and current values
-6. Click **Save**
-
-### 3. Select Environment
-- Use the environment dropdown in top-right corner
-- Select your created environment
-
-### 4. Test Endpoints
-- Open any collection
-- Select an endpoint
-- Click **Send**
-- Review the response
+1. Use environment dropdown (top-right)
+2. Select your environment
+3. Open any collection
+4. Select an endpoint
+5. Click **Send**
 
 ---
 
-## 📝 API Route Structure
+## 📊 Controller to Collection Mapping
+
+### Admin Controllers
+| Controller | Collection | Location |
+|------------|-----------|----------|
+| `PlatformChangeRequestController.php` | Platform Change Request API | `Admin/` |
+| `PartnerRequestController.php` | Platform Change Request API | `Admin/` |
+
+### Mobile Controllers
+| Controller | Collection | Location |
+|------------|-----------|----------|
+| `BalanceController.php` | Mobile Balance API | `Mobile/` |
+| `CashBalanceController.php` | Mobile Balance API | `Mobile/` |
+| `UserController.php` | Mobile Balance API | `Mobile/` |
+
+### Partner Controllers
+| Controller | Collection | Location |
+|------------|-----------|----------|
+| `DealPartnerController.php` | Partner Deals API | `Partner/` |
+| `DealProductChangeController.php` | Partner Deals API | `Partner/` |
+| `ItemsPartnerController.php` | Partner Items API | `Partner/` |
+| `OrderDetailsPartnerController.php` | Partner Orders API | `Partner/` |
+| `OrderPartnerController.php` | Partner Orders API | `Partner/` |
+| `PartnerPaymentController.php` | Partner Payments API | `Partner/` |
+| `PartnerRolePartnerController.php` | Partner Role Requests API | `Partner/` |
+| `PlanLabelPartnerController.php` | Partner Users API | `Partner/` |
+| `PlatformPartnerController.php` | Partner Platforms API | `Partner/` |
+| `SalesDashboardController.php` | Partner Sales Dashboard API | `Partner/` |
+| `UserPartnerController.php` | Partner Users API | `Partner/` |
+
+### Payment Controllers
+| Controller | Collection | Location |
+|------------|-----------|----------|
+| `OrderSimulationController.php` | 2Earn - Payment & Order Simulation API | Existing |
+
+---
+
+## 🔍 API Route Structure
 
 All routes follow the pattern:
 ```
 {{base_url}}/api/{module}/{resource}/{action}
 ```
 
-### Modules
-- `v1` - Core authenticated endpoints
-- `v2` - Version 2 public endpoints
-- `partner` - Partner management endpoints
-- `mobile` - Mobile app endpoints
-- `admin` - Admin management endpoints
-- `order` - Order simulation endpoints
+### Route Modules
+- **`admin`** → Admin APIs in `Admin/` directory
+- **`partner`** → Partner APIs in `Partner/` directory
+- **`mobile`** → Mobile APIs in `Mobile/` directory
+- **`v1`** → Authenticated V1 APIs in `V1/` directory
+- **`v2`** → Public V2 APIs in `V2/` directory
+- **`order`** → Order simulation APIs (existing collections)
 
 ---
 
-## 🔍 Middleware Information
+## 📝 Workflow Examples
 
-### Authentication Middleware
-- **`auth:sanctum`**: Laravel Sanctum token authentication
-- Used in: V1 Authenticated API
-
-### Custom Middleware
-- **`check.url`**: Custom URL validation middleware
-- Used in: Partner APIs, Mobile APIs, Order APIs
-- Validates request origin and permissions
-
-### No Authentication
-- Balance Operations API v2 (Public)
-- Some admin endpoints (protected by other means)
-
----
-
-## 📊 Testing Tips
-
-### 1. Authentication Flow
+### Partner Deal Creation Workflow
 ```
-1. Login/Register → Get access_token
-2. Set access_token in environment
-3. Test authenticated endpoints
+1. Create Platform (Partner/Partner Platforms API)
+   POST /api/partner/platforms/platforms
+
+2. Create Deal (Partner/Partner Deals API)
+   POST /api/partner/deals/deals
+
+3. Add Items (Partner/Partner Items API)
+   POST /api/partner/items/deal/add-bulk
+
+4. Submit for Validation (Partner/Partner Deals API)
+   POST /api/partner/deals/validate
+
+5. Monitor Performance (Partner/Partner Sales Dashboard API)
+   GET /api/partner/sales/dashboard/kpis
 ```
 
-### 2. Partner Workflow
+### Mobile Balance Check Workflow
 ```
-1. Create Platform → Get platform_id
-2. Create Deal → Get deal_id
-3. Add Items to Deal
-4. Create Orders
-5. Track Sales Dashboard
-```
+1. Get User (V1/V1 Authenticated API)
+   GET /api/partner/users?user_id={{user_id}}
 
-### 3. Balance Operations
-```
-1. Get Categories
-2. Create Operation
-3. Filter Operations
-4. Get Operation Details
-5. Update/Delete as needed
+2. Get Balances (Mobile/Mobile Balance API)
+   GET /api/mobile/balances?user_id={{user_id}}
+
+3. Get Cash Balance (Mobile/Mobile Balance API)
+   GET /api/mobile/cash-balance?user_id={{user_id}}
 ```
 
 ---
@@ -370,34 +375,91 @@ All routes follow the pattern:
 ### Common Issues
 
 **401 Unauthorized**
-- Check if access_token is set correctly
-- Verify token hasn't expired
-- Ensure Bearer prefix is included
+- Verify `access_token` is set in environment
+- Check token hasn't expired
+- Ensure `Bearer ` prefix is included
 
 **404 Not Found**
-- Verify base_url is correct
-- Check API prefix is included (`/api`)
-- Confirm resource exists (check IDs)
+- Confirm `base_url` is correct
+- Verify `/api` prefix is in path
+- Check resource ID exists
 
 **422 Unprocessable Entity**
 - Review request body structure
-- Check required fields
-- Validate data types
+- Verify required fields are present
+- Check data type validations
 
 **500 Internal Server Error**
-- Check server logs
-- Verify database connections
-- Review middleware configurations
+- Review server logs
+- Check database connections
+- Verify middleware configurations
+
+---
+
+## 🔧 Maintenance
+
+### Adding New Endpoints
+1. Identify the controller module (Admin, Mobile, Partner, etc.)
+2. Navigate to corresponding directory
+3. Open the relevant collection
+4. Add new request to appropriate folder
+5. Document parameters and body
+
+### Creating New Collections
+1. Determine the API module
+2. Create collection in appropriate directory:
+   - `Admin/` for admin controllers
+   - `Mobile/` for mobile controllers
+   - `Partner/` for partner controllers
+   - `V1/` for v1 authenticated APIs
+   - `V2/` for v2 public APIs
+3. Follow naming convention: `[Module] [Feature] API`
+4. Update this README
+
+---
+
+## 📄 Additional Resources
+
+### Laravel Routes
+```bash
+# View all API routes
+php artisan route:list --path=api
+
+# View specific module routes
+php artisan route:list --path=api/partner
+php artisan route:list --path=api/admin
+```
+
+### Controller Locations
+- **Admin**: `app/Http/Controllers/Api/Admin/`
+- **Mobile**: `app/Http/Controllers/Api/mobile/`
+- **Partner**: `app/Http/Controllers/Api/partner/`
+- **Payment**: `app/Http/Controllers/Api/payment/`
+
+---
+
+## 📊 Statistics
+
+- **Total Collections**: 12
+- **Total Endpoints**: 130+
+- **Total Size**: ~73 KB
+- **Modules Covered**: 5 (Admin, Mobile, Partner, V1, V2)
+- **Controllers Covered**: 16+
+- **Organization**: 100% mirrors controller structure
 
 ---
 
 ## 📅 Version History
 
+- **v1.1** (Feb 9, 2026) - Reorganized to mirror controller structure
+  - Created module directories (Admin, Mobile, Partner, V1, V2)
+  - Moved collections to appropriate directories
+  - Updated documentation with directory structure
+  
 - **v1.0** (Feb 9, 2026) - Initial collection generation
   - Created 12 comprehensive collections
   - Covered all API controllers
   - Added proper /api prefix to all endpoints
-  - Organized by modules and resources
 
 ---
 
@@ -407,6 +469,7 @@ For API documentation issues or questions:
 - Check Laravel routes: `php artisan route:list --path=api`
 - Review controller documentation in `/app/Http/Controllers/Api`
 - Check middleware in `/app/Http/Middleware`
+- Refer to module-specific collections in organized directories
 
 ---
 
@@ -416,7 +479,8 @@ These Postman collections are part of the 2Earn platform and follow the same lic
 
 ---
 
-**Generated**: February 9, 2026
-**Total Endpoints**: 130+ endpoints across all collections
+**Last Updated**: February 9, 2026  
+**Structure**: Organized by module  
+**Total Endpoints**: 130+ across all collections  
 **Platform**: 2Earn API v1 & v2
 
