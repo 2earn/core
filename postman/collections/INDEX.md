@@ -111,14 +111,14 @@ This index provides quick links to all collections and documentation.
 
 ## 🎯 Quick Access by Use Case
 
-### For Admin Tasks
-➡️ Go to: `Admin/Platform Change Request API.postman_collection.json`
+### For Platform Change Requests
+➡️ Go to: `Partner/Platform Change Request API.postman_collection.json`
 
 ### For Mobile App Testing
 ➡️ Go to: `Mobile/Mobile Balance API.postman_collection.json`
 
 ### For Partner Portal Testing
-➡️ Go to: `Partner/` directory (8 collections)
+➡️ Go to: `Partner/` directory (9 collections)
 
 ### For General API Testing (V1)
 ➡️ Go to: `V1/V1 Authenticated API.postman_collection.json`
