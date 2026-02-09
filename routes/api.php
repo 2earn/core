@@ -121,21 +121,6 @@ Route::prefix('/order')->name('api_ext_order_')
         Route::post('/run-simulation', [OrderSimulationController::class, 'runSimulation'])->name('run_simulation');
     });
 
-Route::prefix('/v2/')->name('api_v2_')
-    ->withoutMiddleware([\App\Http\Middleware\Authenticate::class])
-    ->group(function () {
-        Route::prefix('balance/operations')->name('balance_operations_')->group(function () {
-            Route::get('/filtered', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'getFilteredOperations'])->name('filtered');
-            Route::get('/all', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'getAllOperations'])->name('all');
-            Route::get('/categories', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'getCategories'])->name('categories');
-            Route::get('/category/{categoryId}/name', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'getCategoryName'])->name('category_name');
-            Route::get('/{id}', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'show'])->name('show');
-            Route::post('/', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'store'])->name('store');
-            Route::put('/{id}', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'update'])->name('update');
-            Route::delete('/{id}', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'destroy'])->name('destroy');
-            Route::get('/', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'index'])->name('index');
-        });
-    });
 
 
 Route::prefix('/partner/')->name('api_partner_')
@@ -240,5 +225,34 @@ Route::prefix('/mobile/')->name('api_mobile_')
             Route::get('/balances', [BalanceController::class, 'getBalances'])->name('get_balances');
             Route::post('/cash-balance', [CashBalanceController::class, 'store'])->name('store');
             Route::get('/cash-balance', [CashBalanceController::class, 'getCashBalance'])->name('get_cash_balance');
+        });
+    });
+
+
+Route::prefix('/v2/')->name('api_v2_')
+    ->withoutMiddleware([\App\Http\Middleware\Authenticate::class])
+    ->group(function () {
+        Route::prefix('balance/operations')->name('balance_operations_')->group(function () {
+            Route::get('/filtered', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'getFilteredOperations'])->name('filtered');
+            Route::get('/all', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'getAllOperations'])->name('all');
+            Route::get('/categories', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'getCategories'])->name('categories');
+            Route::get('/category/{categoryId}/name', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'getCategoryName'])->name('category_name');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'show'])->name('show');
+            Route::post('/', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'store'])->name('store');
+            Route::put('/{id}', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'destroy'])->name('destroy');
+            Route::get('/', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'index'])->name('index');
+        });
+
+        Route::prefix('business-sectors')->name('business_sectors_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\BusinessSectorController::class, 'index'])->name('index');
+            Route::get('/all', [\App\Http\Controllers\Api\v2\BusinessSectorController::class, 'all'])->name('all');
+            Route::get('/ordered', [\App\Http\Controllers\Api\v2\BusinessSectorController::class, 'ordered'])->name('ordered');
+            Route::get('/user-purchases', [\App\Http\Controllers\Api\v2\BusinessSectorController::class, 'userPurchases'])->name('user_purchases');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\BusinessSectorController::class, 'show'])->name('show');
+            Route::get('/{id}/with-images', [\App\Http\Controllers\Api\v2\BusinessSectorController::class, 'showWithImages'])->name('show_with_images');
+            Route::post('/', [\App\Http\Controllers\Api\v2\BusinessSectorController::class, 'store'])->name('store');
+            Route::put('/{id}', [\App\Http\Controllers\Api\v2\BusinessSectorController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Api\v2\BusinessSectorController::class, 'destroy'])->name('destroy');
         });
     });
