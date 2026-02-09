@@ -14,9 +14,6 @@ postman/collections/
 ├── README.md                           (This documentation)
 ├── ORGANIZATION_SUMMARY.md            (This file)
 │
-├── Admin/                              → app/Http/Controllers/Api/Admin/
-│   └── Platform Change Request API.postman_collection.json
-│
 ├── Mobile/                             → app/Http/Controllers/Api/mobile/
 │   └── Mobile Balance API.postman_collection.json
 │
@@ -28,7 +25,8 @@ postman/collections/
 │   ├── Partner Platforms API.postman_collection.json
 │   ├── Partner Role Requests API.postman_collection.json
 │   ├── Partner Sales Dashboard API.postman_collection.json
-│   └── Partner Users API.postman_collection.json
+│   ├── Partner Users API.postman_collection.json
+│   └── Platform Change Request API.postman_collection.json
 │
 ├── V1/                                 → Version 1 Authenticated APIs
 │   └── V1 Authenticated API.postman_collection.json
@@ -44,17 +42,6 @@ postman/collections/
 
 ## 📊 Organization Breakdown
 
-### 📁 Admin Directory (`Admin/`)
-**Controllers**: 2 controllers  
-**Collections**: 1 collection  
-**Endpoints**: 4 endpoints
-
-| File | Endpoints | Controllers Covered |
-|------|-----------|---------------------|
-| Platform Change Request API | 4 | PlatformChangeRequestController, PartnerRequestController |
-
----
-
 ### 📁 Mobile Directory (`Mobile/`)
 **Controllers**: 3 controllers  
 **Collections**: 1 collection  
@@ -67,9 +54,9 @@ postman/collections/
 ---
 
 ### 📁 Partner Directory (`Partner/`)
-**Controllers**: 11 controllers  
-**Collections**: 8 collections  
-**Endpoints**: 59 endpoints
+**Controllers**: 12 controllers  
+**Collections**: 9 collections  
+**Endpoints**: 63 endpoints
 
 | File | Endpoints | Controllers Covered |
 |------|-----------|---------------------|
@@ -81,6 +68,7 @@ postman/collections/
 | Partner Payments API | 4 | PartnerPaymentController |
 | Partner Role Requests API | 4 | PartnerRolePartnerController |
 | Partner Users API | 7 | UserPartnerController, PlanLabelPartnerController |
+| Platform Change Request API | 4 | PlatformChangeRequestController |
 
 ---
 

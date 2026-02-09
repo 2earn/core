@@ -8,9 +8,6 @@ Collections are organized to mirror the `app/Http/Controllers/Api` structure:
 
 ```
 postman/collections/
-├── Admin/              → app/Http/Controllers/Api/Admin/
-│   └── Platform Change Request API.postman_collection.json
-│
 ├── Mobile/             → app/Http/Controllers/Api/mobile/
 │   └── Mobile Balance API.postman_collection.json
 │
@@ -22,7 +19,8 @@ postman/collections/
 │   ├── Partner Platforms API.postman_collection.json
 │   ├── Partner Role Requests API.postman_collection.json
 │   ├── Partner Sales Dashboard API.postman_collection.json
-│   └── Partner Users API.postman_collection.json
+│   ├── Partner Users API.postman_collection.json
+│   └── Platform Change Request API.postman_collection.json
 │
 ├── V1/                 → app/Http/Controllers/ (V1 APIs)
 │   └── V1 Authenticated API.postman_collection.json
@@ -41,6 +39,8 @@ postman/collections/
 **Total Collections**: 12 organized collections
 **Total Endpoints**: 130+ API endpoints
 **Structure**: Mirrors `app/Http/Controllers/Api`
+
+**Note**: Platform Change Request API has been moved to Partner module as the controller is now located in `app/Http/Controllers/Api/partner/`
 
 ---
 
@@ -64,11 +64,6 @@ postman/collections/
 - **Middleware**: `check.url`
 - **Authentication**: Not required (middleware-based security)
 
-### Admin APIs
-- **Location**: `Admin/` directory
-- **Prefix**: `/api/admin/`
-- **Authentication**: Bearer Token (Admin privileges)
-
 ### Balance Operations v2
 - **Location**: `V2/` directory
 - **Prefix**: `/api/v2/balance/operations`
@@ -78,20 +73,6 @@ postman/collections/
 
 ## 📁 Module Details
 
-### 🔧 Admin Module (`Admin/`)
-
-**Controllers Covered**: `Admin/PlatformChangeRequestController.php`, `Admin/PartnerRequestController.php`
-
-#### Platform Change Request API
-**File**: `Admin/Platform Change Request API.postman_collection.json`
-- Get pending change requests
-- List all change requests with filters
-- Get request by ID
-- Get statistics
-
-**Endpoints**: 4 | **Base URL**: `/api/admin/platform-change-requests`
-
----
 
 ### 📱 Mobile Module (`Mobile/`)
 
@@ -181,6 +162,15 @@ postman/collections/
 - Plan labels
 
 **Endpoints**: 7 | **Base URL**: `/api/partner/users`
+
+#### 9. Platform Change Request API
+**File**: `Partner/Platform Change Request API.postman_collection.json`
+- Get pending change requests
+- List all change requests with filters
+- Get request by ID
+- Get statistics
+
+**Endpoints**: 4 | **Base URL**: `/api/partner/platform-change-requests`
 
 ---
 
@@ -284,12 +274,6 @@ Comprehensive collection with 50+ endpoints organized in folders:
 
 ## 📊 Controller to Collection Mapping
 
-### Admin Controllers
-| Controller | Collection | Location |
-|------------|-----------|----------|
-| `PlatformChangeRequestController.php` | Platform Change Request API | `Admin/` |
-| `PartnerRequestController.php` | Platform Change Request API | `Admin/` |
-
 ### Mobile Controllers
 | Controller | Collection | Location |
 |------------|-----------|----------|
@@ -309,6 +293,7 @@ Comprehensive collection with 50+ endpoints organized in folders:
 | `PartnerRolePartnerController.php` | Partner Role Requests API | `Partner/` |
 | `PlanLabelPartnerController.php` | Partner Users API | `Partner/` |
 | `PlatformPartnerController.php` | Partner Platforms API | `Partner/` |
+| `PlatformChangeRequestController.php` | Platform Change Request API | `Partner/` |
 | `SalesDashboardController.php` | Partner Sales Dashboard API | `Partner/` |
 | `UserPartnerController.php` | Partner Users API | `Partner/` |
 
@@ -327,7 +312,6 @@ All routes follow the pattern:
 ```
 
 ### Route Modules
-- **`admin`** → Admin APIs in `Admin/` directory
 - **`partner`** → Partner APIs in `Partner/` directory
 - **`mobile`** → Mobile APIs in `Mobile/` directory
 - **`v1`** → Authenticated V1 APIs in `V1/` directory

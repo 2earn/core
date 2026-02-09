@@ -1,15 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api\Admin;
+namespace App\Http\Controllers\Api\partner;
 
 use App\Http\Controllers\Controller;
-use App\Models\PlatformChangeRequest;
 use App\Services\Platform\PlatformChangeRequestService;
-use App\Models\Platform;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class PlatformChangeRequestController extends Controller

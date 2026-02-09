@@ -31,7 +31,8 @@
             {
               "key": "user_id",
               "value": "{{user_id}}",
-              "description": "User ID (required)"
+              "description": "User ID (required)",
+              "uuid": "3eedc765-db0b-4d71-b420-a0f6f6c31c02"
             }
           ]
         },
