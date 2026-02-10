@@ -143,7 +143,7 @@ class PendingDealValidationRequestsControllerTest extends TestCase
     #[Test]
     public function it_validates_per_page_parameter()
     {
-        $response = $this->getJson('/api/v2/pending-deal-validations/paginated?is_super_admin=true&per_page=150');
+        $response = $this->getJson('/api/v2/pending-deal-validations/paginated?is_super_admin=1&per_page=150');
 
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['per_page']);

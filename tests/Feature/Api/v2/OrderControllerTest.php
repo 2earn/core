@@ -177,6 +177,11 @@ class OrderControllerTest extends TestCase
             'status' => 1  // OrderEnum::New
         ]);
 
+        // Create at least one order detail so order is not empty
+        \App\Models\OrderDetail::factory()->create([
+            'order_id' => $order->id
+        ]);
+
         $response = $this->postJson("/api/v2/orders/{$order->id}/make-ready");
 
         $response->assertStatus(200);
