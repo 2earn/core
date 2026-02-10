@@ -6,7 +6,7 @@ use App\Enums\BalanceEnum;
 use App\Models\ChanceBalances;
 use App\Services\Balances\Balances;
 use App\Models\BalanceOperation;
-use App\Services\UserCurrentBalanceVerticalService;
+use App\Services\UserBalances\UserCurrentBalanceVerticalService;
 use Illuminate\Support\Facades\Log;
 
 class ChanceObserver
