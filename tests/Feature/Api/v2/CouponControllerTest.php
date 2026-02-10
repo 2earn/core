@@ -131,6 +131,15 @@ class CouponControllerTest extends TestCase
         $platform = Platform::factory()->create();
         $item = \App\Models\Item::factory()->create(['platform_id' => $platform->id]);
 
+        // Create actual coupons in the database with available status
+        $coupon1 = Coupon::factory()->create([
+            'pin' => 'TEST123',
+            'sn' => 'SN123',
+            'value' => 50,
+            'status' => '0',  // available
+            'platform_id' => $platform->id
+        ]);
+
         $data = [
             'platform_id' => $platform->id,
             'platform_name' => $platform->name,
@@ -149,7 +158,7 @@ class CouponControllerTest extends TestCase
     #[Test]
     public function it_can_consume_coupon()
     {
-        $coupon = Coupon::factory()->create(['status' => 1]);
+        $coupon = Coupon::factory()->create(['status' => '2']);  // purchased status
 
         $response = $this->postJson("/api/v2/coupons/{$coupon->id}/consume", [
             'user_id' => $this->user->id
@@ -183,7 +192,9 @@ class CouponControllerTest extends TestCase
     {
         $coupon = Coupon::factory()->create();
 
-        $response = $this->deleteJson("/api/v2/coupons/{$coupon->id}?user_id={$this->user->id}");
+        $response = $this->deleteJson("/api/v2/coupons/{$coupon->id}", [
+            'user_id' => $this->user->id
+        ]);
 
         $response->assertStatus(200);
     }
