@@ -82,7 +82,7 @@ class ItemControllerTest extends TestCase
     {
         $deal = Deal::factory()->create();
 
-        $response = $this->getJson("/api/v2/items/deal?deal_id={$deal->id}");
+        $response = $this->getJson("/api/v2/items/by-deal?deal_id={$deal->id}");
 
         $response->assertStatus(200)
             ->assertJsonFragment(['status' => true]);
@@ -115,6 +115,7 @@ class ItemControllerTest extends TestCase
 
         $data = [
             'name' => 'Test Item',
+            'ref' => 'TEST-REF-' . time(),
             'platform_id' => $platform->id,
             'price' => 100
         ];

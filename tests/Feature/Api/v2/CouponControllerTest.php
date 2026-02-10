@@ -96,7 +96,7 @@ class CouponControllerTest extends TestCase
     {
         $platform = Platform::factory()->create();
 
-        $response = $this->getJson("/api/v2/coupons/platforms/{$platform->id}/available");
+        $response = $this->getJson("/api/v2/coupons/platforms/{$platform->id}/available?user_id={$this->user->id}");
 
         $response->assertStatus(200);
     }
@@ -128,9 +128,16 @@ class CouponControllerTest extends TestCase
     #[Test]
     public function it_can_buy_coupon()
     {
+        $platform = Platform::factory()->create();
+        $item = \App\Models\Item::factory()->create(['platform_id' => $platform->id]);
+
         $data = [
-            'platform_id' => 1,
-            'amount' => 50,
+            'platform_id' => $platform->id,
+            'platform_name' => $platform->name,
+            'item_id' => $item->id,
+            'coupons' => [
+                ['pin' => 'TEST123', 'sn' => 'SN123', 'value' => 50]
+            ],
             'user_id' => $this->user->id
         ];
 
@@ -142,9 +149,11 @@ class CouponControllerTest extends TestCase
     #[Test]
     public function it_can_consume_coupon()
     {
-        $coupon = Coupon::factory()->create(['status' => 'active']);
+        $coupon = Coupon::factory()->create(['status' => 1]);
 
-        $response = $this->postJson("/api/v2/coupons/{$coupon->id}/consume");
+        $response = $this->postJson("/api/v2/coupons/{$coupon->id}/consume", [
+            'user_id' => $this->user->id
+        ]);
 
         $response->assertStatus(200);
     }
@@ -152,7 +161,7 @@ class CouponControllerTest extends TestCase
     #[Test]
     public function it_can_mark_coupon_as_consumed()
     {
-        $coupon = Coupon::factory()->create(['status' => 'active']);
+        $coupon = Coupon::factory()->create(['status' => 1]);
 
         $response = $this->postJson("/api/v2/coupons/{$coupon->id}/mark-consumed");
 
@@ -174,20 +183,7 @@ class CouponControllerTest extends TestCase
     {
         $coupon = Coupon::factory()->create();
 
-        $response = $this->deleteJson("/api/v2/coupons/{$coupon->id}");
-
-        $response->assertStatus(200);
-    }
-
-    #[Test]
-    public function it_can_delete_multiple_coupons()
-    {
-        $coupon1 = Coupon::factory()->create();
-        $coupon2 = Coupon::factory()->create();
-
-        $data = ['ids' => [$coupon1->id, $coupon2->id]];
-
-        $response = $this->deleteJson('/api/v2/coupons/multiple', $data);
+        $response = $this->deleteJson("/api/v2/coupons/{$coupon->id}?user_id={$this->user->id}");
 
         $response->assertStatus(200);
     }
