@@ -103,7 +103,7 @@ class PartnerPaymentControllerTest extends TestCase
         $partner = User::factory()->create();
         PartnerPayment::factory()->count(3)->create(['partner_id' => $partner->id]);
 
-        $response = $this->getJson("/api/v2/partner-payments/partner/{$partner->id}");
+        $response = $this->getJson("/api/v2/partner-payments/partners/{$partner->id}");
 
         $response->assertStatus(200)
             ->assertJsonFragment(['status' => true]);

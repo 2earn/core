@@ -65,7 +65,7 @@ class PendingDealValidationRequestsControllerTest extends TestCase
     #[Test]
     public function it_can_get_paginated_requests()
     {
-        $response = $this->getJson('/api/v2/pending-deal-validations/paginated?is_super_admin=true&per_page=10');
+        $response = $this->getJson('/api/v2/pending-deal-validations/paginated?is_super_admin=1&per_page=10');
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -87,7 +87,7 @@ class PendingDealValidationRequestsControllerTest extends TestCase
     #[Test]
     public function it_can_filter_paginated_by_status()
     {
-        $response = $this->getJson('/api/v2/pending-deal-validations/paginated?is_super_admin=true&status_filter=pending');
+        $response = $this->getJson('/api/v2/pending-deal-validations/paginated?is_super_admin=1&status_filter=pending');
 
         $response->assertStatus(200)
             ->assertJsonFragment(['status' => true]);
@@ -96,7 +96,7 @@ class PendingDealValidationRequestsControllerTest extends TestCase
     #[Test]
     public function it_can_search_paginated_requests()
     {
-        $response = $this->getJson('/api/v2/pending-deal-validations/paginated?is_super_admin=true&search=test');
+        $response = $this->getJson('/api/v2/pending-deal-validations/paginated?is_super_admin=1&search=test');
 
         $response->assertStatus(200)
             ->assertJsonFragment(['status' => true]);

@@ -73,7 +73,7 @@ class PartnerControllerTest extends TestCase
     #[Test]
     public function it_can_get_partner_by_id()
     {
-        $partner = User::factory()->create();
+        $partner = Partner::factory()->create();
 
         $response = $this->getJson("/api/v2/partners/{$partner->id}");
 
@@ -131,7 +131,7 @@ class PartnerControllerTest extends TestCase
     #[Test]
     public function it_can_update_partner()
     {
-        $partner = User::factory()->create();
+        $partner = Partner::factory()->create();
 
         $data = [
             'company_name' => 'Updated Company',

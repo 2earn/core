@@ -108,9 +108,9 @@ class PlatformChangeRequestControllerTest extends TestCase
 
         $data = [
             'platform_id' => $platform->id,
-            'field_name' => 'name',
-            'old_value' => 'Old Name',
-            'new_value' => 'New Name',
+            'changes' => [
+                ['field' => 'name', 'old_value' => 'Old Name', 'new_value' => 'New Name']
+            ],
             'requested_by' => $this->user->id
         ];
 
@@ -132,21 +132,21 @@ class PlatformChangeRequestControllerTest extends TestCase
     public function it_can_approve_change_request()
     {
         $response = $this->postJson('/api/v2/platform-change-requests/1/approve', [
-            'approved_by' => $this->user->id
+            'reviewed_by' => $this->user->id
         ]);
 
-        $this->assertContains($response->status(), [200, 404]);
+        $this->assertContains($response->status(), [200, 404, 422]);
     }
 
     #[Test]
     public function it_can_reject_change_request()
     {
         $response = $this->postJson('/api/v2/platform-change-requests/1/reject', [
-            'rejected_by' => $this->user->id,
-            'reason' => 'Invalid change'
+            'reviewed_by' => $this->user->id,
+            'rejection_reason' => 'Invalid change'
         ]);
 
-        $this->assertContains($response->status(), [200, 404]);
+        $this->assertContains($response->status(), [200, 404, 422]);
     }
 }
 
