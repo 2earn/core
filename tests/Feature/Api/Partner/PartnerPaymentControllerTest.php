@@ -4,6 +4,7 @@ namespace Tests\Feature\Api\Partner;
 
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\Group;
 use App\Models\Partner;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -16,6 +17,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
  * @author 2earn Development Team
  * @created 2026-01-23
  */
+#[Group('api')]
 class PartnerPaymentControllerTest extends TestCase
 {
     use DatabaseTransactions;

@@ -8,7 +8,9 @@ use App\Models\Order;
 use App\Models\Deal;
 use App\Models\Platform;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('api')]
 class SalesDashboardControllerTest extends TestCase
 {
     use DatabaseTransactions;

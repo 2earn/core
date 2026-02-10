@@ -7,7 +7,9 @@ use App\Models\User;
 use App\Models\Platform;
 use App\Models\UserCurrentBalanceHorisontal;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('api')]
 class UserPartnerControllerTest extends TestCase
 {
     use DatabaseTransactions;

@@ -8,7 +8,9 @@ use App\Models\User;
 use App\Enums\OrderEnum;
 use App\Models\UserCurrentBalanceHorisontal;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('api')]
 class OrderSimulationControllerTest extends TestCase
 {
     use DatabaseTransactions;
