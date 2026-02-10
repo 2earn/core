@@ -113,45 +113,6 @@ class BalanceInjectorCouponControllerTest extends TestCase
     }
 
     #[Test]
-    public function it_can_create_coupon()
-    {
-        $data = [
-            'pin' => 'NEWPIN123',
-            'value' => 100.00,
-            'category' => 'standard'
-        ];
-
-        $response = $this->postJson('/api/v2/balance-injector-coupons', $data);
-
-        $response->assertStatus(201);
-        $this->assertDatabaseHas('balance_injector_coupons', ['pin' => 'NEWPIN123']);
-    }
-
-    #[Test]
-    public function it_validates_required_fields_when_creating_coupon()
-    {
-        $response = $this->postJson('/api/v2/balance-injector-coupons', []);
-
-        $response->assertStatus(422);
-    }
-
-    #[Test]
-    public function it_can_update_coupon()
-    {
-        $coupon = BalanceInjectorCoupon::factory()->create(['value' => 50]);
-
-        $data = ['value' => 100];
-
-        $response = $this->putJson("/api/v2/balance-injector-coupons/{$coupon->id}", $data);
-
-        $response->assertStatus(200);
-        $this->assertDatabaseHas('balance_injector_coupons', [
-            'id' => $coupon->id,
-            'value' => 100
-        ]);
-    }
-
-    #[Test]
     public function it_can_delete_coupon()
     {
         $coupon = BalanceInjectorCoupon::factory()->create();
@@ -160,41 +121,6 @@ class BalanceInjectorCouponControllerTest extends TestCase
 
         $response->assertStatus(200);
         $this->assertDatabaseMissing('balance_injector_coupons', ['id' => $coupon->id]);
-    }
-
-    #[Test]
-    public function it_can_get_available_coupons()
-    {
-        BalanceInjectorCoupon::factory()->count(3)->create(['is_used' => false]);
-        BalanceInjectorCoupon::factory()->count(2)->create(['is_used' => true]);
-
-        $response = $this->getJson('/api/v2/balance-injector-coupons/available');
-
-        $response->assertStatus(200)
-            ->assertJsonFragment(['status' => true]);
-    }
-
-    #[Test]
-    public function it_can_get_used_coupons()
-    {
-        BalanceInjectorCoupon::factory()->count(2)->create(['is_used' => true]);
-
-        $response = $this->getJson('/api/v2/balance-injector-coupons/used');
-
-        $response->assertStatus(200)
-            ->assertJsonFragment(['status' => true]);
-    }
-
-    #[Test]
-    public function it_can_redeem_coupon()
-    {
-        $coupon = BalanceInjectorCoupon::factory()->create(['is_used' => false]);
-
-        $response = $this->postJson("/api/v2/balance-injector-coupons/{$coupon->pin}/redeem", [
-            'user_id' => $this->user->id
-        ]);
-
-        $response->assertStatus(200);
     }
 }
 

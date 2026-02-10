@@ -39,10 +39,7 @@ class DealControllerTest extends TestCase
     {
         Deal::factory()->count(5)->create();
 
-        $response = $this->postJson('/api/v2/deals', [
-            'is_super_admin' => true,
-            'per_page' => 10
-        ]);
+        $response = $this->getJson('/api/v2/deals?is_super_admin=1&per_page=10');
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -54,7 +51,7 @@ class DealControllerTest extends TestCase
     #[Test]
     public function it_requires_is_super_admin_field()
     {
-        $response = $this->postJson('/api/v2/deals', []);
+        $response = $this->getJson('/api/v2/deals');
 
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['is_super_admin']);
@@ -74,10 +71,7 @@ class DealControllerTest extends TestCase
     #[Test]
     public function it_can_get_partner_deals()
     {
-        $response = $this->postJson('/api/v2/deals/partner', [
-            'user_id' => $this->user->id,
-            'per_page' => 5
-        ]);
+        $response = $this->getJson("/api/v2/deals/partner?user_id={$this->user->id}&per_page=5");
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -89,7 +83,7 @@ class DealControllerTest extends TestCase
     #[Test]
     public function it_validates_partner_deals_request()
     {
-        $response = $this->postJson('/api/v2/deals/partner', []);
+        $response = $this->getJson('/api/v2/deals/partner');
 
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['user_id']);
@@ -98,11 +92,7 @@ class DealControllerTest extends TestCase
     #[Test]
     public function it_can_filter_deals_by_keyword()
     {
-        $response = $this->postJson('/api/v2/deals', [
-            'is_super_admin' => true,
-            'keyword' => 'test',
-            'per_page' => 10
-        ]);
+        $response = $this->getJson('/api/v2/deals?is_super_admin=1&keyword=test&per_page=10');
 
         $response->assertStatus(200)
             ->assertJsonFragment(['status' => true]);
@@ -111,11 +101,7 @@ class DealControllerTest extends TestCase
     #[Test]
     public function it_can_filter_deals_by_statuses()
     {
-        $response = $this->postJson('/api/v2/deals', [
-            'is_super_admin' => true,
-            'statuses' => ['active', 'pending'],
-            'per_page' => 10
-        ]);
+        $response = $this->getJson('/api/v2/deals?is_super_admin=1&statuses[]=active&statuses[]=pending&per_page=10');
 
         $response->assertStatus(200)
             ->assertJsonFragment(['status' => true]);
@@ -124,11 +110,7 @@ class DealControllerTest extends TestCase
     #[Test]
     public function it_can_filter_deals_by_types()
     {
-        $response = $this->postJson('/api/v2/deals', [
-            'is_super_admin' => true,
-            'types' => ['standard', 'premium'],
-            'per_page' => 10
-        ]);
+        $response = $this->getJson('/api/v2/deals?is_super_admin=1&types[]=standard&types[]=premium&per_page=10');
 
         $response->assertStatus(200)
             ->assertJsonFragment(['status' => true]);
@@ -139,11 +121,7 @@ class DealControllerTest extends TestCase
     {
         $platform = Platform::factory()->create();
 
-        $response = $this->postJson('/api/v2/deals', [
-            'is_super_admin' => true,
-            'platforms' => [$platform->id],
-            'per_page' => 10
-        ]);
+        $response = $this->getJson("/api/v2/deals?is_super_admin=1&platforms[]={$platform->id}&per_page=10");
 
         $response->assertStatus(200)
             ->assertJsonFragment(['status' => true]);
@@ -152,10 +130,7 @@ class DealControllerTest extends TestCase
     #[Test]
     public function it_validates_per_page_maximum()
     {
-        $response = $this->postJson('/api/v2/deals', [
-            'is_super_admin' => true,
-            'per_page' => 150
-        ]);
+        $response = $this->getJson('/api/v2/deals?is_super_admin=1&per_page=150');
 
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['per_page']);

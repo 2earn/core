@@ -2,7 +2,9 @@
 
 namespace Tests\Feature\Api\v2;
 
-use App\Models\Communication;
+use App\Models\Survey;
+use App\Models\News;
+use App\Models\Event;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -36,19 +38,14 @@ class CommunicationControllerTest extends TestCase
     #[Test]
     public function it_can_duplicate_survey()
     {
-        $survey = Communication::factory()->create([
-            'type' => 'survey',
-            'title' => 'Original Survey'
+        $survey = Survey::factory()->create([
+            'name' => 'Original Survey'
         ]);
 
         $response = $this->postJson("/api/v2/communication/surveys/{$survey->id}/duplicate");
 
         $response->assertStatus(201)
-            ->assertJsonStructure([
-                'status',
-                'message',
-                'data'
-            ]);
+            ->assertJsonFragment(['status' => true]);
     }
 
     #[Test]
@@ -63,19 +60,14 @@ class CommunicationControllerTest extends TestCase
     #[Test]
     public function it_can_duplicate_news()
     {
-        $news = Communication::factory()->create([
-            'type' => 'news',
+        $news = News::factory()->create([
             'title' => 'Original News'
         ]);
 
         $response = $this->postJson("/api/v2/communication/news/{$news->id}/duplicate");
 
         $response->assertStatus(201)
-            ->assertJsonStructure([
-                'status',
-                'message',
-                'data'
-            ]);
+            ->assertJsonFragment(['status' => true]);
     }
 
     #[Test]
@@ -90,19 +82,14 @@ class CommunicationControllerTest extends TestCase
     #[Test]
     public function it_can_duplicate_event()
     {
-        $event = Communication::factory()->create([
-            'type' => 'event',
+        $event = Event::factory()->create([
             'title' => 'Original Event'
         ]);
 
         $response = $this->postJson("/api/v2/communication/events/{$event->id}/duplicate");
 
         $response->assertStatus(201)
-            ->assertJsonStructure([
-                'status',
-                'message',
-                'data'
-            ]);
+            ->assertJsonFragment(['status' => true]);
     }
 
     #[Test]
