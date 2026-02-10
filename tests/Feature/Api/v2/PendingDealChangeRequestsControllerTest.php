@@ -35,7 +35,7 @@ class PendingDealChangeRequestsControllerTest extends TestCase
     #[Test]
     public function it_can_get_pending_change_requests()
     {
-        $response = $this->getJson('/api/v2/pending-deal-changes');
+        $response = $this->getJson('/api/v2/pending-deal-change-requests');
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -47,7 +47,7 @@ class PendingDealChangeRequestsControllerTest extends TestCase
     #[Test]
     public function it_can_get_pending_changes_with_limit()
     {
-        $response = $this->getJson('/api/v2/pending-deal-changes?limit=10');
+        $response = $this->getJson('/api/v2/pending-deal-change-requests?limit=10');
 
         $response->assertStatus(200)
             ->assertJsonFragment(['status' => true]);
@@ -56,7 +56,7 @@ class PendingDealChangeRequestsControllerTest extends TestCase
     #[Test]
     public function it_validates_limit_parameter()
     {
-        $response = $this->getJson('/api/v2/pending-deal-changes?limit=150');
+        $response = $this->getJson('/api/v2/pending-deal-change-requests?limit=150');
 
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['limit']);
@@ -65,7 +65,7 @@ class PendingDealChangeRequestsControllerTest extends TestCase
     #[Test]
     public function it_can_get_total_pending_count()
     {
-        $response = $this->getJson('/api/v2/pending-deal-changes/total');
+        $response = $this->getJson('/api/v2/pending-deal-change-requests/total');
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -77,7 +77,7 @@ class PendingDealChangeRequestsControllerTest extends TestCase
     #[Test]
     public function it_can_get_pending_with_total()
     {
-        $response = $this->getJson('/api/v2/pending-deal-changes/with-total');
+        $response = $this->getJson('/api/v2/pending-deal-change-requests/with-total');
 
         $response->assertStatus(200)
             ->assertJsonFragment(['status' => true]);
@@ -86,7 +86,7 @@ class PendingDealChangeRequestsControllerTest extends TestCase
     #[Test]
     public function it_can_get_pending_with_total_and_limit()
     {
-        $response = $this->getJson('/api/v2/pending-deal-changes/with-total?limit=5');
+        $response = $this->getJson('/api/v2/pending-deal-change-requests/with-total?limit=5');
 
         $response->assertStatus(200)
             ->assertJsonFragment(['status' => true]);
@@ -96,7 +96,7 @@ class PendingDealChangeRequestsControllerTest extends TestCase
     public function it_can_get_change_request_by_id()
     {
         // Assuming there's data or using factory
-        $response = $this->getJson('/api/v2/pending-deal-changes/1');
+        $response = $this->getJson('/api/v2/pending-deal-change-requests/1');
 
         // May return 404 if no data exists, which is valid
         $this->assertContains($response->status(), [200, 404]);
@@ -105,7 +105,7 @@ class PendingDealChangeRequestsControllerTest extends TestCase
     #[Test]
     public function it_returns_404_for_nonexistent_request()
     {
-        $response = $this->getJson('/api/v2/pending-deal-changes/99999');
+        $response = $this->getJson('/api/v2/pending-deal-change-requests/99999');
 
         $response->assertStatus(404)
             ->assertJsonFragment(['status' => false]);

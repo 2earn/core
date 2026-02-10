@@ -60,17 +60,6 @@ class EntityRoleControllerTest extends TestCase
             ]);
     }
 
-    #[Test]
-    public function it_can_filter_by_type()
-    {
-        EntityRole::factory()->count(3)->create(['type' => 'platform']);
-        EntityRole::factory()->count(2)->create(['type' => 'partner']);
-
-        $response = $this->getJson('/api/v2/entity-roles/filtered?type=platform');
-
-        $response->assertStatus(200)
-            ->assertJsonFragment(['status' => true]);
-    }
 
     #[Test]
     public function it_can_search_roles()
@@ -106,9 +95,7 @@ class EntityRoleControllerTest extends TestCase
     #[Test]
     public function it_can_get_platform_roles()
     {
-        EntityRole::factory()->count(3)->create(['type' => 'platform']);
-
-        $response = $this->getJson('/api/v2/entity-roles/platform');
+        $response = $this->getJson('/api/v2/entity-roles/platform-roles');
 
         $response->assertStatus(200)
             ->assertJsonFragment(['status' => true]);
@@ -117,9 +104,7 @@ class EntityRoleControllerTest extends TestCase
     #[Test]
     public function it_can_get_partner_roles()
     {
-        EntityRole::factory()->count(3)->create(['type' => 'partner']);
-
-        $response = $this->getJson('/api/v2/entity-roles/partner');
+        $response = $this->getJson('/api/v2/entity-roles/partner-roles');
 
         $response->assertStatus(200)
             ->assertJsonFragment(['status' => true]);
@@ -130,7 +115,7 @@ class EntityRoleControllerTest extends TestCase
     {
         $platform = Platform::factory()->create();
 
-        $response = $this->getJson("/api/v2/entity-roles/platform/{$platform->id}");
+        $response = $this->getJson("/api/v2/entity-roles/platforms/{$platform->id}");
 
         $response->assertStatus(200)
             ->assertJsonFragment(['status' => true]);
@@ -141,22 +126,24 @@ class EntityRoleControllerTest extends TestCase
     {
         $partner = User::factory()->create();
 
-        $response = $this->getJson("/api/v2/entity-roles/partner/{$partner->id}");
+        $response = $this->getJson("/api/v2/entity-roles/partners/{$partner->id}");
 
         $response->assertStatus(200)
             ->assertJsonFragment(['status' => true]);
     }
 
     #[Test]
-    public function it_can_create_role()
+    public function it_can_create_platform_role()
     {
+        $platform = Platform::factory()->create();
+        $user = User::factory()->create();
+
         $data = [
-            'name' => 'Test Role',
-            'type' => 'platform',
-            'description' => 'Test description'
+            'name' => 'admin',
+            'user_id' => $user->id
         ];
 
-        $response = $this->postJson('/api/v2/entity-roles', $data);
+        $response = $this->postJson("/api/v2/entity-roles/platforms/{$platform->id}", $data);
 
         $response->assertStatus(201)
             ->assertJsonFragment(['status' => true]);
@@ -165,24 +152,11 @@ class EntityRoleControllerTest extends TestCase
     #[Test]
     public function it_validates_role_creation()
     {
-        $response = $this->postJson('/api/v2/entity-roles', []);
+        $platform = Platform::factory()->create();
 
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['name', 'type']);
-    }
+        $response = $this->postJson("/api/v2/entity-roles/platforms/{$platform->id}", []);
 
-    #[Test]
-    public function it_validates_type_field()
-    {
-        $data = [
-            'name' => 'Test Role',
-            'type' => 'invalid'
-        ];
-
-        $response = $this->postJson('/api/v2/entity-roles', $data);
-
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['type']);
+        $response->assertStatus(422);
     }
 
     #[Test]
@@ -191,8 +165,7 @@ class EntityRoleControllerTest extends TestCase
         $role = EntityRole::factory()->create();
 
         $data = [
-            'name' => 'Updated Role',
-            'description' => 'Updated description'
+            'name' => 'manager'
         ];
 
         $response = $this->putJson("/api/v2/entity-roles/{$role->id}", $data);

@@ -85,7 +85,8 @@ class CouponControllerTest extends TestCase
     #[Test]
     public function it_can_get_purchased_by_status()
     {
-        $response = $this->getJson("/api/v2/coupons/users/{$this->user->id}/status/active");
+        // Status: 1 = active (based on typical coupon status codes)
+        $response = $this->getJson("/api/v2/coupons/users/{$this->user->id}/status/1");
 
         $response->assertStatus(200);
     }

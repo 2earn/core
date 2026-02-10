@@ -62,12 +62,12 @@ class ItemControllerTest extends TestCase
     }
 
     #[Test]
-    public function it_can_get_items_by_platform()
+    public function it_can_get_items_for_platform()
     {
         $platform = Platform::factory()->create();
         Item::factory()->count(3)->create(['platform_id' => $platform->id]);
 
-        $response = $this->getJson("/api/v2/items/platform/{$platform->id}?per_page=15");
+        $response = $this->getJson("/api/v2/items/platforms/{$platform->id}?per_page=15");
 
         $response->assertStatus(200)
             ->assertJsonStructure([

@@ -36,9 +36,14 @@ class CommentsControllerTest extends TestCase
     #[Test]
     public function it_can_get_validated_comments()
     {
-        Comment::factory()->count(3)->create(['validated' => true]);
+        $event = \App\Models\Event::factory()->create();
+        Comment::factory()->count(3)->create([
+            'validated' => true,
+            'commentable_type' => 'App\Models\Event',
+            'commentable_id' => $event->id
+        ]);
 
-        $response = $this->getJson('/api/v2/comments/validated');
+        $response = $this->getJson("/api/v2/comments/validated?commentable_type=App\Models\Event&commentable_id={$event->id}");
 
         $response->assertStatus(200);
     }
@@ -46,9 +51,14 @@ class CommentsControllerTest extends TestCase
     #[Test]
     public function it_can_get_unvalidated_comments()
     {
-        Comment::factory()->count(2)->create(['validated' => false]);
+        $event = \App\Models\Event::factory()->create();
+        Comment::factory()->count(2)->create([
+            'validated' => false,
+            'commentable_type' => 'App\Models\Event',
+            'commentable_id' => $event->id
+        ]);
 
-        $response = $this->getJson('/api/v2/comments/unvalidated');
+        $response = $this->getJson("/api/v2/comments/unvalidated?commentable_type=App\Models\Event&commentable_id={$event->id}");
 
         $response->assertStatus(200);
     }
@@ -56,9 +66,13 @@ class CommentsControllerTest extends TestCase
     #[Test]
     public function it_can_get_all_comments()
     {
-        Comment::factory()->count(5)->create();
+        $event = \App\Models\Event::factory()->create();
+        Comment::factory()->count(5)->create([
+            'commentable_type' => 'App\Models\Event',
+            'commentable_id' => $event->id
+        ]);
 
-        $response = $this->getJson('/api/v2/comments/all');
+        $response = $this->getJson("/api/v2/comments/all?commentable_type=App\Models\Event&commentable_id={$event->id}");
 
         $response->assertStatus(200);
     }
@@ -76,10 +90,11 @@ class CommentsControllerTest extends TestCase
     #[Test]
     public function it_can_check_if_user_has_commented()
     {
+        $event = \App\Models\Event::factory()->create();
         $data = [
             'user_id' => $this->user->id,
-            'commentable_type' => 'App\\Models\\Post',
-            'commentable_id' => 1
+            'commentable_type' => 'App\\Models\\Event',
+            'commentable_id' => $event->id
         ];
 
         $response = $this->getJson('/api/v2/comments/has-commented?' . http_build_query($data));
@@ -90,10 +105,11 @@ class CommentsControllerTest extends TestCase
     #[Test]
     public function it_can_create_comment()
     {
+        $event = \App\Models\Event::factory()->create();
         $data = [
             'content' => 'Test Comment',
-            'commentable_type' => 'App\\Models\\Post',
-            'commentable_id' => 1,
+            'commentable_type' => 'App\\Models\\Event',
+            'commentable_id' => $event->id,
             'user_id' => $this->user->id
         ];
 
@@ -108,7 +124,9 @@ class CommentsControllerTest extends TestCase
     {
         $comment = Comment::factory()->create(['validated' => false]);
 
-        $response = $this->postJson("/api/v2/comments/{$comment->id}/validate");
+        $response = $this->postJson("/api/v2/comments/{$comment->id}/validate", [
+            'validated_by_id' => $this->user->id
+        ]);
 
         $response->assertStatus(200);
     }
