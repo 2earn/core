@@ -10,6 +10,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use PHPUnit\Framework\Attributes\Group;
 
 #[Group('api')]
+#[Group('api_partner')]
 class UserPartnerControllerTest extends TestCase
 {
     use DatabaseTransactions;

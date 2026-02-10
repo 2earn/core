@@ -18,6 +18,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
  * @created 2026-01-23
  */
 #[Group('api')]
+#[Group('api_partner')]
 class PartnerPaymentControllerTest extends TestCase
 {
     use DatabaseTransactions;

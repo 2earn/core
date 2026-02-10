@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\EntityRole;
 
 #[Group('api')]
+#[Group('api_partner')]
 class PartnerRoleRequestTest extends TestCase
 {
 

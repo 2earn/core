@@ -12,6 +12,7 @@ use PHPUnit\Framework\Attributes\Group;
 
 #[Group('feature')]
 #[Group('api')]
+#[Group('api_partner')]
 #[Group('controller')]
 class DealPartnerControllerTest extends TestCase
 {
