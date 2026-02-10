@@ -95,7 +95,7 @@ class CommissionBreakDownControllerTest extends TestCase
             'commission_value' => 100
         ]);
 
-        $response = $this->getJson("/api/v2/commission-breakdowns/calculate-totals/{$deal->id}");
+        $response = $this->getJson("/api/v2/commission-breakdowns/deals/{$deal->id}/totals");
 
         $response->assertStatus(200)
             ->assertJsonFragment(['status' => true]);
@@ -108,6 +108,7 @@ class CommissionBreakDownControllerTest extends TestCase
 
         $data = [
             'deal_id' => $deal->id,
+            'type' => 1,  // Required field
             'commission_value' => 150.00,
             'camembert' => 25.5
         ];
