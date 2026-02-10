@@ -51,7 +51,7 @@ class EventControllerTest extends TestCase
     #[Test]
     public function it_can_search_events()
     {
-        Event::factory()->create(['name' => 'Test Event']);
+        Event::factory()->create(['title' => 'Test Event']);
 
         $response = $this->getJson('/api/v2/events?search=Test');
 
