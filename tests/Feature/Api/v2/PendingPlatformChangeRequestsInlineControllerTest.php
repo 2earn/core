@@ -35,7 +35,7 @@ class PendingPlatformChangeRequestsInlineControllerTest extends TestCase
     #[Test]
     public function it_can_get_pending_platform_change_requests()
     {
-        $response = $this->getJson('/api/v2/pending-platform-changes-inline');
+        $response = $this->getJson('/api/v2/pending-platform-change-requests-inline');
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -47,7 +47,7 @@ class PendingPlatformChangeRequestsInlineControllerTest extends TestCase
     #[Test]
     public function it_can_get_pending_changes_with_limit()
     {
-        $response = $this->getJson('/api/v2/pending-platform-changes-inline?limit=10');
+        $response = $this->getJson('/api/v2/pending-platform-change-requests-inline?limit=10');
 
         $response->assertStatus(200)
             ->assertJsonFragment(['success' => true]);
@@ -56,7 +56,7 @@ class PendingPlatformChangeRequestsInlineControllerTest extends TestCase
     #[Test]
     public function it_can_get_total_pending_count()
     {
-        $response = $this->getJson('/api/v2/pending-platform-changes-inline/count');
+        $response = $this->getJson('/api/v2/pending-platform-change-requests-inline/count');
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -68,7 +68,7 @@ class PendingPlatformChangeRequestsInlineControllerTest extends TestCase
     #[Test]
     public function it_can_get_pending_with_total()
     {
-        $response = $this->getJson('/api/v2/pending-platform-changes-inline/with-total');
+        $response = $this->getJson('/api/v2/pending-platform-change-requests-inline/with-total');
 
         $response->assertStatus(200)
             ->assertJsonFragment(['success' => true]);
@@ -77,7 +77,7 @@ class PendingPlatformChangeRequestsInlineControllerTest extends TestCase
     #[Test]
     public function it_can_get_pending_with_total_and_limit()
     {
-        $response = $this->getJson('/api/v2/pending-platform-changes-inline/with-total?limit=5');
+        $response = $this->getJson('/api/v2/pending-platform-change-requests-inline/with-total?limit=5');
 
         $response->assertStatus(200)
             ->assertJsonFragment(['success' => true]);

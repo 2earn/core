@@ -85,7 +85,7 @@ class PlatformTypeChangeRequestControllerTest extends TestCase
     #[Test]
     public function it_can_get_pending_count()
     {
-        $response = $this->getJson('/api/v2/platform-type-change-requests/pending/count');
+        $response = $this->getJson('/api/v2/platform-type-change-requests/pending-count');
 
         $response->assertStatus(200)
             ->assertJsonStructure([

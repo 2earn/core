@@ -79,7 +79,7 @@ class OrderControllerTest extends TestCase
     {
         Order::factory()->count(2)->create([
             'user_id' => $this->user->id,
-            'status' => 'pending'
+            'status' => 1  // Use integer for OrderEnum
         ]);
 
         $response = $this->getJson("/api/v2/orders/users/{$this->user->id}/pending-count");
@@ -94,7 +94,8 @@ class OrderControllerTest extends TestCase
         $order1 = Order::factory()->create(['user_id' => $this->user->id]);
         $order2 = Order::factory()->create(['user_id' => $this->user->id]);
 
-        $response = $this->getJson("/api/v2/orders/users/{$this->user->id}/by-ids?ids[]={$order1->id}&ids[]={$order2->id}");
+        // Use POST request or query parameters correctly
+        $response = $this->getJson("/api/v2/orders/users/{$this->user->id}/by-ids?ids={$order1->id},{$order2->id}");
 
         $response->assertStatus(200);
     }
