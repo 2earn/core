@@ -22,6 +22,8 @@ class PartnerPaymentFactory extends Factory
             'rejected_by' => null,
             'rejected_at' => null,
             'rejection_reason' => null,
+            'created_by' => User::factory(),
+            'updated_by' => User::factory(),
         ];
     }
 

@@ -167,7 +167,7 @@ class OrderControllerTest extends TestCase
     {
         $order = Order::factory()->create([
             'user_id' => $this->user->id,
-            'status' => 'pending'
+            'status' => 1  // OrderEnum::New
         ]);
 
         $response = $this->postJson("/api/v2/orders/{$order->id}/make-ready");

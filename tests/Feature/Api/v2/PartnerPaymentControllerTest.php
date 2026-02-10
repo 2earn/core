@@ -51,7 +51,7 @@ class PartnerPaymentControllerTest extends TestCase
     #[Test]
     public function it_can_filter_by_status()
     {
-        PartnerPayment::factory()->count(5)->create(['status' => 'pending']);
+        PartnerPayment::factory()->count(5)->pending()->create();
 
         $response = $this->getJson('/api/v2/partner-payments?status_filter=pending');
 
@@ -166,7 +166,7 @@ class PartnerPaymentControllerTest extends TestCase
     #[Test]
     public function it_can_reject_payment()
     {
-        $payment = PartnerPayment::factory()->create(['status' => 'pending']);
+        $payment = PartnerPayment::factory()->pending()->create();
 
         $response = $this->postJson("/api/v2/partner-payments/{$payment->id}/reject", [
             'reason' => 'Invalid data'

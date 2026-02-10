@@ -146,7 +146,7 @@ class PartnerControllerTest extends TestCase
     #[Test]
     public function it_can_delete_partner()
     {
-        $partner = User::factory()->create();
+        $partner = Partner::factory()->create();
 
         $response = $this->deleteJson("/api/v2/partners/{$partner->id}");
 

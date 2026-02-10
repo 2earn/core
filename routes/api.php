@@ -421,15 +421,15 @@ Route::prefix('/v2/')->name('api_v2_')
 
         Route::prefix('orders')->name('orders_')->group(function () {
             Route::get('/', [\App\Http\Controllers\Api\v2\OrderController::class, 'index'])->name('index');
-            Route::get('/users/{userId}', [\App\Http\Controllers\Api\v2\OrderController::class, 'getUserOrders'])->name('user_orders');
-            Route::get('/users/{userId}/{orderId}', [\App\Http\Controllers\Api\v2\OrderController::class, 'findUserOrder'])->name('user_order');
-            Route::get('/users/{userId}/pending-count', [\App\Http\Controllers\Api\v2\OrderController::class, 'getPendingCount'])->name('pending_count');
-            Route::get('/users/{userId}/by-ids', [\App\Http\Controllers\Api\v2\OrderController::class, 'getOrdersByIds'])->name('by_ids');
             Route::get('/dashboard/statistics', [\App\Http\Controllers\Api\v2\OrderController::class, 'getDashboardStatistics'])->name('dashboard_statistics');
-            Route::post('/', [\App\Http\Controllers\Api\v2\OrderController::class, 'store'])->name('store');
             Route::post('/from-cart', [\App\Http\Controllers\Api\v2\OrderController::class, 'createFromCart'])->name('create_from_cart');
             Route::post('/{orderId}/cancel', [\App\Http\Controllers\Api\v2\OrderController::class, 'cancel'])->name('cancel');
             Route::post('/{orderId}/make-ready', [\App\Http\Controllers\Api\v2\OrderController::class, 'makeReady'])->name('make_ready');
+            Route::post('/', [\App\Http\Controllers\Api\v2\OrderController::class, 'store'])->name('store');
+            Route::post('/users/{userId}/pending-count', [\App\Http\Controllers\Api\v2\OrderController::class, 'getPendingCount'])->name('pending_count');
+            Route::post('/users/{userId}/by-ids', [\App\Http\Controllers\Api\v2\OrderController::class, 'getOrdersByIds'])->name('by_ids');
+            Route::get('/users/{userId}', [\App\Http\Controllers\Api\v2\OrderController::class, 'getUserOrders'])->name('user_orders');
+            Route::get('/users/{userId}/{orderId}', [\App\Http\Controllers\Api\v2\OrderController::class, 'findUserOrder'])->name('user_order');
         });
 
         Route::prefix('news')->name('news_')->group(function () {
@@ -483,6 +483,21 @@ Route::prefix('/v2/')->name('api_v2_')
             Route::post('/{id}/reject', [\App\Http\Controllers\Api\v2\PartnerPaymentController::class, 'rejectPayment'])->name('reject');
             Route::put('/{id}', [\App\Http\Controllers\Api\v2\PartnerPaymentController::class, 'update'])->name('update');
             Route::delete('/{id}', [\App\Http\Controllers\Api\v2\PartnerPaymentController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('pending-deal-validations')->name('pending_deal_validations_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\PendingDealValidationRequestsController::class, 'index'])->name('index');
+            Route::get('/paginated', [\App\Http\Controllers\Api\v2\PendingDealValidationRequestsController::class, 'getPaginated'])->name('paginated');
+            Route::get('/total', [\App\Http\Controllers\Api\v2\PendingDealValidationRequestsController::class, 'getTotalPending'])->name('total');
+            Route::get('/with-total', [\App\Http\Controllers\Api\v2\PendingDealValidationRequestsController::class, 'getPendingWithTotal'])->name('with_total');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\PendingDealValidationRequestsController::class, 'show'])->name('show');
+        });
+
+        Route::prefix('pending-platform-changes-inline')->name('pending_platform_changes_inline_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\PendingPlatformChangeRequestsInlineController::class, 'index'])->name('index');
+            Route::get('/paginated', [\App\Http\Controllers\Api\v2\PendingPlatformChangeRequestsInlineController::class, 'getPaginated'])->name('paginated');
+            Route::get('/total', [\App\Http\Controllers\Api\v2\PendingPlatformChangeRequestsInlineController::class, 'getTotalPending'])->name('total');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\PendingPlatformChangeRequestsInlineController::class, 'show'])->name('show');
         });
 
         Route::prefix('platforms')->name('platforms_')->group(function () {
