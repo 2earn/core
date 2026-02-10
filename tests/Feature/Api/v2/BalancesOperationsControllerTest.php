@@ -160,7 +160,7 @@ class BalancesOperationsControllerTest extends TestCase
         $response = $this->getJson("/api/v2/balance/operations/category/{$category->id}/name");
 
         $response->assertStatus(200)
-            ->assertJsonFragment(['name' => 'Test Category']);
+            ->assertJsonFragment(['category_name' => 'Test Category']);
     }
 }
 

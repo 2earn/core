@@ -127,7 +127,7 @@ class BusinessSectorControllerTest extends TestCase
     #[Test]
     public function it_can_get_user_purchases_by_business_sector()
     {
-        $response = $this->getJson('/api/v2/business-sectors/user-purchases');
+        $response = $this->getJson("/api/v2/business-sectors/user-purchases?user_id={$this->user->id}");
 
         $response->assertStatus(200);
     }

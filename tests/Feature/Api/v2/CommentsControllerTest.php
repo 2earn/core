@@ -80,9 +80,13 @@ class CommentsControllerTest extends TestCase
     #[Test]
     public function it_can_get_comments_count()
     {
-        Comment::factory()->count(3)->create();
+        $event = \App\Models\Event::factory()->create();
+        Comment::factory()->count(3)->create([
+            'commentable_type' => 'App\Models\Event',
+            'commentable_id' => $event->id
+        ]);
 
-        $response = $this->getJson('/api/v2/comments/count');
+        $response = $this->getJson("/api/v2/comments/count?commentable_type=App\Models\Event&commentable_id={$event->id}");
 
         $response->assertStatus(200);
     }
