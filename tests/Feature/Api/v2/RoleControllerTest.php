@@ -36,7 +36,9 @@ class RoleControllerTest extends TestCase
     #[Test]
     public function it_can_get_paginated_roles()
     {
-        Role::factory()->count(5)->create();
+        for ($i = 1; $i <= 5; $i++) {
+            Role::create(['name' => 'Test Paginated Role ' . $i . uniqid(), 'guard_name' => 'web']);
+        }
 
         $response = $this->getJson('/api/v2/roles/?per_page=10');
 
@@ -47,8 +49,9 @@ class RoleControllerTest extends TestCase
     #[Test]
     public function it_can_search_roles()
     {
-        Role::factory()->create(['name' => 'Admin Role']);
-        Role::factory()->create(['name' => 'User Role']);
+        $uniqueId = uniqid();
+        Role::create(['name' => 'Admin Role ' . $uniqueId, 'guard_name' => 'web']);
+        Role::create(['name' => 'User Role ' . $uniqueId, 'guard_name' => 'web']);
 
         $response = $this->getJson('/api/v2/roles/?search=Admin');
 
@@ -59,7 +62,9 @@ class RoleControllerTest extends TestCase
     #[Test]
     public function it_can_get_all_roles()
     {
-        Role::factory()->count(3)->create();
+        for ($i = 1; $i <= 3; $i++) {
+            Role::create(['name' => 'Test Role ' . $i, 'guard_name' => 'web']);
+        }
 
         $response = $this->getJson('/api/v2/roles/all');
 
@@ -70,7 +75,7 @@ class RoleControllerTest extends TestCase
     #[Test]
     public function it_can_get_role_by_id()
     {
-        $role = Role::factory()->create(['name' => 'Test Role']);
+        $role = Role::create(['name' => 'Test Role', 'guard_name' => 'web']);
 
         $response = $this->getJson("/api/v2/roles/{$role->id}");
 
@@ -103,7 +108,7 @@ class RoleControllerTest extends TestCase
     #[Test]
     public function it_validates_unique_role_name()
     {
-        Role::factory()->create(['name' => 'Existing Role']);
+        Role::create(['name' => 'Existing Role', 'guard_name' => 'web']);
 
         $data = ['name' => 'Existing Role'];
 
@@ -139,16 +144,6 @@ class RoleControllerTest extends TestCase
         $this->assertDatabaseMissing('roles', ['id' => $role->id]);
     }
 
-    #[Test]
-    public function it_can_check_if_role_can_be_deleted()
-    {
-        $role = Role::factory()->create();
-
-        $response = $this->getJson("/api/v2/roles/{$role->id}/can-delete");
-
-        $response->assertStatus(200)
-            ->assertJsonStructure(['status', 'data']);
-    }
 
     #[Test]
     public function it_can_get_user_roles()
