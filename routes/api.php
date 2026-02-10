@@ -632,4 +632,34 @@ Route::prefix('/v2/')->name('api_v2_')
                 Route::put('/{userId}/calculated', [\App\Http\Controllers\Api\v2\UserBalancesController::class, 'updateCalculatedVertical'])->name('update_calculated');
             });
         });
+
+        Route::prefix('communication-board')->name('communication_board_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\CommunicationBoardController::class, 'index'])->name('index');
+            Route::get('/all', [\App\Http\Controllers\Api\v2\CommunicationBoardController::class, 'all'])->name('all');
+        });
+
+        Route::prefix('commission-breakdowns')->name('commission_breakdowns_')->group(function () {
+            Route::get('/by-deal', [\App\Http\Controllers\Api\v2\CommissionBreakDownController::class, 'getByDeal'])->name('by_deal');
+            Route::get('/deals/{dealId}/totals', [\App\Http\Controllers\Api\v2\CommissionBreakDownController::class, 'calculateTotals'])->name('totals');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\CommissionBreakDownController::class, 'show'])->name('show');
+            Route::post('/', [\App\Http\Controllers\Api\v2\CommissionBreakDownController::class, 'store'])->name('store');
+            Route::put('/{id}', [\App\Http\Controllers\Api\v2\CommissionBreakDownController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Api\v2\CommissionBreakDownController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('events')->name('events_')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Api\v2\EventController::class, 'index'])->name('index');
+            Route::get('/all', [\App\Http\Controllers\Api\v2\EventController::class, 'all'])->name('all');
+            Route::get('/enabled', [\App\Http\Controllers\Api\v2\EventController::class, 'enabled'])->name('enabled');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\EventController::class, 'show'])->name('show');
+            Route::get('/{id}/with-relationships', [\App\Http\Controllers\Api\v2\EventController::class, 'showWithRelationships'])->name('show_with_relationships');
+            Route::get('/{id}/with-main-image', [\App\Http\Controllers\Api\v2\EventController::class, 'showWithMainImage'])->name('show_with_main_image');
+            Route::get('/{id}/has-user-liked', [\App\Http\Controllers\Api\v2\EventController::class, 'hasUserLiked'])->name('has_user_liked');
+            Route::post('/', [\App\Http\Controllers\Api\v2\EventController::class, 'store'])->name('store');
+            Route::post('/{id}/like', [\App\Http\Controllers\Api\v2\EventController::class, 'addLike'])->name('add_like');
+            Route::delete('/{id}/like', [\App\Http\Controllers\Api\v2\EventController::class, 'removeLike'])->name('remove_like');
+            Route::post('/{id}/comment', [\App\Http\Controllers\Api\v2\EventController::class, 'addComment'])->name('add_comment');
+            Route::put('/{id}', [\App\Http\Controllers\Api\v2\EventController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Api\v2\EventController::class, 'destroy'])->name('destroy');
+        });
     });
