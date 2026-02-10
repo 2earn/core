@@ -41,7 +41,8 @@ class CouponControllerTest extends TestCase
 
         $response = $this->getJson('/api/v2/coupons/');
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+            ->assertJsonStructure(['status', 'data', 'pagination']);
     }
 
     #[Test]
@@ -51,7 +52,8 @@ class CouponControllerTest extends TestCase
 
         $response = $this->getJson('/api/v2/coupons/all');
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+            ->assertJsonStructure(['status', 'data']);
     }
 
     #[Test]
@@ -61,7 +63,8 @@ class CouponControllerTest extends TestCase
 
         $response = $this->getJson('/api/v2/coupons/by-sn?sn=TEST-123');
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+            ->assertJsonFragment(['status' => true]);
     }
 
     #[Test]
@@ -71,7 +74,8 @@ class CouponControllerTest extends TestCase
 
         $response = $this->getJson("/api/v2/coupons/users/{$this->user->id}");
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+            ->assertJsonStructure(['status', 'data', 'pagination']);
     }
 
     #[Test]
@@ -79,16 +83,18 @@ class CouponControllerTest extends TestCase
     {
         $response = $this->getJson("/api/v2/coupons/users/{$this->user->id}/purchased");
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+            ->assertJsonStructure(['status', 'data', 'pagination']);
     }
 
     #[Test]
     public function it_can_get_purchased_by_status()
     {
-        // Status: 1 = active (based on typical coupon status codes)
-        $response = $this->getJson("/api/v2/coupons/users/{$this->user->id}/status/1");
+        // Status: 2 = purchased (based on CouponStatusEnum)
+        $response = $this->getJson("/api/v2/coupons/users/{$this->user->id}/status/2");
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+            ->assertJsonFragment(['status' => true]);
     }
 
     #[Test]
@@ -98,7 +104,8 @@ class CouponControllerTest extends TestCase
 
         $response = $this->getJson("/api/v2/coupons/platforms/{$platform->id}/available?user_id={$this->user->id}");
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+            ->assertJsonFragment(['status' => true]);
     }
 
     #[Test]
@@ -108,21 +115,25 @@ class CouponControllerTest extends TestCase
 
         $response = $this->getJson("/api/v2/coupons/platforms/{$platform->id}/max-amount");
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+            ->assertJsonFragment(['status' => true]);
     }
 
     #[Test]
     public function it_can_simulate_purchase()
     {
+        $platform = Platform::factory()->create();
+
         $data = [
-            'platform_id' => 1,
+            'platform_id' => $platform->id,
             'amount' => 100,
             'user_id' => $this->user->id
         ];
 
         $response = $this->postJson('/api/v2/coupons/simulate', $data);
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+            ->assertJsonFragment(['status' => true]);
     }
 
     #[Test]
@@ -137,7 +148,8 @@ class CouponControllerTest extends TestCase
             'sn' => 'SN123',
             'value' => 50,
             'status' => '0',  // available
-            'platform_id' => $platform->id
+            'platform_id' => $platform->id,
+            'user_id' => null  // Make sure it's available (not owned)
         ]);
 
         $data = [
@@ -152,29 +164,39 @@ class CouponControllerTest extends TestCase
 
         $response = $this->postJson('/api/v2/coupons/buy', $data);
 
-        $response->assertStatus(201);
+        $response->assertStatus(200)
+            ->assertJsonFragment(['status' => true]);
     }
 
     #[Test]
     public function it_can_consume_coupon()
     {
-        $coupon = Coupon::factory()->create(['status' => '2']);  // purchased status
+        $coupon = Coupon::factory()->create([
+            'status' => '2',  // purchased status
+            'user_id' => $this->user->id,
+            'consumed' => 0
+        ]);
 
         $response = $this->postJson("/api/v2/coupons/{$coupon->id}/consume", [
             'user_id' => $this->user->id
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+            ->assertJsonFragment(['status' => true]);
     }
 
     #[Test]
     public function it_can_mark_coupon_as_consumed()
     {
-        $coupon = Coupon::factory()->create(['status' => 1]);
+        $coupon = Coupon::factory()->create([
+            'status' => '2',  // purchased
+            'consumed' => 0
+        ]);
 
         $response = $this->postJson("/api/v2/coupons/{$coupon->id}/mark-consumed");
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+            ->assertJsonFragment(['status' => true]);
     }
 
     #[Test]
@@ -184,7 +206,8 @@ class CouponControllerTest extends TestCase
 
         $response = $this->getJson("/api/v2/coupons/{$coupon->id}");
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+            ->assertJsonFragment(['status' => true]);
     }
 
     #[Test]
@@ -196,7 +219,8 @@ class CouponControllerTest extends TestCase
             'user_id' => $this->user->id
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+            ->assertJsonFragment(['status' => true]);
     }
 }
 
