@@ -13,7 +13,7 @@ use App\Models\SMSBalances;
 use App\Models\TreeBalances;
 use App\Models\User;
 use App\Services\Settings\SettingService;
-use App\Services\UserCurrentBalanceHorisontalService;
+use App\Services\UserBalances\UserCurrentBalanceHorisontalService;
 use App\Services\UserBalances\UserCurrentBalanceVerticalService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;

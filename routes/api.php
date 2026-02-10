@@ -107,6 +107,18 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('sankey', 'App\Http\Controllers\ApiController@getSankey')->name('API_sankey');
         Route::post('/paytabs/notification', 'App\Http\Controllers\ApiController@handlePaymentNotification')->name('notification_from_paytabs')->withoutMiddleware('web');
 
+        // Balance Operations v1 routes (pointing to v2 controller)
+        Route::prefix('balance/operations')->name('balance_operations_')->group(function () {
+            Route::get('/filtered', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'getFilteredOperations'])->name('filtered');
+            Route::get('/all', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'getAllOperations'])->name('all');
+            Route::get('/categories', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'getCategories'])->name('categories');
+            Route::get('/category/{categoryId}/name', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'getCategoryName'])->name('category_name');
+            Route::get('/{id}', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'show'])->name('show');
+            Route::post('/', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'store'])->name('store');
+            Route::put('/{id}', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'update'])->name('update');
+            Route::delete('/{id}', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'destroy'])->name('destroy');
+            Route::get('/', [\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'index'])->name('index');
+        });
 
     });
 });

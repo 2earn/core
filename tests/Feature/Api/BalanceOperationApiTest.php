@@ -5,14 +5,13 @@ namespace Tests\Feature\Api;
 use App\Models\BalanceOperation;
 use App\Models\OperationCategory;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class BalanceOperationApiTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use WithFaker;
 
     protected User $user;
 
