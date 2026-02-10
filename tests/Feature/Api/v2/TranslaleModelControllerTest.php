@@ -82,9 +82,7 @@ class TranslaleModelControllerTest extends TestCase
     #[Test]
     public function it_can_search_translations_with_keyword()
     {
-        $response = $this->postJson('/api/v2/translale-models/search', [
-            'search' => 'test'
-        ]);
+        $response = $this->getJson('/api/v2/translale-models/search?search=test');
 
         $response->assertStatus(200)
             ->assertJsonFragment(['success' => true]);
@@ -93,7 +91,7 @@ class TranslaleModelControllerTest extends TestCase
     #[Test]
     public function it_validates_search_request()
     {
-        $response = $this->postJson('/api/v2/translale-models/search', []);
+        $response = $this->getJson('/api/v2/translale-models/search');
 
         $response->assertStatus(422);
     }
@@ -102,11 +100,10 @@ class TranslaleModelControllerTest extends TestCase
     public function it_can_create_translation()
     {
         $data = [
-            'model_type' => 'Platform',
-            'model_id' => 1,
-            'language' => 'fr',
-            'field' => 'name',
-            'value' => 'Test Translation'
+            'name' => 'test.model.translation.' . time(),
+            'value' => 'Default Value',
+            'valueFr' => 'Valeur Française',
+            'valueEn' => 'English Value'
         ];
 
         $response = $this->postJson('/api/v2/translale-models', $data);
@@ -127,7 +124,8 @@ class TranslaleModelControllerTest extends TestCase
     public function it_can_update_translation()
     {
         $data = [
-            'value' => 'Updated Translation'
+            'valueFr' => 'Valeur Mise à Jour',
+            'valueEn' => 'Updated Value'
         ];
 
         $response = $this->putJson('/api/v2/translale-models/1', $data);
