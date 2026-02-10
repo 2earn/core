@@ -144,12 +144,55 @@ class TranslaleModelControllerTest extends TestCase
     }
 
     #[Test]
-    public function it_can_get_translations_by_model()
+    public function it_can_get_translation_count()
     {
-        $response = $this->getJson('/api/v2/translale-models/model/Platform/1');
+        $response = $this->getJson('/api/v2/translale-models/count');
 
         $response->assertStatus(200)
             ->assertJsonFragment(['success' => true]);
+    }
+
+    #[Test]
+    public function it_can_get_key_value_arrays()
+    {
+        $response = $this->getJson('/api/v2/translale-models/key-value-arrays');
+
+        $response->assertStatus(200)
+            ->assertJsonFragment(['success' => true]);
+    }
+
+    #[Test]
+    public function it_can_check_translation_exists()
+    {
+        $response = $this->getJson('/api/v2/translale-models/exists?name=test.key');
+
+        $response->assertStatus(200)
+            ->assertJsonFragment(['success' => true]);
+    }
+
+    #[Test]
+    public function it_validates_exists_request()
+    {
+        $response = $this->getJson('/api/v2/translale-models/exists');
+
+        $response->assertStatus(422);
+    }
+
+    #[Test]
+    public function it_can_get_translations_by_pattern()
+    {
+        $response = $this->getJson('/api/v2/translale-models/by-pattern?pattern=test%');
+
+        $response->assertStatus(200)
+            ->assertJsonFragment(['success' => true]);
+    }
+
+    #[Test]
+    public function it_validates_by_pattern_request()
+    {
+        $response = $this->getJson('/api/v2/translale-models/by-pattern');
+
+        $response->assertStatus(422);
     }
 }
 
