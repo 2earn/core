@@ -113,6 +113,7 @@ class PlatformControllerTest extends TestCase
         $data = [
             'name' => 'New Platform',
             'business_sector_id' => $businessSector->id,
+            'type' => 1,
             'enabled' => true,
             'url' => 'https://example.com'
         ];
@@ -161,7 +162,7 @@ class PlatformControllerTest extends TestCase
     #[Test]
     public function it_can_get_platforms_with_user_purchases()
     {
-        $response = $this->getJson('/api/v2/platforms/with-user-purchases');
+        $response = $this->getJson("/api/v2/platforms/with-user-purchases?user_id={$this->user->id}");
 
         $response->assertStatus(200)
             ->assertJsonFragment(['success' => true]);
