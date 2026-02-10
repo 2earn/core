@@ -4,7 +4,6 @@ namespace Tests\Feature\Api\v2;
 
 use App\Models\AssignPlatformRole;
 use App\Models\Platform;
-use App\Models\EntityRole;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -38,7 +37,7 @@ class AssignPlatformRoleControllerTest extends TestCase
     #[Test]
     public function it_can_get_paginated_assignments()
     {
-        $response = $this->getJson('/api/v2/assign-platform-role?per_page=10');
+        $response = $this->getJson('/api/v2/assign-platform-roles?per_page=10');
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -50,7 +49,7 @@ class AssignPlatformRoleControllerTest extends TestCase
     #[Test]
     public function it_can_filter_assignments_by_status()
     {
-        $response = $this->getJson('/api/v2/assign-platform-role?status=pending');
+        $response = $this->getJson('/api/v2/assign-platform-roles?status=pending');
 
         $response->assertStatus(200)
             ->assertJsonFragment(['success' => true]);
@@ -59,7 +58,7 @@ class AssignPlatformRoleControllerTest extends TestCase
     #[Test]
     public function it_can_search_assignments()
     {
-        $response = $this->getJson('/api/v2/assign-platform-role?search=test');
+        $response = $this->getJson('/api/v2/assign-platform-roles?search=test');
 
         $response->assertStatus(200)
             ->assertJsonFragment(['success' => true]);
@@ -69,17 +68,16 @@ class AssignPlatformRoleControllerTest extends TestCase
     public function it_can_approve_assignment()
     {
         $platform = Platform::factory()->create();
-        $role = EntityRole::factory()->create();
         $targetUser = User::factory()->create();
 
         $assignment = AssignPlatformRole::factory()->create([
             'platform_id' => $platform->id,
-            'entity_role_id' => $role->id,
             'user_id' => $targetUser->id,
+            'role' => 'test_role',
             'status' => 'pending'
         ]);
 
-        $response = $this->postJson("/api/v2/assign-platform-role/{$assignment->id}/approve", [
+        $response = $this->postJson("/api/v2/assign-platform-roles/{$assignment->id}/approve", [
             'approved_by' => $this->user->id
         ]);
 
@@ -92,7 +90,7 @@ class AssignPlatformRoleControllerTest extends TestCase
     {
         $assignment = AssignPlatformRole::factory()->create();
 
-        $response = $this->postJson("/api/v2/assign-platform-role/{$assignment->id}/approve", []);
+        $response = $this->postJson("/api/v2/assign-platform-roles/{$assignment->id}/approve", []);
 
         $response->assertStatus(422)
             ->assertJsonStructure(['success', 'message', 'errors']);
@@ -101,7 +99,7 @@ class AssignPlatformRoleControllerTest extends TestCase
     #[Test]
     public function it_returns_404_for_nonexistent_assignment_on_approve()
     {
-        $response = $this->postJson('/api/v2/assign-platform-role/999999/approve', [
+        $response = $this->postJson('/api/v2/assign-platform-roles/999999/approve', [
             'approved_by' => $this->user->id
         ]);
 
@@ -113,9 +111,9 @@ class AssignPlatformRoleControllerTest extends TestCase
     {
         $assignment = AssignPlatformRole::factory()->create(['status' => 'pending']);
 
-        $response = $this->postJson("/api/v2/assign-platform-role/{$assignment->id}/reject", [
+        $response = $this->postJson("/api/v2/assign-platform-roles/{$assignment->id}/reject", [
             'rejected_by' => $this->user->id,
-            'reason' => 'Test reason'
+            'rejection_reason' => 'Test reason'
         ]);
 
         $response->assertStatus(200);
@@ -126,7 +124,7 @@ class AssignPlatformRoleControllerTest extends TestCase
     {
         $assignment = AssignPlatformRole::factory()->create();
 
-        $response = $this->postJson("/api/v2/assign-platform-role/{$assignment->id}/reject", []);
+        $response = $this->postJson("/api/v2/assign-platform-roles/{$assignment->id}/reject", []);
 
         $response->assertStatus(422);
     }
@@ -134,9 +132,9 @@ class AssignPlatformRoleControllerTest extends TestCase
     #[Test]
     public function it_returns_404_for_nonexistent_assignment_on_reject()
     {
-        $response = $this->postJson('/api/v2/assign-platform-role/999999/reject', [
+        $response = $this->postJson('/api/v2/assign-platform-roles/999999/reject', [
             'rejected_by' => $this->user->id,
-            'reason' => 'Test reason'
+            'rejection_reason' => 'Test reason'
         ]);
 
         $response->assertStatus(404);

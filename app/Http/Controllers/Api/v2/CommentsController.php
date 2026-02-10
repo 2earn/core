@@ -210,7 +210,7 @@ class CommentsController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function validate(Request $request, int $id)
+    public function validateComment(Request $request, int $id)
     {
         $validator = Validator::make($request->all(), [
             'validated_by_id' => 'required|integer|exists:users,id'

@@ -275,7 +275,7 @@ Route::prefix('/v2/')->name('api_v2_')
             Route::get('/count', [\App\Http\Controllers\Api\v2\CommentsController::class, 'getCount'])->name('count');
             Route::get('/has-commented', [\App\Http\Controllers\Api\v2\CommentsController::class, 'hasUserCommented'])->name('has_commented');
             Route::post('/', [\App\Http\Controllers\Api\v2\CommentsController::class, 'store'])->name('store');
-            Route::post('/{id}/validate', [\App\Http\Controllers\Api\v2\CommentsController::class, 'validate'])->name('validate');
+            Route::post('/{id}/validate', [\App\Http\Controllers\Api\v2\CommentsController::class, 'validateComment'])->name('validate');
             Route::delete('/{id}', [\App\Http\Controllers\Api\v2\CommentsController::class, 'destroy'])->name('destroy');
         });
 
