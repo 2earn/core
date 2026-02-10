@@ -114,10 +114,12 @@ class OrderControllerTest extends TestCase
     #[Test]
     public function it_can_create_order()
     {
+        $platform = \App\Models\Platform::factory()->create();
+
         $data = [
             'user_id' => $this->user->id,
-            'total_amount' => 100.00,
-            'status' => 'pending'
+            'platform_id' => $platform->id,
+            'note' => 'Test order'
         ];
 
         $response = $this->postJson('/api/v2/orders/', $data);
@@ -137,10 +139,15 @@ class OrderControllerTest extends TestCase
     #[Test]
     public function it_can_create_order_from_cart()
     {
+        $platform = \App\Models\Platform::factory()->create();
+
         $data = [
             'user_id' => $this->user->id,
-            'cart_items' => [
-                ['item_id' => 1, 'quantity' => 2]
+            'orders_data' => [
+                [
+                    'platform_id' => $platform->id,
+                    'note' => 'Test cart order'
+                ]
             ]
         ];
 
@@ -154,7 +161,7 @@ class OrderControllerTest extends TestCase
     {
         $order = Order::factory()->create([
             'user_id' => $this->user->id,
-            'status' => 'pending'
+            'status' => 1  // OrderEnum::New
         ]);
 
         $response = $this->postJson("/api/v2/orders/{$order->id}/cancel");

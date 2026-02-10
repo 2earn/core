@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api\v2;
 
+use App\Models\Partner;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
