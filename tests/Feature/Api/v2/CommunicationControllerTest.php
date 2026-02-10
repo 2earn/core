@@ -38,8 +38,25 @@ class CommunicationControllerTest extends TestCase
     #[Test]
     public function it_can_duplicate_survey()
     {
+        // Create a complete survey with all required relationships
         $survey = Survey::factory()->create([
-            'name' => 'Original Survey'
+            'name' => 'Original Survey',
+            'description' => 'Original Description'
+        ]);
+
+        // Create a target and attach it to the survey
+        $target = \App\Models\Target::factory()->create();
+        $survey->targets()->attach($target->id);
+
+        // Create a question for the survey
+        $question = \App\Models\SurveyQuestion::factory()->create([
+            'survey_id' => $survey->id,
+            'content' => 'Test Question'
+        ]);
+
+        // Create question choices
+        \App\Models\SurveyQuestionChoice::factory()->count(3)->create([
+            'question_id' => $question->id
         ]);
 
         $response = $this->postJson("/api/v2/communication/surveys/{$survey->id}/duplicate");
