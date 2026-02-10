@@ -107,6 +107,10 @@ class AssignPlatformRoleService
                 'message' => 'Role assignment approved successfully.'
             ];
 
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            DB::rollBack();
+            // Re-throw ModelNotFoundException so controller can return 404
+            throw $e;
         } catch (\Throwable $e) {
             DB::rollBack();
 
@@ -177,6 +181,10 @@ class AssignPlatformRoleService
                 'message' => 'Role assignment rejected successfully.'
             ];
 
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            DB::rollBack();
+            // Re-throw ModelNotFoundException so controller can return 404
+            throw $e;
         } catch (\Throwable $e) {
             DB::rollBack();
 
