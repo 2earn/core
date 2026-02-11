@@ -29,12 +29,10 @@ Each test class follows this pattern:
 namespace Tests\Unit\Services;
 
 use App\Services\YourService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class YourServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected YourService $service;
 
@@ -109,19 +107,7 @@ $user = User::factory()->create();
 $platform = Platform::factory()->create(['name' => 'Test Platform']);
 ```
 
-### 2. Use RefreshDatabase Trait
-This ensures a clean database state for each test:
-
-```php
-use Illuminate\Foundation\Testing\RefreshDatabase;
-
-class YourServiceTest extends TestCase
-{
-    use RefreshDatabase;
-}
-```
-
-### 3. Arrange-Act-Assert Pattern
+### 2. Arrange-Act-Assert Pattern
 Structure each test with clear sections:
 
 ```php
@@ -138,7 +124,7 @@ public function test_example()
 }
 ```
 
-### 4. Test One Thing Per Test
+### 3. Test One Thing Per Test
 Each test should focus on a single behavior:
 
 ```php
@@ -150,7 +136,7 @@ public function test_create_returns_model_instance()
 public function test_create() // Too broad
 ```
 
-### 5. Use Descriptive Assertions
+### 4. Use Descriptive Assertions
 Choose the most specific assertion:
 
 ```php
@@ -227,7 +213,6 @@ php artisan test tests/Unit/Services/Example/ExampleServiceTest.php
 ```php
 class ExampleServiceTest extends TestCase
 {
-    use RefreshDatabase;
 
     protected ExampleService $service;
 

@@ -10,7 +10,10 @@ use App\Models\PlatformValidationRequest;
 use App\Models\PlatformChangeRequest;
 use App\Models\PlatformTypeChangeRequest;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('api')]
+#[Group('api_partner')]
 class PlatformPartnerControllerTest extends TestCase
 {
     use DatabaseTransactions;

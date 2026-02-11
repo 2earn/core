@@ -12,7 +12,7 @@ use App\Models\AssignPlatformRole;
 use App\Models\User;
 use App\Models\Platform;
 use App\Services\EntityRole\EntityRoleService;
-use App\Services\UserCurrentBalanceHorisontalService;
+use App\Services\UserBalances\UserCurrentBalanceHorisontalService;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

@@ -1,0 +1,280 @@
+{
+  "info": {
+    "_postman_id": "a4b5c6d7-e8f9-0123-4567-890123456789",
+    "name": "Comments API v2",
+    "description": "Version 2 API endpoints for Comments Management - Public API (No Authentication Required)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Validated Comments",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/comments/validated?commentable_type=App\\Models\\Event&commentable_id={{event_id}}&order_by=created_at&order_direction=desc",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "comments", "validated"],
+          "query": [
+            {
+              "key": "commentable_type",
+              "value": "App\\Models\\Event",
+              "description": "Model class name (e.g., App\\Models\\Event)"
+            },
+            {
+              "key": "commentable_id",
+              "value": "{{event_id}}",
+              "description": "ID of the commentable entity"
+            },
+            {
+              "key": "order_by",
+              "value": "created_at",
+              "description": "Field to order by: created_at, updated_at"
+            },
+            {
+              "key": "order_direction",
+              "value": "desc",
+              "description": "Order direction: asc, desc"
+            }
+          ]
+        },
+        "description": "Get all validated comments for a commentable entity"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Unvalidated Comments",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/comments/unvalidated?commentable_type=App\\Models\\Event&commentable_id={{event_id}}&order_by=created_at&order_direction=desc",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "comments", "unvalidated"],
+          "query": [
+            {
+              "key": "commentable_type",
+              "value": "App\\Models\\Event"
+            },
+            {
+              "key": "commentable_id",
+              "value": "{{event_id}}"
+            },
+            {
+              "key": "order_by",
+              "value": "created_at"
+            },
+            {
+              "key": "order_direction",
+              "value": "desc"
+            }
+          ]
+        },
+        "description": "Get all unvalidated comments for a commentable entity"
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Comments",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/comments/all?commentable_type=App\\Models\\Event&commentable_id={{event_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "comments", "all"],
+          "query": [
+            {
+              "key": "commentable_type",
+              "value": "App\\Models\\Event"
+            },
+            {
+              "key": "commentable_id",
+              "value": "{{event_id}}"
+            }
+          ]
+        },
+        "description": "Get all comments (validated and unvalidated) for a commentable entity"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Comment Count",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/comments/count?commentable_type=App\\Models\\Event&commentable_id={{event_id}}&validated=true",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "comments", "count"],
+          "query": [
+            {
+              "key": "commentable_type",
+              "value": "App\\Models\\Event"
+            },
+            {
+              "key": "commentable_id",
+              "value": "{{event_id}}"
+            },
+            {
+              "key": "validated",
+              "value": "true",
+              "description": "Filter by validation status (optional)"
+            }
+          ]
+        },
+        "description": "Get comment count for a commentable entity"
+      },
+      "response": []
+    },
+    {
+      "name": "Check if User Has Commented",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/comments/has-commented?commentable_type=App\\Models\\Event&commentable_id={{event_id}}&user_id={{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "comments", "has-commented"],
+          "query": [
+            {
+              "key": "commentable_type",
+              "value": "App\\Models\\Event"
+            },
+            {
+              "key": "commentable_id",
+              "value": "{{event_id}}"
+            },
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            }
+          ]
+        },
+        "description": "Check if a user has commented on an entity"
+      },
+      "response": []
+    },
+    {
+      "name": "Add Comment",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"commentable_type\": \"App\\\\Models\\\\Event\",\n  \"commentable_id\": {{event_id}},\n  \"content\": \"This is a great event!\",\n  \"user_id\": {{user_id}},\n  \"validated\": false\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v2/comments",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "comments"]
+        },
+        "description": "Add a new comment to a commentable entity"
+      },
+      "response": []
+    },
+    {
+      "name": "Validate Comment",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"validated_by_id\": {{admin_user_id}}\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v2/comments/{{comment_id}}/validate",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "comments", "{{comment_id}}", "validate"]
+        },
+        "description": "Validate a comment"
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Comment",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/comments/{{comment_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "comments", "{{comment_id}}"]
+        },
+        "description": "Delete a comment by ID"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000"
+    },
+    {
+      "key": "event_id",
+      "value": "1"
+    },
+    {
+      "key": "user_id",
+      "value": "1"
+    },
+    {
+      "key": "comment_id",
+      "value": "1"
+    },
+    {
+      "key": "admin_user_id",
+      "value": "1"
+    }
+  ]
+}
+

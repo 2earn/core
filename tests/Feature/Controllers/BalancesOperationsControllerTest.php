@@ -11,12 +11,10 @@
 
 namespace Tests\Feature\Controllers;
 
-use Tests\TestCase;
-use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
-use App\Models\BalanceOperation;
-use App\Models\OperationCategory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use PHPUnit\Framework\Attributes\Test;
+use Tests\TestCase;
 
 class BalancesOperationsControllerTest extends TestCase
 {
@@ -40,8 +38,8 @@ class BalancesOperationsControllerTest extends TestCase
     #[Test]
     public function test_controller_methods_exist()
     {
-        $this->assertTrue(method_exists(\App\Http\Controllers\BalancesOperationsController::class, 'index'));
-        $this->assertTrue(method_exists(\App\Http\Controllers\BalancesOperationsController::class, 'getCategories'));
+        $this->assertTrue(method_exists(\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'index'));
+        $this->assertTrue(method_exists(\App\Http\Controllers\Api\v2\BalancesOperationsController::class, 'getCategories'));
     }
 
     #[Test]

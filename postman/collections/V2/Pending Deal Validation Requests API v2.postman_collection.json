@@ -1,0 +1,149 @@
+{
+  "info": {
+    "_postman_id": "b1c2d3e4-f5a6-7890-1234-567890123456",
+    "name": "Pending Deal Validation Requests API v2",
+    "description": "Version 2 API endpoints for Pending Deal Validation Requests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Pending Validation Requests",
+      "request": {
+        "method": "GET",
+        "header": [{"key": "Accept", "value": "application/json"}],
+        "url": {
+          "raw": "{{base_url}}/api/v2/pending-deal-validation-requests?limit=10",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "pending-deal-validation-requests"],
+          "query": [{"key": "limit", "value": "10"}]
+        },
+        "description": "Get pending validation requests with optional limit"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Paginated Validation Requests",
+      "request": {
+        "method": "GET",
+        "header": [{"key": "Accept", "value": "application/json"}],
+        "url": {
+          "raw": "{{base_url}}/api/v2/pending-deal-validation-requests/paginated?is_super_admin=false&user_id={{user_id}}&per_page=10",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "pending-deal-validation-requests", "paginated"],
+          "query": [
+            {"key": "is_super_admin", "value": "false"},
+            {"key": "user_id", "value": "{{user_id}}"},
+            {"key": "per_page", "value": "10"}
+          ]
+        },
+        "description": "Get paginated validation requests with filters"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Total Pending Count",
+      "request": {
+        "method": "GET",
+        "header": [{"key": "Accept", "value": "application/json"}],
+        "url": {
+          "raw": "{{base_url}}/api/v2/pending-deal-validation-requests/total",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "pending-deal-validation-requests", "total"]
+        },
+        "description": "Get total count of pending validation requests"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Pending with Total",
+      "request": {
+        "method": "GET",
+        "header": [{"key": "Accept", "value": "application/json"}],
+        "url": {
+          "raw": "{{base_url}}/api/v2/pending-deal-validation-requests/with-total?limit=10",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "pending-deal-validation-requests", "with-total"],
+          "query": [{"key": "limit", "value": "10"}]
+        },
+        "description": "Get pending validation requests with total count"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Validation Request by ID",
+      "request": {
+        "method": "GET",
+        "header": [{"key": "Accept", "value": "application/json"}],
+        "url": {
+          "raw": "{{base_url}}/api/v2/pending-deal-validation-requests/{{request_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "pending-deal-validation-requests", "{{request_id}}"]
+        },
+        "description": "Get specific validation request by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Validation Request with Relations",
+      "request": {
+        "method": "GET",
+        "header": [{"key": "Accept", "value": "application/json"}],
+        "url": {
+          "raw": "{{base_url}}/api/v2/pending-deal-validation-requests/{{request_id}}/with-relations?relations[]=deal&relations[]=requestedBy",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "pending-deal-validation-requests", "{{request_id}}", "with-relations"]
+        },
+        "description": "Get validation request with specific relations"
+      },
+      "response": []
+    },
+    {
+      "name": "Approve Validation Request",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"},
+          {"key": "Accept", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"reviewed_by\": {{user_id}}\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v2/pending-deal-validation-requests/{{request_id}}/approve",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "pending-deal-validation-requests", "{{request_id}}", "approve"]
+        },
+        "description": "Approve a validation request"
+      },
+      "response": []
+    },
+    {
+      "name": "Reject Validation Request",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"},
+          {"key": "Accept", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"reviewed_by\": {{user_id}},\n  \"rejection_reason\": \"Does not meet requirements\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v2/pending-deal-validation-requests/{{request_id}}/reject",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "pending-deal-validation-requests", "{{request_id}}", "reject"]
+        },
+        "description": "Reject a validation request"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {"key": "base_url", "value": "http://localhost:8000"},
+    {"key": "request_id", "value": "1"},
+    {"key": "user_id", "value": "1"}
+  ]
+}
+

@@ -1,0 +1,274 @@
+{
+  "info": {
+    "_postman_id": "f3b4c5d6-e7f8-9012-3456-789012345678",
+    "name": "Business Sectors API v2",
+    "description": "Version 2 API endpoints for Business Sector Management - Public API (No Authentication Required)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Business Sectors (Paginated)",
+      "id": "get-business-sectors-paginated",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/business-sectors?search=&order_by=name&order_direction=asc&page=1&per_page=20",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "business-sectors"],
+          "query": [
+            {
+              "key": "search",
+              "value": "",
+              "description": "Search term for name or description"
+            },
+            {
+              "key": "order_by",
+              "value": "name",
+              "description": "Field to order by: name, id, created_at, updated_at"
+            },
+            {
+              "key": "order_direction",
+              "value": "asc",
+              "description": "Order direction: asc, desc"
+            },
+            {
+              "key": "page",
+              "value": "1",
+              "description": "Page number"
+            },
+            {
+              "key": "per_page",
+              "value": "20",
+              "description": "Items per page (max 100)"
+            }
+          ]
+        },
+        "description": "Get all business sectors with pagination, search, and ordering capabilities"
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Business Sectors (Simple)",
+      "id": "get-all-business-sectors",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/business-sectors/all",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "business-sectors", "all"]
+        },
+        "description": "Get all business sectors without pagination (simple list)"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Business Sectors Ordered by Name",
+      "id": "get-business-sectors-ordered",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/business-sectors/ordered?direction=asc",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "business-sectors", "ordered"],
+          "query": [
+            {
+              "key": "direction",
+              "value": "asc",
+              "description": "Sort direction: asc or desc"
+            }
+          ]
+        },
+        "description": "Get all business sectors ordered by name"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Business Sector by ID",
+      "id": "get-business-sector-by-id",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/business-sectors/{{business_sector_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "business-sectors", "{{business_sector_id}}"]
+        },
+        "description": "Get a specific business sector by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Business Sector with Images",
+      "id": "get-business-sector-with-images",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/business-sectors/{{business_sector_id}}/with-images",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "business-sectors", "{{business_sector_id}}", "with-images"]
+        },
+        "description": "Get a specific business sector with all related images (logo, thumbnails, home thumbnails)"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Business Sectors with User Purchases",
+      "id": "get-business-sectors-user-purchases",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/business-sectors/user-purchases?user_id={{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "business-sectors", "user-purchases"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}",
+              "description": "User ID (required)"
+            }
+          ]
+        },
+        "description": "Get business sectors where the user has made purchases"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Business Sector",
+      "id": "create-business-sector",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Technology\",\n  \"description\": \"Technology and software services\",\n  \"logo_image_id\": 1,\n  \"thumbnails_image_id\": 2,\n  \"thumbnails_home_image_id\": 3\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v2/business-sectors",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "business-sectors"]
+        },
+        "description": "Create a new business sector"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Business Sector",
+      "id": "update-business-sector",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Updated Technology\",\n  \"description\": \"Updated description for technology sector\",\n  \"logo_image_id\": 4\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v2/business-sectors/{{business_sector_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "business-sectors", "{{business_sector_id}}"]
+        },
+        "description": "Update an existing business sector. All fields are optional."
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Business Sector",
+      "id": "delete-business-sector",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/business-sectors/{{business_sector_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "business-sectors", "{{business_sector_id}}"]
+        },
+        "description": "Delete a business sector by ID"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "business_sector_id",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "user_id",
+      "value": "1",
+      "type": "string"
+    }
+  ]
+}
+

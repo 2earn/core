@@ -345,7 +345,7 @@ class FinancialRequestService
         string $num,
         string $secCode,
         int $userId,
-        \App\Services\UserBalancesHelper $userBalancesHelper
+        \App\Services\UserBalances\UserBalancesHelper $userBalancesHelper
     ): array
     {
         $financialRequest = $this->getByNumeroReq($num);

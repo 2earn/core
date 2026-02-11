@@ -1,0 +1,201 @@
+{
+	"info": {
+		"_postman_id": "2earn-api-v2-role",
+		"name": "2Earn API v2 - RoleService",
+		"description": "Complete API collection for RoleService exposed under v2 prefix",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2earn"
+	},
+	"item": [
+		{
+			"name": "Get All Roles (Paginated)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v2/roles?search=admin&per_page=10",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v2", "roles"],
+					"query": [
+						{
+							"key": "search",
+							"value": "admin",
+							"description": "Search term"
+						},
+						{
+							"key": "per_page",
+							"value": "10",
+							"description": "Number of items per page (1-100)"
+						}
+					]
+				},
+				"description": "Get all roles with pagination and optional search"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Roles (Non-Paginated)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v2/roles/all",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v2", "roles", "all"]
+				},
+				"description": "Get all roles without pagination"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Role By ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v2/roles/:id",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v2", "roles", ":id"],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1",
+							"description": "Role ID"
+						}
+					]
+				},
+				"description": "Get a specific role by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "Check If Role Can Be Deleted",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v2/roles/:id/can-delete",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v2", "roles", ":id", "can-delete"],
+					"variable": [
+						{
+							"key": "id",
+							"value": "5",
+							"description": "Role ID"
+						}
+					]
+				},
+				"description": "Check if a role can be deleted (roles with ID 1-4 are protected)"
+			},
+			"response": []
+		},
+		{
+			"name": "Get User Roles",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v2/roles/user-roles?search=john&per_page=10",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v2", "roles", "user-roles"],
+					"query": [
+						{
+							"key": "search",
+							"value": "john",
+							"description": "Search by username, mobile, or country"
+						},
+						{
+							"key": "per_page",
+							"value": "10",
+							"description": "Number of items per page (1-100)"
+						}
+					]
+				},
+				"description": "Get paginated user roles with user information"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Role",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Manager\",\n    \"guard_name\": \"web\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v2/roles",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v2", "roles"]
+				},
+				"description": "Create a new role"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Role",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Updated Manager\",\n    \"guard_name\": \"web\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v2/roles/:id",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v2", "roles", ":id"],
+					"variable": [
+						{
+							"key": "id",
+							"value": "5",
+							"description": "Role ID"
+						}
+					]
+				},
+				"description": "Update an existing role"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Role",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v2/roles/:id",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v2", "roles", ":id"],
+					"variable": [
+						{
+							"key": "id",
+							"value": "5",
+							"description": "Role ID (must be > 4)"
+						}
+					]
+				},
+				"description": "Delete a role (protected roles with ID 1-4 cannot be deleted)"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost",
+			"type": "string"
+		}
+	]
+}
+

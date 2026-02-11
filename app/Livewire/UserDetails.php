@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Services\Balances\Balances;
 use App\Services\MettaUsersService;
 use App\Services\UserService;
-use App\Services\UserCurrentBalanceVerticalService;
+use App\Services\UserBalances\UserCurrentBalanceVerticalService;
 use App\Services\VipService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;

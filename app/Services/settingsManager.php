@@ -61,7 +61,7 @@ class settingsManager
         private ISettingsRepository            $settingsRepository,
         private NotifyHelper                   $notifyHelper,
         private BalancesManager                $balancesManager,
-        private UserBalancesHelper             $userBalancesHelper,
+        private UserBalances\UserBalancesHelper             $userBalancesHelper,
         private IUserBalancesRepository        $userBalanceRepository,
         private IUserContactNumberRepository   $userContactNumberRepository,
         private MettaUsersService              $mettaUsersService,

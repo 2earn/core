@@ -12,10 +12,16 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dateTime('dateUpline')->nullable();
-            $table->dateTime('dateUplineRegister')->nullable();
-        });
+        if (Schema::hasTable('users')) {
+            Schema::table('users', function (Blueprint $table) {
+                if (!Schema::hasColumn('users', 'dateUpline')) {
+                    $table->dateTime('dateUpline')->nullable();
+                }
+                if (!Schema::hasColumn('users', 'dateUplineRegister')) {
+                    $table->dateTime('dateUplineRegister')->nullable();
+                }
+            });
+        }
     }
 
     /**

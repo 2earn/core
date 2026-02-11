@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\Admin\PlatformChangeRequestController;
+use App\Http\Controllers\Api\partner\PlatformChangeRequestController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->middleware(['auth:api', 'admin'])->group(function () {

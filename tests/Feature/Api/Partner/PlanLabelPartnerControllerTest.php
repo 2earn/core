@@ -7,7 +7,10 @@ use App\Models\User;
 use App\Models\Platform;
 use App\Models\PlanLabel;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('api')]
+#[Group('api_partner')]
 class PlanLabelPartnerControllerTest extends TestCase
 {
     use DatabaseTransactions;

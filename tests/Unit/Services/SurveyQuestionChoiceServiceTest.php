@@ -4,7 +4,7 @@ namespace Tests\Unit\Services;
 
 use App\Models\SurveyQuestion;
 use App\Models\SurveyQuestionChoice;
-use App\Services\SurveyQuestionChoiceService;
+use App\Services\Survey\SurveyQuestionChoiceService;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 class SurveyQuestionChoiceServiceTest extends TestCase

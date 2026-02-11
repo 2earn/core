@@ -24,7 +24,6 @@ class BalanceOperation extends Model
         'amounts_id',
         'note',
         'modify_amount',
-        'parent_id',
         'operation_category_id',
         'ref',
         'direction',
@@ -62,7 +61,7 @@ class BalanceOperation extends Model
     }
     public function parent()
     {
-        return $this->belongsTo(BalanceOperation::class, 'parent_id');
+        return $this->belongsTo(BalanceOperation::class, 'parent_operation_id');
     }
     public function opeartionCategory(): HasOne
     {

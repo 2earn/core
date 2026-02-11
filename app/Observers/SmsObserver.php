@@ -6,8 +6,8 @@ use App\Enums\BalanceEnum;
 use App\Models\SmsBalances;
 use App\Services\Balances\Balances;
 use App\Models\BalanceOperation;
-use App\Services\UserCurrentBalanceHorisontalService;
-use App\Services\UserCurrentBalanceVerticalService;
+use App\Services\UserBalances\UserCurrentBalanceHorisontalService;
+use App\Services\UserBalances\UserCurrentBalanceVerticalService;
 use Illuminate\Support\Facades\Log;
 
 class SmsObserver

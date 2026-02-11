@@ -1,0 +1,176 @@
+{
+  "info": {
+    "_postman_id": "e5f6a7b8-c9d0-1234-ef01-567890123456",
+    "name": "Partner Orders API",
+    "description": "Partner API endpoints for Order Management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "List Orders",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/orders/orders?user_id={{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "orders", "orders"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            }
+          ]
+        },
+        "description": "Get all orders for the partner"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Order by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/orders/orders/{{order_id}}?user_id={{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "orders", "orders", "{{order_id}}"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            }
+          ]
+        },
+        "description": "Get specific order details"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Order",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"deal_id\": {{deal_id}},\n  \"quantity\": 1,\n  \"total_amount\": 80.00\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/orders/orders",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "orders", "orders"]
+        },
+        "description": "Create a new order"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Order",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"quantity\": 2,\n  \"total_amount\": 160.00\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/orders/orders/{{order_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "orders", "orders", "{{order_id}}"]
+        },
+        "description": "Update order details"
+      },
+      "response": []
+    },
+    {
+      "name": "Change Order Status",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"status\": \"completed\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/orders/{{order_id}}/status",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "orders", "{{order_id}}", "status"]
+        },
+        "description": "Change order status"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Order Detail",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"order_id\": {{order_id}},\n  \"item_id\": {{item_id}},\n  \"quantity\": 1,\n  \"price\": 80.00\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/orders/details",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "orders", "details"]
+        },
+        "description": "Add order detail/line item"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Order Detail",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"quantity\": 2,\n  \"price\": 160.00\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/orders/details/{{detail_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "orders", "details", "{{detail_id}}"]
+        },
+        "description": "Update order detail/line item"
+      },
+      "response": []
+    }
+  ]
+}
+

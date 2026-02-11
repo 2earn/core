@@ -1,0 +1,324 @@
+{
+  "info": {
+    "_postman_id": "d4e5f6a7-b8c9-0123-def0-456789012345",
+    "name": "Partner Deals API",
+    "description": "Partner API endpoints for Deal Management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "List Deals",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/deals/deals?user_id={{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "deals", "deals"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            }
+          ]
+        },
+        "description": "Get all deals for the partner"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Deal by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/deals/deals/{{deal_id}}?user_id={{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "deals", "deals", "{{deal_id}}"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            }
+          ]
+        },
+        "description": "Get specific deal details"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Deal",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"platform_id\": {{platform_id}},\n  \"title\": \"Deal Title\",\n  \"description\": \"Deal description\",\n  \"discount_percentage\": 20,\n  \"original_price\": 100.00,\n  \"discounted_price\": 80.00\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/deals/deals",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "deals", "deals"]
+        },
+        "description": "Create a new deal"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Deal",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"title\": \"Updated Deal Title\",\n  \"description\": \"Updated description\",\n  \"discount_percentage\": 25\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/deals/deals/{{deal_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "deals", "deals", "{{deal_id}}"]
+        },
+        "description": "Update deal details"
+      },
+      "response": []
+    },
+    {
+      "name": "Change Deal Status",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"status\": \"active\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/deals/{{deal_id}}/status",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "deals", "{{deal_id}}", "status"]
+        },
+        "description": "Change deal status (active, inactive, etc.)"
+      },
+      "response": []
+    },
+    {
+      "name": "Validate Deal Request",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"deal_id\": {{deal_id}}\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/deals/validate",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "deals", "validate"]
+        },
+        "description": "Submit deal for validation"
+      },
+      "response": []
+    },
+    {
+      "name": "Cancel Validation Request",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"deal_id\": {{deal_id}}\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/deals/validation/cancel",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "deals", "validation", "cancel"]
+        },
+        "description": "Cancel deal validation request"
+      },
+      "response": []
+    },
+    {
+      "name": "Cancel Change Request",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"deal_id\": {{deal_id}}\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/deals/change/cancel",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "deals", "change", "cancel"]
+        },
+        "description": "Cancel deal change request"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Dashboard Indicators",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/deals/dashboard/indicators?user_id={{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "deals", "dashboard", "indicators"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            }
+          ]
+        },
+        "description": "Get deal dashboard indicators"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Performance Chart",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/deals/performance/chart?user_id={{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "deals", "performance", "chart"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            }
+          ]
+        },
+        "description": "Get deal performance chart data"
+      },
+      "response": []
+    },
+    {
+      "name": "Product Changes - List",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/deals/product-changes?user_id={{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "deals", "product-changes"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            }
+          ]
+        },
+        "description": "Get list of product changes"
+      },
+      "response": []
+    },
+    {
+      "name": "Product Changes - Statistics",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/deals/product-changes/statistics?user_id={{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "deals", "product-changes", "statistics"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            }
+          ]
+        },
+        "description": "Get product changes statistics"
+      },
+      "response": []
+    },
+    {
+      "name": "Product Changes - Get by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/deals/product-changes/{{id}}?user_id={{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "deals", "product-changes", "{{id}}"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            }
+          ]
+        },
+        "description": "Get specific product change details"
+      },
+      "response": []
+    }
+  ]
+}
+

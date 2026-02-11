@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Services\EventService;
 use App\Services\News\NewsService;
-use App\Services\SurveyService;
+use App\Services\Survey\SurveyService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 

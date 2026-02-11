@@ -9,7 +9,7 @@ use App\Models\Survey;
 use App\Services\CommunicationBoardService;
 use App\Services\EventService;
 use App\Services\News\NewsService;
-use App\Services\SurveyService;
+use App\Services\Survey\SurveyService;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 

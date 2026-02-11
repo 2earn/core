@@ -1,0 +1,250 @@
+{
+  "info": {
+    "_postman_id": "d0e1f2a3-b4c5-6789-3456-012345678901",
+    "name": "Partner Users API",
+    "description": "Partner API endpoints for User and Platform Role Management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get User",
+      "id": "34764c58-91a8-4982-bf73-2860e128c42a",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/users?user_id={{user_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "users"
+          ],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}",
+              "description": "User ID (required)",
+              "uuid": "3eedc765-db0b-4d71-b420-a0f6f6c31c02"
+            }
+          ]
+        },
+        "description": "Get user information. Requires check.url middleware."
+      },
+      "response": []
+    },
+    {
+      "name": "Get Partner Platforms",
+      "id": "ddcc5c2c-364b-426d-89c3-39b58780b3a0",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/users/platforms?user_id={{user_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "users",
+            "platforms"
+          ],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            }
+          ]
+        },
+        "description": "Get platforms associated with the user"
+      },
+      "response": []
+    },
+    {
+      "name": "Add Platform Role to User",
+      "id": "b8aad232-7a55-463d-8420-dc737a4e9214",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"platform_id\": {{platform_id}},\n  \"role_id\": {{role_id}}\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/users/platforms/add-role",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "users",
+            "platforms",
+            "add-role"
+          ]
+        },
+        "description": "Add a platform role to a user"
+      },
+      "response": []
+    },
+    {
+      "name": "Update User Platform Role",
+      "id": "6c5b0324-7753-4408-b85b-04c38bc577fd",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"platform_id\": {{platform_id}},\n  \"role_id\": {{role_id}},\n  \"new_role_id\": {{new_role_id}}\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/users/platforms/update-role",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "users",
+            "platforms",
+            "update-role"
+          ]
+        },
+        "description": "Update a user's platform role"
+      },
+      "response": []
+    },
+    {
+      "name": "Delete User Platform Role",
+      "id": "1f1aa417-b586-43a1-9052-93911eac3dd0",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"platform_id\": {{platform_id}},\n  \"role_id\": {{role_id}}\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/users/platforms/delete-role",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "users",
+            "platforms",
+            "delete-role"
+          ]
+        },
+        "description": "Remove a platform role from a user"
+      },
+      "response": []
+    },
+    {
+      "name": "Get User Discount Balance",
+      "id": "aaa9292d-50ac-4b56-950a-69fae9353d71",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/users/discount-balance?user_id={{user_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "users",
+            "discount-balance"
+          ],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            }
+          ]
+        },
+        "description": "Get user's discount balance"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Plan Labels",
+      "id": "0de2836f-9ab2-45d8-92a6-12618a3d7f23",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/plan-label?user_id={{user_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "plan-label"
+          ],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            }
+          ]
+        },
+        "description": "Get all plan labels"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "id": "76011e71-1438-483a-a851-8f9d0c548dcd",
+      "key": "base_url",
+      "value": "http://2earn.test"
+    },
+    {
+      "id": "c6a4ef00-1823-48fa-a1d1-0fa7fc2b3240",
+      "key": "user_id",
+      "value": "384"
+    }
+  ]
+}

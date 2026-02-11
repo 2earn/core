@@ -10,7 +10,10 @@ use App\Models\Platform;
 use App\Models\EntityRole;
 use App\Models\DealProductChange;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use PHPUnit\Framework\Attributes\Group;
 
+#[Group('api')]
+#[Group('api_partner')]
 class DealProductChangeControllerTest extends TestCase
 {
     use DatabaseTransactions;

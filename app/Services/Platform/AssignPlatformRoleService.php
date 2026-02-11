@@ -7,6 +7,7 @@ use App\Models\Platform;
 use App\Models\EntityRole;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AssignPlatformRoleService
 {
@@ -57,16 +58,24 @@ class AssignPlatformRoleService
             $assignment = AssignPlatformRole::findOrFail($assignmentId);
 
             if ($assignment->status !== AssignPlatformRole::STATUS_PENDING) {
+                DB::rollBack();
                 return [
                     'success' => false,
                     'message' => 'This assignment has already been processed.'
                 ];
             }
 
-            $platform = Platform::findOrFail($assignment->platform_id);
+            $platform = Platform::find($assignment->platform_id);
+            if (!$platform) {
+                DB::rollBack();
+                return [
+                    'success' => false,
+                    'message' => 'Failed to approve assignment: Platform not found.'
+                ];
+            }
 
             // Check if role already exists for this platform
-            $existingRole = EntityRole::where('roleable_type', 'App\Models\Platform')
+            $existingRole = EntityRole::where('roleable_type', 'App\\Models\\Platform')
                 ->where('roleable_id', $assignment->platform_id)
                 ->where('name', $assignment->role)
                 ->first();
@@ -81,7 +90,7 @@ class AssignPlatformRoleService
                 EntityRole::create([
                     'user_id' => $assignment->user_id,
                     'name' => $assignment->role,
-                    'roleable_type' => 'App\Models\Platform',
+                    'roleable_type' => 'App\\Models\\Platform',
                     'roleable_id' => $assignment->platform_id,
                     'created_by' => $approvedBy,
                     'updated_by' => $approvedBy,
@@ -107,6 +116,9 @@ class AssignPlatformRoleService
                 'message' => 'Role assignment approved successfully.'
             ];
 
+        } catch (ModelNotFoundException $e) {
+            DB::rollBack();
+            throw $e; // Re-throw to let controller handle 404
         } catch (\Throwable $e) {
             DB::rollBack();
 
@@ -139,6 +151,7 @@ class AssignPlatformRoleService
             $assignment = AssignPlatformRole::findOrFail($assignmentId);
 
             if ($assignment->status !== AssignPlatformRole::STATUS_PENDING) {
+                DB::rollBack();
                 return [
                     'success' => false,
                     'message' => 'This assignment has already been processed.'
@@ -177,6 +190,9 @@ class AssignPlatformRoleService
                 'message' => 'Role assignment rejected successfully.'
             ];
 
+        } catch (ModelNotFoundException $e) {
+            DB::rollBack();
+            throw $e; // Re-throw to let controller handle 404
         } catch (\Throwable $e) {
             DB::rollBack();
 

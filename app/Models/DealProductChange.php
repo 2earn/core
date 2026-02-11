@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DealProductChange extends Model
 {
-    use HasFactory, HasAuditing;
+    use HasFactory;
 
     protected $fillable = [
         'deal_id',

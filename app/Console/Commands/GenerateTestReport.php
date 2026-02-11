@@ -18,7 +18,8 @@ class GenerateTestReport extends Command
                             {--skip-tests : Skip running tests and use existing results}
                             {--open : Open the report in browser after generation}
                             {--timeout=1800 : Maximum execution time in seconds}
-                            {--exclude-group=* : Exclude test groups}';
+                            {--exclude-group=* : Exclude test groups}
+                            {--path= : Specify test path to run (e.g., tests/Feature/Api/v2)}';
 
     /**
      * The console command description.
@@ -41,15 +42,27 @@ class GenerateTestReport extends Command
 
             // Determine which groups to exclude
             $excludeGroups = $this->option('exclude-group');
+            $testPath = $this->option('path');
 
             if (!empty($excludeGroups)) {
                 $this->comment('   Excluding groups: ' . implode(', ', $excludeGroups));
             }
 
+            if ($testPath) {
+                $this->comment('   Test path: ' . $testPath);
+            }
+
             $this->newLine();
 
             // First, get total test count
-            $countProcess = new Process(['php', 'artisan', 'test', '--list-tests']);
+            $countCommand = ['php', 'artisan', 'test', '--list-tests'];
+
+            // Add path if specified
+            if ($testPath) {
+                $countCommand[] = $testPath;
+            }
+
+            $countProcess = new Process($countCommand);
             $countProcess->setTimeout(60);
             $countProcess->setWorkingDirectory(base_path());
             $countProcess->run();
@@ -77,6 +90,11 @@ class GenerateTestReport extends Command
             // Add exclude-group arguments to command
             foreach ($excludeGroups as $group) {
                 $testCommand[] = '--exclude-group=' . $group;
+            }
+
+            // Add path if specified
+            if ($testPath) {
+                $testCommand[] = $testPath;
             }
 
             $process = new Process($testCommand);

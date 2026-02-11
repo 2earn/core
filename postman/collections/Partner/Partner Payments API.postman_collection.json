@@ -1,0 +1,119 @@
+{
+  "info": {
+    "_postman_id": "b8c9d0e1-f2a3-4567-1234-890123456789",
+    "name": "Partner Payments API",
+    "description": "Partner API endpoints for Payment Management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "List Payments",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/payments?user_id={{user_id}}&page=1&per_page=20",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "payments"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            },
+            {
+              "key": "page",
+              "value": "1",
+              "description": "Page number"
+            },
+            {
+              "key": "per_page",
+              "value": "20",
+              "description": "Items per page"
+            }
+          ]
+        },
+        "description": "Get all payments for the partner"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Payment by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/payments/{{id}}?user_id={{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "payments", "{{id}}"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            }
+          ]
+        },
+        "description": "Get specific payment details"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Payment Demand",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"amount\": 500.00,\n  \"description\": \"Payment demand description\",\n  \"payment_method\": \"bank_transfer\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/payments/demand",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "payments", "demand"]
+        },
+        "description": "Create a new payment demand/request"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Payment Statistics Summary",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/payments/statistics/summary?user_id={{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "payments", "statistics", "summary"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            }
+          ]
+        },
+        "description": "Get payment statistics summary including total paid, pending, etc."
+      },
+      "response": []
+    }
+  ]
+}
+

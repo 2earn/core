@@ -1,0 +1,31 @@
+{
+  "info": {
+    "_postman_id": "d3e4f5a6-b7c8-9012-3456-789012345678",
+    "name": "Entity Roles API v2",
+    "description": "Version 2 API endpoints for Entity Role Management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {"name": "Get All Roles", "request": {"method": "GET", "header": [{"key": "Accept", "value": "application/json"}], "url": {"raw": "{{base_url}}/api/v2/entity-roles", "host": ["{{base_url}}"], "path": ["api", "v2", "entity-roles"]}, "description": "Get all entity roles"}, "response": []},
+    {"name": "Get Filtered Roles", "request": {"method": "GET", "header": [{"key": "Accept", "value": "application/json"}], "url": {"raw": "{{base_url}}/api/v2/entity-roles/filtered?search=&type=platform&per_page=15", "host": ["{{base_url}}"], "path": ["api", "v2", "entity-roles", "filtered"], "query": [{"key": "search", "value": ""}, {"key": "type", "value": "platform"}, {"key": "per_page", "value": "15"}]}, "description": "Get filtered roles with pagination"}, "response": []},
+    {"name": "Get Platform Roles", "request": {"method": "GET", "header": [{"key": "Accept", "value": "application/json"}], "url": {"raw": "{{base_url}}/api/v2/entity-roles/platform-roles", "host": ["{{base_url}}"], "path": ["api", "v2", "entity-roles", "platform-roles"]}, "description": "Get all platform roles"}, "response": []},
+    {"name": "Get Partner Roles", "request": {"method": "GET", "header": [{"key": "Accept", "value": "application/json"}], "url": {"raw": "{{base_url}}/api/v2/entity-roles/partner-roles", "host": ["{{base_url}}"], "path": ["api", "v2", "entity-roles", "partner-roles"]}, "description": "Get all partner roles"}, "response": []},
+    {"name": "Get Roles for Platform", "request": {"method": "GET", "header": [{"key": "Accept", "value": "application/json"}], "url": {"raw": "{{base_url}}/api/v2/entity-roles/platforms/{{platform_id}}?paginate=false", "host": ["{{base_url}}"], "path": ["api", "v2", "entity-roles", "platforms", "{{platform_id}}"]}, "description": "Get roles for specific platform"}, "response": []},
+    {"name": "Get Entity Roles Keyed by Name", "request": {"method": "GET", "header": [{"key": "Accept", "value": "application/json"}], "url": {"raw": "{{base_url}}/api/v2/entity-roles/platforms/{{platform_id}}/keyed", "host": ["{{base_url}}"], "path": ["api", "v2", "entity-roles", "platforms", "{{platform_id}}", "keyed"]}, "description": "Get platform roles keyed by name"}, "response": []},
+    {"name": "Get Platform Owner Role", "request": {"method": "GET", "header": [{"key": "Accept", "value": "application/json"}], "url": {"raw": "{{base_url}}/api/v2/entity-roles/platforms/{{platform_id}}/owner", "host": ["{{base_url}}"], "path": ["api", "v2", "entity-roles", "platforms", "{{platform_id}}", "owner"]}, "description": "Get platform owner role"}, "response": []},
+    {"name": "Get Platforms with Roles for User", "request": {"method": "GET", "header": [{"key": "Accept", "value": "application/json"}], "url": {"raw": "{{base_url}}/api/v2/entity-roles/users/{{user_id}}/platforms", "host": ["{{base_url}}"], "path": ["api", "v2", "entity-roles", "users", "{{user_id}}", "platforms"]}, "description": "Get platforms with roles for user"}, "response": []},
+    {"name": "Get User Platform IDs", "request": {"method": "GET", "header": [{"key": "Accept", "value": "application/json"}], "url": {"raw": "{{base_url}}/api/v2/entity-roles/users/{{user_id}}/platform-ids", "host": ["{{base_url}}"], "path": ["api", "v2", "entity-roles", "users", "{{user_id}}", "platform-ids"]}, "description": "Get platform IDs for user"}, "response": []},
+    {"name": "Check User Has Platform Role", "request": {"method": "GET", "header": [{"key": "Accept", "value": "application/json"}], "url": {"raw": "{{base_url}}/api/v2/entity-roles/users/{{user_id}}/check-platform-role", "host": ["{{base_url}}"], "path": ["api", "v2", "entity-roles", "users", "{{user_id}}", "check-platform-role"]}, "description": "Check if user has platform role"}, "response": []},
+    {"name": "Create Platform Role", "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Accept", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\n  \"name\": \"manager\",\n  \"user_id\": {{user_id}},\n  \"created_by\": {{user_id}}\n}"}, "url": {"raw": "{{base_url}}/api/v2/entity-roles/platforms/{{platform_id}}", "host": ["{{base_url}}"], "path": ["api", "v2", "entity-roles", "platforms", "{{platform_id}}"]}, "description": "Create platform role"}, "response": []},
+    {"name": "Update Role", "request": {"method": "PUT", "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Accept", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\n  \"name\": \"updated_role\",\n  \"user_id\": {{user_id}}\n}"}, "url": {"raw": "{{base_url}}/api/v2/entity-roles/{{role_id}}", "host": ["{{base_url}}"], "path": ["api", "v2", "entity-roles", "{{role_id}}"]}, "description": "Update entity role"}, "response": []},
+    {"name": "Delete Role", "request": {"method": "DELETE", "header": [{"key": "Accept", "value": "application/json"}], "url": {"raw": "{{base_url}}/api/v2/entity-roles/{{role_id}}", "host": ["{{base_url}}"], "path": ["api", "v2", "entity-roles", "{{role_id}}"]}, "description": "Delete entity role"}, "response": []},
+    {"name": "Search Roles by Name", "request": {"method": "GET", "header": [{"key": "Accept", "value": "application/json"}], "url": {"raw": "{{base_url}}/api/v2/entity-roles/search?name=owner", "host": ["{{base_url}}"], "path": ["api", "v2", "entity-roles", "search"]}, "description": "Search roles by name"}, "response": []}
+  ],
+  "variable": [
+    {"key": "base_url", "value": "http://localhost:8000"},
+    {"key": "role_id", "value": "1"},
+    {"key": "platform_id", "value": "1"},
+    {"key": "user_id", "value": "1"}
+  ]
+}
+

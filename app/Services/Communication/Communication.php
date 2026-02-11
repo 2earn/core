@@ -57,6 +57,7 @@ class Communication
         } catch (\Exception $exception) {
             DB::rollBack();
             Log::error($exception->getMessage());
+            throw $exception;
         }
     }
 

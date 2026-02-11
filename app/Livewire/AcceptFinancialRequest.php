@@ -7,7 +7,7 @@ use App\Services\Balances\Balances;
 use App\Services\FinancialRequest\FinancialRequestService;
 use App\Services\BalancesManager;
 use App\Services\settingsManager;
-use App\Services\UserBalancesHelper;
+use App\Services\UserBalances\UserBalancesHelper;
 use Illuminate\Http\Request;
 use Livewire\Component;
 

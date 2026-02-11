@@ -4,7 +4,7 @@ namespace Tests\Unit\Services;
 
 use App\Models\User;
 use App\Models\UserCurrentBalanceHorisontal;
-use App\Services\UserCurrentBalanceHorisontalService;
+use App\Services\UserBalances\UserCurrentBalanceHorisontalService;
 use Tests\TestCase;
 
 class UserCurrentBalanceHorisontalServiceTest extends TestCase

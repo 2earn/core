@@ -3,7 +3,7 @@
 namespace Tests\Unit\Services\Settings;
 
 use App\Models\Setting;
-use App\Services\Settings\SettingsService;
+use App\Services\Settings\SettingService;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
@@ -12,12 +12,12 @@ class SettingsServiceTest extends TestCase
 {
     use DatabaseTransactions;
 
-    protected SettingsService $settingsService;
+    protected SettingService $settingsService;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->settingsService = new SettingsService();
+        $this->settingsService = new SettingService();
     }
 
     /**

@@ -1,0 +1,417 @@
+{
+  "info": {
+    "_postman_id": "d7e8f9a0-b1c2-3456-7890-123456789012",
+    "name": "Coupons API v2",
+    "description": "Version 2 API endpoints for Coupon Management - Public API (No Authentication Required)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Paginated Coupons",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/coupons?search=&sort_field=created_at&sort_direction=desc&per_page=10",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "coupons"],
+          "query": [
+            {
+              "key": "search",
+              "value": "",
+              "description": "Search term"
+            },
+            {
+              "key": "sort_field",
+              "value": "created_at"
+            },
+            {
+              "key": "sort_direction",
+              "value": "desc"
+            },
+            {
+              "key": "per_page",
+              "value": "10"
+            }
+          ]
+        },
+        "description": "Get paginated coupons with search and sorting"
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Coupons",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/coupons/all",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "coupons", "all"]
+        },
+        "description": "Get all coupons ordered by ID descending"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Coupon by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/coupons/{{coupon_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "coupons", "{{coupon_id}}"]
+        },
+        "description": "Get a specific coupon by ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Coupon by Serial Number",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/coupons/by-sn?sn={{coupon_sn}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "coupons", "by-sn"],
+          "query": [
+            {
+              "key": "sn",
+              "value": "{{coupon_sn}}"
+            }
+          ]
+        },
+        "description": "Get a coupon by serial number"
+      },
+      "response": []
+    },
+    {
+      "name": "Get User Coupons",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/coupons/users/{{user_id}}?search=&per_page=10",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "coupons", "users", "{{user_id}}"],
+          "query": [
+            {
+              "key": "search",
+              "value": ""
+            },
+            {
+              "key": "per_page",
+              "value": "10"
+            }
+          ]
+        },
+        "description": "Get coupons for a specific user with pagination"
+      },
+      "response": []
+    },
+    {
+      "name": "Get User Purchased Coupons",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/coupons/users/{{user_id}}/purchased?search=&per_page=10",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "coupons", "users", "{{user_id}}", "purchased"],
+          "query": [
+            {
+              "key": "search",
+              "value": ""
+            },
+            {
+              "key": "per_page",
+              "value": "10"
+            }
+          ]
+        },
+        "description": "Get purchased coupons for a user"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Purchased Coupons by Status",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/coupons/users/{{user_id}}/status/{{status}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "coupons", "users", "{{user_id}}", "status", "{{status}}"]
+        },
+        "description": "Get purchased coupons for a user filtered by status"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Available Coupons for Platform",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/coupons/platforms/{{platform_id}}/available?user_id={{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "coupons", "platforms", "{{platform_id}}", "available"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            }
+          ]
+        },
+        "description": "Get available coupons for a specific platform"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Max Available Amount",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/coupons/platforms/{{platform_id}}/max-amount",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "coupons", "platforms", "{{platform_id}}", "max-amount"]
+        },
+        "description": "Get maximum available coupon amount for a platform"
+      },
+      "response": []
+    },
+    {
+      "name": "Simulate Coupon Purchase",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"platform_id\": {{platform_id}},\n  \"user_id\": {{user_id}},\n  \"amount\": 100.00,\n  \"reservation_minutes\": 15\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v2/coupons/simulate",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "coupons", "simulate"]
+        },
+        "description": "Simulate coupon purchase for a given amount"
+      },
+      "response": []
+    },
+    {
+      "name": "Buy Coupons",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"coupons\": [\n    {\"value\": 50.00, \"sn\": \"SN123456\"},\n    {\"value\": 50.00, \"sn\": \"SN789012\"}\n  ],\n  \"user_id\": {{user_id}},\n  \"platform_id\": {{platform_id}},\n  \"platform_name\": \"Platform Name\",\n  \"item_id\": {{item_id}}\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v2/coupons/buy",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "coupons", "buy"]
+        },
+        "description": "Purchase coupons and create order"
+      },
+      "response": []
+    },
+    {
+      "name": "Consume Coupon",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}}\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v2/coupons/{{coupon_id}}/consume",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "coupons", "{{coupon_id}}", "consume"]
+        },
+        "description": "Consume a coupon"
+      },
+      "response": []
+    },
+    {
+      "name": "Mark Coupon as Consumed",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v2/coupons/{{coupon_id}}/mark-consumed",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "coupons", "{{coupon_id}}", "mark-consumed"]
+        },
+        "description": "Mark a coupon as consumed"
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Coupon",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}}\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v2/coupons/{{coupon_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "coupons", "{{coupon_id}}"]
+        },
+        "description": "Delete a coupon (only unconsumed)"
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Multiple Coupons",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"ids\": [1, 2, 3],\n  \"user_id\": {{user_id}}\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v2/coupons/multiple",
+          "host": ["{{base_url}}"],
+          "path": ["api", "v2", "coupons", "multiple"]
+        },
+        "description": "Delete multiple coupons (only unconsumed)"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000"
+    },
+    {
+      "key": "coupon_id",
+      "value": "1"
+    },
+    {
+      "key": "coupon_sn",
+      "value": "SN123456"
+    },
+    {
+      "key": "user_id",
+      "value": "1"
+    },
+    {
+      "key": "platform_id",
+      "value": "1"
+    },
+    {
+      "key": "item_id",
+      "value": "1"
+    },
+    {
+      "key": "status",
+      "value": "1"
+    }
+  ]
+}
+

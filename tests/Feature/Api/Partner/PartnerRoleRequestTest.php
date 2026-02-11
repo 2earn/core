@@ -4,11 +4,14 @@ namespace Tests\Feature\Api\Partner;
 
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\Group;
 use App\Models\PartnerRoleRequest;
 use App\Models\Partner;
 use App\Models\User;
 use App\Models\EntityRole;
 
+#[Group('api')]
+#[Group('api_partner')]
 class PartnerRoleRequestTest extends TestCase
 {
 

@@ -1,0 +1,117 @@
+{
+  "info": {
+    "_postman_id": "c9d0e1f2-a3b4-5678-2345-901234567890",
+    "name": "Partner Role Requests API",
+    "description": "Partner API endpoints for Role Request Management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "List Role Requests",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/role-requests?user_id={{user_id}}&page=1&per_page=20",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "role-requests"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            },
+            {
+              "key": "page",
+              "value": "1",
+              "description": "Page number"
+            },
+            {
+              "key": "per_page",
+              "value": "20",
+              "description": "Items per page"
+            }
+          ]
+        },
+        "description": "Get all role requests"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Role Request by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/role-requests/{{id}}?user_id={{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "role-requests", "{{id}}"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            }
+          ]
+        },
+        "description": "Get specific role request details"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Role Request",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"platform_id\": {{platform_id}},\n  \"role_id\": {{role_id}},\n  \"reason\": \"Reason for role request\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/role-requests",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "role-requests"]
+        },
+        "description": "Create a new role request"
+      },
+      "response": []
+    },
+    {
+      "name": "Cancel Role Request",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}}\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/role-requests/{{id}}/cancel",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "role-requests", "{{id}}", "cancel"]
+        },
+        "description": "Cancel a pending role request"
+      },
+      "response": []
+    }
+  ]
+}
+

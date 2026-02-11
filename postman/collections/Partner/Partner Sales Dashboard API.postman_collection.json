@@ -1,0 +1,190 @@
+{
+  "info": {
+    "_postman_id": "a7b8c9d0-e1f2-3456-0123-789012345678",
+    "name": "Partner Sales Dashboard API",
+    "description": "Partner API endpoints for Sales Dashboard and Analytics",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get KPIs",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/sales/dashboard/kpis?user_id={{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "sales", "dashboard", "kpis"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            }
+          ]
+        },
+        "description": "Get key performance indicators for sales dashboard"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Sales Evolution Chart",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/sales/dashboard/evolution-chart?user_id={{user_id}}&period=month",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "sales", "dashboard", "evolution-chart"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            },
+            {
+              "key": "period",
+              "value": "month",
+              "description": "Time period: day, week, month, year"
+            }
+          ]
+        },
+        "description": "Get sales evolution chart data"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Top Selling Products",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/sales/dashboard/top-products?user_id={{user_id}}&limit=10",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "sales", "dashboard", "top-products"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            },
+            {
+              "key": "limit",
+              "value": "10",
+              "description": "Number of top products to return"
+            }
+          ]
+        },
+        "description": "Get top selling products"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Top Selling Deals",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/sales/dashboard/top-deals?user_id={{user_id}}&limit=10",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "sales", "dashboard", "top-deals"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            },
+            {
+              "key": "limit",
+              "value": "10",
+              "description": "Number of top deals to return"
+            }
+          ]
+        },
+        "description": "Get top selling deals"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Transactions",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/sales/dashboard/transactions?user_id={{user_id}}&page=1&per_page=20",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "sales", "dashboard", "transactions"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            },
+            {
+              "key": "page",
+              "value": "1",
+              "description": "Page number"
+            },
+            {
+              "key": "per_page",
+              "value": "20",
+              "description": "Items per page"
+            }
+          ]
+        },
+        "description": "Get list of transactions"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Transaction Details",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/sales/dashboard/transactions/details?user_id={{user_id}}&transaction_id={{transaction_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "sales", "dashboard", "transactions", "details"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            },
+            {
+              "key": "transaction_id",
+              "value": "{{transaction_id}}"
+            }
+          ]
+        },
+        "description": "Get detailed information for a specific transaction"
+      },
+      "response": []
+    }
+  ]
+}
+

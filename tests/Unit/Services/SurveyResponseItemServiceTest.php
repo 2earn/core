@@ -6,7 +6,7 @@ use App\Models\SurveyResponse;
 use App\Models\SurveyResponseItem;
 use App\Models\SurveyQuestion;
 use App\Models\SurveyQuestionChoice;
-use App\Services\SurveyResponseItemService;
+use App\Services\Survey\SurveyResponseItemService;
 use Tests\TestCase;
 
 class SurveyResponseItemServiceTest extends TestCase

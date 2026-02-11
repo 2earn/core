@@ -1,0 +1,251 @@
+{
+  "info": {
+    "_postman_id": "c3d4e5f6-a7b8-9012-cdef-345678901234",
+    "name": "Partner Platforms API",
+    "description": "Partner API endpoints for Platform Management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Top Selling Platforms",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/platforms/top-selling?user_id={{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "platforms", "top-selling"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}",
+              "description": "User ID (required)"
+            }
+          ]
+        },
+        "description": "Get top selling platforms. Requires check.url middleware."
+      },
+      "response": []
+    },
+    {
+      "name": "Get Platform Roles",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/platforms/platforms/{{platformId}}/roles?user_id={{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "platforms", "platforms", "{{platformId}}", "roles"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}",
+              "description": "User ID (required)"
+            }
+          ]
+        },
+        "description": "Get roles for a specific platform"
+      },
+      "response": []
+    },
+    {
+      "name": "Change Platform Type",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"platform_id\": {{platform_id}},\n  \"new_type\": \"premium\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/platforms/change",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "platforms", "change"]
+        },
+        "description": "Change platform type (e.g., from basic to premium)"
+      },
+      "response": []
+    },
+    {
+      "name": "Validate Platform Request",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"platform_id\": {{platform_id}}\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/platforms/validate",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "platforms", "validate"]
+        },
+        "description": "Submit platform for validation"
+      },
+      "response": []
+    },
+    {
+      "name": "Cancel Validation Request",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"platform_id\": {{platform_id}}\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/platforms/validation/cancel",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "platforms", "validation", "cancel"]
+        },
+        "description": "Cancel platform validation request"
+      },
+      "response": []
+    },
+    {
+      "name": "Cancel Change Request",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"platform_id\": {{platform_id}}\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/platforms/change/cancel",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "platforms", "change", "cancel"]
+        },
+        "description": "Cancel platform change request"
+      },
+      "response": []
+    },
+    {
+      "name": "List Platforms",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/platforms/platforms?user_id={{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "platforms", "platforms"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            }
+          ]
+        },
+        "description": "Get all platforms for the partner"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Platform by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/partner/platforms/platforms/{{platform_id}}?user_id={{user_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "platforms", "platforms", "{{platform_id}}"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}"
+            }
+          ]
+        },
+        "description": "Get specific platform details"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Platform",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"name\": \"Platform Name\",\n  \"description\": \"Platform description\",\n  \"type\": \"basic\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/platforms/platforms",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "platforms", "platforms"]
+        },
+        "description": "Create a new platform"
+      },
+      "response": []
+    },
+    {
+      "name": "Update Platform",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"name\": \"Updated Platform Name\",\n  \"description\": \"Updated description\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/platforms/platforms/{{platform_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "platforms", "platforms", "{{platform_id}}"]
+        },
+        "description": "Update platform details"
+      },
+      "response": []
+    }
+  ]
+}
+
