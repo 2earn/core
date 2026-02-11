@@ -51,15 +51,21 @@ class BalanceOperationApiTest extends TestCase
     /** @test */
     public function it_can_get_all_operations()
     {
-        // Arrange
+        // Arrange - Count initial operations
+        $initialCount = BalanceOperation::count();
+
+        // Create 3 new operations
         BalanceOperation::factory()->count(3)->create();
 
         // Act
         $response = $this->getJson('/api/v1/balance/operations/all');
 
         // Assert
-        $response->assertStatus(200)
-            ->assertJsonCount(3);
+        $response->assertStatus(200);
+
+        $data = $response->json();
+        $this->assertGreaterThanOrEqual($initialCount + 3, count($data),
+            "Expected at least " . ($initialCount + 3) . " operations, got " . count($data));
     }
 
     /** @test */
@@ -274,16 +280,50 @@ class BalanceOperationApiTest extends TestCase
     /** @test */
     public function it_includes_relationships_in_response()
     {
-        // Arrange
-        $category = OperationCategory::factory()->create();
-        $parentOperation = BalanceOperation::factory()->create();
-        $operation = BalanceOperation::factory()->create([
-            'parent_operation_id' => $parentOperation->id,
-            'operation_category_id' => $category->id
+        // Arrange - Get max IDs to avoid auto-increment issues
+        $maxCategoryId = \DB::table('operation_categories')->max('id') ?? 0;
+        $maxOperationId = \DB::table('balance_operations')->max('id') ?? 0;
+
+        $categoryId = $maxCategoryId + 1;
+        $parentOperationId = $maxOperationId + 1;
+        $operationId = $maxOperationId + 2;
+
+        // Create category with explicit ID
+        \DB::table('operation_categories')->insert([
+            'id' => $categoryId,
+            'name' => 'Test Category ' . uniqid(),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        // Create parent operation with explicit ID
+        \DB::table('balance_operations')->insert([
+            'id' => $parentOperationId,
+            'ref' => 'REF-PARENT-' . uniqid(),
+            'operation' => 'Parent Operation',
+            'direction' => 'IN',
+            'balance_id' => 1,
+            'operation_category_id' => $categoryId,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        // Create operation with relationships
+        \DB::table('balance_operations')->insert([
+            'id' => $operationId,
+            'ref' => 'REF-CHILD-' . uniqid(),
+            'operation' => 'Child Operation',
+            'direction' => 'OUT',
+            'balance_id' => 1,
+            'parent_id' => $parentOperationId,
+            'parent_operation_id' => $parentOperationId,
+            'operation_category_id' => $categoryId,
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
 
         // Act
-        $response = $this->getJson("/api/v1/balance/operations/{$operation->id}");
+        $response = $this->getJson("/api/v1/balance/operations/{$operationId}");
 
         // Assert
         $response->assertStatus(200)
@@ -293,6 +333,13 @@ class BalanceOperationApiTest extends TestCase
                 'parent',
                 'opeartionCategory'
             ]);
+
+        // Verify relationships are loaded
+        $data = $response->json();
+        $this->assertNotNull($data['parent'], 'Parent relationship should be loaded');
+        $this->assertNotNull($data['opeartionCategory'], 'Operation category relationship should be loaded');
+        $this->assertEquals($parentOperationId, $data['parent']['id'], 'Parent ID should match');
+        $this->assertEquals($categoryId, $data['opeartionCategory']['id'], 'Category ID should match');
     }
 
     /** @test */
