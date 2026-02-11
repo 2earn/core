@@ -62,12 +62,12 @@ class PlanLabelCreateUpdate extends Component
     {
         if ($id) {
             $this->isEditMode = true;
-            $this->formulaId = $id;
-            $this->loadFormula($id);
+            $this->planLabelId = $id;
+            $this->loadPlanLabel($id);
         }
     }
 
-    public function loadFormula($id)
+    public function loadPlanLabel($id)
     {
         $planLabel = $this->PlanLabelService->getPlanLabelById($id);
 
@@ -105,7 +105,7 @@ class PlanLabelCreateUpdate extends Component
         ];
 
         if ($this->isEditMode) {
-            $planLabel = $this->PlanLabelService->updatePlanLabel($this->formulaId, $data);
+            $planLabel = $this->PlanLabelService->updatePlanLabel($this->planLabelId, $data);
 
             if ($planLabel) {
                 if ($this->iconImage) {
