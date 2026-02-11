@@ -25,10 +25,6 @@ class SharesSoldRecentTransaction extends Component
     public $sortField = 'created_at';
     public $sortDirection = 'desc';
 
-    private settingsManager $settingsManager;
-    private BalancesManager $balancesManager;
-    private CashBalancesService $cashBalancesService;
-
     protected $listeners = [
         'checkContactNumbre' => 'checkContactNumbre'
     ];
@@ -40,12 +36,6 @@ class SharesSoldRecentTransaction extends Component
         dd('ddd');
     }
 
-    public function mount(settingsManager $settingsManager, BalancesManager $balancesManager, CashBalancesService $cashBalancesService)
-    {
-        $this->settingsManager = $settingsManager;
-        $this->balancesManager = $balancesManager;
-        $this->cashBalancesService = $cashBalancesService;
-    }
 
     public function updatingSearch()
     {
@@ -76,7 +66,7 @@ class SharesSoldRecentTransaction extends Component
         }
     }
 
-    public function render(settingsManager $settingsManager, BalancesManager $balancesManager)
+    public function render(settingsManager $settingsManager, BalancesManager $balancesManager, CashBalancesService $cashBalancesService)
     {
         $user = $settingsManager->getAuthUser();
 
@@ -101,11 +91,11 @@ class SharesSoldRecentTransaction extends Component
         $usermetta_info = collect(DB::table('metta_users')->where('idUser', $user->idUser)->first());
 
         // Get sales data using CashBalancesService
-        $vente_jour = $this->cashBalancesService->getTodaySales($user->idUser, 42);
-        $vente_total = $this->cashBalancesService->getTotalSales($user->idUser, 42);
+        $vente_jour = $cashBalancesService->getTodaySales($user->idUser, 42);
+        $vente_total = $cashBalancesService->getTotalSales($user->idUser, 42);
 
         // Fetch transactions with pagination and search using CashBalancesService
-        $transactions = $this->cashBalancesService->getTransactions(
+        $transactions = $cashBalancesService->getTransactions(
             beneficiaryId: $user->idUser,
             operationId: BalanceOperationsEnum::OLD_ID_42->value,
             search: $this->search,
