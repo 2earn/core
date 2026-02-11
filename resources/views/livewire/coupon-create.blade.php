@@ -29,10 +29,12 @@
                                 wire:model.live="platform_id"
                                 id="platform_id"
                                 aria-label="{{__('Platform')}}">
+                                <option value="">{{__('Select a platform')}}</option>
                                 @foreach ($selectPlatforms as $platform)
-                                    <option value="{{$platform['value']}}">{{__($platform['name'])}}</option>
+                                    <option value="{{$platform['value']}}">{{$platform['name']}}</option>
                                 @endforeach
                             </select>
+                            @error('platform_id') <span class="text-danger">{{ $message }}</span>@enderror
                         </div>
                         <div class="form-group col-md-6 mt-2">
                             <label for="pins">{{__('Pins')}}</label>

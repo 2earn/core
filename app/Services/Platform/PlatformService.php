@@ -2,6 +2,7 @@
 
 namespace App\Services\Platform;
 
+use App\Enums\DealTypeEnum;
 use App\Models\Platform;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
@@ -412,7 +413,7 @@ class PlatformService
     {
         try {
             return Platform::whereHas('deals', function ($query) {
-                $query->where('type', 'coupon');
+                $query->where('type', DealTypeEnum::coupons->value); // DealTypeEnum::coupons value
             })->get();
         } catch (\Exception $e) {
             Log::error('Error fetching platforms with coupon deals: ' . $e->getMessage());

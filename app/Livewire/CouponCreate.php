@@ -40,10 +40,12 @@ class CouponCreate extends Component
     {
         // Get platforms formatted for select dropdown using service
         $this->selectPlatforms = $this->platformService->getSelectPlatformsWithCouponDeals();
+        // Initialize platform_id as null to show placeholder
+        $this->platform_id = null;
 
-        // Set default platform_id to first platform if available
-        if (!empty($this->selectPlatforms)) {
-            $this->platform_id = $this->selectPlatforms[0]['value'];
+        // Log if no platforms are available
+        if (empty($this->selectPlatforms)) {
+            \Log::warning('No platforms with coupon deals available for coupon creation');
         }
     }
 
