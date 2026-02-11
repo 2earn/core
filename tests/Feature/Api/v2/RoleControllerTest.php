@@ -36,8 +36,17 @@ class RoleControllerTest extends TestCase
     #[Test]
     public function it_can_get_paginated_roles()
     {
+        // Get max ID to avoid auto-increment issues
+        $maxId = \DB::table('roles')->max('id') ?? 4;
+
         for ($i = 1; $i <= 5; $i++) {
-            Role::create(['name' => 'Test Paginated Role ' . $i . uniqid(), 'guard_name' => 'web']);
+            \DB::table('roles')->insert([
+                'id' => $maxId + $i,
+                'name' => 'Test Paginated Role ' . $i . uniqid(),
+                'guard_name' => 'web',
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
         }
 
         $response = $this->getJson('/api/v2/roles/?per_page=10');
@@ -49,9 +58,24 @@ class RoleControllerTest extends TestCase
     #[Test]
     public function it_can_search_roles()
     {
+        $maxId = \DB::table('roles')->max('id') ?? 4;
         $uniqueId = uniqid();
-        Role::create(['name' => 'Admin Role ' . $uniqueId, 'guard_name' => 'web']);
-        Role::create(['name' => 'User Role ' . $uniqueId, 'guard_name' => 'web']);
+
+        \DB::table('roles')->insert([
+            'id' => $maxId + 1,
+            'name' => 'Admin Role ' . $uniqueId,
+            'guard_name' => 'web',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        \DB::table('roles')->insert([
+            'id' => $maxId + 2,
+            'name' => 'User Role ' . $uniqueId,
+            'guard_name' => 'web',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
 
         $response = $this->getJson('/api/v2/roles/?search=Admin');
 
@@ -62,8 +86,16 @@ class RoleControllerTest extends TestCase
     #[Test]
     public function it_can_get_all_roles()
     {
+        $maxId = \DB::table('roles')->max('id') ?? 4;
+
         for ($i = 1; $i <= 3; $i++) {
-            Role::create(['name' => 'Test Role ' . $i . uniqid(), 'guard_name' => 'web']);
+            \DB::table('roles')->insert([
+                'id' => $maxId + $i,
+                'name' => 'Test Role ' . $i . uniqid(),
+                'guard_name' => 'web',
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
         }
 
         $response = $this->getJson('/api/v2/roles/all');
@@ -75,9 +107,18 @@ class RoleControllerTest extends TestCase
     #[Test]
     public function it_can_get_role_by_id()
     {
-        $role = Role::create(['name' => 'Test Role ' . uniqid(), 'guard_name' => 'web']);
+        $maxId = \DB::table('roles')->max('id') ?? 4;
+        $roleId = $maxId + 1;
 
-        $response = $this->getJson("/api/v2/roles/{$role->id}");
+        \DB::table('roles')->insert([
+            'id' => $roleId,
+            'name' => 'Test Role ' . uniqid(),
+            'guard_name' => 'web',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        $response = $this->getJson("/api/v2/roles/{$roleId}");
 
         $response->assertStatus(200)
             ->assertJsonFragment(['status' => true]);
@@ -137,23 +178,38 @@ class RoleControllerTest extends TestCase
     #[Test]
     public function it_can_delete_role()
     {
-        // Create multiple roles to ensure ID > 4 (system roles are protected in RoleService)
-        for ($i = 1; $i <= 5; $i++) {
-            Role::create(['name' => 'Temp Role ' . $i . uniqid(), 'guard_name' => 'web']);
-        }
+        // Get the maximum ID to ensure we create a role with ID > 4
+        $maxId = \DB::table('roles')->max('id') ?? 4;
+        $roleId = $maxId + 1;
 
-        $role = Role::create(['name' => 'Role To Delete ' . uniqid(), 'guard_name' => 'web']);
+        // Create a role that can be deleted (ID will be > 4)
+        \DB::table('roles')->insert([
+            'id' => $roleId,
+            'name' => 'Role To Delete ' . uniqid(),
+            'guard_name' => 'web',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
 
-        // Only test deletion if ID > 4 (business rule in RoleService)
-        if ($role->id > 4) {
-            $response = $this->deleteJson("/api/v2/roles/{$role->id}");
-            $response->assertStatus(200);
-            $this->assertDatabaseMissing('roles', ['id' => $role->id]);
-        } else {
-            // If somehow ID <= 4, test that deletion is prevented
-            $response = $this->deleteJson("/api/v2/roles/{$role->id}");
-            $response->assertStatus(500);
-        }
+        // Verify the role was created with ID > 4
+        $this->assertGreaterThan(4, $roleId, 'Role ID should be greater than 4 to test deletion');
+
+        $response = $this->deleteJson("/api/v2/roles/{$roleId}");
+
+        $response->assertStatus(200);
+        $this->assertDatabaseMissing('roles', ['id' => $roleId]);
+    }
+
+    #[Test]
+    public function it_cannot_delete_protected_roles()
+    {
+        // System roles with ID <= 4 are protected and cannot be deleted
+        $protectedRoleId = 1; // Admin role (assuming it exists from seeders)
+
+        $response = $this->deleteJson("/api/v2/roles/{$protectedRoleId}");
+
+        $response->assertStatus(500);
+        $this->assertDatabaseHas('roles', ['id' => $protectedRoleId]);
     }
 
 
