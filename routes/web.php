@@ -336,7 +336,7 @@ Route::group(['prefix' => '{locale}', 'where' => ['locale' => '[a-zA-Z]{2}'], 'm
 
             Route::get('/stat/countrie', \App\Livewire\StatCountrie::class)->name('stat_countrie');
             Route::prefix('/shares-sold')->name('shares_sold_')->group(function () {
-                Route::get('dashboard', \App\Livewire\SharesSold::class)->name('dashboard');
+                Route::get('/dashboard', \App\Livewire\SharesSold::class)->name('dashboard');
                 Route::get('/market-status', \App\Livewire\SharesSoldMarketStatus::class)->name('market_status');
                 Route::get('/recent-transaction', \App\Livewire\SharesSoldRecentTransaction::class)->name('recent_transaction');
             });
