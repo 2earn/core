@@ -329,12 +329,16 @@ class BalanceOperationApiTest extends TestCase
             ->assertJsonStructure([
                 'id',
                 'operation',
-                'parent',
-                'opeartionCategory'
             ]);
 
         // Verify relationships are loaded
         $data = $response->json();
+
+        // Check that parent and category keys exist
+        $this->assertArrayHasKey('parent', $data, 'Response should include parent key');
+        $this->assertArrayHasKey('opeartionCategory', $data, 'Response should include opeartionCategory key');
+
+        // Verify relationships are not null and have the correct IDs
         $this->assertNotNull($data['parent'], 'Parent relationship should be loaded');
         $this->assertNotNull($data['opeartionCategory'], 'Operation category relationship should be loaded');
         $this->assertEquals($parentOperationId, $data['parent']['id'], 'Parent ID should match');
