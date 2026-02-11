@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
-use App\Services\SurveyQuestionChoiceService;
-use App\Services\SurveyQuestionService;
-use App\Services\SurveyService;
+use App\Services\Survey\SurveyQuestionChoiceService;
+use App\Services\Survey\SurveyQuestionService;
+use App\Services\Survey\SurveyService;
 use App\Services\TranslaleModelService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;

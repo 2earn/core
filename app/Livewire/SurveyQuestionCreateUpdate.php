@@ -3,8 +3,8 @@
 namespace App\Livewire;
 
 use App\Enums\Selection;
-use App\Services\SurveyQuestionService;
-use App\Services\SurveyService;
+use App\Services\Survey\SurveyQuestionService;
+use App\Services\Survey\SurveyService;
 use App\Services\TranslaleModelService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
