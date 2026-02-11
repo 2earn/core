@@ -79,7 +79,8 @@ class ConfigurationHA extends Component
             ? json_decode($this->list_reponceHA)
             : $this->list_reponceHA;
 
-        if ($decodedList) {
+        // Ensure $decodedList is iterable (array or object)
+        if ($decodedList && (is_array($decodedList) || is_object($decodedList))) {
             foreach ($decodedList as $l) {
                 $value = is_object($l) && isset($l->value) ? $l->value : $l;
                 $lists = $lists . "," . $value;
