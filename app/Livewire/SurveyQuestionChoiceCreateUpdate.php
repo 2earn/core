@@ -115,8 +115,8 @@ class SurveyQuestionChoiceCreateUpdate extends Component
         $params = [
             'idSurvey' => $this->idSurvey,
             'idQuestion' => $this->idQuestion,
-            'question' => $this->questionService->getById($this->idQuestion),
-            'survey' => $this->surveyService->getById($this->idSurvey)
+            'question' => $this->idQuestion ? $this->questionService->getById($this->idQuestion) : null,
+            'survey' => $this->idSurvey ? $this->surveyService->getById($this->idSurvey) : null
         ];
         return view('livewire.survey-question-choice-create-update', $params)->extends('layouts.master')->section('content');
     }
