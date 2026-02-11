@@ -30,7 +30,7 @@ class SimulationService
         $currentFinalAmount = (float) ($currentSimulation['order']->amount_after_discount ?? 0);
         $lastFinalAmount = (float) ($lastSimulation->simulation_data['order']['amount_after_discount'] ?? 0);
 
-        if (abs($currentFinalAmount - $lastFinalAmount) > 0.0001) {
+        if ($currentFinalAmount != $lastFinalAmount) {
             Log::error(self::LOG_PREFIX . 'Simulation mismatch detected', [
                 'order_id' => $orderId,
                 'current_final_amount' => $currentFinalAmount,
