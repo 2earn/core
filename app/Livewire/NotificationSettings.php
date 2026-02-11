@@ -24,7 +24,7 @@ class NotificationSettings extends Component
         'setting_notif.*.value' => 'required',
     ];
 
-    public function mount(
+    public function boot(
         settingsManager $settingsManager,
         SettingService $settingService,
         UserNotificationSettingService $userNotificationSettingService
@@ -32,6 +32,11 @@ class NotificationSettings extends Component
         $this->settingsManager = $settingsManager;
         $this->settingService = $settingService;
         $this->userNotificationSettingService = $userNotificationSettingService;
+    }
+
+    public function mount()
+    {
+        // boot sets the service dependencies each request
     }
 
     public function save()
@@ -56,9 +61,8 @@ class NotificationSettings extends Component
             ->with($flashType, Lang::get($result['message']));
     }
 
-    public function render(settingsManager $settingsManager)
+    public function render()
     {
-        $this->settingsManager = $settingsManager;
         $this->setting_notif = $this->settingsManager->getNotificationSetting($this->settingsManager->getAuthUser()->idUser);
         $this->nbrSms = $this->setting_notif->where('id', '=', NotificationSettingEnum::SMSByWeek->value)->first()->value;
         $this->nbrSmsPossible = $this->settingService->getDecimalValue(SettingsEnum::NbrSmsPossible->value);
