@@ -35,8 +35,8 @@ class BalancesOperationsController extends Controller
             ->editColumn('modify_amount', function ($balance) {
                 return view('parts.datatable.balances-modify', ['modify' => $balance->modify_amount]);
             })
-            ->editColumn('parent_id', function ($balance) {
-                return view('parts.datatable.balances-parent', ['balance' => BalanceOperation::find($balance->parent_id)]);
+            ->editColumn('parent_operation_id', function ($balance) {
+                return view('parts.datatable.balances-parent', ['balance' => BalanceOperation::find($balance->parent_operation_id)]);
             })
             ->editColumn('operation_category_id', function ($balance) {
                 return view('parts.datatable.balances-category', ['category' => OperationCategory::find($balance->operation_category_id)]);
@@ -107,12 +107,11 @@ class BalancesOperationsController extends Controller
             'amounts_id' => 'nullable|integer',
             'note' => 'nullable|string',
             'modify_amount' => 'nullable|boolean',
-            'parent_id' => 'nullable|integer|exists:balance_operations,id',
             'operation_category_id' => 'nullable|integer|exists:operation_categories,id',
             'ref' => 'nullable|string',
             'direction' => 'nullable|string',
             'balance_id' => 'nullable|integer',
-            'parent_operation_id' => 'nullable|integer',
+            'parent_operation_id' => 'nullable|integer|exists:balance_operations,id',
             'relateble' => 'nullable|integer',
             'relateble_model' => 'nullable|string',
             'relateble_types' => 'nullable|string',
@@ -136,12 +135,11 @@ class BalancesOperationsController extends Controller
             'amounts_id' => 'nullable|integer',
             'note' => 'nullable|string',
             'modify_amount' => 'nullable|boolean',
-            'parent_id' => 'nullable|integer|exists:balance_operations,id',
             'operation_category_id' => 'nullable|integer|exists:operation_categories,id',
             'ref' => 'nullable|string',
             'direction' => 'nullable|string',
             'balance_id' => 'nullable|integer',
-            'parent_operation_id' => 'nullable|integer',
+            'parent_operation_id' => 'nullable|integer|exists:balance_operations,id',
             'relateble' => 'nullable|integer',
             'relateble_model' => 'nullable|string',
             'relateble_types' => 'nullable|string',

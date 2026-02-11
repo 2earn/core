@@ -55,14 +55,7 @@ class AssignPlatformRoleService
         try {
             DB::beginTransaction();
 
-            $assignment = AssignPlatformRole::find($assignmentId);
-            if (!$assignment) {
-                DB::rollBack();
-                return [
-                    'success' => false,
-                    'message' => 'Failed to approve assignment: Assignment not found.'
-                ];
-            }
+            $assignment = AssignPlatformRole::findOrFail($assignmentId);
 
             if ($assignment->status !== AssignPlatformRole::STATUS_PENDING) {
                 DB::rollBack();
@@ -125,10 +118,7 @@ class AssignPlatformRoleService
 
         } catch (ModelNotFoundException $e) {
             DB::rollBack();
-            return [
-                'success' => false,
-                'message' => 'Failed to approve assignment: ' . $e->getMessage()
-            ];
+            throw $e; // Re-throw to let controller handle 404
         } catch (\Throwable $e) {
             DB::rollBack();
 
@@ -158,14 +148,7 @@ class AssignPlatformRoleService
         try {
             DB::beginTransaction();
 
-            $assignment = AssignPlatformRole::find($assignmentId);
-            if (!$assignment) {
-                DB::rollBack();
-                return [
-                    'success' => false,
-                    'message' => 'Failed to reject assignment: Assignment not found.'
-                ];
-            }
+            $assignment = AssignPlatformRole::findOrFail($assignmentId);
 
             if ($assignment->status !== AssignPlatformRole::STATUS_PENDING) {
                 DB::rollBack();
@@ -209,10 +192,7 @@ class AssignPlatformRoleService
 
         } catch (ModelNotFoundException $e) {
             DB::rollBack();
-            return [
-                'success' => false,
-                'message' => 'Failed to reject assignment: ' . $e->getMessage()
-            ];
+            throw $e; // Re-throw to let controller handle 404
         } catch (\Throwable $e) {
             DB::rollBack();
 

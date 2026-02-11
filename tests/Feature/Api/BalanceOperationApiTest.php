@@ -250,17 +250,17 @@ class BalanceOperationApiTest extends TestCase
 
 
     /** @test */
-    public function it_validates_parent_id_exists()
+    public function it_validates_parent_operation_id_exists()
     {
         // Act
         $response = $this->postJson('/api/v1/balance/operations', [
             'operation' => 'Test',
-            'parent_id' => 999999 // Non-existent parent
+            'parent_operation_id' => 999999 // Non-existent parent
         ]);
 
         // Assert
         $response->assertStatus(422)
-            ->assertJsonValidationErrors(['parent_id']);
+            ->assertJsonValidationErrors(['parent_operation_id']);
     }
 
     /** @test */
@@ -315,7 +315,6 @@ class BalanceOperationApiTest extends TestCase
             'operation' => 'Child Operation',
             'direction' => 'OUT',
             'balance_id' => 1,
-            'parent_id' => $parentOperationId,
             'parent_operation_id' => $parentOperationId,
             'operation_category_id' => $categoryId,
             'created_at' => now(),
