@@ -63,7 +63,7 @@ class RoleControllerTest extends TestCase
     public function it_can_get_all_roles()
     {
         for ($i = 1; $i <= 3; $i++) {
-            Role::create(['name' => 'Test Role ' . $i, 'guard_name' => 'web']);
+            Role::create(['name' => 'Test Role ' . $i . uniqid(), 'guard_name' => 'web']);
         }
 
         $response = $this->getJson('/api/v2/roles/all');
@@ -75,7 +75,7 @@ class RoleControllerTest extends TestCase
     #[Test]
     public function it_can_get_role_by_id()
     {
-        $role = Role::create(['name' => 'Test Role', 'guard_name' => 'web']);
+        $role = Role::create(['name' => 'Test Role ' . uniqid(), 'guard_name' => 'web']);
 
         $response = $this->getJson("/api/v2/roles/{$role->id}");
 
@@ -95,22 +95,23 @@ class RoleControllerTest extends TestCase
     public function it_can_create_role()
     {
         $data = [
-            'name' => 'New Role',
+            'name' => 'New Role ' . uniqid(),
             'guard_name' => 'web'
         ];
 
         $response = $this->postJson('/api/v2/roles/', $data);
 
         $response->assertStatus(201);
-        $this->assertDatabaseHas('roles', ['name' => 'New Role']);
+        $this->assertDatabaseHas('roles', ['name' => $data['name']]);
     }
 
     #[Test]
     public function it_validates_unique_role_name()
     {
-        Role::create(['name' => 'Existing Role', 'guard_name' => 'web']);
+        $uniqueName = 'Existing Role ' . uniqid();
+        Role::create(['name' => $uniqueName, 'guard_name' => 'web']);
 
-        $data = ['name' => 'Existing Role'];
+        $data = ['name' => $uniqueName];
 
         $response = $this->postJson('/api/v2/roles/', $data);
 
@@ -120,28 +121,39 @@ class RoleControllerTest extends TestCase
     #[Test]
     public function it_can_update_role()
     {
-        $role = Role::factory()->create(['name' => 'Original Name']);
+        $role = Role::create(['name' => 'Original Name ' . uniqid(), 'guard_name' => 'web']);
 
-        $data = ['name' => 'Updated Name'];
+        $data = ['name' => 'Updated Name ' . uniqid()];
 
         $response = $this->putJson("/api/v2/roles/{$role->id}", $data);
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('roles', [
             'id' => $role->id,
-            'name' => 'Updated Name'
+            'name' => $data['name']
         ]);
     }
 
     #[Test]
     public function it_can_delete_role()
     {
-        $role = Role::factory()->create();
+        // Create multiple roles to ensure ID > 4 (system roles are protected in RoleService)
+        for ($i = 1; $i <= 5; $i++) {
+            Role::create(['name' => 'Temp Role ' . $i . uniqid(), 'guard_name' => 'web']);
+        }
 
-        $response = $this->deleteJson("/api/v2/roles/{$role->id}");
+        $role = Role::create(['name' => 'Role To Delete ' . uniqid(), 'guard_name' => 'web']);
 
-        $response->assertStatus(200);
-        $this->assertDatabaseMissing('roles', ['id' => $role->id]);
+        // Only test deletion if ID > 4 (business rule in RoleService)
+        if ($role->id > 4) {
+            $response = $this->deleteJson("/api/v2/roles/{$role->id}");
+            $response->assertStatus(200);
+            $this->assertDatabaseMissing('roles', ['id' => $role->id]);
+        } else {
+            // If somehow ID <= 4, test that deletion is prevented
+            $response = $this->deleteJson("/api/v2/roles/{$role->id}");
+            $response->assertStatus(500);
+        }
     }
 
 
