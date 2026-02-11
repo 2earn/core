@@ -27,11 +27,10 @@ class SimulationService
             return ['matches' => true, 'details' => []];
         }
 
-        // Compare key fields
-        $currentFinalAmount = $currentSimulation['order']->amount_after_discount ?? null;
-        $lastFinalAmount = $lastSimulation->simulation_data['order']['amount_after_discount'] ?? null;
+        $currentFinalAmount = (float) ($currentSimulation['order']->amount_after_discount ?? 0);
+        $lastFinalAmount = (float) ($lastSimulation->simulation_data['order']['amount_after_discount'] ?? 0);
 
-        if ($currentFinalAmount !== $lastFinalAmount) {
+        if (abs($currentFinalAmount - $lastFinalAmount) > 0.0001) {
             Log::error(self::LOG_PREFIX . 'Simulation mismatch detected', [
                 'order_id' => $orderId,
                 'current_final_amount' => $currentFinalAmount,
