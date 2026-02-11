@@ -211,4 +211,123 @@ class BusinessSectorService
     {
         return $this->delete($id);
     }
+
+    /**
+     * Create a new business sector (alias for create method)
+     *
+     * @param array $data
+     * @return BusinessSector|null
+     */
+    public function createBusinessSector(array $data): ?BusinessSector
+    {
+        return $this->create($data);
+    }
+
+    /**
+     * Update a business sector (alias for update method)
+     *
+     * @param int $id
+     * @param array $data
+     * @return bool
+     */
+    public function updateBusinessSector(int $id, array $data): bool
+    {
+        return $this->update($id, $data);
+    }
+
+    /**
+     * Handle image upload for business sector
+     *
+     * @param BusinessSector $businessSector
+     * @param \Livewire\Features\SupportFileUploads\TemporaryUploadedFile $file
+     * @param string $imageType
+     * @return void
+     */
+    public function handleImageUpload(BusinessSector $businessSector, $file, string $imageType): void
+    {
+        try {
+            if (!$file) {
+                return;
+            }
+
+            // Store the file in public2 disk (uploads folder)
+            $imagePath = $file->store('business-sectors/' . $imageType, 'public2');
+
+            // Delete existing image of this type if it exists
+            $this->deleteBusinessSectorImage($businessSector, $imageType);
+
+            // Create new image record
+            $businessSector->images()->create([
+                'url' => $imagePath,
+                'type' => $imageType,
+            ]);
+
+            Log::info('Business sector image uploaded successfully', [
+                'business_sector_id' => $businessSector->id,
+                'image_type' => $imageType,
+                'path' => $imagePath
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error uploading business sector image: ' . $e->getMessage(), [
+                'business_sector_id' => $businessSector->id,
+                'image_type' => $imageType
+            ]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Delete business sector image by type
+     *
+     * @param BusinessSector $businessSector
+     * @param string $imageType
+     * @return void
+     */
+    public function deleteBusinessSectorImage(BusinessSector $businessSector, string $imageType): void
+    {
+        try {
+            $image = $businessSector->images()->where('type', $imageType)->first();
+
+            if ($image) {
+                // Delete the file from storage
+                \Storage::disk('public2')->delete($image->url);
+
+                // Delete the image record
+                $image->delete();
+
+                Log::info('Business sector image deleted successfully', [
+                    'business_sector_id' => $businessSector->id,
+                    'image_type' => $imageType
+                ]);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error deleting business sector image: ' . $e->getMessage(), [
+                'business_sector_id' => $businessSector->id,
+                'image_type' => $imageType
+            ]);
+        }
+    }
+
+    /**
+     * Get business sector by ID (alias)
+     *
+     * @param int $id
+     * @return BusinessSector|null
+     */
+    public function getBusinessSectorById(int $id): ?BusinessSector
+    {
+        return $this->getById($id);
+    }
+
+    /**
+     * Get business sector by ID or fail (alias)
+     *
+     * @param int $id
+     * @return BusinessSector
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function getBusinessSectorByIdOrFail(int $id): BusinessSector
+    {
+        return $this->findOrFail($id);
+    }
 }

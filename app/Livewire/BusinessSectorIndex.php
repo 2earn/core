@@ -14,16 +14,16 @@ class BusinessSectorIndex extends Component
 
     const PAGE_SIZE = 4;
     public $search = '';
-    public $page ;
     public $currentRouteName;
     protected $paginationTheme = 'bootstrap';
     protected $businessSectorService;
+
+    protected $queryString = ['search'];
 
     public function boot(BusinessSectorService $businessSectorService)
     {
         $this->businessSectorService = $businessSectorService;
     }
-
 
     protected $listeners = [
         'deleteBusinessSector' => 'deleteBusinessSector'
@@ -32,11 +32,6 @@ class BusinessSectorIndex extends Component
     public function mount()
     {
         $this->currentRouteName = Route::currentRouteName();
-    }
-
-    public function resetPage($pageName = 'page')
-    {
-        $this->setPage(1, $pageName);
     }
 
     public function updatingSearch(): void
@@ -52,7 +47,14 @@ class BusinessSectorIndex extends Component
 
     public function render()
     {
-        $params['business_sectors'] = $this->businessSectorService->getBusinessSectors(['search' => $this->search, 'PAGE_SIZE' => self::PAGE_SIZE, 'page' => $this->page]);
-        return view('livewire.business-sector-index', $params)->extends('layouts.master')->section('content');
+        $business_sectors = $this->businessSectorService->getBusinessSectors([
+            'search' => $this->search,
+            'PAGE_SIZE' => self::PAGE_SIZE,
+            'page' => $this->getPage()
+        ]);
+
+        return view('livewire.business-sector-index', [
+            'business_sectors' => $business_sectors
+        ])->extends('layouts.master')->section('content');
     }
 }
