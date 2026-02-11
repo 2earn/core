@@ -32,12 +32,6 @@
                 <div class="small text-muted">
                     {{ __('Showing') }} {{ $coupons->count() }} / {{ $coupons->total() }} {{ __('coupons') }}
                 </div>
-                <div class="form-check">
-                    <input wire:model.live="selectAll" class="form-check-input" type="checkbox" id="selectAllCheck">
-                    <label class="form-check-label" for="selectAllCheck">
-                        {{__('Select All')}}
-                    </label>
-                </div>
             </div>
 
             @if($coupons->count())
@@ -46,11 +40,7 @@
                         <div class="card mb-3 @if($coupon->consumed) border-success @endif">
                             <div class="card-header">
                                 <div class="row align-items-center">
-                                    <div class="col-auto">
-                                        <input wire:model.live="selectedCoupons" type="checkbox"
-                                               value="{{ $coupon->id }}"
-                                               class="form-check-input" @if($coupon->consumed) disabled @endif>
-                                    </div>
+
                                     <div class="col">
                                         <div class="d-flex align-items-center gap-2">
                                             <span class="badge bg-info fs-14">

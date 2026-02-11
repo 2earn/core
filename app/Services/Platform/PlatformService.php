@@ -40,6 +40,14 @@ class PlatformService
     }
 
     /**
+     * Backward-compatible alias to fetch platform by ID.
+     */
+    public function getPlatformById(int $id): ?Platform
+    {
+        return $this->getById($id);
+    }
+
+    /**
      * Get platforms with user purchase history
      *
      * @param int $userId
