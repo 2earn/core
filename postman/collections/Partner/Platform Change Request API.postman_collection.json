@@ -22,12 +22,13 @@
           }
         ],
         "url": {
-          "raw": "{{base_url}}/api/admin/platform-change-requests/pending?page=1&per_page=20&platform_id=",
+          "raw": "{{base_url}}/api/v2/admin/platform-change-requests/pending?page=1&per_page=20&platform_id=",
           "host": [
             "{{base_url}}"
           ],
           "path": [
             "api",
+            "v2",
             "admin",
             "platform-change-requests",
             "pending"
@@ -36,17 +37,20 @@
             {
               "key": "page",
               "value": "1",
-              "description": "Page number"
+              "description": "Page number",
+              "uuid": "08e4490a-55ef-4707-9ede-9b83fd6d6fd4"
             },
             {
               "key": "per_page",
               "value": "20",
-              "description": "Items per page"
+              "description": "Items per page",
+              "uuid": "33cf31f8-9d17-4234-a701-ed9d7804a7e1"
             },
             {
               "key": "platform_id",
               "value": "",
-              "description": "Filter by platform ID (optional)"
+              "description": "Filter by platform ID (optional)",
+              "uuid": "c0427812-d6c4-4389-8334-df87a09f42c4"
             }
           ]
         },
@@ -70,35 +74,39 @@
           }
         ],
         "url": {
-          "raw": "{{base_url}}/api/admin/platform-change-requests?status=pending&platform_id=&page=1&per_page=20",
+          "raw": "{{base_url}}/api/v2/platform-change-requests?status=pending&platform_id=&page=1&per_page=20",
           "host": [
             "{{base_url}}"
           ],
           "path": [
             "api",
-            "admin",
+            "v2",
             "platform-change-requests"
           ],
           "query": [
             {
               "key": "status",
               "value": "pending",
-              "description": "Filter by status: pending, approved, rejected (optional)"
+              "description": "Filter by status: pending, approved, rejected (optional)",
+              "uuid": "8e12397c-2784-442c-8465-76af50832aa6"
             },
             {
               "key": "platform_id",
               "value": "",
-              "description": "Filter by platform ID (optional)"
+              "description": "Filter by platform ID (optional)",
+              "uuid": "0f468529-a432-4bb3-9104-c943045ed1a8"
             },
             {
               "key": "page",
               "value": "1",
-              "description": "Page number"
+              "description": "Page number",
+              "uuid": "49e65b28-c6ec-4ad7-914c-de49a11f1651"
             },
             {
               "key": "per_page",
               "value": "20",
-              "description": "Items per page (max 100)"
+              "description": "Items per page (max 100)",
+              "uuid": "bec8cf4b-e4e8-4e03-8a61-5dccbf5d32ae"
             }
           ]
         },
@@ -170,4 +178,3 @@
     }
   ]
 }
-
