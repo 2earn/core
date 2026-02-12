@@ -582,8 +582,11 @@
             }
 
             function loadShareEvolutionByDate(chartInstance, route) {
+                const baseUrl = "{{ route('api_share_evolution_date', ['locale' => app()->getLocale()]) }}";
+                const url = baseUrl.replace('api_share_evolution_date', route);
+
                 $.ajax({
-                    url: "{{ route('api_share_evolution_date', ['locale' => app()->getLocale()]) }}".replace('', route),
+                    url: url,
                     method: 'GET',
                     headers: {'Authorization': 'Bearer ' + "{{ generateUserToken() }}"},
                     dataType: 'json',

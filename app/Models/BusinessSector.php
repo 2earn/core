@@ -41,6 +41,16 @@ class BusinessSector extends Model
         return $this->morphOne(Image::class, 'imageable')->where('type', '=', self::IMAGE_TYPE_LOGO);
     }
 
+    /**
+     * Get all images for the business sector (polymorphic relationship)
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
+
     public function platforms()
     {
         return $this->hasMany(Platform::class);

@@ -47,20 +47,21 @@ class SurveyResult extends Component
     public function render()
     {
         $params['survey'] = $this->surveyService->findOrFail($this->idSurvey);
-        $params['question'] = $this->questionService->getById($params['survey']->question?->id);
+        $questionId = $params['survey']->question?->id;
+        $params['question'] = $questionId ? $this->questionService->getById($questionId) : null;
         $params['responses'] = $params['question']?->serveyQuestionChoice()->get();
         $participation = $this->responseService->countBySurvey($this->idSurvey);
         $stats = [];
         $totalChoosen = 0;
         $totalParticipation = 0;
         $totalChoiceChoosen = $this->responseItemService->countByQuestion(
-            $params['survey']->question?->id ?? 0
+            $questionId ?? 0
         );
 
-        if (!is_null($params['responses'])) {
+        if (!is_null($params['responses']) && $questionId) {
             foreach ($params['responses'] as $response) {
                 $choosen = $this->responseItemService->countByQuestionAndChoice(
-                    $params['survey']->question->id,
+                    $questionId,
                     $response->id
                 );
 

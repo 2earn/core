@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
-use App\Services\SurveyQuestionChoiceService;
-use App\Services\SurveyQuestionService;
-use App\Services\SurveyService;
+use App\Services\Survey\SurveyQuestionChoiceService;
+use App\Services\Survey\SurveyQuestionService;
+use App\Services\Survey\SurveyService;
 use App\Services\TranslaleModelService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
@@ -115,8 +115,8 @@ class SurveyQuestionChoiceCreateUpdate extends Component
         $params = [
             'idSurvey' => $this->idSurvey,
             'idQuestion' => $this->idQuestion,
-            'question' => $this->questionService->getById($this->idQuestion),
-            'survey' => $this->surveyService->getById($this->idSurvey)
+            'question' => $this->idQuestion ? $this->questionService->getById($this->idQuestion) : null,
+            'survey' => $this->idSurvey ? $this->surveyService->getById($this->idSurvey) : null
         ];
         return view('livewire.survey-question-choice-create-update', $params)->extends('layouts.master')->section('content');
     }

@@ -231,16 +231,6 @@
                             </a>
                         </div>
                     @endif
-                    @if(\App\Models\Platform::havePartnerSpecialRole(auth()->user()->id))
-                        <div class="col">
-                            <a href="{{route('partner_payment_index',['locale'=>app()->getLocale()],false )}}"
-                               class="menu-link-modern {{in_array($currentRouteName, ['partner_payment_index', 'partner_payment_detail', 'partner_payment_manage']) ? 'active' : ''}}"
-                               role="button">
-                                <i class="ri-money-dollar-circle-line"></i>
-                                <span>{{__('Partner Payments')}}</span>
-                            </a>
-                        </div>
-                    @endif
                     <div class="col">
                         <a href="{{route('communication_board',app()->getLocale(),false)}}"
                            class="menu-link-modern {{$currentRouteName=='communication_board'? 'active' : ''}}"
@@ -378,6 +368,14 @@
                                role="button">
                                 <i class="ri-money-dollar-circle-fill "></i>
                                 <span>{{__('Add Cash Balance')}}</span>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="{{route('partner_payment_index',['locale'=>app()->getLocale()],false )}}"
+                               class="menu-link-modern {{in_array($currentRouteName, ['partner_payment_index', 'partner_payment_detail', 'partner_payment_manage']) ? 'active' : ''}}"
+                               role="button">
+                                <i class="ri-hand-coin-line"></i>
+                                <span>{{__('Partner Payments')}}</span>
                             </a>
                         </div>
                         <div class="col">

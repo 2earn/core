@@ -51,7 +51,7 @@ class InstructorRequestShow extends Component
         $instructorRequest = $this->instructorRequestService->getById($this->InstructorRequestId);
 
         if ($instructorRequest) {
-            $this->userService->update($instructorRequest->user_id, [
+            $this->userService->updateById($instructorRequest->user_id, [
                 'instructor' => BeInstructorRequestStatus::Validated2earn->value
             ]);
         }

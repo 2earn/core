@@ -83,9 +83,9 @@ class UserGuideCreateUpdate extends Component
                 'user_id' => Auth::id(),
                 'routes' => $this->routes,
             ]);
-            $this->reset(['title', 'description', 'file', 'routes']);
             createTranslaleModel($userGuide, 'title', $this->title);
             createTranslaleModel($userGuide, 'description', $this->description);
+            $this->reset(['title', 'description', 'file', 'routes']);
         }
         return redirect()->route('user_guides_index', app()->getLocale());
     }

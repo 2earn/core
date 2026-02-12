@@ -60,22 +60,52 @@ class ConfigurationHA extends Component
         $this->list_reponceHA = $action->list_reponce;
         $this->reponceHA = $action->reponce;
     }
-    public function saveHA($list)
+    public function saveHA($list = null)
     {
-        $lis = [];
-        $lists = "";
-        $this->list_reponceHA = $list;
-
-        foreach (json_decode($this->list_reponceHA) as $l) {
-            $lists = $lists . "," . $l->value;
-            $lis[] = $l->value;
+        // If list is provided as parameter, use it; otherwise use the component property
+        if ($list !== null) {
+            $this->list_reponceHA = $list;
         }
 
-        // TODO: Add actual update logic using ActionHistorysService
-        // $success = $this->actionHistorysService->update($this->idHA, ['list_reponce' => $lists]);
+        if (!$this->list_reponceHA) {
+            session()->flash('error', trans('No data to save'));
+            return;
+        }
 
-        return redirect()->route('configuration_ha', app()->getLocale())
-            ->with('success', trans('Setting param updated successfully'));
+        $lis = [];
+        $lists = "";
+
+        $decodedList = is_string($this->list_reponceHA)
+            ? json_decode($this->list_reponceHA)
+            : $this->list_reponceHA;
+
+        // Ensure $decodedList is iterable (array or object)
+        if ($decodedList && (is_array($decodedList) || is_object($decodedList))) {
+            foreach ($decodedList as $l) {
+                $value = is_object($l) && isset($l->value) ? $l->value : $l;
+                $lists = $lists . "," . $value;
+                $lis[] = $value;
+            }
+            // Remove leading comma
+            $lists = ltrim($lists, ',');
+        }
+
+        // Update using ActionHistorysService
+        if ($this->idHA) {
+            try {
+                $success = $this->actionHistorysService->update($this->idHA, ['list_reponce' => $lists]);
+
+                if ($success) {
+                    session()->flash('success', trans('Setting param updated successfully'));
+                } else {
+                    session()->flash('error', trans('Failed to update setting'));
+                }
+            } catch (\Exception $e) {
+                session()->flash('error', trans('Error updating setting: ') . $e->getMessage());
+            }
+        }
+
+        return redirect()->route('configuration_ha', ['locale' => app()->getLocale()]);
     }
 
     public function render()

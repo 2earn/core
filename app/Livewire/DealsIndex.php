@@ -126,6 +126,22 @@ class DealsIndex extends Component
         }
     }
 
+    public function resetFilters()
+    {
+        $this->reset([
+            'keyword',
+            'selectedStatuses',
+            'selectedTypes',
+            'selectedPlatforms',
+            'startDateFrom',
+            'startDateTo',
+            'endDateFrom',
+            'endDateTo',
+        ]);
+
+        $this->resetPage();
+    }
+
     public function render()
     {
         $choosenDeals = $this->dealService->getFilteredDeals(

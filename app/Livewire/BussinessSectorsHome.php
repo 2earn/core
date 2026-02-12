@@ -20,7 +20,7 @@ class BussinessSectorsHome extends Component
         $this->businessSectors = $this->businessSectorService->getBusinessSectors([
             'with' => ['logoImage', 'thumbnailsImage'],
             'order_by' => 'created_at',
-            'order_direction' => 'desc'
+            'order_direction' => 'asc'
         ])->take(4);
     }
 

@@ -8,6 +8,7 @@
   "item": [
     {
       "name": "List Items",
+      "id": "61cdc7f1-bc9c-408e-8e72-8f5e8e81396d",
       "request": {
         "method": "GET",
         "header": [
@@ -18,8 +19,14 @@
         ],
         "url": {
           "raw": "{{base_url}}/api/partner/items?user_id={{user_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "items"],
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "items"
+          ],
           "query": [
             {
               "key": "user_id",
@@ -33,6 +40,7 @@
     },
     {
       "name": "Get Item by ID",
+      "id": "b7682087-d5f1-43c3-8fb5-581924dfc397",
       "request": {
         "method": "GET",
         "header": [
@@ -43,8 +51,15 @@
         ],
         "url": {
           "raw": "{{base_url}}/api/partner/items/{{id}}?user_id={{user_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "items", "{{id}}"],
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "items",
+            "{{id}}"
+          ],
           "query": [
             {
               "key": "user_id",
@@ -58,6 +73,7 @@
     },
     {
       "name": "Create Item",
+      "id": "016c4aab-17ce-4fcd-8965-5c574bf2b182",
       "request": {
         "method": "POST",
         "header": [
@@ -72,8 +88,14 @@
         },
         "url": {
           "raw": "{{base_url}}/api/partner/items",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "items"]
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "items"
+          ]
         },
         "description": "Create a new item"
       },
@@ -81,6 +103,7 @@
     },
     {
       "name": "Update Item",
+      "id": "e7601370-83f2-494d-bba9-7cc6c7bee255",
       "request": {
         "method": "PUT",
         "header": [
@@ -95,8 +118,15 @@
         },
         "url": {
           "raw": "{{base_url}}/api/partner/items/{{id}}",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "items", "{{id}}"]
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "items",
+            "{{id}}"
+          ]
         },
         "description": "Update item details"
       },
@@ -104,6 +134,7 @@
     },
     {
       "name": "Remove Platform from Item",
+      "id": "5f8e5fe2-cd94-4aca-81c3-677a2f449358",
       "request": {
         "method": "DELETE",
         "header": [
@@ -113,17 +144,39 @@
           }
         ],
         "url": {
-          "raw": "{{base_url}}/api/partner/items/{{id}}/platform?user_id={{user_id}}&platform_id={{platform_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "items", "{{id}}", "platform"],
+          "raw": "{{base_url}}/api/partner/items/:id/platform?user_id=384&platform_id=1&updated_by=384",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "items",
+            ":id",
+            "platform"
+          ],
           "query": [
             {
               "key": "user_id",
-              "value": "{{user_id}}"
+              "value": "384",
+              "uuid": "e4416152-4d6c-419e-88fe-5781ac25362c"
             },
             {
               "key": "platform_id",
-              "value": "{{platform_id}}"
+              "value": "1",
+              "uuid": "d1ec5f59-c0c4-49d3-8256-0970de6b7dbb"
+            },
+            {
+              "key": "updated_by",
+              "value": "384",
+              "uuid": "0858b719-f01e-4064-a838-478a899eed39"
+            }
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "3",
+              "uuid": "5ad1d0cc-2ead-480c-bc5a-513f8f335980"
             }
           ]
         },
@@ -133,6 +186,7 @@
     },
     {
       "name": "List Items for Deal",
+      "id": "98bda1e3-5c86-4e88-9013-4bf71546842f",
       "request": {
         "method": "GET",
         "header": [
@@ -143,8 +197,16 @@
         ],
         "url": {
           "raw": "{{base_url}}/api/partner/items/deal/{{dealId}}?user_id={{user_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "items", "deal", "{{dealId}}"],
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "items",
+            "deal",
+            "{{dealId}}"
+          ],
           "query": [
             {
               "key": "user_id",
@@ -158,6 +220,7 @@
     },
     {
       "name": "Add Items to Deal (Bulk)",
+      "id": "831b7ed9-058f-4599-8712-8de97da3003e",
       "request": {
         "method": "POST",
         "header": [
@@ -172,8 +235,16 @@
         },
         "url": {
           "raw": "{{base_url}}/api/partner/items/deal/add-bulk",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "items", "deal", "add-bulk"]
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "items",
+            "deal",
+            "add-bulk"
+          ]
         },
         "description": "Add multiple items to a deal at once"
       },
@@ -181,6 +252,7 @@
     },
     {
       "name": "Remove Items from Deal (Bulk)",
+      "id": "7d1d5349-6f4a-414a-abe1-7a3b7080d725",
       "request": {
         "method": "POST",
         "header": [
@@ -195,8 +267,16 @@
         },
         "url": {
           "raw": "{{base_url}}/api/partner/items/deal/remove-bulk",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "items", "deal", "remove-bulk"]
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "items",
+            "deal",
+            "remove-bulk"
+          ]
         },
         "description": "Remove multiple items from a deal at once"
       },
@@ -204,4 +284,3 @@
     }
   ]
 }
-
