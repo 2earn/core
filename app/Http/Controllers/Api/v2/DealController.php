@@ -22,7 +22,20 @@ class DealController extends Controller
      */
     public function index(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        // Normalize boolean-like query values so Validator::boolean accepts them
+        $input = $request->all();
+
+        if (array_key_exists('is_super_admin', $input) && is_string($input['is_super_admin'])) {
+            $val = strtolower(trim($input['is_super_admin']));
+            if ($val === 'true') {
+                $input['is_super_admin'] = 1;
+            } elseif ($val === 'false') {
+                $input['is_super_admin'] = 0;
+            }
+            // leave numeric '1'/'0' or other values untouched
+        }
+
+        $validator = Validator::make($input, [
             'is_super_admin' => 'required|boolean',
             'user_id' => 'nullable|integer|exists:users,id',
             'keyword' => 'nullable|string',
@@ -39,8 +52,13 @@ class DealController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
+        // Use the normalized value if present, otherwise fallback to Request parsing
+        $isSuperAdmin = array_key_exists('is_super_admin', $input)
+            ? (bool) $input['is_super_admin']
+            : $request->boolean('is_super_admin');
+
         $deals = $this->dealService->getFilteredDeals(
-            $request->boolean('is_super_admin'),
+            $isSuperAdmin,
             $request->input('user_id'),
             $request->input('keyword'),
             $request->input('statuses', []),
