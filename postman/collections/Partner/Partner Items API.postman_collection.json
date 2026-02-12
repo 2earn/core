@@ -91,7 +91,12 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"user_id\": {{user_id}},\n  \"name\": \"Item Name\",\n  \"description\": \"Item description\",\n  \"price\": 50.00,\n  \"platform_id\": {{platform_id}}\n}"
+          "raw": "{\n  \"name\": \"New Product 2026\",\n  \"ref\": \"SKU-2026-001\",\n  \"price\": 50.00,\n  \"stock\": 100,\n  \"description\": \"High quality product description\",\n  \"photo_link\": \"https://example.com/photo.jpg\",\n  \"discount\": 10,\n  \"discount_2earn\": 5,\n  \"platform_id\": {{platform_id}},\n  \"deal_id\": {{deal_id}},\n  \"created_by\": {{user_id}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
         },
         "url": {
           "raw": "{{base_url}}/api/partner/items",
@@ -104,7 +109,7 @@
             "items"
           ]
         },
-        "description": "Create a new item"
+        "description": "Create a new item. All parameters are sent in the request body as JSON."
       },
       "response": []
     },
@@ -121,10 +126,15 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"user_id\": {{user_id}},\n  \"name\": \"Updated Item Name\",\n  \"description\": \"Updated description\",\n  \"price\": 55.00\n}"
+          "raw": "{\n  \"name\": \"Updated Item Name\",\n  \"description\": \"Updated description\",\n  \"price\": 55.00,\n  \"stock\": 150,\n  \"discount\": 15,\n  \"discount_2earn\": 7.5,\n  \"updated_by\": {{user_id}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
         },
         "url": {
-          "raw": "{{base_url}}/api/partner/items/{{id}}",
+          "raw": "{{base_url}}/api/partner/items/:id",
           "host": [
             "{{base_url}}"
           ],
@@ -132,10 +142,17 @@
             "api",
             "partner",
             "items",
-            "{{id}}"
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "32",
+              "uuid": "9ae8bbdc-84c5-4a1a-9b79-7aaae5e3e1bf"
+            }
           ]
         },
-        "description": "Update item details"
+        "description": "Update item details. All parameters are sent in the request body as JSON."
       },
       "response": []
     },
@@ -150,8 +167,17 @@
             "value": "application/json"
           }
         ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"updated_by\": {{user_id}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
         "url": {
-          "raw": "{{base_url}}/api/partner/items/:id/platform?user_id=384&platform_id=1&updated_by=384",
+          "raw": "{{base_url}}/api/partner/items/{{item_id}}/platform",
           "host": [
             "{{base_url}}"
           ],
@@ -159,34 +185,11 @@
             "api",
             "partner",
             "items",
-            ":id",
+            "{{item_id}}",
             "platform"
-          ],
-          "query": [
-            {
-              "key": "user_id",
-              "value": "384",
-              "uuid": "e4416152-4d6c-419e-88fe-5781ac25362c"
-            },
-            {
-              "key": "platform_id",
-              "value": "1",
-              "uuid": "d1ec5f59-c0c4-49d3-8256-0970de6b7dbb"
-            },
-            {
-              "key": "updated_by",
-              "value": "384",
-              "uuid": "0858b719-f01e-4064-a838-478a899eed39"
-            }
-          ],
-          "variable": [
-            {
-              "key": "id",
-              "value": "3"
-            }
           ]
         },
-        "description": "Remove platform association from item"
+        "description": "Remove platform association from item. All parameters in request body."
       },
       "response": []
     },
@@ -237,7 +240,12 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"user_id\": {{user_id}},\n  \"deal_id\": {{deal_id}},\n  \"item_ids\": [1, 2, 3]\n}"
+          "raw": "{\n  \"deal_id\": {{deal_id}},\n  \"product_ids\": [1, 2, 3]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
         },
         "url": {
           "raw": "{{base_url}}/api/partner/items/deal/add-bulk",
@@ -252,7 +260,7 @@
             "add-bulk"
           ]
         },
-        "description": "Add multiple items to a deal at once"
+        "description": "Add multiple items to a deal at once. All parameters in request body."
       },
       "response": []
     },
@@ -269,7 +277,12 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"user_id\": {{user_id}},\n  \"deal_id\": {{deal_id}},\n  \"item_ids\": [1, 2, 3]\n}"
+          "raw": "{\n  \"deal_id\": {{deal_id}},\n  \"product_ids\": [1, 2, 3]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
         },
         "url": {
           "raw": "{{base_url}}/api/partner/items/deal/remove-bulk",
@@ -284,7 +297,7 @@
             "remove-bulk"
           ]
         },
-        "description": "Remove multiple items from a deal at once"
+        "description": "Remove multiple items from a deal at once. All parameters in request body."
       },
       "response": []
     }
