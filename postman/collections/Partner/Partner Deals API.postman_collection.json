@@ -86,7 +86,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"name\": \"New Deal 2026\",\n  \"description\": \"This is a test deal for commission\",\n  \"initial_commission\": 5.0,\n  \"final_commission\": 10.0,\n  \"type\": \"percentage\",\n  \"status\": \"pending\",\n  \"start_date\": \"2026-02-12\",\n  \"end_date\": \"2026-12-31\",\n  \"target_turnover\": 10000,\n  \"second_target_turnover\": 20000,\n  \"current_turnover\": 0,\n  \"discount\": 5,\n  \"is_turnover\": true,\n  \"notes\": \"Deal created via API\"\n}",
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"created_by\": {{user_id}},\n  \"platform_id\": {{platform_id}},\n  \"name\": \"New Deal 2026\",\n  \"description\": \"This is a test deal for commission\",\n  \"initial_commission\": 5.0,\n  \"final_commission\": 10.0,\n  \"type\": \"percentage\",\n  \"status\": \"pending\",\n  \"start_date\": \"2026-02-12\",\n  \"end_date\": \"2026-12-31\",\n  \"target_turnover\": 10000,\n  \"second_target_turnover\": 20000,\n  \"current_turnover\": 0,\n  \"discount\": 5,\n  \"is_turnover\": true,\n  \"notes\": \"Deal created via API\"\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -94,7 +94,7 @@
           }
         },
         "url": {
-          "raw": "{{base_url}}/api/partner/deals/deals?user_id={{user_id}}&created_by={{user_id}}&platform_id={{platform_id}}",
+          "raw": "{{base_url}}/api/partner/deals/deals",
           "host": [
             "{{base_url}}"
           ],
@@ -103,26 +103,9 @@
             "partner",
             "deals",
             "deals"
-          ],
-          "query": [
-            {
-              "key": "user_id",
-              "value": "{{user_id}}",
-              "description": "User ID of the partner creating the deal"
-            },
-            {
-              "key": "created_by",
-              "value": "{{user_id}}",
-              "description": "User ID of the creator"
-            },
-            {
-              "key": "platform_id",
-              "value": "{{platform_id}}",
-              "description": "Platform ID for the deal"
-            }
           ]
         },
-        "description": "Create a new deal. User credentials and platform info are passed as query parameters, while deal details are in the request body."
+        "description": "Create a new deal. All parameters are sent in the request body as JSON."
       },
       "response": []
     },
@@ -139,10 +122,10 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"name\": \"Updated Deal Title\",\n  \"description\": \"Updated description\",\n  \"initial_commission\": 7.5,\n  \"final_commission\": 12.5,\n  \"discount\": 10\n}"
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"requested_by\": {{user_id}},\n  \"name\": \"Updated Deal Title\",\n  \"description\": \"Updated description\",\n  \"initial_commission\": 7.5,\n  \"final_commission\": 12.5,\n  \"discount\": 10\n}"
         },
         "url": {
-          "raw": "{{base_url}}/api/partner/deals/deals/{{deal_id}}?user_id={{user_id}}",
+          "raw": "{{base_url}}/api/partner/deals/deals/{{deal_id}}",
           "host": [
             "{{base_url}}"
           ],
@@ -152,16 +135,9 @@
             "deals",
             "deals",
             "{{deal_id}}"
-          ],
-          "query": [
-            {
-              "key": "user_id",
-              "value": "{{user_id}}",
-              "description": "User ID of the partner"
-            }
           ]
         },
-        "description": "Update deal details"
+        "description": "Update deal details. All parameters are sent in the request body as JSON."
       },
       "response": []
     },
@@ -178,10 +154,10 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"status\": \"active\"\n}"
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"status\": 1\n}"
         },
         "url": {
-          "raw": "{{base_url}}/api/partner/deals/{{deal_id}}/status?user_id={{user_id}}",
+          "raw": "{{base_url}}/api/partner/deals/{{deal_id}}/status",
           "host": [
             "{{base_url}}"
           ],
@@ -191,16 +167,9 @@
             "deals",
             "{{deal_id}}",
             "status"
-          ],
-          "query": [
-            {
-              "key": "user_id",
-              "value": "{{user_id}}",
-              "description": "User ID of the partner"
-            }
           ]
         },
-        "description": "Change deal status (active, inactive, etc.)"
+        "description": "Change deal status (0=inactive, 1=active, etc.). All parameters in request body."
       },
       "response": []
     },
@@ -217,10 +186,10 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"notes\": \"Please validate this deal\"\n}"
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"deal_id\": {{deal_id}},\n  \"notes\": \"Please validate this deal\"\n}"
         },
         "url": {
-          "raw": "{{base_url}}/api/partner/deals/validate?user_id={{user_id}}&deal_id={{deal_id}}",
+          "raw": "{{base_url}}/api/partner/deals/validate",
           "host": [
             "{{base_url}}"
           ],
@@ -229,21 +198,9 @@
             "partner",
             "deals",
             "validate"
-          ],
-          "query": [
-            {
-              "key": "user_id",
-              "value": "{{user_id}}",
-              "description": "User ID of the partner"
-            },
-            {
-              "key": "deal_id",
-              "value": "{{deal_id}}",
-              "description": "Deal ID to validate"
-            }
           ]
         },
-        "description": "Submit deal for validation"
+        "description": "Submit deal for validation. All parameters in request body."
       },
       "response": []
     },
@@ -260,10 +217,10 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{}"
+          "raw": "{\n  \"validation_request_id\": {{validation_request_id}}\n}"
         },
         "url": {
-          "raw": "{{base_url}}/api/partner/deals/validation/cancel?user_id={{user_id}}&deal_id={{deal_id}}",
+          "raw": "{{base_url}}/api/partner/deals/validation/cancel",
           "host": [
             "{{base_url}}"
           ],
@@ -273,21 +230,9 @@
             "deals",
             "validation",
             "cancel"
-          ],
-          "query": [
-            {
-              "key": "user_id",
-              "value": "{{user_id}}",
-              "description": "User ID of the partner"
-            },
-            {
-              "key": "deal_id",
-              "value": "{{deal_id}}",
-              "description": "Deal ID"
-            }
           ]
         },
-        "description": "Cancel deal validation request"
+        "description": "Cancel deal validation request. All parameters in request body."
       },
       "response": []
     },
@@ -304,10 +249,10 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{}"
+          "raw": "{\n  \"change_request_id\": {{change_request_id}}\n}"
         },
         "url": {
-          "raw": "{{base_url}}/api/partner/deals/change/cancel?user_id={{user_id}}&deal_id={{deal_id}}",
+          "raw": "{{base_url}}/api/partner/deals/change/cancel",
           "host": [
             "{{base_url}}"
           ],
@@ -317,21 +262,9 @@
             "deals",
             "change",
             "cancel"
-          ],
-          "query": [
-            {
-              "key": "user_id",
-              "value": "{{user_id}}",
-              "description": "User ID of the partner"
-            },
-            {
-              "key": "deal_id",
-              "value": "{{deal_id}}",
-              "description": "Deal ID"
-            }
           ]
         },
-        "description": "Cancel deal change request"
+        "description": "Cancel deal change request. All parameters in request body."
       },
       "response": []
     },

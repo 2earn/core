@@ -16,16 +16,6 @@ class StoreDealRequest extends FormRequest
         return true;
     }
 
-    /**
-     * Prepare the data for validation by merging query parameters.
-     *
-     * @return void
-     */
-    protected function prepareForValidation()
-    {
-        // Merge query parameters with request data
-        $this->merge($this->query());
-    }
 
     /**
      * Get the validation rules that apply to the request.

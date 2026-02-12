@@ -18,7 +18,7 @@
           }
         ],
         "url": {
-          "raw": "{{base_url}}/api/partner/items?user_id={{user_id}}",
+          "raw": "{{base_url}}/api/partner/items?user_id={{user_id}}&platform_id=3",
           "host": [
             "{{base_url}}"
           ],
@@ -30,7 +30,14 @@
           "query": [
             {
               "key": "user_id",
-              "value": "{{user_id}}"
+              "value": "{{user_id}}",
+              "uuid": "8adfb342-c012-4da8-bdfc-76e7d787a980"
+            },
+            {
+              "key": "platform_id",
+              "value": "3",
+              "type": "text",
+              "uuid": "768c8947-ca8e-46c0-8ba6-8e1b8cf14091"
             }
           ]
         },
@@ -175,8 +182,7 @@
           "variable": [
             {
               "key": "id",
-              "value": "3",
-              "uuid": "5ad1d0cc-2ead-480c-bc5a-513f8f335980"
+              "value": "3"
             }
           ]
         },

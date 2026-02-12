@@ -77,10 +77,8 @@ class DealPartnerController extends Controller
     {
         $validatedData = $request->validated();
 
-
-        // Get user_id from query params if not in request body
-        $userId = $request->input('user_id') ?? $request->query('user_id');
-        $createdBy = $request->input('created_by') ?? $request->query('created_by');
+        $userId = $request->input('user_id');
+        $createdBy = $request->input('created_by');
 
         $validatedData['created_by_id'] = $userId;
         $validatedData['validated'] = false;
