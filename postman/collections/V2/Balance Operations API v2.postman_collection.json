@@ -141,7 +141,7 @@
           }
         ],
         "url": {
-          "raw": "{{base_url}}/api/v2/balance/operations/category/{{categoryId}}/name",
+          "raw": "{{base_url}}/api/v2/balance/operations/category/:id/name",
           "host": [
             "{{base_url}}"
           ],
@@ -151,8 +151,15 @@
             "balance",
             "operations",
             "category",
-            "{{categoryId}}",
+            ":id",
             "name"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "",
+              "uuid": "622d3a70-1925-4cb0-a105-664c9423e30e"
+            }
           ]
         },
         "description": "Get category name by ID"
@@ -284,8 +291,7 @@
           "variable": [
             {
               "key": "id",
-              "value": "",
-              "uuid": "53bbe93a-9a7f-43d7-8336-2098d14a33dd"
+              "value": ""
             }
           ]
         },

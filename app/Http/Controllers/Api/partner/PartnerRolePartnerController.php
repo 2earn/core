@@ -28,10 +28,16 @@ class PartnerRolePartnerController extends Controller
 
     /**
      * Get all partner role requests
+     *
+     * NOTE: This endpoint supports filters via query string (legacy) and JSON body.
+     * You can send e.g. {"partner_id": 1, "status": "pending", "page": 1, "limit": 20}
      */
     public function index(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
+        // Merge JSON body with query params so validation supports both
+        $input = array_merge($request->query->all(), $request->json()->all());
+
+        $validator = Validator::make($input, [
             'partner_id' => 'required|integer|exists:partners,id',
             'status' => 'nullable|in:all,pending,approved,rejected,cancelled',
             'user_id' => 'nullable|integer|exists:users,id',
@@ -49,11 +55,12 @@ class PartnerRolePartnerController extends Controller
         }
 
         try {
-            $partnerId = $request->input('partner_id');
-            $status = $request->input('status', 'all');
-            $userId = $request->input('user_id');
-            $page = $request->input('page', 1);
-            $limit = $request->input('limit', 15);
+            // Prefer body values over query string when provided
+            $partnerId = $input['partner_id'];
+            $status = $input['status'] ?? 'all';
+            $userId = $input['user_id'] ?? null;
+            $page = $input['page'] ?? 1;
+            $limit = $input['limit'] ?? 15;
 
             $query = PartnerRoleRequest::with(['partner', 'user', 'requestedBy', 'reviewedBy', 'cancelledBy'])
                 ->where('partner_id', $partnerId);

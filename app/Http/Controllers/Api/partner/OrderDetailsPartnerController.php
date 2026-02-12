@@ -13,15 +13,48 @@ class OrderDetailsPartnerController extends Controller
 {
     private const LOG_PREFIX = '[OrderDetailsPartnerController] ';
 
+    public function __construct()
+    {
+        $this->middleware('check.url');
+    }
+
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'order_id' => 'required|exists:orders,id',
-            'item_id' => 'required|exists:items,id',
+        // Debug logging to see what's being received
+        $allData = $request->all();
+        Log::info(self::LOG_PREFIX . 'Store request received', [
+            'all' => $allData,
+            'input' => $request->input(),
+            'has_json' => $request->isJson(),
+            'content_type' => $request->header('Content-Type'),
+            'method' => $request->method()
+        ]);
+
+        // Check for unsubstituted Postman variables (literal {{...}} strings)
+        $unsubstitutedVars = [];
+        foreach ($allData as $key => $value) {
+            if (is_string($value) && preg_match('/^\{\{.*\}\}$/', $value)) {
+                $unsubstitutedVars[$key] = $value;
+            }
+        }
+
+        if (!empty($unsubstitutedVars)) {
+            Log::warning(self::LOG_PREFIX . 'Postman variables not substituted', ['variables' => $unsubstitutedVars]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Postman variables are not properly substituted. Please ensure all environment variables are set.',
+                'warning' => 'The following fields contain unsubstituted Postman variables: ' . implode(', ', array_keys($unsubstitutedVars)),
+                'unsubstituted_vars' => $unsubstitutedVars
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $validator = Validator::make($allData, [
+            'order_id' => 'required|numeric|exists:orders,id',
+            'item_id' => 'required|numeric|exists:items,id',
             'qty' => 'required|numeric|min:1',
             'unit_price' => 'required|numeric|min:0',
             'shipping' => 'nullable|numeric|min:0',
-            'created_by' => 'required|exists:users,id',
+            'created_by' => 'required|numeric|exists:users,id',
         ]);
 
         if ($validator->fails()) {
@@ -58,12 +91,31 @@ class OrderDetailsPartnerController extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
 
-        $validator = Validator::make($request->all(), [
+        $allData = $request->all();
+
+        // Check for unsubstituted Postman variables
+        $unsubstitutedVars = [];
+        foreach ($allData as $key => $value) {
+            if (is_string($value) && preg_match('/^\{\{.*\}\}$/', $value)) {
+                $unsubstitutedVars[$key] = $value;
+            }
+        }
+
+        if (!empty($unsubstitutedVars)) {
+            Log::warning(self::LOG_PREFIX . 'Postman variables not substituted', ['variables' => $unsubstitutedVars]);
+            return response()->json([
+                'status' => 'Failed',
+                'message' => 'Postman variables are not properly substituted.',
+                'unsubstituted_vars' => $unsubstitutedVars
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $validator = Validator::make($allData, [
             'qty' => 'sometimes|numeric|min:1',
             'unit_price' => 'sometimes|numeric|min:0',
             'shipping' => 'sometimes|numeric|min:0',
             'note' => 'nullable|string',
-            'updated_by' => 'required|exists:users,id',
+            'updated_by' => 'required|numeric|exists:users,id',
         ]);
 
         if ($validator->fails()) {
@@ -75,7 +127,7 @@ class OrderDetailsPartnerController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $data = $request->all();
+        $data = $allData;
 
         if (isset($data['qty']) || isset($data['unit_price']) || isset($data['shipping'])) {
             $qty = $data['qty'] ?? $orderDetail->qty;

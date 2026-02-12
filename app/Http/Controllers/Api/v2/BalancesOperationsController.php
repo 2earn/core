@@ -171,10 +171,21 @@ class BalancesOperationsController extends Controller
     /**
      * Get operation category name by ID
      */
-    public function getCategoryName(int $categoryId): JsonResponse
+    public function getCategoryName($categoryId): JsonResponse
     {
-        $categoryName = $this->balanceOperationService->getOperationCategoryName($categoryId);
+        // Accept string route parameters and convert safely to int
+        if (!is_numeric($categoryId)) {
+            return response()->json(['category_name' => '-']);
+        }
 
-        return response()->json(['category_name' => $categoryName]);
+        $id = (int) $categoryId;
+
+        if ($id <= 0) {
+            return response()->json(['category_name' => '-']);
+        }
+
+        $categoryName = $this->balanceOperationService->getOperationCategoryName($id);
+
+        return response()->json(['category_name' => $categoryName ?? '-']);
     }
 }

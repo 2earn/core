@@ -19,6 +19,8 @@ class PlatformTypeChangeRequestServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        // Ensure clean state for platform type change requests to avoid interference
+        PlatformTypeChangeRequest::query()->delete();
         $this->platformTypeChangeRequestService = new PlatformTypeChangeRequestService();
     }
 

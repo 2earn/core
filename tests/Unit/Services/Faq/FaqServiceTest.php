@@ -84,6 +84,9 @@ class FaqServiceTest extends TestCase
     public function test_get_paginated_returns_paginated_results()
     {
         // Arrange
+        // Clear existing data to ensure test isolation
+        Faq::query()->delete();
+
         Faq::factory()->count(20)->create();
 
         // Act
@@ -137,6 +140,9 @@ class FaqServiceTest extends TestCase
     public function test_get_all_returns_all_faqs()
     {
         // Arrange
+        // Clear existing data to ensure test isolation
+        Faq::query()->delete();
+
         Faq::factory()->count(5)->create();
 
         // Act

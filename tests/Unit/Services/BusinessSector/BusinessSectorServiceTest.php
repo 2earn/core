@@ -40,6 +40,9 @@ class BusinessSectorServiceTest extends TestCase
     public function test_get_all_ordered_by_name_orders_correctly()
     {
         // Arrange
+        // Clear existing data to ensure test isolation
+        BusinessSector::query()->delete();
+
         BusinessSector::factory()->create(['name' => 'Zebra Sector']);
         BusinessSector::factory()->create(['name' => 'Alpha Sector']);
         BusinessSector::factory()->create(['name' => 'Beta Sector']);
@@ -57,6 +60,9 @@ class BusinessSectorServiceTest extends TestCase
     public function test_get_all_ordered_by_name_desc()
     {
         // Arrange
+        // Clear existing data to ensure test isolation
+        BusinessSector::query()->delete();
+
         BusinessSector::factory()->create(['name' => 'Zebra Sector']);
         BusinessSector::factory()->create(['name' => 'Alpha Sector']);
 

@@ -77,7 +77,10 @@ class DealPartnerController extends Controller
     {
         $validatedData = $request->validated();
 
-        $validatedData['created_by_id'] = $request->input('user_id');
+        $userId = $request->input('user_id');
+        $createdBy = $request->input('created_by');
+
+        $validatedData['created_by_id'] = $userId;
         $validatedData['validated'] = false;
         $validatedData['current_turnover'] = $request->input('current_turnover', 0);
 
@@ -87,7 +90,7 @@ class DealPartnerController extends Controller
             $deal = $this->dealService->create($validatedData);
             $validationRequest = $this->dealService->createValidationRequest(
                 $deal->id,
-                $request->input('created_by'),
+                $createdBy,
                 $request->input('notes', 'Deal validation request created automatically')
             );
 
@@ -95,7 +98,7 @@ class DealPartnerController extends Controller
 
             Log::info(self::LOG_PREFIX . 'Deal and validation request created successfully', [
                 'deal_id' => $deal->id,
-                'user_id' => $request->input('user_id')
+                'user_id' => $userId
             ]);
 
             return response()->json([
@@ -108,7 +111,7 @@ class DealPartnerController extends Controller
             DB::rollBack();
             Log::error(self::LOG_PREFIX . 'Failed to create deal and validation request', [
                 'error' => $e->getMessage(),
-                'user_id' => $request->input('user_id')
+                'user_id' => $userId
             ]);
 
             return response()->json([

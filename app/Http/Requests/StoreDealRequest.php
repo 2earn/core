@@ -16,6 +16,7 @@ class StoreDealRequest extends FormRequest
         return true;
     }
 
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,6 +25,7 @@ class StoreDealRequest extends FormRequest
     public function rules()
     {
         return [
+            'user_id' => 'required|exists:users,id',
             'name' => 'required|string|max:255',
             'initial_commission' => 'required|numeric|min:0|max:100',
             'final_commission' => 'required|numeric|min:0|max:100|gte:initial_commission',

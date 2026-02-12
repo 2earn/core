@@ -85,8 +85,7 @@ class CashBalanceController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $cashBalances = CashBalances::where('beneficiary_id_auto', $userId)->latest();
-
+        $cashBalances = CashBalances::where('beneficiary_id_auto', $userId)->latest()->limit(5)->get();
         return response()->json([
             'success' => true,
             'message' => 'Cash balance retrieved successfully',
