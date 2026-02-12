@@ -8,6 +8,7 @@
   "item": [
     {
       "name": "List Deals",
+      "id": "09380aef-8e39-47a4-a87f-eca8f4e8b9b8",
       "request": {
         "method": "GET",
         "header": [
@@ -18,8 +19,15 @@
         ],
         "url": {
           "raw": "{{base_url}}/api/partner/deals/deals?user_id={{user_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "deals", "deals"],
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "deals",
+            "deals"
+          ],
           "query": [
             {
               "key": "user_id",
@@ -33,6 +41,7 @@
     },
     {
       "name": "Get Deal by ID",
+      "id": "ea15d050-15d9-4d94-8aea-ae9633cd3d94",
       "request": {
         "method": "GET",
         "header": [
@@ -43,8 +52,16 @@
         ],
         "url": {
           "raw": "{{base_url}}/api/partner/deals/deals/{{deal_id}}?user_id={{user_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "deals", "deals", "{{deal_id}}"],
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "deals",
+            "deals",
+            "{{deal_id}}"
+          ],
           "query": [
             {
               "key": "user_id",
@@ -58,6 +75,7 @@
     },
     {
       "name": "Create Deal",
+      "id": "cfc46944-088f-4fe4-b816-36e6ed2d7a7e",
       "request": {
         "method": "POST",
         "header": [
@@ -68,12 +86,71 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"user_id\": {{user_id}},\n  \"platform_id\": {{platform_id}},\n  \"title\": \"Deal Title\",\n  \"description\": \"Deal description\",\n  \"discount_percentage\": 20,\n  \"original_price\": 100.00,\n  \"discounted_price\": 80.00\n}"
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"platform_id\": {{platform_id}},\n  \"title\": \"Deal Title\",\n  \"description\": \"Deal description\",\n  \"discount_percentage\": 20,\n  \"original_price\": 100.00,\n  \"discounted_price\": 80.00\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
         },
         "url": {
-          "raw": "{{base_url}}/api/partner/deals/deals",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "deals", "deals"]
+          "raw": "{{base_url}}/api/partner/deals/deals?{=&\"user_id\"= {{user_id}},&\"platform_id\"= {{platform_id}},&\"title\"= \"Deal Title\",&\"description\"= \"Deal description\",&\"discount_percentage\"= 20,&\"original_price\"= 100.00,&\"discounted_price\"= 80.00&}=",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "deals",
+            "deals"
+          ],
+          "query": [
+            {
+              "key": "{",
+              "value": "",
+              "type": "text"
+            },
+            {
+              "key": "\"user_id\"",
+              "value": " {{user_id}},",
+              "type": "text"
+            },
+            {
+              "key": "\"platform_id\"",
+              "value": " {{platform_id}},",
+              "type": "text"
+            },
+            {
+              "key": "\"title\"",
+              "value": " \"Deal Title\",",
+              "type": "text"
+            },
+            {
+              "key": "\"description\"",
+              "value": " \"Deal description\",",
+              "type": "text"
+            },
+            {
+              "key": "\"discount_percentage\"",
+              "value": " 20,",
+              "type": "text"
+            },
+            {
+              "key": "\"original_price\"",
+              "value": " 100.00,",
+              "type": "text"
+            },
+            {
+              "key": "\"discounted_price\"",
+              "value": " 80.00",
+              "type": "text"
+            },
+            {
+              "key": "}",
+              "value": "",
+              "type": "text"
+            }
+          ]
         },
         "description": "Create a new deal"
       },
@@ -81,6 +158,7 @@
     },
     {
       "name": "Update Deal",
+      "id": "f87d0956-aae9-4201-97e1-074cca740b16",
       "request": {
         "method": "PUT",
         "header": [
@@ -95,8 +173,16 @@
         },
         "url": {
           "raw": "{{base_url}}/api/partner/deals/deals/{{deal_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "deals", "deals", "{{deal_id}}"]
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "deals",
+            "deals",
+            "{{deal_id}}"
+          ]
         },
         "description": "Update deal details"
       },
@@ -104,6 +190,7 @@
     },
     {
       "name": "Change Deal Status",
+      "id": "795ec70e-3311-4b57-a5a5-ad864fee3433",
       "request": {
         "method": "PATCH",
         "header": [
@@ -118,8 +205,16 @@
         },
         "url": {
           "raw": "{{base_url}}/api/partner/deals/{{deal_id}}/status",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "deals", "{{deal_id}}", "status"]
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "deals",
+            "{{deal_id}}",
+            "status"
+          ]
         },
         "description": "Change deal status (active, inactive, etc.)"
       },
@@ -127,6 +222,7 @@
     },
     {
       "name": "Validate Deal Request",
+      "id": "c6fc5113-da48-481e-91db-28ce0ae62888",
       "request": {
         "method": "POST",
         "header": [
@@ -141,8 +237,15 @@
         },
         "url": {
           "raw": "{{base_url}}/api/partner/deals/validate",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "deals", "validate"]
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "deals",
+            "validate"
+          ]
         },
         "description": "Submit deal for validation"
       },
@@ -150,6 +253,7 @@
     },
     {
       "name": "Cancel Validation Request",
+      "id": "3f876d39-a1c3-4bd1-abf1-09860c9180b7",
       "request": {
         "method": "POST",
         "header": [
@@ -164,8 +268,16 @@
         },
         "url": {
           "raw": "{{base_url}}/api/partner/deals/validation/cancel",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "deals", "validation", "cancel"]
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "deals",
+            "validation",
+            "cancel"
+          ]
         },
         "description": "Cancel deal validation request"
       },
@@ -173,6 +285,7 @@
     },
     {
       "name": "Cancel Change Request",
+      "id": "82620499-3a37-4842-936b-b170be5199a1",
       "request": {
         "method": "POST",
         "header": [
@@ -187,8 +300,16 @@
         },
         "url": {
           "raw": "{{base_url}}/api/partner/deals/change/cancel",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "deals", "change", "cancel"]
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "deals",
+            "change",
+            "cancel"
+          ]
         },
         "description": "Cancel deal change request"
       },
@@ -196,6 +317,7 @@
     },
     {
       "name": "Get Dashboard Indicators",
+      "id": "a1e7b8be-cebd-4ab2-b7e9-3389d828cf84",
       "request": {
         "method": "GET",
         "header": [
@@ -206,8 +328,16 @@
         ],
         "url": {
           "raw": "{{base_url}}/api/partner/deals/dashboard/indicators?user_id={{user_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "deals", "dashboard", "indicators"],
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "deals",
+            "dashboard",
+            "indicators"
+          ],
           "query": [
             {
               "key": "user_id",
@@ -221,6 +351,7 @@
     },
     {
       "name": "Get Performance Chart",
+      "id": "496addd6-ef21-45a6-9bcf-fc24d1a1ebad",
       "request": {
         "method": "GET",
         "header": [
@@ -231,8 +362,16 @@
         ],
         "url": {
           "raw": "{{base_url}}/api/partner/deals/performance/chart?user_id={{user_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "deals", "performance", "chart"],
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "deals",
+            "performance",
+            "chart"
+          ],
           "query": [
             {
               "key": "user_id",
@@ -246,6 +385,7 @@
     },
     {
       "name": "Product Changes - List",
+      "id": "e5717c88-04d3-4bc2-ac88-d1372af3c422",
       "request": {
         "method": "GET",
         "header": [
@@ -256,8 +396,15 @@
         ],
         "url": {
           "raw": "{{base_url}}/api/partner/deals/product-changes?user_id={{user_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "deals", "product-changes"],
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "deals",
+            "product-changes"
+          ],
           "query": [
             {
               "key": "user_id",
@@ -271,6 +418,7 @@
     },
     {
       "name": "Product Changes - Statistics",
+      "id": "edf60740-56ee-494c-aff8-0d69da1297f8",
       "request": {
         "method": "GET",
         "header": [
@@ -281,8 +429,16 @@
         ],
         "url": {
           "raw": "{{base_url}}/api/partner/deals/product-changes/statistics?user_id={{user_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "deals", "product-changes", "statistics"],
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "deals",
+            "product-changes",
+            "statistics"
+          ],
           "query": [
             {
               "key": "user_id",
@@ -296,6 +452,7 @@
     },
     {
       "name": "Product Changes - Get by ID",
+      "id": "8a99fbfc-8941-44e5-9be1-91831cdeaf7a",
       "request": {
         "method": "GET",
         "header": [
@@ -306,8 +463,16 @@
         ],
         "url": {
           "raw": "{{base_url}}/api/partner/deals/product-changes/{{id}}?user_id={{user_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "deals", "product-changes", "{{id}}"],
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "deals",
+            "product-changes",
+            "{{id}}"
+          ],
           "query": [
             {
               "key": "user_id",
@@ -321,4 +486,3 @@
     }
   ]
 }
-

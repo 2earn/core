@@ -8,6 +8,7 @@
   "item": [
     {
       "name": "Get Balances",
+      "id": "b7d7fee0-0bf5-4205-9d90-c3a434b507a2",
       "request": {
         "method": "GET",
         "header": [
@@ -18,13 +19,20 @@
         ],
         "url": {
           "raw": "{{base_url}}/api/mobile/balances?user_id={{user_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["api", "mobile", "balances"],
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "mobile",
+            "balances"
+          ],
           "query": [
             {
               "key": "user_id",
               "value": "{{user_id}}",
-              "description": "User ID (required)"
+              "description": "User ID (required)",
+              "uuid": "cf877f73-35b5-4730-8ba4-d1f33f541f74"
             }
           ]
         },
@@ -34,6 +42,7 @@
     },
     {
       "name": "Get Cash Balance",
+      "id": "fe21999f-8ff2-4909-a3f4-ee4a8877b7ca",
       "request": {
         "method": "GET",
         "header": [
@@ -44,8 +53,14 @@
         ],
         "url": {
           "raw": "{{base_url}}/api/mobile/cash-balance?user_id={{user_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["api", "mobile", "cash-balance"],
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "mobile",
+            "cash-balance"
+          ],
           "query": [
             {
               "key": "user_id",
@@ -54,33 +69,9 @@
             }
           ]
         },
-        "description": "Get user's cash balance. Requires check.url middleware."
-      },
-      "response": []
-    },
-    {
-      "name": "Create Cash Balance",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"user_id\": {{user_id}},\n  \"amount\": 100.00,\n  \"description\": \"Cash balance addition\"\n}"
-        },
-        "url": {
-          "raw": "{{base_url}}/api/mobile/cash-balance",
-          "host": ["{{base_url}}"],
-          "path": ["api", "mobile", "cash-balance"]
-        },
-        "description": "Add cash balance for a user. Requires check.url middleware."
+        "description": "Get user's cash balance , limit latest 5. Requires check.url middleware."
       },
       "response": []
     }
   ]
 }
-
