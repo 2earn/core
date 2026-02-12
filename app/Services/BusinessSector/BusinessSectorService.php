@@ -48,11 +48,7 @@ class BusinessSectorService
     public function getBusinessSectors(array $params = [])
     {
         try {
-            $query = BusinessSector::query();
-
-            if (isset($params['with']) && is_array($params['with'])) {
-                $query->with($params['with']);
-            }
+            $query = BusinessSector::with(['logoImage', 'thumbnailsImage', 'thumbnailsHomeImage']);
 
             if (isset($params['search']) && !empty($params['search'])) {
                 $search = $params['search'];
@@ -71,7 +67,6 @@ class BusinessSectorService
                 $page = $params['page'] ?? 1;
                 return $query->paginate($params['PAGE_SIZE'], ['*'], 'page', $page);
             }
-
             return $query->get();
         } catch (\Exception $e) {
             Log::error('Error fetching business sectors: ' . $e->getMessage(), [

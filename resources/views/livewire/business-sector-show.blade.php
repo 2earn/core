@@ -7,18 +7,18 @@
             {{ __('Business Sector') }}: {{ $businessSector->name }}
         @endslot
     @endcomponent
-
     <div class="row card mb-2 overflow-hidden">
         <div class="profile-foreground position-relative">
             <div class="profile-wid-bg">
-                @if ($businessSector?->thumbnailsImage)
-                    <img src="{{ asset('uploads/' . $businessSector->thumbnailsImage->url) }}"
-                         alt="{{ $businessSector->name }} banner"
+                @if ($businessSector->thumbnailsHomeImage)
+                    <img src="{{ asset('uploads/' . $businessSector->thumbnailsHomeImage->url) }}"
+                         alt="banner"
                          class="profile-wid-img">
                 @else
-                    <img src="{{ Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_THUMB) }}"
-                         alt="{{ __('Default business sector banner') }}"
-                         class="profile-wid-img">
+                    <img
+                        src="{{Vite::asset(\App\Models\BusinessSector::DEFAULT_IMAGE_TYPE_THUMB_HOME)}}"
+                        alt="banner"
+                        class="profile-wid-img">
                 @endif
             </div>
         </div>
