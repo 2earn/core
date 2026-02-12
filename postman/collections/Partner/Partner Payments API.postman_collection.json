@@ -8,6 +8,7 @@
   "item": [
     {
       "name": "List Payments",
+      "id": "e92fef0c-6246-435b-b9f0-7c3d5d3c5e64",
       "request": {
         "method": "GET",
         "header": [
@@ -17,23 +18,32 @@
           }
         ],
         "url": {
-          "raw": "{{base_url}}/api/partner/payments?user_id={{user_id}}&page=1&per_page=20",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "payments"],
+          "raw": "{{base_url}}/api/partner/payments?partner_id={{user_id}}&page=1&per_page=20",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "payments"
+          ],
           "query": [
             {
-              "key": "user_id",
-              "value": "{{user_id}}"
+              "key": "partner_id",
+              "value": "{{user_id}}",
+              "uuid": "d4071a54-2cfd-46e9-941d-3075dd6abae8"
             },
             {
               "key": "page",
               "value": "1",
-              "description": "Page number"
+              "description": "Page number",
+              "uuid": "f310dd81-1094-41b4-bd65-fa077486ebc1"
             },
             {
               "key": "per_page",
               "value": "20",
-              "description": "Items per page"
+              "description": "Items per page",
+              "uuid": "b040dad6-931e-48c4-9329-801258fed886"
             }
           ]
         },
@@ -43,6 +53,7 @@
     },
     {
       "name": "Get Payment by ID",
+      "id": "7a4cc005-232e-42f5-aa30-92d285ec4ad9",
       "request": {
         "method": "GET",
         "header": [
@@ -51,14 +62,38 @@
             "value": "application/json"
           }
         ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
         "url": {
-          "raw": "{{base_url}}/api/partner/payments/{{id}}?user_id={{user_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "payments", "{{id}}"],
+          "raw": "{{base_url}}/api/partner/payments/:id?partner_id={{user_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "payments",
+            ":id"
+          ],
           "query": [
             {
-              "key": "user_id",
-              "value": "{{user_id}}"
+              "key": "partner_id",
+              "value": "{{user_id}}",
+              "uuid": "36115098-6ca2-46b6-919e-0bdd15cf84ef"
+            }
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "429",
+              "uuid": "e1faaae8-87c9-4d41-9a3c-ea0ae1e9c89c"
             }
           ]
         },
@@ -68,6 +103,7 @@
     },
     {
       "name": "Create Payment Demand",
+      "id": "b2d278db-dc9f-49d0-9f3a-7bd1f43f3e26",
       "request": {
         "method": "POST",
         "header": [
@@ -78,12 +114,19 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"user_id\": {{user_id}},\n  \"amount\": 500.00,\n  \"description\": \"Payment demand description\",\n  \"payment_method\": \"bank_transfer\"\n}"
+          "raw": "{\n  \"partner_id\": {{user_id}},\n  \"amount\": 500.00,\n  \"description\": \"Payment demand description\",\n  \"payment_method\": \"bank_transfer\"\n}"
         },
         "url": {
           "raw": "{{base_url}}/api/partner/payments/demand",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "payments", "demand"]
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "payments",
+            "demand"
+          ]
         },
         "description": "Create a new payment demand/request"
       },
@@ -91,6 +134,7 @@
     },
     {
       "name": "Get Payment Statistics Summary",
+      "id": "4ae75665-e9ab-4761-ae78-08a459be9dfd",
       "request": {
         "method": "GET",
         "header": [
@@ -101,8 +145,16 @@
         ],
         "url": {
           "raw": "{{base_url}}/api/partner/payments/statistics/summary?user_id={{user_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "payments", "statistics", "summary"],
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "payments",
+            "statistics",
+            "summary"
+          ],
           "query": [
             {
               "key": "user_id",
@@ -116,4 +168,3 @@
     }
   ]
 }
-
