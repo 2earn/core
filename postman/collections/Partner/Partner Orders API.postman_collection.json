@@ -68,14 +68,19 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"user_id\": {{user_id}},\n  \"deal_id\": {{deal_id}},\n  \"quantity\": 1,\n  \"total_amount\": 80.00\n}"
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"platform_id\": {{platform_id}},\n  \"total_order\": 80.00,\n  \"note\": \"New order\",\n  \"created_by\": {{user_id}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
         },
         "url": {
           "raw": "{{base_url}}/api/partner/orders/orders",
           "host": ["{{base_url}}"],
           "path": ["api", "partner", "orders", "orders"]
         },
-        "description": "Create a new order"
+        "description": "Create a new order. All parameters in request body."
       },
       "response": []
     },
@@ -91,14 +96,19 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"user_id\": {{user_id}},\n  \"quantity\": 2,\n  \"total_amount\": 160.00\n}"
+          "raw": "{\n  \"total_order\": 160.00,\n  \"note\": \"Updated order\",\n  \"updated_by\": {{user_id}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
         },
         "url": {
           "raw": "{{base_url}}/api/partner/orders/orders/{{order_id}}",
           "host": ["{{base_url}}"],
           "path": ["api", "partner", "orders", "orders", "{{order_id}}"]
         },
-        "description": "Update order details"
+        "description": "Update order details. All parameters in request body."
       },
       "response": []
     },
@@ -114,14 +124,19 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"user_id\": {{user_id}},\n  \"status\": \"completed\"\n}"
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"status\": 3\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
         },
         "url": {
           "raw": "{{base_url}}/api/partner/orders/{{order_id}}/status",
           "host": ["{{base_url}}"],
           "path": ["api", "partner", "orders", "{{order_id}}", "status"]
         },
-        "description": "Change order status"
+        "description": "Change order status. Status must be 3 (Ready). All parameters in request body."
       },
       "response": []
     },
@@ -137,14 +152,19 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"user_id\": {{user_id}},\n  \"order_id\": {{order_id}},\n  \"item_id\": {{item_id}},\n  \"quantity\": 1,\n  \"price\": 80.00\n}"
+          "raw": "{\n  \"order_id\": {{order_id}},\n  \"item_id\": {{item_id}},\n  \"qty\": 1,\n  \"unit_price\": 80.00,\n  \"shipping\": 0,\n  \"created_by\": {{user_id}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
         },
         "url": {
           "raw": "{{base_url}}/api/partner/orders/details",
           "host": ["{{base_url}}"],
           "path": ["api", "partner", "orders", "details"]
         },
-        "description": "Add order detail/line item"
+        "description": "Add order detail/line item. All parameters in request body. Example with actual values:\n{\n  \"order_id\": 1,\n  \"item_id\": 1,\n  \"qty\": 1,\n  \"unit_price\": 80.00,\n  \"shipping\": 0,\n  \"created_by\": 1\n}"
       },
       "response": []
     },
@@ -160,14 +180,19 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"user_id\": {{user_id}},\n  \"quantity\": 2,\n  \"price\": 160.00\n}"
+          "raw": "{\n  \"qty\": 2,\n  \"unit_price\": 80.00,\n  \"shipping\": 5.00,\n  \"updated_by\": {{user_id}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
         },
         "url": {
           "raw": "{{base_url}}/api/partner/orders/details/{{detail_id}}",
           "host": ["{{base_url}}"],
           "path": ["api", "partner", "orders", "details", "{{detail_id}}"]
         },
-        "description": "Update order detail/line item"
+        "description": "Update order detail/line item. All parameters in request body."
       },
       "response": []
     }

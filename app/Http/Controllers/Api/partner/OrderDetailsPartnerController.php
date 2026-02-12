@@ -13,8 +13,23 @@ class OrderDetailsPartnerController extends Controller
 {
     private const LOG_PREFIX = '[OrderDetailsPartnerController] ';
 
+    public function __construct()
+    {
+        $this->middleware('check.url');
+    }
+
     public function store(Request $request)
     {
+        // Debug logging to see what's being received
+        Log::info(self::LOG_PREFIX . 'Store request received', [
+            'all' => $request->all(),
+            'input' => $request->input(),
+            'has_json' => $request->isJson(),
+            'content' => $request->getContent(),
+            'content_type' => $request->header('Content-Type'),
+            'method' => $request->method()
+        ]);
+
         $validator = Validator::make($request->all(), [
             'order_id' => 'required|exists:orders,id',
             'item_id' => 'required|exists:items,id',
