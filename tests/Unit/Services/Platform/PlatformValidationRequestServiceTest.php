@@ -19,6 +19,8 @@ class PlatformValidationRequestServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        // Ensure clean state for platform validation requests to avoid interference
+        PlatformValidationRequest::query()->delete();
         $this->platformValidationRequestService = new PlatformValidationRequestService();
     }
 
