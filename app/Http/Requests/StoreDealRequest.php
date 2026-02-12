@@ -17,6 +17,17 @@ class StoreDealRequest extends FormRequest
     }
 
     /**
+     * Prepare the data for validation by merging query parameters.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        // Merge query parameters with request data
+        $this->merge($this->query());
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, mixed>
@@ -24,6 +35,7 @@ class StoreDealRequest extends FormRequest
     public function rules()
     {
         return [
+            'user_id' => 'required|exists:users,id',
             'name' => 'required|string|max:255',
             'initial_commission' => 'required|numeric|min:0|max:100',
             'final_commission' => 'required|numeric|min:0|max:100|gte:initial_commission',

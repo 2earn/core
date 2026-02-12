@@ -94,7 +94,7 @@
           }
         },
         "url": {
-          "raw": "{{base_url}}/api/partner/deals/deals?{=&\"user_id\"= {{user_id}},&\"platform_id\"= {{platform_id}},&\"title\"= \"Deal Title\",&\"description\"= \"Deal description\",&\"discount_percentage\"= 20,&\"original_price\"= 100.00,&\"discounted_price\"= 80.00&}=",
+          "raw": "{{base_url}}/api/partner/deals/deals?user_id={{user_id}}&platform_id= {{platform_id}}&title= Deal Title&description= Deal description&discount_percentage= 20&original_price= 100.00&discounted_price= 80.00",
           "host": [
             "{{base_url}}"
           ],
@@ -106,53 +106,43 @@
           ],
           "query": [
             {
-              "key": "{",
-              "value": "",
-              "type": "text"
+              "key": "user_id",
+              "value": "{{user_id}}",
+              "uuid": "64e78e6d-f498-4ca6-8ba0-8a0d6107570b"
             },
             {
-              "key": "\"user_id\"",
-              "value": " {{user_id}},",
-              "type": "text"
+              "key": "platform_id",
+              "value": " {{platform_id}}",
+              "uuid": "5554d33f-304e-486c-86c4-4b1d6ee56081"
             },
             {
-              "key": "\"platform_id\"",
-              "value": " {{platform_id}},",
-              "type": "text"
+              "key": "title",
+              "value": " Deal Title",
+              "uuid": "f2e1aa70-1c6c-415b-9745-b38ad3e95c4c"
             },
             {
-              "key": "\"title\"",
-              "value": " \"Deal Title\",",
-              "type": "text"
+              "key": "description",
+              "value": " Deal description",
+              "uuid": "2de53150-8ea6-4209-ac3b-4b9229894223"
             },
             {
-              "key": "\"description\"",
-              "value": " \"Deal description\",",
-              "type": "text"
+              "key": "discount_percentage",
+              "value": " 20",
+              "uuid": "3bab8ed7-e003-4016-b2e7-29ac171ecbbb"
             },
             {
-              "key": "\"discount_percentage\"",
-              "value": " 20,",
-              "type": "text"
+              "key": "original_price",
+              "value": " 100.00",
+              "uuid": "4f4777f7-1f03-4879-90ac-69a4389cdb15"
             },
             {
-              "key": "\"original_price\"",
-              "value": " 100.00,",
-              "type": "text"
-            },
-            {
-              "key": "\"discounted_price\"",
+              "key": "discounted_price",
               "value": " 80.00",
-              "type": "text"
-            },
-            {
-              "key": "}",
-              "value": "",
-              "type": "text"
+              "uuid": "0a0b8984-8ae6-43d2-9b85-7374fbb2152f"
             }
           ]
         },
-        "description": "Create a new deal"
+        "description": "Create a new deal. User credentials and platform info are passed as query parameters, while deal details are in the request body."
       },
       "response": []
     },
@@ -169,10 +159,10 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"user_id\": {{user_id}},\n  \"title\": \"Updated Deal Title\",\n  \"description\": \"Updated description\",\n  \"discount_percentage\": 25\n}"
+          "raw": "{\n  \"name\": \"Updated Deal Title\",\n  \"description\": \"Updated description\",\n  \"initial_commission\": 7.5,\n  \"final_commission\": 12.5,\n  \"discount\": 10\n}"
         },
         "url": {
-          "raw": "{{base_url}}/api/partner/deals/deals/{{deal_id}}",
+          "raw": "{{base_url}}/api/partner/deals/deals/{{deal_id}}?user_id={{user_id}}",
           "host": [
             "{{base_url}}"
           ],
@@ -182,6 +172,13 @@
             "deals",
             "deals",
             "{{deal_id}}"
+          ],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}",
+              "description": "User ID of the partner"
+            }
           ]
         },
         "description": "Update deal details"
@@ -201,10 +198,10 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"user_id\": {{user_id}},\n  \"status\": \"active\"\n}"
+          "raw": "{\n  \"status\": \"active\"\n}"
         },
         "url": {
-          "raw": "{{base_url}}/api/partner/deals/{{deal_id}}/status",
+          "raw": "{{base_url}}/api/partner/deals/{{deal_id}}/status?user_id={{user_id}}",
           "host": [
             "{{base_url}}"
           ],
@@ -214,6 +211,13 @@
             "deals",
             "{{deal_id}}",
             "status"
+          ],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}",
+              "description": "User ID of the partner"
+            }
           ]
         },
         "description": "Change deal status (active, inactive, etc.)"
@@ -233,10 +237,10 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"user_id\": {{user_id}},\n  \"deal_id\": {{deal_id}}\n}"
+          "raw": "{\n  \"notes\": \"Please validate this deal\"\n}"
         },
         "url": {
-          "raw": "{{base_url}}/api/partner/deals/validate",
+          "raw": "{{base_url}}/api/partner/deals/validate?user_id={{user_id}}&deal_id={{deal_id}}",
           "host": [
             "{{base_url}}"
           ],
@@ -245,6 +249,18 @@
             "partner",
             "deals",
             "validate"
+          ],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}",
+              "description": "User ID of the partner"
+            },
+            {
+              "key": "deal_id",
+              "value": "{{deal_id}}",
+              "description": "Deal ID to validate"
+            }
           ]
         },
         "description": "Submit deal for validation"
@@ -264,10 +280,10 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"user_id\": {{user_id}},\n  \"deal_id\": {{deal_id}}\n}"
+          "raw": "{}"
         },
         "url": {
-          "raw": "{{base_url}}/api/partner/deals/validation/cancel",
+          "raw": "{{base_url}}/api/partner/deals/validation/cancel?user_id={{user_id}}&deal_id={{deal_id}}",
           "host": [
             "{{base_url}}"
           ],
@@ -277,6 +293,18 @@
             "deals",
             "validation",
             "cancel"
+          ],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}",
+              "description": "User ID of the partner"
+            },
+            {
+              "key": "deal_id",
+              "value": "{{deal_id}}",
+              "description": "Deal ID"
+            }
           ]
         },
         "description": "Cancel deal validation request"
@@ -296,10 +324,10 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"user_id\": {{user_id}},\n  \"deal_id\": {{deal_id}}\n}"
+          "raw": "{}"
         },
         "url": {
-          "raw": "{{base_url}}/api/partner/deals/change/cancel",
+          "raw": "{{base_url}}/api/partner/deals/change/cancel?user_id={{user_id}}&deal_id={{deal_id}}",
           "host": [
             "{{base_url}}"
           ],
@@ -309,6 +337,18 @@
             "deals",
             "change",
             "cancel"
+          ],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "{{user_id}}",
+              "description": "User ID of the partner"
+            },
+            {
+              "key": "deal_id",
+              "value": "{{deal_id}}",
+              "description": "Deal ID"
+            }
           ]
         },
         "description": "Cancel deal change request"
