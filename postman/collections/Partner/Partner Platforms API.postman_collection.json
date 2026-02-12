@@ -8,6 +8,7 @@
   "item": [
     {
       "name": "Get Top Selling Platforms",
+      "id": "fc71d162-8044-421f-8ed7-14b31d3836c8",
       "request": {
         "method": "GET",
         "header": [
@@ -18,8 +19,15 @@
         ],
         "url": {
           "raw": "{{base_url}}/api/partner/platforms/top-selling?user_id={{user_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "platforms", "top-selling"],
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "platforms",
+            "top-selling"
+          ],
           "query": [
             {
               "key": "user_id",
@@ -34,6 +42,7 @@
     },
     {
       "name": "Get Platform Roles",
+      "id": "133bda30-45a4-4851-ac16-9f772f295209",
       "request": {
         "method": "GET",
         "header": [
@@ -44,8 +53,17 @@
         ],
         "url": {
           "raw": "{{base_url}}/api/partner/platforms/platforms/{{platformId}}/roles?user_id={{user_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "platforms", "platforms", "{{platformId}}", "roles"],
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "platforms",
+            "platforms",
+            "{{platformId}}",
+            "roles"
+          ],
           "query": [
             {
               "key": "user_id",
@@ -60,6 +78,7 @@
     },
     {
       "name": "Change Platform Type",
+      "id": "eabdad5d-5a57-4699-83df-75087ddee460",
       "request": {
         "method": "POST",
         "header": [
@@ -70,12 +89,19 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"user_id\": {{user_id}},\n  \"platform_id\": {{platform_id}},\n  \"new_type\": \"premium\"\n}"
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"platform_id\": 7,\n  \"updated_by\": 384,\n  \"type_id\": 1\n}"
         },
         "url": {
           "raw": "{{base_url}}/api/partner/platforms/change",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "platforms", "change"]
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "platforms",
+            "change"
+          ]
         },
         "description": "Change platform type (e.g., from basic to premium)"
       },
@@ -83,6 +109,7 @@
     },
     {
       "name": "Validate Platform Request",
+      "id": "b183dbd2-d656-44fa-a317-346f897970d1",
       "request": {
         "method": "POST",
         "header": [
@@ -93,12 +120,19 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"user_id\": {{user_id}},\n  \"platform_id\": {{platform_id}}\n}"
+          "raw": "{\n  \"requested_by\": {{user_id}},\n  \"platform_id\": {{platform_id}}\n}"
         },
         "url": {
           "raw": "{{base_url}}/api/partner/platforms/validate",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "platforms", "validate"]
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "platforms",
+            "validate"
+          ]
         },
         "description": "Submit platform for validation"
       },
@@ -106,6 +140,7 @@
     },
     {
       "name": "Cancel Validation Request",
+      "id": "9e10328d-8ba0-45a7-b889-47b9007b64ed",
       "request": {
         "method": "POST",
         "header": [
@@ -116,12 +151,25 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"user_id\": {{user_id}},\n  \"platform_id\": {{platform_id}}\n}"
+          "raw": "{\n    \"user_id\": {{user_id}},\n    \"platform_id\": {{platform_id}},\n    \"validation_request_id\": 346,\n    \"cancelled_by\": 384,\n    \"rejection_reason\": \"cancelled_by sting\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
         },
         "url": {
           "raw": "{{base_url}}/api/partner/platforms/validation/cancel",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "platforms", "validation", "cancel"]
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "platforms",
+            "validation",
+            "cancel"
+          ]
         },
         "description": "Cancel platform validation request"
       },
@@ -129,6 +177,7 @@
     },
     {
       "name": "Cancel Change Request",
+      "id": "cf5b81d3-45bd-49e7-9bdd-856341820529",
       "request": {
         "method": "POST",
         "header": [
@@ -139,12 +188,20 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"user_id\": {{user_id}},\n  \"platform_id\": {{platform_id}}\n}"
+          "raw": "{\n  \"user_id\": {{user_id}},\n  \"platform_id\": {{platform_id}},\n  \"platform_id\": {{platform_id}},\n}"
         },
         "url": {
           "raw": "{{base_url}}/api/partner/platforms/change/cancel",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "platforms", "change", "cancel"]
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "platforms",
+            "change",
+            "cancel"
+          ]
         },
         "description": "Cancel platform change request"
       },
@@ -152,6 +209,7 @@
     },
     {
       "name": "List Platforms",
+      "id": "8c748cd3-7471-43e4-86ef-68aaf0af469a",
       "request": {
         "method": "GET",
         "header": [
@@ -162,8 +220,15 @@
         ],
         "url": {
           "raw": "{{base_url}}/api/partner/platforms/platforms?user_id={{user_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "platforms", "platforms"],
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "platforms",
+            "platforms"
+          ],
           "query": [
             {
               "key": "user_id",
@@ -177,6 +242,7 @@
     },
     {
       "name": "Get Platform by ID",
+      "id": "e022ee09-1778-4c1e-a389-ba91907dd783",
       "request": {
         "method": "GET",
         "header": [
@@ -187,8 +253,16 @@
         ],
         "url": {
           "raw": "{{base_url}}/api/partner/platforms/platforms/{{platform_id}}?user_id={{user_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "platforms", "platforms", "{{platform_id}}"],
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "platforms",
+            "platforms",
+            "{{platform_id}}"
+          ],
           "query": [
             {
               "key": "user_id",
@@ -202,6 +276,7 @@
     },
     {
       "name": "Create Platform",
+      "id": "3199db1c-108c-4aa7-9bc2-9567efa2d9e2",
       "request": {
         "method": "POST",
         "header": [
@@ -216,8 +291,15 @@
         },
         "url": {
           "raw": "{{base_url}}/api/partner/platforms/platforms",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "platforms", "platforms"]
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "platforms",
+            "platforms"
+          ]
         },
         "description": "Create a new platform"
       },
@@ -225,6 +307,7 @@
     },
     {
       "name": "Update Platform",
+      "id": "44743571-edae-43d0-935e-f1226ff4e685",
       "request": {
         "method": "PUT",
         "header": [
@@ -235,12 +318,27 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"user_id\": {{user_id}},\n  \"name\": \"Updated Platform Name\",\n  \"description\": \"Updated description\"\n}"
+          "raw": "{\n  \"updated_by\": {{user_id}},\n  \"name\": \"Updated Platform Name\",\n  \"description\": \"Updated description\"\n}"
         },
         "url": {
-          "raw": "{{base_url}}/api/partner/platforms/platforms/{{platform_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "platforms", "platforms", "{{platform_id}}"]
+          "raw": "{{base_url}}/api/partner/platforms/platforms/:id",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "platforms",
+            "platforms",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "6915",
+              "uuid": "397f600d-7dd1-458b-9edd-81572f137471"
+            }
+          ]
         },
         "description": "Update platform details"
       },
@@ -248,4 +346,3 @@
     }
   ]
 }
-

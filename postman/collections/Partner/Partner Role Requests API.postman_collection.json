@@ -7,7 +7,7 @@
   },
   "item": [
     {
-      "name": "List Role Requests",
+      "name": "List Role Requests (query)",
       "request": {
         "method": "GET",
         "header": [
@@ -17,13 +17,14 @@
           }
         ],
         "url": {
-          "raw": "{{base_url}}/api/partner/role-requests?user_id={{user_id}}&page=1&per_page=20",
+          "raw": "{{base_url}}/api/partner/role-requests?partner_id={{partner_id}}&page=1&limit=20",
           "host": ["{{base_url}}"],
           "path": ["api", "partner", "role-requests"],
           "query": [
             {
-              "key": "user_id",
-              "value": "{{user_id}}"
+              "key": "partner_id",
+              "value": "{{partner_id}}",
+              "description": "Partner ID (required)"
             },
             {
               "key": "page",
@@ -31,13 +32,36 @@
               "description": "Page number"
             },
             {
-              "key": "per_page",
+              "key": "limit",
               "value": "20",
               "description": "Items per page"
             }
           ]
         },
-        "description": "Get all role requests"
+        "description": "Get all role requests (uses query string parameters)"
+      },
+      "response": []
+    },
+    {
+      "name": "List Role Requests (body)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"partner_id\": {{partner_id}},\n  \"user_id\": {{user_id}},\n  \"status\": \"pending\",\n  \"page\": 1,\n  \"limit\": 20\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/partner/role-requests",
+          "host": ["{{base_url}}"],
+          "path": ["api", "partner", "role-requests"]
+        },
+        "description": "Get role requests using JSON body (alternative to query params). The controller accepts both query and body parameters. This POST is an alternative invocation style."
       },
       "response": []
     },
@@ -52,13 +76,13 @@
           }
         ],
         "url": {
-          "raw": "{{base_url}}/api/partner/role-requests/{{id}}?user_id={{user_id}}",
+          "raw": "{{base_url}}/api/partner/role-requests/{{id}}?partner_id={{partner_id}}",
           "host": ["{{base_url}}"],
           "path": ["api", "partner", "role-requests", "{{id}}"],
           "query": [
             {
-              "key": "user_id",
-              "value": "{{user_id}}"
+              "key": "partner_id",
+              "value": "{{partner_id}}"
             }
           ]
         },
@@ -78,7 +102,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"user_id\": {{user_id}},\n  \"platform_id\": {{platform_id}},\n  \"role_id\": {{role_id}},\n  \"reason\": \"Reason for role request\"\n}"
+          "raw": "{\n  \"partner_id\": {{partner_id}},\n  \"user_id\": {{user_id}},\n  \"role_name\": \"manager\",\n  \"reason\": \"Need a manager for the sales department\",\n  \"requested_by\": {{requested_by}}\n}"
         },
         "url": {
           "raw": "{{base_url}}/api/partner/role-requests",
@@ -101,7 +125,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"user_id\": {{user_id}}\n}"
+          "raw": "{\n  \"cancelled_by\": {{user_id}},\n  \"cancelled_reason\": \"No longer needed\"\n}"
         },
         "url": {
           "raw": "{{base_url}}/api/partner/role-requests/{{id}}/cancel",
@@ -114,4 +138,3 @@
     }
   ]
 }
-

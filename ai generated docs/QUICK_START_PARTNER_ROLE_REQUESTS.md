@@ -52,6 +52,30 @@ curl -X POST "http://localhost/api/partner/role-requests" \
 curl "http://localhost/api/partner/role-requests?partner_id=1"
 ```
 
+### List Role Requests (JSON body example)
+You can also send filters in the request body (application/json) as an alternative to query string. The controller accepts both query and body parameters; body values take precedence when provided.
+
+Example (POST to /api/partner/role-requests):
+
+```bash
+curl -X POST "{{base_url}}/api/partner/role-requests" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "partner_id": 1,
+    "user_id": 5,
+    "status": "pending",
+    "page": 1,
+    "limit": 20
+  }'
+```
+
+Request body fields (accepted):
+- partner_id (integer, required)
+- user_id (integer, optional)
+- status (string, optional) — one of: all, pending, approved, rejected, cancelled
+- page (integer, optional)
+- limit (integer, optional)
+
 ### Approve/Reject Requests (Admin Back Office)
 Use the Livewire component in your admin panel:
 ```php

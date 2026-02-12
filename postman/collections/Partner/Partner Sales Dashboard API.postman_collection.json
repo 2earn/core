@@ -8,6 +8,7 @@
   "item": [
     {
       "name": "Get KPIs",
+      "id": "aa3eb091-dd92-48be-a09e-0702d09c23a1",
       "request": {
         "method": "GET",
         "header": [
@@ -18,8 +19,16 @@
         ],
         "url": {
           "raw": "{{base_url}}/api/partner/sales/dashboard/kpis?user_id={{user_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "sales", "dashboard", "kpis"],
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "sales",
+            "dashboard",
+            "kpis"
+          ],
           "query": [
             {
               "key": "user_id",
@@ -33,6 +42,7 @@
     },
     {
       "name": "Get Sales Evolution Chart",
+      "id": "5d2efe59-ea59-426a-a5cd-da1297e801c6",
       "request": {
         "method": "GET",
         "header": [
@@ -43,8 +53,16 @@
         ],
         "url": {
           "raw": "{{base_url}}/api/partner/sales/dashboard/evolution-chart?user_id={{user_id}}&period=month",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "sales", "dashboard", "evolution-chart"],
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "sales",
+            "dashboard",
+            "evolution-chart"
+          ],
           "query": [
             {
               "key": "user_id",
@@ -63,6 +81,7 @@
     },
     {
       "name": "Get Top Selling Products",
+      "id": "7e2e01ea-2ffd-4a3f-b1a7-ffd55330212b",
       "request": {
         "method": "GET",
         "header": [
@@ -73,8 +92,16 @@
         ],
         "url": {
           "raw": "{{base_url}}/api/partner/sales/dashboard/top-products?user_id={{user_id}}&limit=10",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "sales", "dashboard", "top-products"],
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "sales",
+            "dashboard",
+            "top-products"
+          ],
           "query": [
             {
               "key": "user_id",
@@ -93,6 +120,7 @@
     },
     {
       "name": "Get Top Selling Deals",
+      "id": "9e40c3e3-3ef4-45b3-a210-94893579fc25",
       "request": {
         "method": "GET",
         "header": [
@@ -103,8 +131,16 @@
         ],
         "url": {
           "raw": "{{base_url}}/api/partner/sales/dashboard/top-deals?user_id={{user_id}}&limit=10",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "sales", "dashboard", "top-deals"],
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "sales",
+            "dashboard",
+            "top-deals"
+          ],
           "query": [
             {
               "key": "user_id",
@@ -123,6 +159,7 @@
     },
     {
       "name": "Get Transactions",
+      "id": "414ac7c5-d43c-46d5-b410-37adc739c5d8",
       "request": {
         "method": "GET",
         "header": [
@@ -133,8 +170,16 @@
         ],
         "url": {
           "raw": "{{base_url}}/api/partner/sales/dashboard/transactions?user_id={{user_id}}&page=1&per_page=20",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "sales", "dashboard", "transactions"],
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "sales",
+            "dashboard",
+            "transactions"
+          ],
           "query": [
             {
               "key": "user_id",
@@ -158,6 +203,7 @@
     },
     {
       "name": "Get Transaction Details",
+      "id": "399cef23-52fe-4850-bfaf-cf2b5915e445",
       "request": {
         "method": "GET",
         "header": [
@@ -167,17 +213,34 @@
           }
         ],
         "url": {
-          "raw": "{{base_url}}/api/partner/sales/dashboard/transactions/details?user_id={{user_id}}&transaction_id={{transaction_id}}",
-          "host": ["{{base_url}}"],
-          "path": ["api", "partner", "sales", "dashboard", "transactions", "details"],
+          "raw": "{{base_url}}/api/partner/sales/dashboard/transactions/details?user_id={{user_id}}&transaction_id=16&order_id=16",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "partner",
+            "sales",
+            "dashboard",
+            "transactions",
+            "details"
+          ],
           "query": [
             {
               "key": "user_id",
-              "value": "{{user_id}}"
+              "value": "{{user_id}}",
+              "uuid": "48af35fb-df36-4c03-a9b6-50a08667f77f"
             },
             {
               "key": "transaction_id",
-              "value": "{{transaction_id}}"
+              "value": "16",
+              "uuid": "2fb86083-3895-4239-bd7b-8b18d9f2f911"
+            },
+            {
+              "key": "order_id",
+              "value": "16",
+              "type": "text",
+              "uuid": "a81293fe-6224-431e-ab3e-fa2391a77ef6"
             }
           ]
         },
@@ -187,4 +250,3 @@
     }
   ]
 }
-
