@@ -231,11 +231,22 @@ class  UserRepository implements IUserRepository
     public function initNewUser($status = StatusRequest::Registred->value)
     {
         $newUser = new User();
-        $lastuser = DB::table('users')->max('iduser');
-        $newIdUser = $lastuser + 1;
-        $newUser->idUser = $newIdUser;
+        // Delegate next id generation to a single responsibility method
+        $newUser->idUser = $this->getNextUserId();
         $newUser->status = $status;
         return $newUser;
+    }
+
+    /**
+     * Get the next idUser value (max(iduser) + 1). Returns 1 when there are no users.
+     *
+     * @return int
+     */
+    public function getNextUserId(): int
+    {
+        $lastuser = DB::table('users')->max('iduser');
+        $lastuser = is_null($lastuser) ? 0 : (int)$lastuser;
+        return $lastuser + 1;
     }
 
 
