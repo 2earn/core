@@ -17,11 +17,11 @@ class MaxUserIdSettingSeeder extends Seeder
         $max = DB::table('users')->selectRaw('MAX(CAST(idUser AS UNSIGNED)) as max_id')->first()->max_id;
         $max = is_null($max) ? 0 : (int)$max;
         $ts = date('Y-m-d H:i:s');
-            DB::table('settings')->insert([
-                'ParameterName' => 'MAX_USER_ID',
-                'IntegerValue' => $max,
-                'created_at' => $ts,
-                'updated_at' => $ts,
-            ]);
+        DB::table('settings')->insert([
+            'ParameterName' => 'MAX_USER_ID',
+            'IntegerValue' => $max,
+            'created_at' => $ts,
+            'updated_at' => $ts,
+        ]);
     }
 }
