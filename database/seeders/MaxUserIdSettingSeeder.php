@@ -14,15 +14,14 @@ class MaxUserIdSettingSeeder extends Seeder
      */
     public function run()
     {
-        // get max iduser from users table, default to 0 when no users present
         $max = DB::table('users')->max('iduser');
         $max = is_null($max) ? 0 : (int)$max;
-
-        // insert or update the setting param MAX_USER_ID with current max
-        DB::table('settings')->updateOrInsert(
-            ['ParameterName' => 'MAX_USER_ID'],
-            ['IntegerValue' => $max]
-        );
+        $ts = date('Y-m-d H:i:s');
+            DB::table('settings')->insert([
+                'ParameterName' => 'MAX_USER_ID',
+                'IntegerValue' => $max,
+                'created_at' => $ts,
+                'updated_at' => $ts,
+            ]);
     }
 }
-

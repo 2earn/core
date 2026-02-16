@@ -239,14 +239,33 @@ class  UserRepository implements IUserRepository
 
     /**
      * Get the next idUser value (max(iduser) + 1). Returns 1 when there are no users.
+     * This version will update the MAX_USER_ID setting so subsequent calls use the stored value.
      *
      * @return int
      */
     public function getNextUserId(): int
     {
-        $lastuser = DB::table('users')->max('iduser');
-        $lastuser = is_null($lastuser) ? 0 : (int)$lastuser;
-        return $lastuser + 1;
+        // Use a transaction and FOR UPDATE lock to avoid races when multiple processes call this.
+        return DB::transaction(function () {
+            // Try to select the setting row with a lock
+            $setting = DB::table('settings')
+                ->where('ParameterName', '=', 'MAX_USER_ID')
+                ->lockForUpdate()
+                ->first();
+
+            if ($setting && !is_null($setting->IntegerValue)) {
+                $lastuser = (int)$setting->IntegerValue;
+                $next = $lastuser + 1;
+
+                // persist incremented value
+                DB::table('settings')
+                    ->where('ParameterName', '=', 'MAX_USER_ID')
+                    ->update(['IntegerValue' => $next]);
+
+                return $next;
+            }
+
+        });
     }
 
 
@@ -260,6 +279,18 @@ class  UserRepository implements IUserRepository
         $user->idCountry = $country->id;
         $user->idUplineRegister = $idUplineRegister;
         $user->save();
+
+        // Keep MAX_USER_ID setting in sync with the newly created user id
+        try {
+            DB::table('settings')->updateOrInsert(
+                ['ParameterName' => 'MAX_USER_ID'],
+                ['IntegerValue' => $user->idUser]
+            );
+        } catch (\Exception $e) {
+            // don't break user creation if settings update fails; log if needed
+            // Log::error($e->getMessage());
+        }
+
         return $user;
     }
 
