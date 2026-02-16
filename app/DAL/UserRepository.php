@@ -4,13 +4,13 @@ namespace App\DAL;
 
 use App\Enums\BalanceEnum;
 use App\Enums\StatusRequest;
+use App\Interfaces\IUserRepository;
 use App\Models\ContactUser;
 use App\Models\MettaUser;
 use App\Models\User;
-use Carbon\Carbon;
-use App\Interfaces\IUserRepository;
 use App\Models\user_earn;
 use App\Models\UserContact;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -231,8 +231,7 @@ class  UserRepository implements IUserRepository
     public function initNewUser($status = StatusRequest::Registred->value)
     {
         $newUser = new User();
-        // Delegate next id generation to a single responsibility method
-        $newUser->idUser = $this->getNextUserId();
+        $newUser->idUser = (string)$this->getNextUserId();
         $newUser->status = $status;
         return $newUser;
     }
