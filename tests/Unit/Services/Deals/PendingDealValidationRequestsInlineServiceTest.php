@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Services\Deals\PendingDealValidationRequestsInlineService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 use Tests\TestCase;
 
 class PendingDealValidationRequestsInlineServiceTest extends TestCase
@@ -19,6 +21,65 @@ class PendingDealValidationRequestsInlineServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        // Ensure minimal tables exist so factories can run even if full migrations weren't applied
+        if (!Schema::hasTable('users')) {
+            Schema::create('users', function (Blueprint $table) {
+                $table->id();
+                $table->string('name')->nullable();
+                $table->string('email')->unique()->nullable();
+                $table->string('idUser')->nullable();
+                $table->timestamp('email_verified_at')->nullable();
+                $table->string('password')->nullable();
+                $table->string('remember_token')->nullable();
+                $table->timestamps();
+            });
+        }
+
+        if (!Schema::hasTable('platforms')) {
+            Schema::create('platforms', function (Blueprint $table) {
+                $table->id();
+                $table->string('name')->nullable();
+                $table->timestamps();
+            });
+        }
+
+        if (!Schema::hasTable('deals')) {
+            Schema::create('deals', function (Blueprint $table) {
+                $table->id();
+                $table->string('name')->nullable();
+                $table->boolean('validated')->default(false);
+                $table->unsignedBigInteger('platform_id')->nullable();
+                $table->unsignedBigInteger('created_by_id')->nullable();
+                $table->timestamps();
+            });
+        }
+
+        if (!Schema::hasTable('deal_validation_requests')) {
+            Schema::create('deal_validation_requests', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('deal_id')->nullable();
+                $table->unsignedBigInteger('requested_by_id')->nullable();
+                $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+                $table->text('rejection_reason')->nullable();
+                $table->text('notes')->nullable();
+                $table->unsignedBigInteger('reviewed_by')->nullable();
+                $table->timestamp('reviewed_at')->nullable();
+                $table->timestamps();
+            });
+        }
+
+        // Clear any leftover data in these tables to avoid flaky counts
+        if (Schema::hasTable('deal_validation_requests')) {
+            DealValidationRequest::query()->delete();
+        }
+        if (Schema::hasTable('deals')) {
+            Deal::query()->delete();
+        }
+        if (Schema::hasTable('users')) {
+            User::query()->delete();
+        }
+
         $this->service = new PendingDealValidationRequestsInlineService();
     }
 
