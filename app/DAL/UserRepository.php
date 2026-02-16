@@ -245,9 +245,7 @@ class  UserRepository implements IUserRepository
      */
     public function getNextUserId(): int
     {
-        // Use a transaction and FOR UPDATE lock to avoid races when multiple processes call this.
         return DB::transaction(function () {
-            // Try to select the setting row with a lock
             $setting = DB::table('settings')
                 ->where('ParameterName', '=', 'MAX_USER_ID')
                 ->lockForUpdate()
@@ -257,7 +255,6 @@ class  UserRepository implements IUserRepository
                 $lastuser = (int)$setting->IntegerValue;
                 $next = $lastuser + 1;
 
-                // persist incremented value
                 DB::table('settings')
                     ->where('ParameterName', '=', 'MAX_USER_ID')
                     ->update(['IntegerValue' => $next]);
