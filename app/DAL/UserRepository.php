@@ -279,18 +279,6 @@ class  UserRepository implements IUserRepository
         $user->idCountry = $country->id;
         $user->idUplineRegister = $idUplineRegister;
         $user->save();
-
-        // Keep MAX_USER_ID setting in sync with the newly created user id
-        try {
-            DB::table('settings')->updateOrInsert(
-                ['ParameterName' => 'MAX_USER_ID'],
-                ['IntegerValue' => $user->idUser]
-            );
-        } catch (\Exception $e) {
-            // don't break user creation if settings update fails; log if needed
-            // Log::error($e->getMessage());
-        }
-
         return $user;
     }
 
@@ -352,7 +340,6 @@ class  UserRepository implements IUserRepository
             return $user;
         }
         return NULL;
-
     }
 
     public function checkCanSponsorship($idUser, $reservation, $maxSponsorship)
@@ -362,6 +349,5 @@ class  UserRepository implements IUserRepository
             ->where('reserved_by', $idUser)
             ->whereRaw('TIMESTAMPDIFF(HOUR, reserved_at, NOW()) < ' . $reservation)->count();
         return $sponsorship < $maxSponsorship ? true : false;
-
     }
 }
