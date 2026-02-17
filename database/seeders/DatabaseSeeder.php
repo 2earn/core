@@ -31,8 +31,6 @@ class DatabaseSeeder extends Seeder
 
             FillOrderPlatformIdSeeder::class,
             FillCommissionBreakdownPlatformIdSeeder::class,
-
-            MaxUserIdSettingSeeder::class,
         ]);
     }
 }
