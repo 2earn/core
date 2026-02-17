@@ -59,4 +59,38 @@ class UserController extends Controller
             'data' => $data
         ]);
     }
+
+    public function search(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'search_term' => 'required|string|min:3',
+            'limit' => 'nullable|integer|min:1|max:50'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $searchTerm = $request->input('search_term');
+        $limit = $request->input('limit', 10);
+
+        try {
+            $users = $this->userService->searchUsers($searchTerm, $limit);
+
+            return response()->json([
+                'success' => true,
+                'data' => $users
+            ]);
+        } catch (\Exception $e) {
+            Log::error(self::LOG_PREFIX . 'Search failed: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while searching for users'
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }

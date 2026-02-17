@@ -237,6 +237,7 @@ Route::prefix('/mobile/')->name('api_mobile_')
             Route::get('/balances', [BalanceController::class, 'getBalances'])->name('get_balances');
             Route::post('/cash-balance', [CashBalanceController::class, 'store'])->name('store');
             Route::get('/cash-balance', [CashBalanceController::class, 'getCashBalance'])->name('get_cash_balance');
+            Route::get('/users/search', [UserController::class, 'search'])->name('users_search');
         });
     });
 
