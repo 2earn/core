@@ -179,18 +179,18 @@ class  UserRepository implements IUserRepository
     {
         return
             DB::table('calculated_userbalances')
-            ->where('idUser', $idUser)
-            ->where('idamounts', $amount)
-            ->first()->solde ?? 0;
+                ->where('idUser', $idUser)
+                ->where('idamounts', $amount)
+                ->first()->solde ?? 0;
     }
 
     public function getUserEarnByIdUser($iduser)
     {
         return
             DB::table('user_earns')
-            ->where('idUser', $iduser)
-            ->get()
-            ->first();
+                ->where('idUser', $iduser)
+                ->get()
+                ->first();
     }
 
     public function createmettaUser(MettaUser $metta_user)
@@ -231,9 +231,9 @@ class  UserRepository implements IUserRepository
     public function initNewUser($status = StatusRequest::Registred->value)
     {
         $newUser = new User();
-        $maxIdUser = DB::table('users')->selectRaw('MAX(CAST(idUser AS UNSIGNED)) as max_id')->first()->max_id;
-        $newIdUser = ($maxIdUser ?? 0) + 1;
-        $newUser->idUser = (string) $newIdUser;
+        $lastuser = DB::table('users')->max('iduser');
+        $newIdUser = $lastuser + 1;
+        $newUser->idUser = $newIdUser;
         $newUser->status = $status;
         return $newUser;
     }
@@ -310,6 +310,7 @@ class  UserRepository implements IUserRepository
             return $user;
         }
         return NULL;
+
     }
 
     public function checkCanSponsorship($idUser, $reservation, $maxSponsorship)
@@ -319,5 +320,6 @@ class  UserRepository implements IUserRepository
             ->where('reserved_by', $idUser)
             ->whereRaw('TIMESTAMPDIFF(HOUR, reserved_at, NOW()) < ' . $reservation)->count();
         return $sponsorship < $maxSponsorship ? true : false;
+
     }
 }

@@ -14,7 +14,7 @@ class UserContactService
      * @param string|null $search
      * @return Collection
      */
-    public function getByUserIdWithSearch(string $userId, ?string $search = null): Collection
+    public function getByUserIdWithSearch(int $userId, ?string $search = null): Collection
     {
         $query = UserContactNumber::select(
             'id',
@@ -45,7 +45,7 @@ class UserContactService
      * @param int $contactId
      * @return bool
      */
-    public function setActiveNumber(string $userId, int $contactId): bool
+    public function setActiveNumber(int $userId, int $contactId): bool
     {
         UserContactNumber::where('idUser', $userId)->update(['active' => 0]);
 
@@ -87,7 +87,7 @@ class UserContactService
      * @param string $fullNumber
      * @return bool
      */
-    public function contactNumberExists(string $userId, string $fullNumber): bool
+    public function contactNumberExists(int $userId, string $fullNumber): bool
     {
         return UserContactNumber::where('idUser', $userId)
             ->where('fullNumber', $fullNumber)
@@ -102,7 +102,7 @@ class UserContactService
      * @param string $iso
      * @return bool
      */
-    public function contactNumberExistsByMobile(string $userId, string $mobile, string $iso): bool
+    public function contactNumberExistsByMobile(int $userId, string $mobile, string $iso): bool
     {
         return UserContactNumber::where('idUser', $userId)
             ->where('mobile', $mobile)
@@ -120,7 +120,7 @@ class UserContactService
      * @param string $fullNumber
      * @return UserContactNumber
      */
-    public function createContactNumber(string $userId, string $mobile, int $countryId, string $iso, string $fullNumber): UserContactNumber
+    public function createContactNumber(int $userId, string $mobile, int $countryId, string $iso, string $fullNumber): UserContactNumber
     {
         return UserContactNumber::create([
             'idUser' => $userId,
@@ -147,13 +147,13 @@ class UserContactService
      */
     public function prepareContactNumberVerification(
         string $idUser,
-        string $userId,
+        int $userId,
         string $fullNumber,
         string $isoP,
         string $mobile,
         ?string $userEmail,
         string $idNumberFullNumber
-    ): array 
+    ): array
     {
         try {
             // Check if contact number already exists
@@ -191,7 +191,7 @@ class UserContactService
                 'shouldNotifyBySms' => true,
                 'shouldNotifyByEmail' => !empty($userEmail)
             ];
-            
+
         } catch (\Exception $exception) {
             \Illuminate\Support\Facades\Log::error('Error preparing contact number verification: ' . $exception->getMessage());
             return [
@@ -205,7 +205,7 @@ class UserContactService
     /**
      * Verify OTP code and save new contact number
      *
-     * @param string $userId User ID
+     * @param int $userId User ID
      * @param string $idUser User's business ID
      * @param string $code OTP code to verify
      * @param string $storedOtp Stored OTP code from user
@@ -216,7 +216,7 @@ class UserContactService
      * @return array Result array with success status and message
      */
     public function verifyAndSaveContactNumber(
-        string $userId,
+        int $userId,
         string $idUser,
         string $code,
         string $storedOtp,
@@ -224,7 +224,7 @@ class UserContactService
         int $countryId,
         string $iso,
         string $fullNumber
-    ): array 
+    ): array
     {
         try {
             // Verify OTP code
