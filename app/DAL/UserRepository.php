@@ -4,13 +4,13 @@ namespace App\DAL;
 
 use App\Enums\BalanceEnum;
 use App\Enums\StatusRequest;
-use App\Interfaces\IUserRepository;
 use App\Models\ContactUser;
 use App\Models\MettaUser;
 use App\Models\User;
+use Carbon\Carbon;
+use App\Interfaces\IUserRepository;
 use App\Models\user_earn;
 use App\Models\UserContact;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -179,18 +179,18 @@ class  UserRepository implements IUserRepository
     {
         return
             DB::table('calculated_userbalances')
-                ->where('idUser', $idUser)
-                ->where('idamounts', $amount)
-                ->first()->solde ?? 0;
+            ->where('idUser', $idUser)
+            ->where('idamounts', $amount)
+            ->first()->solde ?? 0;
     }
 
     public function getUserEarnByIdUser($iduser)
     {
         return
             DB::table('user_earns')
-                ->where('idUser', $iduser)
-                ->get()
-                ->first();
+            ->where('idUser', $iduser)
+            ->get()
+            ->first();
     }
 
     public function createmettaUser(MettaUser $metta_user)
@@ -231,37 +231,11 @@ class  UserRepository implements IUserRepository
     public function initNewUser($status = StatusRequest::Registred->value)
     {
         $newUser = new User();
-        $newUser->idUser = (string)$this->getNextUserId();
+        $maxIdUser = DB::table('users')->selectRaw('MAX(CAST(idUser AS UNSIGNED)) as max_id')->first()->max_id;
+        $newIdUser = ($maxIdUser ?? 0) + 1;
+        $newUser->idUser = (string) $newIdUser;
         $newUser->status = $status;
         return $newUser;
-    }
-
-    /**
-     * Get the next idUser value (max(iduser) + 1). Returns 1 when there are no users.
-     * This version will update the MAX_USER_ID setting so subsequent calls use the stored value.
-     *
-     * @return int
-     */
-    public function getNextUserId(): int
-    {
-        return DB::transaction(function () {
-            $setting = DB::table('settings')
-                ->where('ParameterName', '=', 'MAX_USER_ID')
-                ->lockForUpdate()
-                ->first();
-
-            if ($setting && !is_null($setting->IntegerValue)) {
-                $lastuser = (int)$setting->IntegerValue;
-                $next = $lastuser + 1;
-
-                DB::table('settings')
-                    ->where('ParameterName', '=', 'MAX_USER_ID')
-                    ->update(['IntegerValue' => $next]);
-
-                return $next;
-            }
-
-        });
     }
 
 
