@@ -206,12 +206,11 @@ class AssignPlatformRoleServiceTest extends TestCase
         // Arrange
         $approver = User::factory()->create();
 
-        // Act
-        $result = $this->assignPlatformRoleService->approve(99999, $approver->id);
-
         // Assert
-        $this->assertFalse($result['success']);
-        $this->assertStringContainsString('Failed to approve', $result['message']);
+        $this->expectException(ModelNotFoundException::class);
+
+        // Act
+        $this->assignPlatformRoleService->approve(99999, $approver->id);
     }
 
     /**
@@ -323,12 +322,11 @@ class AssignPlatformRoleServiceTest extends TestCase
         // Arrange
         $rejector = User::factory()->create();
 
-        // Act
-        $result = $this->assignPlatformRoleService->reject(99999, 'Test reason', $rejector->id);
-
         // Assert
-        $this->assertFalse($result['success']);
-        $this->assertStringContainsString('Failed to reject', $result['message']);
+        $this->expectException(ModelNotFoundException::class);
+
+        // Act
+        $this->assignPlatformRoleService->reject(99999, 'Test reason', $rejector->id);
     }
 
     /**

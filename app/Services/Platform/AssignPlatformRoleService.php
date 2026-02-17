@@ -28,15 +28,15 @@ class AssignPlatformRoleService
         }
 
         if (!empty($filters['search'])) {
-            $query->where(function($q) use ($filters) {
-                $q->whereHas('user', function($userQuery) use ($filters) {
+            $query->where(function ($q) use ($filters) {
+                $q->whereHas('user', function ($userQuery) use ($filters) {
                     $userQuery->where('name', 'like', '%' . $filters['search'] . '%')
-                             ->orWhere('email', 'like', '%' . $filters['search'] . '%');
+                        ->orWhere('email', 'like', '%' . $filters['search'] . '%');
                 })
-                ->orWhereHas('platform', function($platformQuery) use ($filters) {
-                    $platformQuery->where('name', 'like', '%' . $filters['search'] . '%');
-                })
-                ->orWhere('role', 'like', '%' . $filters['search'] . '%');
+                    ->orWhereHas('platform', function ($platformQuery) use ($filters) {
+                        $platformQuery->where('name', 'like', '%' . $filters['search'] . '%');
+                    })
+                    ->orWhere('role', 'like', '%' . $filters['search'] . '%');
             });
         }
 

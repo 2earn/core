@@ -1,9 +1,9 @@
 <div class="container">
     <div>
         @component('components.breadcrumb')
-            @slot('title')
-                {{ __('Balance operations') }}
-            @endslot
+        @slot('title')
+        {{ __('Balance operations') }}
+        @endslot
         @endcomponent
 
         <div class="row">
@@ -16,21 +16,20 @@
                     <div class="row g-3 align-items-center">
                         <div class="col-lg-8">
                             <div class="input-group input-group">
-                                    <span class="input-group-text bg-white border-end-0">
-                                        <i class="ri-search-line text-primary"></i>
-                                    </span>
-                                <input type="text"
-                                       wire:model.live.debounce.300ms="search"
-                                       class="form-control bg-white border-start-0 ps-0 shadow-none"
-                                       placeholder="{{ __('Search by ID, Operation, Note, Balance or Parent...') }}">
+                                <span class="input-group-text bg-white border-end-0">
+                                    <i class="ri-search-line text-primary"></i>
+                                </span>
+                                <input type="text" wire:model.live.debounce.300ms="search"
+                                    class="form-control bg-white border-start-0 ps-0 shadow-none"
+                                    placeholder="{{ __('Search by ID, Operation, Note, Balance or Parent...') }}">
                             </div>
                         </div>
                         <div class="col-lg-4 text-end">
                             <div class="d-inline-flex align-items-center bg-light rounded-pill px-3 py-2">
                                 <i class="ri-file-list-line text-muted me-2"></i>
                                 <select wire:model.live="perPage"
-                                        class="form-select form-select-sm border-0 bg-transparent shadow-none pe-4"
-                                        style="width: 70px;">
+                                    class="form-select form-select-sm border-0 bg-transparent shadow-none pe-4"
+                                    style="width: 70px;">
                                     <option value="10">10</option>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
@@ -71,16 +70,16 @@
                             <div class="border-bottom hover-bg-light transition">
                                 <div class="row g-0 px-3 py-3 align-items-center">
                                     <div class="col-md-1 mb-2 mb-md-0">
-                                            <span class="badge bg-primary text-white rounded-pill px-3 py-2 fs-6">
-                                                #{{ $operation->id }}
-                                            </span>
+                                        <span class="badge bg-primary text-white rounded-pill px-3 py-2 fs-6">
+                                            #{{ $operation->id }}
+                                        </span>
                                     </div>
                                     <div class="col-md-3 mb-2 mb-md-0">
                                         <div class="d-flex flex-column gap-2">
                                             <div>
-                                                    <span class="badge bg-dark text-white px-2 py-1 fs-6">
-                                                        {{ $operation->operation ?? '-' }}
-                                                    </span>
+                                                <span class="badge bg-dark text-white px-2 py-1 fs-6">
+                                                    {{ $operation->operation ?? '-' }}
+                                                </span>
                                             </div>
                                             @if($operation->note)
                                                 <div class="small text-muted d-flex align-items-start">
@@ -92,20 +91,20 @@
                                                 @if($operation->io)
                                                     <span
                                                         class="badge bg-info-subtle text-info border border-info-subtle px-2 py-1">
-                                                            <i class="ri-arrow-left-right-line me-1"></i>{{ $operation->io }}
-                                                        </span>
+                                                        <i class="ri-arrow-left-right-line me-1"></i>{{ $operation->io }}
+                                                    </span>
                                                 @endif
                                                 @if($operation->source)
                                                     <span
                                                         class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2 py-1">
-                                                            <i class="ri-links-line me-1"></i>{{ $operation->source }}
-                                                        </span>
+                                                        <i class="ri-links-line me-1"></i>{{ $operation->source }}
+                                                    </span>
                                                 @endif
                                                 @if($operation->mode)
                                                     <span
                                                         class="badge bg-warning-subtle text-warning border border-warning-subtle px-2 py-1">
-                                                            <i class="ri-settings-3-line me-1"></i>{{ $operation->mode }}
-                                                        </span>
+                                                        <i class="ri-settings-3-line me-1"></i>{{ $operation->mode }}
+                                                    </span>
                                                 @endif
                                             </div>
                                         </div>
@@ -113,54 +112,55 @@
                                     <div class="col-md-2 mb-2 mb-md-0">
                                         @if($operation->balance_id)
                                             <span class="badge bg-success text-white px-3 py-2">
-                                                    <i class="ri-wallet-3-line me-1"></i>{{ $operation->balance_id }}
-                                                </span>
+                                                <i class="ri-wallet-3-line me-1"></i>{{ $operation->balance_id }}
+                                            </span>
                                         @else
                                             <span class="text-muted">
-                                                    <i class="ri-close-circle-line"></i> {{ __('N/A') }}
-                                                </span>
+                                                <i class="ri-close-circle-line"></i> {{ __('N/A') }}
+                                            </span>
                                         @endif
                                     </div>
                                     <div class="col-md-2 mb-2 mb-md-0">
                                         @if($operation->parent_id)
                                             <span class="badge bg-warning text-dark px-3 py-2">
-                                                    <i class="ri-git-branch-line me-1"></i>#{{ $operation->parent_id }}
-                                                </span>
+                                                <i class="ri-git-branch-line me-1"></i>#{{ $operation->parent_id }}
+                                            </span>
                                         @else
                                             <span class="text-muted">
-                                                    <i class="ri-close-circle-line"></i> {{ __('N/A') }}
-                                                </span>
+                                                <i class="ri-close-circle-line"></i> {{ __('N/A') }}
+                                            </span>
                                         @endif
                                     </div>
                                     <div class="col-md-2 mb-2 mb-md-0">
-                                        @if($operation->operation_category_id && $operation->opeartionCategory)
+                                        @if($operation->operation_category_id && $operation->operationCategory)
                                             <span class="badge bg-purple text-white px-3 py-2">
-                                                    <i class="ri-price-tag-3-line me-1"></i>{{ Str::limit($operation->opeartionCategory->name, 20) }}
-                                                </span>
+                                                <i
+                                                    class="ri-price-tag-3-line me-1"></i>{{ Str::limit($operation->operationCategory->name, 20) }}
+                                            </span>
                                         @elseif($operation->operation_category_id)
-                                            <span
-                                                class="badge bg-purple-subtle text-purple border border-purple px-2 py-1">
-                                                    <i class="ri-price-tag-3-line me-1"></i>ID: {{ $operation->operation_category_id }}
-                                                </span>
+                                            <span class="badge bg-purple-subtle text-purple border border-purple px-2 py-1">
+                                                <i class="ri-price-tag-3-line me-1"></i>ID:
+                                                {{ $operation->operation_category_id }}
+                                            </span>
                                         @else
                                             <span class="text-muted">
-                                                    <i class="ri-close-circle-line"></i> {{ __('N/A') }}
-                                                </span>
+                                                <i class="ri-close-circle-line"></i> {{ __('N/A') }}
+                                            </span>
                                         @endif
                                     </div>
                                     <div class="col-md-2 text-md-end">
                                         @if($operation->modify_amount)
                                             <div class="d-flex flex-column align-items-md-end">
-                                                    <span
-                                                        class="badge {{ $operation->modify_amount > 0 ? 'bg-success' : 'bg-danger' }} text-white px-3 py-2 fs-6">
-                                                        <i class="ri-money-dollar-circle-line me-1"></i>
-                                                        {{ number_format($operation->modify_amount, 2) }}
-                                                    </span>
+                                                <span
+                                                    class="badge {{ $operation->modify_amount > 0 ? 'bg-success' : 'bg-danger' }} text-white px-3 py-2 fs-6">
+                                                    <i class="ri-money-dollar-circle-line me-1"></i>
+                                                    {{ number_format($operation->modify_amount, 2) }}
+                                                </span>
                                             </div>
                                         @else
                                             <span class="text-muted">
-                                                    <i class="ri-close-circle-line"></i> {{ __('N/A') }}
-                                                </span>
+                                                <i class="ri-close-circle-line"></i> {{ __('N/A') }}
+                                            </span>
                                         @endif
                                     </div>
                                 </div>

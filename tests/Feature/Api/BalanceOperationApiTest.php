@@ -64,8 +64,11 @@ class BalanceOperationApiTest extends TestCase
         $response->assertStatus(200);
 
         $data = $response->json();
-        $this->assertGreaterThanOrEqual($initialCount + 3, count($data),
-            "Expected at least " . ($initialCount + 3) . " operations, got " . count($data));
+        $this->assertGreaterThanOrEqual(
+            $initialCount + 3,
+            count($data),
+            "Expected at least " . ($initialCount + 3) . " operations, got " . count($data)
+        );
     }
 
     /** @test */
@@ -336,13 +339,13 @@ class BalanceOperationApiTest extends TestCase
 
         // Check that parent and category keys exist
         $this->assertArrayHasKey('parent', $data, 'Response should include parent key');
-        $this->assertArrayHasKey('opeartionCategory', $data, 'Response should include opeartionCategory key');
+        $this->assertArrayHasKey('operation_category', $data, 'Response should include operation_category key');
 
         // Verify relationships are not null and have the correct IDs
         $this->assertNotNull($data['parent'], 'Parent relationship should be loaded');
-        $this->assertNotNull($data['opeartionCategory'], 'Operation category relationship should be loaded');
+        $this->assertNotNull($data['operation_category'], 'Operation category relationship should be loaded');
         $this->assertEquals($parentOperationId, $data['parent']['id'], 'Parent ID should match');
-        $this->assertEquals($categoryId, $data['opeartionCategory']['id'], 'Category ID should match');
+        $this->assertEquals($categoryId, $data['operation_category']['id'], 'Category ID should match');
     }
 
     /** @test */

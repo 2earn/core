@@ -72,6 +72,45 @@
         "description": "Get user's cash balance , limit latest 5. Requires check.url middleware."
       },
       "response": []
+    },
+    {
+      "name": "Search Users",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/mobile/users/search?search_term=test",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "mobile",
+            "users",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "search_term",
+              "value": "test",
+              "description": "Search term (min 3 chars)"
+            },
+            {
+              "key": "limit",
+              "value": "10",
+              "description": "Limit results (default 10, max 50)",
+              "disabled": true
+            }
+          ]
+        },
+        "description": "Search for users by name, email, or other fields."
+      },
+      "response": []
     }
   ]
 }

@@ -63,7 +63,7 @@ class BalanceOperation extends Model
     {
         return $this->belongsTo(BalanceOperation::class, 'parent_operation_id');
     }
-    public function opeartionCategory(): HasOne
+    public function operationCategory(): HasOne
     {
         return $this->hasOne(OperationCategory::class, 'id', 'operation_category_id');
     }

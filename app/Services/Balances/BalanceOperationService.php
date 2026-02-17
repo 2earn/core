@@ -11,9 +11,8 @@ class BalanceOperationService
     public function getFilteredOperations(
         ?string $search = null,
         int $perPage = 10
-    ): LengthAwarePaginator
-    {
-        return BalanceOperation::with(['parent', 'opeartionCategory'])
+    ): LengthAwarePaginator {
+        return BalanceOperation::with(['parent', 'operationCategory'])
             ->when($search, function ($query) use ($search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('id', 'like', '%' . $search . '%')
@@ -28,12 +27,12 @@ class BalanceOperationService
 
     public function getOperationById(int $id): ?BalanceOperation
     {
-        return BalanceOperation::with(['parent', 'opeartionCategory'])->find($id);
+        return BalanceOperation::with(['parent', 'operationCategory'])->find($id);
     }
 
     public function getAllOperations()
     {
-        return BalanceOperation::with(['parent', 'opeartionCategory'])
+        return BalanceOperation::with(['parent', 'operationCategory'])
             ->orderBy('id', 'desc')
             ->get();
     }
