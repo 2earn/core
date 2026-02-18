@@ -688,4 +688,12 @@ Route::prefix('/v2/')->name('api_v2_')
             Route::put('/{id}', [OperationCategoryController::class, 'update'])->name('update');
             Route::delete('/{id}', [OperationCategoryController::class, 'destroy'])->name('destroy');
         });
+
+        Route::prefix('carts')->name('carts_')->group(function () {
+            Route::get('/user/{userId}', [\App\Http\Controllers\Api\v2\CartController::class, 'index'])->name('index');
+            Route::post('/user/{userId}/add', [\App\Http\Controllers\Api\v2\CartController::class, 'add'])->name('add');
+            Route::put('/user/{userId}/items/{itemId}', [\App\Http\Controllers\Api\v2\CartController::class, 'update'])->name('update');
+            Route::delete('/user/{userId}/items/{itemId}', [\App\Http\Controllers\Api\v2\CartController::class, 'remove'])->name('remove');
+            Route::delete('/user/{userId}', [\App\Http\Controllers\Api\v2\CartController::class, 'clear'])->name('clear');
+        });
     });
