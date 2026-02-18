@@ -1,5 +1,7 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-layout="vertical" data-layout-style="detached" data-layout-position="fixed" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-layout-width="fluid">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-layout="vertical" data-layout-style="detached"
+    data-layout-position="fixed" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg"
+    data-layout-width="fluid">
 
 <head>
     <meta charset="utf-8" />
@@ -10,15 +12,16 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ Vite::asset('resources/images/favicon.ico')}}">
     @include('layouts.head-css')
-    @livewireStyles
+
 </head>
 @include('layouts.vendor-scripts')
+
 <body>
 
     <!-- Begin page -->
     <div id="layout-wrapper">
-     @include('layouts.topbar')
-    <livewire:sidebar />
+        @include('layouts.topbar')
+
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
@@ -40,9 +43,9 @@
     <!-- Right Sidebar -->
     @include('layouts.customizer')
     <!-- END Right Sidebar -->
-    @livewireScripts
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script  src="{{ URL::asset('/assets/js/app.min.js') }}" defer></script>
+    <script src="{{ URL::asset('/assets/js/app.min.js') }}" defer></script>
 </body>
 
 </html>

@@ -1,3 +1,0 @@
-<div>
-    Finacial request
-</div>
