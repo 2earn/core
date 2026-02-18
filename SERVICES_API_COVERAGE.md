@@ -11,7 +11,6 @@
 
 | Service Class | Path |
 |---|---|
-| `OperationCategoryService` | `Balances\OperationCategoryService` |
 | `Carts` | `Carts\Carts` |
 | `CartsFacade` | `Carts\CartsFacade` |
 | `CommittedInvestorRequestService` | `CommittedInvestor\CommittedInvestorRequestService` |
@@ -77,6 +76,7 @@
 | `Balances\BalanceTreeService` | `/v1/user/tree` |
 | `Balances\CashBalancesService` | `/v1/api/user/cash`, `/mobile/cash-balance` |
 | `Balances\ShareBalanceService` | `/v1/api/shares/*` |
+| `Balances\OperationCategoryService` | `/v2/operation-categories` |
 | `BalancesManager` | `/v1/add-cash`, `/v1/update-balance-*` |
 | `BusinessSector\BusinessSectorService` | `/v2/business-sectors` |
 | `Comments\CommentsService` | `/v2/comments` |
