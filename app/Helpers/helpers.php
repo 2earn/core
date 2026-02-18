@@ -268,9 +268,9 @@ if (!function_exists('getUserActualActionsProfit')) {
     function getUserActualActionsProfit($user)
     {
         return getUserActualActionsValue($user) - SharesBalances::where('beneficiary_id', $user)
-                ->selectRaw('SUM(amount) as total_sum')
-                ->first()
-                ->total_sum;
+            ->selectRaw('SUM(amount) as total_sum')
+            ->first()
+            ->total_sum;
     }
 }
 if (!function_exists('getExtraAdmin')) {
@@ -313,8 +313,7 @@ if (!function_exists('getLangNavigation')) {
             $ss = DB::table('countries')->where('apha2', '=', $country_code)->get()->first();
             $lang = $ss->lang;
         }
-        if ($lang == "") {
-            {
+        if ($lang == "") { {
                 $lang = "en";
             }
         }
@@ -464,8 +463,7 @@ if (!function_exists('getUserDisplayedName')) {
                 } else {
                     $displayedName = $user->fullphone_number;
                 }
-            }
-        else
+            } else
             if (isset($usermetta_info['enFirstName']) && isset($usermetta_info['enLastName']) && !empty($usermetta_info['enFirstName']) && !empty($usermetta_info['enLastName'])) {
                 $displayedName = $usermetta_info['enFirstName'] . ' ' . $usermetta_info['enLastName'];
             } else {
@@ -551,17 +549,21 @@ if (!function_exists('getValidCurrentDateTime')) {
 if (!function_exists('formatSqlWithEnv')) {
     function formatSqlWithEnv($viewSqlCode)
     {
-        match (config('app.name')) {
-            'core.test' => $viewSqlCode = str_replace('database_earn', 'core', $viewSqlCode),
-            'dev.core.2earn.cash' => $viewSqlCode = str_replace('database_earn', 'admin_devcore', $viewSqlCode),
-            'core.2earn.cash' => $viewSqlCode = str_replace('database_earn', 'admine_core', $viewSqlCode),
-        };
+        try {
+            match (config('app.name')) {
+                'core.test' => $viewSqlCode = str_replace('database_earn', 'core', $viewSqlCode),
+                'dev.core.2earn.cash' => $viewSqlCode = str_replace('database_earn', 'admin_devcore', $viewSqlCode),
+                'core.2earn.cash' => $viewSqlCode = str_replace('database_earn', 'admin_core', $viewSqlCode),
+            };
 
-        match (config('app.name')) {
-            'core.test' => $viewSqlCode = str_replace('database_name', 'core', $viewSqlCode),
-            'dev.core.2earn.cash' => $viewSqlCode = str_replace('database_name', 'admin_devcore', $viewSqlCode),
-            'core.2earn.cash' => $viewSqlCode = str_replace('database_name', 'admine_core', $viewSqlCode),
-        };
+            match (config('app.name')) {
+                'core.test' => $viewSqlCode = str_replace('database_name', 'core', $viewSqlCode),
+                'dev.core.2earn.cash' => $viewSqlCode = str_replace('database_name', 'admin_devcore', $viewSqlCode),
+                'core.2earn.cash' => $viewSqlCode = str_replace('database_name', 'admin_core', $viewSqlCode),
+            };
+        } catch (\Throwable $e) {
+            // If match fails or any other error occurs, we return the code as is or log it if needed
+        }
         return $viewSqlCode;
     }
 }
@@ -672,7 +674,8 @@ if (!function_exists('createTranslaleModel')) {
                 'valueEs' => $value . ' ES',
                 'valueRu' => $value . ' Ru',
                 'valueDe' => $value . ' De',
-            ]);
+            ]
+        );
     }
 }
 
