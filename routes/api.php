@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\partner\PlatformPartnerController;
 use App\Http\Controllers\Api\partner\SalesDashboardController;
 use App\Http\Controllers\Api\partner\UserPartnerController;
 use App\Http\Controllers\Api\payment\OrderSimulationController;
+use App\Http\Controllers\Api\v2\OperationCategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -677,5 +678,22 @@ Route::prefix('/v2/')->name('api_v2_')
             Route::post('/{id}/comment', [\App\Http\Controllers\Api\v2\EventController::class, 'addComment'])->name('add_comment');
             Route::put('/{id}', [\App\Http\Controllers\Api\v2\EventController::class, 'update'])->name('update');
             Route::delete('/{id}', [\App\Http\Controllers\Api\v2\EventController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('operation-categories')->name('operation_categories_')->group(function () {
+            Route::get('/', [OperationCategoryController::class, 'index'])->name('index');
+            Route::get('/all', [OperationCategoryController::class, 'all'])->name('all');
+            Route::get('/{id}', [OperationCategoryController::class, 'show'])->name('show');
+            Route::post('/', [OperationCategoryController::class, 'store'])->name('store');
+            Route::put('/{id}', [OperationCategoryController::class, 'update'])->name('update');
+            Route::delete('/{id}', [OperationCategoryController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('carts')->name('carts_')->group(function () {
+            Route::get('/user/{userId}', [\App\Http\Controllers\Api\v2\CartController::class, 'index'])->name('index');
+            Route::post('/user/{userId}/add', [\App\Http\Controllers\Api\v2\CartController::class, 'add'])->name('add');
+            Route::put('/user/{userId}/items/{itemId}', [\App\Http\Controllers\Api\v2\CartController::class, 'update'])->name('update');
+            Route::delete('/user/{userId}/items/{itemId}', [\App\Http\Controllers\Api\v2\CartController::class, 'remove'])->name('remove');
+            Route::delete('/user/{userId}', [\App\Http\Controllers\Api\v2\CartController::class, 'clear'])->name('clear');
         });
     });

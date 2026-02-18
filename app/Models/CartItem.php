@@ -11,6 +11,7 @@ class CartItem extends Model
     use HasFactory, HasAuditing;
 
     protected $fillable = [
+        'cart_id',
         'qty',
         'shipping',
         'unit_price',
@@ -27,6 +28,6 @@ class CartItem extends Model
 
     public function item()
     {
-        return $this->belongsTo(Item::class,'item_id','id');
+        return $this->belongsTo(Item::class, 'item_id', 'id');
     }
 }
