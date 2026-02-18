@@ -1,7 +1,7 @@
 # Services API Coverage Report
 
 > Generated: 2026-02-18  
-> Total services: **107** | Used in controllers: **59** | **Not exposed via API: 48**
+> Total services: **107** | Used in controllers: **61** | **Not exposed via API: 46**
 
 ---
 
@@ -11,8 +11,6 @@
 
 | Service Class | Path |
 |---|---|
-| `Carts` | `Carts\Carts` |
-| `CartsFacade` | `Carts\CartsFacade` |
 | `CommittedInvestorRequestService` | `CommittedInvestor\CommittedInvestorRequestService` |
 | `CommunicationFacade` | `Communication\CommunicationFacade` |
 | `DealChangeRequestService` | `DealChangeRequest\DealChangeRequestService` |
@@ -40,7 +38,6 @@
 | `ActionHistorysService` | `ActionHistorysService.php` | |
 | `AmountService` | `AmountService.php` | |
 | `BalanceOperationService` | `BalanceOperationService.php` | Duplicate of `Balances\BalanceOperationService` |
-| `CartService` | `CartService.php` | |
 | `CashService` | `CashService.php` | |
 | `CommandeServiceManager` | `CommandeServiceManager.php` | |
 | `CommentService` | `CommentService.php` | Duplicate of `Comments\CommentsService` |
@@ -129,6 +126,7 @@
 | `UserGuide\UserGuideService` | `/v2/user-guides` |
 | `UserService` | `ApiController` |
 | `VipService` | `/v1/vip` |
+| `CartService` + `Carts\Carts` | `/v2/carts` |
 
 ---
 
@@ -136,7 +134,7 @@
 
 1. **Survey module entirely unexposed** — all 5 `Survey\*` services have no API endpoints.
 2. **Targeting module mostly unexposed** — only `Targeting` itself is used; `ConditionService`, `GroupService`, `TargetingFacade`, `TargetService` are not.
-3. **Cart system not exposed** — `Carts\Carts`, `Carts\CartsFacade`, `CartService` have no API endpoints despite the cart-based order flow.
+3. **Cart system now exposed** — `CartService` and `Carts\Carts` are now exposed via `/v2/carts` endpoints.
 4. **Notification/messaging internal only** — `NotificationService`, `MessageService`, `NotifyEarn`, `NotifyHelper` are used internally with no API exposure.
 5. **Several root-level services are legacy duplicates** of their namespaced counterparts and should likely be cleaned up.
 6. **`DealChangeRequestService`** has no direct endpoint — deal change requests flow through `DealService` instead.

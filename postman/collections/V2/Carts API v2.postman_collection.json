@@ -1,0 +1,180 @@
+{
+      "info": {
+            "_postman_id": "e4d3f5a6-b7c8-9012-3456-789012345678",
+            "name": "Carts API v2",
+            "description": "Version 2 API endpoints for Shopping Cart Management",
+            "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+      },
+      "item": [
+            {
+                  "name": "Get User Cart",
+                  "request": {
+                        "method": "GET",
+                        "header": [
+                              {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                              }
+                        ],
+                        "url": {
+                              "raw": "{{base_url}}/api/v2/carts/user/{{user_id}}",
+                              "host": [
+                                    "{{base_url}}"
+                              ],
+                              "path": [
+                                    "api",
+                                    "v2",
+                                    "carts",
+                                    "user",
+                                    "{{user_id}}"
+                              ]
+                        },
+                        "description": "Retrieve the shopping cart for a specific user"
+                  },
+                  "response": []
+            },
+            {
+                  "name": "Add Item to Cart",
+                  "request": {
+                        "method": "POST",
+                        "header": [
+                              {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                              },
+                              {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                              }
+                        ],
+                        "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"item_id\": {{item_id}},\n  \"qty\": 1\n}"
+                        },
+                        "url": {
+                              "raw": "{{base_url}}/api/v2/carts/user/{{user_id}}/add",
+                              "host": [
+                                    "{{base_url}}"
+                              ],
+                              "path": [
+                                    "api",
+                                    "v2",
+                                    "carts",
+                                    "user",
+                                    "{{user_id}}",
+                                    "add"
+                              ]
+                        },
+                        "description": "Add an item to the user's cart"
+                  },
+                  "response": []
+            },
+            {
+                  "name": "Update Cart Item Quantity",
+                  "request": {
+                        "method": "PUT",
+                        "header": [
+                              {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                              },
+                              {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                              }
+                        ],
+                        "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"qty\": 5\n}"
+                        },
+                        "url": {
+                              "raw": "{{base_url}}/api/v2/carts/user/{{user_id}}/items/{{item_id}}",
+                              "host": [
+                                    "{{base_url}}"
+                              ],
+                              "path": [
+                                    "api",
+                                    "v2",
+                                    "carts",
+                                    "user",
+                                    "{{user_id}}",
+                                    "items",
+                                    "{{item_id}}"
+                              ]
+                        },
+                        "description": "Update the quantity of an item in the cart. Set qty to 0 to remove."
+                  },
+                  "response": []
+            },
+            {
+                  "name": "Remove Item from Cart",
+                  "request": {
+                        "method": "DELETE",
+                        "header": [
+                              {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                              }
+                        ],
+                        "url": {
+                              "raw": "{{base_url}}/api/v2/carts/user/{{user_id}}/items/{{item_id}}",
+                              "host": [
+                                    "{{base_url}}"
+                              ],
+                              "path": [
+                                    "api",
+                                    "v2",
+                                    "carts",
+                                    "user",
+                                    "{{user_id}}",
+                                    "items",
+                                    "{{item_id}}"
+                              ]
+                        },
+                        "description": "Remove a specific item from the user's cart"
+                  },
+                  "response": []
+            },
+            {
+                  "name": "Clear Cart",
+                  "request": {
+                        "method": "DELETE",
+                        "header": [
+                              {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                              }
+                        ],
+                        "url": {
+                              "raw": "{{base_url}}/api/v2/carts/user/{{user_id}}",
+                              "host": [
+                                    "{{base_url}}"
+                              ],
+                              "path": [
+                                    "api",
+                                    "v2",
+                                    "carts",
+                                    "user",
+                                    "{{user_id}}"
+                              ]
+                        },
+                        "description": "Clear all items from the user's cart"
+                  },
+                  "response": []
+            }
+      ],
+      "variable": [
+            {
+                  "key": "base_url",
+                  "value": "http://localhost:8000"
+            },
+            {
+                  "key": "user_id",
+                  "value": "1"
+            },
+            {
+                  "key": "item_id",
+                  "value": "1"
+            }
+      ]
+}
