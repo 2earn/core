@@ -36,6 +36,11 @@ class CartControllerTest extends TestCase
                   'total_amount' => 20
             ]);
 
+            $cart->update([
+                  'total_cart_quantity' => 2,
+                  'total_cart' => 20
+            ]);
+
             $response = $this->actingAs($this->user, 'sanctum')
                   ->getJson("/api/v2/carts/user/{$this->user->id}");
 

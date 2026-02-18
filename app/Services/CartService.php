@@ -170,8 +170,7 @@ class CartService
                 $existingCartItem->total_amount = $existingCartItem->qty * $existingCartItem->unit_price;
                 $existingCartItem->save();
             } else {
-                CartItem::create([
-                    'cart_id' => $cart->id,
+                $cart->cartItem()->create([
                     'item_id' => $itemId,
                     'qty' => $qty,
                     'unit_price' => $item->price,
