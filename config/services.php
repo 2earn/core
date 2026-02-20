@@ -41,5 +41,6 @@ return [
         'token' => env('AUTH_2EARN_TOKEN'),
         'public_key_path' => env('PUBLIC_KEY_PATH'),
     ],
+    'approved_ips' => explode(',', env('APPROVED_IPS', '127.0.0.1')),
 
 ];
