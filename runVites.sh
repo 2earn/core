@@ -2,7 +2,7 @@
 
 # Define full paths to both projects
 PROJECT_ROOT="C:/laragon/www"
-PROJECT_2EARN="$PROJECT_ROOT/2earn"
+PROJECT_2EARN="$PROJECT_ROOT/core"
 PROJECT_AUTH="$PROJECT_ROOT/auth"
 
 # Run both Vite servers in parallel
