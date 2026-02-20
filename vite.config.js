@@ -1,7 +1,7 @@
-import {defineConfig} from 'vite';
+import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import inject from '@rollup/plugin-inject';
-import {viteStaticCopy} from 'vite-plugin-static-copy'
+import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 import fs from 'fs-extra';
 import path from 'path';
@@ -108,11 +108,9 @@ export default defineConfig({
                 'resources/css/modern-enhancements-rtl.css',
                 'resources/sass/app.scss',
                 'resources/css/dataTables.bootstrap.css',
-                'resources/css/rowReorder.bootstrap.css',
                 'resources/css/material-components-web.min.css',
                 'resources/js/app.js',
                 'resources/js/appWithoutNav.js',
-                'resources/js/plugins.js',
                 'resources/js/layout.js',
                 'resources/css/bootstrap-rtl.css',
                 'resources/css/icons.css',
@@ -121,7 +119,6 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/css/app-rtl.css',
                 'resources/js/intlTelInput.js',
-                'resources/js/turbo.js',
                 'resources/js/sweetalert2@11.js',
                 'resources/css/menumodals.css',
                 'resources/css/select2.min.css',
@@ -147,10 +144,7 @@ export default defineConfig({
                 'resources/anychart/anychart-table.min.js',
                 'resources/js/pages/form-validation.init.js',
                 'resources/js/pages/crypto-kyc.init.js',
-                'resources/js/surveys.js',
                 'resources/js/pages/passowrd-create.init.js',
-                'resources/libs/apexcharts/apexcharts.min.js',
-                'resources/js/ckeditor.js',
             ],
             refresh: true,
             server: {
@@ -232,7 +226,7 @@ export default defineConfig({
 
                 try {
                     const configContent = await fs.readFile(configPath, 'utf-8');
-                    const {packagesToCopy} = JSON.parse(configContent);
+                    const { packagesToCopy } = JSON.parse(configContent);
 
                     for (const packageName of packagesToCopy) {
                         const destPackagePath = path.join(outputPath, 'libs', packageName)
