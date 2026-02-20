@@ -12,9 +12,7 @@ class CheckApprovedUrl
 
     public function handle(Request $request, Closure $next): Response
     {
-        $approvedIps = [
-            '127.0.0.1','102.31.213.136','102.152.40.227','102.152.59.248',
-        ];
+        $approvedIps = config('services.approved_ips');
 
         $requestIp = $request->ip();
 
