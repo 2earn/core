@@ -28,7 +28,7 @@
                                 <div class="row">
                                     <div class="col-lg-10 offset-lg-1">
                                         <p class="text-center mb-0 lh-lg">
-                                            <a href="{{route('home',app()->getLocale())}}"
+                                            <a href="#"
                                                class="footer-link-highlight">
                                                 2Earn.cash
                                             </a>

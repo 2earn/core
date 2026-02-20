@@ -13,7 +13,7 @@
                         <div class="col-lg-12 mb-2">
                             <div class="text-center mt-sm-5 mb-4 text-white-50">
                                 <div>
-                                    <a href="{{route('login',app()->getLocale())}}" class="d-inline-block auth-logo">
+                                    <a href="#" class="d-inline-block auth-logo">
                                         <img src="{{ Vite::asset('resources/images/2earn.png') }}" alt="" height="60">
                                     </a>
                                 </div>

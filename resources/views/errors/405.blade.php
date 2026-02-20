@@ -14,7 +14,7 @@
                             <div class="card mt-4">
                                 <div class="card-body">
                                     <div class="text-center mt-sm-5 mb-4 text-white-50">
-                                        <a href="{{route('login',app()->getLocale())}}"
+                                        <a href="#"
                                            class="d-inline-block auth-logo">
                                             <img src="{{ Vite::asset('resources/images/2earn.png') }}">
                                         </a>
@@ -36,7 +36,7 @@
                                         <a href="{{ url()->previous() }}" class="btn btn-info me-2">
                                             <i class="mdi mdi-arrow-left me-1"></i>@lang('Back')
                                         </a>
-                                        <a href="{{route('home',app()->getLocale())}}" class="btn btn-success">
+                                        <a href="#" class="btn btn-success">
                                             <i class="mdi mdi-home me-1"></i>@lang('Home')
                                         </a>
                                     </div>

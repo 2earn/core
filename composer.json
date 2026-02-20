@@ -2,7 +2,10 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.3",
@@ -20,7 +23,6 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^4.0",
-        "livewire/livewire": "^3.6",
         "opcodesio/log-viewer": "*",
         "paytabscom/laravel_paytabs": "^1.5",
         "propaganistas/laravel-phone": "^5.1",
@@ -44,9 +46,7 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-
             "app/Helpers/helpers.php"
-
         ]
     },
     "autoload-dev": {
@@ -71,7 +71,9 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": ["laravel/telescope"]
+            "dont-discover": [
+                "laravel/telescope"
+            ]
         }
     },
     "config": {

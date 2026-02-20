@@ -15,7 +15,7 @@ import 'datatables.net-buttons/js/buttons.html5';
 import 'datatables.net-buttons-bs5';
 
 import intlTelInput from 'intl-tel-input';
-import {Dropzone} from "dropzone";
+import { Dropzone } from "dropzone";
 import feather from 'feather-icons';
 import waves from 'node-waves';
 import Toastify from "toastify";
@@ -26,7 +26,7 @@ import 'prismjs/components/prism-lua.min.js'
 import ApexCharts from 'apexcharts'
 import SimpleBar from 'simplebar';
 import 'simplebar/dist/simplebar.css';
-import 'livewire-sortable'
+
 import * as FilePond from 'filepond';
 import 'filepond/dist/filepond.min.css';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
@@ -806,28 +806,28 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
         var counter = document.querySelectorAll(".counter-value");
         var speed = 250; // The lower the slower
         counter &&
-        Array.from(counter).forEach(function (counter_value) {
-            function updateCount() {
-                var target = +counter_value.getAttribute("data-target");
-                var count = +counter_value.innerText;
-                var inc = target / speed;
-                if (inc < 1) {
-                    inc = 1;
+            Array.from(counter).forEach(function (counter_value) {
+                function updateCount() {
+                    var target = +counter_value.getAttribute("data-target");
+                    var count = +counter_value.innerText;
+                    var inc = target / speed;
+                    if (inc < 1) {
+                        inc = 1;
+                    }
+                    // Check if target is reached
+                    if (count < target) {
+                        // Add inc to count and output in counter_value
+                        counter_value.innerText = (count + inc).toFixed(0);
+                        // Call function every ms
+                        setTimeout(updateCount, 1);
+                    } else {
+                        counter_value.innerText = numberWithCommas(target);
+                    }
+                    numberWithCommas(counter_value.innerText);
                 }
-                // Check if target is reached
-                if (count < target) {
-                    // Add inc to count and output in counter_value
-                    counter_value.innerText = (count + inc).toFixed(0);
-                    // Call function every ms
-                    setTimeout(updateCount, 1);
-                } else {
-                    counter_value.innerText = numberWithCommas(target);
-                }
-                numberWithCommas(counter_value.innerText);
-            }
 
-            updateCount();
-        });
+                updateCount();
+            });
 
         function numberWithCommas(x) {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -1506,7 +1506,7 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
             // Add visual indicator that fullscreen was previously enabled
             fullscreenBtn.classList.add('fullscreen-pending');
             // Auto-request fullscreen on first user interaction
-            var autoFullscreen = function() {
+            var autoFullscreen = function () {
                 if (document.documentElement.requestFullscreen) {
                     document.documentElement.requestFullscreen();
                 } else if (document.documentElement.mozRequestFullScreen) {
@@ -1523,38 +1523,38 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
         }
 
         fullscreenBtn &&
-        fullscreenBtn.addEventListener("click", function (e) {
-            e.preventDefault();
-            document.body.classList.toggle("fullscreen-enable");
-            if (!document.fullscreenElement &&
-                /* alternative standard method */
-                !document.mozFullScreenElement &&
-                !document.webkitFullscreenElement
-            ) {
-                // Save fullscreen preference
-                localStorage.setItem('fullscreen-enabled', 'true');
-                // current working methods
-                if (document.documentElement.requestFullscreen) {
-                    document.documentElement.requestFullscreen();
-                } else if (document.documentElement.mozRequestFullScreen) {
-                    document.documentElement.mozRequestFullScreen();
-                } else if (document.documentElement.webkitRequestFullscreen) {
-                    document.documentElement.webkitRequestFullscreen(
-                        Element.ALLOW_KEYBOARD_INPUT
-                    );
+            fullscreenBtn.addEventListener("click", function (e) {
+                e.preventDefault();
+                document.body.classList.toggle("fullscreen-enable");
+                if (!document.fullscreenElement &&
+                    /* alternative standard method */
+                    !document.mozFullScreenElement &&
+                    !document.webkitFullscreenElement
+                ) {
+                    // Save fullscreen preference
+                    localStorage.setItem('fullscreen-enabled', 'true');
+                    // current working methods
+                    if (document.documentElement.requestFullscreen) {
+                        document.documentElement.requestFullscreen();
+                    } else if (document.documentElement.mozRequestFullScreen) {
+                        document.documentElement.mozRequestFullScreen();
+                    } else if (document.documentElement.webkitRequestFullscreen) {
+                        document.documentElement.webkitRequestFullscreen(
+                            Element.ALLOW_KEYBOARD_INPUT
+                        );
+                    }
+                } else {
+                    // Clear fullscreen preference
+                    localStorage.setItem('fullscreen-enabled', 'false');
+                    if (document.cancelFullScreen) {
+                        document.cancelFullScreen();
+                    } else if (document.mozCancelFullScreen) {
+                        document.mozCancelFullScreen();
+                    } else if (document.webkitCancelFullScreen) {
+                        document.webkitCancelFullScreen();
+                    }
                 }
-            } else {
-                // Clear fullscreen preference
-                localStorage.setItem('fullscreen-enabled', 'false');
-                if (document.cancelFullScreen) {
-                    document.cancelFullScreen();
-                } else if (document.mozCancelFullScreen) {
-                    document.mozCancelFullScreen();
-                } else if (document.webkitCancelFullScreen) {
-                    document.webkitCancelFullScreen();
-                }
-            }
-        });
+            });
 
         document.addEventListener("fullscreenchange", exitHandler);
         document.addEventListener("webkitfullscreenchange", exitHandler);
@@ -1572,7 +1572,7 @@ window.FilePondPluginImagePreview = FilePondPluginImagePreview;
         // Find all dark-mode stylesheets (Vite-compiled)
         var viteLinks = document.querySelectorAll('link[rel="stylesheet"]');
 
-        viteLinks.forEach(function(link) {
+        viteLinks.forEach(function (link) {
             if (link.href && link.href.includes('dark-mode')) {
                 if (enable) {
                     link.removeAttribute('disabled');
