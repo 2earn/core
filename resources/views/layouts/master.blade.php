@@ -66,19 +66,31 @@
     <meta property="og:image" content="{{ Vite::asset('resources/images/2earn.png') }}">
     <meta property="twitter:image" content="{{ Vite::asset('resources/images/2earn.png') }}">
     @vite([
-        'resources/anychart/anychart-base.min.js',
-        'resources/anychart/anychart-circular-gauge.min.js',
-        'resources/anychart/anychart-data-adapter.min.js',
-        'resources/anychart/anychart-exports.min.js',
-        'resources/anychart/anychart-font.min.css',
-        'resources/anychart/anychart-map.min.js',
-        'resources/anychart/anychart-sankey.min.js',
-        'resources/anychart/anychart-tag-cloud.min.js',
-        'resources/anychart/anychart-ui.min.css',
-        'resources/anychart/anychart-ui.min.js',
-        'resources/anychart/proj4.js',
-        'resources/anychart/world.js',
-        'resources/anychart/anychart-table.min.js',
+        'resources/css/tailwind.css',
+        'resources/css/modern-enhancements.css',
+        'resources/css/modern-enhancements-rtl.css',
+        'resources/sass/app.scss',
+        'resources/css/dataTables.bootstrap.css',
+        'resources/css/material-components-web.min.css',
+        'resources/js/app.js',
+        'resources/js/appWithoutNav.js',
+        'resources/js/layout.js',
+        'resources/css/bootstrap-rtl.css',
+        'resources/css/icons.css',
+        'resources/css/icons-rtl.css',
+        'resources/css/bootstrap.min.css',
+        'resources/css/app.css',
+        'resources/css/app-rtl.css',
+        'resources/js/intlTelInput.js',
+        'resources/js/sweetalert2@11.js',
+        'resources/css/menumodals.css',
+        'resources/css/select2.min.css',
+        'resources/fontawesome/all.min.css',
+        'resources/css/intlTelInput.min.css',
+        'resources/css/custom.css',
+        'resources/css/custom-rtl.css',
+        'resources/css/dark-mode.css',
+        'resources/css/dark-mode-rtl.css',
     ])
     <link rel="shortcut icon" href="{{ Vite::asset('resources/images/favicon.ico')}}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.all.min.js"></script>
@@ -150,13 +162,6 @@
     @include('parts.error-modal')
     @include('layouts.footer', ['pageName' => 'master'])
     @vite('resources/js/pages/crypto-kyc.init.js')
-    <script type="module">
-        window.addEventListener('load', () => {
-            anychart.onDocumentReady(function () {
-                anychart.licenseKey('2earn.cash-953c5a55-712f04c3');
-            });
-        });
-    </script>
     @stack('scripts')
     <script>
         document.addEventListener("DOMContentLoaded", function () {
