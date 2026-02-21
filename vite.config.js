@@ -24,15 +24,6 @@ export default defineConfig({
             }
         }
     },
-    server: {
-        warmup: {
-            clientFiles: [
-                'resources/js/app.js',
-                'resources/js/appWithoutNav.js',
-                'resources/css/tailwind.css',
-            ]
-        }
-    },
     optimizeDeps: {
         include: [
             'jquery',
