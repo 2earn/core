@@ -218,7 +218,9 @@ class User extends Authenticatable
         $imageNationalFront->storeAs('profiles', Image::IMAGE_PREFIX_FRONT . $idUser . '.' . $imageNationalFront->extension(), 'public2');
 
         $image = Image::create([
-            'type' => self::IMAGE_TYPE_NATIONAL_FRONT, 'url' => Image::IMAGE_PROFILE_PATH . Image::IMAGE_PREFIX_FRONT . $idUser . '.' . $imageNationalFront->extension()]);
+            'type' => self::IMAGE_TYPE_NATIONAL_FRONT,
+            'url' => Image::IMAGE_PROFILE_PATH . Image::IMAGE_PREFIX_FRONT . $idUser . '.' . $imageNationalFront->extension()
+        ]);
         $user = User::where('idUser', $idUser)->first();
         if ($user->nationalIdentitieFrontImage()->where('type', '=', self::IMAGE_TYPE_NATIONAL_FRONT)->exists()) {
             $user->nationalIdentitieFrontImage()->where('type', '=', self::IMAGE_TYPE_NATIONAL_FRONT)->first()->delete();
@@ -266,9 +268,10 @@ class User extends Authenticatable
 
     public static function isSuperAdmin()
     {
-        if (!strtoupper(auth()?->user()?->getRoleNames()->first()) == self::SUPER_ADMIN_ROLE_NAME) {
-            redirect(route('login', ['locale' => app()->getLocale()]));
+        $user = auth()->user();
+        if (!$user) {
+            return false;
         }
-        return strtoupper(auth()?->user()?->getRoleNames()->first()) == self::SUPER_ADMIN_ROLE_NAME;
+        return strtoupper($user->getRoleNames()->first()) == self::SUPER_ADMIN_ROLE_NAME;
     }
 }

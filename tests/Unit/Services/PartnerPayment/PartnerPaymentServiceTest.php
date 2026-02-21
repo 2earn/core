@@ -5,6 +5,7 @@ namespace Tests\Unit\Services\PartnerPayment;
 use App\Models\PartnerPayment;
 use App\Models\User;
 use App\Services\PartnerPayment\PartnerPaymentService;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class PartnerPaymentServiceTest extends TestCase
@@ -15,6 +16,7 @@ class PartnerPaymentServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        Notification::fake();
         $this->partnerPaymentService = new PartnerPaymentService();
     }
 

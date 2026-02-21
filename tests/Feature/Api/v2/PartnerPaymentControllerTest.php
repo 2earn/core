@@ -6,10 +6,12 @@ use App\Models\PartnerPayment;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Notification;
 use Laravel\Sanctum\Sanctum;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
+use Spatie\Permission\Models\Role;
 
 /**
  * Test Suite for PartnerPaymentController (API v2)
@@ -29,7 +31,14 @@ class PartnerPaymentControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        Notification::fake();
+
+        // Ensure Super Admin role exists
+        Role::firstOrCreate(['name' => User::SUPER_ADMIN_ROLE_NAME]);
+
         $this->user = User::factory()->create();
+        $this->user->assignRole(User::SUPER_ADMIN_ROLE_NAME);
+
         Sanctum::actingAs($this->user);
     }
 
