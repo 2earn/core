@@ -12,37 +12,14 @@
 
 @section('content')
       <div class="landing-wrapper">
-            <div class="hero-section">
-                  <div class="hero-content">
-                        <div class="glass-card">
-                              <div class="logo-container">
-                                    <img src="{{ Vite::asset('resources/images/logo.jpeg') }}" alt="CORE Logo"
-                                          class="logo-img">
-                              </div>
-                              <h1>{{ __('Elevate Your Earnings') }}</h1>
-                              <p class="lead-text">
-                                    {{ __('Join the ultimate platform designed for community growth, innovative earning streams, and future-proof financial empowerment.') }}
-                              </p>
-
-                              <div class="feature-grid">
-                                    <div class="feature-item">
-                                          <div class="feature-icon">🚀</div>
-                                          <h5>{{ __('Fast Growth') }}</h5>
-                                          <p class="small text-muted mb-0">{{ __('Accelerate your potential.') }}</p>
-                                    </div>
-                                    <div class="feature-item">
-                                          <div class="feature-icon">🛡️</div>
-                                          <h5>{{ __('Secure') }}</h5>
-                                          <p class="small text-muted mb-0">{{ __('Advanced protection.') }}</p>
-                                    </div>
-                                    <div class="feature-item">
-                                          <div class="feature-icon">💎</div>
-                                          <h5>{{ __('Premium') }}</h5>
-                                          <p class="small text-muted mb-0">{{ __('Exclusive rewards.') }}</p>
-                                    </div>
-                              </div>
-                        </div>
+            <nav class="navbar-custom">
+                  <div class="nav-brand">
+                        <img src="{{ Vite::asset('resources/images/logo.jpeg') }}" alt="CORE Logo">
                   </div>
-            </div>
+            </nav>
+
+            <footer style="padding: 4rem 2rem; border-top: 1px solid var(--glass-border); text-align: center;">
+                  <p class="text-muted">&copy; {{ date('Y') }} CORE 2Earn.cash. {{ __('All rights reserved.') }}</p>
+            </footer>
       </div>
 @endsection
