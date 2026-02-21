@@ -7,7 +7,7 @@
 @push('css')
       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@400;700&display=swap"
             rel="stylesheet">
-      <link rel="stylesheet" href="{{ asset('resources/css/landing.css') }}">
+      @vite(['resources/css/landing.css'])
 @endpush
 
 @section('content')

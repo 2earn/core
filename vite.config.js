@@ -96,6 +96,8 @@ export default defineConfig({
             input: [
                 'resources/js/app.js',
                 'resources/css/app.css',
+                'resources/css/landing.css',
+                'resources/images/logo.jpeg',
             ],
             refresh: true,
             server: {
