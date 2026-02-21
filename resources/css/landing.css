@@ -72,12 +72,34 @@ h5 {
       align-items: center;
 }
 
+.nav-links a {
+      color: var(--light);
+      text-decoration: none;
+      margin-left: 2rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      opacity: 0.8;
+}
+
+.nav-links a:hover {
+      color: var(--primary);
+      opacity: 1;
+      transform: translateY(-1px);
+}
+
 .btn-nav {
       background: var(--glass);
       border: 1px solid var(--glass-border);
       padding: 0.6rem 1.5rem;
       border-radius: 10px;
       backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+}
+
+.btn-nav:hover {
+      background: var(--glass-hover);
+      border-color: var(--primary);
 }
 
 /* Hero Section */
@@ -258,6 +280,11 @@ h5 {
       opacity: 1;
 }
 
+.feature-card:hover .feature-icon-box {
+      transform: scale(1.1) rotate(5deg);
+      background: rgba(63, 195, 238, 0.2);
+}
+
 .feature-icon-box {
       width: 60px;
       height: 60px;
@@ -269,6 +296,7 @@ h5 {
       font-size: 1.5rem;
       color: var(--primary);
       margin-bottom: 2rem;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 /* How it Works */
