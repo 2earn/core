@@ -98,6 +98,8 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/css/landing.css',
                 'resources/images/logo.jpeg',
+                'resources/images/favicon.ico',
+                'resources/images/2earn.png',
             ],
             refresh: true,
             server: {
