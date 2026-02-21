@@ -9,12 +9,6 @@
     <meta content="Themesbrand" name="author"/>
     <link rel="shortcut icon" href="{{ Vite::asset('resources/images/favicon.ico')}}">
     @livewireStyles
-    @if(config('app.available_locales')[app()->getLocale()]['direction'] === 'rtl')
-        @vite(['resources/css/bootstrap-rtl.css','resources/css/icons-rtl.css','resources/css/app-rtl.css','resources/css/custom-rtl.css'])
-    @else
-        @vite(['resources/css/bootstrap.min.css','resources/css/icons.css','resources/css/app.css','resources/css/custom.css'])
-    @endif
-    @vite([ 'resources/css/intlTelInput.min.css','resources/js/sweetalert2@11.js','resources/js/appWithoutNav.js','resources/js/intlTelInput.js'])
 </head>
 <body>
 <div class="container">

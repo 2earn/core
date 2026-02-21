@@ -103,34 +103,8 @@ export default defineConfig({
         }),
         laravel({
             input: [
-                'resources/css/tailwind.css',
-                'resources/css/modern-enhancements.css',
-                'resources/css/modern-enhancements-rtl.css',
-                'resources/sass/app.scss',
-                'resources/css/dataTables.bootstrap.css',
-                'resources/css/material-components-web.min.css',
                 'resources/js/app.js',
-                'resources/js/appWithoutNav.js',
-                'resources/js/layout.js',
-                'resources/css/bootstrap-rtl.css',
-                'resources/css/icons.css',
-                'resources/css/icons-rtl.css',
-                'resources/css/bootstrap.min.css',
                 'resources/css/app.css',
-                'resources/css/app-rtl.css',
-                'resources/js/intlTelInput.js',
-                'resources/js/sweetalert2@11.js',
-                'resources/css/menumodals.css',
-                'resources/css/select2.min.css',
-                'resources/fontawesome/all.min.css',
-                'resources/css/intlTelInput.min.css',
-                'resources/css/custom.css',
-                'resources/css/custom-rtl.css',
-                'resources/css/dark-mode.css',
-                'resources/css/dark-mode-rtl.css',
-                'resources/js/pages/form-validation.init.js',
-                'resources/js/pages/crypto-kyc.init.js',
-                'resources/js/pages/passowrd-create.init.js',
             ],
             refresh: true,
             server: {
@@ -140,50 +114,7 @@ export default defineConfig({
                 }
             },
         }),
-        viteStaticCopy({
-            targets: [
-                {
-                    src: 'resources/js/utils.js',
-                    dest: 'utils.js'
-                },
-                {
-                    src: 'resources/icons/wired-gradient-751-share.json',
-                    dest: 'icons'
-                },
-                {
-                    src: 'resources/icons/146-basket-trolley-shopping-card-gradient-edited.json',
-                    dest: 'icons'
-                },
-                {
-                    src: 'resources/icons/981-consultation-gradient-edited.json',
-                    dest: 'icons'
-                },
-                {
-                    src: 'resources/icons/501-free-0-morph-gradient-edited.json',
-                    dest: 'icons'
-                },
-                {
-                    src: 'resources/icons/298-coins-gradient-edited.json',
-                    dest: 'icons'
-                },
-                {
-                    src: 'resources/icons/qrbokoyz.json',
-                    dest: 'icons'
-                },
-                {
-                    src: 'resources/icons/nlmjynuq.json',
-                    dest: 'icons'
-                },
-                {
-                    src: 'resources/icons/1855-palmtree.json',
-                    dest: 'icons'
-                },
-                {
-                    src: 'resources/icons/1471-dice-cube.json',
-                    dest: 'icons'
-                }
-            ]
-        }),
+
         {
             name: 'copy-specific-packages',
             async closeBundle() {
@@ -194,13 +125,8 @@ export default defineConfig({
 
                     // Copy assets in parallel for better performance
                     await Promise.all([
-                        fs.copy(folder.src_assets + 'fonts', folder.dist_assets + 'fonts'),
                         fs.copy(folder.src_assets + 'images', folder.dist_assets + 'images'),
-                        fs.copy(folder.src_assets + 'json', folder.dist_assets + 'json'),
-                        fs.copy(folder.src_assets + 'img', folder.dist_assets + 'img'),
                         fs.copy(folder.src_assets + 'icons', folder.dist_assets + 'icons'),
-                        fs.copy(folder.src_assets + 'fontawesome', folder.dist_assets + 'fontawesome'),
-                        fs.copy(folder.src_assets + 'webfonts', folder.dist_assets + 'webfonts'),
                     ]);
                     console.log('✓ Static assets copied successfully');
                 } catch (error) {

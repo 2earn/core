@@ -66,92 +66,21 @@
     <meta property="og:image" content="{{ Vite::asset('resources/images/2earn.png') }}">
     <meta property="twitter:image" content="{{ Vite::asset('resources/images/2earn.png') }}">
     @vite([
-        'resources/css/tailwind.css',
-        'resources/css/modern-enhancements.css',
-        'resources/css/modern-enhancements-rtl.css',
-        'resources/sass/app.scss',
-        'resources/css/dataTables.bootstrap.css',
-        'resources/css/material-components-web.min.css',
         'resources/js/app.js',
-        'resources/js/appWithoutNav.js',
-        'resources/js/layout.js',
-        'resources/css/bootstrap-rtl.css',
-        'resources/css/icons.css',
-        'resources/css/icons-rtl.css',
-        'resources/css/bootstrap.min.css',
         'resources/css/app.css',
-        'resources/css/app-rtl.css',
-        'resources/js/intlTelInput.js',
-        'resources/js/sweetalert2@11.js',
-        'resources/css/menumodals.css',
-        'resources/css/select2.min.css',
-        'resources/fontawesome/all.min.css',
-        'resources/css/intlTelInput.min.css',
-        'resources/css/custom.css',
-        'resources/css/custom-rtl.css',
-        'resources/css/dark-mode.css',
-        'resources/css/dark-mode-rtl.css',
     ])
     <link rel="shortcut icon" href="{{ Vite::asset('resources/images/favicon.ico')}}">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.17.2/dist/sweetalert2.all.min.js"></script>
-    @include('layouts.vendor-scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
-    <style>
-        @font-face {
-            font-family: 'iconearn';
-            src: url({{ asset('assets/fonts/iconearn.eot?uerpdx')}});
-            src: url({{ asset('assets/fonts/iconearn.eot?uerpdx#iefix')}}) format('embedded-opentype'),
-                url({{ asset('assets/fonts/iconearn.ttf?uerpdx')}}) format('truetype'),
-                url({{ asset('assets/fonts/iconearn.woff?uerpdx')}}) format('woff'),
-                url({{ asset('assets/fonts/iconearn.svg?uerpdx#iconearn')}}) format('svg');
-            font-weight: normal;
-            font-style: normal;
-            font-display: block;
-        }
 
-        @font-face {
-            font-family: 'shopearn';
-            src: url({{ asset('assets/fonts/shopearn.eot?jeosj9')}});
-            src: url({{ asset('assets/fonts/shopearn.eot?jeosj9#iefix')}}) format('embedded-opentype'),
-                url({{ asset('assets/fonts/shopearn.ttf?jeosj9')}}) format('truetype'),
-                url({{ asset('assets/fonts/shopearn.woff?jeosj9')}}) format('woff'),
-                url({{ asset('assets/fonts/shopearn.svg?jeosj9#shopearn')}}) format('svg');
-            font-weight: normal;
-            font-style: normal;
-            font-display: block;
-        }
-    </style>
 
     <meta name="theme-color" content="#6777ef" />
     <link rel="apple-touch-icon" href="{{ asset('logo.PNG') }}">
     <link rel="manifest" href="{{ asset('/manifest.json') }}">
     @laravelPWA
-    @if(config('app.available_locales')[app()->getLocale()]['direction'] === 'rtl')
-        @vite(['resources/css/tailwind.css', 'resources/css/modern-enhancements.css', 'resources/css/modern-enhancements-rtl.css', 'resources/css/menumodals.css', 'resources/css/bootstrap-rtl.css', 'resources/css/icons-rtl.css', 'resources/css/app-rtl.css', 'resources/css/custom-rtl.css'])
-        {{-- Dark mode CSS for RTL --}}
-        @vite(['resources/css/dark-mode.css', 'resources/css/dark-mode-rtl.css'])
-    @else
-        @vite(['resources/css/tailwind.css', 'resources/css/modern-enhancements.css', 'resources/css/menumodals.css', 'resources/css/bootstrap.min.css', 'resources/css/icons.css', 'resources/css/app.css', 'resources/css/custom.css'])
-        {{-- Dark mode CSS for LTR --}}
-        @vite(['resources/css/dark-mode.css'])
-    @endif
+
 </head>
 
 <body>
     @section('body')
-
-    @vite(['resources/css/select2.min.css', 'resources/css/dataTables.bootstrap.css', 'resources/css/material-components-web.min.css', 'resources/js/layout.js'])
-    @vite(['resources/css/intlTelInput.min.css', 'resources/fontawesome/all.min.css', 'resources/js/sweetalert2@11.js', 'resources/js/app.js', 'resources/js/intlTelInput.js'])
-    <noscript>
-        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PMK39HQQ" height="0" width="0"
-            style="display:none;visibility:hidden"></iframe>
-    </noscript>
-    <script src="{{ asset('/sw.js') }}"></script>
-    @show
     <div id="layout-wrapper">
         <div class="main-content">
             <div class="page-content">
