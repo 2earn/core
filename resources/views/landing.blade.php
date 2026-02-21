@@ -1,23 +1,25 @@
 @extends('layouts.master-without-nav')
 
 @section('title')
-      Welcome
+      {{ __('Welcome to CORE 2Earn.cash') }}
 @endsection
 
+@push('css')
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@400;700&display=swap"
+            rel="stylesheet">
+      <link rel="stylesheet" href="{{ asset('resources/css/landing.css') }}">
+@endpush
+
 @section('content')
-      <div class="row justify-content-center">
-            <div class="col-12">
-                  <div class="card mt-4">
-                        <div class="card-body p-4 text-center">
-                              <div class="mb-4">
-                                    <img src="{{ Vite::asset('resources/images/2earnCore.png') }}" alt="" height="250">
-                              </div>
-                              <div class="p-2 mt-4">
-                                    <h4>{{ __('Welcome to CORE 2Earn.cash') }}</h4>
-                                    <p class="text-muted">{{ __('The ultimate platform for earning and growth.') }}</p>
-                              </div>
-                        </div>
+      <div class="landing-wrapper">
+            <nav class="navbar-custom">
+                  <div class="nav-brand">
+                        <img src="{{ Vite::asset('resources/images/logo.jpeg') }}" alt="CORE Logo">
                   </div>
-            </div>
+            </nav>
+
+            <footer style="padding: 4rem 2rem; border-top: 1px solid var(--glass-border); text-align: center;">
+                  <p class="text-muted">&copy; {{ date('Y') }} CORE 2Earn.cash. {{ __('All rights reserved.') }}</p>
+            </footer>
       </div>
 @endsection

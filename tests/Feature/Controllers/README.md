@@ -2,7 +2,7 @@
 
 This directory contains comprehensive test suites for all controllers in the 2earn application.
 
-## Test Files (26 Total)
+## Test Files (25 Total)
 
 All controller tests follow Laravel naming conventions and are located in this directory.
 
@@ -87,7 +87,6 @@ All 26 controllers have corresponding test files:
 - ✅ FinancialRequestController
 - ✅ HomeController
 - ✅ NotificationsController
-- ✅ OAuthController
 - ✅ PlatformController
 - ✅ PostController
 - ✅ RepresentativesController
